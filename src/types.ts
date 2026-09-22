@@ -1,89 +1,229 @@
-export type ResourceType = "note" | "paper" | "slide";
+export type ThemePreference = "light" | "dark" | "system";
 
-/** Course Hub serves both secondary schools (grades 7–12) and universities. */
-export type InstitutionKind = "school" | "university";
+export type ReactionType = "like" | "love" | "insightful" | "thanks" | "wow";
 
-export interface Institution {
+export const REACTION_TYPES: readonly ReactionType[] = [
+  "like",
+  "love",
+  "insightful",
+  "thanks",
+  "wow",
+];
+
+export type Subject =
+  | "mathematics"
+  | "computer-science"
+  | "engineering"
+  | "physics"
+  | "chemistry"
+  | "biology"
+  | "medicine"
+  | "business"
+  | "economics"
+  | "languages"
+  | "literature"
+  | "history"
+  | "arts"
+  | "law"
+  | "other";
+
+export const SUBJECTS: readonly Subject[] = [
+  "mathematics",
+  "computer-science",
+  "engineering",
+  "physics",
+  "chemistry",
+  "biology",
+  "medicine",
+  "business",
+  "economics",
+  "languages",
+  "literature",
+  "history",
+  "arts",
+  "law",
+  "other",
+];
+
+export type EducationLevel =
+  | "high-school"
+  | "university"
+  | "postgraduate"
+  | "self-study";
+
+export const EDUCATION_LEVELS: readonly EducationLevel[] = [
+  "high-school",
+  "university",
+  "postgraduate",
+  "self-study",
+];
+
+export type AttachmentKind =
+  | "image"
+  | "video"
+  | "audio"
+  | "pdf"
+  | "document"
+  | "slides"
+  | "spreadsheet"
+  | "archive"
+  | "other";
+
+export interface Attachment {
   id: string;
   name: string;
-  /** Abbreviation used in compact UI such as filter chips and card badges. */
-  shortName: string;
-  city: string;
-  kind: InstitutionKind;
+  mimeType: string;
+  size: number;
+  kind: AttachmentKind;
+  /** Remote URL, or `local-file:<id>` for files kept in this browser. */
+  url: string;
 }
 
-export interface Course {
+export interface PublicUser {
   id: string;
-  institutionId: string;
-  code: string;
-  name: string;
-  /** Grade 7–12 for schools, year 1–4 for universities. The ranges never overlap. */
-  level: number;
-  semester: 1 | 2;
-  /** Teacher at a school, lecturer or professor at a university. */
-  instructor: string;
-}
-
-export interface Resource {
-  id: string;
-  courseId: string;
-  title: string;
-  type: ResourceType;
-  uploadedBy: string;
+  username: string;
+  displayName: string;
+  bio: string;
+  school: string;
+  country: string;
+  fieldOfStudy: string;
+  avatarUrl: string | null;
   createdAt: string;
-  fileUrl: string;
 }
 
-/** A course joined with the school or university that teaches it. */
-export interface CourseWithInstitution extends Course {
-  institution: Institution;
+/** The signed-in user's own account, including private fields. */
+export interface User extends PublicUser {
+  email: string;
 }
 
-/** A course joined with its institution and the number of resources it holds. */
-export interface CourseWithCount extends CourseWithInstitution {
-  resourceCount: number;
-}
-
-/** Payload accepted by `createResource()`. */
-export interface NewResourceInput {
-  courseId: string;
+export interface Post {
+  id: string;
+  authorId: string;
   title: string;
-  type: ResourceType;
-  fileName: string;
+  body: string;
+  subject: Subject;
+  level: EducationLevel;
+  tags: string[];
+  attachments: Attachment[];
+  createdAt: string;
 }
 
-/** Payload accepted by `createCourse()`. */
-export interface NewCourseInput {
-  institutionId: string;
-  code: string;
-  name: string;
-  level: number;
-  semester: 1 | 2;
-  instructor: string;
+export interface Comment {
+  id: string;
+  postId: string;
+  authorId: string;
+  body: string;
+  createdAt: string;
 }
 
-/** Payload accepted by `createInstitution()`. */
-export interface NewInstitutionInput {
-  name: string;
-  kind: InstitutionKind;
+export interface ReactionSummary {
+  counts: Record<ReactionType, number>;
+  total: number;
+  mine: ReactionType | null;
 }
 
-export const SCHOOL_GRADES = [7, 8, 9, 10, 11, 12] as const;
-export const UNIVERSITY_YEARS = [1, 2, 3, 4] as const;
+export interface RatingSummary {
+  average: number;
+  count: number;
+  mine: number | null;
+}
 
-export type KindFilter = "all" | InstitutionKind;
-export type InstitutionFilter = "all" | string;
-export type LevelFilter = "all" | number;
-export type SemesterFilter = "all" | 1 | 2;
-export type ResourceTab = "all" | ResourceType;
+/** A post joined with everything the feed needs to render it. */
+export interface PostView extends Post {
+  author: PublicUser;
+  reactions: ReactionSummary;
+  rating: RatingSummary;
+  commentCount: number;
+  saved: boolean;
+}
 
-/** Error surfaced by the service layer; never shown verbatim to users. */
+export interface CommentView extends Comment {
+  author: PublicUser;
+}
+
+export interface ProfileView {
+  user: PublicUser;
+  stats: {
+    posts: number;
+    reactions: number;
+    averageRating: number | null;
+  };
+}
+
+export type MediaFilter = "all" | "documents" | "images" | "videos";
+export type FeedSort = "latest" | "top" | "discussed";
+
+export interface FeedQuery {
+  search?: string;
+  subject?: Subject | "all";
+  level?: EducationLevel | "all";
+  media?: MediaFilter;
+  sort?: FeedSort;
+  authorUsername?: string;
+  savedOnly?: boolean;
+}
+
+// ---- Service inputs ----
+
+export interface SignUpInput {
+  displayName: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface SignInInput {
+  email: string;
+  password: string;
+}
+
+export interface NewPostInput {
+  title: string;
+  body: string;
+  subject: Subject;
+  level: EducationLevel;
+  tags: string[];
+  files: File[];
+}
+
+export interface UpdateProfileInput {
+  displayName: string;
+  username: string;
+  email: string;
+  bio: string;
+  school: string;
+  country: string;
+  fieldOfStudy: string;
+  avatarUrl: string | null;
+}
+
+export interface ChangePasswordInput {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export type ApiErrorCode =
+  | "UNKNOWN"
+  | "NOT_FOUND"
+  | "UNAUTHORIZED"
+  | "FORBIDDEN"
+  | "INVALID_CREDENTIALS"
+  | "EMAIL_TAKEN"
+  | "USERNAME_TAKEN"
+  | "WRONG_PASSWORD"
+  | "FILE_TOO_LARGE"
+  | "TOO_MANY_FILES"
+  | "STORAGE_FULL";
+
+/** Error surfaced by the service layer; UI maps `code` to friendly copy. */
 export class ApiError extends Error {
   readonly status: number;
+  readonly code: ApiErrorCode;
 
-  constructor(message: string, status = 500) {
+  constructor(code: ApiErrorCode, status = 500, message: string = code) {
     super(message);
     this.name = "ApiError";
     this.status = status;
+    this.code = code;
   }
 }

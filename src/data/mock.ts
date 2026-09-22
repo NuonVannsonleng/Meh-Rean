@@ -1,210 +1,394 @@
-import type { Course, Institution, Resource, ResourceType } from "../types";
+import type {
+  Attachment,
+  Comment,
+  EducationLevel,
+  Post,
+  PublicUser,
+  ReactionType,
+  Subject,
+} from "../types";
 
 /**
- * Placeholder file used by every mock resource. Nothing is really stored yet —
- * downloads open this sample document so the UI can be exercised end to end.
+ * Seed content loaded into the in-browser database on first visit. The
+ * service layer is the only module that reads from this file.
  */
-export const PLACEHOLDER_FILE_URL =
+
+export const DEMO_ACCOUNT = {
+  email: "demo@mehrean.app",
+  password: "demo1234",
+} as const;
+
+export const DEMO_USER_ID = "u-demo";
+
+const SAMPLE_PDF_URL =
   "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+const SAMPLE_VIDEO_URL =
+  "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
 
-export const institutions: Institution[] = [
-  {
-    id: "s1",
-    name: "Preah Sisowath High School",
-    shortName: "PSHS",
-    city: "Phnom Penh",
-    kind: "school",
-  },
-  {
-    id: "s2",
-    name: "Bak Touk High School",
-    shortName: "BTHS",
-    city: "Phnom Penh",
-    kind: "school",
-  },
-  {
-    id: "s3",
-    name: "Hun Sen Serei Pheap High School",
-    shortName: "HSSP",
-    city: "Kampong Cham",
-    kind: "school",
-  },
-  {
-    id: "u1",
-    name: "Institute of Technology of Cambodia",
-    shortName: "ITC",
-    city: "Phnom Penh",
-    kind: "university",
-  },
-  {
-    id: "u2",
-    name: "Royal University of Phnom Penh",
-    shortName: "RUPP",
-    city: "Phnom Penh",
-    kind: "university",
-  },
-  {
-    id: "u3",
-    name: "National University of Management",
-    shortName: "NUM",
-    city: "Phnom Penh",
-    kind: "university",
-  },
-  {
-    id: "u4",
-    name: "American University of Phnom Penh",
-    shortName: "AUPP",
-    city: "Phnom Penh",
-    kind: "university",
-  },
-  {
-    id: "u5",
-    name: "University of Battambang",
-    shortName: "UBB",
-    city: "Battambang",
-    kind: "university",
-  },
+// ---- Generated study images (inline SVG so seeds work offline) ----
+
+interface NoteImageOptions {
+  heading: string;
+  lines: string[];
+  paper: string;
+  ink: string;
+  accent: string;
+}
+
+function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function noteImage({ heading, lines, paper, ink, accent }: NoteImageOptions): string {
+  const ruled = Array.from(
+    { length: 11 },
+    (_, index) =>
+      `<line x1="0" x2="1200" y1="${190 + index * 62}" y2="${190 + index * 62}" stroke="${accent}" stroke-opacity=".18" stroke-width="2"/>`,
+  ).join("");
+  const text = lines
+    .map(
+      (line, index) =>
+        `<text x="130" y="${240 + index * 62}" font-size="38" fill="${ink}" font-family="'Segoe Print','Bradley Hand','Comic Sans MS',cursive">${escapeXml(line)}</text>`,
+    )
+    .join("");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900"><rect width="1200" height="900" fill="${paper}"/>${ruled}<line x1="100" x2="100" y1="0" y2="900" stroke="#e11d48" stroke-opacity=".35" stroke-width="3"/><text x="130" y="120" font-size="54" font-weight="700" fill="${accent}" font-family="'Segoe Print','Bradley Hand','Comic Sans MS',cursive">${escapeXml(heading)}</text>${text}</svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
+
+function image(id: string, name: string, options: NoteImageOptions): Attachment {
+  const url = noteImage(options);
+  return { id, name, mimeType: "image/svg+xml", size: url.length, kind: "image", url };
+}
+
+function pdf(id: string, name: string, size: number): Attachment {
+  return { id, name, mimeType: "application/pdf", size, kind: "pdf", url: SAMPLE_PDF_URL };
+}
+
+function video(id: string, name: string, size: number): Attachment {
+  return { id, name, mimeType: "video/mp4", size, kind: "video", url: SAMPLE_VIDEO_URL };
+}
+
+// ---- Users ----
+
+type UserSeed = [
+  id: string,
+  username: string,
+  displayName: string,
+  school: string,
+  country: string,
+  fieldOfStudy: string,
+  bio: string,
+  createdAt: string,
 ];
 
-/** [id, institutionId, code, name, level, semester, instructor] */
-type CourseSeed = [string, string, string, string, number, 1 | 2, string];
-
-const courseSeed: CourseSeed[] = [
-  // --- Secondary school, grades 7–12 ---
-  ["c17", "s1", "ENG7", "English", 7, 1, "Ms. Pen Sophal"],
-  ["c18", "s1", "MATH9", "Mathematics", 9, 1, "Mr. Chhun Sovannara"],
-  ["c19", "s1", "KHM10", "Khmer Literature", 10, 2, "Ms. Sok Chanthou"],
-  ["c20", "s1", "PHY11", "Physics", 11, 1, "Mr. Ly Vibol"],
-  ["c21", "s1", "CHEM12", "Chemistry", 12, 2, "Ms. Nhem Sreymao"],
-  ["c22", "s2", "HIST8", "History", 8, 2, "Mr. Voeun Sina"],
-  ["c23", "s2", "BIO10", "Biology", 10, 1, "Ms. Chhim Davy"],
-  ["c24", "s2", "ICT11", "Information Technology", 11, 2, "Mr. Tep Chanra"],
-  ["c25", "s2", "MATH12", "Mathematics", 12, 1, "Mr. Kong Piseth"],
-  ["c26", "s3", "MATH7", "Mathematics", 7, 2, "Mr. Sam Oeun"],
-  ["c27", "s3", "GEO9", "Geography", 9, 2, "Ms. Mao Sreypich"],
-  ["c28", "s3", "ES12", "Earth Science", 12, 1, "Ms. Chea Kanha"],
-
-  // --- University, years 1–4 ---
-  ["c1", "u1", "CS101", "Introduction to Programming", 1, 1, "Mr. Sok Piseth"],
-  ["c2", "u2", "MA102", "Discrete Mathematics", 1, 2, "Dr. Chan Sophea"],
-  ["c3", "u1", "DS201", "Data Structures II", 2, 1, "Mr. Kim Rithy"],
-  ["c4", "u1", "DB201", "Database Systems", 2, 1, "Dr. Sok Dara"],
-  ["c5", "u3", "WT202", "Web Technologies", 2, 2, "Ms. Chea Sreymom"],
-  ["c6", "u1", "OS301", "Operating Systems", 3, 1, "Dr. Hun Vicheka"],
-  ["c7", "u2", "NW302", "Computer Networks", 3, 1, "Mr. Lim Channarith"],
-  ["c8", "u1", "AL303", "Algorithms and Complexity", 3, 2, "Dr. Chan Sophea"],
-  ["c9", "u2", "SE401", "Software Engineering", 4, 1, "Mr. Nou Samnang"],
-  ["c10", "u3", "UX402", "UX/UI Design", 4, 2, "Ms. Meas Bopha"],
-  ["c11", "u4", "CS210", "Object-Oriented Programming", 2, 1, "Dr. Chea Vanna"],
-  ["c12", "u4", "IS305", "Information Security", 3, 2, "Mr. Yim Sokhom"],
-  ["c13", "u5", "IT150", "Computer Architecture", 1, 2, "Mr. Ouk Sovan"],
-  ["c14", "u5", "DA401", "Data Analytics", 4, 1, "Ms. Ly Sokunthea"],
-  ["c15", "u1", "AI402", "Artificial Intelligence", 4, 2, "Dr. Sok Dara"],
-  ["c16", "u2", "MC201", "Mobile Computing", 2, 2, "Ms. Keo Sreyleak"],
+const userSeed: UserSeed[] = [
+  [DEMO_USER_ID, "alex", "Alex Rivera", "University of Toronto", "Canada", "Computer Science", "Second-year CS student. I share my notes so future me (and you) can find them.", "2026-06-02T10:00:00Z"],
+  ["u1", "vannak", "Chea Vannak", "Institute of Technology of Cambodia", "Cambodia", "IT Engineering", "Databases, networks and too much coffee. Phnom Penh 🇰🇭", "2026-03-11T08:30:00Z"],
+  ["u2", "amara", "Amara Okafor", "University of Lagos", "Nigeria", "Medicine", "MBBS year 3. Anatomy diagrams are my love language.", "2026-02-19T14:12:00Z"],
+  ["u3", "lukas.s", "Lukas Schneider", "Technical University of Munich", "Germany", "Mechanical Engineering", "Thermodynamics tutor. Happy to answer questions in the comments.", "2026-01-07T09:45:00Z"],
+  ["u4", "priya", "Priya Nair", "IIT Bombay", "India", "Computer Science", "Algorithms, competitive programming and clean notes.", "2026-04-23T05:20:00Z"],
+  ["u5", "sofiam", "Sofía Martínez", "Universidad de Buenos Aires", "Argentina", "Economics", "Macro, micro and mate. Notes in English and Spanish.", "2026-05-15T18:05:00Z"],
+  ["u6", "yuki", "Yuki Tanaka", "Shibuya Senior High School", "Japan", "Physics", "High school senior preparing for university entrance exams.", "2026-07-01T00:40:00Z"],
+  ["u7", "emmaw", "Emma Wilson", "University of Melbourne", "Australia", "Law", "Law student. Case briefs and exam outlines.", "2026-03-28T22:10:00Z"],
+  ["u8", "minh", "Trần Minh", "Hanoi University of Science and Technology", "Vietnam", "Mathematics", "Linear algebra enjoyer. Handwritten notes, always.", "2026-02-02T03:00:00Z"],
 ];
 
-export const courses: Course[] = courseSeed.map(
-  ([id, institutionId, code, name, level, semester, instructor]) => ({
+export const seedUsers: PublicUser[] = userSeed.map(
+  ([id, username, displayName, school, country, fieldOfStudy, bio, createdAt]) => ({
     id,
-    institutionId,
-    code,
-    name,
-    level,
-    semester,
-    instructor,
-  }),
-);
-
-/** [id, courseId, title, type, uploadedBy, createdAt] */
-type ResourceSeed = [string, string, string, ResourceType, string, string];
-
-const resourceSeed: ResourceSeed[] = [
-  // --- Secondary school ---
-  ["r44", "c17", "Unit 1–3 Vocabulary Notes", "note", "Sophea", "2026-02-10"],
-  ["r45", "c17", "Grade 7 English Semester 1 Exam 2025", "paper", "Chantrea", "2025-11-20"],
-  ["r46", "c17", "Present Simple Practice Slides", "slide", "Rina", "2026-01-15"],
-  ["r47", "c18", "Quadratic Equations Summary", "note", "Sovannara", "2026-03-05"],
-  ["r48", "c18", "Grade 9 Mathematics Mock Exam 2026", "paper", "Dara", "2026-04-22"],
-  ["r49", "c18", "Chapter 4 Exercises with Solutions", "note", "Mealea", "2026-02-27"],
-  ["r50", "c19", "Tum Teav Poem Analysis Notes", "note", "Chanthou", "2026-06-18"],
-  ["r51", "c19", "Khmer Literature Semester 2 Exam 2025", "paper", "Sreymom", "2025-12-12"],
-  ["r52", "c20", "Newton's Laws Chapter Notes", "note", "Vibol", "2026-03-19"],
-  ["r53", "c20", "Physics Lab Report Template Slides", "slide", "Pheakdey", "2026-04-08"],
-  ["r54", "c20", "Grade 11 Physics Midterm 2026", "paper", "Sokleng", "2026-05-14"],
-  ["r55", "c21", "Organic Chemistry Revision Notes", "note", "Sreymao", "2026-07-02"],
-  ["r56", "c21", "Grade 12 Chemistry Bac II Practice 2025", "paper", "Rithya", "2025-12-28"],
-  ["r57", "c21", "Periodic Table Study Slides", "slide", "Kunthea", "2026-06-25"],
-  ["r58", "c22", "Angkor Period Study Notes", "note", "Sina", "2026-05-21"],
-  ["r59", "c22", "Grade 8 History Semester 2 Exam 2025", "paper", "Molika", "2025-12-08"],
-  ["r60", "c23", "Cell Structure and Function Notes", "note", "Davy", "2026-03-11"],
-  ["r61", "c23", "Photosynthesis Diagram Slides", "slide", "Sokha", "2026-02-19"],
-  ["r62", "c23", "Grade 10 Biology Midterm 2026", "paper", "Vanna", "2026-04-30"],
-  ["r63", "c24", "Microsoft Word and Excel Basics Notes", "note", "Chanra", "2026-07-16"],
-  ["r64", "c24", "Introduction to Scratch Slides", "slide", "Piseth", "2026-06-29"],
-  ["r65", "c25", "Calculus Limits and Derivatives Notes", "note", "Kong Piseth", "2026-02-06"],
-  ["r66", "c25", "Grade 12 Mathematics Bac II Practice 2025", "paper", "Sreynich", "2025-12-22"],
-  ["r67", "c25", "Trigonometry Formula Sheet", "note", "Bopha", "2026-03-30"],
-  ["r68", "c26", "Fractions and Decimals Worksheet Notes", "note", "Sam Oeun", "2026-06-11"],
-  ["r69", "c26", "Grade 7 Mathematics Semester 2 Exam 2025", "paper", "Chenda", "2025-12-16"],
-  ["r70", "c27", "Physical Geography of Cambodia Notes", "note", "Sreypich", "2026-07-08"],
-  ["r71", "c27", "Map Reading Practice Slides", "slide", "Ratana", "2026-06-20"],
-  ["r72", "c28", "Rocks and Minerals Chapter Notes", "note", "Kanha", "2026-02-24"],
-  ["r73", "c28", "Grade 12 Earth Science Mock Exam 2026", "paper", "Sopheak", "2026-04-15"],
-
-  // --- University ---
-  ["r1", "c1", "Chapter 1–5 Lecture Notes", "note", "Vannak", "2026-02-14"],
-  ["r2", "c1", "Midterm Examination 2025", "paper", "Sreyneang", "2025-11-28"],
-  ["r3", "c1", "Week 3 — Loops and Conditions Slides", "slide", "Dara", "2026-01-20"],
-  ["r4", "c2", "Set Theory and Logic Summary", "note", "Pisey", "2026-03-02"],
-  ["r5", "c2", "Final Examination 2025", "paper", "Vannak", "2025-12-18"],
-  ["r6", "c3", "Trees and Graphs Lecture Notes", "note", "Rithy", "2026-04-09"],
-  ["r7", "c3", "Sorting Algorithms Slides", "slide", "Sokha", "2026-03-25"],
-  ["r8", "c3", "Midterm Examination 2026", "paper", "Chenda", "2026-05-11"],
-  ["r9", "c4", "Midterm Review Notes", "note", "Vannak", "2026-09-12"],
-  ["r10", "c4", "Database Normalization Slides", "slide", "Sreypov", "2026-08-30"],
-  ["r11", "c4", "SQL Joins Cheat Sheet", "note", "Panha", "2026-07-19"],
-  ["r12", "c4", "Final Examination 2025", "paper", "Sokha", "2025-12-05"],
-  ["r13", "c5", "Web Technologies Week 6 Notes", "note", "Chenda", "2026-06-22"],
-  ["r14", "c5", "React Components Workshop Slides", "slide", "Vannak", "2026-07-03"],
-  ["r15", "c5", "Midterm Examination 2026", "paper", "Sreyneang", "2026-06-08"],
-  ["r16", "c6", "Operating Systems Final Review", "note", "Rithy", "2026-05-30"],
-  ["r17", "c6", "Process Scheduling Slides", "slide", "Dara", "2026-04-17"],
-  ["r18", "c6", "Final Examination 2025", "paper", "Bopha", "2025-12-21"],
-  ["r19", "c7", "OSI Model and TCP/IP Notes", "note", "Channarith", "2026-03-14"],
-  ["r20", "c7", "Subnetting Practice Paper", "paper", "Panha", "2026-02-27"],
-  ["r21", "c8", "Dynamic Programming Lecture Notes", "note", "Sophea", "2026-08-05"],
-  ["r22", "c8", "Graph Algorithms Slides", "slide", "Chenda", "2026-07-28"],
-  ["r23", "c8", "Midterm Examination 2026", "paper", "Vannak", "2026-08-19"],
-  ["r24", "c9", "Agile and Scrum Summary Notes", "note", "Samnang", "2026-09-01"],
-  ["r25", "c9", "Software Testing Slides", "slide", "Sreypov", "2026-08-12"],
-  ["r26", "c9", "Final Examination 2025", "paper", "Pisey", "2025-12-15"],
-  ["r27", "c10", "Design Principles and Heuristics Notes", "note", "Bopha", "2026-09-08"],
-  ["r28", "c10", "Wireframing Workshop Slides", "slide", "Sokha", "2026-08-24"],
-  ["r29", "c11", "Classes and Inheritance Notes", "note", "Vanna", "2026-04-02"],
-  ["r30", "c11", "Java Practical Lab Slides", "slide", "Sothea", "2026-03-19"],
-  ["r31", "c11", "Midterm Examination 2026", "paper", "Ratana", "2026-05-06"],
-  ["r32", "c12", "Cryptography Basics Notes", "note", "Sokhom", "2026-07-11"],
-  ["r33", "c12", "Network Attacks Case Study Slides", "slide", "Chanda", "2026-06-30"],
-  ["r34", "c12", "Final Examination 2025", "paper", "Ratana", "2025-12-09"],
-  ["r35", "c13", "CPU and Memory Hierarchy Notes", "note", "Sovan", "2026-02-20"],
-  ["r36", "c13", "Assembly Language Practice Paper", "paper", "Thida", "2026-03-08"],
-  ["r37", "c14", "Data Cleaning with Python Notes", "note", "Sokunthea", "2026-09-03"],
-  ["r38", "c14", "Visualization Techniques Slides", "slide", "Makara", "2026-08-16"],
-  ["r39", "c14", "Midterm Examination 2026", "paper", "Thida", "2026-07-25"],
-  ["r40", "c15", "Neural Networks Lecture Notes", "note", "Dara", "2026-09-15"],
-  ["r41", "c15", "Search Algorithms Slides", "slide", "Vannak", "2026-08-28"],
-  ["r42", "c16", "Android Layouts Week 4 Notes", "note", "Sreyleak", "2026-06-12"],
-  ["r43", "c16", "Final Examination 2025", "paper", "Panha", "2025-12-19"],
-];
-
-export const resources: Resource[] = resourceSeed.map(
-  ([id, courseId, title, type, uploadedBy, createdAt]) => ({
-    id,
-    courseId,
-    title,
-    type,
-    uploadedBy,
+    username,
+    displayName,
+    school,
+    country,
+    fieldOfStudy,
+    bio,
+    avatarUrl: null,
     createdAt,
-    fileUrl: PLACEHOLDER_FILE_URL,
   }),
 );
+
+export const seedEmails: Record<string, string> = Object.fromEntries(
+  seedUsers.map((user) =>
+    user.id === DEMO_USER_ID
+      ? [user.id, DEMO_ACCOUNT.email]
+      : [user.id, `${user.username.replace(/\W/g, "")}@example.com`],
+  ),
+);
+
+// ---- Posts ----
+
+interface PostSeed {
+  id: string;
+  authorId: string;
+  title: string;
+  body: string;
+  subject: Subject;
+  level: EducationLevel;
+  tags: string[];
+  attachments: Attachment[];
+  createdAt: string;
+}
+
+const postSeed: PostSeed[] = [
+  {
+    id: "p1",
+    authorId: "u1",
+    title: "Database Normalization — 1NF to BCNF cheat sheet",
+    body: "Made this after failing to understand functional dependencies for two weeks. It walks through one messy table and normalizes it step by step, with the anomalies each step removes.\n\nSlides + my handwritten summary page.",
+    subject: "computer-science",
+    level: "university",
+    tags: ["databases", "sql", "normalization"],
+    attachments: [
+      image("a1", "normalization-summary.svg", {
+        heading: "Normalization — quick guide",
+        lines: ["1NF: atomic values, no repeating groups", "2NF: 1NF + no partial dependency", "3NF: 2NF + no transitive dependency", "BCNF: every determinant is a key", "", "Tip: draw the FDs first!"],
+        paper: "#fffdf5",
+        ink: "#1e293b",
+        accent: "#4338ca",
+      }),
+      pdf("a2", "Normalization-Slides.pdf", 2_480_000),
+    ],
+    createdAt: "2026-09-21T15:24:00Z",
+  },
+  {
+    id: "p2",
+    authorId: "u2",
+    title: "Brachial plexus — the only diagram you need",
+    body: "Randy Travis Drinks Cold Beer: Roots, Trunks, Divisions, Cords, Branches. I redrew the plexus with colour coding for each cord and the five terminal branches. Good luck with your anatomy practical!",
+    subject: "medicine",
+    level: "university",
+    tags: ["anatomy", "mnemonics"],
+    attachments: [
+      image("a3", "brachial-plexus.svg", {
+        heading: "Brachial plexus (C5–T1)",
+        lines: ["Roots → Trunks → Divisions → Cords → Branches", "Lateral cord: musculocutaneous", "Posterior cord: axillary, radial", "Medial cord: ulnar", "Lat + Med: median nerve", "Mnemonic: Randy Travis Drinks Cold Beer"],
+        paper: "#fdf2f8",
+        ink: "#3f1d2e",
+        accent: "#be185d",
+      }),
+    ],
+    createdAt: "2026-09-21T09:02:00Z",
+  },
+  {
+    id: "p3",
+    authorId: "u3",
+    title: "Thermodynamics I — full lecture notes (Chapters 1–6)",
+    body: "Complete notes for Thermo I: properties of pure substances, first law for closed and open systems, entropy and the second law. Worked examples are at the end of every chapter.",
+    subject: "engineering",
+    level: "university",
+    tags: ["thermodynamics", "lecture-notes"],
+    attachments: [pdf("a4", "Thermo-I-Lecture-Notes.pdf", 8_900_000)],
+    createdAt: "2026-09-20T18:40:00Z",
+  },
+  {
+    id: "p4",
+    authorId: "u4",
+    title: "Dynamic programming in 12 minutes (video walkthrough)",
+    body: "Recorded a short walkthrough of how I approach DP problems: define the state, write the recurrence, then decide top-down vs bottom-up. Examples: coin change and longest common subsequence.",
+    subject: "computer-science",
+    level: "university",
+    tags: ["algorithms", "dynamic-programming", "video"],
+    attachments: [video("a5", "dp-walkthrough.mp4", 21_400_000)],
+    createdAt: "2026-09-20T07:15:00Z",
+  },
+  {
+    id: "p5",
+    authorId: "u6",
+    title: "Kinematics formulas — exam night summary",
+    body: "Everything for the SUVAT section on one page. Our teacher said 80% of the mechanics questions use just these four equations.",
+    subject: "physics",
+    level: "high-school",
+    tags: ["mechanics", "formulas", "exam-prep"],
+    attachments: [
+      image("a6", "suvat.svg", {
+        heading: "SUVAT equations",
+        lines: ["v = u + at", "s = ut + ½at²", "v² = u² + 2as", "s = ½(u + v)t", "", "Always list: s, u, v, a, t first"],
+        paper: "#f0f9ff",
+        ink: "#0c2a4a",
+        accent: "#0369a1",
+      }),
+    ],
+    createdAt: "2026-09-19T12:30:00Z",
+  },
+  {
+    id: "p6",
+    authorId: "u5",
+    title: "IS-LM model explained with examples",
+    body: "My summary of the IS-LM model for Macro II: how fiscal and monetary policy shift each curve, plus three past exam questions with worked answers. Slides are in English, notes partly in Spanish.",
+    subject: "economics",
+    level: "university",
+    tags: ["macroeconomics", "is-lm"],
+    attachments: [
+      pdf("a7", "IS-LM-Slides.pdf", 3_150_000),
+      pdf("a8", "Macro-II-Past-Questions-2025.pdf", 1_220_000),
+    ],
+    createdAt: "2026-09-18T21:10:00Z",
+  },
+  {
+    id: "p7",
+    authorId: "u8",
+    title: "Eigenvalues & eigenvectors — handwritten notes",
+    body: "Part 3 of my linear algebra series. Characteristic polynomial, diagonalization and a few tricks for 3×3 matrices.",
+    subject: "mathematics",
+    level: "university",
+    tags: ["linear-algebra", "handwritten"],
+    attachments: [
+      image("a9", "eigen-1.svg", {
+        heading: "Eigenvalues",
+        lines: ["Av = λv  (v ≠ 0)", "det(A − λI) = 0", "trace(A) = Σ λᵢ", "det(A) = Π λᵢ"],
+        paper: "#fefce8",
+        ink: "#292524",
+        accent: "#a16207",
+      }),
+      image("a10", "eigen-2.svg", {
+        heading: "Diagonalization",
+        lines: ["A = PDP⁻¹", "P = [v₁ v₂ … vₙ]", "D = diag(λ₁ … λₙ)", "Needs n independent eigenvectors", "Aᵏ = PDᵏP⁻¹"],
+        paper: "#fefce8",
+        ink: "#292524",
+        accent: "#a16207",
+      }),
+      image("a11", "eigen-3.svg", {
+        heading: "3×3 tricks",
+        lines: ["Triangular → λ = diagonal entries", "Symmetric → real λ, orthogonal v", "Check: sum of λ = trace"],
+        paper: "#fefce8",
+        ink: "#292524",
+        accent: "#a16207",
+      }),
+    ],
+    createdAt: "2026-09-17T04:45:00Z",
+  },
+  {
+    id: "p8",
+    authorId: "u7",
+    title: "Contract law exam outline — formation & consideration",
+    body: "My outline for the formation half of Contracts: offer, acceptance, intention, consideration and promissory estoppel, with the leading cases for each. Australian law, but the structure works for most common-law courses.",
+    subject: "law",
+    level: "university",
+    tags: ["contracts", "exam-outline"],
+    attachments: [pdf("a12", "Contracts-Formation-Outline.pdf", 640_000)],
+    createdAt: "2026-09-16T10:05:00Z",
+  },
+  {
+    id: "p9",
+    authorId: "u1",
+    title: "Computer Networks midterm 2025 (with my answers)",
+    body: "Past midterm paper from last year. I added my answers, but please double-check question 4 on subnetting — I'm not 100% sure.",
+    subject: "computer-science",
+    level: "university",
+    tags: ["networks", "past-paper", "subnetting"],
+    attachments: [pdf("a13", "Networks-Midterm-2025.pdf", 1_050_000)],
+    createdAt: "2026-09-14T13:50:00Z",
+  },
+  {
+    id: "p10",
+    authorId: "u2",
+    title: "How I study with active recall (no fancy apps)",
+    body: "A few people asked how I got through first-year physiology. Short version: close the book, write everything you remember, then check. Repeat after 1, 3 and 7 days. That's it.",
+    subject: "other",
+    level: "self-study",
+    tags: ["study-tips", "active-recall"],
+    attachments: [],
+    createdAt: "2026-09-12T16:35:00Z",
+  },
+  {
+    id: "p11",
+    authorId: "u4",
+    title: "Graph algorithms — BFS, DFS, Dijkstra slides",
+    body: "Slides from the study group I run on Saturdays. Includes pseudocode and complexity for each algorithm.",
+    subject: "computer-science",
+    level: "university",
+    tags: ["algorithms", "graphs"],
+    attachments: [pdf("a14", "Graph-Algorithms.pdf", 4_200_000)],
+    createdAt: "2026-09-10T08:00:00Z",
+  },
+  {
+    id: "p12",
+    authorId: "u6",
+    title: "Organic chemistry functional groups (flashcard photos)",
+    body: "Photos of my flashcards for the functional groups unit. Name on one side, structure on the other.",
+    subject: "chemistry",
+    level: "high-school",
+    tags: ["organic-chemistry", "flashcards"],
+    attachments: [
+      image("a15", "functional-groups.svg", {
+        heading: "Functional groups",
+        lines: ["Alcohol: –OH", "Aldehyde: –CHO", "Ketone: C=O (middle)", "Carboxylic acid: –COOH", "Ester: –COO–", "Amine: –NH₂"],
+        paper: "#f0fdf4",
+        ink: "#14301f",
+        accent: "#15803d",
+      }),
+    ],
+    createdAt: "2026-09-08T11:25:00Z",
+  },
+];
+
+export const seedPosts: Post[] = postSeed;
+
+// ---- Social activity ----
+
+type CommentSeed = [id: string, postId: string, authorId: string, body: string, createdAt: string];
+
+const commentSeed: CommentSeed[] = [
+  ["c1", "p1", "u4", "The BCNF example finally made it click for me. Thank you!", "2026-09-21T16:02:00Z"],
+  ["c2", "p1", "u8", "Could you also do 4NF with multivalued dependencies?", "2026-09-21T17:40:00Z"],
+  ["c3", "p1", "u1", "@minh yes, working on it for next week 👍", "2026-09-21T18:05:00Z"],
+  ["c4", "p2", "u7", "Randy Travis Drinks Cold Beer — I will never forget this now 😂", "2026-09-21T10:15:00Z"],
+  ["c5", "p2", DEMO_USER_ID, "The colour coding is so clear.", "2026-09-21T11:48:00Z"],
+  ["c6", "p3", "u5", "Chapter 5 worked examples saved my weekend.", "2026-09-20T20:10:00Z"],
+  ["c7", "p4", "u1", "Clearest explanation of LCS I've seen.", "2026-09-20T09:30:00Z"],
+  ["c8", "p4", "u6", "Is there a part 2 with knapsack?", "2026-09-20T11:02:00Z"],
+  ["c9", "p4", "u4", "@yuki yes! Recording it this weekend.", "2026-09-20T12:20:00Z"],
+  ["c10", "p5", "u3", "Nice. Add projectile motion next — it's just SUVAT in two directions.", "2026-09-19T14:00:00Z"],
+  ["c11", "p6", "u7", "Gracias! The past questions are gold.", "2026-09-19T08:45:00Z"],
+  ["c12", "p7", "u4", "Your handwriting is unreal.", "2026-09-17T06:10:00Z"],
+  ["c13", "p7", DEMO_USER_ID, "The trace check trick is so useful for exams.", "2026-09-17T09:33:00Z"],
+  ["c14", "p9", "u8", "Q4: I think the broadcast address should be .63, not .64.", "2026-09-14T15:12:00Z"],
+  ["c15", "p9", "u1", "@minh you're right, fixed in my copy. Thanks!", "2026-09-14T16:01:00Z"],
+  ["c16", "p10", "u5", "Simple and it actually works. Trying the 1-3-7 schedule this semester.", "2026-09-12T19:20:00Z"],
+  ["c17", "p10", "u6", "Does this work for formulas too?", "2026-09-13T01:05:00Z"],
+  ["c18", "p10", "u2", "@yuki definitely — write them out from memory, then derive one.", "2026-09-13T07:44:00Z"],
+  ["c19", "p12", "u2", "Great for revision, thanks!", "2026-09-08T15:30:00Z"],
+];
+
+export const seedComments: Comment[] = commentSeed.map(
+  ([id, postId, authorId, body, createdAt]) => ({ id, postId, authorId, body, createdAt }),
+);
+
+/** postId → [userId, reaction][] */
+export const seedReactions: Record<string, [string, ReactionType][]> = {
+  p1: [["u2", "insightful"], ["u3", "like"], ["u4", "love"], ["u5", "like"], ["u8", "insightful"], [DEMO_USER_ID, "thanks"]],
+  p2: [["u1", "wow"], ["u5", "love"], ["u7", "love"], [DEMO_USER_ID, "love"], ["u6", "insightful"]],
+  p3: [["u5", "thanks"], ["u8", "like"], ["u1", "like"]],
+  p4: [["u1", "insightful"], ["u2", "like"], ["u3", "like"], ["u6", "love"], ["u8", "wow"], ["u7", "like"], [DEMO_USER_ID, "insightful"]],
+  p5: [["u3", "like"], ["u8", "like"]],
+  p6: [["u7", "thanks"], ["u4", "insightful"], ["u1", "like"]],
+  p7: [["u4", "wow"], ["u2", "love"], ["u3", "insightful"], [DEMO_USER_ID, "like"]],
+  p8: [["u5", "like"], ["u2", "thanks"]],
+  p9: [["u8", "like"], ["u4", "thanks"], [DEMO_USER_ID, "thanks"]],
+  p10: [["u5", "love"], ["u6", "insightful"], ["u1", "like"], ["u3", "like"], ["u7", "love"], ["u8", "like"]],
+  p11: [["u1", "like"], ["u8", "insightful"]],
+  p12: [["u2", "like"]],
+};
+
+/** postId → [userId, stars][] */
+export const seedRatings: Record<string, [string, number][]> = {
+  p1: [["u2", 5], ["u4", 5], ["u8", 4], [DEMO_USER_ID, 5]],
+  p2: [["u7", 5], ["u5", 5], [DEMO_USER_ID, 4]],
+  p3: [["u5", 5], ["u8", 4], ["u1", 4]],
+  p4: [["u1", 5], ["u2", 4], ["u6", 5], ["u3", 4]],
+  p5: [["u3", 4]],
+  p6: [["u7", 5], ["u4", 4]],
+  p7: [["u4", 5], ["u2", 5], ["u3", 4]],
+  p8: [["u5", 4]],
+  p9: [["u8", 3], ["u4", 4]],
+  p10: [["u5", 5], ["u6", 4], ["u3", 4]],
+  p11: [["u1", 4]],
+};
+
+/** userId → saved postIds */
+export const seedSaves: Record<string, string[]> = {
+  [DEMO_USER_ID]: ["p3", "p7"],
+};

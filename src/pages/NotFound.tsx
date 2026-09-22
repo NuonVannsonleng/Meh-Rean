@@ -4,7 +4,7 @@ import { t } from "../i18n/en";
 export default function NotFound() {
   return (
     <div className="container-page flex flex-col items-center justify-center py-20 text-center sm:py-28">
-      <p className="text-brand-600 animate-pop text-5xl font-bold tracking-tight sm:text-6xl">
+      <p className="text-accent animate-pop text-5xl font-bold tracking-tight sm:text-6xl">
         {t.notFound.code}
       </p>
       <h1 className="text-ink-900 animate-rise mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
@@ -15,7 +15,7 @@ export default function NotFound() {
       </p>
       <Link
         to="/"
-        className="bg-brand-600 hover:bg-brand-700 active:bg-brand-800 press animate-rise mt-6 inline-flex h-11 items-center rounded-xl px-5 text-sm font-semibold text-white"
+        className="btn-primary animate-rise mt-6"
       >
         {t.notFound.action}
       </Link>

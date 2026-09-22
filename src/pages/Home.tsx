@@ -1,309 +1,284 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import Avatar from "../components/Avatar";
 import ChipGroup, { type ChipOption } from "../components/ChipGroup";
-import CourseCard from "../components/CourseCard";
 import EmptyState from "../components/EmptyState";
 import ErrorState from "../components/ErrorState";
+import { FileTextIcon, FilterIcon, ImageIcon, SearchIcon, VideoIcon } from "../components/Icons";
 import LoadingState from "../components/LoadingState";
+import PostCard from "../components/PostCard";
 import SearchBar from "../components/SearchBar";
-import { SearchIcon } from "../components/Icons";
+import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
-import { getCourses, getInstitutions } from "../services/api";
+import { getFeed } from "../services/api";
 import {
-  SCHOOL_GRADES,
-  UNIVERSITY_YEARS,
-  type CourseWithCount,
-  type Institution,
-  type InstitutionFilter,
-  type InstitutionKind,
-  type KindFilter,
-  type LevelFilter,
-  type SemesterFilter,
+  EDUCATION_LEVELS,
+  SUBJECTS,
+  type EducationLevel,
+  type FeedSort,
+  type MediaFilter,
+  type PostView,
+  type Subject,
 } from "../types";
 
-const kindOptions: ChipOption<KindFilter>[] = [
-  { value: "all", label: t.filters.all },
-  { value: "school", label: t.filters.schools },
-  { value: "university", label: t.filters.universities },
+const sortOptions: ChipOption<FeedSort>[] = (["latest", "top", "discussed"] as const).map((value) => ({
+  value,
+  label: t.feed.sort[value],
+}));
+
+const subjectOptions: ChipOption<Subject | "all">[] = [
+  { value: "all", label: t.feed.all },
+  ...SUBJECTS.map((value) => ({ value, label: t.subjects[value] })),
 ];
 
-const semesterOptions: ChipOption<SemesterFilter>[] = [
-  { value: "all", label: t.filters.all },
-  { value: 1, label: t.filters.semester(1) },
-  { value: 2, label: t.filters.semester(2) },
+const levelOptions: ChipOption<EducationLevel | "all">[] = [
+  { value: "all", label: t.feed.all },
+  ...EDUCATION_LEVELS.map((value) => ({ value, label: t.levels[value] })),
 ];
 
-function levelsFor(kind: KindFilter): number[] {
-  if (kind === "school") return [...SCHOOL_GRADES];
-  if (kind === "university") return [...UNIVERSITY_YEARS];
-  return [...SCHOOL_GRADES, ...UNIVERSITY_YEARS];
+const mediaOptions: ChipOption<MediaFilter>[] = (["all", "documents", "images", "videos"] as const).map((value) => ({
+  value,
+  label: t.feed.media[value],
+}));
+
+function pick<T extends string>(value: string | null, allowed: readonly T[], fallback: T): T {
+  return allowed.find((item) => item === value) ?? fallback;
 }
 
-/** Grade and year ranges never overlap, so a level implies its kind. */
-function kindOfLevel(level: number): InstitutionKind {
-  return level >= 7 ? "school" : "university";
-}
+function Composer() {
+  const { user } = useAuth();
 
-function matchesQuery(course: CourseWithCount, query: string): boolean {
-  const haystack = [
-    course.code,
-    course.name,
-    course.instructor,
-    course.institution.name,
-    course.institution.shortName,
-  ]
-    .join(" ")
-    .toLowerCase();
-  return haystack.includes(query);
+  if (!user) {
+    return (
+      <section className="card flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-ink-700 text-sm sm:text-base">{t.feed.composerGuest}</p>
+        <div className="flex shrink-0 gap-2">
+          <Link to="/login" className="btn-secondary flex-1 sm:flex-none">
+            {t.nav.signIn}
+          </Link>
+          <Link to="/signup" className="btn-primary flex-1 sm:flex-none">
+            {t.nav.signUp}
+          </Link>
+        </div>
+      </section>
+    );
+  }
+
+  const quick = [
+    { Icon: ImageIcon, label: t.feed.media.images, tone: "text-teal-600 dark:text-teal-400" },
+    { Icon: VideoIcon, label: t.feed.media.videos, tone: "text-rose-600 dark:text-rose-400" },
+    { Icon: FileTextIcon, label: t.feed.media.documents, tone: "text-amber-600 dark:text-amber-400" },
+  ];
+
+  return (
+    <section className="card p-3 sm:p-4" aria-label={t.feed.composerAction}>
+      <div className="flex items-center gap-3">
+        <Avatar user={user} />
+        <Link
+          to="/create"
+          className="bg-surface-hover text-ink-500 hover:text-ink-700 press flex h-11 min-w-0 flex-1 items-center rounded-full px-4 text-sm sm:text-[15px]"
+        >
+          <span className="truncate">{t.feed.composerPrompt(user.displayName.split(" ")[0])}</span>
+        </Link>
+      </div>
+      <div className="border-line mt-3 flex gap-1 border-t pt-2">
+        {quick.map(({ Icon, label, tone }) => (
+          <Link
+            key={label}
+            to="/create"
+            className="press text-ink-700 hover:bg-surface-hover flex h-10 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg text-[13px] font-medium whitespace-nowrap sm:gap-2 sm:text-sm"
+          >
+            <Icon className={`h-5 w-5 ${tone}`} />
+            {label}
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 export default function Home() {
-  const [courses, setCourses] = useState<CourseWithCount[]>([]);
-  const [institutions, setInstitutions] = useState<Institution[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const { user } = useAuth();
+  const [params, setParams] = useSearchParams();
 
-  const [query, setQuery] = useState("");
-  const [kind, setKind] = useState<KindFilter>("all");
-  const [institution, setInstitution] = useState<InstitutionFilter>("all");
-  const [level, setLevel] = useState<LevelFilter>("all");
-  const [semester, setSemester] = useState<SemesterFilter>("all");
+  const query = params.get("q") ?? "";
+  const sort = pick(params.get("sort"), ["latest", "top", "discussed"] as const, "latest");
+  const subject = pick<Subject | "all">(params.get("subject"), SUBJECTS, "all");
+  const level = pick<EducationLevel | "all">(params.get("level"), EDUCATION_LEVELS, "all");
+  const media = pick(params.get("media"), ["all", "documents", "images", "videos"] as const, "all");
+  const deferredQuery = useDeferredValue(query);
+
+  const [posts, setPosts] = useState<PostView[] | null>(null);
+  const [hasError, setHasError] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [showMoreFilters, setShowMoreFilters] = useState(false);
+
+  const setParam = useCallback(
+    (key: string, value: string, fallback: string) => {
+      setParams(
+        (current) => {
+          const next = new URLSearchParams(current);
+          if (value === fallback || value === "") next.delete(key);
+          else next.set(key, value);
+          return next;
+        },
+        { replace: true },
+      );
+    },
+    [setParams],
+  );
 
   const load = useCallback(async () => {
-    setIsLoading(true);
     setHasError(false);
+    setRefreshing(true);
     try {
-      const [loadedCourses, loadedInstitutions] = await Promise.all([
-        getCourses(),
-        getInstitutions(),
-      ]);
-      setCourses(loadedCourses);
-      setInstitutions(loadedInstitutions);
+      setPosts(await getFeed({ search: deferredQuery, sort, subject, level, media }));
     } catch {
       setHasError(true);
     } finally {
-      setIsLoading(false);
+      setRefreshing(false);
     }
-  }, []);
+  }, [deferredQuery, sort, subject, level, media]);
 
   useEffect(() => {
-    void load();
-  }, [load]);
+    const timer = window.setTimeout(load, deferredQuery ? 200 : 0);
+    return () => window.clearTimeout(timer);
+  }, [load, deferredQuery, user?.id]);
 
-  const visibleInstitutions = useMemo(
-    () =>
-      kind === "all"
-        ? institutions
-        : institutions.filter((item) => item.kind === kind),
-    [institutions, kind],
+  const extraFilters = (level !== "all" ? 1 : 0) + (media !== "all" ? 1 : 0);
+  const hasFilters = Boolean(query) || subject !== "all" || extraFilters > 0;
+
+  const resetFilters = () => setParams(sort === "latest" ? {} : { sort }, { replace: true });
+
+  const moreFilters = useMemo(
+    () => (
+      <div className="space-y-4">
+        <ChipGroup
+          legend={t.feed.mediaLabel}
+          options={mediaOptions}
+          selected={media}
+          onSelect={(value) => setParam("media", value, "all")}
+        />
+        <ChipGroup
+          legend={t.feed.levelLabel}
+          options={levelOptions}
+          selected={level}
+          onSelect={(value) => setParam("level", value, "all")}
+        />
+      </div>
+    ),
+    [media, level, setParam],
   );
-
-  const institutionOptions = useMemo<ChipOption<InstitutionFilter>[]>(
-    () => [
-      { value: "all", label: t.filters.all },
-      ...visibleInstitutions.map((item) => ({
-        value: item.id,
-        label: item.shortName,
-        title: item.name,
-      })),
-    ],
-    [visibleInstitutions],
-  );
-
-  /** A chosen institution pins the level list to its own kind. */
-  const effectiveKind = useMemo<KindFilter>(() => {
-    if (institution !== "all") {
-      const chosen = institutions.find((item) => item.id === institution);
-      if (chosen) return chosen.kind;
-    }
-    return kind;
-  }, [institution, institutions, kind]);
-
-  const levelOptions = useMemo<ChipOption<LevelFilter>[]>(
-    () => [
-      { value: "all", label: t.filters.all },
-      ...levelsFor(effectiveKind).map((value) => ({
-        value,
-        label: t.level.label(kindOfLevel(value), value),
-      })),
-    ],
-    [effectiveKind],
-  );
-
-  const handleKindChange = (nextKind: KindFilter) => {
-    setKind(nextKind);
-    if (institution !== "all") {
-      const chosen = institutions.find((item) => item.id === institution);
-      if (nextKind !== "all" && chosen?.kind !== nextKind) {
-        setInstitution("all");
-      }
-    }
-    if (level !== "all" && !levelsFor(nextKind).includes(level)) {
-      setLevel("all");
-    }
-  };
-
-  const handleInstitutionChange = (nextInstitution: InstitutionFilter) => {
-    setInstitution(nextInstitution);
-    const chosen = institutions.find((item) => item.id === nextInstitution);
-    if (chosen && level !== "all" && !levelsFor(chosen.kind).includes(level)) {
-      setLevel("all");
-    }
-  };
-
-  const visibleCourses = useMemo(() => {
-    const normalized = query.trim().toLowerCase();
-    return courses.filter((course) => {
-      if (normalized && !matchesQuery(course, normalized)) return false;
-      if (kind !== "all" && course.institution.kind !== kind) return false;
-      if (institution !== "all" && course.institutionId !== institution)
-        return false;
-      if (level !== "all" && course.level !== level) return false;
-      if (semester !== "all" && course.semester !== semester) return false;
-      return true;
-    });
-  }, [courses, query, kind, institution, level, semester]);
-
-  const hasActiveFilters =
-    query.trim().length > 0 ||
-    kind !== "all" ||
-    institution !== "all" ||
-    level !== "all" ||
-    semester !== "all";
-
-  const resetFilters = () => {
-    setQuery("");
-    setKind("all");
-    setInstitution("all");
-    setLevel("all");
-    setSemester("all");
-  };
 
   return (
-    <>
-      <section
-        className="border-line bg-surface border-b"
-        aria-labelledby="home-title"
-      >
-        <div className="container-page py-10 sm:py-14">
-          <div className="animate-rise max-w-2xl">
-            <h1
-              id="home-title"
-              className="text-ink-900 text-3xl leading-tight font-bold tracking-tight sm:text-4xl lg:text-5xl"
-            >
-              {t.home.title}
-            </h1>
-            <p className="text-ink-700 mt-3 text-base leading-relaxed sm:mt-4 sm:text-lg">
-              {t.home.subtitle}
+    <div className="container-page py-6 sm:py-10">
+      {!user && (
+        <section className="animate-rise mb-8 max-w-2xl">
+          <p className="text-accent mb-2 text-sm font-semibold tracking-wide uppercase">{t.common.tagline}</p>
+          <h1 className="text-ink-900 text-3xl leading-tight font-bold tracking-tight sm:text-4xl">{t.feed.title}</h1>
+          <p className="text-ink-500 mt-3 text-base sm:text-lg">{t.feed.subtitle}</p>
+        </section>
+      )}
+      {user && <h1 className="sr-only">{t.nav.feed}</h1>}
+
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8">
+        <div className="min-w-0 space-y-4">
+          <Composer />
+
+          <section aria-label={t.feed.filtersLabel} className="space-y-3">
+            <div className="flex gap-2">
+              <div className="min-w-0 flex-1">
+                <SearchBar
+                  value={query}
+                  onChange={(value) => setParam("q", value, "")}
+                  label={t.feed.searchLabel}
+                  placeholder={t.feed.searchPlaceholder}
+                  clearLabel={t.feed.clearSearch}
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowMoreFilters((current) => !current)}
+                aria-expanded={showMoreFilters}
+                aria-label={t.feed.filtersLabel}
+                className={`press border-line bg-surface text-ink-700 hover:text-ink-900 relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border shadow-xs lg:hidden ${
+                  showMoreFilters ? "border-brand-500 text-accent" : ""
+                }`}
+              >
+                <FilterIcon />
+                {extraFilters > 0 && (
+                  <span className="bg-brand-600 absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-xs font-semibold text-white">
+                    {extraFilters}
+                  </span>
+                )}
+              </button>
+            </div>
+            {showMoreFilters && <div className="card animate-fade p-4 lg:hidden">{moreFilters}</div>}
+            <ChipGroup
+              legend={t.feed.sortLabel}
+              hideLegend
+              options={sortOptions}
+              selected={sort}
+              onSelect={(value) => setParam("sort", value, "latest")}
+            />
+            <ChipGroup
+              legend={t.feed.subjectLabel}
+              hideLegend
+              options={subjectOptions}
+              selected={subject}
+              onSelect={(value) => setParam("subject", value, "all")}
+            />
+          </section>
+
+          <div className="flex min-h-6 items-center justify-between gap-3 text-sm">
+            <p className="text-ink-500" aria-live="polite">
+              {posts && !hasError ? t.feed.results(posts.length) : ""}
             </p>
-          </div>
-          <div
-            className="animate-rise mt-6 max-w-2xl sm:mt-8"
-            style={{ animationDelay: "80ms" }}
-          >
-            <SearchBar value={query} onChange={setQuery} />
-            {!isLoading && !hasError && (
-              <p className="text-ink-500 mt-3 text-sm">
-                {t.home.stats(courses.length, institutions.length)}
-              </p>
+            {hasFilters && (
+              <button type="button" onClick={resetFilters} className="link">
+                {t.feed.reset}
+              </button>
             )}
           </div>
-        </div>
-      </section>
 
-      <section
-        className="container-page py-6 sm:py-8"
-        aria-labelledby="courses-title"
-      >
-        <div
-          className="animate-rise flex flex-col gap-5"
-          style={{ animationDelay: "120ms" }}
-          aria-label={t.filters.label}
-        >
-          <div className="flex flex-col gap-5 sm:flex-row sm:gap-10">
-            <ChipGroup
-              legend={t.filters.kindLabel}
-              options={kindOptions}
-              selected={kind}
-              onSelect={handleKindChange}
-            />
-            {institutionOptions.length > 1 && (
-              <ChipGroup
-                legend={t.filters.institutionLabel}
-                options={institutionOptions}
-                selected={institution}
-                onSelect={handleInstitutionChange}
-              />
-            )}
-          </div>
-          <div className="flex flex-col gap-5 sm:flex-row sm:gap-10">
-            <ChipGroup
-              legend={t.filters.gradeYearLabel}
-              options={levelOptions}
-              selected={level}
-              onSelect={setLevel}
-            />
-            <ChipGroup
-              legend={t.filters.semesterLabel}
-              options={semesterOptions}
-              selected={semester}
-              onSelect={setSemester}
-            />
-          </div>
-        </div>
-
-        <div className="mt-8 flex flex-wrap items-baseline justify-between gap-3">
-          <h2
-            id="courses-title"
-            className="text-ink-900 text-xl font-semibold tracking-tight"
-          >
-            {t.home.sectionTitle}
-          </h2>
-          {!isLoading && !hasError && (
-            <p className="text-ink-500 animate-fade text-sm">
-              {t.home.resultCount(visibleCourses.length, courses.length)}
-            </p>
-          )}
-        </div>
-
-        <div className="mt-4">
-          {isLoading && <LoadingState count={6} />}
-
-          {!isLoading && hasError && <ErrorState onRetry={() => void load()} />}
-
-          {!isLoading && !hasError && visibleCourses.length === 0 && (
+          {hasError ? (
+            <ErrorState onRetry={load} />
+          ) : posts === null ? (
+            <LoadingState />
+          ) : posts.length === 0 ? (
             <EmptyState
-              title={t.empty.coursesTitle}
-              body={t.empty.coursesBody}
               icon={<SearchIcon className="h-6 w-6" />}
+              title={t.feed.emptyTitle}
+              body={t.feed.emptyBody}
               action={
-                hasActiveFilters ? (
-                  <button
-                    type="button"
-                    onClick={resetFilters}
-                    className="bg-brand-600 hover:bg-brand-700 active:bg-brand-800 press inline-flex h-11 items-center rounded-xl px-5 text-sm font-semibold text-white"
-                  >
-                    {t.filters.reset}
-                  </button>
-                ) : undefined
+                <button type="button" onClick={resetFilters} className="btn-primary">
+                  {t.feed.reset}
+                </button>
               }
             />
-          )}
-
-          {!isLoading && !hasError && visibleCourses.length > 0 && (
-            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {visibleCourses.map((course, index) => (
-                <li
-                  key={course.id}
-                  className="animate-rise h-full"
-                  style={{ animationDelay: `${Math.min(index, 8) * 45}ms` }}
-                >
-                  <CourseCard course={course} />
-                </li>
+          ) : (
+            <div
+              className={`space-y-4 transition-opacity duration-200 ${refreshing ? "opacity-60" : ""}`}
+              aria-busy={refreshing}
+            >
+              {posts.map((post) => (
+                <PostCard
+                  key={`${post.id}-${user?.id ?? "guest"}`}
+                  post={post}
+                  onDeleted={(id) => setPosts((current) => current?.filter((item) => item.id !== id) ?? null)}
+                />
               ))}
-            </ul>
+            </div>
           )}
         </div>
-      </section>
-    </>
+
+        <aside className="hidden lg:block">
+          <div className="card sticky top-24 p-5">
+            <h2 className="text-ink-900 mb-4 text-base font-semibold">{t.feed.filtersLabel}</h2>
+            {moreFilters}
+          </div>
+        </aside>
+      </div>
+    </div>
   );
 }

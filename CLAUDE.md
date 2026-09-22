@@ -1,4 +1,17 @@
-# Course Hub — Frontend Build Specification
+# ⚠️ Current direction (supersedes the spec below where they conflict)
+
+The product is now **Meh Rean**: an international, social-media-style study-sharing app (not Cambodia-only, not course-directory based).
+
+- Accounts (sign up / sign in / settings / delete) are implemented, currently persisted in the browser via `src/services/db.ts` (localStorage) and `src/services/files.ts` (IndexedDB). All access still goes through `src/services/api.ts`.
+- Posts accept any file type (images, video, audio, documents), with reactions, comments, 1–5 ratings, save and share.
+- Light / dark / system theme via `src/context/ThemeContext.tsx`; dark tokens override the same CSS variables in `src/index.css`.
+- Routes: `/`, `/post/:id`, `/u/:username`, `/create`, `/settings`, `/login`, `/signup`, `*`.
+
+The original spec below still applies for stack, TypeScript strictness, i18n, accessibility, mobile-first design and code quality.
+
+---
+
+# Course Hub — Frontend Build Specification (original Phase 1 spec)
 
 ## 1. ROLE
 

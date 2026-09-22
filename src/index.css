@@ -1,10 +1,13 @@
 @import "tailwindcss";
 
-/* ---- Design tokens ---- */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---- Design tokens (light) ---- */
 @theme {
   --font-sans:
     "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji";
 
   /* Primary accent — deep indigo */
   --color-brand-50: oklch(0.97 0.014 275);
@@ -16,29 +19,25 @@
   --color-brand-600: oklch(0.51 0.2 275);
   --color-brand-700: oklch(0.44 0.18 275);
   --color-brand-800: oklch(0.37 0.145 275);
-  --color-brand-900: oklch(0.31 0.11 275);
+
+  /* Accent used for text/links on neutral or soft-brand surfaces */
+  --color-accent: oklch(0.46 0.19 275);
 
   /* Neutrals */
   --color-ink-900: oklch(0.22 0.012 265);
   --color-ink-700: oklch(0.38 0.012 265);
-  --color-ink-500: oklch(0.55 0.012 265);
-  --color-ink-400: oklch(0.65 0.012 265);
+  --color-ink-500: oklch(0.52 0.012 265);
+  --color-ink-400: oklch(0.64 0.012 265);
   --color-surface: oklch(1 0 0);
   --color-surface-muted: oklch(0.975 0.004 265);
+  --color-surface-hover: oklch(0.955 0.005 265);
   --color-line: oklch(0.92 0.005 265);
-
-  /* Resource type accents — kept restrained */
-  --color-note-bg: oklch(0.96 0.035 200);
-  --color-note-fg: oklch(0.44 0.09 220);
-  --color-paper-bg: oklch(0.96 0.04 60);
-  --color-paper-fg: oklch(0.47 0.11 60);
-  --color-slide-bg: oklch(0.96 0.04 340);
-  --color-slide-fg: oklch(0.47 0.11 345);
 
   --color-danger-bg: oklch(0.97 0.025 25);
   --color-danger-fg: oklch(0.52 0.19 25);
   --color-success-bg: oklch(0.96 0.05 150);
   --color-success-fg: oklch(0.45 0.12 155);
+  --color-star: oklch(0.78 0.16 75);
 
   /* Motion — one vocabulary for the whole app */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
@@ -48,21 +47,50 @@
   --duration-slow: 380ms;
 }
 
+/* ---- Dark tokens: same names, so every component adapts automatically ---- */
+:root.dark {
+  color-scheme: dark;
+
+  --color-brand-50: oklch(0.29 0.07 275);
+  --color-brand-100: oklch(0.34 0.09 275);
+  --color-brand-200: oklch(0.4 0.11 275);
+  --color-brand-300: oklch(0.52 0.14 275);
+  --color-brand-600: oklch(0.56 0.2 275);
+  --color-brand-700: oklch(0.5 0.19 275);
+  --color-brand-800: oklch(0.44 0.17 275);
+  --color-accent: oklch(0.8 0.11 275);
+
+  --color-ink-900: oklch(0.96 0.004 265);
+  --color-ink-700: oklch(0.85 0.008 265);
+  --color-ink-500: oklch(0.72 0.01 265);
+  --color-ink-400: oklch(0.6 0.012 265);
+  --color-surface: oklch(0.215 0.008 265);
+  --color-surface-muted: oklch(0.17 0.006 265);
+  --color-surface-hover: oklch(0.26 0.009 265);
+  --color-line: oklch(0.3 0.01 265);
+
+  --color-danger-bg: oklch(0.3 0.07 25);
+  --color-danger-fg: oklch(0.78 0.13 25);
+  --color-success-bg: oklch(0.3 0.06 155);
+  --color-success-fg: oklch(0.8 0.13 155);
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    color-scheme: light;
   }
 
   body {
     @apply bg-surface-muted text-ink-900 font-sans antialiased;
     margin: 0;
     min-height: 100dvh;
+    transition: background-color var(--duration-base) ease;
   }
 
   /* Visible, consistent focus for keyboard users */
   :focus-visible {
-    @apply outline-brand-600 outline-2 outline-offset-2;
-    transition: outline-offset var(--duration-fast) var(--ease-out-soft);
+    @apply outline-brand-500 outline-2 outline-offset-2;
   }
 
   h1,
@@ -71,7 +99,6 @@
     @apply text-balance;
   }
 
-  /* Long course codes / titles must never blow out a card */
   h1,
   h2,
   h3,
@@ -82,80 +109,112 @@
   }
 }
 
-@layer utilities {
-  .container-page {
-    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
-  }
+@utility container-page {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
 
-  /* Horizontally scrollable chip rows on small screens */
-  .scroll-row {
-    @apply -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0;
-    scrollbar-width: none;
-    scroll-behavior: smooth;
-  }
+@utility press {
+  transition:
+    transform var(--duration-fast) var(--ease-out-soft),
+    box-shadow var(--duration-base) var(--ease-out-soft),
+    background-color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    opacity var(--duration-fast) ease;
 
-  .scroll-row::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* ---- Motion utilities ---- */
-  .animate-rise {
-    animation: rise var(--duration-slow) var(--ease-out-soft) both;
-  }
-
-  .animate-fade {
-    animation: fade var(--duration-base) ease-out both;
-  }
-
-  .animate-pop {
-    animation: pop var(--duration-base) var(--ease-spring) both;
-  }
-
-  .animate-check {
-    animation: check 0.5s var(--ease-spring) both;
-  }
-
-  .animate-shimmer {
-    background-image: linear-gradient(
-      90deg,
-      transparent 0%,
-      var(--color-surface-muted) 40%,
-      var(--color-line) 50%,
-      var(--color-surface-muted) 60%,
-      transparent 100%
-    );
-    background-size: 220% 100%;
-    animation: shimmer 1.4s ease-in-out infinite;
-  }
-
-  /* Press feedback that feels right on touch without bouncing */
-  .press {
-    transition:
-      transform var(--duration-fast) var(--ease-out-soft),
-      box-shadow var(--duration-base) var(--ease-out-soft),
-      background-color var(--duration-fast) ease,
-      border-color var(--duration-fast) ease,
-      color var(--duration-fast) ease;
-  }
-
-  .press:active {
+  &:active:not(:disabled) {
     transform: scale(0.97);
   }
+}
 
-  .lift {
-    transition:
-      transform var(--duration-base) var(--ease-out-soft),
-      box-shadow var(--duration-base) var(--ease-out-soft),
-      border-color var(--duration-base) ease;
+@utility animate-rise {
+  animation: rise var(--duration-slow) var(--ease-out-soft) both;
+}
+
+@utility animate-fade {
+  animation: fade var(--duration-base) ease-out both;
+}
+
+@utility animate-pop {
+  animation: pop var(--duration-base) var(--ease-spring) both;
+}
+
+@utility animate-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-surface-hover) 50%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* Horizontally scrollable chip rows on small screens */
+@utility scroll-row {
+  @apply -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility card {
+  @apply border-line bg-surface rounded-2xl border shadow-xs;
+}
+
+@utility btn {
+  @apply press inline-flex h-11 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+@utility btn-primary {
+  @apply btn bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white shadow-sm;
+}
+
+@utility btn-secondary {
+  @apply btn border-line bg-surface text-ink-900 hover:bg-surface-hover border;
+}
+
+@utility btn-ghost {
+  @apply btn text-ink-700 hover:bg-surface-hover hover:text-ink-900;
+}
+
+@utility btn-danger {
+  @apply btn bg-danger-fg text-surface hover:opacity-90;
+}
+
+@utility icon-btn {
+  @apply press text-ink-500 hover:bg-surface-hover hover:text-ink-900 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full;
+}
+
+@utility input {
+  @apply border-line bg-surface text-ink-900 placeholder:text-ink-400 h-12 w-full rounded-xl border px-3.5 text-base transition-[border-color,box-shadow] outline-none sm:text-sm;
+
+  &:focus {
+    border-color: var(--color-brand-500);
+    box-shadow: 0 0 0 4px var(--color-brand-100);
   }
 
-  .lift:hover {
-    transform: translateY(-3px);
+  &[aria-invalid="true"] {
+    border-color: var(--color-danger-fg);
   }
+}
 
-  .lift:active {
-    transform: translateY(-1px) scale(0.995);
-  }
+@utility field-label {
+  @apply text-ink-900 mb-1.5 block text-sm font-semibold;
+}
+
+@utility field-hint {
+  @apply text-ink-500 mt-1.5 text-sm;
+}
+
+@utility field-error {
+  @apply text-danger-fg animate-fade mt-1.5 text-sm font-medium;
+}
+
+@utility link {
+  @apply text-accent rounded font-semibold underline-offset-4 hover:underline;
 }
 
 @keyframes rise {
@@ -189,20 +248,6 @@
   }
 }
 
-@keyframes check {
-  0% {
-    opacity: 0;
-    transform: scale(0.4);
-  }
-  60% {
-    transform: scale(1.08);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @keyframes shimmer {
   from {
     background-position: 140% 0;
@@ -212,7 +257,6 @@
   }
 }
 
-/* Motion is decoration — never a requirement for understanding the UI */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -223,9 +267,7 @@
     scroll-behavior: auto !important;
   }
 
-  .lift:hover,
-  .press:active,
-  .lift:active {
-    transform: none;
+  .press:active:not(:disabled) {
+    transform: none !important;
   }
 }
