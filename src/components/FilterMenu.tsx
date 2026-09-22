@@ -1,6 +1,7 @@
 import { useCallback, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useDismiss } from "../hooks/useDismiss";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import { t } from "../i18n/en";
 import { FilterIcon } from "./Icons";
 
@@ -16,6 +17,8 @@ export default function FilterMenu({ activeCount, onClear, children }: FilterMen
   const anchorRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
+  // Phones and short landscape screens get a bottom sheet instead of a popover.
+  const useSheet = useMediaQuery("(max-width: 639px), (max-height: 500px)");
   const close = useCallback(() => setOpen(false), []);
   useDismiss([anchorRef, sheetRef], open, close);
 
@@ -51,12 +54,12 @@ export default function FilterMenu({ activeCount, onClear, children }: FilterMen
       </button>
 
       {/* Tablet & desktop: popover anchored to the button */}
-      {open && (
+      {open && !useSheet && (
         <div
           id={panelId}
           role="region"
           aria-label={t.feed.filtersLabel}
-          className="card animate-pop absolute top-full right-0 z-30 mt-2 hidden w-80 origin-top-right p-5 shadow-2xl sm:block"
+          className="card animate-pop absolute top-full right-0 z-30 mt-2 w-80 origin-top-right p-5 shadow-2xl"
         >
           {header}
           <div className="space-y-5">{children}</div>
@@ -65,14 +68,16 @@ export default function FilterMenu({ activeCount, onClear, children }: FilterMen
 
       {/* Phones: bottom sheet rendered at the root so it sits above the tab bar */}
       {open &&
+        useSheet &&
         createPortal(
-          <div className="fixed inset-0 z-50 flex flex-col justify-end sm:hidden">
+          <div data-scroll-lock className="fixed inset-0 z-50 flex flex-col justify-end">
             <div aria-hidden="true" className="bg-ink-900/35 animate-fade absolute inset-0" />
             <div
               ref={sheetRef}
+              id={panelId}
               role="dialog"
               aria-label={t.feed.filtersLabel}
-              className="bg-surface relative max-h-[85dvh] overflow-y-auto rounded-t-3xl p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] shadow-2xl [animation:sheet-up_340ms_var(--ease-out-soft)_both]"
+              className="bg-surface relative mx-auto max-h-[85dvh] w-full max-w-lg overflow-y-auto rounded-t-3xl p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] shadow-2xl [animation:sheet-up_340ms_var(--ease-out-soft)_both]"
             >
               <div className="bg-line mx-auto mb-4 h-1.5 w-10 rounded-full" aria-hidden="true" />
               {header}

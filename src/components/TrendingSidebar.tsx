@@ -28,7 +28,7 @@ export default function TrendingSidebar() {
             <Link
               key={item.tag}
               to={`/?q=${encodeURIComponent(item.tag)}`}
-              className="bg-surface-hover text-accent hover:bg-brand-50 press rounded-full px-2.5 py-1 text-sm font-medium"
+              className="bg-surface-hover text-accent hover:bg-brand-50 press inline-flex h-8 items-center rounded-full px-3 text-sm font-medium"
             >
               #{item.tag}
             </Link>

@@ -35,6 +35,7 @@ export const en = {
   nav: {
     label: "Main navigation",
     mobileLabel: "Quick navigation",
+    shortcuts: "Shortcuts",
     feed: "Feed",
     create: "Create",
     saved: "Saved",
@@ -125,6 +126,7 @@ export const en = {
     composerAction: "Share a lesson",
     clearSearch: "Clear search",
     filtersLabel: "Filter posts",
+    controlsLabel: "Sort and filter posts",
     filtersButton: "Filters",
     applyFilters: "Show results",
     scrollLeft: "Scroll subjects left",

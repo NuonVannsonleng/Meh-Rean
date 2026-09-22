@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 import Avatar from "./Avatar";
@@ -19,11 +19,14 @@ const mobileLink = ({ isActive }: { isActive: boolean }) =>
 
 export default function Navbar() {
   const { user, status } = useAuth();
+  const { pathname, search } = useLocation();
+  const onOwnProfile = Boolean(user) && pathname === `/u/${user?.username}`;
+  const onSaved = onOwnProfile && new URLSearchParams(search).get("tab") === "saved";
 
   return (
     <>
-      <header className="bg-surface/85 border-line sticky top-0 z-40 border-b backdrop-blur-md">
-        <div className="container-page flex h-14 items-center justify-between gap-3 sm:h-16">
+      <header className="bg-surface/85 border-line sticky top-0 z-40 border-b pt-[env(safe-area-inset-top)] backdrop-blur-md">
+        <div className="container-page flex h-14 items-center justify-between gap-3 sm:h-16 xl:max-w-7xl [@media(max-height:500px)]:h-12">
           <Link
             to="/"
             aria-label={t.nav.logoAria}
@@ -42,7 +45,7 @@ export default function Navbar() {
               </li>
               {user && (
                 <li>
-                  <NavLink to={`/u/${user.username}?tab=saved`} className={desktopLink}>
+                  <NavLink to={`/u/${user.username}?tab=saved`} className={() => desktopLink({ isActive: onSaved })}>
                     <BookmarkIcon className="h-4.5 w-4.5" />
                     {t.nav.saved}
                   </NavLink>
@@ -99,8 +102,8 @@ export default function Navbar() {
           </li>
           <li className="flex flex-1">
             {user ? (
-              <NavLink to={`/u/${user.username}`} className={mobileLink}>
-                <Avatar user={user} size="sm" className="h-6 w-6 text-[10px]" />
+              <NavLink to={`/u/${user.username}`} className={() => mobileLink({ isActive: onOwnProfile && !onSaved })}>
+                <Avatar user={user} size="sm" className="h-6 w-6 text-[11px]" />
                 {t.nav.profile}
               </NavLink>
             ) : (

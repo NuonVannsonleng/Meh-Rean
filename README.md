@@ -16,7 +16,8 @@
 - **Settings:** edit profile and avatar, change password, delete account, and theme.
 - **Brand theme from the logo:** book-cover green, bookmark teal, cream notebook pages, in light, dark and system modes with no flash on load.
 - **Custom reaction icons** (Like, Love, Insightful, Helpful, Wow) with a burst animation, plus bookmark-drop, star-pop, staggered feed and page transitions. All motion respects reduced-motion settings.
-- Mobile-first layout with a bottom navigation bar, accessible forms, keyboard support and reduced-motion support.
+- **Works on every screen:** tested from 320px phones through landscape phones and tablets up to 1920px desktops. Phones get a bottom tab bar and bottom sheets; wide screens get a three-column layout. Safe areas for notched phones, 44px tap targets, and no iOS zoom on input focus.
+- **Installable:** add it to your home screen on iOS or Android and it opens full-screen like an app, using the Meh Rean icon.
 
 ## Tech stack
 

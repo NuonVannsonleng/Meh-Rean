@@ -9,6 +9,7 @@ import FilterMenu from "../components/FilterMenu";
 import { ChevronDownIcon, CloseIcon, FileTextIcon, ImageIcon, SearchIcon, VideoIcon } from "../components/Icons";
 import LoadingState from "../components/LoadingState";
 import PostCard from "../components/PostCard";
+import SideNav from "../components/SideNav";
 import TrendingSidebar from "../components/TrendingSidebar";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
@@ -183,7 +184,7 @@ export default function Home() {
   if (level !== "all") activeChips.push({ key: "level", label: t.levels[level], remove: () => setParam("level", "all", "all") });
 
   return (
-    <div className="container-page py-6 sm:py-10">
+    <div className="container-page py-6 sm:py-10 xl:max-w-7xl">
       {!user && !query && !school && (
         <section className="card ruled-paper animate-rise relative mb-8 overflow-hidden px-5 py-8 sm:px-10 sm:py-12">
           <span
@@ -199,7 +200,13 @@ export default function Home() {
       )}
       {(user || query || school) && <h1 className="sr-only">{query ? t.feed.resultsFor(query) : t.nav.feed}</h1>}
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8 xl:grid-cols-[220px_minmax(0,1fr)_300px]">
+        <aside className="hidden xl:block">
+          <div className="sticky top-24">
+            <SideNav />
+          </div>
+        </aside>
+
         <div className="min-w-0 space-y-4">
           {query ? (
             <div className="animate-fade flex items-center justify-between gap-3">
@@ -214,7 +221,7 @@ export default function Home() {
             <Composer />
           )}
 
-          <section aria-label={t.feed.filtersLabel} className="space-y-3">
+          <section aria-label={t.feed.controlsLabel} className="space-y-3">
             <div className="flex items-center justify-between gap-2">
               <div className="relative">
                 <label htmlFor={sortId} className="sr-only">
@@ -224,7 +231,7 @@ export default function Home() {
                   id={sortId}
                   value={sort}
                   onChange={(event) => setParam("sort", event.target.value, "latest")}
-                  className="press border-line bg-surface text-ink-900 hover:border-brand-300 h-9 cursor-pointer appearance-none rounded-full border py-0 pr-9 pl-3.5 text-sm font-semibold"
+                  className="press border-line bg-surface text-ink-900 hover:border-brand-300 h-9 cursor-pointer appearance-none rounded-full border py-0 pr-9 pl-3.5 text-base font-semibold sm:text-sm"
                 >
                   {sortOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -315,7 +322,7 @@ export default function Home() {
         </div>
 
         <aside className="hidden lg:block">
-          <div className="sticky top-24">
+          <div className="sticky top-24 max-h-[calc(100dvh-7rem)] overflow-y-auto overscroll-contain rounded-2xl [scrollbar-width:thin]">
             <TrendingSidebar />
           </div>
         </aside>

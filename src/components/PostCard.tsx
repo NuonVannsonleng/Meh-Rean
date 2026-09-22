@@ -233,13 +233,13 @@ export default function PostCard({ post: initial, index = 0, variant = "feed", o
         </Link>
         <div className="min-w-0 flex-1">
           <p className="flex flex-wrap items-baseline gap-x-1.5 text-sm">
-            <Link to={`/u/${post.author.username}`} className="text-ink-900 font-semibold hover:underline">
+            <Link to={`/u/${post.author.username}`} className="touch-target text-ink-900 font-semibold hover:underline">
               {post.author.displayName}
             </Link>
             <span className="text-ink-500">@{post.author.username}</span>
           </p>
           <p className="text-ink-500 truncate text-xs sm:text-sm">
-            <Link to={`/post/${post.id}`} className="hover:underline">
+            <Link to={`/post/${post.id}`} className="touch-target hover:underline">
               <time dateTime={post.createdAt} title={formatDateTime(post.createdAt)}>
                 {formatRelativeTime(post.createdAt)}
               </time>
@@ -260,7 +260,7 @@ export default function PostCard({ post: initial, index = 0, variant = "feed", o
         <div className="flex flex-wrap gap-1.5">
           <Link
             to={`/?subject=${post.subject}`}
-            className="bg-brand-50 text-accent hover:bg-brand-100 press rounded-full px-2.5 py-1 text-xs font-semibold"
+            className="touch-target bg-brand-50 text-accent hover:bg-brand-100 press rounded-full px-2.5 py-1 text-xs font-semibold"
           >
             {t.subjects[post.subject]}
           </Link>
@@ -305,7 +305,7 @@ export default function PostCard({ post: initial, index = 0, variant = "feed", o
           <ul className="flex flex-wrap gap-x-2 gap-y-1">
             {post.tags.map((tag) => (
               <li key={tag}>
-                <Link to={`/?q=${encodeURIComponent(tag)}`} className="text-accent text-sm font-medium hover:underline">
+                <Link to={`/?q=${encodeURIComponent(tag)}`} className="touch-target text-accent text-sm font-medium hover:underline">
                   #{tag}
                 </Link>
               </li>
@@ -327,7 +327,7 @@ export default function PostCard({ post: initial, index = 0, variant = "feed", o
             </span>
           )}
           {post.commentCount > 0 && (
-            <button type="button" onClick={toggleComments} className="hover:text-ink-900 hover:underline">
+            <button type="button" onClick={toggleComments} className="touch-target hover:text-ink-900 hover:underline">
               {t.post.comments(post.commentCount)}
             </button>
           )}

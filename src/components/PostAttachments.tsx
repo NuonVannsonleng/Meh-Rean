@@ -95,6 +95,7 @@ function Lightbox({
   onClose: () => void;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const current = images[index];
   const { url } = useAttachmentUrl(current);
 
@@ -116,13 +117,30 @@ function Lightbox({
       aria-label={t.post.imageAlt(title, index + 1)}
       className="m-0 h-dvh max-h-none w-screen max-w-none border-0 bg-black/90 p-0 backdrop:bg-black/80"
     >
-      <div className="relative flex h-full w-full items-center justify-center p-4 sm:p-12" onClick={onClose}>
+      <div
+        className="relative flex h-full w-full touch-pan-y items-center justify-center p-4 sm:p-12"
+        onClick={onClose}
+        onTouchStart={(event) => {
+          const touch = event.touches[0];
+          touchStart.current = { x: touch.clientX, y: touch.clientY };
+        }}
+        onTouchEnd={(event) => {
+          const start = touchStart.current;
+          touchStart.current = null;
+          if (!start || images.length < 2) return;
+          const touch = event.changedTouches[0];
+          const dx = touch.clientX - start.x;
+          if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(touch.clientY - start.y)) step(dx < 0 ? 1 : -1);
+        }}
+      >
         {url && (
           <img
             src={url}
             alt={t.post.imageAlt(title, index + 1)}
+            key={current.id}
             onClick={(event) => event.stopPropagation()}
-            className="animate-fade max-h-full max-w-full rounded-lg object-contain"
+            draggable={false}
+            className="animate-pop max-h-full max-w-full rounded-lg object-contain select-none"
           />
         )}
         <button

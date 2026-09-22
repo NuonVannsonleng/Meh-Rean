@@ -4,13 +4,11 @@ interface IconProps {
   className?: string;
 }
 
-const base = "h-5 w-5 shrink-0";
-
 function createIcon(paths: ReactNode, filled = false) {
-  return function Icon({ className = base }: IconProps) {
+  return function Icon({ className = "h-5 w-5" }: IconProps) {
     return (
       <svg
-        className={className}
+        className={`shrink-0 ${className}`}
         viewBox="0 0 24 24"
         fill={filled ? "currentColor" : "none"}
         stroke="currentColor"

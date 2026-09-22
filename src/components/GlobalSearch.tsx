@@ -289,9 +289,9 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
         if (event.target === event.currentTarget) dialogRef.current?.close();
       }}
     >
-      <div className="bg-surface animate-page flex h-full flex-col sm:mx-auto sm:mt-16 sm:h-auto sm:max-h-[min(38rem,calc(100dvh-6rem))] sm:w-[min(40rem,calc(100vw-2rem))] sm:rounded-2xl sm:border sm:border-line sm:shadow-2xl">
+      <div className="bg-surface animate-page flex h-full flex-col pt-[env(safe-area-inset-top)] sm:mx-auto sm:mt-16 sm:h-auto sm:max-h-[min(38rem,calc(100dvh-6rem))] sm:w-[min(40rem,calc(100vw-2rem))] sm:rounded-2xl sm:border sm:border-line sm:pt-0 sm:shadow-2xl [@media(max-height:500px)]:sm:mt-3 [@media(max-height:500px)]:sm:max-h-[calc(100dvh-1.5rem)]">
         {/* Input */}
-        <div className="border-line flex items-center gap-2 border-b px-3 py-2.5 sm:px-4">
+        <div className="border-line flex shrink-0 items-center gap-2 border-b px-3 py-2.5 sm:px-4">
           <SearchIcon className="text-ink-400 h-5 w-5" />
           <input
             ref={inputRef}
@@ -331,7 +331,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Scopes */}
-        <div role="group" aria-label={t.search.scopesLabel} className="scroll-row mx-0 px-3 pt-3 pb-1 sm:px-4">
+        <div role="group" aria-label={t.search.scopesLabel} className="scroll-row mx-0 shrink-0 px-3 pt-3 pb-1 sm:px-4">
           {SCOPES.map((value) => (
             <button
               key={value}
@@ -474,7 +474,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
           )}
         </div>
 
-        <p className="border-line text-ink-400 hidden border-t px-4 py-2 text-xs sm:block">{t.search.keyboardHint}</p>
+        <p className="border-line text-ink-400 hidden shrink-0 border-t px-4 py-2 text-xs sm:block [@media(max-height:500px)]:hidden">{t.search.keyboardHint}</p>
       </div>
     </dialog>
   );

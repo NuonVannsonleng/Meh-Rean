@@ -118,8 +118,15 @@
     color-scheme: light;
   }
 
+  /* Freeze the page behind open dialogs and bottom sheets */
+  html:has(dialog[open]),
+  html:has([data-scroll-lock]) {
+    overflow: hidden;
+  }
+
   body {
     @apply bg-surface-muted text-ink-900 font-sans antialiased;
+    -webkit-tap-highlight-color: transparent;
     margin: 0;
     min-height: 100dvh;
     transition: background-color var(--duration-base) ease;
@@ -152,8 +159,33 @@
   }
 }
 
+/* Side padding also clears notches/rounded corners in landscape */
 @utility container-page {
-  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  @apply mx-auto w-full max-w-6xl;
+  padding-inline: max(1rem, env(safe-area-inset-left), env(safe-area-inset-right));
+
+  @media (width >= 40rem) {
+    padding-inline: max(1.5rem, env(safe-area-inset-left), env(safe-area-inset-right));
+  }
+
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Grows the tappable area to 44×44 without changing the layout */
+@utility touch-target {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
 }
 
 @utility press {
@@ -257,7 +289,7 @@
 }
 
 @utility link {
-  @apply text-accent rounded font-semibold underline-offset-4 hover:underline;
+  @apply touch-target text-accent rounded font-semibold underline-offset-4 hover:underline;
 }
 
 @utility animate-page {

@@ -89,7 +89,7 @@ export default function CommentSection({ postId, postAuthorId, onCountChange, au
                   <div className="bg-surface-hover rounded-2xl rounded-tl-md px-3.5 py-2.5">
                     <Link
                       to={`/u/${comment.author.username}`}
-                      className="text-ink-900 text-sm font-semibold hover:underline"
+                      className="touch-target text-ink-900 text-sm font-semibold hover:underline"
                     >
                       {comment.author.displayName}
                     </Link>
@@ -104,7 +104,7 @@ export default function CommentSection({ postId, postAuthorId, onCountChange, au
                         type="button"
                         onClick={() => remove(comment.id)}
                         aria-label={t.comments.delete}
-                        className="hover:text-danger-fg inline-flex items-center gap-1 rounded font-medium"
+                        className="touch-target hover:text-danger-fg inline-flex h-6 w-6 items-center justify-center rounded-full font-medium"
                       >
                         <TrashIcon className="h-3.5 w-3.5" />
                       </button>
