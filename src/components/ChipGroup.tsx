@@ -9,6 +9,8 @@ interface ChipGroupProps<T extends string | number> {
   selected: T;
   onSelect: (value: T) => void;
   hideLegend?: boolean;
+  /** "scroll" keeps one sideways-scrolling line on phones; "wrap" always wraps. */
+  layout?: "scroll" | "wrap";
 }
 
 export default function ChipGroup<T extends string | number>({
@@ -17,6 +19,7 @@ export default function ChipGroup<T extends string | number>({
   selected,
   onSelect,
   hideLegend = false,
+  layout = "scroll",
 }: ChipGroupProps<T>) {
   return (
     <fieldset className="min-w-0">
@@ -25,7 +28,7 @@ export default function ChipGroup<T extends string | number>({
       >
         {legend}
       </legend>
-      <div className="scroll-row">
+      <div className={layout === "wrap" ? "flex flex-wrap gap-2" : "scroll-row"}>
         {options.map((option) => {
           const isActive = option.value === selected;
           return (

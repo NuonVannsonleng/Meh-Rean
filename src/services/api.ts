@@ -12,7 +12,13 @@ import {
   type ProfileView,
   type PublicUser,
   type ReactionType,
+  type SchoolSummary,
+  type SearchScope,
+  type SearchSuggestions,
   type SignInInput,
+  type Subject,
+  type SubjectSummary,
+  type TagSummary,
   type SignUpInput,
   type UpdateProfileInput,
   type User,
@@ -278,6 +284,11 @@ export async function getFeed(query: FeedQuery = {}): Promise<PostView[]> {
     const author = db.users.find((user) => user.username === normalizeUsername(query.authorUsername ?? ""));
     posts = author ? posts.filter((post) => post.authorId === author.id) : [];
   }
+  if (query.school) {
+    const school = query.school.toLowerCase();
+    const authors = new Set(db.users.filter((user) => user.school.toLowerCase() === school).map((user) => user.id));
+    posts = posts.filter((post) => authors.has(post.authorId));
+  }
   if (query.savedOnly) {
     const saved = new Set(db.saves.filter((save) => save.userId === viewer).map((save) => save.postId));
     posts = posts.filter((post) => saved.has(post.id));
@@ -488,6 +499,108 @@ export async function getProfile(username: string): Promise<ProfileView> {
         : null,
     },
   };
+}
+
+// ---- Search & discovery ----
+
+function normalize(value: string): string {
+  return value
+    .normalize("NFKD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase();
+}
+
+/** Every term must appear somewhere in the fields (accent-insensitive). */
+function matches(terms: string[], ...fields: string[]): boolean {
+  const haystack = normalize(fields.join(" "));
+  return terms.every((term) => haystack.includes(term));
+}
+
+function summarize(db: DbState) {
+  const postsByAuthor = new Map<string, number>();
+  const tagCounts = new Map<string, number>();
+  const subjectCounts = new Map<Subject, number>();
+  for (const post of db.posts) {
+    postsByAuthor.set(post.authorId, (postsByAuthor.get(post.authorId) ?? 0) + 1);
+    subjectCounts.set(post.subject, (subjectCounts.get(post.subject) ?? 0) + 1);
+    for (const tag of post.tags) tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+
+  const schoolMap = new Map<string, SchoolSummary>();
+  for (const user of db.users) {
+    if (!user.school.trim()) continue;
+    const key = user.school.trim().toLowerCase();
+    const entry = schoolMap.get(key) ?? { name: user.school.trim(), country: user.country, students: 0, posts: 0 };
+    entry.students += 1;
+    entry.posts += postsByAuthor.get(user.id) ?? 0;
+    if (!entry.country) entry.country = user.country;
+    schoolMap.set(key, entry);
+  }
+
+  const schools = [...schoolMap.values()].sort((a, b) => b.posts - a.posts || a.name.localeCompare(b.name));
+  const tags: TagSummary[] = [...tagCounts]
+    .map(([tag, posts]) => ({ tag, posts }))
+    .sort((a, b) => b.posts - a.posts || a.tag.localeCompare(b.tag));
+  const subjects: SubjectSummary[] = [...subjectCounts]
+    .map(([subject, posts]) => ({ subject, posts }))
+    .sort((a, b) => b.posts - a.posts);
+  const people = [...db.users].sort(
+    (a, b) => (postsByAuthor.get(b.id) ?? 0) - (postsByAuthor.get(a.id) ?? 0) || a.displayName.localeCompare(b.displayName),
+  );
+
+  return { schools, tags, subjects, people };
+}
+
+/**
+ * Typeahead results across people, schools & universities, subjects and tags.
+ * `subjectLabels` lets the caller match localized subject names.
+ */
+export async function searchSuggestions(
+  query: string,
+  scope: SearchScope = "all",
+  subjectLabels: Record<Subject, string>,
+): Promise<SearchSuggestions> {
+  await delay(120);
+  const db = await loadDb();
+  const terms = normalize(query).split(/\s+/).filter(Boolean);
+  const { schools, tags, subjects, people } = summarize(db);
+  const limit = scope === "all" ? 4 : 12;
+  const wants = (kind: SearchScope) => scope === "all" || scope === kind;
+
+  return structuredClone({
+    people: wants("people")
+      ? people
+          .filter((user) =>
+            matches(terms, user.displayName, user.username, user.school, user.country, user.fieldOfStudy),
+          )
+          .slice(0, limit)
+          .map(toPublicUser)
+      : [],
+    schools: wants("schools") ? schools.filter((school) => matches(terms, school.name, school.country)).slice(0, limit) : [],
+    subjects: wants("subjects")
+      ? subjects
+          .filter((item) => matches(terms, subjectLabels[item.subject], item.subject.replace("-", " ")))
+          .slice(0, limit)
+      : [],
+    tags: wants("tags") ? tags.filter((item) => matches(terms, item.tag.replace(/-/g, " "), item.tag)).slice(0, limit) : [],
+  });
+}
+
+export interface TrendingView {
+  tags: TagSummary[];
+  schools: SchoolSummary[];
+  people: PublicUser[];
+}
+
+export async function getTrending(): Promise<TrendingView> {
+  await delay(200);
+  const db = await loadDb();
+  const { schools, tags, people } = summarize(db);
+  return structuredClone({
+    tags: tags.slice(0, 8),
+    schools: schools.slice(0, 5),
+    people: people.slice(0, 4).map(toPublicUser),
+  });
 }
 
 // ---- Files ----

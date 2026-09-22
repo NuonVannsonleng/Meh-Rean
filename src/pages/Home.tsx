@@ -1,13 +1,15 @@
-import { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import ChipGroup, { type ChipOption } from "../components/ChipGroup";
 import EmptyState from "../components/EmptyState";
 import ErrorState from "../components/ErrorState";
-import { FileTextIcon, FilterIcon, ImageIcon, SearchIcon, VideoIcon } from "../components/Icons";
+import ChipScroller from "../components/ChipScroller";
+import FilterMenu from "../components/FilterMenu";
+import { ChevronDownIcon, CloseIcon, FileTextIcon, ImageIcon, SearchIcon, VideoIcon } from "../components/Icons";
 import LoadingState from "../components/LoadingState";
 import PostCard from "../components/PostCard";
-import SearchBar from "../components/SearchBar";
+import TrendingSidebar from "../components/TrendingSidebar";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 import { getFeed } from "../services/api";
@@ -97,21 +99,43 @@ function Composer() {
   );
 }
 
+function RemovableChip({ label, onRemove }: { label: string; onRemove: () => void }) {
+  return (
+    <span className="bg-brand-50 text-accent animate-pop inline-flex h-8 max-w-full items-center gap-1 rounded-full pr-1 pl-3 text-sm font-medium">
+      <span className="truncate">{label}</span>
+      <button
+        type="button"
+        onClick={onRemove}
+        aria-label={t.feed.removeFilter(label)}
+        className="hover:bg-brand-100 press flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
+      >
+        <CloseIcon className="h-3.5 w-3.5" />
+      </button>
+    </span>
+  );
+}
+
+interface ActiveChip {
+  key: string;
+  label: string;
+  remove: () => void;
+}
+
 export default function Home() {
   const { user } = useAuth();
   const [params, setParams] = useSearchParams();
 
   const query = params.get("q") ?? "";
+  const school = params.get("school") ?? "";
   const sort = pick(params.get("sort"), ["latest", "top", "discussed"] as const, "latest");
   const subject = pick<Subject | "all">(params.get("subject"), SUBJECTS, "all");
   const level = pick<EducationLevel | "all">(params.get("level"), EDUCATION_LEVELS, "all");
   const media = pick(params.get("media"), ["all", "documents", "images", "videos"] as const, "all");
-  const deferredQuery = useDeferredValue(query);
+  const sortId = useId();
 
   const [posts, setPosts] = useState<PostView[] | null>(null);
   const [hasError, setHasError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [showMoreFilters, setShowMoreFilters] = useState(false);
 
   const setParam = useCallback(
     (key: string, value: string, fallback: string) => {
@@ -132,47 +156,35 @@ export default function Home() {
     setHasError(false);
     setRefreshing(true);
     try {
-      setPosts(await getFeed({ search: deferredQuery, sort, subject, level, media }));
+      setPosts(await getFeed({ search: query, school, sort, subject, level, media }));
     } catch {
       setHasError(true);
     } finally {
       setRefreshing(false);
     }
-  }, [deferredQuery, sort, subject, level, media]);
+  }, [query, school, sort, subject, level, media]);
 
   useEffect(() => {
-    const timer = window.setTimeout(load, deferredQuery ? 200 : 0);
-    return () => window.clearTimeout(timer);
-  }, [load, deferredQuery, user?.id]);
+    load();
+  }, [load, user?.id]);
 
-  const extraFilters = (level !== "all" ? 1 : 0) + (media !== "all" ? 1 : 0);
-  const hasFilters = Boolean(query) || subject !== "all" || extraFilters > 0;
+  const menuFilters = (level !== "all" ? 1 : 0) + (media !== "all" ? 1 : 0);
+  const hasFilters = Boolean(query) || Boolean(school) || subject !== "all" || menuFilters > 0;
 
   const resetFilters = () => setParams(sort === "latest" ? {} : { sort }, { replace: true });
+  const clearMenuFilters = () => {
+    setParam("level", "all", "all");
+    setParam("media", "all", "all");
+  };
 
-  const moreFilters = useMemo(
-    () => (
-      <div className="space-y-4">
-        <ChipGroup
-          legend={t.feed.mediaLabel}
-          options={mediaOptions}
-          selected={media}
-          onSelect={(value) => setParam("media", value, "all")}
-        />
-        <ChipGroup
-          legend={t.feed.levelLabel}
-          options={levelOptions}
-          selected={level}
-          onSelect={(value) => setParam("level", value, "all")}
-        />
-      </div>
-    ),
-    [media, level, setParam],
-  );
+  const activeChips: ActiveChip[] = [];
+  if (school) activeChips.push({ key: "school", label: t.feed.schoolFilter(school), remove: () => setParam("school", "", "") });
+  if (media !== "all") activeChips.push({ key: "media", label: t.feed.media[media], remove: () => setParam("media", "all", "all") });
+  if (level !== "all") activeChips.push({ key: "level", label: t.levels[level], remove: () => setParam("level", "all", "all") });
 
   return (
     <div className="container-page py-6 sm:py-10">
-      {!user && (
+      {!user && !query && !school && (
         <section className="card ruled-paper animate-rise relative mb-8 overflow-hidden px-5 py-8 sm:px-10 sm:py-12">
           <span
             aria-hidden="true"
@@ -185,55 +197,78 @@ export default function Home() {
           </div>
         </section>
       )}
-      {user && <h1 className="sr-only">{t.nav.feed}</h1>}
+      {(user || query || school) && <h1 className="sr-only">{query ? t.feed.resultsFor(query) : t.nav.feed}</h1>}
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8">
         <div className="min-w-0 space-y-4">
-          <Composer />
-
-          <section aria-label={t.feed.filtersLabel} className="space-y-3">
-            <div className="flex gap-2">
-              <div className="min-w-0 flex-1">
-                <SearchBar
-                  value={query}
-                  onChange={(value) => setParam("q", value, "")}
-                  label={t.feed.searchLabel}
-                  placeholder={t.feed.searchPlaceholder}
-                  clearLabel={t.feed.clearSearch}
-                />
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowMoreFilters((current) => !current)}
-                aria-expanded={showMoreFilters}
-                aria-label={t.feed.filtersLabel}
-                className={`press border-line bg-surface text-ink-700 hover:text-ink-900 relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border shadow-xs lg:hidden ${
-                  showMoreFilters ? "border-brand-500 text-accent" : ""
-                }`}
-              >
-                <FilterIcon />
-                {extraFilters > 0 && (
-                  <span className="bg-brand-600 absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-xs font-semibold text-white">
-                    {extraFilters}
-                  </span>
-                )}
+          {query ? (
+            <div className="animate-fade flex items-center justify-between gap-3">
+              <p className="text-ink-900 min-w-0 truncate text-lg font-semibold" aria-hidden="true">
+                {t.feed.resultsFor(query)}
+              </p>
+              <button type="button" onClick={() => setParam("q", "", "")} className="link shrink-0 text-sm">
+                {t.feed.clearSearch}
               </button>
             </div>
-            {showMoreFilters && <div className="card animate-fade p-4 lg:hidden">{moreFilters}</div>}
-            <ChipGroup
-              legend={t.feed.sortLabel}
-              hideLegend
-              options={sortOptions}
-              selected={sort}
-              onSelect={(value) => setParam("sort", value, "latest")}
-            />
-            <ChipGroup
-              legend={t.feed.subjectLabel}
-              hideLegend
+          ) : (
+            <Composer />
+          )}
+
+          <section aria-label={t.feed.filtersLabel} className="space-y-3">
+            <div className="flex items-center justify-between gap-2">
+              <div className="relative">
+                <label htmlFor={sortId} className="sr-only">
+                  {t.feed.sortLabel}
+                </label>
+                <select
+                  id={sortId}
+                  value={sort}
+                  onChange={(event) => setParam("sort", event.target.value, "latest")}
+                  className="press border-line bg-surface text-ink-900 hover:border-brand-300 h-9 cursor-pointer appearance-none rounded-full border py-0 pr-9 pl-3.5 text-sm font-semibold"
+                >
+                  {sortOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDownIcon className="text-ink-500 pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2" />
+              </div>
+
+              <FilterMenu activeCount={menuFilters} onClear={clearMenuFilters}>
+                <ChipGroup
+                  legend={t.feed.mediaLabel}
+                  layout="wrap"
+                  options={mediaOptions}
+                  selected={media}
+                  onSelect={(value) => setParam("media", value, "all")}
+                />
+                <ChipGroup
+                  legend={t.feed.levelLabel}
+                  layout="wrap"
+                  options={levelOptions}
+                  selected={level}
+                  onSelect={(value) => setParam("level", value, "all")}
+                />
+              </FilterMenu>
+            </div>
+
+            <ChipScroller
+              label={t.feed.subjectLabel}
               options={subjectOptions}
               selected={subject}
               onSelect={(value) => setParam("subject", value, "all")}
+              scrollLeftLabel={t.feed.scrollLeft}
+              scrollRightLabel={t.feed.scrollRight}
             />
+
+            {activeChips.length > 0 && (
+              <div role="group" aria-label={t.feed.activeFilters} className="flex flex-wrap items-center gap-2">
+                {activeChips.map((chip) => (
+                  <RemovableChip key={chip.key} label={chip.label} onRemove={chip.remove} />
+                ))}
+              </div>
+            )}
           </section>
 
           <div className="flex min-h-6 items-center justify-between gap-3 text-sm">
@@ -242,7 +277,7 @@ export default function Home() {
             </p>
             {hasFilters && (
               <button type="button" onClick={resetFilters} className="link">
-                {t.feed.reset}
+                {t.feed.clearAll}
               </button>
             )}
           </div>
@@ -280,9 +315,8 @@ export default function Home() {
         </div>
 
         <aside className="hidden lg:block">
-          <div className="card sticky top-24 p-5">
-            <h2 className="text-ink-900 mb-4 text-base font-semibold">{t.feed.filtersLabel}</h2>
-            {moreFilters}
+          <div className="sticky top-24">
+            <TrendingSidebar />
           </div>
         </aside>
       </div>

@@ -155,12 +155,40 @@ export type FeedSort = "latest" | "top" | "discussed";
 
 export interface FeedQuery {
   search?: string;
+  /** Exact school or university name, matched against the author's profile. */
+  school?: string;
   subject?: Subject | "all";
   level?: EducationLevel | "all";
   media?: MediaFilter;
   sort?: FeedSort;
   authorUsername?: string;
   savedOnly?: boolean;
+}
+
+export type SearchScope = "all" | "people" | "schools" | "subjects" | "tags";
+
+export interface SchoolSummary {
+  name: string;
+  country: string;
+  students: number;
+  posts: number;
+}
+
+export interface TagSummary {
+  tag: string;
+  posts: number;
+}
+
+export interface SubjectSummary {
+  subject: Subject;
+  posts: number;
+}
+
+export interface SearchSuggestions {
+  people: PublicUser[];
+  schools: SchoolSummary[];
+  subjects: SubjectSummary[];
+  tags: TagSummary[];
 }
 
 // ---- Service inputs ----

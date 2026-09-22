@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 import Avatar from "./Avatar";
 import { BookmarkIcon, HomeIcon, PlusIcon, UserIcon } from "./Icons";
+import GlobalSearch from "./GlobalSearch";
 import Logo from "./Logo";
 import UserMenu from "./UserMenu";
 
@@ -31,7 +32,7 @@ export default function Navbar() {
             <Logo />
           </Link>
 
-          <nav aria-label={t.nav.label} className="hidden sm:block">
+          <nav aria-label={t.nav.label} className="hidden md:block">
             <ul className="flex items-center gap-1">
               <li>
                 <NavLink to="/" end className={desktopLink}>
@@ -51,6 +52,7 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <GlobalSearch />
             {user ? (
               <>
                 <Link to="/create" className="btn-primary hidden h-10 sm:inline-flex">
@@ -62,7 +64,7 @@ export default function Navbar() {
             ) : (
               status === "signed-out" && (
                 <>
-                  <Link to="/login" className="btn-ghost h-10 px-3">
+                  <Link to="/login" className="btn-ghost hidden h-10 px-3 sm:inline-flex">
                     {t.nav.signIn}
                   </Link>
                   <Link to="/signup" className="btn-primary h-10 px-3.5">

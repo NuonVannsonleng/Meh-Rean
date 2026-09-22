@@ -1,12 +1,16 @@
 import { useEffect, type RefObject } from "react";
 
-/** Closes a popover on outside pointer-down or Escape. */
-export function useDismiss(ref: RefObject<HTMLElement | null>, open: boolean, onClose: () => void): void {
+type Ref = RefObject<HTMLElement | null>;
+
+/** Closes a popover on pointer-down outside all given elements, or on Escape. */
+export function useDismiss(refs: Ref | Ref[], open: boolean, onClose: () => void): void {
   useEffect(() => {
     if (!open) return;
+    const list = Array.isArray(refs) ? refs : [refs];
 
     const onPointer = (event: PointerEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) onClose();
+      const target = event.target as Node;
+      if (!list.some((ref) => ref.current?.contains(target))) onClose();
     };
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -18,5 +22,6 @@ export function useDismiss(ref: RefObject<HTMLElement | null>, open: boolean, on
       document.removeEventListener("pointerdown", onPointer);
       document.removeEventListener("keydown", onKey);
     };
-  }, [ref, open, onClose]);
+    // `refs` is a stable ref (or array of stable refs) created by the caller.
+  }, [open, onClose]);
 }
