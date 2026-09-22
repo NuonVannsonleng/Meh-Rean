@@ -1,3 +1,5 @@
+<p align="center"><img src="public/brand/meh-rean-logo.png" alt="Meh Rean logo" width="320" /></p>
+
 # Meh Rean
 
 **Meh Rean** (មេរៀន, "lesson") is a study-sharing community for students everywhere. Students post lecture notes, slides, past papers, videos and photos, and the community reacts, comments, rates and saves the most useful ones.
@@ -8,11 +10,12 @@
 - **Social feed:** posts with a title, description, subject, level, tags and attachments.
 - **Uploads of any file type:** PDF, Word, slides, spreadsheets, archives, audio, images and video. Up to 10 files per post, 100 MB each.
 - **Media:** image grid with a full-screen lightbox, inline video and audio players, and file cards with open/download.
-- **Interactions:** five reactions (👍 ❤️ 💡 🙏 🤯), comments, 1–5 star ratings, save to collection, and share (native share sheet or copy link).
+- **Interactions:** five reactions, comments, 1–5 star ratings, save to collection, and share (native share sheet or copy link).
 - **Discovery:** live search, sorting (latest / top rated / most discussed), and filters for subject, level and content type. All of it is stored in the URL, so filtered views can be shared.
 - **Profiles:** bio, school, field, country and stats, plus a private "Saved" tab.
 - **Settings:** edit profile and avatar, change password, delete account, and theme.
-- **Light, dark and system themes**, with no flash on load.
+- **Brand theme from the logo:** book-cover green, bookmark teal, cream notebook pages, in light, dark and system modes with no flash on load.
+- **Custom reaction icons** (Like, Love, Insightful, Helpful, Wow) with a burst animation, plus bookmark-drop, star-pop, staggered feed and page transitions. All motion respects reduced-motion settings.
 - Mobile-first layout with a bottom navigation bar, accessible forms, keyboard support and reduced-motion support.
 
 ## Tech stack

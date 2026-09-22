@@ -10,13 +10,12 @@ const sizes = {
 
 /** Stable, restrained hues so each student gets a recognisable colour. */
 const palette = [
-  "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/60 dark:text-indigo-100",
-  "bg-sky-100 text-sky-800 dark:bg-sky-900/60 dark:text-sky-100",
-  "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-100",
-  "bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-100",
-  "bg-rose-100 text-rose-800 dark:bg-rose-900/60 dark:text-rose-100",
-  "bg-violet-100 text-violet-800 dark:bg-violet-900/60 dark:text-violet-100",
-  "bg-teal-100 text-teal-800 dark:bg-teal-900/60 dark:text-teal-100",
+  "bg-[#e3ecd9] text-[#3f5a2c] dark:bg-[#34452a] dark:text-[#d7e6c7]",
+  "bg-[#d9eaee] text-[#2c5f6b] dark:bg-[#23414a] dark:text-[#cde6ec]",
+  "bg-[#f6e3c9] text-[#7a4f1d] dark:bg-[#4a3620] dark:text-[#f3dcbc]",
+  "bg-[#f3dccf] text-[#8a3f22] dark:bg-[#4d2c20] dark:text-[#f2d2c2]",
+  "bg-[#ece5cf] text-[#5c5226] dark:bg-[#403a22] dark:text-[#e9e0c2]",
+  "bg-[#f1d9d9] text-[#8a3a3a] dark:bg-[#4a2626] dark:text-[#f0d0d0]",
 ];
 
 function colorFor(id: string): string {

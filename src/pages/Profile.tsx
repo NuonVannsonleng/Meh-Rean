@@ -47,9 +47,11 @@ function ProfileHeader({ profile, isOwn }: { profile: ProfileView; isOwn: boolea
 
   return (
     <section className="card animate-rise overflow-hidden">
-      <div className="bg-brand-50 h-24 sm:h-32" aria-hidden="true" />
+      <div className="bg-brand-50 ruled-paper relative h-24 sm:h-32" aria-hidden="true">
+        <span className="bg-logo-ribbon animate-ribbon absolute top-0 right-6 h-14 w-5 [clip-path:polygon(0_0,100%_0,100%_100%,50%_80%,0_100%)] sm:right-10 sm:h-20 sm:w-7" />
+      </div>
       <div className="px-4 pb-5 sm:px-6">
-        <div className="-mt-12 flex items-end justify-between gap-3 sm:-mt-14">
+        <div className="relative z-10 -mt-12 flex items-end justify-between gap-3 sm:-mt-14">
           <Avatar user={user} size="xl" className="ring-surface ring-4" />
           {isOwn && (
             <Link to="/settings" className="btn-secondary h-10">
@@ -58,7 +60,7 @@ function ProfileHeader({ profile, isOwn }: { profile: ProfileView; isOwn: boolea
             </Link>
           )}
         </div>
-        <h1 className="text-ink-900 mt-3 text-2xl font-bold tracking-tight">{user.displayName}</h1>
+        <h1 className="text-ink-900 mt-3 text-2xl font-display font-extrabold tracking-tight">{user.displayName}</h1>
         <p className="text-ink-500">@{user.username}</p>
         {user.bio && <p className="text-ink-700 mt-3 max-w-2xl whitespace-pre-line">{user.bio}</p>}
 
@@ -209,10 +211,11 @@ export default function Profile() {
         />
       ) : (
         <div className="space-y-4">
-          {posts.map((post) => (
+          {posts.map((post, index) => (
             <PostCard
               key={`${post.id}-${user?.id ?? "guest"}`}
               post={post}
+              index={index}
               onChange={(next) => {
                 if (tab === "saved" && !next.saved) {
                   setPosts((current) => current?.filter((item) => item.id !== next.id) ?? null);

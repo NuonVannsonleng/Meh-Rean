@@ -32,12 +32,6 @@ export const UserIcon = createIcon(<><circle cx="12" cy="8" r="3.5" /><path d="M
 export const DownloadIcon = createIcon(<><path d="M12 4v10" /><path d="m8 11 4 4 4-4" /><path d="M5 19h14" /></>);
 export const UploadIcon = createIcon(<><path d="M12 20V10" /><path d="m8 13 4-4 4 4" /><path d="M5 5h14" /></>);
 export const ExternalLinkIcon = createIcon(<><path d="M14 5h5v5" /><path d="M19 5 10 14" /><path d="M18 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4" /></>);
-export const LogoIcon = createIcon(
-  <>
-    <path d="M12 6.5A2.5 2.5 0 0 0 9.5 4H4v13h5.5a2.5 2.5 0 0 1 2.5 2.5" />
-    <path d="M12 6.5A2.5 2.5 0 0 1 14.5 4H20v13h-5.5a2.5 2.5 0 0 0-2.5 2.5" />
-  </>,
-);
 export const AlertIcon = createIcon(<><circle cx="12" cy="12" r="9" /><path d="M12 7.5v5.5" /><path d="M12 16.5h.01" /></>);
 export const CheckIcon = createIcon(<path d="m5 12.5 4.5 4.5L19 7.5" />);
 export const PlusIcon = createIcon(<path d="M12 5v14M5 12h14" />);

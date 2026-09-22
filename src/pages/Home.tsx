@@ -65,9 +65,9 @@ function Composer() {
   }
 
   const quick = [
-    { Icon: ImageIcon, label: t.feed.media.images, tone: "text-teal-600 dark:text-teal-400" },
-    { Icon: VideoIcon, label: t.feed.media.videos, tone: "text-rose-600 dark:text-rose-400" },
-    { Icon: FileTextIcon, label: t.feed.media.documents, tone: "text-amber-600 dark:text-amber-400" },
+    { Icon: ImageIcon, label: t.feed.media.images, tone: "text-ribbon-fg" },
+    { Icon: VideoIcon, label: t.feed.media.videos, tone: "text-react-wow" },
+    { Icon: FileTextIcon, label: t.feed.media.documents, tone: "text-accent" },
   ];
 
   return (
@@ -173,10 +173,16 @@ export default function Home() {
   return (
     <div className="container-page py-6 sm:py-10">
       {!user && (
-        <section className="animate-rise mb-8 max-w-2xl">
-          <p className="text-accent mb-2 text-sm font-semibold tracking-wide uppercase">{t.common.tagline}</p>
-          <h1 className="text-ink-900 text-3xl leading-tight font-bold tracking-tight sm:text-4xl">{t.feed.title}</h1>
-          <p className="text-ink-500 mt-3 text-base sm:text-lg">{t.feed.subtitle}</p>
+        <section className="card ruled-paper animate-rise relative mb-8 overflow-hidden px-5 py-8 sm:px-10 sm:py-12">
+          <span
+            aria-hidden="true"
+            className="bg-logo-ribbon animate-ribbon absolute top-0 right-5 h-16 w-6 [animation-delay:200ms] [clip-path:polygon(0_0,100%_0,100%_100%,50%_80%,0_100%)] sm:right-12 sm:h-28 sm:w-9"
+          />
+          <div className="max-w-2xl pr-8 sm:pr-16">
+            <p className="text-accent mb-3 text-sm font-semibold tracking-wide uppercase">{t.common.tagline}</p>
+            <h1 className="text-ink-900 text-3xl leading-[1.05] sm:text-5xl">{t.feed.title}</h1>
+            <p className="text-ink-700 mt-4 text-base sm:text-lg">{t.feed.subtitle}</p>
+          </div>
         </section>
       )}
       {user && <h1 className="sr-only">{t.nav.feed}</h1>}
@@ -261,10 +267,11 @@ export default function Home() {
               className={`space-y-4 transition-opacity duration-200 ${refreshing ? "opacity-60" : ""}`}
               aria-busy={refreshing}
             >
-              {posts.map((post) => (
+              {posts.map((post, index) => (
                 <PostCard
                   key={`${post.id}-${user?.id ?? "guest"}`}
                   post={post}
+                  index={index}
                   onDeleted={(id) => setPosts((current) => current?.filter((item) => item.id !== id) ?? null)}
                 />
               ))}

@@ -2,77 +2,114 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---- Design tokens (light) ---- */
+/* ---- Design tokens (light) — drawn from the Meh Rean logo ----
+   green cover #5b7c42 · teal bookmark #428a9b · cream pages #faf3e4 · orange page rules */
 @theme {
   --font-sans:
     "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji";
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-display: "Archivo", "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, sans-serif;
 
-  /* Primary accent — deep indigo */
-  --color-brand-50: oklch(0.97 0.014 275);
-  --color-brand-100: oklch(0.93 0.032 275);
-  --color-brand-200: oklch(0.87 0.06 275);
-  --color-brand-300: oklch(0.78 0.1 275);
-  --color-brand-400: oklch(0.67 0.15 275);
-  --color-brand-500: oklch(0.58 0.19 275);
-  --color-brand-600: oklch(0.51 0.2 275);
-  --color-brand-700: oklch(0.44 0.18 275);
-  --color-brand-800: oklch(0.37 0.145 275);
+  /* Primary — book-cover green */
+  --color-brand-50: oklch(0.965 0.022 128);
+  --color-brand-100: oklch(0.93 0.04 128);
+  --color-brand-200: oklch(0.87 0.06 130);
+  --color-brand-300: oklch(0.78 0.08 131);
+  --color-brand-400: oklch(0.67 0.09 132);
+  --color-brand-500: oklch(0.59 0.092 132);
+  --color-brand-600: oklch(0.536 0.09 132);
+  --color-brand-700: oklch(0.47 0.082 133);
+  --color-brand-800: oklch(0.4 0.07 134);
 
-  /* Accent used for text/links on neutral or soft-brand surfaces */
-  --color-accent: oklch(0.46 0.19 275);
+  /* Text/link accent on neutral or soft-green surfaces */
+  --color-accent: oklch(0.45 0.085 133);
 
-  /* Neutrals */
-  --color-ink-900: oklch(0.22 0.012 265);
-  --color-ink-700: oklch(0.38 0.012 265);
-  --color-ink-500: oklch(0.52 0.012 265);
-  --color-ink-400: oklch(0.64 0.012 265);
-  --color-surface: oklch(1 0 0);
-  --color-surface-muted: oklch(0.975 0.004 265);
-  --color-surface-hover: oklch(0.955 0.005 265);
-  --color-line: oklch(0.92 0.005 265);
+  /* Secondary — bookmark teal (saved state, highlights) */
+  --color-ribbon-50: oklch(0.96 0.02 215);
+  --color-ribbon-100: oklch(0.92 0.035 215);
+  --color-ribbon-500: oklch(0.586 0.075 215);
+  --color-ribbon-600: oklch(0.52 0.075 215);
+  --color-ribbon-fg: oklch(0.48 0.075 215);
 
-  --color-danger-bg: oklch(0.97 0.025 25);
-  --color-danger-fg: oklch(0.52 0.19 25);
-  --color-success-bg: oklch(0.96 0.05 150);
-  --color-success-fg: oklch(0.45 0.12 155);
-  --color-star: oklch(0.78 0.16 75);
+  /* Logo artwork */
+  --color-logo-cover: #5b7c42;
+  --color-logo-page: #faf3e4;
+  --color-logo-ribbon: #428a9b;
+
+  /* Orange page rules from the logo — decoration only */
+  --color-rule: oklch(0.83 0.075 65);
+
+  /* Warm paper neutrals */
+  --color-ink-900: oklch(0.26 0.025 135);
+  --color-ink-700: oklch(0.4 0.02 125);
+  --color-ink-500: oklch(0.52 0.018 105);
+  --color-ink-400: oklch(0.64 0.016 95);
+  --color-surface: oklch(0.995 0.005 90);
+  --color-surface-muted: oklch(0.972 0.016 86);
+  --color-surface-hover: oklch(0.95 0.018 86);
+  --color-line: oklch(0.905 0.02 85);
+
+  --color-danger-bg: oklch(0.965 0.025 30);
+  --color-danger-fg: oklch(0.52 0.16 30);
+  --color-success-bg: oklch(0.96 0.04 135);
+  --color-success-fg: oklch(0.45 0.09 135);
+  --color-star: oklch(0.77 0.14 70);
+
+  /* Reaction badges */
+  --color-react-like: oklch(0.536 0.09 132);
+  --color-react-love: oklch(0.6 0.16 22);
+  --color-react-insightful: oklch(0.72 0.14 70);
+  --color-react-thanks: oklch(0.586 0.075 215);
+  --color-react-wow: oklch(0.64 0.13 45);
 
   /* Motion — one vocabulary for the whole app */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --duration-fast: 150ms;
   --duration-base: 220ms;
-  --duration-slow: 380ms;
+  --duration-slow: 420ms;
 }
 
-/* ---- Dark tokens: same names, so every component adapts automatically ---- */
+/* ---- Dark tokens: evening study desk — deep green-charcoal, cream ink ---- */
 :root.dark {
   color-scheme: dark;
 
-  --color-brand-50: oklch(0.29 0.07 275);
-  --color-brand-100: oklch(0.34 0.09 275);
-  --color-brand-200: oklch(0.4 0.11 275);
-  --color-brand-300: oklch(0.52 0.14 275);
-  --color-brand-600: oklch(0.56 0.2 275);
-  --color-brand-700: oklch(0.5 0.19 275);
-  --color-brand-800: oklch(0.44 0.17 275);
-  --color-accent: oklch(0.8 0.11 275);
+  --color-brand-50: oklch(0.29 0.04 133);
+  --color-brand-100: oklch(0.34 0.05 133);
+  --color-brand-200: oklch(0.41 0.065 133);
+  --color-brand-300: oklch(0.52 0.08 133);
+  --color-brand-600: oklch(0.54 0.095 132);
+  --color-brand-700: oklch(0.49 0.09 132);
+  --color-brand-800: oklch(0.44 0.08 133);
+  --color-accent: oklch(0.8 0.1 130);
 
-  --color-ink-900: oklch(0.96 0.004 265);
-  --color-ink-700: oklch(0.85 0.008 265);
-  --color-ink-500: oklch(0.72 0.01 265);
-  --color-ink-400: oklch(0.6 0.012 265);
-  --color-surface: oklch(0.215 0.008 265);
-  --color-surface-muted: oklch(0.17 0.006 265);
-  --color-surface-hover: oklch(0.26 0.009 265);
-  --color-line: oklch(0.3 0.01 265);
+  --color-ribbon-50: oklch(0.29 0.035 215);
+  --color-ribbon-100: oklch(0.34 0.045 215);
+  --color-ribbon-fg: oklch(0.78 0.075 212);
 
-  --color-danger-bg: oklch(0.3 0.07 25);
-  --color-danger-fg: oklch(0.78 0.13 25);
-  --color-success-bg: oklch(0.3 0.06 155);
-  --color-success-fg: oklch(0.8 0.13 155);
+  --color-rule: oklch(0.55 0.07 65);
+
+  --color-logo-cover: oklch(0.72 0.1 131);
+  --color-logo-page: oklch(0.94 0.022 85);
+  --color-logo-ribbon: oklch(0.68 0.08 212);
+
+  --color-ink-900: oklch(0.95 0.014 88);
+  --color-ink-700: oklch(0.85 0.016 88);
+  --color-ink-500: oklch(0.72 0.016 95);
+  --color-ink-400: oklch(0.6 0.016 105);
+  --color-surface: oklch(0.225 0.014 140);
+  --color-surface-muted: oklch(0.175 0.012 140);
+  --color-surface-hover: oklch(0.27 0.016 140);
+  --color-line: oklch(0.32 0.018 140);
+
+  --color-danger-bg: oklch(0.3 0.06 30);
+  --color-danger-fg: oklch(0.78 0.12 30);
+  --color-success-bg: oklch(0.3 0.05 135);
+  --color-success-fg: oklch(0.8 0.1 135);
+
+  --color-react-like: oklch(0.64 0.1 132);
+  --color-react-love: oklch(0.66 0.15 22);
+  --color-react-thanks: oklch(0.66 0.08 212);
 }
 
 @layer base {
@@ -97,6 +134,12 @@
   h2,
   h3 {
     @apply text-balance;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
   }
 
   h1,
@@ -215,6 +258,159 @@
 
 @utility link {
   @apply text-accent rounded font-semibold underline-offset-4 hover:underline;
+}
+
+@utility animate-page {
+  animation: page-in var(--duration-slow) var(--ease-out-soft) both;
+}
+
+@utility animate-react {
+  animation: react-pop 520ms var(--ease-spring) both;
+}
+
+@utility animate-ribbon {
+  transform-origin: top;
+  animation: ribbon-drop 560ms var(--ease-spring) both;
+}
+
+/* Lined notebook paper, echoing the page rules in the logo */
+@utility ruled-paper {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 31px,
+    color-mix(in oklch, var(--color-rule) 40%, transparent) 31px 32px
+  );
+}
+
+/* Reaction burst: a soft ring plus six sparks flying out */
+.reaction-burst {
+  pointer-events: none;
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 0;
+  height: 0;
+}
+
+.reaction-burst::before {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: -16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: 2px solid var(--burst-color, var(--color-brand-500));
+  animation: burst-ring 520ms var(--ease-out-soft) both;
+}
+
+.reaction-burst > span {
+  position: absolute;
+  left: -2.5px;
+  top: -2.5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: var(--burst-color, var(--color-brand-500));
+  animation: burst-spark 560ms var(--ease-out-soft) both;
+}
+
+/* Logo: books slide onto the stack, then the bookmark drops in */
+.logo-animate .logo-book {
+  transform-box: fill-box;
+  animation: book-in 520ms var(--ease-out-soft) both;
+}
+
+.logo-animate .logo-book:nth-of-type(2) {
+  animation-delay: 90ms;
+}
+
+.logo-animate .logo-book:nth-of-type(3) {
+  animation-delay: 180ms;
+}
+
+.logo-animate .logo-ribbon {
+  transform-box: fill-box;
+  transform-origin: top;
+  animation: ribbon-drop 620ms var(--ease-spring) 380ms both;
+}
+
+.logo-hover .logo-ribbon {
+  transform-box: fill-box;
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+
+.logo-hover:hover .logo-ribbon {
+  transform: translateY(8%);
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes react-pop {
+  0% {
+    transform: scale(0.3);
+  }
+  55% {
+    transform: scale(1.28);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes ribbon-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-35%) scaleY(0.5);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes book-in {
+  from {
+    opacity: 0;
+    transform: translateX(-18%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes burst-ring {
+  from {
+    opacity: 0.7;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+
+@keyframes burst-spark {
+  from {
+    opacity: 1;
+    transform: rotate(var(--a)) translateY(-6px) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(-24px) scale(0.4);
+  }
 }
 
 @keyframes rise {

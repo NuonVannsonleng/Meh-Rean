@@ -7,7 +7,7 @@ export default function NotFound() {
       <p className="text-accent animate-pop text-5xl font-bold tracking-tight sm:text-6xl">
         {t.notFound.code}
       </p>
-      <h1 className="text-ink-900 animate-rise mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
+      <h1 className="text-ink-900 animate-rise mt-4 text-2xl font-display font-extrabold tracking-tight sm:text-3xl">
         {t.notFound.title}
       </h1>
       <p className="text-ink-500 mt-2 max-w-sm text-sm sm:text-base">

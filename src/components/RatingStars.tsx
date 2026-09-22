@@ -30,7 +30,9 @@ export function RatingInput({ value, disabled, onRate }: RatingInputProps) {
             className="press flex h-11 w-10 items-center justify-center rounded-lg disabled:opacity-60"
           >
             {star <= shown ? (
-              <StarFilledIcon className="text-star h-7 w-7" />
+              <span className="animate-react flex" style={{ animationDelay: hover === null ? `${star * 45}ms` : "0ms" }}>
+                <StarFilledIcon className="text-star h-7 w-7" />
+              </span>
             ) : (
               <StarIcon className="text-ink-400 h-7 w-7" />
             )}

@@ -26,9 +26,12 @@ import {
 import PostAttachments from "./PostAttachments";
 import { RatingInput } from "./RatingStars";
 import ReactionButton from "./ReactionButton";
+import ReactionIcon from "./ReactionIcon";
 
 interface PostCardProps {
   post: PostView;
+  /** Position in a list, used to stagger the entrance animation. */
+  index?: number;
   variant?: "feed" | "detail";
   onChange?: (post: PostView) => void;
   onDeleted?: (id: string) => void;
@@ -111,14 +114,14 @@ function TopReactions({ post }: { post: PostView }) {
 
   return (
     <span className="flex items-center gap-1.5" title={t.post.reactions(post.reactions.total)}>
-      <span className="flex -space-x-1" aria-hidden="true">
+      <span className="flex -space-x-1.5" aria-hidden="true">
         {top.map((type) => (
-          <span
+          <ReactionIcon
             key={type}
-            className="bg-surface ring-surface flex h-5 w-5 items-center justify-center rounded-full text-xs ring-2"
-          >
-            {t.reactions[type].emoji}
-          </span>
+            type={type}
+            className="ring-surface animate-pop h-5 w-5 ring-2"
+            glyphClassName="h-3 w-3"
+          />
         ))}
       </span>
       <span className="sr-only">{t.post.reactions(post.reactions.total)}</span>
@@ -127,7 +130,7 @@ function TopReactions({ post }: { post: PostView }) {
   );
 }
 
-export default function PostCard({ post: initial, variant = "feed", onChange, onDeleted }: PostCardProps) {
+export default function PostCard({ post: initial, index = 0, variant = "feed", onChange, onDeleted }: PostCardProps) {
   const { user } = useAuth();
   const { notify } = useToast();
   const requireAuth = useRequireAuth();
@@ -219,7 +222,10 @@ export default function PostCard({ post: initial, variant = "feed", onChange, on
   const ratingText = post.rating.count > 0 ? post.rating.average.toFixed(1) : null;
 
   return (
-    <article className="card animate-rise overflow-visible">
+    <article
+      className="card animate-rise hover:border-brand-200 overflow-visible transition-[border-color,box-shadow] duration-300 hover:shadow-md"
+      style={{ animationDelay: `${Math.min(index, 6) * 60}ms` }}
+    >
       {/* Header */}
       <header className="flex items-start gap-3 px-4 pt-4 sm:px-5 sm:pt-5">
         <Link to={`/u/${post.author.username}`} tabIndex={-1} aria-hidden="true" className="rounded-full">
@@ -354,10 +360,10 @@ export default function PostCard({ post: initial, variant = "feed", onChange, on
           disabled={pending}
           aria-pressed={post.saved}
           aria-label={post.saved ? t.post.saved : t.post.save}
-          className={`${actionClass} ${post.saved ? "text-accent" : ""}`}
+          className={`${actionClass} ${post.saved ? "text-ribbon-fg" : ""}`}
         >
           {post.saved ? (
-            <BookmarkFilledIcon className="animate-pop h-4.5 w-4.5" />
+            <BookmarkFilledIcon className="animate-ribbon h-4.5 w-4.5" />
           ) : (
             <BookmarkIcon className="h-4.5 w-4.5" />
           )}

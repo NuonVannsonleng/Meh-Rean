@@ -30,7 +30,7 @@ export default function App() {
 
       <Navbar />
 
-      <main id="main" key={pathname} className="animate-fade flex-1 pb-20 sm:pb-0">
+      <main id="main" key={pathname} className="animate-page flex-1 pb-20 sm:pb-0">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/post/:id" element={<PostDetail />} />

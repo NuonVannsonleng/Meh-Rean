@@ -374,7 +374,7 @@ export default function Settings() {
   return (
     <div className="container-page max-w-5xl py-6 sm:py-10">
       <header className="mb-6">
-        <h1 className="text-ink-900 text-2xl font-bold tracking-tight sm:text-3xl">{t.settings.title}</h1>
+        <h1 className="text-ink-900 text-2xl font-display font-extrabold tracking-tight sm:text-3xl">{t.settings.title}</h1>
         <p className="text-ink-500 mt-2">{t.settings.subtitle}</p>
       </header>
 

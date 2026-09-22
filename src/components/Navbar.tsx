@@ -2,7 +2,8 @@ import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 import Avatar from "./Avatar";
-import { BookmarkIcon, HomeIcon, LogoIcon, PlusIcon, UserIcon } from "./Icons";
+import { BookmarkIcon, HomeIcon, PlusIcon, UserIcon } from "./Icons";
+import Logo from "./Logo";
 import UserMenu from "./UserMenu";
 
 const desktopLink = ({ isActive }: { isActive: boolean }) =>
@@ -25,12 +26,9 @@ export default function Navbar() {
           <Link
             to="/"
             aria-label={t.nav.logoAria}
-            className="text-ink-900 group flex items-center gap-2 rounded-lg text-lg font-bold tracking-tight"
+            className="rounded-lg"
           >
-            <span className="bg-brand-600 group-hover:bg-brand-700 flex h-8 w-8 items-center justify-center rounded-lg text-white transition-[background-color,transform] duration-200 group-hover:-rotate-6">
-              <LogoIcon className="h-4.5 w-4.5" />
-            </span>
-            <span>{t.common.appName}</span>
+            <Logo />
           </Link>
 
           <nav aria-label={t.nav.label} className="hidden sm:block">

@@ -79,12 +79,12 @@ export const en = {
     "self-study": "Self-study",
   } satisfies Record<EducationLevel, string>,
   reactions: {
-    like: { label: "Like", emoji: "👍" },
-    love: { label: "Love", emoji: "❤️" },
-    insightful: { label: "Insightful", emoji: "💡" },
-    thanks: { label: "Thanks", emoji: "🙏" },
-    wow: { label: "Wow", emoji: "🤯" },
-  } satisfies Record<ReactionType, { label: string; emoji: string }>,
+    like: "Like",
+    love: "Love",
+    insightful: "Insightful",
+    thanks: "Helpful",
+    wow: "Wow",
+  } satisfies Record<ReactionType, string>,
   feed: {
     title: "Learn from students everywhere.",
     subtitle:
