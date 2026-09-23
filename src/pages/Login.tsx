@@ -5,9 +5,9 @@ import { TextField } from "../components/FormField";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { t } from "../i18n/en";
-import { errorMessage } from "../lib/errors";
+import { errorCode, errorMessage } from "../lib/errors";
 import { safeNext } from "../lib/validation";
-import { DEMO_ACCOUNT, isLocalMode } from "../services/api";
+import { DEMO_ACCOUNT, isLocalMode, resendConfirmation } from "../services/api";
 
 interface LoginErrors {
   identifier?: string;
@@ -26,6 +26,8 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<LoginErrors>({});
   const [submitting, setSubmitting] = useState(false);
+  const [unconfirmed, setUnconfirmed] = useState(false);
+  const [resending, setResending] = useState(false);
 
   if (user && !submitting) return <Navigate to={next} replace />;
 
@@ -43,6 +45,7 @@ export default function Login() {
       notify(t.auth.welcomeBack(signedIn.displayName.split(" ")[0]));
       navigate(next, { replace: true });
     } catch (error) {
+      setUnconfirmed(errorCode(error) === "EMAIL_NOT_CONFIRMED");
       setErrors({ submit: errorMessage(error) });
       setSubmitting(false);
     }
@@ -84,9 +87,30 @@ export default function Login() {
         />
 
         {errors.submit && (
-          <p role="alert" className="bg-danger-bg text-danger-fg animate-fade rounded-xl px-4 py-3 text-sm font-medium">
-            {errors.submit}
-          </p>
+          <div role="alert" className="bg-danger-bg text-danger-fg animate-fade rounded-xl px-4 py-3 text-sm font-medium">
+            <p>{errors.submit}</p>
+            {unconfirmed && (
+              <button
+                type="button"
+                disabled={resending}
+                onClick={async () => {
+                  setResending(true);
+                  try {
+                    await resendConfirmation(identifier);
+                    notify(t.auth.resent);
+                    setUnconfirmed(false);
+                  } catch (error) {
+                    setErrors({ submit: errorMessage(error) });
+                  } finally {
+                    setResending(false);
+                  }
+                }}
+                className="mt-2 font-semibold underline underline-offset-4"
+              >
+                {resending ? t.auth.resending : t.auth.resend}
+              </button>
+            )}
+          </div>
         )}
 
         <button type="submit" disabled={submitting} className="btn-primary w-full">

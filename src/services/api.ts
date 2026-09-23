@@ -24,6 +24,7 @@ export const {
   signUp,
   signIn,
   signOut,
+  resendConfirmation,
   updateProfile,
   changePassword,
   deleteAccount,

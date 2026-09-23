@@ -280,6 +280,9 @@ export const en = {
     demoTitle: "Just exploring?",
     demoBody: (email: string, password: string) => `Use the demo account: ${email} / ${password}`,
     demoAction: "Fill in demo account",
+    resend: "Resend confirmation email",
+    resending: "Sending…",
+    resent: "Confirmation email sent",
     welcome: (name: string) => `Welcome, ${name}!`,
     welcomeBack: (name: string) => `Welcome back, ${name}!`,
     localNotice: "Accounts are stored in this browser until the Meh Rean server launches.",
@@ -419,6 +422,7 @@ export const en = {
     TOO_MANY_FILES: "You can attach up to 10 files per post.",
     ALREADY_REQUESTED: "You already have a verification request waiting for review.",
     EMAIL_CONFIRMATION: "Almost there — check your email for a confirmation link, then sign in.",
+    EMAIL_NOT_CONFIRMED: "This email hasn't been confirmed yet. Check your inbox (and spam) for the link.",
     STORAGE_FULL: "Your browser's storage is full. Try smaller files or delete old posts.",
   } satisfies Record<ApiErrorCode, string>,
   error: {

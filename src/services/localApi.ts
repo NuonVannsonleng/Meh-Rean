@@ -220,6 +220,11 @@ export async function signIn(input: SignInInput): Promise<User> {
   return toUser(record);
 }
 
+/** Browser-only mode never sends email, so there is nothing to resend. */
+export async function resendConfirmation(_email: string): Promise<void> {
+  await delay(100);
+}
+
 export async function signOut(): Promise<void> {
   await delay(150);
   setSessionUserId(null);

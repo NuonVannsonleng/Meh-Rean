@@ -272,6 +272,7 @@ export type ApiErrorCode =
   | "FILE_TOO_LARGE"
   | "TOO_MANY_FILES"
   | "EMAIL_CONFIRMATION"
+  | "EMAIL_NOT_CONFIRMED"
   | "ALREADY_REQUESTED"
   | "STORAGE_FULL";
 

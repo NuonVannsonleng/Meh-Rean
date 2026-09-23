@@ -92,6 +92,7 @@ function fail(error: PostgrestError | { message: string; code?: string } | null)
   if (code === "PGRST116") throw new ApiError("NOT_FOUND", 404);
   if (code === "42501" || message.includes("row-level security")) throw new ApiError("FORBIDDEN", 403);
   if (/invalid login credentials/i.test(message)) throw new ApiError("INVALID_CREDENTIALS", 401);
+  if (/email not confirmed|not confirmed/i.test(message)) throw new ApiError("EMAIL_NOT_CONFIRMED", 403);
   if (/already registered|already been registered/i.test(message)) throw new ApiError("EMAIL_TAKEN", 409);
   if (/database error saving new user/i.test(message)) throw new ApiError("USERNAME_TAKEN", 409);
   if (/exceeded the maximum allowed size|payload too large/i.test(message)) throw new ApiError("FILE_TOO_LARGE", 413);
@@ -221,6 +222,12 @@ export async function signIn(input: SignInInput): Promise<User> {
   const user = await currentUser();
   if (!user) throw new ApiError("UNKNOWN", 500);
   return user;
+}
+
+/** Sends the confirmation link again for an address that signed up but never confirmed. */
+export async function resendConfirmation(email: string): Promise<void> {
+  const { error } = await supabase.auth.resend({ type: "signup", email: email.trim() });
+  if (error) fail(error);
 }
 
 export async function signOut(): Promise<void> {
