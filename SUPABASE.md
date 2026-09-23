@@ -38,14 +38,17 @@ It is safe to run again later if you change something.
 
 ## 3. Copy your keys
 
-1. Open **Project Settings → API keys** (or **Data API**).
+1. Open **Project Settings → API keys**.
 2. Copy two values:
-   - **Project URL**, which looks like `https://abcdefghijkl.supabase.co`
-   - **anon public** key (a long text string)
+   - **Project URL** — `https://<your-project-ref>.supabase.co`. The project ref
+     is the code in your dashboard address, e.g.
+     `supabase.com/dashboard/project/abcdefghijkl`.
+   - The browser-safe key: **Publishable key**, starting `sb_publishable_…`
+     (older projects call this the **anon public** key instead).
 
-> **Only ever use the `anon public` key in this app.** It is meant to be public
-> and is protected by the security rules from step 2. Never put the
-> `service_role` key in the app or in GitHub — it bypasses all security.
+> **Never use the Secret key** (`sb_secret_…`, previously `service_role`) in the
+> app or in GitHub — it bypasses every security rule. The publishable key is
+> meant to be public and is protected by the rules from step 2.
 
 ## 4. Point the app at your project
 
@@ -53,7 +56,7 @@ In the project folder, create a file named `.env.local` next to `package.json`:
 
 ```bash
 VITE_SUPABASE_URL=https://abcdefghijkl.supabase.co
-VITE_SUPABASE_ANON_KEY=paste-your-anon-public-key-here
+VITE_SUPABASE_ANON_KEY=sb_publishable_your-key-here
 ```
 
 There is an example to copy in [`.env.example`](.env.example). `.env.local` is

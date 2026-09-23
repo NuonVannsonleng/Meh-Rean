@@ -1,7 +1,9 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 const url = import.meta.env.VITE_SUPABASE_URL?.trim();
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim();
+// Supabase renamed the browser-safe key: "anon public" is now "publishable".
+// Either variable name works.
+const anonKey = (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? import.meta.env.VITE_SUPABASE_ANON_KEY)?.trim();
 
 /** True once both env vars are set; otherwise the app stays in browser-only mode. */
 export const isSupabaseConfigured = Boolean(url && anonKey);
