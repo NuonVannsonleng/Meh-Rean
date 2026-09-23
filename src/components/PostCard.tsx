@@ -27,6 +27,7 @@ import PostAttachments from "./PostAttachments";
 import { RatingInput } from "./RatingStars";
 import ReactionButton from "./ReactionButton";
 import ReactionIcon from "./ReactionIcon";
+import VerifiedBadge from "./VerifiedBadge";
 
 interface PostCardProps {
   post: PostView;
@@ -236,6 +237,7 @@ export default function PostCard({ post: initial, index = 0, variant = "feed", o
             <Link to={`/u/${post.author.username}`} className="touch-target text-ink-900 font-semibold hover:underline">
               {post.author.displayName}
             </Link>
+            {post.author.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
             <span className="text-ink-500">@{post.author.username}</span>
           </p>
           <p className="text-ink-500 truncate text-xs sm:text-sm">

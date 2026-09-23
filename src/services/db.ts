@@ -3,13 +3,21 @@ import {
   DEMO_USER_ID,
   seedComments,
   seedEmails,
+  seedFollows,
   seedPosts,
   seedRatings,
   seedReactions,
   seedSaves,
   seedUsers,
 } from "../data/mock";
-import { ApiError, type Comment, type Post, type ReactionType, type User } from "../types";
+import {
+  ApiError,
+  type Comment,
+  type Post,
+  type ReactionType,
+  type User,
+  type VerificationStatus,
+} from "../types";
 
 /**
  * A tiny in-browser "database" persisted to localStorage. It stands in for the
@@ -19,6 +27,22 @@ import { ApiError, type Comment, type Post, type ReactionType, type User } from 
 export interface UserRecord extends User {
   passwordHash: string;
   salt: string;
+}
+
+export interface FollowRecord {
+  followerId: string;
+  followingId: string;
+  createdAt: string;
+}
+
+export interface VerificationRecord {
+  id: string;
+  userId: string;
+  reason: string;
+  link: string;
+  status: Exclude<VerificationStatus, "none">;
+  createdAt: string;
+  decidedAt: string | null;
 }
 
 export interface ReactionRecord {
@@ -39,16 +63,18 @@ export interface SaveRecord {
 }
 
 export interface DbState {
-  version: 1;
+  version: 2;
   users: UserRecord[];
   posts: Post[];
   comments: Comment[];
   reactions: ReactionRecord[];
   ratings: RatingRecord[];
   saves: SaveRecord[];
+  follows: FollowRecord[];
+  verifications: VerificationRecord[];
 }
 
-const DB_KEY = "meh-rean:db:v1";
+const DB_KEY = "meh-rean:db:v2";
 const SESSION_KEY = "meh-rean:session";
 
 // ---- Password hashing (PBKDF2 via Web Crypto) ----
@@ -110,6 +136,8 @@ async function createSeedState(): Promise<DbState> {
   const users: UserRecord[] = seedUsers.map((user) => ({
     ...user,
     email: seedEmails[user.id],
+    // The demo account reviews verification requests in browser-only mode.
+    isAdmin: user.id === DEMO_USER_ID,
     // Only the demo account can sign in; other seed users are sample authors.
     passwordHash: user.id === DEMO_USER_ID ? demoHash : "",
     salt: user.id === DEMO_USER_ID ? salt : "",
@@ -125,14 +153,20 @@ async function createSeedState(): Promise<DbState> {
     postIds.map((postId) => ({ postId, userId })),
   );
 
+  const follows = Object.entries(seedFollows).flatMap(([followerId, ids]) =>
+    ids.map((followingId) => ({ followerId, followingId, createdAt: "2026-09-01T00:00:00Z" })),
+  );
+
   return {
-    version: 1,
+    version: 2,
     users,
     posts: structuredClone(seedPosts),
     comments: structuredClone(seedComments),
     reactions,
     ratings,
     saves,
+    follows,
+    verifications: [],
   };
 }
 
@@ -141,7 +175,7 @@ function readStored(): DbState | null {
     const raw = localStorage.getItem(DB_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as DbState;
-    return parsed.version === 1 ? parsed : null;
+    return parsed.version === 2 ? parsed : null;
   } catch {
     return null;
   }

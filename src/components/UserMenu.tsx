@@ -8,6 +8,7 @@ import type { User } from "../types";
 import Avatar from "./Avatar";
 import { BookmarkIcon, LogOutIcon, SettingsIcon, UserIcon } from "./Icons";
 import ThemeSwitcher from "./ThemeSwitcher";
+import VerifiedBadge from "./VerifiedBadge";
 
 const itemClass =
   "press text-ink-700 hover:bg-surface-hover hover:text-ink-900 flex h-11 w-full items-center gap-3 rounded-lg px-3 text-sm font-medium";
@@ -51,7 +52,10 @@ export default function UserMenu({ user }: { user: User }) {
           <div className="flex items-center gap-3 px-3 py-2.5">
             <Avatar user={user} />
             <div className="min-w-0">
-              <p className="text-ink-900 truncate text-sm font-semibold">{user.displayName}</p>
+              <p className="text-ink-900 flex items-center gap-1 text-sm font-semibold">
+                <span className="truncate">{user.displayName}</span>
+                {user.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
+              </p>
               <p className="text-ink-500 truncate text-sm">@{user.username}</p>
             </div>
           </div>

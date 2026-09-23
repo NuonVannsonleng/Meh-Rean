@@ -4,6 +4,7 @@ import { t } from "../i18n/en";
 import Avatar from "./Avatar";
 import { BookmarkIcon, HomeIcon, PlusIcon, SettingsIcon, UserIcon } from "./Icons";
 import { LogoMark } from "./Logo";
+import VerifiedBadge from "./VerifiedBadge";
 
 const itemClass = ({ isActive }: { isActive: boolean }) =>
   `press flex h-11 items-center gap-3 rounded-xl px-3 text-[15px] font-medium ${
@@ -26,7 +27,10 @@ export default function SideNav() {
         >
           <Avatar user={user} />
           <span className="min-w-0">
-            <span className="text-ink-900 block truncate text-sm font-semibold">{user.displayName}</span>
+            <span className="text-ink-900 flex items-center gap-1 text-sm font-semibold">
+              <span className="truncate">{user.displayName}</span>
+              {user.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
+            </span>
             <span className="text-ink-500 block truncate text-xs">@{user.username}</span>
           </span>
         </Link>

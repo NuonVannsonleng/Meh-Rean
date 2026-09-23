@@ -96,6 +96,9 @@ const userSeed: UserSeed[] = [
   ["u8", "minh", "Trần Minh", "Hanoi University of Science and Technology", "Vietnam", "Mathematics", "Linear algebra enjoyer. Handwritten notes, always.", "2026-02-02T03:00:00Z"],
 ];
 
+/** Sample verified accounts so the badge is visible in the demo. */
+const VERIFIED_SEED_USERS = new Set(["u2", "u4"]);
+
 export const seedUsers: PublicUser[] = userSeed.map(
   ([id, username, displayName, school, country, fieldOfStudy, bio, createdAt]) => ({
     id,
@@ -106,9 +109,24 @@ export const seedUsers: PublicUser[] = userSeed.map(
     fieldOfStudy,
     bio,
     avatarUrl: null,
+    bannerUrl: null,
+    verified: VERIFIED_SEED_USERS.has(id),
     createdAt,
   }),
 );
+
+/** followerId → the accounts they follow */
+export const seedFollows: Record<string, string[]> = {
+  [DEMO_USER_ID]: ["u1", "u4", "u8"],
+  u1: [DEMO_USER_ID, "u4"],
+  u2: ["u4", "u7"],
+  u3: ["u1"],
+  u4: ["u1", "u8", DEMO_USER_ID],
+  u5: ["u2", "u7"],
+  u6: ["u4", "u2", "u8"],
+  u7: ["u2"],
+  u8: ["u1", "u4"],
+};
 
 export const seedEmails: Record<string, string> = Object.fromEntries(
   seedUsers.map((user) =>

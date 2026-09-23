@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import EmptyState from "../components/EmptyState";
@@ -6,6 +6,8 @@ import ErrorState from "../components/ErrorState";
 import {
   BookmarkIcon,
   CalendarIcon,
+  CameraIcon,
+  CheckIcon,
   FileTextIcon,
   GraduationIcon,
   MapPinIcon,
@@ -13,16 +15,30 @@ import {
   SettingsIcon,
   UserIcon,
 } from "../components/Icons";
+import ImageCropper from "../components/ImageCropper";
 import LoadingState from "../components/LoadingState";
 import PostCard from "../components/PostCard";
+import UserList from "../components/UserList";
+import VerifiedBadge from "../components/VerifiedBadge";
 import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
+import { useRequireAuth } from "../hooks/useRequireAuth";
 import { t } from "../i18n/en";
-import { errorCode } from "../lib/errors";
+import { errorCode, errorMessage } from "../lib/errors";
 import { formatCount, formatDate } from "../lib/format";
-import { getFeed, getProfile } from "../services/api";
-import type { PostView, ProfileView } from "../types";
+import {
+  followUser,
+  getFeed,
+  getFollowers,
+  getFollowing,
+  getProfile,
+  unfollowUser,
+  updateProfile,
+  uploadProfileImage,
+} from "../services/api";
+import type { PostView, ProfileImageKind, ProfileView, PublicUser } from "../types";
 
-type Tab = "posts" | "saved";
+type Tab = "posts" | "saved" | "followers" | "following";
 
 type ProfileState =
   | { status: "loading" }
@@ -30,8 +46,27 @@ type ProfileState =
   | { status: "not-found" }
   | { status: "error" };
 
-function ProfileHeader({ profile, isOwn }: { profile: ProfileView; isOwn: boolean }) {
-  const { user, stats } = profile;
+function ProfileHeader({
+  profile,
+  isOwn,
+  onFollowToggle,
+  onImage,
+  pending,
+  tab,
+  onTab,
+}: {
+  profile: ProfileView;
+  isOwn: boolean;
+  onFollowToggle: () => void;
+  onImage: (file: File, kind: ProfileImageKind) => void;
+  pending: boolean;
+  tab: Tab;
+  onTab: (tab: Tab) => void;
+}) {
+  const { user, stats, isFollowing } = profile;
+  const avatarInput = useRef<HTMLInputElement>(null);
+  const bannerInput = useRef<HTMLInputElement>(null);
+
   const facts = [
     { Icon: GraduationIcon, value: user.school },
     { Icon: FileTextIcon, value: user.fieldOfStudy },
@@ -39,28 +74,77 @@ function ProfileHeader({ profile, isOwn }: { profile: ProfileView; isOwn: boolea
     { Icon: CalendarIcon, value: t.profile.joined(formatDate(user.createdAt)) },
   ].filter((fact) => fact.value);
 
-  const statItems = [
+  const counts: { label: string; value: string; tab?: Tab }[] = [
     { label: t.profile.posts, value: formatCount(stats.posts) },
-    { label: t.profile.reactions, value: formatCount(stats.reactions) },
+    { label: t.profile.followers, value: formatCount(stats.followers), tab: "followers" },
+    { label: t.profile.followingLabel, value: formatCount(stats.following), tab: "following" },
     { label: t.profile.rating, value: stats.averageRating ? stats.averageRating.toFixed(1) : t.profile.noRating },
   ];
 
   return (
     <section className="card animate-rise overflow-hidden">
-      <div className="bg-brand-50 ruled-paper relative h-24 sm:h-32" aria-hidden="true">
-        <span className="bg-logo-ribbon animate-ribbon absolute top-0 right-6 h-14 w-5 [clip-path:polygon(0_0,100%_0,100%_100%,50%_80%,0_100%)] sm:right-10 sm:h-20 sm:w-7" />
+      {/* Banner */}
+      <div className="relative h-28 sm:h-44">
+        {user.bannerUrl ? (
+          <img src={user.bannerUrl} alt={t.profile.bannerAlt(user.displayName)} className="h-full w-full object-cover" />
+        ) : (
+          <div className="bg-brand-50 ruled-paper h-full w-full" aria-hidden="true">
+            <span className="bg-logo-ribbon animate-ribbon absolute top-0 right-6 h-14 w-5 [clip-path:polygon(0_0,100%_0,100%_100%,50%_80%,0_100%)] sm:right-10 sm:h-20 sm:w-7" />
+          </div>
+        )}
+        {isOwn && (
+          <button
+            type="button"
+            onClick={() => bannerInput.current?.click()}
+            className="press bg-surface/90 text-ink-900 hover:bg-surface absolute top-3 right-3 flex h-9 items-center gap-2 rounded-full px-3 text-xs font-semibold shadow-sm backdrop-blur"
+          >
+            <CameraIcon className="h-4 w-4" />
+            {t.profile.changeBanner}
+          </button>
+        )}
       </div>
+
       <div className="px-4 pb-5 sm:px-6">
         <div className="relative z-10 -mt-12 flex items-end justify-between gap-3 sm:-mt-14">
-          <Avatar user={user} size="xl" className="ring-surface ring-4" />
-          {isOwn && (
-            <Link to="/settings" className="btn-secondary h-10">
-              <SettingsIcon className="h-4 w-4" />
-              {t.profile.edit}
-            </Link>
-          )}
+          <div className="relative">
+            <Avatar user={user} size="xl" className="ring-surface ring-4" />
+            {isOwn && (
+              <button
+                type="button"
+                onClick={() => avatarInput.current?.click()}
+                aria-label={t.settings.avatarChange}
+                className="press bg-surface border-line text-ink-700 hover:text-ink-900 absolute right-0 bottom-0 flex h-9 w-9 items-center justify-center rounded-full border shadow-sm"
+              >
+                <CameraIcon className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+
+          <div className="flex shrink-0 gap-2">
+            {isOwn ? (
+              <Link to="/settings" className="btn-secondary h-10">
+                <SettingsIcon className="h-4 w-4" />
+                {t.profile.edit}
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={onFollowToggle}
+                disabled={pending}
+                aria-pressed={isFollowing}
+                className={isFollowing ? "btn-secondary h-10 min-w-28" : "btn-primary h-10 min-w-28"}
+              >
+                {isFollowing ? <CheckIcon className="h-4 w-4" /> : <PlusIcon className="h-4 w-4" />}
+                {isFollowing ? t.profile.following : t.profile.follow}
+              </button>
+            )}
+          </div>
         </div>
-        <h1 className="text-ink-900 mt-3 text-2xl font-display font-extrabold tracking-tight">{user.displayName}</h1>
+
+        <h1 className="text-ink-900 mt-3 flex items-center gap-2 text-2xl font-display font-extrabold tracking-tight">
+          <span className="min-w-0 break-words">{user.displayName}</span>
+          {user.verified && <VerifiedBadge className="h-5 w-5" />}
+        </h1>
         <p className="text-ink-500">@{user.username}</p>
         {user.bio && <p className="text-ink-700 mt-3 max-w-2xl whitespace-pre-line">{user.bio}</p>}
 
@@ -73,15 +157,61 @@ function ProfileHeader({ profile, isOwn }: { profile: ProfileView; isOwn: boolea
           ))}
         </ul>
 
-        <dl className="border-line mt-5 grid grid-cols-3 border-t pt-4 text-center sm:max-w-md sm:text-left">
-          {statItems.map((item) => (
-            <div key={item.label}>
-              <dt className="text-ink-500 text-xs font-medium sm:text-sm">{item.label}</dt>
-              <dd className="text-ink-900 text-lg font-bold">{item.value}</dd>
-            </div>
-          ))}
+        <dl className="border-line mt-5 grid grid-cols-2 gap-y-3 border-t pt-4 text-center sm:max-w-lg sm:grid-cols-4 sm:text-left">
+          {counts.map((item) =>
+            item.tab ? (
+              <div key={item.label}>
+                <button
+                  type="button"
+                  onClick={() => onTab(item.tab as Tab)}
+                  className="press hover:text-accent rounded-lg px-1 py-0.5"
+                >
+                  <dt className="text-ink-500 text-xs font-medium sm:text-sm">{item.label}</dt>
+                  <dd className="text-ink-900 text-lg font-bold">{item.value}</dd>
+                </button>
+              </div>
+            ) : (
+              <div key={item.label} className="px-1 py-0.5">
+                <dt className="text-ink-500 text-xs font-medium sm:text-sm">{item.label}</dt>
+                <dd className="text-ink-900 text-lg font-bold">{item.value}</dd>
+              </div>
+            ),
+          )}
         </dl>
       </div>
+
+      {isOwn && (
+        <>
+          <input
+            ref={avatarInput}
+            type="file"
+            accept="image/*"
+            className="sr-only"
+            tabIndex={-1}
+            aria-hidden="true"
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              event.target.value = "";
+              if (file) onImage(file, "avatar");
+            }}
+          />
+          <input
+            ref={bannerInput}
+            type="file"
+            accept="image/*"
+            className="sr-only"
+            tabIndex={-1}
+            aria-hidden="true"
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              event.target.value = "";
+              if (file) onImage(file, "banner");
+            }}
+          />
+        </>
+      )}
+      {/* `tab` keeps the header in sync with the list below */}
+      <span className="sr-only">{tab}</span>
     </section>
   );
 }
@@ -89,13 +219,23 @@ function ProfileHeader({ profile, isOwn }: { profile: ProfileView; isOwn: boolea
 export default function Profile() {
   const { username = "" } = useParams<{ username: string }>();
   const [params, setParams] = useSearchParams();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+  const { notify } = useToast();
+  const requireAuth = useRequireAuth();
   const isOwn = user?.username === username.toLowerCase();
-  const tab: Tab = isOwn && params.get("tab") === "saved" ? "saved" : "posts";
+
+  const requested = params.get("tab");
+  const tab: Tab =
+    requested === "followers" || requested === "following" || (requested === "saved" && isOwn)
+      ? (requested as Tab)
+      : "posts";
 
   const [state, setState] = useState<ProfileState>({ status: "loading" });
   const [posts, setPosts] = useState<PostView[] | null>(null);
-  const [postsError, setPostsError] = useState(false);
+  const [people, setPeople] = useState<PublicUser[] | null>(null);
+  const [listError, setListError] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [cropping, setCropping] = useState<{ file: File; kind: ProfileImageKind } | null>(null);
 
   const loadProfile = useCallback(async () => {
     setState({ status: "loading" });
@@ -106,13 +246,16 @@ export default function Profile() {
     }
   }, [username]);
 
-  const loadPosts = useCallback(async () => {
+  const loadList = useCallback(async () => {
     setPosts(null);
-    setPostsError(false);
+    setPeople(null);
+    setListError(false);
     try {
-      setPosts(await getFeed(tab === "saved" ? { savedOnly: true } : { authorUsername: username }));
+      if (tab === "followers") setPeople(await getFollowers(username));
+      else if (tab === "following") setPeople(await getFollowing(username));
+      else setPosts(await getFeed(tab === "saved" ? { savedOnly: true } : { authorUsername: username }));
     } catch {
-      setPostsError(true);
+      setListError(true);
     }
   }, [tab, username]);
 
@@ -121,8 +264,54 @@ export default function Profile() {
   }, [loadProfile, user]);
 
   useEffect(() => {
-    loadPosts();
-  }, [loadPosts, user?.id]);
+    loadList();
+  }, [loadList, user?.id]);
+
+  const setTab = (next: Tab) => setParams(next === "posts" ? {} : { tab: next }, { replace: true });
+
+  const toggleFollow = async () => {
+    if (!requireAuth() || state.status !== "ready" || pending) return;
+    const wasFollowing = state.profile.isFollowing;
+    setPending(true);
+    try {
+      const updated = wasFollowing ? await unfollowUser(username) : await followUser(username);
+      setState({ status: "ready", profile: updated });
+      notify(
+        wasFollowing
+          ? t.profile.unfollowed(updated.user.displayName)
+          : t.profile.followed(updated.user.displayName),
+      );
+    } catch (error) {
+      notify(errorMessage(error));
+    } finally {
+      setPending(false);
+    }
+  };
+
+  const applyImage = async (dataUrl: string) => {
+    const kind = cropping?.kind ?? "avatar";
+    setCropping(null);
+    if (!user) return;
+    try {
+      const url = await uploadProfileImage(kind, dataUrl);
+      const next = await updateProfile({
+        displayName: user.displayName,
+        username: user.username,
+        email: user.email,
+        bio: user.bio,
+        school: user.school,
+        country: user.country,
+        fieldOfStudy: user.fieldOfStudy,
+        avatarUrl: kind === "avatar" ? url : user.avatarUrl,
+        bannerUrl: kind === "banner" ? url : user.bannerUrl,
+      });
+      setUser(next);
+      notify(t.settings.profileSaved);
+      loadProfile();
+    } catch (error) {
+      notify(errorMessage(error));
+    }
+  };
 
   if (state.status === "loading") {
     return (
@@ -156,46 +345,72 @@ export default function Profile() {
   const tabs: { id: Tab; label: string }[] = [
     { id: "posts", label: t.profile.tabPosts },
     ...(isOwn ? [{ id: "saved" as const, label: t.profile.tabSaved }] : []),
+    { id: "followers", label: t.profile.tabFollowers },
+    { id: "following", label: t.profile.tabFollowing },
   ];
 
-  const empty =
-    tab === "saved"
-      ? { title: t.profile.emptySavedTitle, body: t.profile.emptySavedBody, icon: <BookmarkIcon className="h-6 w-6" /> }
-      : isOwn
-        ? { title: t.profile.emptyOwnTitle, body: t.profile.emptyOwnBody, icon: <FileTextIcon className="h-6 w-6" /> }
-        : { title: t.profile.emptyOtherTitle, body: t.profile.emptyOtherBody, icon: <FileTextIcon className="h-6 w-6" /> };
+  const emptyFor = (): { title: string; body: string; icon: React.ReactNode } => {
+    if (tab === "saved")
+      return { title: t.profile.emptySavedTitle, body: t.profile.emptySavedBody, icon: <BookmarkIcon className="h-6 w-6" /> };
+    if (tab === "followers")
+      return { title: t.profile.emptyFollowers, body: t.profile.emptyFollowersBody, icon: <UserIcon className="h-6 w-6" /> };
+    if (tab === "following")
+      return { title: t.profile.emptyFollowing, body: t.profile.emptyFollowingBody, icon: <UserIcon className="h-6 w-6" /> };
+    return isOwn
+      ? { title: t.profile.emptyOwnTitle, body: t.profile.emptyOwnBody, icon: <FileTextIcon className="h-6 w-6" /> }
+      : { title: t.profile.emptyOtherTitle, body: t.profile.emptyOtherBody, icon: <FileTextIcon className="h-6 w-6" /> };
+  };
+
+  const empty = emptyFor();
+  const showingPeople = tab === "followers" || tab === "following";
+  const list = showingPeople ? people : posts;
 
   return (
     <div className="container-page max-w-3xl space-y-5 py-6 sm:py-10">
-      <ProfileHeader profile={state.profile} isOwn={isOwn} />
+      <ProfileHeader
+        profile={state.profile}
+        isOwn={isOwn}
+        pending={pending}
+        onFollowToggle={toggleFollow}
+        onImage={(file, kind) => setCropping({ file, kind })}
+        tab={tab}
+        onTab={setTab}
+      />
 
-      {tabs.length > 1 && (
-        <nav aria-label={t.profile.tabsLabel} className="border-line flex gap-1 border-b">
-          {tabs.map((item) => {
-            const active = item.id === tab;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                aria-current={active ? "page" : undefined}
-                onClick={() => setParams(item.id === "posts" ? {} : { tab: item.id }, { replace: true })}
-                className={`press relative h-11 px-4 text-sm font-semibold ${
-                  active ? "text-accent" : "text-ink-500 hover:text-ink-900"
-                }`}
-              >
-                {item.label}
-                {active && <span className="bg-brand-600 animate-fade absolute inset-x-2 -bottom-px h-0.5 rounded-full" />}
-              </button>
-            );
-          })}
-        </nav>
+      {cropping && (
+        <ImageCropper
+          file={cropping.file}
+          kind={cropping.kind}
+          onCancel={() => setCropping(null)}
+          onDone={applyImage}
+        />
       )}
 
-      {postsError ? (
-        <ErrorState onRetry={loadPosts} />
-      ) : posts === null ? (
-        <LoadingState count={2} />
-      ) : posts.length === 0 ? (
+      <nav aria-label={t.profile.tabsLabel} className="border-line flex gap-1 overflow-x-auto border-b">
+        {tabs.map((item) => {
+          const active = item.id === tab;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              aria-current={active ? "page" : undefined}
+              onClick={() => setTab(item.id)}
+              className={`press relative h-11 shrink-0 px-4 text-sm font-semibold ${
+                active ? "text-accent" : "text-ink-500 hover:text-ink-900"
+              }`}
+            >
+              {item.label}
+              {active && <span className="bg-brand-600 animate-fade absolute inset-x-2 -bottom-px h-0.5 rounded-full" />}
+            </button>
+          );
+        })}
+      </nav>
+
+      {listError ? (
+        <ErrorState onRetry={loadList} />
+      ) : list === null ? (
+        <LoadingState count={2} variant={showingPeople ? "block" : "post"} />
+      ) : list.length === 0 ? (
         <EmptyState
           icon={empty.icon}
           title={empty.title}
@@ -209,9 +424,11 @@ export default function Profile() {
             ) : undefined
           }
         />
+      ) : showingPeople ? (
+        <UserList people={people ?? []} />
       ) : (
         <div className="space-y-4">
-          {posts.map((post, index) => (
+          {(posts ?? []).map((post, index) => (
             <PostCard
               key={`${post.id}-${user?.id ?? "guest"}`}
               post={post}

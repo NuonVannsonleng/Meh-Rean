@@ -22,6 +22,10 @@ import {
   type SignUpInput,
   type UpdateProfileInput,
   type User,
+  type NewVerificationRequest,
+  type ProfileImageKind,
+  type VerificationRequest,
+  type VerificationStatus,
 } from "../types";
 import {
   createId,
@@ -33,6 +37,7 @@ import {
   setSessionUserId,
   type DbState,
   type UserRecord,
+  type VerificationRecord,
 } from "./db";
 import { deleteFiles, getFile, putFile } from "./files";
 
@@ -57,6 +62,8 @@ function delay(ms = 300): Promise<void> {
 
 function toPublicUser(record: UserRecord): PublicUser {
   return {
+    bannerUrl: record.bannerUrl,
+    verified: record.verified,
     id: record.id,
     username: record.username,
     displayName: record.displayName,
@@ -70,7 +77,7 @@ function toPublicUser(record: UserRecord): PublicUser {
 }
 
 function toUser(record: UserRecord): User {
-  return { ...toPublicUser(record), email: record.email };
+  return { ...toPublicUser(record), email: record.email, isAdmin: record.isAdmin };
 }
 
 function findUser(db: DbState, id: string): UserRecord {
@@ -184,6 +191,9 @@ export async function signUp(input: SignUpInput): Promise<User> {
     country: "",
     fieldOfStudy: "",
     avatarUrl: null,
+    bannerUrl: null,
+    verified: false,
+    isAdmin: false,
     createdAt: new Date().toISOString(),
     salt,
     passwordHash: await hashPassword(input.password, salt),
@@ -232,6 +242,7 @@ export async function updateProfile(input: UpdateProfileInput): Promise<User> {
     country: input.country.trim(),
     fieldOfStudy: input.fieldOfStudy.trim(),
     avatarUrl: input.avatarUrl,
+    bannerUrl: input.bannerUrl,
   });
   persist();
   return toUser(record);
@@ -265,6 +276,10 @@ export async function deleteAccount(password: string): Promise<void> {
   db.reactions = db.reactions.filter((reaction) => reaction.userId !== record.id);
   db.ratings = db.ratings.filter((rating) => rating.userId !== record.id);
   db.saves = db.saves.filter((save) => save.userId !== record.id);
+  db.follows = db.follows.filter(
+    (follow) => follow.followerId !== record.id && follow.followingId !== record.id,
+  );
+  db.verifications = db.verifications.filter((request) => request.userId !== record.id);
   db.users = db.users.filter((user) => user.id !== record.id);
   persist();
   setSessionUserId(null);
@@ -489,6 +504,7 @@ export async function getProfile(username: string): Promise<ProfileView> {
 
   const postIds = new Set(db.posts.filter((post) => post.authorId === record.id).map((post) => post.id));
   const ratings = db.ratings.filter((rating) => postIds.has(rating.postId));
+  const viewer = viewerId(db);
 
   return {
     user: toPublicUser(record),
@@ -498,8 +514,164 @@ export async function getProfile(username: string): Promise<ProfileView> {
       averageRating: ratings.length
         ? ratings.reduce((sum, rating) => sum + rating.value, 0) / ratings.length
         : null,
+      followers: db.follows.filter((follow) => follow.followingId === record.id).length,
+      following: db.follows.filter((follow) => follow.followerId === record.id).length,
     },
+    isFollowing: db.follows.some(
+      (follow) => follow.followerId === viewer && follow.followingId === record.id,
+    ),
   };
+}
+
+// ---- Follows ----
+
+function findByUsername(db: DbState, username: string): UserRecord {
+  const record = db.users.find((user) => user.username === normalizeUsername(username));
+  if (!record) throw new ApiError("NOT_FOUND", 404);
+  return record;
+}
+
+export async function followUser(username: string): Promise<ProfileView> {
+  await delay(150);
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  const target = findByUsername(db, username);
+  if (target.id === viewer.id) throw new ApiError("FORBIDDEN", 403);
+
+  const already = db.follows.some(
+    (follow) => follow.followerId === viewer.id && follow.followingId === target.id,
+  );
+  if (!already) {
+    db.follows.push({
+      followerId: viewer.id,
+      followingId: target.id,
+      createdAt: new Date().toISOString(),
+    });
+    persist();
+  }
+  return getProfile(username);
+}
+
+export async function unfollowUser(username: string): Promise<ProfileView> {
+  await delay(150);
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  const target = findByUsername(db, username);
+  db.follows = db.follows.filter(
+    (follow) => !(follow.followerId === viewer.id && follow.followingId === target.id),
+  );
+  persist();
+  return getProfile(username);
+}
+
+export async function getFollowers(username: string): Promise<PublicUser[]> {
+  await delay(250);
+  const db = await loadDb();
+  const target = findByUsername(db, username);
+  const ids = db.follows.filter((follow) => follow.followingId === target.id).map((item) => item.followerId);
+  return structuredClone(db.users.filter((user) => ids.includes(user.id)).map(toPublicUser));
+}
+
+export async function getFollowing(username: string): Promise<PublicUser[]> {
+  await delay(250);
+  const db = await loadDb();
+  const target = findByUsername(db, username);
+  const ids = db.follows.filter((follow) => follow.followerId === target.id).map((item) => item.followingId);
+  return structuredClone(db.users.filter((user) => ids.includes(user.id)).map(toPublicUser));
+}
+
+// ---- Verification ----
+
+function toVerificationRequest(db: DbState, record: VerificationRecord): VerificationRequest {
+  return structuredClone({
+    id: record.id,
+    user: toPublicUser(findUser(db, record.userId)),
+    reason: record.reason,
+    link: record.link,
+    status: record.status,
+    createdAt: record.createdAt,
+    decidedAt: record.decidedAt,
+  });
+}
+
+export interface VerificationState {
+  status: VerificationStatus;
+  request: VerificationRequest | null;
+}
+
+export async function getMyVerification(): Promise<VerificationState> {
+  await delay(200);
+  const db = await loadDb();
+  const viewer = viewerId(db);
+  if (!viewer) return { status: "none", request: null };
+  if (findUser(db, viewer).verified) return { status: "approved", request: null };
+
+  const latest = db.verifications
+    .filter((request) => request.userId === viewer)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
+  return latest
+    ? { status: latest.status, request: toVerificationRequest(db, latest) }
+    : { status: "none", request: null };
+}
+
+export async function requestVerification(input: NewVerificationRequest): Promise<VerificationRequest> {
+  await delay(350);
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  if (viewer.verified) throw new ApiError("ALREADY_REQUESTED", 409);
+  if (db.verifications.some((request) => request.userId === viewer.id && request.status === "pending")) {
+    throw new ApiError("ALREADY_REQUESTED", 409);
+  }
+
+  const record: VerificationRecord = {
+    id: createId("v"),
+    userId: viewer.id,
+    reason: input.reason.trim(),
+    link: input.link.trim(),
+    status: "pending",
+    createdAt: new Date().toISOString(),
+    decidedAt: null,
+  };
+  db.verifications.push(record);
+  persist();
+  return toVerificationRequest(db, record);
+}
+
+/** Admin only: the queue of accounts waiting to be reviewed. */
+export async function getVerificationRequests(): Promise<VerificationRequest[]> {
+  await delay(250);
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  if (!viewer.isAdmin) throw new ApiError("FORBIDDEN", 403);
+  return db.verifications
+    .filter((request) => request.status === "pending")
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+    .map((request) => toVerificationRequest(db, request));
+}
+
+/** Admin only: approve (adds the badge) or reject a request. */
+export async function decideVerification(id: string, approve: boolean): Promise<void> {
+  await delay(300);
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  if (!viewer.isAdmin) throw new ApiError("FORBIDDEN", 403);
+
+  const request = db.verifications.find((item) => item.id === id);
+  if (!request) throw new ApiError("NOT_FOUND", 404);
+
+  request.status = approve ? "approved" : "rejected";
+  request.decidedAt = new Date().toISOString();
+  if (approve) findUser(db, request.userId).verified = true;
+  persist();
+}
+
+// ---- Profile images ----
+
+/** Browser-only mode keeps images inline; Supabase uploads them to storage. */
+export async function uploadProfileImage(kind: ProfileImageKind, dataUrl: string): Promise<string> {
+  await delay(250);
+  await loadDb();
+  return kind === "avatar" || kind === "banner" ? dataUrl : dataUrl;
 }
 
 // ---- Search & discovery ----

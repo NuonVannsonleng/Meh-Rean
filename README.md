@@ -12,7 +12,9 @@
 - **Media:** image grid with a full-screen lightbox, inline video and audio players, and file cards with open/download.
 - **Interactions:** five reactions, comments, 1–5 star ratings, save to collection, and share (native share sheet or copy link).
 - **Discovery:** live search, sorting (latest / top rated / most discussed), and filters for subject, level and content type. All of it is stored in the URL, so filtered views can be shared.
-- **Profiles:** bio, school, field, country and stats, plus a private "Saved" tab.
+- **Profiles:** banner and avatar (with a drag-and-zoom crop step), bio, school, field, country, stats, followers and following lists, plus a private "Saved" tab.
+- **Follow students** to see who shares what, with follower and following counts on every profile.
+- **Verified accounts:** anyone can request a blue check from Settings; an admin approves or rejects it. The badge cannot be self-granted.
 - **Settings:** edit profile and avatar, change password, delete account, and theme.
 - **Brand theme from the logo:** book-cover green, bookmark teal, cream notebook pages, in light, dark and system modes with no flash on load.
 - **Custom reaction icons** (Like, Love, Insightful, Helpful, Wow) with a burst animation, plus bookmark-drop, star-pop, staggered feed and page transitions. All motion respects reduced-motion settings.

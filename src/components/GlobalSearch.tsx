@@ -5,6 +5,7 @@ import { getTrending, searchSuggestions, type TrendingView } from "../services/a
 import type { SearchScope, SearchSuggestions } from "../types";
 import Avatar from "./Avatar";
 import { CloseIcon, FileTextIcon, GraduationIcon, SearchIcon } from "./Icons";
+import VerifiedBadge from "./VerifiedBadge";
 
 const RECENT_KEY = "meh-rean:recent-searches";
 const SCOPES: SearchScope[] = ["all", "people", "schools", "subjects", "tags"];
@@ -104,8 +105,9 @@ function buildOptions(query: string, scope: SearchScope, results: SearchSuggesti
         <>
           <Avatar user={person} size="sm" className="mx-0.5" />
           <span className="min-w-0">
-            <span className="text-ink-700 block truncate text-sm">
+            <span className="text-ink-700 flex items-center gap-1 truncate text-sm">
               <Highlight text={person.displayName} query={q} />
+              {person.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
             </span>
             <span className="text-ink-500 block truncate text-xs">
               @<Highlight text={person.username} query={q} />

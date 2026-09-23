@@ -1,17 +1,34 @@
-import { useId, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import { FieldShell, TextField } from "../components/FormField";
-import { CameraIcon, LockIcon, LogOutIcon, PaletteIcon, TrashIcon, UserIcon } from "../components/Icons";
+import { CameraIcon, CheckIcon, CloseIcon, LockIcon, LogOutIcon, PaletteIcon, TrashIcon, UserIcon } from "../components/Icons";
+import ImageCropper from "../components/ImageCropper";
+import VerifiedBadge from "../components/VerifiedBadge";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { t } from "../i18n/en";
 import { errorCode, errorMessage } from "../lib/errors";
-import { resizeAvatar } from "../lib/image";
 import { validateDisplayName, validateEmail, validateNewPassword, validateUsername } from "../lib/validation";
-import { changePassword, deleteAccount, updateProfile } from "../services/api";
-import type { UpdateProfileInput, User } from "../types";
+import {
+  changePassword,
+  decideVerification,
+  deleteAccount,
+  getMyVerification,
+  getVerificationRequests,
+  requestVerification,
+  updateProfile,
+  uploadProfileImage,
+} from "../services/api";
+import type {
+  ProfileImageKind,
+  UpdateProfileInput,
+  User,
+  VerificationRequest,
+  VerificationStatus,
+} from "../types";
+import { formatDate } from "../lib/format";
 
 type ProfileErrors = Partial<Record<keyof UpdateProfileInput | "submit", string>>;
 
@@ -67,25 +84,36 @@ function ProfileForm({ user }: { user: User }) {
     country: user.country,
     fieldOfStudy: user.fieldOfStudy,
     avatarUrl: user.avatarUrl,
+    bannerUrl: user.bannerUrl,
   });
   const [errors, setErrors] = useState<ProfileErrors>({});
   const [saving, setSaving] = useState(false);
+  const [cropping, setCropping] = useState<{ file: File; kind: ProfileImageKind } | null>(null);
+  const bannerRef = useRef<HTMLInputElement>(null);
 
   const set = <K extends keyof UpdateProfileInput>(key: K, value: UpdateProfileInput[K]) => {
     setValues((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: undefined, submit: undefined }));
   };
 
-  const pickAvatar = async (file: File | undefined) => {
+  const pickImage = (file: File | undefined, kind: ProfileImageKind) => {
     if (!file) return;
     if (!file.type.startsWith("image/")) {
       setErrors((current) => ({ ...current, avatarUrl: t.settings.avatarError }));
       return;
     }
+    setErrors((current) => ({ ...current, avatarUrl: undefined }));
+    setCropping({ file, kind });
+  };
+
+  const applyCrop = async (dataUrl: string) => {
+    const kind = cropping?.kind ?? "avatar";
+    setCropping(null);
     try {
-      set("avatarUrl", await resizeAvatar(file));
-    } catch {
-      setErrors((current) => ({ ...current, avatarUrl: t.settings.avatarError }));
+      const url = await uploadProfileImage(kind, dataUrl);
+      set(kind === "avatar" ? "avatarUrl" : "bannerUrl", url);
+    } catch (error) {
+      setErrors((current) => ({ ...current, submit: errorMessage(error) }));
     }
   };
 
@@ -116,6 +144,54 @@ function ProfileForm({ user }: { user: User }) {
   return (
     <form onSubmit={submit} noValidate className="space-y-5">
       <fieldset>
+        <legend className="field-label">{t.settings.bannerLabel}</legend>
+        <div
+          className={`border-line relative mb-3 h-28 overflow-hidden rounded-xl border sm:h-36 ${
+            values.bannerUrl ? "" : "bg-brand-50 ruled-paper"
+          }`}
+        >
+          {values.bannerUrl && <img src={values.bannerUrl} alt="" className="h-full w-full object-cover" />}
+          <div className="absolute right-2 bottom-2 flex gap-2">
+            {values.bannerUrl && (
+              <button
+                type="button"
+                onClick={() => set("bannerUrl", null)}
+                className="btn-secondary h-9 px-3 text-xs"
+              >
+                {t.settings.avatarRemove}
+              </button>
+            )}
+            <button type="button" onClick={() => bannerRef.current?.click()} className="btn-secondary h-9 px-3 text-xs">
+              <CameraIcon className="h-4 w-4" />
+              {t.settings.bannerChange}
+            </button>
+          </div>
+        </div>
+        <p className="field-hint mb-5">{t.settings.bannerHint}</p>
+        <input
+          ref={bannerRef}
+          type="file"
+          accept="image/*"
+          className="sr-only"
+          tabIndex={-1}
+          aria-hidden="true"
+          onChange={(event) => {
+            pickImage(event.target.files?.[0], "banner");
+            event.target.value = "";
+          }}
+        />
+      </fieldset>
+
+      {cropping && (
+        <ImageCropper
+          file={cropping.file}
+          kind={cropping.kind}
+          onCancel={() => setCropping(null)}
+          onDone={applyCrop}
+        />
+      )}
+
+      <fieldset>
         <legend className="field-label">{t.settings.avatarLabel}</legend>
         <div className="flex items-center gap-4">
           <Avatar user={{ id: user.id, displayName: values.displayName || user.displayName, avatarUrl: values.avatarUrl }} size="lg" />
@@ -138,7 +214,7 @@ function ProfileForm({ user }: { user: User }) {
             tabIndex={-1}
             aria-hidden="true"
             onChange={(event) => {
-              pickAvatar(event.target.files?.[0]);
+              pickImage(event.target.files?.[0], "avatar");
               event.target.value = "";
             }}
           />
@@ -360,8 +436,175 @@ function AccountActions() {
   );
 }
 
+function VerificationPanel({ user }: { user: User }) {
+  const { notify } = useToast();
+  const reasonId = useId();
+  const [status, setStatus] = useState<VerificationStatus>(user.verified ? "approved" : "none");
+  const [requestedAt, setRequestedAt] = useState<string | null>(null);
+  const [reason, setReason] = useState("");
+  const [link, setLink] = useState("");
+  const [error, setError] = useState<string>();
+  const [sending, setSending] = useState(false);
+
+  useEffect(() => {
+    getMyVerification()
+      .then((state) => {
+        setStatus(state.status);
+        setRequestedAt(state.request?.createdAt ?? null);
+      })
+      .catch(() => setStatus(user.verified ? "approved" : "none"));
+  }, [user.verified]);
+
+  const submit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (reason.trim().length < 10) {
+      setError(t.verification.reasonHint);
+      return;
+    }
+    setSending(true);
+    setError(undefined);
+    try {
+      const created = await requestVerification({ reason, link });
+      setStatus("pending");
+      setRequestedAt(created.createdAt);
+      setReason("");
+      setLink("");
+      notify(t.verification.sent);
+    } catch (caught) {
+      setError(errorMessage(caught));
+    } finally {
+      setSending(false);
+    }
+  };
+
+  if (status === "approved") {
+    return (
+      <p className="text-ink-700 flex items-center gap-2 text-sm">
+        <VerifiedBadge className="h-5 w-5" />
+        {t.verification.statusApproved}
+      </p>
+    );
+  }
+
+  if (status === "pending") {
+    return (
+      <div className="bg-surface-muted border-line rounded-xl border p-4">
+        <p className="text-ink-900 text-sm font-semibold">{t.verification.statusPending}</p>
+        {requestedAt && <p className="text-ink-500 mt-1 text-sm">{t.verification.requestedOn(formatDate(requestedAt))}</p>}
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={submit} noValidate className="space-y-4">
+      {status === "rejected" && (
+        <p className="text-ink-700 bg-surface-muted border-line rounded-xl border px-4 py-3 text-sm">
+          {t.verification.statusRejected}
+        </p>
+      )}
+      <FieldShell id={reasonId} label={t.verification.reasonLabel} hint={t.verification.reasonHint} error={error}>
+        <textarea
+          id={reasonId}
+          value={reason}
+          onChange={(event) => {
+            setReason(event.target.value);
+            setError(undefined);
+          }}
+          placeholder={t.verification.reasonPlaceholder}
+          rows={3}
+          maxLength={1000}
+          aria-invalid={error ? true : undefined}
+          className="input field-sizing-content h-auto min-h-24 resize-y py-3"
+        />
+      </FieldShell>
+      <TextField
+        label={t.verification.linkLabel}
+        value={link}
+        onChange={setLink}
+        placeholder={t.verification.linkPlaceholder}
+        optional
+      />
+      <div className="flex justify-end">
+        <button type="submit" disabled={sending} className="btn-primary">
+          {sending ? t.verification.submitting : t.verification.submit}
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function VerificationQueue() {
+  const { notify } = useToast();
+  const [requests, setRequests] = useState<VerificationRequest[] | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+
+  const load = useCallback(() => {
+    getVerificationRequests()
+      .then(setRequests)
+      .catch(() => setRequests([]));
+  }, []);
+
+  useEffect(load, [load]);
+
+  const decide = async (id: string, approve: boolean) => {
+    setBusy(id);
+    try {
+      await decideVerification(id, approve);
+      setRequests((current) => current?.filter((request) => request.id !== id) ?? null);
+      notify(approve ? t.verification.approved : t.verification.rejected);
+    } catch (error) {
+      notify(errorMessage(error));
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  if (requests === null) return <p className="text-ink-500 text-sm">{t.common.loading}</p>;
+  if (!requests.length) return <p className="text-ink-500 text-sm">{t.verification.queueEmpty}</p>;
+
+  return (
+    <ul className="space-y-3">
+      {requests.map((request) => (
+        <li key={request.id} className="border-line animate-fade rounded-xl border p-4">
+          <div className="flex items-center gap-3">
+            <Avatar user={request.user} />
+            <div className="min-w-0 flex-1">
+              <p className="text-ink-900 truncate text-sm font-semibold">{request.user.displayName}</p>
+              <p className="text-ink-500 truncate text-sm">@{request.user.username}</p>
+            </div>
+            <time className="text-ink-500 shrink-0 text-xs">{formatDate(request.createdAt)}</time>
+          </div>
+          <p className="text-ink-700 mt-3 text-sm whitespace-pre-line">{request.reason}</p>
+          <p className="text-ink-500 mt-1 text-sm break-all">{request.link || t.verification.noLink}</p>
+          <div className="mt-3 flex gap-2">
+            <button
+              type="button"
+              disabled={busy === request.id}
+              onClick={() => decide(request.id, true)}
+              className="btn-primary h-10 flex-1 sm:flex-none"
+            >
+              <CheckIcon className="h-4 w-4" />
+              {t.verification.approve}
+            </button>
+            <button
+              type="button"
+              disabled={busy === request.id}
+              onClick={() => decide(request.id, false)}
+              className="btn-secondary h-10 flex-1 sm:flex-none"
+            >
+              <CloseIcon className="h-4 w-4" />
+              {t.verification.reject}
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 const sections = [
   { id: "profile", label: t.settings.profileHeading, Icon: UserIcon },
+  { id: "verification", label: t.verification.heading, Icon: CheckIcon },
   { id: "appearance", label: t.settings.appearanceHeading, Icon: PaletteIcon },
   { id: "password", label: t.settings.passwordHeading, Icon: LockIcon },
   { id: "account", label: t.settings.dangerHeading, Icon: LogOutIcon },
@@ -399,6 +642,19 @@ export default function Settings() {
           <Section id="profile" icon={<UserIcon />} title={t.settings.profileHeading} body={t.settings.profileBody}>
             <ProfileForm key={user.id} user={user} />
           </Section>
+          <Section id="verification" icon={<CheckIcon />} title={t.verification.heading} body={t.verification.body}>
+            <VerificationPanel user={user} />
+          </Section>
+          {user.isAdmin && (
+            <Section
+              id="queue"
+              icon={<VerifiedBadge className="h-5 w-5" />}
+              title={t.verification.queueHeading}
+              body={t.verification.queueBody}
+            >
+              <VerificationQueue />
+            </Section>
+          )}
           <Section id="appearance" icon={<PaletteIcon />} title={t.settings.appearanceHeading} body={t.settings.appearanceBody}>
             <ThemeSwitcher showLegend />
             <p className="field-hint">{t.theme.description}</p>

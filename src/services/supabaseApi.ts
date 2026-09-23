@@ -23,6 +23,10 @@ import {
   type TagSummary,
   type UpdateProfileInput,
   type User,
+  type NewVerificationRequest,
+  type ProfileImageKind,
+  type VerificationRequest,
+  type VerificationStatus,
 } from "../types";
 import { ATTACHMENTS_BUCKET, supabase } from "./supabase/client";
 
@@ -42,6 +46,9 @@ interface ProfileRow {
   country: string;
   field_of_study: string;
   avatar_url: string | null;
+  banner_url: string | null;
+  verified: boolean;
+  is_admin?: boolean;
   created_at: string;
 }
 
@@ -62,9 +69,12 @@ interface PostRow {
   comments: { count: number }[];
 }
 
+const PROFILE_COLUMNS =
+  "id, username, display_name, bio, school, country, field_of_study, avatar_url, banner_url, verified, created_at";
+
 const POST_SELECT = `
   id, author_id, title, body, subject, level, tags, attachments, created_at,
-  author:profiles!posts_author_id_fkey (id, username, display_name, bio, school, country, field_of_study, avatar_url, created_at),
+  author:profiles!posts_author_id_fkey (${PROFILE_COLUMNS}),
   reactions (user_id, type),
   ratings (user_id, value),
   saves (user_id),
@@ -106,6 +116,8 @@ function toPublicUser(row: ProfileRow): PublicUser {
     country: row.country,
     fieldOfStudy: row.field_of_study,
     avatarUrl: row.avatar_url,
+    bannerUrl: row.banner_url,
+    verified: row.verified ?? false,
     createdAt: row.created_at,
   };
 }
@@ -165,7 +177,11 @@ async function currentUser(): Promise<User | null> {
   const session = data.session;
   if (!session) return null;
   const profile = await profileById(session.user.id);
-  return { ...toPublicUser(profile), email: session.user.email ?? "" };
+  return {
+    ...toPublicUser(profile),
+    email: session.user.email ?? "",
+    isAdmin: profile.is_admin ?? false,
+  };
 }
 
 // ---- Auth ----
@@ -228,6 +244,7 @@ export async function updateProfile(input: UpdateProfileInput): Promise<User> {
       country: input.country.trim(),
       field_of_study: input.fieldOfStudy.trim(),
       avatar_url: input.avatarUrl,
+      banner_url: input.bannerUrl,
     })
     .eq("id", id);
   if (error) fail(error);
@@ -498,7 +515,7 @@ interface CommentRow {
 
 const COMMENT_SELECT = `
   id, post_id, author_id, body, created_at,
-  author:profiles!comments_author_id_fkey (id, username, display_name, bio, school, country, field_of_study, avatar_url, created_at)
+  author:profiles!comments_author_id_fkey (${PROFILE_COLUMNS})
 `;
 
 function toCommentView(row: CommentRow): CommentView {
@@ -554,11 +571,28 @@ export async function getProfile(username: string): Promise<ProfileView> {
   if (profile.error) fail(profile.error);
   if (!profile.data) throw new ApiError("NOT_FOUND", 404);
 
-  const stats = await supabase
-    .from("profile_stats")
-    .select("posts, reactions, average_rating")
-    .eq("id", profile.data.id)
-    .maybeSingle<{ posts: number; reactions: number; average_rating: number | null }>();
+  const viewer = await viewerId();
+  const [stats, following] = await Promise.all([
+    supabase
+      .from("profile_stats")
+      .select("posts, reactions, average_rating, followers, following")
+      .eq("id", profile.data.id)
+      .maybeSingle<{
+        posts: number;
+        reactions: number;
+        average_rating: number | null;
+        followers: number;
+        following: number;
+      }>(),
+    viewer
+      ? supabase
+          .from("follows")
+          .select("follower_id")
+          .eq("follower_id", viewer)
+          .eq("following_id", profile.data.id)
+          .maybeSingle()
+      : null,
+  ]);
   if (stats.error) fail(stats.error);
 
   return {
@@ -567,8 +601,217 @@ export async function getProfile(username: string): Promise<ProfileView> {
       posts: stats.data?.posts ?? 0,
       reactions: stats.data?.reactions ?? 0,
       averageRating: stats.data?.average_rating ?? null,
+      followers: stats.data?.followers ?? 0,
+      following: stats.data?.following ?? 0,
     },
+    isFollowing: Boolean(following?.data),
   };
+}
+
+// ---- Follows ----
+
+async function idForUsername(username: string): Promise<string> {
+  const row = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("username", username.trim().toLowerCase())
+    .maybeSingle<{ id: string }>();
+  if (row.error) fail(row.error);
+  if (!row.data) throw new ApiError("NOT_FOUND", 404);
+  return row.data.id;
+}
+
+export async function followUser(username: string): Promise<ProfileView> {
+  const viewer = await requireViewer();
+  const target = await idForUsername(username);
+  if (target === viewer) throw new ApiError("FORBIDDEN", 403);
+  const { error } = await supabase
+    .from("follows")
+    .upsert({ follower_id: viewer, following_id: target }, { onConflict: "follower_id,following_id" });
+  if (error) fail(error);
+  return getProfile(username);
+}
+
+export async function unfollowUser(username: string): Promise<ProfileView> {
+  const viewer = await requireViewer();
+  const target = await idForUsername(username);
+  const { error } = await supabase
+    .from("follows")
+    .delete()
+    .eq("follower_id", viewer)
+    .eq("following_id", target);
+  if (error) fail(error);
+  return getProfile(username);
+}
+
+async function profilesByIds(ids: string[]): Promise<PublicUser[]> {
+  if (!ids.length) return [];
+  const rows = unwrap(
+    await supabase.from("profiles").select(PROFILE_COLUMNS).in("id", ids).returns<ProfileRow[]>(),
+  );
+  return rows.map(toPublicUser);
+}
+
+export async function getFollowers(username: string): Promise<PublicUser[]> {
+  const target = await idForUsername(username);
+  const rows = unwrap(
+    await supabase
+      .from("follows")
+      .select("follower_id")
+      .eq("following_id", target)
+      .order("created_at", { ascending: false })
+      .returns<{ follower_id: string }[]>(),
+  );
+  return profilesByIds(rows.map((row) => row.follower_id));
+}
+
+export async function getFollowing(username: string): Promise<PublicUser[]> {
+  const target = await idForUsername(username);
+  const rows = unwrap(
+    await supabase
+      .from("follows")
+      .select("following_id")
+      .eq("follower_id", target)
+      .order("created_at", { ascending: false })
+      .returns<{ following_id: string }[]>(),
+  );
+  return profilesByIds(rows.map((row) => row.following_id));
+}
+
+// ---- Verification ----
+
+interface VerificationRow {
+  id: string;
+  user_id: string;
+  reason: string;
+  link: string;
+  status: Exclude<VerificationStatus, "none">;
+  created_at: string;
+  decided_at: string | null;
+  user: ProfileRow | null;
+}
+
+const VERIFICATION_SELECT = `
+  id, user_id, reason, link, status, created_at, decided_at,
+  user:profiles!verification_requests_user_id_fkey (${PROFILE_COLUMNS})
+`;
+
+function toVerificationRequest(row: VerificationRow): VerificationRequest {
+  if (!row.user) throw new ApiError("NOT_FOUND", 404);
+  return {
+    id: row.id,
+    user: toPublicUser(row.user),
+    reason: row.reason,
+    link: row.link,
+    status: row.status,
+    createdAt: row.created_at,
+    decidedAt: row.decided_at,
+  };
+}
+
+export interface VerificationState {
+  status: VerificationStatus;
+  request: VerificationRequest | null;
+}
+
+export async function getMyVerification(): Promise<VerificationState> {
+  const user = await currentUser();
+  if (!user) return { status: "none", request: null };
+  if (user.verified) return { status: "approved", request: null };
+
+  const rows = unwrap(
+    await supabase
+      .from("verification_requests")
+      .select(VERIFICATION_SELECT)
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .returns<VerificationRow[]>(),
+  );
+  const latest = rows[0];
+  return latest
+    ? { status: latest.status, request: toVerificationRequest(latest) }
+    : { status: "none", request: null };
+}
+
+export async function requestVerification(input: NewVerificationRequest): Promise<VerificationRequest> {
+  const viewer = await requireViewer();
+  const result = await supabase
+    .from("verification_requests")
+    .insert({ user_id: viewer, reason: input.reason.trim(), link: input.link.trim() })
+    .select(VERIFICATION_SELECT)
+    .single<VerificationRow>();
+  if (result.error) {
+    if (result.error.code === "23505") throw new ApiError("ALREADY_REQUESTED", 409);
+    fail(result.error);
+  }
+  return toVerificationRequest(unwrap(result));
+}
+
+/** Admin only: row level security returns nothing for everyone else. */
+export async function getVerificationRequests(): Promise<VerificationRequest[]> {
+  await requireViewer();
+  const rows = unwrap(
+    await supabase
+      .from("verification_requests")
+      .select(VERIFICATION_SELECT)
+      .eq("status", "pending")
+      .order("created_at", { ascending: true })
+      .returns<VerificationRow[]>(),
+  );
+  return rows.map(toVerificationRequest);
+}
+
+/** Admin only: approving also sets the badge on the profile. */
+export async function decideVerification(id: string, approve: boolean): Promise<void> {
+  const viewer = await requireViewer();
+  const request = unwrap(
+    await supabase
+      .from("verification_requests")
+      .select("user_id")
+      .eq("id", id)
+      .single<{ user_id: string }>(),
+  );
+
+  const decided = await supabase
+    .from("verification_requests")
+    .update({
+      status: approve ? "approved" : "rejected",
+      decided_at: new Date().toISOString(),
+      decided_by: viewer,
+    })
+    .eq("id", id)
+    .select("id");
+  if (decided.error) fail(decided.error);
+  if (!decided.data?.length) throw new ApiError("FORBIDDEN", 403);
+
+  if (approve) {
+    const { error } = await supabase.from("profiles").update({ verified: true }).eq("id", request.user_id);
+    if (error) fail(error);
+  }
+}
+
+// ---- Profile images ----
+
+/** Stores avatars and banners in the attachments bucket and returns their URL. */
+export async function uploadProfileImage(kind: ProfileImageKind, dataUrl: string): Promise<string> {
+  const viewer = await requireViewer();
+  const blob = await (await fetch(dataUrl)).blob();
+  const path = `${viewer}/profile/${kind}-${Date.now()}.jpg`;
+
+  const upload = await supabase.storage
+    .from(ATTACHMENTS_BUCKET)
+    .upload(path, blob, { contentType: "image/jpeg", upsert: true });
+  if (upload.error) fail(upload.error);
+
+  // Drop older files of the same kind so storage does not grow forever.
+  const { data: existing } = await supabase.storage.from(ATTACHMENTS_BUCKET).list(`${viewer}/profile`);
+  const stale = (existing ?? [])
+    .filter((file) => file.name.startsWith(`${kind}-`) && `${viewer}/profile/${file.name}` !== path)
+    .map((file) => `${viewer}/profile/${file.name}`);
+  if (stale.length) await supabase.storage.from(ATTACHMENTS_BUCKET).remove(stale);
+
+  return supabase.storage.from(ATTACHMENTS_BUCKET).getPublicUrl(path).data.publicUrl;
 }
 
 // ---- Search & discovery ----
@@ -588,7 +831,7 @@ export async function searchSuggestions(
     wants("people")
       ? supabase
           .from("profiles")
-          .select("*")
+          .select(PROFILE_COLUMNS)
           .or(
             ["display_name", "username", "school", "country", "field_of_study"]
               .map((column) => `${column}.ilike.${like}`)
@@ -656,7 +899,7 @@ export async function getTrending(): Promise<TrendingView> {
 
   const ids = (unwrap(top) ?? []).map((row) => row.id);
   const people = ids.length
-    ? unwrap(await supabase.from("profiles").select("*").in("id", ids).returns<ProfileRow[]>())
+    ? unwrap(await supabase.from("profiles").select(PROFILE_COLUMNS).in("id", ids).returns<ProfileRow[]>())
     : [];
   const order = new Map(ids.map((id, index) => [id, index]));
 

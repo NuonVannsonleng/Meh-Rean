@@ -88,12 +88,17 @@ export interface PublicUser {
   country: string;
   fieldOfStudy: string;
   avatarUrl: string | null;
+  bannerUrl: string | null;
+  /** Approved by an admin through the verification request flow. */
+  verified: boolean;
   createdAt: string;
 }
 
 /** The signed-in user's own account, including private fields. */
 export interface User extends PublicUser {
   email: string;
+  /** Admins review verification requests. */
+  isAdmin: boolean;
 }
 
 export interface Post {
@@ -147,8 +152,32 @@ export interface ProfileView {
     posts: number;
     reactions: number;
     averageRating: number | null;
+    followers: number;
+    following: number;
   };
+  /** Whether the person viewing this profile follows it. */
+  isFollowing: boolean;
 }
+
+export type VerificationStatus = "none" | "pending" | "approved" | "rejected";
+
+export interface VerificationRequest {
+  id: string;
+  user: PublicUser;
+  reason: string;
+  link: string;
+  status: Exclude<VerificationStatus, "none">;
+  createdAt: string;
+  decidedAt: string | null;
+}
+
+export interface NewVerificationRequest {
+  reason: string;
+  link: string;
+}
+
+/** Square for avatars, wide for profile banners. */
+export type ProfileImageKind = "avatar" | "banner";
 
 export type MediaFilter = "all" | "documents" | "images" | "videos";
 export type FeedSort = "latest" | "top" | "discussed";
@@ -223,6 +252,7 @@ export interface UpdateProfileInput {
   country: string;
   fieldOfStudy: string;
   avatarUrl: string | null;
+  bannerUrl: string | null;
 }
 
 export interface ChangePasswordInput {
@@ -242,6 +272,7 @@ export type ApiErrorCode =
   | "FILE_TOO_LARGE"
   | "TOO_MANY_FILES"
   | "EMAIL_CONFIRMATION"
+  | "ALREADY_REQUESTED"
   | "STORAGE_FULL";
 
 /** Error surfaced by the service layer; UI maps `code` to friendly copy. */

@@ -185,13 +185,7 @@ select subject, count(*)::int as posts
 from public.posts
 group by subject;
 
-create or replace view public.profile_stats with (security_invoker = on) as
-select
-  p.id,
-  (select count(*) from public.posts where author_id = p.id)::int as posts,
-  (select count(*) from public.reactions r join public.posts po on po.id = r.post_id where po.author_id = p.id)::int as reactions,
-  (select avg(ra.value) from public.ratings ra join public.posts po on po.id = ra.post_id where po.author_id = p.id) as average_rating
-from public.profiles p;
+-- profile_stats is defined further down, once follows exists.
 
 -- ------------------------------------------------------------ functions -----
 
@@ -257,3 +251,126 @@ create policy "upload own attachments" on storage.objects for insert to authenti
 drop policy if exists "delete own attachments" on storage.objects;
 create policy "delete own attachments" on storage.objects for delete to authenticated
   using (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- ================================================================
+-- Profiles: banners, verification badge and admin reviewers
+-- ================================================================
+
+alter table public.profiles add column if not exists banner_url text;
+alter table public.profiles add column if not exists verified boolean not null default false;
+alter table public.profiles add column if not exists is_admin boolean not null default false;
+
+create or replace function public.is_admin(uid uuid default auth.uid())
+returns boolean
+language sql
+security definer
+stable
+set search_path = ''
+as $$
+  select coalesce((select p.is_admin from public.profiles p where p.id = uid), false);
+$$;
+
+-- People may edit their own profile, but never grant themselves a badge
+create or replace function public.protect_profile_flags()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  -- auth.uid() is null for the SQL editor and service role, which is how the
+  -- first admin is appointed. Signed-in people must already be an admin.
+  if (new.verified is distinct from old.verified or new.is_admin is distinct from old.is_admin)
+     and auth.uid() is not null
+     and not public.is_admin(auth.uid()) then
+    raise exception 'only an admin can change verification';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists profiles_protect_flags on public.profiles;
+create trigger profiles_protect_flags
+  before update on public.profiles
+  for each row execute function public.protect_profile_flags();
+
+drop policy if exists "admins update any profile" on public.profiles;
+create policy "admins update any profile" on public.profiles for update
+  using (public.is_admin(auth.uid()))
+  with check (public.is_admin(auth.uid()));
+
+-- ================================================================
+-- Follows
+-- ================================================================
+
+create table if not exists public.follows (
+  follower_id uuid not null references public.profiles on delete cascade,
+  following_id uuid not null references public.profiles on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (follower_id, following_id),
+  constraint no_self_follow check (follower_id <> following_id)
+);
+
+create index if not exists follows_following_idx on public.follows (following_id);
+
+alter table public.follows enable row level security;
+
+drop policy if exists "follows are public" on public.follows;
+create policy "follows are public" on public.follows for select using (true);
+
+drop policy if exists "write own follows" on public.follows;
+create policy "write own follows" on public.follows for all
+  using (auth.uid() = follower_id)
+  with check (auth.uid() = follower_id);
+
+-- ================================================================
+-- Verification requests
+-- ================================================================
+
+create table if not exists public.verification_requests (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles on delete cascade,
+  reason text not null check (char_length(reason) between 10 and 1000),
+  link text not null default '',
+  status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
+  created_at timestamptz not null default now(),
+  decided_at timestamptz,
+  decided_by uuid references public.profiles on delete set null
+);
+
+-- One open request per person
+create unique index if not exists one_pending_request_per_user
+  on public.verification_requests (user_id)
+  where status = 'pending';
+
+alter table public.verification_requests enable row level security;
+
+drop policy if exists "read own or all as admin" on public.verification_requests;
+create policy "read own or all as admin" on public.verification_requests for select
+  using (auth.uid() = user_id or public.is_admin(auth.uid()));
+
+drop policy if exists "request own verification" on public.verification_requests;
+create policy "request own verification" on public.verification_requests for insert
+  with check (auth.uid() = user_id and status = 'pending');
+
+drop policy if exists "admins decide requests" on public.verification_requests;
+create policy "admins decide requests" on public.verification_requests for update
+  using (public.is_admin(auth.uid()))
+  with check (public.is_admin(auth.uid()));
+
+-- ================================================================
+-- Profile stats now include follower counts
+-- ================================================================
+
+-- Recreated rather than replaced because the column list changed over time
+drop view if exists public.profile_stats;
+
+create view public.profile_stats with (security_invoker = on) as
+select
+  p.id,
+  (select count(*) from public.posts where author_id = p.id)::int as posts,
+  (select count(*) from public.reactions r join public.posts po on po.id = r.post_id where po.author_id = p.id)::int as reactions,
+  (select avg(ra.value) from public.ratings ra join public.posts po on po.id = ra.post_id where po.author_id = p.id) as average_rating,
+  (select count(*) from public.follows f where f.following_id = p.id)::int as followers,
+  (select count(*) from public.follows f where f.follower_id = p.id)::int as following
+from public.profiles p;

@@ -4,6 +4,7 @@ import { t } from "../i18n/en";
 import { getTrending, type TrendingView } from "../services/api";
 import Avatar from "./Avatar";
 import { GraduationIcon } from "./Icons";
+import VerifiedBadge from "./VerifiedBadge";
 
 /** Discovery column: trending tags, active schools and top contributors. */
 export default function TrendingSidebar() {
@@ -71,7 +72,10 @@ export default function TrendingSidebar() {
               >
                 <Avatar user={person} size="sm" />
                 <span className="min-w-0">
-                  <span className="text-ink-700 block truncate text-sm font-medium">{person.displayName}</span>
+                  <span className="text-ink-700 flex items-center gap-1 text-sm font-medium">
+                    <span className="truncate">{person.displayName}</span>
+                    {person.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
+                  </span>
                   <span className="text-ink-500 block truncate text-xs">@{person.username}</span>
                 </span>
               </Link>

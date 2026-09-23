@@ -42,6 +42,15 @@ export const {
   getTrending,
   getAttachmentUrl,
   subscribeToAuth,
+  followUser,
+  unfollowUser,
+  getFollowers,
+  getFollowing,
+  getMyVerification,
+  requestVerification,
+  getVerificationRequests,
+  decideVerification,
+  uploadProfileImage,
 } = backend;
 
-export type { TrendingView } from "./localApi";
+export type { TrendingView, VerificationState } from "./localApi";

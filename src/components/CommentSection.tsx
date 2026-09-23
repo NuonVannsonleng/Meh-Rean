@@ -7,6 +7,7 @@ import { addComment, deleteComment, getComments } from "../services/api";
 import type { CommentView } from "../types";
 import Avatar from "./Avatar";
 import { SendIcon, TrashIcon } from "./Icons";
+import VerifiedBadge from "./VerifiedBadge";
 
 interface CommentSectionProps {
   postId: string;
@@ -87,12 +88,15 @@ export default function CommentSection({ postId, postAuthorId, onCountChange, au
                 </Link>
                 <div className="min-w-0 flex-1">
                   <div className="bg-surface-hover rounded-2xl rounded-tl-md px-3.5 py-2.5">
-                    <Link
-                      to={`/u/${comment.author.username}`}
-                      className="touch-target text-ink-900 text-sm font-semibold hover:underline"
-                    >
-                      {comment.author.displayName}
-                    </Link>
+                    <span className="flex items-center gap-1">
+                      <Link
+                        to={`/u/${comment.author.username}`}
+                        className="touch-target text-ink-900 text-sm font-semibold hover:underline"
+                      >
+                        {comment.author.displayName}
+                      </Link>
+                      {comment.author.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
+                    </span>
                     <p className="text-ink-700 text-sm whitespace-pre-line">{comment.body}</p>
                   </div>
                   <div className="text-ink-500 mt-1 flex items-center gap-3 px-2 text-xs">

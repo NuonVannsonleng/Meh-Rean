@@ -71,7 +71,21 @@ npm run dev
 The sign-in page no longer shows the demo account box — that's how you know it
 is connected to Supabase.
 
-## 5. Decide about email confirmation
+## 5. Make yourself an admin
+
+Verification requests need someone to approve them. In **SQL Editor**, run this
+once with your own username:
+
+```sql
+update public.profiles set is_admin = true where username = 'j.lhwa';
+```
+
+Sign out and back in, and Settings gains a **Verification requests** section
+listing anyone waiting for a blue check. Nobody can make themselves an admin or
+give themselves a badge from the app — a database trigger blocks it, and only
+this SQL editor (or another admin) can change those two fields.
+
+## 6. Decide about email confirmation
 
 By default Supabase emails a confirmation link to every new account. That is
 good for real use, but slow while testing.
@@ -86,7 +100,7 @@ is only meant for testing. For a real launch, connect your own SMTP provider
 under **Authentication → Emails → SMTP Settings** (Resend, Brevo and Mailgun all
 have free tiers).
 
-## 6. Try it
+## 7. Try it
 
 1. Create an account in the app.
 2. Post something with a photo or PDF attached.
@@ -104,7 +118,9 @@ The rules live in the database, so they apply no matter who calls the API.
 
 | Data | Who can read | Who can write |
 | --- | --- | --- |
-| Profiles | everyone | only you, your own |
+| Profiles | everyone | only you, your own (the badge and admin flag are locked) |
+| Follows | everyone | only your own follows; you cannot follow for someone else |
+| Verification requests | you, and admins | you send your own; only admins approve or reject |
 | Posts | everyone | only you, your own |
 | Comments | everyone | you write your own; you can delete your own, or any comment on your post |
 | Reactions, ratings | everyone | only your own; you cannot rate your own post |
@@ -137,6 +153,7 @@ first — keep an eye on **Storage** in the dashboard.
 | Sign-up says to check your email, but no email arrives | Confirmation is on and the test mail limit is reached. Turn confirmation off, or set up SMTP. |
 | "You don't have permission to do that" | A security rule blocked it — normally correct. If it's wrong, re-run `schema.sql`. |
 | Uploads fail | The `attachments` bucket is missing. Re-run `schema.sql`, then check **Storage**. |
+| No "Verification requests" section | That account is not an admin yet — run the SQL in step 5, then sign out and back in. |
 
 ## Running Supabase on your own computer (optional)
 
