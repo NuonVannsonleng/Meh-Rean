@@ -41,9 +41,21 @@ npm run dev
 npm run build
 ```
 
+## Connecting a real backend (Supabase)
+
+The app ships with a browser-only store so it runs with zero setup, but it is
+ready for Supabase: set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in
+`.env.local` and every request (accounts, posts, uploads) goes to your Supabase
+project instead. Nothing in the pages changes — `src/services/api.ts` picks the
+backend.
+
+Step-by-step guide: **[SUPABASE.md](SUPABASE.md)**. The database schema,
+security rules and storage bucket are in
+[`supabase/schema.sql`](supabase/schema.sql).
+
 ## Current limitations
 
-- **No server yet.** Accounts, posts and interactions are stored in the browser's `localStorage`, and uploaded files are stored in IndexedDB. Data stays on one device and browser, and other people can't see your posts.
+- **Browser-only by default.** Without Supabase configured, accounts, posts and interactions live in `localStorage` and uploaded files in IndexedDB, so data stays on one device and nobody else can see your posts. Connecting Supabase (above) removes this limitation.
 - Passwords are hashed (PBKDF2) in the browser. This is a stand-in until real server-side authentication exists; it does not make local accounts secure.
 - Seed content is sample data, and the sample PDFs and video point to public placeholder files.
 
@@ -53,6 +65,6 @@ Every data access goes through `src/services/api.ts`. The in-browser store lives
 
 ## Roadmap
 
-1. **Backend:** Node.js + Express + a database, a real API, and cloud file storage, so posts become visible to everyone.
+1. **Backend:** done — connect Supabase (Postgres, auth, storage) with [SUPABASE.md](SUPABASE.md).
 2. **Community:** following, notifications, reporting and moderation, and Telegram / Google sign-in.
 3. **Localization:** Khmer and other languages.

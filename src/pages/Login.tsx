@@ -7,7 +7,7 @@ import { useToast } from "../context/ToastContext";
 import { t } from "../i18n/en";
 import { errorMessage } from "../lib/errors";
 import { safeNext } from "../lib/validation";
-import { DEMO_ACCOUNT } from "../services/api";
+import { DEMO_ACCOUNT, isLocalMode } from "../services/api";
 
 interface LoginErrors {
   identifier?: string;
@@ -32,7 +32,7 @@ export default function Login() {
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     const found: LoginErrors = {};
-    if (!identifier.trim()) found.identifier = t.validation.required(t.auth.identifierLabel);
+    if (!identifier.trim()) found.identifier = t.validation.required(isLocalMode ? t.auth.identifierLabel : t.auth.emailLabel);
     if (!password) found.password = t.validation.required(t.auth.passwordLabel);
     setErrors(found);
     if (Object.keys(found).length) return;
@@ -63,7 +63,10 @@ export default function Login() {
     >
       <form onSubmit={submit} noValidate className="space-y-5">
         <TextField
-          label={t.auth.identifierLabel}
+          label={isLocalMode ? t.auth.identifierLabel : t.auth.emailLabel}
+          type={isLocalMode ? "text" : "email"}
+          inputMode="email"
+          hint={isLocalMode ? undefined : t.auth.emailOnlyHint}
           value={identifier}
           onChange={setIdentifier}
           autoComplete="username"
@@ -91,6 +94,7 @@ export default function Login() {
         </button>
       </form>
 
+      {isLocalMode && (
       <div className="bg-surface-muted border-line mt-6 rounded-xl border p-4">
         <p className="text-ink-900 text-sm font-semibold">{t.auth.demoTitle}</p>
         <p className="text-ink-500 mt-1 text-sm">{t.auth.demoBody(DEMO_ACCOUNT.email, DEMO_ACCOUNT.password)}</p>
@@ -106,6 +110,7 @@ export default function Login() {
           {t.auth.demoAction}
         </button>
       </div>
+      )}
     </AuthLayout>
   );
 }

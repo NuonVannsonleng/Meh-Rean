@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { t } from "../i18n/en";
+import { isLocalMode } from "../services/api";
 import Logo from "./Logo";
 
 interface AuthLayoutProps {
@@ -19,7 +20,7 @@ export default function AuthLayout({ title, subtitle, children, footer }: AuthLa
       </div>
       <div className="card p-5 sm:p-7">{children}</div>
       <p className="text-ink-700 mt-6 text-center text-sm">{footer}</p>
-      <p className="text-ink-400 mt-3 text-center text-xs">{t.auth.localNotice}</p>
+      {isLocalMode && <p className="text-ink-400 mt-3 text-center text-xs">{t.auth.localNotice}</p>}
     </div>
   );
 }

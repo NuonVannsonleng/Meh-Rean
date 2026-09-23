@@ -42,6 +42,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setStatus(next ? "signed-in" : "signed-out");
   }, []);
 
+  // Stay in step with the server session (refresh, other tabs, email links).
+  useEffect(() => api.subscribeToAuth(applyUser), [applyUser]);
+
   const signIn = useCallback(
     async (input: SignInInput) => {
       const next = await api.signIn(input);

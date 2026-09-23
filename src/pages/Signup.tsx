@@ -37,6 +37,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<SignupErrors>({});
   const [submitting, setSubmitting] = useState(false);
+  const [confirmationSent, setConfirmationSent] = useState(false);
 
   if (user && !submitting) return <Navigate to={next} replace />;
 
@@ -60,7 +61,8 @@ export default function Signup() {
       navigate(next === "/" ? "/settings" : next, { replace: true });
     } catch (error) {
       const code = errorCode(error);
-      if (code === "EMAIL_TAKEN") setErrors({ email: errorMessage(error) });
+      if (code === "EMAIL_CONFIRMATION") setConfirmationSent(true);
+      else if (code === "EMAIL_TAKEN") setErrors({ email: errorMessage(error) });
       else if (code === "USERNAME_TAKEN") setErrors({ username: errorMessage(error) });
       else setErrors({ submit: errorMessage(error) });
       setSubmitting(false);
@@ -80,6 +82,12 @@ export default function Signup() {
         </>
       }
     >
+      {confirmationSent && (
+        <p role="status" className="bg-success-bg text-success-fg animate-fade mb-5 rounded-xl px-4 py-3 text-sm font-medium">
+          {t.apiErrors.EMAIL_CONFIRMATION}
+        </p>
+      )}
+
       <form onSubmit={submit} noValidate className="space-y-5">
         <TextField
           label={t.auth.displayNameLabel}

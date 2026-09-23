@@ -282,6 +282,7 @@ export const en = {
     welcome: (name: string) => `Welcome, ${name}!`,
     welcomeBack: (name: string) => `Welcome back, ${name}!`,
     localNotice: "Accounts are stored in this browser until the Meh Rean server launches.",
+    emailOnlyHint: "Sign in with the email address you signed up with.",
     required: "Sign in to do that",
   },
   profile: {
@@ -339,7 +340,6 @@ export const en = {
     deleteConfirmLabel: "Enter your password to confirm",
     deleteAction: "Delete my account",
     deleting: "Deleting…",
-    deleted: "Your account has been deleted",
   },
   validation: {
     required: (field: string) => `${field} is required.`,
@@ -360,6 +360,7 @@ export const en = {
     WRONG_PASSWORD: "That password is incorrect.",
     FILE_TOO_LARGE: "One of the files is larger than 100 MB.",
     TOO_MANY_FILES: "You can attach up to 10 files per post.",
+    EMAIL_CONFIRMATION: "Almost there — check your email for a confirmation link, then sign in.",
     STORAGE_FULL: "Your browser's storage is full. Try smaller files or delete old posts.",
   } satisfies Record<ApiErrorCode, string>,
   error: {

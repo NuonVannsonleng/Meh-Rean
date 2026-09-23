@@ -317,8 +317,8 @@ function AccountActions() {
     try {
       await deleteAccount(password);
       setUser(null);
-      notify(t.settings.deleted);
-      navigate("/");
+      // Full reload so nothing from the deleted session is left in memory.
+      window.location.replace("/");
     } catch (caught) {
       setError(errorMessage(caught));
       setDeleting(false);

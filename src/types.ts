@@ -241,6 +241,7 @@ export type ApiErrorCode =
   | "WRONG_PASSWORD"
   | "FILE_TOO_LARGE"
   | "TOO_MANY_FILES"
+  | "EMAIL_CONFIRMATION"
   | "STORAGE_FULL";
 
 /** Error surfaced by the service layer; UI maps `code` to friendly copy. */

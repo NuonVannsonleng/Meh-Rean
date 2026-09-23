@@ -5,3 +5,10 @@ dist-ssr
 .DS_Store
 .vite
 *.tsbuildinfo
+
+# Local environment and Supabase CLI state
+.env
+.env.local
+.env.*.local
+supabase/.branches
+supabase/.temp
