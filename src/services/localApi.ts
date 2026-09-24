@@ -1,4 +1,4 @@
-import { detectAttachmentKind, matchesMediaFilter, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
+import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
   REACTION_TYPES,
@@ -376,13 +376,20 @@ export async function createPost(input: NewPostInput): Promise<PostView> {
   try {
     for (const file of input.files) {
       const id = createId("f");
-      await putFile(id, file);
+      // getAttachmentUrl() serves these through URL.createObjectURL(), and a
+      // blob: URL is same-origin with the app — so a file declared as text/html
+      // or image/svg+xml would run script next to the account store and the
+      // session. The stored blob is re-typed here, not just the metadata, so the
+      // safe type is what the browser sees. slice() re-types without copying the
+      // bytes. Matches createPost() in supabaseApi.ts.
+      const contentType = safeContentType(file.type || "application/octet-stream");
+      await putFile(id, file.slice(0, file.size, contentType));
       attachments.push({
         id,
         name: file.name,
-        mimeType: file.type || "application/octet-stream",
+        mimeType: contentType,
         size: file.size,
-        kind: detectAttachmentKind(file.type, file.name),
+        kind: detectAttachmentKind(contentType, file.name),
         url: `${LOCAL_FILE_PREFIX}${id}`,
       });
     }

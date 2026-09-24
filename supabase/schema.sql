@@ -236,16 +236,29 @@ grant execute on function public.delete_own_account() to authenticated;
 
 -- -------------------------------------------------------------- storage -----
 
-insert into storage.buckets (id, name, public)
-values ('attachments', 'attachments', true)
-on conflict (id) do update set public = true;
+-- No allowed_mime_types: posts deliberately accept every file type.
+insert into storage.buckets (id, name, public, file_size_limit)
+values ('attachments', 'attachments', true, 52428800)  -- 50 MiB, matches MAX_FILE_BYTES
+on conflict (id) do update set public = true, file_size_limit = excluded.file_size_limit;
 
+-- SELECT on storage.objects is what powers storage.list(), so it is scoped to the
+-- owner's own folder: otherwise any anonymous client could enumerate every user's
+-- uploads. Public *downloads* do not go through RLS on a public bucket, so shared
+-- links keep working for everyone.
 drop policy if exists "attachments are public" on storage.objects;
-create policy "attachments are public" on storage.objects for select using (bucket_id = 'attachments');
+drop policy if exists "list own attachments" on storage.objects;
+create policy "list own attachments" on storage.objects for select to authenticated
+  using (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text);
 
 -- Each person can only write inside a folder named after their own user id
 drop policy if exists "upload own attachments" on storage.objects;
 create policy "upload own attachments" on storage.objects for insert to authenticated
+  with check (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- uploadProfileImage() uploads with upsert: true, which needs UPDATE as well as INSERT.
+drop policy if exists "update own attachments" on storage.objects;
+create policy "update own attachments" on storage.objects for update to authenticated
+  using (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text)
   with check (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text);
 
 drop policy if exists "delete own attachments" on storage.objects;

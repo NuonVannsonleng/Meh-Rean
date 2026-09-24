@@ -1,5 +1,5 @@
 import type { PostgrestError } from "@supabase/supabase-js";
-import { detectAttachmentKind, matchesMediaFilter, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
+import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
   REACTION_TYPES,
@@ -413,18 +413,24 @@ export async function createPost(input: NewPostInput): Promise<PostView> {
     for (const [index, file] of input.files.entries()) {
       const safeName = file.name.replace(/[^\w.\-]+/g, "_").slice(-80);
       const path = `${viewer}/${postId}/${index}-${safeName}`;
+      // The bucket is public and accepts every type, so a file the browser
+      // declares as text/html or image/svg+xml would otherwise be served as a
+      // live document on the storage origin — stored XSS. safeContentType()
+      // downgrades exactly those to a binary type; the file itself, its name and
+      // its size are untouched.
+      const contentType = safeContentType(file.type || "application/octet-stream");
       const upload = await supabase.storage
         .from(ATTACHMENTS_BUCKET)
-        .upload(path, file, { contentType: file.type || "application/octet-stream", upsert: false });
+        .upload(path, file, { contentType, upsert: false });
       if (upload.error) fail(upload.error);
       uploaded.push(path);
       const { data } = supabase.storage.from(ATTACHMENTS_BUCKET).getPublicUrl(path);
       attachments.push({
         id: path,
         name: file.name,
-        mimeType: file.type || "application/octet-stream",
+        mimeType: contentType,
         size: file.size,
-        kind: detectAttachmentKind(file.type, file.name),
+        kind: detectAttachmentKind(contentType, file.name),
         url: data.publicUrl,
       });
     }

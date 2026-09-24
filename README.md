@@ -8,7 +8,7 @@
 
 - **Accounts:** sign up, sign in, sign out. Includes a demo account (`demo@mehrean.app` / `demo1234`).
 - **Social feed:** posts with a title, description, subject, level, tags and attachments.
-- **Uploads of any file type:** PDF, Word, slides, spreadsheets, archives, audio, images and video. Up to 10 files per post, 100 MB each.
+- **Uploads of any file type:** PDF, Word, slides, spreadsheets, archives, audio, images and video. Up to 10 files per post, 50 MB each (enforced by the storage bucket as well as the client).
 - **Media:** image grid with a full-screen lightbox, inline video and audio players, and file cards with open/download.
 - **Interactions:** five reactions, comments, 1–5 star ratings, save to collection, and share (native share sheet or copy link).
 - **Discovery:** live search, sorting (latest / top rated / most discussed), and filters for subject, level and content type. All of it is stored in the URL, so filtered views can be shared.
