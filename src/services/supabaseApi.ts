@@ -43,6 +43,9 @@ interface ProfileRow {
   display_name: string;
   bio: string;
   school: string;
+  school_domain: string | null;
+  school_country: string | null;
+  grade: string | null;
   country: string;
   field_of_study: string;
   avatar_url: string | null;
@@ -70,7 +73,7 @@ interface PostRow {
 }
 
 const PROFILE_COLUMNS =
-  "id, username, display_name, bio, school, country, field_of_study, avatar_url, banner_url, verified, created_at";
+  "id, username, display_name, bio, school, school_domain, school_country, grade, country, field_of_study, avatar_url, banner_url, verified, created_at";
 
 const POST_SELECT = `
   id, author_id, title, body, subject, level, tags, attachments, created_at,
@@ -114,6 +117,9 @@ function toPublicUser(row: ProfileRow): PublicUser {
     displayName: row.display_name,
     bio: row.bio,
     school: row.school,
+    schoolDomain: row.school_domain,
+    schoolCountry: row.school_country,
+    grade: row.grade,
     country: row.country,
     fieldOfStudy: row.field_of_study,
     avatarUrl: row.avatar_url,
@@ -197,14 +203,32 @@ export async function signUp(input: SignUpInput): Promise<User> {
   if (available.error) fail(available.error);
   if (available.data === false) throw new ApiError("USERNAME_TAKEN", 409);
 
+  const school = {
+    school: input.school.trim(),
+    school_domain: input.schoolDomain,
+    school_country: input.schoolCountry,
+    grade: input.grade.trim() || null,
+    field_of_study: input.fieldOfStudy.trim(),
+  };
+
   const { data, error } = await supabase.auth.signUp({
     email: input.email.trim(),
     password: input.password,
-    options: { data: { username, display_name: input.displayName.trim() } },
+    // handle_new_user() reads these, so the school survives even when email
+    // confirmation means the profile row is written without a session.
+    options: { data: { username, display_name: input.displayName.trim(), ...school } },
   });
   if (error) fail(error);
   // With "Confirm email" enabled there is no session until the link is clicked.
   if (!data.session) throw new ApiError("EMAIL_CONFIRMATION", 202);
+
+  // With a session, write the row directly too: the trigger only fills in what
+  // was in the metadata, and an older database may not read all of it yet.
+  const update = await supabase
+    .from("profiles")
+    .update({ ...school, country: input.schoolCountry ?? "" })
+    .eq("id", data.session.user.id);
+  if (update.error) fail(update.error);
 
   const user = await currentUser();
   if (!user) throw new ApiError("UNKNOWN", 500);
@@ -248,6 +272,9 @@ export async function updateProfile(input: UpdateProfileInput): Promise<User> {
       display_name: input.displayName.trim(),
       bio: input.bio.trim(),
       school: input.school.trim(),
+      school_domain: input.schoolDomain,
+      school_country: input.schoolCountry,
+      grade: input.grade,
       country: input.country.trim(),
       field_of_study: input.fieldOfStudy.trim(),
       avatar_url: input.avatarUrl,

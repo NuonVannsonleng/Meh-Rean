@@ -2,6 +2,7 @@ import { useCallback, useEffect, useId, useRef, useState, type FormEvent, type R
 import { useNavigate } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import { FieldShell, TextField } from "../components/FormField";
+import InstitutionPicker from "../components/InstitutionPicker";
 import { CameraIcon, CheckIcon, CloseIcon, LockIcon, LogOutIcon, PaletteIcon, TrashIcon, UserIcon } from "../components/Icons";
 import ImageCropper from "../components/ImageCropper";
 import VerifiedBadge from "../components/VerifiedBadge";
@@ -10,6 +11,7 @@ import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { t } from "../i18n/en";
 import { errorCode, errorMessage } from "../lib/errors";
+import { gradeOptions, selectionFromProfile, type InstitutionSelection } from "../lib/institutions";
 import { validateDisplayName, validateEmail, validateNewPassword, validateUsername } from "../lib/validation";
 import {
   changePassword,
@@ -73,6 +75,7 @@ function ProfileForm({ user }: { user: User }) {
   const { setUser } = useAuth();
   const { notify } = useToast();
   const bioId = useId();
+  const gradeId = useId();
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [values, setValues] = useState<UpdateProfileInput>({
@@ -81,11 +84,15 @@ function ProfileForm({ user }: { user: User }) {
     email: user.email,
     bio: user.bio,
     school: user.school,
+    schoolDomain: user.schoolDomain,
+    schoolCountry: user.schoolCountry,
+    grade: user.grade,
     country: user.country,
     fieldOfStudy: user.fieldOfStudy,
     avatarUrl: user.avatarUrl,
     bannerUrl: user.bannerUrl,
   });
+  const [school, setSchool] = useState<InstitutionSelection | null>(() => selectionFromProfile(user));
   const [errors, setErrors] = useState<ProfileErrors>({});
   const [saving, setSaving] = useState(false);
   const [cropping, setCropping] = useState<{ file: File; kind: ProfileImageKind } | null>(null);
@@ -94,6 +101,22 @@ function ProfileForm({ user }: { user: User }) {
   const set = <K extends keyof UpdateProfileInput>(key: K, value: UpdateProfileInput[K]) => {
     setValues((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: undefined, submit: undefined }));
+  };
+
+  const pickSchool = (selection: InstitutionSelection) => {
+    setSchool(selection);
+    const grades = gradeOptions(selection.kind);
+    setValues((current) => ({
+      ...current,
+      school: selection.name,
+      schoolDomain: selection.domain,
+      schoolCountry: selection.country,
+      // Years and grades differ per kind, so a stale pick is dropped.
+      grade: current.grade && grades.includes(current.grade) ? current.grade : null,
+      // Only a guess, and only while the student hasn't said where they are.
+      country: current.country.trim() || selection.country || "",
+    }));
+    setErrors((current) => ({ ...current, school: undefined, submit: undefined }));
   };
 
   const pickImage = (file: File | undefined, kind: ProfileImageKind) => {
@@ -260,21 +283,30 @@ function ProfileForm({ user }: { user: User }) {
         />
       </FieldShell>
       <div className="grid gap-5 sm:grid-cols-2">
-        <TextField
-          label={t.settings.schoolLabel}
-          value={values.school}
-          onChange={(value) => set("school", value)}
-          placeholder={t.settings.schoolPlaceholder}
-          optional
-        />
-        <TextField
-          label={t.settings.fieldLabel}
-          value={values.fieldOfStudy}
-          onChange={(value) => set("fieldOfStudy", value)}
-          placeholder={t.settings.fieldPlaceholder}
-          optional
-        />
+        <InstitutionPicker label={t.institution.label} value={school} onChange={pickSchool} optional />
+        <FieldShell id={gradeId} label={t.institution.gradeLabel} optional>
+          <select
+            id={gradeId}
+            value={values.grade ?? ""}
+            onChange={(event) => set("grade", event.target.value || null)}
+            className="input cursor-pointer"
+          >
+            <option value="">{t.institution.gradePlaceholder}</option>
+            {gradeOptions(school?.kind ?? "university").map((value) => (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            ))}
+          </select>
+        </FieldShell>
       </div>
+      <TextField
+        label={t.settings.fieldLabel}
+        value={values.fieldOfStudy}
+        onChange={(value) => set("fieldOfStudy", value)}
+        placeholder={t.settings.fieldPlaceholder}
+        optional
+      />
       <TextField
         label={t.settings.countryLabel}
         value={values.country}

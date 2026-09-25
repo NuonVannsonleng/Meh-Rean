@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import EmptyState from "../components/EmptyState";
@@ -16,6 +16,7 @@ import {
   UserIcon,
 } from "../components/Icons";
 import ImageCropper from "../components/ImageCropper";
+import InstitutionLogo from "../components/InstitutionLogo";
 import LoadingState from "../components/LoadingState";
 import PostCard from "../components/PostCard";
 import UserList from "../components/UserList";
@@ -67,11 +68,22 @@ function ProfileHeader({
   const avatarInput = useRef<HTMLInputElement>(null);
   const bannerInput = useRef<HTMLInputElement>(null);
 
-  const facts = [
-    { Icon: GraduationIcon, value: user.school },
-    { Icon: FileTextIcon, value: user.fieldOfStudy },
-    { Icon: MapPinIcon, value: user.country },
-    { Icon: CalendarIcon, value: t.profile.joined(formatDate(user.createdAt)) },
+  const facts: { key: string; icon: ReactNode; value: string }[] = [
+    {
+      key: "school",
+      // InstitutionLogo falls back to an initial tile, so a school typed in by
+      // hand still gets a mark next to its name.
+      icon: <InstitutionLogo name={user.school} domain={user.schoolDomain} className="h-5 w-5" />,
+      value: user.school,
+    },
+    { key: "grade", icon: <GraduationIcon className="h-4 w-4" />, value: user.grade ?? "" },
+    { key: "field", icon: <FileTextIcon className="h-4 w-4" />, value: user.fieldOfStudy },
+    { key: "country", icon: <MapPinIcon className="h-4 w-4" />, value: user.country },
+    {
+      key: "joined",
+      icon: <CalendarIcon className="h-4 w-4" />,
+      value: t.profile.joined(formatDate(user.createdAt)),
+    },
   ].filter((fact) => fact.value);
 
   const counts: { label: string; value: string; tab?: Tab }[] = [
@@ -149,9 +161,9 @@ function ProfileHeader({
         {user.bio && <p className="text-ink-700 mt-3 max-w-2xl whitespace-pre-line">{user.bio}</p>}
 
         <ul className="text-ink-500 mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
-          {facts.map(({ Icon, value }) => (
-            <li key={value} className="flex items-center gap-1.5">
-              <Icon className="h-4 w-4" />
+          {facts.map(({ key, icon, value }) => (
+            <li key={key} className="flex items-center gap-1.5">
+              {icon}
               {value}
             </li>
           ))}
@@ -300,6 +312,9 @@ export default function Profile() {
         email: user.email,
         bio: user.bio,
         school: user.school,
+        schoolDomain: user.schoolDomain,
+        schoolCountry: user.schoolCountry,
+        grade: user.grade,
         country: user.country,
         fieldOfStudy: user.fieldOfStudy,
         avatarUrl: kind === "avatar" ? url : user.avatarUrl,

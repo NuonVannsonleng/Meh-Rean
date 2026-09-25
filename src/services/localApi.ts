@@ -60,6 +60,11 @@ function delay(ms = 300): Promise<void> {
 
 // ---- Helpers ----
 
+/**
+ * A record stored by an older build of the app can be missing the newer fields,
+ * so the nullable ones are normalised here: the types promise null, never
+ * undefined.
+ */
 function toPublicUser(record: UserRecord): PublicUser {
   return {
     bannerUrl: record.bannerUrl,
@@ -69,6 +74,9 @@ function toPublicUser(record: UserRecord): PublicUser {
     displayName: record.displayName,
     bio: record.bio,
     school: record.school,
+    schoolDomain: record.schoolDomain ?? null,
+    schoolCountry: record.schoolCountry ?? null,
+    grade: record.grade ?? null,
     country: record.country,
     fieldOfStudy: record.fieldOfStudy,
     avatarUrl: record.avatarUrl,
@@ -187,9 +195,13 @@ export async function signUp(input: SignUpInput): Promise<User> {
     displayName: input.displayName.trim(),
     email,
     bio: "",
-    school: "",
-    country: "",
-    fieldOfStudy: "",
+    school: input.school.trim(),
+    schoolDomain: input.schoolDomain,
+    schoolCountry: input.schoolCountry,
+    grade: input.grade.trim() || null,
+    // The institution's country doubles as the student's own until they say otherwise.
+    country: input.schoolCountry ?? "",
+    fieldOfStudy: input.fieldOfStudy.trim(),
     avatarUrl: null,
     bannerUrl: null,
     verified: false,
@@ -244,6 +256,9 @@ export async function updateProfile(input: UpdateProfileInput): Promise<User> {
     email,
     bio: input.bio.trim(),
     school: input.school.trim(),
+    schoolDomain: input.schoolDomain,
+    schoolCountry: input.schoolCountry,
+    grade: input.grade,
     country: input.country.trim(),
     fieldOfStudy: input.fieldOfStudy.trim(),
     avatarUrl: input.avatarUrl,

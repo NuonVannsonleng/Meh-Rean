@@ -63,7 +63,7 @@ export interface SaveRecord {
 }
 
 export interface DbState {
-  version: 2;
+  version: 3;
   users: UserRecord[];
   posts: Post[];
   comments: Comment[];
@@ -74,7 +74,7 @@ export interface DbState {
   verifications: VerificationRecord[];
 }
 
-const DB_KEY = "meh-rean:db:v2";
+const DB_KEY = "meh-rean:db:v3";
 const SESSION_KEY = "meh-rean:session";
 
 // ---- Password hashing (PBKDF2 via Web Crypto) ----
@@ -158,7 +158,7 @@ async function createSeedState(): Promise<DbState> {
   );
 
   return {
-    version: 2,
+    version: 3,
     users,
     posts: structuredClone(seedPosts),
     comments: structuredClone(seedComments),
@@ -175,7 +175,7 @@ function readStored(): DbState | null {
     const raw = localStorage.getItem(DB_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as DbState;
-    return parsed.version === 2 ? parsed : null;
+    return parsed.version === 3 ? parsed : null;
   } catch {
     return null;
   }

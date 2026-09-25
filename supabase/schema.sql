@@ -67,23 +67,98 @@ create index if not exists posts_subject_idx on public.posts (subject);
 create index if not exists posts_tags_idx on public.posts using gin (tags);
 create index if not exists comments_post_idx on public.comments (post_id);
 
+-- Where the student studies: the domain gives the institution's logo, and the
+-- country of the school can differ from the student's own. Added here (rather
+-- than in the create table above) so existing databases pick them up too, and
+-- because handle_new_user() below writes to them.
+alter table public.profiles add column if not exists school_domain text;
+alter table public.profiles add column if not exists school_country text;
+alter table public.profiles add column if not exists grade text;
+
+-- These four are free text straight from sign-up metadata and are shown on a
+-- public profile, so they are bounded like posts.title and comments.body are.
+-- Each guard keeps the file re-runnable by hand in the SQL editor.
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'profiles_school_len') then
+    alter table public.profiles add constraint profiles_school_len
+      check (char_length(school) <= 150);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'profiles_school_country_len') then
+    alter table public.profiles add constraint profiles_school_country_len
+      check (char_length(school_country) <= 80);
+  end if;
+  -- A plain hostname: no scheme, no path, so it can never become a javascript:
+  -- or data: URL when it is pasted into a logo request.
+  if not exists (select 1 from pg_constraint where conname = 'profiles_school_domain_host') then
+    alter table public.profiles add constraint profiles_school_domain_host
+      check (school_domain is null or (char_length(school_domain) <= 253 and school_domain ~ '^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$'));
+  end if;
+  -- Exactly the values the pickers offer (t.institution.universityGrades and
+  -- t.institution.highSchoolGrades in src/i18n/en.ts).
+  if not exists (select 1 from pg_constraint where conname = 'profiles_grade_allowed') then
+    alter table public.profiles add constraint profiles_grade_allowed
+      check (grade is null or grade in (
+        'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Postgraduate', 'Alumni',
+        'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'
+      ));
+  end if;
+end $$;
+
 -- ------------------------------------------------------- new user profile ---
 
+-- Metadata is attacker-controlled, and this trigger runs inside the insert on
+-- auth.users: a constraint violation here would turn a hostile sign-up into a
+-- 500 and a broken sign-up page. So everything is sanitised down to something
+-- the constraints accept, and the constraints stay only as a backstop.
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
 security definer
 set search_path = ''
 as $$
+declare
+  meta jsonb := coalesce(new.raw_user_meta_data, '{}'::jsonb);
+  -- Only a JSON string counts as a value; an object or a number reads as absent.
+  v_school text := left(coalesce(case when jsonb_typeof(meta -> 'school') = 'string' then meta ->> 'school' end, ''), 150);
+  -- school_country stays nullable: an absent school means no school country.
+  v_country text := nullif(left(coalesce(case when jsonb_typeof(meta -> 'school_country') = 'string' then meta ->> 'school_country' end, ''), 80), '');
+  v_domain text := nullif(lower(coalesce(case when jsonb_typeof(meta -> 'school_domain') = 'string' then meta ->> 'school_domain' end, '')), '');
+  v_grade text := nullif(coalesce(case when jsonb_typeof(meta -> 'grade') = 'string' then meta ->> 'grade' end, ''), '');
 begin
-  insert into public.profiles (id, username, display_name)
+  -- Anything that is not a bare hostname is dropped rather than rejected.
+  if v_domain is not null and (
+    char_length(v_domain) > 253
+    or v_domain !~ '^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$'
+  ) then
+    v_domain := null;
+  end if;
+
+  if v_grade is not null and v_grade not in (
+    'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Postgraduate', 'Alumni',
+    'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'
+  ) then
+    v_grade := null;
+  end if;
+
+  insert into public.profiles (
+    id, username, display_name, school, school_domain, school_country, grade, field_of_study, country
+  )
   values (
     new.id,
     coalesce(
-      nullif(lower(new.raw_user_meta_data ->> 'username'), ''),
+      nullif(lower(meta ->> 'username'), ''),
       'user' || left(replace(new.id::text, '-', ''), 8)
     ),
-    coalesce(nullif(new.raw_user_meta_data ->> 'display_name', ''), 'Student')
+    coalesce(nullif(meta ->> 'display_name', ''), 'Student'),
+    -- Sign-up asks for a school, so it arrives in the metadata. The profile row
+    -- is written here even when email confirmation delays the first session.
+    v_school,
+    v_domain,
+    v_country,
+    v_grade,
+    coalesce(meta ->> 'field_of_study', ''),
+    -- The institution's country is the first guess for the student's own.
+    coalesce(v_country, '')
   );
   return new;
 end;

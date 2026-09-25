@@ -78,33 +78,39 @@ type UserSeed = [
   username: string,
   displayName: string,
   school: string,
+  /** The school's real domain, so the demo shows real logos. */
+  schoolDomain: string | null,
   country: string,
   fieldOfStudy: string,
+  grade: string,
   bio: string,
   createdAt: string,
 ];
 
 const userSeed: UserSeed[] = [
-  [DEMO_USER_ID, "alex", "Alex Rivera", "University of Toronto", "Canada", "Computer Science", "Second-year CS student. I share my notes so future me (and you) can find them.", "2026-06-02T10:00:00Z"],
-  ["u1", "vannak", "Chea Vannak", "Institute of Technology of Cambodia", "Cambodia", "IT Engineering", "Databases, networks and too much coffee. Phnom Penh 🇰🇭", "2026-03-11T08:30:00Z"],
-  ["u2", "amara", "Amara Okafor", "University of Lagos", "Nigeria", "Medicine", "MBBS year 3. Anatomy diagrams are my love language.", "2026-02-19T14:12:00Z"],
-  ["u3", "lukas.s", "Lukas Schneider", "Technical University of Munich", "Germany", "Mechanical Engineering", "Thermodynamics tutor. Happy to answer questions in the comments.", "2026-01-07T09:45:00Z"],
-  ["u4", "priya", "Priya Nair", "IIT Bombay", "India", "Computer Science", "Algorithms, competitive programming and clean notes.", "2026-04-23T05:20:00Z"],
-  ["u5", "sofiam", "Sofía Martínez", "Universidad de Buenos Aires", "Argentina", "Economics", "Macro, micro and mate. Notes in English and Spanish.", "2026-05-15T18:05:00Z"],
-  ["u6", "yuki", "Yuki Tanaka", "Shibuya Senior High School", "Japan", "Physics", "High school senior preparing for university entrance exams.", "2026-07-01T00:40:00Z"],
-  ["u7", "emmaw", "Emma Wilson", "University of Melbourne", "Australia", "Law", "Law student. Case briefs and exam outlines.", "2026-03-28T22:10:00Z"],
-  ["u8", "minh", "Trần Minh", "Hanoi University of Science and Technology", "Vietnam", "Mathematics", "Linear algebra enjoyer. Handwritten notes, always.", "2026-02-02T03:00:00Z"],
+  [DEMO_USER_ID, "alex", "Alex Rivera", "University of Toronto", "utoronto.ca", "Canada", "Computer Science", "Year 2", "Second-year CS student. I share my notes so future me (and you) can find them.", "2026-06-02T10:00:00Z"],
+  ["u1", "vannak", "Chea Vannak", "Institute of Technology of Cambodia", "itc.edu.kh", "Cambodia", "IT Engineering", "Year 3", "Databases, networks and too much coffee. Phnom Penh 🇰🇭", "2026-03-11T08:30:00Z"],
+  ["u2", "amara", "Amara Okafor", "University of Lagos", "unilag.edu.ng", "Nigeria", "Medicine", "Year 3", "MBBS year 3. Anatomy diagrams are my love language.", "2026-02-19T14:12:00Z"],
+  ["u3", "lukas.s", "Lukas Schneider", "Technical University of Munich", "tum.de", "Germany", "Mechanical Engineering", "Postgraduate", "Thermodynamics tutor. Happy to answer questions in the comments.", "2026-01-07T09:45:00Z"],
+  ["u4", "priya", "Priya Nair", "IIT Bombay", "iitb.ac.in", "India", "Computer Science", "Year 2", "Algorithms, competitive programming and clean notes.", "2026-04-23T05:20:00Z"],
+  ["u5", "sofiam", "Sofía Martínez", "Universidad de Buenos Aires", "uba.ar", "Argentina", "Economics", "Year 4", "Macro, micro and mate. Notes in English and Spanish.", "2026-05-15T18:05:00Z"],
+  ["u6", "yuki", "Yuki Tanaka", "Shibuya Senior High School", null, "Japan", "Physics", "Grade 12", "High school senior preparing for university entrance exams.", "2026-07-01T00:40:00Z"],
+  ["u7", "emmaw", "Emma Wilson", "University of Melbourne", "unimelb.edu", "Australia", "Law", "Year 3", "Law student. Case briefs and exam outlines.", "2026-03-28T22:10:00Z"],
+  ["u8", "minh", "Trần Minh", "Hanoi University of Science and Technology", "hust.edu.vn", "Vietnam", "Mathematics", "Year 1", "Linear algebra enjoyer. Handwritten notes, always.", "2026-02-02T03:00:00Z"],
 ];
 
 /** Sample verified accounts so the badge is visible in the demo. */
 const VERIFIED_SEED_USERS = new Set(["u2", "u4"]);
 
 export const seedUsers: PublicUser[] = userSeed.map(
-  ([id, username, displayName, school, country, fieldOfStudy, bio, createdAt]) => ({
+  ([id, username, displayName, school, schoolDomain, country, fieldOfStudy, grade, bio, createdAt]) => ({
     id,
     username,
     displayName,
     school,
+    schoolDomain,
+    schoolCountry: country,
+    grade,
     country,
     fieldOfStudy,
     bio,

@@ -13,3 +13,4 @@ dist-ssr
 supabase/.branches
 supabase/.temp
 .env.test
+.env*.cloud

@@ -1,0 +1,18 @@
+{
+  "comment": "Institutions missing from the upstream list, merged in by scripts/build-institutions.mjs. Every domain here was checked to resolve before being added — a wrong domain means a wrong logo. Add more as students report them.",
+  "institutions": [
+    { "name": "Institute of Technology of Cambodia", "code": "KH", "country": "Cambodia", "domain": "itc.edu.kh" },
+    { "name": "American University of Phnom Penh", "code": "KH", "country": "Cambodia", "domain": "aupp.edu.kh" },
+    { "name": "Paragon International University", "code": "KH", "country": "Cambodia", "domain": "paragoniu.edu.kh" },
+    { "name": "Cambodia Academy of Digital Technology", "code": "KH", "country": "Cambodia", "domain": "cadt.edu.kh" },
+    { "name": "National Polytechnic Institute of Cambodia", "code": "KH", "country": "Cambodia", "domain": "npic.edu.kh" },
+    { "name": "University of Puthisastra", "code": "KH", "country": "Cambodia", "domain": "puthisastra.edu.kh" },
+    { "name": "CamTech University", "code": "KH", "country": "Cambodia", "domain": "camtech.edu.kh" },
+    { "name": "National Technical Training Institute", "code": "KH", "country": "Cambodia", "domain": "ntti.edu.kh" },
+    { "name": "University of Management and Economics", "code": "KH", "country": "Cambodia", "domain": "ume.edu.kh" },
+    { "name": "VANDA University", "code": "KH", "country": "Cambodia", "domain": "vanda.edu.kh" },
+    { "name": "IIC University of Technology", "code": "KH", "country": "Cambodia", "domain": "iic.edu.kh" },
+    { "name": "BELTEI International University", "code": "KH", "country": "Cambodia", "domain": "beltei.edu.kh" },
+    { "name": "Royal Academy of Cambodia", "code": "KH", "country": "Cambodia", "domain": "rac.gov.kh" }
+  ]
+}

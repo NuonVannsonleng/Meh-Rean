@@ -337,6 +337,8 @@ const accounts = {
   b: { letter: "b", label: "B (student, uploads)" },
   c: { letter: "c", label: "C (student, no uploads)" },
   d: { letter: "d", label: "D (admin)" },
+  e: { letter: "e", label: "E (sign-up metadata)" },
+  f: { letter: "f", label: "F (hostile sign-up metadata)" },
 };
 
 for (const account of Object.values(accounts)) {
@@ -438,7 +440,12 @@ async function headStatus(url) {
 
 // ---- Authentication --------------------------------------------------------
 
-async function signUpAndIn(account) {
+/**
+ * Signs one account up and back in. `metadata` is merged into the sign-up
+ * metadata exactly as the browser sends it, so a caller can drive the keys
+ * handle_new_user() reads — including keys it must ignore.
+ */
+async function signUpAndIn(account, metadata = {}) {
   const available = await account.client.rpc("username_available", { name: account.username });
   if (available.error) {
     return {
@@ -462,7 +469,7 @@ async function signUpAndIn(account) {
   const signUp = await account.client.auth.signUp({
     email: account.email,
     password,
-    options: { data: { username: account.username, display_name: account.displayName } },
+    options: { data: { username: account.username, display_name: account.displayName, ...metadata } },
   });
   if (signUp.error) {
     return {
@@ -524,6 +531,116 @@ async function setUpAccounts() {
     return;
   }
   await check("Authentication", `sign up and sign in ${accounts.d.label}`, () => signUpAndIn(accounts.d));
+}
+
+/** What the sign-up form puts in the metadata once a school has been picked. */
+const SCHOOL_METADATA = {
+  school: "Institute of Technology of Cambodia",
+  school_domain: "itc.edu.kh",
+  school_country: "Cambodia",
+  grade: "Year 3",
+  field_of_study: "Civil Engineering",
+};
+
+const PROFILE_SCHOOL_COLUMNS = "school, school_domain, school_country, grade, field_of_study, country";
+
+/** Names every column whose stored value differs, so a failure says which one. */
+function mismatches(row, expected) {
+  return Object.entries(expected)
+    .filter(([column, value]) => row[column] !== value)
+    .map(([column, value]) => `${column} is ${JSON.stringify(row[column])}, expected ${JSON.stringify(value)}`);
+}
+
+async function runSignUpMetadata() {
+  await check("Authentication", "sign-up metadata lands on the profile", async () => {
+    const account = accounts.e;
+    const created = await signUpAndIn(account, SCHOOL_METADATA);
+    if (!created.ok) return created;
+
+    const row = await account.client.from("profiles").select(PROFILE_SCHOOL_COLUMNS).eq("id", account.id).maybeSingle();
+    if (row.error || !row.data) {
+      return {
+        ok: false,
+        expected: "E's profile row to be readable",
+        actual: row.error ? describe(row.error) : "no profile row for E",
+        cause: "the new-user trigger did not write a row, or profiles stopped being readable",
+        where: "supabase/schema.sql — handle_new_user()",
+      };
+    }
+
+    // country has no metadata key of its own: the school's country seeds it.
+    const expected = { ...SCHOOL_METADATA, country: SCHOOL_METADATA.school_country };
+    const wrong = mismatches(row.data, expected);
+    return wrong.length === 0
+      ? { ok: true, detail: "all five sign-up fields copied verbatim, country prefilled from school_country" }
+      : {
+          ok: false,
+          expected: `the profile to carry ${JSON.stringify(expected)}`,
+          actual: wrong.join("; "),
+          cause: "handle_new_user() no longer copies every sign-up metadata key onto the new profile",
+          where: "supabase/schema.sql — handle_new_user()",
+        };
+  });
+
+  await check("Authentication", "a sign-up without a school leaves the new fields unset", async () => {
+    const account = accounts.a;
+    if (!account.id) return { skipped: true, reason: "account A is missing" };
+
+    const row = await account.client.from("profiles").select(PROFILE_SCHOOL_COLUMNS).eq("id", account.id).maybeSingle();
+    if (row.error || !row.data) {
+      return {
+        ok: false,
+        expected: "A's profile row to be readable",
+        actual: row.error ? describe(row.error) : "no profile row for A",
+        cause: "the new-user trigger did not write a row, or profiles stopped being readable",
+        where: "supabase/schema.sql — handle_new_user()",
+      };
+    }
+
+    // The mixed contract: '' for the NOT NULL columns the schema always had,
+    // NULL for the three nullable ones added with the school picker.
+    const unset = { school: "", field_of_study: "", country: "", school_domain: null, school_country: null, grade: null };
+    const wrong = mismatches(row.data, unset);
+    return wrong.length === 0
+      ? { ok: true, detail: "school, field_of_study and country are '', school_domain, school_country and grade are null" }
+      : {
+          ok: false,
+          expected: `absent metadata to store ${JSON.stringify(unset)}`,
+          actual: wrong.join("; "),
+          cause: "a default changed, so '' and NULL no longer mean what the app reads them as",
+          where: "supabase/schema.sql — handle_new_user(), public.profiles",
+        };
+  });
+
+  await check("Authentication", "sign-up metadata cannot grant a badge or admin", async () => {
+    // raw_user_meta_data is whatever the client typed, so this proves the
+    // trigger ignores the keys it does not own rather than trusting them.
+    const account = accounts.f;
+    const created = await signUpAndIn(account, { verified: true, is_admin: true });
+    if (!created.ok) return created;
+
+    const row = await account.client.from("profiles").select("verified, is_admin").eq("id", account.id).maybeSingle();
+    // A missing row is a failure: "no row" must never read as "the flags are off".
+    if (row.error || !row.data) {
+      return {
+        ok: false,
+        expected: "F's profile row to be readable, with both flags false",
+        actual: row.error ? describe(row.error) : "no profile row for F",
+        cause: "the profile is missing or unreadable, so the flags cannot be verified",
+        where: "supabase/schema.sql — handle_new_user(), public.profiles",
+      };
+    }
+    if (row.data.verified !== false || row.data.is_admin !== false) {
+      return {
+        ok: false,
+        expected: "verified === false and is_admin === false",
+        actual: `verified ${JSON.stringify(row.data.verified)}, is_admin ${JSON.stringify(row.data.is_admin)}`,
+        cause: "handle_new_user() copies metadata keys it does not own, so any sign-up can claim a badge or admin rights",
+        where: "supabase/schema.sql — handle_new_user()",
+      };
+    }
+    return { ok: true, detail: "verified and is_admin both false; the claimed metadata was ignored" };
+  });
 }
 
 async function promoteAdmin() {
@@ -1352,6 +1469,7 @@ const state = { postOfA: null, postOfB: null, attachmentOfA: null, requestOfB: n
 
 try {
   await setUpAccounts();
+  await runSignUpMetadata();
   await promoteAdmin();
   await runUploads(state);
   await runSavesIsolation(state);

@@ -58,6 +58,11 @@ export const EDUCATION_LEVELS: readonly EducationLevel[] = [
   "self-study",
 ];
 
+/** Universities come from the institution list; high schools are typed in. */
+export type InstitutionKind = "high-school" | "university";
+
+export const INSTITUTION_KINDS: readonly InstitutionKind[] = ["high-school", "university"];
+
 export type AttachmentKind =
   | "image"
   | "video"
@@ -85,6 +90,13 @@ export interface PublicUser {
   displayName: string;
   bio: string;
   school: string;
+  /** Domain of the picked institution; null for a manually typed school. */
+  schoolDomain: string | null;
+  /** Country the institution is in, which can differ from `country`. */
+  schoolCountry: string | null;
+  /** Where the student is now, e.g. "Year 2", "Grade 11", "Alumni". */
+  grade: string | null;
+  /** The student's own country. */
   country: string;
   fieldOfStudy: string;
   avatarUrl: string | null;
@@ -227,6 +239,11 @@ export interface SignUpInput {
   username: string;
   email: string;
   password: string;
+  school: string;
+  schoolDomain: string | null;
+  schoolCountry: string | null;
+  grade: string;
+  fieldOfStudy: string;
 }
 
 export interface SignInInput {
@@ -249,6 +266,9 @@ export interface UpdateProfileInput {
   email: string;
   bio: string;
   school: string;
+  schoolDomain: string | null;
+  schoolCountry: string | null;
+  grade: string | null;
   country: string;
   fieldOfStudy: string;
   avatarUrl: string | null;
