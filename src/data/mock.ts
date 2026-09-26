@@ -121,6 +121,19 @@ export const seedUsers: PublicUser[] = userSeed.map(
   }),
 );
 
+/**
+ * Demo inbox: [other person, sent by the demo account?, body, minutes ago].
+ * Times are relative so the preview always looks recent.
+ */
+export const seedMessages: [otherId: string, fromDemo: boolean, body: string, minutesAgo: number][] = [
+  ["u1", false, "Hey Alex! Your SQL joins notes saved me before the midterm 🙏", 2_900],
+  ["u1", true, "Glad they helped! Did the practice questions at the end make sense?", 2_880],
+  ["u1", false, "Mostly — I got stuck on the self-join one. Could you explain it?", 45],
+  ["u1", false, "No rush, whenever you have time.", 44],
+  ["u4", true, "Priya, do you have a good resource for dynamic programming?", 4_400],
+  ["u4", false, "Start with the knapsack and LIS problems in my notes, then try the Codeforces DP tag. Happy to go through any of them together.", 4_300],
+];
+
 /** followerId → the accounts they follow */
 export const seedFollows: Record<string, string[]> = {
   [DEMO_USER_ID]: ["u1", "u4", "u8"],

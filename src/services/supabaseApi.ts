@@ -5,6 +5,10 @@ import {
   REACTION_TYPES,
   type Attachment,
   type ChangePasswordInput,
+  type ChatEvent,
+  type ConversationSummary,
+  type Message,
+  type ThreadView,
   type CommentView,
   type EducationLevel,
   type FeedQuery,
@@ -947,6 +951,193 @@ export async function getTrending(): Promise<TrendingView> {
     tags: unwrap(tags) ?? [],
     schools: unwrap(schools) ?? [],
     people: people.sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0)).map(toPublicUser),
+  };
+}
+
+// ---- Direct messages ----
+
+/** Mirrors the message body check in supabase/schema.sql. */
+const MAX_MESSAGE_LENGTH = 2000;
+const THREAD_LIMIT = 200;
+
+interface MessageRow {
+  id: string;
+  conversation_id: string;
+  sender_id: string;
+  body: string;
+  created_at: string;
+}
+
+interface ConversationRow {
+  id: string;
+  user_a: string;
+  user_b: string;
+  a_read_at: string;
+  b_read_at: string;
+}
+
+interface InboxRow {
+  id: string;
+  other_id: string;
+  last_message_at: string;
+  last_body: string;
+  last_sender: string;
+  other_read_at: string;
+  unread: number;
+}
+
+const MESSAGE_COLUMNS = "id, conversation_id, sender_id, body, created_at";
+
+/** REST and Realtime format timestamps differently; one shape keeps them comparable. */
+function iso(value: string): string {
+  return new Date(value).toISOString();
+}
+
+function toMessage(row: MessageRow): Message {
+  return {
+    id: row.id,
+    conversationId: row.conversation_id,
+    senderId: row.sender_id,
+    body: row.body,
+    createdAt: iso(row.created_at),
+  };
+}
+
+export async function getConversations(): Promise<ConversationSummary[]> {
+  await requireViewer();
+  const { data, error } = await supabase.rpc("my_conversations");
+  if (error) fail(error);
+  const rows = (data ?? []) as InboxRow[];
+  const people = new Map((await profilesByIds(rows.map((row) => row.other_id))).map((user) => [user.id, user]));
+
+  return rows.flatMap((row) => {
+    const other = people.get(row.other_id);
+    if (!other) return [];
+    return [
+      {
+        id: row.id,
+        other,
+        lastMessage: { body: row.last_body, senderId: row.last_sender, createdAt: iso(row.last_message_at) },
+        unread: row.unread,
+      },
+    ];
+  });
+}
+
+export async function getThread(username: string): Promise<ThreadView> {
+  const viewer = await requireViewer();
+  const profile = await supabase
+    .from("profiles")
+    .select(PROFILE_COLUMNS)
+    .eq("username", username.trim().toLowerCase())
+    .maybeSingle<ProfileRow>();
+  if (profile.error) fail(profile.error);
+  if (!profile.data) throw new ApiError("NOT_FOUND", 404);
+  const other = profile.data;
+  if (other.id === viewer) throw new ApiError("FORBIDDEN", 403);
+
+  // RLS already limits this to the viewer's own conversations, so the one that
+  // includes the other person is the pair.
+  const conversation = await supabase
+    .from("conversations")
+    .select("id, user_a, user_b, a_read_at, b_read_at")
+    .or(`user_a.eq.${other.id},user_b.eq.${other.id}`)
+    .maybeSingle<ConversationRow>();
+  if (conversation.error) fail(conversation.error);
+
+  let messages: Message[] = [];
+  if (conversation.data) {
+    const rows = unwrap(
+      await supabase
+        .from("messages")
+        .select(MESSAGE_COLUMNS)
+        .eq("conversation_id", conversation.data.id)
+        .order("created_at", { ascending: false })
+        .limit(THREAD_LIMIT)
+        .returns<MessageRow[]>(),
+    );
+    messages = rows.reverse().map(toMessage);
+  }
+
+  const row = conversation.data;
+  return {
+    conversationId: row?.id ?? null,
+    other: toPublicUser(other),
+    messages,
+    otherReadAt: row ? iso(row.user_a === other.id ? row.a_read_at : row.b_read_at) : null,
+  };
+}
+
+export async function sendMessage(username: string, body: string): Promise<Message> {
+  const viewer = await requireViewer();
+  const text = body.trim();
+  if (!text) throw new ApiError("UNKNOWN", 400);
+  if (text.length > MAX_MESSAGE_LENGTH) throw new ApiError("MESSAGE_TOO_LONG", 400);
+
+  const recipient = await idForUsername(username);
+  if (recipient === viewer) throw new ApiError("FORBIDDEN", 403);
+
+  const { data, error } = await supabase
+    .rpc("send_message", { recipient, message_body: text })
+    .single<MessageRow>();
+  if (error?.code === "23514") throw new ApiError("MESSAGE_TOO_LONG", 400);
+  if (error) fail(error);
+  if (!data) throw new ApiError("UNKNOWN", 500);
+  return toMessage(data);
+}
+
+export async function unsendMessage(messageId: string): Promise<void> {
+  const viewer = await requireViewer();
+  const { data, error } = await supabase
+    .from("messages")
+    .delete()
+    .eq("id", messageId)
+    .eq("sender_id", viewer)
+    .select("id");
+  if (error) fail(error);
+  if (!data?.length) throw new ApiError("NOT_FOUND", 404);
+}
+
+export async function markConversationRead(conversationId: string): Promise<void> {
+  await requireViewer();
+  const { error } = await supabase.rpc("mark_conversation_read", { conv: conversationId });
+  if (error) fail(error);
+}
+
+export async function getUnreadCount(): Promise<number> {
+  if (!(await viewerId())) return 0;
+  const { data, error } = await supabase.rpc("unread_message_count");
+  if (error) fail(error);
+  return typeof data === "number" ? data : 0;
+}
+
+/**
+ * Live chat updates. Realtime checks each event against the select policies,
+ * so a subscriber only hears about their own conversations.
+ */
+export function subscribeToChat(callback: (event: ChatEvent) => void): () => void {
+  const channel = supabase
+    .channel(`chat-${crypto.randomUUID()}`)
+    .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, (payload) => {
+      callback({ type: "message", message: toMessage(payload.new as MessageRow) });
+    })
+    .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" }, (payload) => {
+      // With RLS on, a delete event carries only the primary key.
+      const id = (payload.old as Partial<MessageRow>).id;
+      if (id) callback({ type: "unsent", messageId: id });
+    })
+    .on("postgres_changes", { event: "UPDATE", schema: "public", table: "conversations" }, (payload) => {
+      const row = payload.new as ConversationRow;
+      callback({
+        type: "read",
+        conversationId: row.id,
+        reads: { [row.user_a]: iso(row.a_read_at), [row.user_b]: iso(row.b_read_at) },
+      });
+    })
+    .subscribe();
+
+  return () => {
+    void supabase.removeChannel(channel);
   };
 }
 

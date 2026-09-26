@@ -4,6 +4,7 @@ import {
   seedComments,
   seedEmails,
   seedFollows,
+  seedMessages,
   seedPosts,
   seedRatings,
   seedReactions,
@@ -62,6 +63,23 @@ export interface SaveRecord {
   userId: string;
 }
 
+export interface ConversationRecord {
+  id: string;
+  /** The two members, in no particular order. */
+  userIds: [string, string];
+  lastMessageAt: string;
+  /** userId → when they last opened the thread. */
+  readAt: Record<string, string>;
+}
+
+export interface MessageRecord {
+  id: string;
+  conversationId: string;
+  senderId: string;
+  body: string;
+  createdAt: string;
+}
+
 export interface DbState {
   version: 3;
   users: UserRecord[];
@@ -72,6 +90,8 @@ export interface DbState {
   saves: SaveRecord[];
   follows: FollowRecord[];
   verifications: VerificationRecord[];
+  conversations: ConversationRecord[];
+  messages: MessageRecord[];
 }
 
 const DB_KEY = "meh-rean:db:v3";
@@ -157,6 +177,8 @@ async function createSeedState(): Promise<DbState> {
     ids.map((followingId) => ({ followerId, followingId, createdAt: "2026-09-01T00:00:00Z" })),
   );
 
+  const { conversations, messages } = seedInbox();
+
   return {
     version: 3,
     users,
@@ -167,7 +189,47 @@ async function createSeedState(): Promise<DbState> {
     saves,
     follows,
     verifications: [],
+    conversations,
+    messages,
   };
+}
+
+function seedInbox(): Pick<DbState, "conversations" | "messages"> {
+  const now = Date.now();
+  const at = (minutesAgo: number) => new Date(now - minutesAgo * 60_000).toISOString();
+  const conversations = new Map<string, ConversationRecord>();
+  const messages: MessageRecord[] = [];
+
+  seedMessages.forEach(([otherId, fromDemo, body, minutesAgo], index) => {
+    let conversation = conversations.get(otherId);
+    if (!conversation) {
+      conversation = {
+        id: `c-${otherId}`,
+        userIds: [DEMO_USER_ID, otherId],
+        lastMessageAt: at(minutesAgo),
+        // The other side has read everything; the demo account's latest
+        // messages from them arrive unread so the badge shows.
+        readAt: { [DEMO_USER_ID]: at(minutesAgo), [otherId]: at(0) },
+      };
+      conversations.set(otherId, conversation);
+    }
+    const createdAt = at(minutesAgo);
+    conversation.lastMessageAt = createdAt;
+    if (fromDemo) conversation.readAt[DEMO_USER_ID] = createdAt;
+    messages.push({
+      id: `m-seed-${index}`,
+      conversationId: conversation.id,
+      senderId: fromDemo ? DEMO_USER_ID : otherId,
+      body,
+      createdAt,
+    });
+  });
+
+  // Only the Priya thread is fully read in the demo.
+  const priya = conversations.get("u4");
+  if (priya) priya.readAt[DEMO_USER_ID] = priya.lastMessageAt;
+
+  return { conversations: [...conversations.values()], messages };
 }
 
 function readStored(): DbState | null {
@@ -175,7 +237,12 @@ function readStored(): DbState | null {
     const raw = localStorage.getItem(DB_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as DbState;
-    return parsed.version === 3 ? parsed : null;
+    if (parsed.version !== 3) return null;
+    // Stores written before direct messages existed: add them without
+    // discarding the accounts and posts already there.
+    parsed.conversations ??= [];
+    parsed.messages ??= [];
+    return parsed;
   } catch {
     return null;
   }

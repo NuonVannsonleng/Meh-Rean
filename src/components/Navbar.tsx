@@ -1,8 +1,9 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useChat } from "../context/ChatContext";
 import { t } from "../i18n/en";
 import Avatar from "./Avatar";
-import { BookmarkIcon, HomeIcon, PlusIcon, UserIcon } from "./Icons";
+import { BookmarkIcon, ChatIcon, HomeIcon, PlusIcon, UserIcon } from "./Icons";
 import GlobalSearch from "./GlobalSearch";
 import Logo from "./Logo";
 import UserMenu from "./UserMenu";
@@ -17,9 +18,25 @@ const mobileLink = ({ isActive }: { isActive: boolean }) =>
     isActive ? "text-accent" : "text-ink-500"
   }`;
 
+/** Unread count on top of an icon; the count itself is in the link's label. */
+function UnreadDot({ count }: { count: number }) {
+  if (!count) return null;
+  return (
+    <span
+      aria-hidden="true"
+      className="bg-brand-600 ring-surface animate-pop absolute -top-1.5 -right-2 min-w-4.5 rounded-full px-1 text-center text-[10px] leading-4.5 font-bold text-white ring-2"
+    >
+      {count > 99 ? "99+" : count}
+    </span>
+  );
+}
+
 export default function Navbar() {
   const { user, status } = useAuth();
+  const { unread } = useChat();
   const { pathname, search } = useLocation();
+  const inThread = pathname.startsWith("/messages/");
+  const messagesLabel = unread ? t.nav.messagesUnread(unread) : t.nav.messages;
   const onOwnProfile = Boolean(user) && pathname === `/u/${user?.username}`;
   const onSaved = onOwnProfile && new URLSearchParams(search).get("tab") === "saved";
 
@@ -51,6 +68,17 @@ export default function Navbar() {
                   </NavLink>
                 </li>
               )}
+              {user && (
+                <li>
+                  <NavLink to="/messages" aria-label={messagesLabel} className={desktopLink}>
+                    <span className="relative">
+                      <ChatIcon className="h-4.5 w-4.5" />
+                      <UnreadDot count={unread} />
+                    </span>
+                    {t.nav.messages}
+                  </NavLink>
+                </li>
+              )}
             </ul>
           </nav>
 
@@ -58,6 +86,11 @@ export default function Navbar() {
             <GlobalSearch />
             {user ? (
               <>
+                {/* Tablets get the icon here; phones have it in the bottom bar. */}
+                <Link to="/messages" aria-label={messagesLabel} className="icon-btn relative hidden sm:inline-flex md:hidden">
+                  <ChatIcon />
+                  <UnreadDot count={unread} />
+                </Link>
                 <Link to="/create" className="btn-primary hidden h-10 sm:inline-flex">
                   <PlusIcon className="h-4 w-4" />
                   {t.nav.create}
@@ -83,7 +116,9 @@ export default function Navbar() {
       {/* Thumb-reach navigation on phones */}
       <nav
         aria-label={t.nav.mobileLabel}
-        className="bg-surface/95 border-line fixed inset-x-0 bottom-0 z-40 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur-md sm:hidden"
+        className={`bg-surface/95 border-line fixed inset-x-0 bottom-0 z-40 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur-md sm:hidden ${
+          inThread ? "hidden" : ""
+        }`}
       >
         <ul className="flex">
           <li className="flex flex-1">
@@ -100,6 +135,17 @@ export default function Navbar() {
               <span className="sr-only">{t.nav.create}</span>
             </NavLink>
           </li>
+          {user && (
+            <li className="flex flex-1">
+              <NavLink to="/messages" aria-label={messagesLabel} className={mobileLink}>
+                <span className="relative">
+                  <ChatIcon />
+                  <UnreadDot count={unread} />
+                </span>
+                {t.nav.messages}
+              </NavLink>
+            </li>
+          )}
           <li className="flex flex-1">
             {user ? (
               <NavLink to={`/u/${user.username}`} className={() => mobileLink({ isActive: onOwnProfile && !onSaved })}>

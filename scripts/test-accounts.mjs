@@ -46,7 +46,7 @@ const CONFIG_PATH = new URL("supabase/config.toml", REPO_ROOT);
 
 // ---- Reporting -------------------------------------------------------------
 
-const SECTIONS = ["Environment", "Authentication", "Uploads", "Authorization", "Roles", "Cleanup"];
+const SECTIONS = ["Environment", "Authentication", "Uploads", "Authorization", "Messages", "Roles", "Cleanup"];
 const report = new Map(SECTIONS.map((name) => [name, []]));
 const tally = { passed: 0, failed: 0, skipped: 0 };
 
@@ -1221,6 +1221,293 @@ async function runAuthorization(state) {
   });
 }
 
+// ---- Messages --------------------------------------------------------------
+
+const MESSAGES_WHERE = "supabase/schema.sql — Direct messages";
+
+/** Collects the message inserts a subscriber hears until `stop()` is called. */
+async function listenForMessages(account) {
+  const heard = [];
+  const channel = account.client
+    .channel(`e2e-${marker}-${account.letter}`)
+    .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, (payload) => {
+      heard.push(payload.new);
+    });
+  const status = await new Promise((resolve) => {
+    const timer = setTimeout(() => resolve("TIMED_OUT"), 10_000);
+    channel.subscribe((value) => {
+      if (value === "SUBSCRIBED" || value === "CHANNEL_ERROR" || value === "TIMED_OUT") {
+        clearTimeout(timer);
+        resolve(value);
+      }
+    });
+  });
+  return { heard, status, stop: () => account.client.removeChannel(channel) };
+}
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function unreadFor(account) {
+  const { data, error } = await account.client.rpc("unread_message_count");
+  if (error) throw error;
+  return data;
+}
+
+async function runMessages(state) {
+  const { a, b, c } = accounts;
+  if (!a.id || !b.id || !c.id) {
+    skip("Messages", "direct messages", "accounts A, B and C are needed");
+    return;
+  }
+
+  // Subscribed before anything is sent, so the delivery check below is real.
+  const listenerB = await listenForMessages(b);
+  const listenerC = await listenForMessages(c);
+
+  await check("Messages", "A sends B a message", async () => {
+    const { data, error } = await a.client
+      .rpc("send_message", { recipient: b.id, message_body: `[${marker}] hello B` })
+      .single();
+    if (error) {
+      return {
+        ok: false,
+        expected: "send_message() to return the new row",
+        actual: describe(error),
+        cause: "the schema has not been applied, or execute was not granted",
+        where: `${MESSAGES_WHERE} — send_message()`,
+      };
+    }
+    state.messageOfA = data;
+    return data.sender_id === a.id
+      ? { ok: true, detail: `message ${data.id} in conversation ${data.conversation_id}` }
+      : {
+          ok: false,
+          expected: `sender_id ${a.id}`,
+          actual: `sender_id ${data.sender_id}`,
+          cause: "send_message() does not take the sender from auth.uid()",
+          where: `${MESSAGES_WHERE} — send_message()`,
+        };
+  });
+
+  const message = state.messageOfA;
+
+  await check("Messages", "B reads the message and has one unread", async () => {
+    if (!message) return { skipped: true, reason: "A's message was not sent" };
+    const rows = await b.client.from("messages").select("id, body").eq("conversation_id", message.conversation_id);
+    const unread = await unreadFor(b);
+    const seen = (rows.data ?? []).some((row) => row.id === message.id);
+    return seen && unread === 1
+      ? { ok: true, detail: "B sees the message, unread_message_count() = 1" }
+      : {
+          ok: false,
+          expected: "B to see the message with 1 unread",
+          actual: `${rows.data?.length ?? describe(rows.error)} row(s), unread ${unread}`,
+          cause: "the members-only select policy or unread_message_count() is wrong",
+          where: `${MESSAGES_WHERE} — "members read messages"`,
+        };
+  });
+
+  await check("Messages", "C cannot read A and B's conversation or messages", async () => {
+    if (!message) return { skipped: true, reason: "A's message was not sent" };
+    const conversations = await c.client.from("conversations").select("id").eq("id", message.conversation_id);
+    const messages = await c.client.from("messages").select("id").eq("conversation_id", message.conversation_id);
+    const inbox = await c.client.rpc("my_conversations");
+    const errors = [conversations.error, messages.error, inbox.error].filter(Boolean);
+    const leaked = (conversations.data?.length ?? 0) + (messages.data?.length ?? 0) + (inbox.data?.length ?? 0);
+    return leaked === 0 && errors.length === 0
+      ? { ok: true, detail: "0 conversations, 0 messages, empty inbox" }
+      : {
+          ok: false,
+          expected: "nothing visible to a non-member, and no errors",
+          actual: errors.length ? errors.map(describe).join("; ") : `${leaked} row(s) visible`,
+          cause: "a select policy on conversations or messages is not limited to members",
+          where: `${MESSAGES_WHERE} — "members read conversations" / "members read messages"`,
+        };
+  });
+
+  await check("Messages", "a signed-out client cannot read messages", async () => {
+    if (!message) return { skipped: true, reason: "A's message was not sent" };
+    const rows = await anon.from("messages").select("id").eq("id", message.id);
+    return (rows.data?.length ?? 0) === 0
+      ? { ok: true, detail: rows.error ? `refused: ${describe(rows.error)}` : "0 rows" }
+      : {
+          ok: false,
+          expected: "0 rows",
+          actual: `${rows.data.length} row(s)`,
+          cause: "messages are readable without signing in",
+          where: `${MESSAGES_WHERE} — "members read messages"`,
+        };
+  });
+
+  await check("Messages", "C cannot insert a message into A and B's conversation", async () => {
+    if (!message) return { skipped: true, reason: "A's message was not sent" };
+    const { error } = await c.client
+      .from("messages")
+      .insert({ conversation_id: message.conversation_id, sender_id: a.id, body: `[${marker}] forged` });
+    const forged = await a.client.from("messages").select("id").eq("body", `[${marker}] forged`);
+    return refusalMatches(error, RLS_REFUSAL) && (forged.data?.length ?? 0) === 0
+      ? { ok: true, detail: `refused: ${describe(error)}` }
+      : {
+          ok: false,
+          expected: RLS_SHAPE,
+          actual: error ? describe(error) : "the insert was accepted",
+          cause: "messages has an insert policy; sends must go through send_message()",
+          where: `${MESSAGES_WHERE} — messages policies`,
+        };
+  });
+
+  await check("Messages", "even a member cannot insert directly as someone else", async () => {
+    if (!message) return { skipped: true, reason: "A's message was not sent" };
+    const { error } = await b.client
+      .from("messages")
+      .insert({ conversation_id: message.conversation_id, sender_id: a.id, body: `[${marker}] as A` });
+    return refusalMatches(error, RLS_REFUSAL)
+      ? { ok: true, detail: `refused: ${describe(error)}` }
+      : {
+          ok: false,
+          expected: RLS_SHAPE,
+          actual: error ? describe(error) : "B inserted a message claiming to be A",
+          cause: "messages has an insert policy that trusts sender_id from the client",
+          where: `${MESSAGES_WHERE} — messages policies`,
+        };
+  });
+
+  await check("Messages", "B cannot edit A's message", async () => {
+    if (!message) return { skipped: true, reason: "A's message was not sent" };
+    await b.client.from("messages").update({ body: `[${marker}] edited` }).eq("id", message.id);
+    const row = await a.client.from("messages").select("body").eq("id", message.id).single();
+    return row.data?.body === `[${marker}] hello B`
+      ? { ok: true, detail: "body unchanged" }
+      : {
+          ok: false,
+          expected: "the body to stay unchanged",
+          actual: `body is "${row.data?.body ?? describe(row.error)}"`,
+          cause: "messages has an update policy",
+          where: `${MESSAGES_WHERE} — messages policies`,
+        };
+  });
+
+  await check("Messages", "C cannot move A and B's read markers", async () => {
+    if (!message) return { skipped: true, reason: "A's message was not sent" };
+    await c.client.rpc("mark_conversation_read", { conv: message.conversation_id });
+    await c.client
+      .from("conversations")
+      .update({ b_read_at: new Date().toISOString() })
+      .eq("id", message.conversation_id);
+    const unread = await unreadFor(b);
+    return unread === 1
+      ? { ok: true, detail: "B still has 1 unread" }
+      : {
+          ok: false,
+          expected: "B to still have 1 unread",
+          actual: `unread ${unread}`,
+          cause: "mark_conversation_read() or an update policy lets a non-member move read markers",
+          where: `${MESSAGES_WHERE} — mark_conversation_read()`,
+        };
+  });
+
+  await check("Messages", "empty, over-long, self-addressed and signed-out sends are refused", async () => {
+    const attempts = {
+      empty: await a.client.rpc("send_message", { recipient: b.id, message_body: "   " }),
+      tooLong: await a.client.rpc("send_message", { recipient: b.id, message_body: "x".repeat(2001) }),
+      self: await a.client.rpc("send_message", { recipient: a.id, message_body: `[${marker}] me` }),
+      signedOut: await anon.rpc("send_message", { recipient: b.id, message_body: `[${marker}] anon` }),
+    };
+    const accepted = Object.entries(attempts)
+      .filter(([, result]) => !result.error)
+      .map(([name]) => name);
+    return accepted.length === 0
+      ? {
+          ok: true,
+          detail: Object.entries(attempts)
+            .map(([name, result]) => `${name}: ${result.error.code ?? errorStatus(result.error)}`)
+            .join(", "),
+        }
+      : {
+          ok: false,
+          expected: "all four to be refused",
+          actual: `accepted: ${accepted.join(", ")}`,
+          cause: "the body check or send_message() guards are missing",
+          where: `${MESSAGES_WHERE} — send_message(), messages.body check`,
+        };
+  });
+
+  await check("Messages", "realtime delivers to B and not to C", async () => {
+    if (!message) return { skipped: true, reason: "A's message was not sent" };
+    if (listenerB.status !== "SUBSCRIBED") {
+      return {
+        ok: false,
+        expected: "B's realtime channel to subscribe",
+        actual: listenerB.status,
+        cause: "realtime is disabled, or the tables are not in the supabase_realtime publication",
+        where: `${MESSAGES_WHERE} — publication block, supabase/config.toml [realtime]`,
+      };
+    }
+    for (let waited = 0; waited < 5_000 && !listenerB.heard.length; waited += 250) await wait(250);
+    await wait(1_000); // time for a leak to C to show up as well
+    const toB = listenerB.heard.some((row) => row.id === message.id);
+    const toC = listenerC.heard.length;
+    return toB && toC === 0
+      ? { ok: true, detail: `B heard it; C heard ${toC} event(s)` }
+      : {
+          ok: false,
+          expected: "B to hear the message and C to hear nothing",
+          actual: `B heard it: ${toB}; C heard ${toC} event(s)`,
+          cause: toB ? "realtime is not applying the select policy per subscriber" : "the message never reached B's channel",
+          where: `${MESSAGES_WHERE} — "members read messages", publication block`,
+        };
+  });
+
+  await check("Messages", "B marks the conversation read and A sees it", async () => {
+    if (!message) return { skipped: true, reason: "A's message was not sent" };
+    const { error } = await b.client.rpc("mark_conversation_read", { conv: message.conversation_id });
+    if (error) throw error;
+    const unread = await unreadFor(b);
+    const inbox = await a.client.rpc("my_conversations");
+    const row = (inbox.data ?? []).find((item) => item.id === message.conversation_id);
+    const seen = row && Date.parse(row.other_read_at) >= Date.parse(message.created_at);
+    return unread === 0 && seen
+      ? { ok: true, detail: "B unread 0; A's inbox shows B has seen it" }
+      : {
+          ok: false,
+          expected: "B unread 0 and A seeing B's read marker",
+          actual: `unread ${unread}, other_read_at ${row?.other_read_at ?? "missing"}`,
+          cause: "mark_conversation_read() or my_conversations() is wrong",
+          where: `${MESSAGES_WHERE} — mark_conversation_read(), my_conversations()`,
+        };
+  });
+
+  await check("Messages", "B cannot unsend A's message; A can", async () => {
+    if (!message) return { skipped: true, reason: "A's message was not sent" };
+    await b.client.from("messages").delete().eq("id", message.id);
+    const afterB = await a.client.from("messages").select("id").eq("id", message.id);
+    if ((afterB.data?.length ?? 0) !== 1) {
+      return {
+        ok: false,
+        expected: "A's message to survive B's delete",
+        actual: "the row is gone",
+        cause: "the delete policy on messages is not limited to the sender",
+        where: `${MESSAGES_WHERE} — "delete own messages"`,
+      };
+    }
+    const own = await a.client.from("messages").delete().eq("id", message.id).select("id");
+    return own.data?.length === 1
+      ? { ok: true, detail: "B's delete matched nothing; A's removed the row" }
+      : {
+          ok: false,
+          expected: "A to unsend its own message",
+          actual: own.error ? describe(own.error) : "0 rows deleted",
+          cause: "the delete policy on messages rejects the sender",
+          where: `${MESSAGES_WHERE} — "delete own messages"`,
+        };
+  });
+
+  await listenerB.stop();
+  await listenerC.stop();
+}
+
 // ---- Roles -----------------------------------------------------------------
 
 async function runRoles(state) {
@@ -1465,7 +1752,7 @@ async function cleanUp() {
 
 // ---- Run -------------------------------------------------------------------
 
-const state = { postOfA: null, postOfB: null, attachmentOfA: null, requestOfB: null };
+const state = { postOfA: null, postOfB: null, attachmentOfA: null, requestOfB: null, messageOfA: null };
 
 try {
   await setUpAccounts();
@@ -1474,6 +1761,7 @@ try {
   await runUploads(state);
   await runSavesIsolation(state);
   await runAuthorization(state);
+  await runMessages(state);
   await runRoles(state);
 } catch (error) {
   fail("Environment", "the run finished early", {

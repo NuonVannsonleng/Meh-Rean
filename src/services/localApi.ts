@@ -4,6 +4,10 @@ import {
   REACTION_TYPES,
   type Attachment,
   type ChangePasswordInput,
+  type ChatEvent,
+  type ConversationSummary,
+  type Message,
+  type ThreadView,
   type CommentView,
   type FeedQuery,
   type NewPostInput,
@@ -35,7 +39,9 @@ import {
   loadDb,
   persist,
   setSessionUserId,
+  type ConversationRecord,
   type DbState,
+  type MessageRecord,
   type UserRecord,
   type VerificationRecord,
 } from "./db";
@@ -300,6 +306,11 @@ export async function deleteAccount(password: string): Promise<void> {
     (follow) => follow.followerId !== record.id && follow.followingId !== record.id,
   );
   db.verifications = db.verifications.filter((request) => request.userId !== record.id);
+  const ownConversations = new Set(
+    db.conversations.filter((item) => item.userIds.includes(record.id)).map((item) => item.id),
+  );
+  db.conversations = db.conversations.filter((item) => !ownConversations.has(item.id));
+  db.messages = db.messages.filter((message) => !ownConversations.has(message.conversationId));
   db.users = db.users.filter((user) => user.id !== record.id);
   persist();
   setSessionUserId(null);
@@ -801,6 +812,172 @@ export async function getTrending(): Promise<TrendingView> {
     schools: schools.slice(0, 5),
     people: people.slice(0, 4).map(toPublicUser),
   });
+}
+
+// ---- Direct messages ----
+
+/** Mirrors the message body check in supabase/schema.sql. */
+const MAX_MESSAGE_LENGTH = 2000;
+
+const chatListeners = new Set<(event: ChatEvent) => void>();
+
+function emit(event: ChatEvent): void {
+  for (const listener of chatListeners) listener(structuredClone(event));
+}
+
+function toMessage(record: MessageRecord): Message {
+  return { ...record };
+}
+
+function otherMember(conversation: ConversationRecord, viewer: string): string {
+  return conversation.userIds[0] === viewer ? conversation.userIds[1] : conversation.userIds[0];
+}
+
+function conversationWith(db: DbState, viewer: string, otherId: string): ConversationRecord | undefined {
+  return db.conversations.find(
+    (item) => item.userIds.includes(viewer) && item.userIds.includes(otherId),
+  );
+}
+
+function unreadIn(db: DbState, conversation: ConversationRecord, viewer: string): number {
+  const readAt = conversation.readAt[viewer] ?? "";
+  return db.messages.filter(
+    (message) =>
+      message.conversationId === conversation.id &&
+      message.senderId !== viewer &&
+      message.createdAt > readAt,
+  ).length;
+}
+
+export async function getConversations(): Promise<ConversationSummary[]> {
+  await delay(200);
+  const db = await loadDb();
+  const viewer = requireViewer(db).id;
+
+  return db.conversations
+    .filter((conversation) => conversation.userIds.includes(viewer))
+    .flatMap((conversation) => {
+      const last = db.messages
+        .filter((message) => message.conversationId === conversation.id)
+        .reduce<MessageRecord | null>(
+          (latest, message) => (!latest || message.createdAt > latest.createdAt ? message : latest),
+          null,
+        );
+      const other = db.users.find((user) => user.id === otherMember(conversation, viewer));
+      if (!last || !other) return [];
+      return [
+        {
+          id: conversation.id,
+          other: toPublicUser(other),
+          lastMessage: { body: last.body, senderId: last.senderId, createdAt: last.createdAt },
+          unread: unreadIn(db, conversation, viewer),
+        },
+      ];
+    })
+    .sort((a, b) => b.lastMessage.createdAt.localeCompare(a.lastMessage.createdAt));
+}
+
+export async function getThread(username: string): Promise<ThreadView> {
+  await delay(200);
+  const db = await loadDb();
+  const viewer = requireViewer(db).id;
+  const other = findByUsername(db, username);
+  if (other.id === viewer) throw new ApiError("FORBIDDEN", 403);
+
+  const conversation = conversationWith(db, viewer, other.id);
+  const messages = conversation
+    ? db.messages
+        .filter((message) => message.conversationId === conversation.id)
+        .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+        .map(toMessage)
+    : [];
+
+  return {
+    conversationId: conversation?.id ?? null,
+    other: toPublicUser(other),
+    messages,
+    otherReadAt: conversation?.readAt[other.id] ?? null,
+  };
+}
+
+export async function sendMessage(username: string, body: string): Promise<Message> {
+  await delay(150);
+  const db = await loadDb();
+  const viewer = requireViewer(db).id;
+  const other = findByUsername(db, username);
+  if (other.id === viewer) throw new ApiError("FORBIDDEN", 403);
+
+  const text = body.trim();
+  if (!text) throw new ApiError("UNKNOWN", 400);
+  if (text.length > MAX_MESSAGE_LENGTH) throw new ApiError("MESSAGE_TOO_LONG", 400);
+
+  const now = new Date().toISOString();
+  let conversation = conversationWith(db, viewer, other.id);
+  if (!conversation) {
+    conversation = {
+      id: createId("c"),
+      userIds: [viewer, other.id],
+      lastMessageAt: now,
+      readAt: { [viewer]: now, [other.id]: now },
+    };
+    db.conversations.push(conversation);
+  }
+
+  const message: MessageRecord = {
+    id: createId("m"),
+    conversationId: conversation.id,
+    senderId: viewer,
+    body: text,
+    createdAt: now,
+  };
+  db.messages.push(message);
+  conversation.lastMessageAt = now;
+  conversation.readAt[viewer] = now;
+  persist();
+
+  emit({ type: "message", message: toMessage(message) });
+  return toMessage(message);
+}
+
+export async function unsendMessage(messageId: string): Promise<void> {
+  await delay(100);
+  const db = await loadDb();
+  const viewer = requireViewer(db).id;
+  const message = db.messages.find((item) => item.id === messageId);
+  if (!message) throw new ApiError("NOT_FOUND", 404);
+  if (message.senderId !== viewer) throw new ApiError("FORBIDDEN", 403);
+
+  db.messages = db.messages.filter((item) => item.id !== messageId);
+  persist();
+  emit({ type: "unsent", messageId });
+}
+
+export async function markConversationRead(conversationId: string): Promise<void> {
+  const db = await loadDb();
+  const viewer = requireViewer(db).id;
+  const conversation = db.conversations.find((item) => item.id === conversationId);
+  if (!conversation || !conversation.userIds.includes(viewer)) return;
+
+  conversation.readAt[viewer] = new Date().toISOString();
+  persist();
+  emit({ type: "read", conversationId, reads: { ...conversation.readAt } });
+}
+
+export async function getUnreadCount(): Promise<number> {
+  const db = await loadDb();
+  const viewer = viewerId(db);
+  if (!viewer) return 0;
+  return db.conversations
+    .filter((conversation) => conversation.userIds.includes(viewer))
+    .reduce((sum, conversation) => sum + unreadIn(db, conversation, viewer), 0);
+}
+
+/** In-tab only: there is nobody else to hear from in browser-only mode. */
+export function subscribeToChat(callback: (event: ChatEvent) => void): () => void {
+  chatListeners.add(callback);
+  return () => {
+    chatListeners.delete(callback);
+  };
 }
 
 /** No sessions to watch in browser-only mode. */

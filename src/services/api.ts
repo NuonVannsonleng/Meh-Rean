@@ -52,6 +52,13 @@ export const {
   getVerificationRequests,
   decideVerification,
   uploadProfileImage,
+  getConversations,
+  getThread,
+  sendMessage,
+  unsendMessage,
+  markConversationRead,
+  getUnreadCount,
+  subscribeToChat,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

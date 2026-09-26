@@ -188,6 +188,41 @@ export interface NewVerificationRequest {
   link: string;
 }
 
+// ---- Direct messages ----
+
+export interface Message {
+  id: string;
+  conversationId: string;
+  senderId: string;
+  body: string;
+  createdAt: string;
+}
+
+/** One row of the inbox. */
+export interface ConversationSummary {
+  id: string;
+  other: PublicUser;
+  lastMessage: Pick<Message, "body" | "senderId" | "createdAt">;
+  /** Messages from the other person the viewer has not opened yet. */
+  unread: number;
+}
+
+/** An open thread with one person. */
+export interface ThreadView {
+  /** Null until the first message is sent. */
+  conversationId: string | null;
+  other: PublicUser;
+  messages: Message[];
+  /** When the other person last opened the thread, for "Seen". */
+  otherReadAt: string | null;
+}
+
+/** Pushed to the UI as messages arrive, are unsent, or are read. */
+export type ChatEvent =
+  | { type: "message"; message: Message }
+  | { type: "unsent"; messageId: string }
+  | { type: "read"; conversationId: string; reads: Record<string, string> };
+
 /** Square for avatars, wide for profile banners. */
 export type ProfileImageKind = "avatar" | "banner";
 
@@ -294,6 +329,7 @@ export type ApiErrorCode =
   | "EMAIL_CONFIRMATION"
   | "EMAIL_NOT_CONFIRMED"
   | "ALREADY_REQUESTED"
+  | "MESSAGE_TOO_LONG"
   | "STORAGE_FULL";
 
 /** Error surfaced by the service layer; UI maps `code` to friendly copy. */

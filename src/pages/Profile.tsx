@@ -7,6 +7,7 @@ import {
   BookmarkIcon,
   CalendarIcon,
   CameraIcon,
+  ChatIcon,
   CheckIcon,
   FileTextIcon,
   GraduationIcon,
@@ -139,16 +140,26 @@ function ProfileHeader({
                 {t.profile.edit}
               </Link>
             ) : (
-              <button
-                type="button"
-                onClick={onFollowToggle}
-                disabled={pending}
-                aria-pressed={isFollowing}
-                className={isFollowing ? "btn-secondary h-10 min-w-28" : "btn-primary h-10 min-w-28"}
-              >
-                {isFollowing ? <CheckIcon className="h-4 w-4" /> : <PlusIcon className="h-4 w-4" />}
-                {isFollowing ? t.profile.following : t.profile.follow}
-              </button>
+              <>
+                <Link
+                  to={`/messages/${user.username}`}
+                  aria-label={`${t.profile.message} ${user.displayName}`}
+                  className="btn-secondary h-10 px-3 sm:px-4"
+                >
+                  <ChatIcon className="h-4 w-4" />
+                  <span className="hidden sm:inline">{t.profile.message}</span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={onFollowToggle}
+                  disabled={pending}
+                  aria-pressed={isFollowing}
+                  className={isFollowing ? "btn-secondary h-10 min-w-28" : "btn-primary h-10 min-w-28"}
+                >
+                  {isFollowing ? <CheckIcon className="h-4 w-4" /> : <PlusIcon className="h-4 w-4" />}
+                  {isFollowing ? t.profile.following : t.profile.follow}
+                </button>
+              </>
             )}
           </div>
         </div>

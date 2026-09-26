@@ -462,3 +462,211 @@ select
   (select count(*) from public.follows f where f.following_id = p.id)::int as followers,
   (select count(*) from public.follows f where f.follower_id = p.id)::int as following
 from public.profiles p;
+
+-- ================================================================
+-- Direct messages
+-- ================================================================
+
+-- One row per pair of people. user_a is always the smaller id, so a pair can
+-- only ever have one conversation however it was started.
+create table if not exists public.conversations (
+  id uuid primary key default gen_random_uuid(),
+  user_a uuid not null references public.profiles on delete cascade,
+  user_b uuid not null references public.profiles on delete cascade,
+  created_at timestamptz not null default now(),
+  last_message_at timestamptz not null default now(),
+  -- When each side last opened the thread: drives unread counts and "Seen".
+  -- The epoch, not now(): now() is the transaction time, which is also the
+  -- first message's created_at, so that message would count as already read.
+  a_read_at timestamptz not null default 'epoch',
+  b_read_at timestamptz not null default 'epoch',
+  constraint conversation_pair_ordered check (user_a < user_b),
+  constraint conversation_pair_unique unique (user_a, user_b)
+);
+
+create index if not exists conversations_user_b_idx on public.conversations (user_b);
+
+-- Databases created before the default above was corrected.
+alter table public.conversations alter column a_read_at set default 'epoch';
+alter table public.conversations alter column b_read_at set default 'epoch';
+
+create table if not exists public.messages (
+  id uuid primary key default gen_random_uuid(),
+  conversation_id uuid not null references public.conversations on delete cascade,
+  sender_id uuid not null references public.profiles on delete cascade,
+  body text not null check (char_length(btrim(body)) between 1 and 2000),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists messages_conversation_idx on public.messages (conversation_id, created_at desc);
+
+alter table public.conversations enable row level security;
+alter table public.messages enable row level security;
+
+create or replace function public.is_conversation_member(conv uuid, uid uuid default auth.uid())
+returns boolean
+language sql
+security definer
+stable
+set search_path = ''
+as $$
+  select exists (
+    select 1 from public.conversations c
+    where c.id = conv and uid is not null and uid in (c.user_a, c.user_b)
+  );
+$$;
+
+-- Only the two people in a conversation can see it or its messages. There are
+-- deliberately no insert or update policies: conversations are created and
+-- messages sent through send_message(), and read markers move through
+-- mark_conversation_read(), so neither can be forged from the client.
+drop policy if exists "members read conversations" on public.conversations;
+create policy "members read conversations" on public.conversations for select
+  using (auth.uid() in (user_a, user_b));
+
+drop policy if exists "members read messages" on public.messages;
+create policy "members read messages" on public.messages for select
+  using (public.is_conversation_member(conversation_id));
+
+-- Unsending: only your own messages
+drop policy if exists "delete own messages" on public.messages;
+create policy "delete own messages" on public.messages for delete
+  using (auth.uid() = sender_id);
+
+-- Sends a message to another person, starting the conversation if needed.
+create or replace function public.send_message(recipient uuid, message_body text)
+returns public.messages
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  me uuid := auth.uid();
+  conv uuid;
+  sent public.messages;
+begin
+  if me is null then
+    raise exception 'not signed in' using errcode = '42501';
+  end if;
+  if recipient is null or recipient = me then
+    raise exception 'cannot message yourself' using errcode = '42501';
+  end if;
+  if not exists (select 1 from public.profiles where id = recipient) then
+    raise exception 'recipient not found' using errcode = 'P0002';
+  end if;
+
+  insert into public.conversations (user_a, user_b)
+  values (least(me, recipient), greatest(me, recipient))
+  on conflict (user_a, user_b) do nothing;
+
+  select id into conv from public.conversations
+  where user_a = least(me, recipient) and user_b = greatest(me, recipient);
+
+  -- The body check constraint rejects empty and over-long messages.
+  insert into public.messages (conversation_id, sender_id, body)
+  values (conv, me, message_body)
+  returning * into sent;
+
+  -- Sending counts as having read everything before it.
+  update public.conversations
+  set last_message_at = sent.created_at,
+      a_read_at = case when user_a = me then sent.created_at else a_read_at end,
+      b_read_at = case when user_b = me then sent.created_at else b_read_at end
+  where id = conv;
+
+  return sent;
+end;
+$$;
+
+revoke all on function public.send_message(uuid, text) from public;
+grant execute on function public.send_message(uuid, text) to authenticated;
+
+-- Marks a conversation as read by the caller; a no-op for anyone else.
+create or replace function public.mark_conversation_read(conv uuid)
+returns void
+language sql
+security definer
+set search_path = ''
+as $$
+  update public.conversations
+  set a_read_at = case when user_a = auth.uid() then now() else a_read_at end,
+      b_read_at = case when user_b = auth.uid() then now() else b_read_at end
+  where id = conv and auth.uid() in (user_a, user_b);
+$$;
+
+revoke all on function public.mark_conversation_read(uuid) from public;
+grant execute on function public.mark_conversation_read(uuid) to authenticated;
+
+-- The caller's inbox: every conversation with at least one message, newest
+-- first. Runs as the caller, so RLS still decides what is visible.
+create or replace function public.my_conversations()
+returns table (
+  id uuid,
+  other_id uuid,
+  last_message_at timestamptz,
+  last_body text,
+  last_sender uuid,
+  other_read_at timestamptz,
+  unread int
+)
+language sql
+stable
+set search_path = ''
+as $$
+  select
+    c.id,
+    case when c.user_a = auth.uid() then c.user_b else c.user_a end,
+    c.last_message_at,
+    m.body,
+    m.sender_id,
+    case when c.user_a = auth.uid() then c.b_read_at else c.a_read_at end,
+    (
+      select count(*)::int from public.messages x
+      where x.conversation_id = c.id
+        and x.sender_id <> auth.uid()
+        and x.created_at > case when c.user_a = auth.uid() then c.a_read_at else c.b_read_at end
+    )
+  from public.conversations c
+  join lateral (
+    select body, sender_id from public.messages
+    where conversation_id = c.id
+    order by created_at desc
+    limit 1
+  ) m on true
+  where auth.uid() in (c.user_a, c.user_b)
+  order by c.last_message_at desc;
+$$;
+
+-- Number of messages waiting for the caller, for the navigation badge.
+create or replace function public.unread_message_count()
+returns int
+language sql
+stable
+set search_path = ''
+as $$
+  select count(*)::int
+  from public.messages x
+  join public.conversations c on c.id = x.conversation_id
+  where auth.uid() in (c.user_a, c.user_b)
+    and x.sender_id <> auth.uid()
+    and x.created_at > case when c.user_a = auth.uid() then c.a_read_at else c.b_read_at end;
+$$;
+
+-- Live delivery. Realtime applies the select policies above per subscriber, so
+-- people only receive events for their own conversations.
+do $$ begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime') then
+    if not exists (
+      select 1 from pg_publication_tables
+      where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'messages'
+    ) then
+      alter publication supabase_realtime add table public.messages;
+    end if;
+    if not exists (
+      select 1 from pg_publication_tables
+      where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'conversations'
+    ) then
+      alter publication supabase_realtime add table public.conversations;
+    end if;
+  end if;
+end $$;
