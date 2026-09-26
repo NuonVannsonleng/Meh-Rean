@@ -494,11 +494,55 @@ create table if not exists public.messages (
   id uuid primary key default gen_random_uuid(),
   conversation_id uuid not null references public.conversations on delete cascade,
   sender_id uuid not null references public.profiles on delete cascade,
-  body text not null check (char_length(btrim(body)) between 1 and 2000),
+  -- The text, or a caption for a photo, video or file. Its rules depend on the
+  -- kind of message, so they live in messages_shape below.
+  body text not null default '',
   created_at timestamptz not null default now()
 );
 
 create index if not exists messages_conversation_idx on public.messages (conversation_id, created_at desc);
+
+-- Rich messages. Added with "if not exists" so databases from before them upgrade.
+alter table public.messages add column if not exists kind text not null default 'text';
+-- Photo, video, voice note or file: { path, name, mimeType, size, width,
+-- height, duration, waveform }, always written by send_message(), never the client.
+alter table public.messages add column if not exists attachment jsonb;
+alter table public.messages add column if not exists sticker text;
+alter table public.messages add column if not exists reply_to uuid references public.messages on delete set null;
+alter table public.messages add column if not exists edited_at timestamptz;
+-- Unsent: the row stays (so the thread can say "Message unsent") but its
+-- content is wiped. A soft delete also keeps unsends off Realtime's delete
+-- events, which are broadcast to every subscriber.
+alter table public.messages add column if not exists deleted_at timestamptz;
+
+alter table public.messages alter column body set default '';
+-- The original text-only rule; messages_shape replaces it.
+alter table public.messages drop constraint if exists messages_body_check;
+
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'messages_kind_allowed') then
+    alter table public.messages add constraint messages_kind_allowed
+      check (kind in ('text', 'image', 'video', 'voice', 'file', 'sticker'));
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'messages_body_len') then
+    alter table public.messages add constraint messages_body_len
+      check (char_length(body) <= 2000);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'messages_shape') then
+    alter table public.messages add constraint messages_shape check (
+      (deleted_at is not null and body = '' and attachment is null and sticker is null)
+      or (deleted_at is null and (
+        (kind = 'text' and char_length(btrim(body)) >= 1 and attachment is null and sticker is null)
+        or (kind in ('image', 'video', 'voice', 'file') and attachment is not null and sticker is null)
+        or (kind = 'sticker' and body = '' and attachment is null and sticker ~ '^[a-z0-9-]{1,40}$')
+      ))
+    );
+  end if;
+end $$;
+
+-- Looked up by the chat storage policy for every file read.
+create index if not exists messages_attachment_path_idx
+  on public.messages ((attachment ->> 'path')) where attachment is not null;
 
 alter table public.conversations enable row level security;
 alter table public.messages enable row level security;
@@ -517,9 +561,8 @@ as $$
 $$;
 
 -- Only the two people in a conversation can see it or its messages. There are
--- deliberately no insert or update policies: conversations are created and
--- messages sent through send_message(), and read markers move through
--- mark_conversation_read(), so neither can be forged from the client.
+-- deliberately no insert, update or delete policies: everything goes through
+-- the functions below, so no sender, read marker, file or edit can be forged.
 drop policy if exists "members read conversations" on public.conversations;
 create policy "members read conversations" on public.conversations for select
   using (auth.uid() in (user_a, user_b));
@@ -528,13 +571,57 @@ drop policy if exists "members read messages" on public.messages;
 create policy "members read messages" on public.messages for select
   using (public.is_conversation_member(conversation_id));
 
--- Unsending: only your own messages
+-- Replaced by unsend_message(), which keeps the row and wipes its content.
 drop policy if exists "delete own messages" on public.messages;
-create policy "delete own messages" on public.messages for delete
-  using (auth.uid() = sender_id);
+
+-- ------------------------------------------------------------ chat files ----
+
+-- Private, unlike post attachments: a file sent in a chat is readable only by
+-- its sender and by the two people in a conversation that references it.
+-- Files are shown through short-lived signed URLs.
+insert into storage.buckets (id, name, public, file_size_limit)
+values ('chat', 'chat', false, 52428800)  -- 50 MiB, matches MAX_FILE_BYTES
+on conflict (id) do update set public = false, file_size_limit = excluded.file_size_limit;
+
+-- Each person uploads only into a folder named after their own user id.
+drop policy if exists "upload own chat files" on storage.objects;
+create policy "upload own chat files" on storage.objects for insert to authenticated
+  with check (bucket_id = 'chat' and (storage.foldername(name))[1] = auth.uid()::text);
+
+drop policy if exists "read chat files" on storage.objects;
+create policy "read chat files" on storage.objects for select to authenticated
+  using (
+    bucket_id = 'chat'
+    and (
+      (storage.foldername(objects.name))[1] = auth.uid()::text
+      or exists (
+        select 1 from public.messages m
+        where m.attachment ->> 'path' = objects.name
+          and m.deleted_at is null
+          and public.is_conversation_member(m.conversation_id)
+      )
+    )
+  );
+
+drop policy if exists "delete own chat files" on storage.objects;
+create policy "delete own chat files" on storage.objects for delete to authenticated
+  using (bucket_id = 'chat' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- --------------------------------------------------------------- sending ----
+
+-- The two-argument version from before rich messages.
+drop function if exists public.send_message(uuid, text);
 
 -- Sends a message to another person, starting the conversation if needed.
-create or replace function public.send_message(recipient uuid, message_body text)
+-- Every field is checked here, because this is the only way a message is made.
+create or replace function public.send_message(
+  recipient uuid,
+  message_body text default '',
+  message_kind text default 'text',
+  message_attachment jsonb default null,
+  message_sticker text default null,
+  reply_to_id uuid default null
+)
 returns public.messages
 language plpgsql
 security definer
@@ -544,6 +631,12 @@ declare
   me uuid := auth.uid();
   conv uuid;
   sent public.messages;
+  v_body text := coalesce(message_body, '');
+  v_attachment jsonb;
+  v_path text;
+  v_object record;
+  v_mime text;
+  v_reply uuid := reply_to_id;
 begin
   if me is null then
     raise exception 'not signed in' using errcode = '42501';
@@ -555,6 +648,55 @@ begin
     raise exception 'recipient not found' using errcode = 'P0002';
   end if;
 
+  if message_kind in ('image', 'video', 'voice', 'file') then
+    v_path := case when jsonb_typeof(message_attachment -> 'path') = 'string' then message_attachment ->> 'path' end;
+    -- Only a file the sender uploaded: naming someone else's path here would
+    -- otherwise hand the recipient read access to it.
+    if v_path is null or (storage.foldername(v_path))[1] is distinct from me::text then
+      raise exception 'attachment must be your own upload' using errcode = '42501';
+    end if;
+    select o.name, o.metadata into v_object
+    from storage.objects o
+    where o.bucket_id = 'chat' and o.name = v_path;
+    if not found then
+      raise exception 'attachment not found' using errcode = 'P0002';
+    end if;
+
+    -- Size and type come from what storage actually holds, not from the client.
+    v_mime := lower(split_part(coalesce(v_object.metadata ->> 'mimetype', ''), ';', 1));
+    if (message_kind = 'image' and v_mime !~ '^image/(jpeg|png|webp|gif|avif)$')
+       or (message_kind = 'video' and v_mime !~ '^video/')
+       or (message_kind = 'voice' and v_mime !~ '^audio/') then
+      raise exception 'attachment type does not match the message' using errcode = '22023';
+    end if;
+
+    v_attachment := jsonb_strip_nulls(jsonb_build_object(
+      'path', v_path,
+      'name', left(coalesce(case when jsonb_typeof(message_attachment -> 'name') = 'string' then message_attachment ->> 'name' end, 'file'), 200),
+      'mimeType', v_mime,
+      'size', coalesce((v_object.metadata ->> 'size')::bigint, 0),
+      'width', case when jsonb_typeof(message_attachment -> 'width') = 'number'
+        then least(greatest((message_attachment ->> 'width')::numeric, 1), 20000)::int end,
+      'height', case when jsonb_typeof(message_attachment -> 'height') = 'number'
+        then least(greatest((message_attachment ->> 'height')::numeric, 1), 20000)::int end,
+      'duration', case when jsonb_typeof(message_attachment -> 'duration') = 'number'
+        then round(least(greatest((message_attachment ->> 'duration')::numeric, 0), 36000), 1) end,
+      'waveform', case when message_kind = 'voice' and jsonb_typeof(message_attachment -> 'waveform') = 'array' then (
+        select jsonb_agg(least(greatest(round(value::numeric), 0), 100)::int order by ordinality)
+        from jsonb_array_elements_text(message_attachment -> 'waveform') with ordinality
+        where ordinality <= 64 and value ~ '^-?[0-9]+(\.[0-9]+)?$'
+      ) end
+    ));
+  elsif message_kind = 'sticker' then
+    v_body := '';
+  elsif message_kind is distinct from 'text' then
+    raise exception 'unknown message kind' using errcode = '22023';
+  end if;
+
+  if message_kind = 'text' then
+    v_body := btrim(v_body);
+  end if;
+
   insert into public.conversations (user_a, user_b)
   values (least(me, recipient), greatest(me, recipient))
   on conflict (user_a, user_b) do nothing;
@@ -562,9 +704,20 @@ begin
   select id into conv from public.conversations
   where user_a = least(me, recipient) and user_b = greatest(me, recipient);
 
-  -- The body check constraint rejects empty and over-long messages.
-  insert into public.messages (conversation_id, sender_id, body)
-  values (conv, me, message_body)
+  -- A reply must quote a message from this same conversation.
+  if v_reply is not null and not exists (
+    select 1 from public.messages where id = v_reply and conversation_id = conv
+  ) then
+    v_reply := null;
+  end if;
+
+  -- messages_shape and messages_body_len reject anything malformed.
+  insert into public.messages (conversation_id, sender_id, kind, body, attachment, sticker, reply_to)
+  values (
+    conv, me, message_kind, v_body, v_attachment,
+    case when message_kind = 'sticker' then message_sticker end,
+    v_reply
+  )
   returning * into sent;
 
   -- Sending counts as having read everything before it.
@@ -578,8 +731,113 @@ begin
 end;
 $$;
 
-revoke all on function public.send_message(uuid, text) from public;
-grant execute on function public.send_message(uuid, text) to authenticated;
+revoke all on function public.send_message(uuid, text, text, jsonb, text, uuid) from public;
+grant execute on function public.send_message(uuid, text, text, jsonb, text, uuid) to authenticated;
+
+-- Edits the text of your own message.
+create or replace function public.edit_message(message_id uuid, new_body text)
+returns public.messages
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  edited public.messages;
+begin
+  update public.messages
+  set body = btrim(coalesce(new_body, '')), edited_at = now()
+  where id = message_id
+    and sender_id = auth.uid()
+    and kind = 'text'
+    and deleted_at is null
+  returning * into edited;
+  if not found then
+    raise exception 'message not found' using errcode = 'P0002';
+  end if;
+  return edited;
+end;
+$$;
+
+revoke all on function public.edit_message(uuid, text) from public;
+grant execute on function public.edit_message(uuid, text) to authenticated;
+
+-- Unsends your own message: the content is wiped for both people and the
+-- file's path is returned so the sender's client can delete the object.
+create or replace function public.unsend_message(message_id uuid)
+returns text
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_path text;
+begin
+  select attachment ->> 'path' into v_path
+  from public.messages
+  where id = message_id and sender_id = auth.uid() and deleted_at is null
+  for update;
+  if not found then
+    raise exception 'message not found' using errcode = 'P0002';
+  end if;
+
+  update public.messages
+  set deleted_at = now(), body = '', attachment = null, sticker = null
+  where id = message_id;
+  delete from public.message_reactions where message_reactions.message_id = unsend_message.message_id;
+  return v_path;
+end;
+$$;
+
+-- ------------------------------------------------------------- reactions ----
+
+-- One reaction per person per message. Removing one sets type to null rather
+-- than deleting the row: Realtime filters updates by RLS, but not deletes.
+create table if not exists public.message_reactions (
+  message_id uuid not null references public.messages on delete cascade,
+  user_id uuid not null references public.profiles on delete cascade,
+  type text check (type is null or type in ('like', 'love', 'insightful', 'thanks', 'wow')),
+  updated_at timestamptz not null default now(),
+  primary key (message_id, user_id)
+);
+
+alter table public.message_reactions enable row level security;
+
+drop policy if exists "members read message reactions" on public.message_reactions;
+create policy "members read message reactions" on public.message_reactions for select
+  using (exists (
+    select 1 from public.messages m
+    where m.id = message_reactions.message_id and public.is_conversation_member(m.conversation_id)
+  ));
+
+create or replace function public.react_to_message(message_id uuid, reaction text)
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if not exists (
+    select 1 from public.messages m
+    where m.id = react_to_message.message_id
+      and m.deleted_at is null
+      and public.is_conversation_member(m.conversation_id)
+  ) then
+    raise exception 'message not found' using errcode = 'P0002';
+  end if;
+
+  insert into public.message_reactions (message_id, user_id, type)
+  values (react_to_message.message_id, auth.uid(), reaction)
+  -- Named by constraint: the parameter message_id would make a column list ambiguous.
+  on conflict on constraint message_reactions_pkey do update set type = excluded.type, updated_at = now();
+end;
+$$;
+
+revoke all on function public.unsend_message(uuid) from public;
+grant execute on function public.unsend_message(uuid) to authenticated;
+revoke all on function public.react_to_message(uuid, text) from public;
+grant execute on function public.react_to_message(uuid, text) to authenticated;
+
+-- ----------------------------------------------------------- read state -----
 
 -- Marks a conversation as read by the caller; a no-op for anyone else.
 create or replace function public.mark_conversation_read(conv uuid)
@@ -597,6 +855,9 @@ $$;
 revoke all on function public.mark_conversation_read(uuid) from public;
 grant execute on function public.mark_conversation_read(uuid) to authenticated;
 
+-- Recreated: the columns it returns changed when rich messages arrived.
+drop function if exists public.my_conversations();
+
 -- The caller's inbox: every conversation with at least one message, newest
 -- first. Runs as the caller, so RLS still decides what is visible.
 create or replace function public.my_conversations()
@@ -606,6 +867,9 @@ returns table (
   last_message_at timestamptz,
   last_body text,
   last_sender uuid,
+  last_kind text,
+  last_attachment_name text,
+  last_deleted boolean,
   other_read_at timestamptz,
   unread int
 )
@@ -619,16 +883,20 @@ as $$
     c.last_message_at,
     m.body,
     m.sender_id,
+    m.kind,
+    m.attachment ->> 'name',
+    m.deleted_at is not null,
     case when c.user_a = auth.uid() then c.b_read_at else c.a_read_at end,
     (
       select count(*)::int from public.messages x
       where x.conversation_id = c.id
         and x.sender_id <> auth.uid()
+        and x.deleted_at is null
         and x.created_at > case when c.user_a = auth.uid() then c.a_read_at else c.b_read_at end
     )
   from public.conversations c
   join lateral (
-    select body, sender_id from public.messages
+    select body, sender_id, kind, attachment, deleted_at from public.messages
     where conversation_id = c.id
     order by created_at desc
     limit 1
@@ -649,24 +917,51 @@ as $$
   join public.conversations c on c.id = x.conversation_id
   where auth.uid() in (c.user_a, c.user_b)
     and x.sender_id <> auth.uid()
+    and x.deleted_at is null
     and x.created_at > case when c.user_a = auth.uid() then c.a_read_at else c.b_read_at end;
 $$;
 
+-- -------------------------------------------------------------- realtime ----
+
 -- Live delivery. Realtime applies the select policies above per subscriber, so
 -- people only receive events for their own conversations.
-do $$ begin
+do $$
+declare
+  t text;
+begin
   if exists (select 1 from pg_publication where pubname = 'supabase_realtime') then
-    if not exists (
-      select 1 from pg_publication_tables
-      where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'messages'
-    ) then
-      alter publication supabase_realtime add table public.messages;
-    end if;
-    if not exists (
-      select 1 from pg_publication_tables
-      where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'conversations'
-    ) then
-      alter publication supabase_realtime add table public.conversations;
-    end if;
+    foreach t in array array['messages', 'conversations', 'message_reactions'] loop
+      if not exists (
+        select 1 from pg_publication_tables
+        where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = t
+      ) then
+        execute format('alter publication supabase_realtime add table public.%I', t);
+      end if;
+    end loop;
+  end if;
+end $$;
+
+-- "Typing…" travels on private broadcast channels named typing:<conversation>.
+-- Only the two members may join, send on or hear one.
+do $$ begin
+  if to_regclass('realtime.messages') is not null then
+    execute 'drop policy if exists "members hear typing" on realtime.messages';
+    execute $policy$
+      create policy "members hear typing" on realtime.messages for select to authenticated
+      using (
+        realtime.messages.extension = 'broadcast'
+        and realtime.topic() ~ '^typing:[0-9a-f-]{36}$'
+        and public.is_conversation_member(split_part(realtime.topic(), ':', 2)::uuid)
+      )
+    $policy$;
+    execute 'drop policy if exists "members send typing" on realtime.messages';
+    execute $policy$
+      create policy "members send typing" on realtime.messages for insert to authenticated
+      with check (
+        realtime.messages.extension = 'broadcast'
+        and realtime.topic() ~ '^typing:[0-9a-f-]{36}$'
+        and public.is_conversation_member(split_part(realtime.topic(), ':', 2)::uuid)
+      )
+    $policy$;
   end if;
 end $$;

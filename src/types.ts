@@ -190,19 +190,64 @@ export interface NewVerificationRequest {
 
 // ---- Direct messages ----
 
+export type MessageKind = "text" | "image" | "video" | "voice" | "file" | "sticker";
+
+/** A photo, video, voice note or file sent in a chat. */
+export interface MessageAttachment {
+  /** Where the file is kept: a storage path, or an IndexedDB id in browser-only mode. */
+  path: string;
+  /** Ready to display: a signed URL, or `local-file:<id>` in browser-only mode. */
+  url: string;
+  /** Like `url`, but served as a download under the original file name. */
+  downloadUrl: string;
+  name: string;
+  mimeType: string;
+  size: number;
+  width?: number;
+  height?: number;
+  /** Seconds, for voice notes and videos. */
+  duration?: number;
+  /** Voice notes: loudness bars from 0 to 100. */
+  waveform?: number[];
+}
+
 export interface Message {
   id: string;
   conversationId: string;
   senderId: string;
+  kind: MessageKind;
+  /** The text, or a caption for a photo, video or file. */
   body: string;
+  attachment: MessageAttachment | null;
+  sticker: string | null;
+  replyToId: string | null;
+  /** userId → their reaction. */
+  reactions: Record<string, ReactionType>;
+  editedAt: string | null;
+  /** Set once the sender unsends it; the content is gone by then. */
+  deletedAt: string | null;
   createdAt: string;
+}
+
+/** What the composer hands to sendMessage(). */
+export interface OutgoingMessage {
+  kind: MessageKind;
+  body?: string;
+  file?: File;
+  sticker?: string;
+  replyToId?: string | null;
+  /** Measured in the browser before sending. */
+  meta?: Pick<MessageAttachment, "width" | "height" | "duration" | "waveform">;
 }
 
 /** One row of the inbox. */
 export interface ConversationSummary {
   id: string;
   other: PublicUser;
-  lastMessage: Pick<Message, "body" | "senderId" | "createdAt">;
+  lastMessage: Pick<Message, "body" | "senderId" | "createdAt" | "kind"> & {
+    attachmentName: string | null;
+    deleted: boolean;
+  };
   /** Messages from the other person the viewer has not opened yet. */
   unread: number;
 }
@@ -217,11 +262,19 @@ export interface ThreadView {
   otherReadAt: string | null;
 }
 
-/** Pushed to the UI as messages arrive, are unsent, or are read. */
+/** Pushed to the UI as messages arrive, change, get reactions, or are read. */
 export type ChatEvent =
   | { type: "message"; message: Message }
-  | { type: "unsent"; messageId: string }
+  | { type: "updated"; message: Message }
+  | { type: "reaction"; messageId: string; userId: string; reaction: ReactionType | null }
   | { type: "read"; conversationId: string; reads: Record<string, string> };
+
+/** Live "typing…" for one open conversation. */
+export interface ConversationChannel {
+  /** Tells the other person you are typing; cheap to call on every keystroke. */
+  typing: () => void;
+  leave: () => void;
+}
 
 /** Square for avatars, wide for profile banners. */
 export type ProfileImageKind = "avatar" | "banner";
@@ -330,6 +383,7 @@ export type ApiErrorCode =
   | "EMAIL_NOT_CONFIRMED"
   | "ALREADY_REQUESTED"
   | "MESSAGE_TOO_LONG"
+  | "MICROPHONE_BLOCKED"
   | "STORAGE_FULL";
 
 /** Error surfaced by the service layer; UI maps `code` to friendly copy. */

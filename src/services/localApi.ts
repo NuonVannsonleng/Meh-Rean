@@ -1,3 +1,4 @@
+import { MAX_MESSAGE_LENGTH } from "../lib/chat";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -5,8 +6,10 @@ import {
   type Attachment,
   type ChangePasswordInput,
   type ChatEvent,
+  type ConversationChannel,
   type ConversationSummary,
   type Message,
+  type OutgoingMessage,
   type ThreadView,
   type CommentView,
   type FeedQuery,
@@ -309,12 +312,15 @@ export async function deleteAccount(password: string): Promise<void> {
   const ownConversations = new Set(
     db.conversations.filter((item) => item.userIds.includes(record.id)).map((item) => item.id),
   );
+  const chatFiles = db.messages.flatMap((message) =>
+    ownConversations.has(message.conversationId) && message.attachment ? [message.attachment.path] : [],
+  );
   db.conversations = db.conversations.filter((item) => !ownConversations.has(item.id));
   db.messages = db.messages.filter((message) => !ownConversations.has(message.conversationId));
   db.users = db.users.filter((user) => user.id !== record.id);
   persist();
   setSessionUserId(null);
-  await deleteFiles(fileIds);
+  await deleteFiles([...fileIds, ...chatFiles]);
 }
 
 // ---- Posts ----
@@ -816,8 +822,7 @@ export async function getTrending(): Promise<TrendingView> {
 
 // ---- Direct messages ----
 
-/** Mirrors the message body check in supabase/schema.sql. */
-const MAX_MESSAGE_LENGTH = 2000;
+const CHAT_FILE_PREFIX = "chat-";
 
 const chatListeners = new Set<(event: ChatEvent) => void>();
 
@@ -826,7 +831,14 @@ function emit(event: ChatEvent): void {
 }
 
 function toMessage(record: MessageRecord): Message {
-  return { ...record };
+  const attachment = record.attachment
+    ? {
+        ...record.attachment,
+        url: `${LOCAL_FILE_PREFIX}${record.attachment.path}`,
+        downloadUrl: `${LOCAL_FILE_PREFIX}${record.attachment.path}`,
+      }
+    : null;
+  return { ...structuredClone(record), attachment };
 }
 
 function otherMember(conversation: ConversationRecord, viewer: string): string {
@@ -845,8 +857,17 @@ function unreadIn(db: DbState, conversation: ConversationRecord, viewer: string)
     (message) =>
       message.conversationId === conversation.id &&
       message.senderId !== viewer &&
+      !message.deletedAt &&
       message.createdAt > readAt,
   ).length;
+}
+
+/** A message the viewer may see, from a conversation they belong to. */
+function visibleMessage(db: DbState, viewer: string, messageId: string): MessageRecord {
+  const message = db.messages.find((item) => item.id === messageId);
+  const conversation = message && db.conversations.find((item) => item.id === message.conversationId);
+  if (!message || !conversation?.userIds.includes(viewer)) throw new ApiError("NOT_FOUND", 404);
+  return message;
 }
 
 export async function getConversations(): Promise<ConversationSummary[]> {
@@ -869,7 +890,14 @@ export async function getConversations(): Promise<ConversationSummary[]> {
         {
           id: conversation.id,
           other: toPublicUser(other),
-          lastMessage: { body: last.body, senderId: last.senderId, createdAt: last.createdAt },
+          lastMessage: {
+            body: last.body,
+            senderId: last.senderId,
+            createdAt: last.createdAt,
+            kind: last.kind,
+            attachmentName: last.attachment?.name ?? null,
+            deleted: Boolean(last.deletedAt),
+          },
           unread: unreadIn(db, conversation, viewer),
         },
       ];
@@ -900,16 +928,28 @@ export async function getThread(username: string): Promise<ThreadView> {
   };
 }
 
-export async function sendMessage(username: string, body: string): Promise<Message> {
+export async function sendMessage(username: string, input: OutgoingMessage): Promise<Message> {
   await delay(150);
   const db = await loadDb();
   const viewer = requireViewer(db).id;
   const other = findByUsername(db, username);
   if (other.id === viewer) throw new ApiError("FORBIDDEN", 403);
 
-  const text = body.trim();
-  if (!text) throw new ApiError("UNKNOWN", 400);
-  if (text.length > MAX_MESSAGE_LENGTH) throw new ApiError("MESSAGE_TOO_LONG", 400);
+  const body = input.kind === "sticker" ? "" : (input.body ?? "").trim();
+  if (body.length > MAX_MESSAGE_LENGTH) throw new ApiError("MESSAGE_TOO_LONG", 400);
+  if (input.kind === "text" && !body) throw new ApiError("UNKNOWN", 400);
+  if (input.kind === "sticker" && !input.sticker) throw new ApiError("UNKNOWN", 400);
+
+  let attachment: MessageRecord["attachment"] = null;
+  if (input.kind !== "text" && input.kind !== "sticker") {
+    const { file } = input;
+    if (!file) throw new ApiError("UNKNOWN", 400);
+    if (file.size > MAX_FILE_BYTES) throw new ApiError("FILE_TOO_LARGE", 413);
+    const path = createId(CHAT_FILE_PREFIX);
+    const mimeType = safeContentType(file.type || "application/octet-stream");
+    await putFile(path, file.slice(0, file.size, mimeType));
+    attachment = { path, name: file.name || "file", mimeType, size: file.size, ...input.meta };
+  }
 
   const now = new Date().toISOString();
   let conversation = conversationWith(db, viewer, other.id);
@@ -918,16 +958,27 @@ export async function sendMessage(username: string, body: string): Promise<Messa
       id: createId("c"),
       userIds: [viewer, other.id],
       lastMessageAt: now,
-      readAt: { [viewer]: now, [other.id]: now },
+      readAt: { [viewer]: now, [other.id]: new Date(0).toISOString() },
     };
     db.conversations.push(conversation);
   }
+
+  const replyTo = input.replyToId
+    ? db.messages.find((item) => item.id === input.replyToId && item.conversationId === conversation.id)
+    : undefined;
 
   const message: MessageRecord = {
     id: createId("m"),
     conversationId: conversation.id,
     senderId: viewer,
-    body: text,
+    kind: input.kind,
+    body,
+    attachment,
+    sticker: input.kind === "sticker" ? (input.sticker ?? null) : null,
+    replyToId: replyTo?.id ?? null,
+    reactions: {},
+    editedAt: null,
+    deletedAt: null,
     createdAt: now,
   };
   db.messages.push(message);
@@ -939,17 +990,53 @@ export async function sendMessage(username: string, body: string): Promise<Messa
   return toMessage(message);
 }
 
+export async function editMessage(messageId: string, body: string): Promise<Message> {
+  await delay(100);
+  const db = await loadDb();
+  const viewer = requireViewer(db).id;
+  const message = visibleMessage(db, viewer, messageId);
+  if (message.senderId !== viewer || message.kind !== "text" || message.deletedAt) throw new ApiError("FORBIDDEN", 403);
+  const text = body.trim();
+  if (!text) throw new ApiError("UNKNOWN", 400);
+  if (text.length > MAX_MESSAGE_LENGTH) throw new ApiError("MESSAGE_TOO_LONG", 400);
+
+  message.body = text;
+  message.editedAt = new Date().toISOString();
+  persist();
+  emit({ type: "updated", message: toMessage(message) });
+  return toMessage(message);
+}
+
 export async function unsendMessage(messageId: string): Promise<void> {
   await delay(100);
   const db = await loadDb();
   const viewer = requireViewer(db).id;
-  const message = db.messages.find((item) => item.id === messageId);
-  if (!message) throw new ApiError("NOT_FOUND", 404);
-  if (message.senderId !== viewer) throw new ApiError("FORBIDDEN", 403);
+  const message = visibleMessage(db, viewer, messageId);
+  if (message.senderId !== viewer || message.deletedAt) throw new ApiError("FORBIDDEN", 403);
 
-  db.messages = db.messages.filter((item) => item.id !== messageId);
+  const path = message.attachment?.path;
+  Object.assign(message, {
+    body: "",
+    attachment: null,
+    sticker: null,
+    reactions: {},
+    deletedAt: new Date().toISOString(),
+  });
   persist();
-  emit({ type: "unsent", messageId });
+  if (path) await deleteFiles([path]);
+  emit({ type: "updated", message: toMessage(message) });
+}
+
+export async function reactToMessage(messageId: string, reaction: ReactionType | null): Promise<void> {
+  const db = await loadDb();
+  const viewer = requireViewer(db).id;
+  const message = visibleMessage(db, viewer, messageId);
+  if (message.deletedAt) throw new ApiError("NOT_FOUND", 404);
+
+  if (reaction) message.reactions[viewer] = reaction;
+  else delete message.reactions[viewer];
+  persist();
+  emit({ type: "reaction", messageId, userId: viewer, reaction });
 }
 
 export async function markConversationRead(conversationId: string): Promise<void> {
@@ -978,6 +1065,14 @@ export function subscribeToChat(callback: (event: ChatEvent) => void): () => voi
   return () => {
     chatListeners.delete(callback);
   };
+}
+
+/** Nobody else is ever typing in browser-only mode. */
+export function joinConversation(
+  _conversationId: string,
+  _onTyping: () => void,
+): ConversationChannel {
+  return { typing: () => {}, leave: () => {} };
 }
 
 /** No sessions to watch in browser-only mode. */

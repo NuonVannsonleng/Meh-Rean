@@ -2,15 +2,25 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import ChatThread from "../components/ChatThread";
-import { ChatIcon, PenIcon } from "../components/Icons";
+import { ChatIcon, FileIcon, ImageIcon, MicIcon, PenIcon, SmileIcon, VideoIcon } from "../components/Icons";
 import NewMessageDialog from "../components/NewMessageDialog";
 import VerifiedBadge from "../components/VerifiedBadge";
 import { useAuth } from "../context/AuthContext";
 import { useChat } from "../context/ChatContext";
 import { t } from "../i18n/en";
+import { messageSnippet } from "../lib/chat";
 import { formatRelativeTime } from "../lib/format";
 import { getConversations } from "../services/api";
-import type { ConversationSummary } from "../types";
+import type { ConversationSummary, MessageKind } from "../types";
+
+/** A small mark before non-text previews in the inbox. */
+const PREVIEW_ICONS: Partial<Record<MessageKind, typeof ChatIcon>> = {
+  image: ImageIcon,
+  video: VideoIcon,
+  voice: MicIcon,
+  file: FileIcon,
+  sticker: SmileIcon,
+};
 
 type InboxState =
   | { status: "loading" }
@@ -68,6 +78,7 @@ function Inbox({ state, onRetry, activeUsername }: {
       {state.conversations.map((conversation) => {
         const { other, lastMessage, unread } = conversation;
         const fromMe = lastMessage.senderId === user?.id;
+        const PreviewIcon = lastMessage.deleted ? undefined : PREVIEW_ICONS[lastMessage.kind];
         const active = activeUsername?.toLowerCase() === other.username;
         return (
           <li key={conversation.id}>
@@ -101,7 +112,8 @@ function Inbox({ state, onRetry, activeUsername }: {
                     }`}
                   >
                     {fromMe && t.messages.you}
-                    {lastMessage.body}
+                    {PreviewIcon && <PreviewIcon className="mr-1 inline h-3.5 w-3.5 align-[-2px]" />}
+                    {messageSnippet(lastMessage)}
                   </span>
                   {unread > 0 && (
                     <span className="bg-brand-600 shrink-0 rounded-full px-1.5 text-[11px] leading-5 font-bold text-white">

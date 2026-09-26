@@ -67,6 +67,24 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     };
   }, [userId, refreshUnread]);
 
+  // "(3) Meh Rean" in the tab, on top of whatever title the page sets.
+  useEffect(() => {
+    const prefix = /^\(\d+\+?\) /;
+    const apply = () => {
+      const base = document.title.replace(prefix, "");
+      const next = unread ? `(${unread > 99 ? "99+" : unread}) ${base}` : base;
+      if (document.title !== next) document.title = next;
+    };
+    apply();
+    const title = document.querySelector("title");
+    const observer = title ? new MutationObserver(apply) : null;
+    if (title) observer?.observe(title, { childList: true, characterData: true, subtree: true });
+    return () => {
+      observer?.disconnect();
+      document.title = document.title.replace(prefix, "");
+    };
+  }, [unread]);
+
   const subscribe = useCallback((listener: ChatListener) => {
     listeners.current.add(listener);
     return () => {

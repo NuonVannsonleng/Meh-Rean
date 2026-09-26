@@ -123,6 +123,7 @@ export const seedUsers: PublicUser[] = userSeed.map(
 
 /**
  * Demo inbox: [other person, sent by the demo account?, body, minutes ago].
+ * A body of `sticker:<id>` sends that sticker instead of text.
  * Times are relative so the preview always looks recent.
  */
 export const seedMessages: [otherId: string, fromDemo: boolean, body: string, minutesAgo: number][] = [
@@ -132,6 +133,7 @@ export const seedMessages: [otherId: string, fromDemo: boolean, body: string, mi
   ["u1", false, "No rush, whenever you have time.", 44],
   ["u4", true, "Priya, do you have a good resource for dynamic programming?", 4_400],
   ["u4", false, "Start with the knapsack and LIS problems in my notes, then try the Codeforces DP tag. Happy to go through any of them together.", 4_300],
+  ["u4", true, "sticker:thanks", 4_290],
 ];
 
 /** followerId → the accounts they follow */

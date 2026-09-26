@@ -1,23 +1,45 @@
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type DragEvent } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useChat } from "../context/ChatContext";
 import { useToast } from "../context/ToastContext";
+import type { RecordedVoice } from "../hooks/useVoiceRecorder";
 import { t } from "../i18n/en";
+import { MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
+import { kindForFile, messageSnippet, preparePhoto, videoMeta } from "../lib/chat";
 import { errorCode, errorMessage } from "../lib/errors";
-import { formatDate, formatDateTime } from "../lib/format";
-import { getThread, markConversationRead, sendMessage, unsendMessage } from "../services/api";
-import type { Message, ThreadView } from "../types";
+import { formatDate } from "../lib/format";
+import {
+  editMessage,
+  getThread,
+  joinConversation,
+  markConversationRead,
+  reactToMessage,
+  sendMessage,
+  unsendMessage,
+} from "../services/api";
+import type {
+  Attachment,
+  ConversationChannel,
+  Message,
+  MessageAttachment,
+  OutgoingMessage,
+  ReactionType,
+  ThreadView,
+} from "../types";
 import Avatar from "./Avatar";
-import { ArrowLeftIcon, SendIcon, TrashIcon } from "./Icons";
+import Composer from "./chat/Composer";
+import MessageBubble, { isPending, type Bubble, type PendingMessage } from "./chat/MessageBubble";
+import { ArrowLeftIcon, UploadIcon } from "./Icons";
+import { Lightbox } from "./PostAttachments";
 import VerifiedBadge from "./VerifiedBadge";
 
-/** Mirrors the message body check in supabase/schema.sql. */
-const MAX_LENGTH = 2000;
 /** Messages closer together than this from one sender share a bubble group. */
 const GROUP_GAP_MS = 5 * 60_000;
 /** How close to the bottom still counts as "following the conversation". */
-const STICK_THRESHOLD_PX = 120;
+const STICK_THRESHOLD_PX = 160;
+/** "Typing…" fades this long after the last signal. */
+const TYPING_TIMEOUT_MS = 4000;
 
 type ThreadState =
   | { status: "loading" }
@@ -25,15 +47,6 @@ type ThreadState =
   | { status: "not-found" }
   | { status: "self" }
   | { status: "error" };
-
-/** A message still on its way to the server. */
-interface PendingMessage extends Message {
-  pending: true;
-}
-
-type Bubble = Message | PendingMessage;
-
-const timeFormat = new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" });
 
 function dayLabel(iso: string): string {
   const date = new Date(iso);
@@ -45,33 +58,6 @@ function dayLabel(iso: string): string {
   return formatDate(iso);
 }
 
-const URL_PATTERN = /(https?:\/\/[^\s<>"']+[^\s<>"'.,;:!?)\]])/g;
-
-/** Plain text with web links made clickable. Nothing else is interpreted. */
-function MessageText({ body }: { body: string }) {
-  const parts = body.split(URL_PATTERN);
-  return (
-    <>
-      {parts.map((part, index) =>
-        index % 2 === 1 ? (
-          <a
-            key={index}
-            href={part}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            className="underline underline-offset-2 break-all"
-            onClick={(event) => event.stopPropagation()}
-          >
-            {part}
-          </a>
-        ) : (
-          part
-        ),
-      )}
-    </>
-  );
-}
-
 /** Array.prototype.findLast, which older Safari lacks. */
 function lastWhere(messages: Message[], test: (message: Message) => boolean): Message | undefined {
   for (let index = messages.length - 1; index >= 0; index -= 1) {
@@ -80,26 +66,66 @@ function lastWhere(messages: Message[], test: (message: Message) => boolean): Me
   return undefined;
 }
 
-function isPending(message: Bubble): message is PendingMessage {
-  return "pending" in message;
+function snippetOf(message: Message): string {
+  return messageSnippet({
+    ...message,
+    deleted: Boolean(message.deletedAt),
+    attachmentName: message.attachment?.name,
+    duration: message.attachment?.duration,
+  });
+}
+
+/** A local preview of a file that is still uploading. */
+function previewOf(file: File, meta: OutgoingMessage["meta"] = {}): MessageAttachment {
+  const url = URL.createObjectURL(file);
+  return { path: "", url, downloadUrl: url, name: file.name, mimeType: file.type, size: file.size, ...meta };
+}
+
+function TypingIndicator({ name, other }: { name: string; other: ThreadView["other"] }) {
+  return (
+    <div className="animate-fade mt-3 flex items-end gap-2">
+      <Avatar user={other} size="sm" />
+      <div className="bg-surface-hover flex h-9 items-center gap-1 rounded-2xl px-3.5" aria-hidden="true">
+        {[0, 1, 2].map((dot) => (
+          <span
+            key={dot}
+            className="bg-ink-400 h-2 w-2 animate-bounce rounded-full"
+            style={{ animationDelay: `${dot * 140}ms`, animationDuration: "1s" }}
+          />
+        ))}
+      </div>
+      <span className="sr-only">{t.messages.typing(name)}</span>
+    </div>
+  );
 }
 
 export default function ChatThread({ username }: { username: string }) {
   const { user } = useAuth();
   const { subscribe, refreshUnread } = useChat();
   const { notify } = useToast();
-  const inputId = useId();
   const [state, setState] = useState<ThreadState>({ status: "loading" });
   const [pending, setPending] = useState<PendingMessage[]>([]);
-  const [draft, setDraft] = useState("");
+  const [staged, setStaged] = useState<File[]>([]);
+  const [replyTo, setReplyTo] = useState<Message | null>(null);
+  const [editing, setEditing] = useState<Message | null>(null);
   const [sendError, setSendError] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
+  const [highlighted, setHighlighted] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<{ images: Attachment[]; index: number } | null>(null);
+  const [otherTyping, setOtherTyping] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const scroller = useRef<HTMLDivElement>(null);
+  const list = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const stickToBottom = useRef(true);
   const lastMarked = useRef<string>("");
+  const channel = useRef<ConversationChannel | null>(null);
+  const typingTimer = useRef<number | undefined>(undefined);
+  /** What each pending bubble was, so a failed send can be retried. */
+  const outgoing = useRef(new Map<string, OutgoingMessage>());
 
   const thread = state.status === "ready" ? state.thread : null;
+  const conversationId = thread?.conversationId ?? null;
   const me = user?.id ?? "";
 
   const load = useCallback(async () => {
@@ -115,12 +141,39 @@ export default function ChatThread({ username }: { username: string }) {
   useEffect(() => {
     setState({ status: "loading" });
     setPending([]);
-    setDraft("");
+    setStaged([]);
+    setReplyTo(null);
+    setEditing(null);
     setSendError(null);
+    setOtherTyping(false);
     stickToBottom.current = true;
     lastMarked.current = "";
     void load();
   }, [load]);
+
+  /** Applies a change to the loaded thread, if there is one. */
+  const updateThread = useCallback((change: (view: ThreadView) => ThreadView) => {
+    setState((current) => (current.status === "ready" ? { status: "ready", thread: change(current.thread) } : current));
+  }, []);
+
+  const addMessage = useCallback(
+    (message: Message) =>
+      updateThread((view) =>
+        view.messages.some((item) => item.id === message.id)
+          ? view
+          : { ...view, conversationId: message.conversationId, messages: [...view.messages, message] },
+      ),
+    [updateThread],
+  );
+
+  const patchMessage = useCallback(
+    (id: string, change: (message: Message) => Message) =>
+      updateThread((view) => ({
+        ...view,
+        messages: view.messages.map((item) => (item.id === id ? change(item) : item)),
+      })),
+    [updateThread],
+  );
 
   // Opening the thread (or receiving a message while it is on screen) reads it.
   const markRead = useCallback(() => {
@@ -141,58 +194,89 @@ export default function ChatThread({ username }: { username: string }) {
     return () => document.removeEventListener("visibilitychange", markRead);
   }, [markRead]);
 
+  // "Typing…" in both directions, once the conversation exists.
+  useEffect(() => {
+    if (!conversationId) return;
+    const joined = joinConversation(conversationId, () => {
+      setOtherTyping(true);
+      window.clearTimeout(typingTimer.current);
+      typingTimer.current = window.setTimeout(() => setOtherTyping(false), TYPING_TIMEOUT_MS);
+    });
+    channel.current = joined;
+    return () => {
+      joined.leave();
+      channel.current = null;
+      window.clearTimeout(typingTimer.current);
+    };
+  }, [conversationId]);
+
   // Live updates for this conversation only.
   useEffect(
     () =>
       subscribe((event) => {
-        setState((current) => {
-          if (current.status !== "ready") return current;
-          const view = current.thread;
-
-          if (event.type === "message") {
-            const { message } = event;
+        if (event.type === "message") {
+          const { message } = event;
+          setState((current) => {
+            if (current.status !== "ready") return current;
+            const view = current.thread;
             if (view.conversationId && message.conversationId !== view.conversationId) return current;
-            if (!view.conversationId) {
-              // The first message of a brand-new conversation, from either side.
-              if (message.senderId !== view.other.id && message.senderId !== me) return current;
-              if (message.senderId === me) return current; // sendMessage() adds it
-            }
+            // The first message of a brand-new conversation: only from the other person;
+            // the viewer's own is added by the send that made it.
+            if (!view.conversationId && message.senderId !== view.other.id) return current;
             if (view.messages.some((item) => item.id === message.id)) return current;
+            if (message.senderId === view.other.id) {
+              setOtherTyping(false);
+              window.clearTimeout(typingTimer.current);
+            }
             return {
               status: "ready",
-              thread: {
-                ...view,
-                conversationId: message.conversationId,
-                messages: [...view.messages, message],
-              },
+              thread: { ...view, conversationId: message.conversationId, messages: [...view.messages, message] },
             };
-          }
-
-          if (event.type === "unsent") {
-            if (!view.messages.some((item) => item.id === event.messageId)) return current;
-            return {
-              status: "ready",
-              thread: { ...view, messages: view.messages.filter((item) => item.id !== event.messageId) },
-            };
-          }
-
-          if (event.conversationId !== view.conversationId) return current;
-          const otherReadAt = event.reads[view.other.id];
-          if (!otherReadAt || otherReadAt === view.otherReadAt) return current;
-          return { status: "ready", thread: { ...view, otherReadAt } };
-        });
+          });
+        } else if (event.type === "updated") {
+          const { message } = event;
+          patchMessage(message.id, (existing) => ({
+            ...message,
+            // Reactions arrive on their own events and are cleared by an unsend.
+            reactions: message.deletedAt ? {} : existing.reactions,
+          }));
+        } else if (event.type === "reaction") {
+          patchMessage(event.messageId, (existing) => {
+            const reactions = { ...existing.reactions };
+            if (event.reaction) reactions[event.userId] = event.reaction;
+            else delete reactions[event.userId];
+            return { ...existing, reactions };
+          });
+        } else {
+          updateThread((view) => {
+            if (event.conversationId !== view.conversationId) return view;
+            const otherReadAt = event.reads[view.other.id];
+            return otherReadAt && otherReadAt !== view.otherReadAt ? { ...view, otherReadAt } : view;
+          });
+        }
       }),
-    [subscribe, me],
+    [subscribe, patchMessage, updateThread],
   );
 
-  // Keep the newest message in view while the reader is following along.
+  // Keep the newest message in view while the reader is following along,
+  // including when a photo finishes loading and grows the list.
   const bubbles: Bubble[] = thread ? [...thread.messages, ...pending] : [];
   const lastBubbleId = bubbles[bubbles.length - 1]?.id;
 
-  useLayoutEffect(() => {
+  const scrollToEnd = useCallback(() => {
     const element = scroller.current;
     if (element && stickToBottom.current) element.scrollTop = element.scrollHeight;
-  }, [lastBubbleId, state.status]);
+  }, []);
+
+  useLayoutEffect(scrollToEnd, [lastBubbleId, state.status, otherTyping, scrollToEnd]);
+
+  useEffect(() => {
+    const content = list.current;
+    if (!content || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(scrollToEnd);
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, [state.status, scrollToEnd]);
 
   const onScroll = () => {
     const element = scroller.current;
@@ -200,55 +284,164 @@ export default function ChatThread({ username }: { username: string }) {
     stickToBottom.current = element.scrollHeight - element.scrollTop - element.clientHeight < STICK_THRESHOLD_PX;
   };
 
-  const submit = async (event?: FormEvent) => {
-    event?.preventDefault();
-    const text = draft.trim();
-    if (!text || !thread || text.length > MAX_LENGTH) return;
+  // ---- Sending ----
 
-    const temp: PendingMessage = {
-      id: `pending-${crypto.randomUUID()}`,
-      conversationId: thread.conversationId ?? "",
+  /** Puts a bubble on screen straight away, before the server has it. */
+  const stagePending = (input: OutgoingMessage, preview: MessageAttachment | null): string => {
+    const id = `pending-${crypto.randomUUID()}`;
+    outgoing.current.set(id, input);
+    const bubble: PendingMessage = {
+      id,
+      conversationId: conversationId ?? "",
       senderId: me,
-      body: text,
+      kind: input.kind,
+      body: input.body ?? "",
+      attachment: preview,
+      sticker: input.sticker ?? null,
+      replyToId: input.replyToId ?? null,
+      reactions: {},
+      editedAt: null,
+      deletedAt: null,
       createdAt: new Date().toISOString(),
       pending: true,
     };
-    setPending((current) => [...current, temp]);
-    setDraft("");
-    setSendError(null);
     stickToBottom.current = true;
-    inputRef.current?.focus();
+    setPending((current) => [...current, bubble]);
+    return id;
+  };
 
+  const sendPending = async (id: string) => {
+    const input = outgoing.current.get(id);
+    if (!input) return;
+    setPending((current) => current.map((item) => (item.id === id ? { ...item, failed: false } : item)));
     try {
-      const sent = await sendMessage(username, text);
-      setState((current) => {
-        if (current.status !== "ready") return current;
-        const view = current.thread;
-        // Realtime may already have delivered it.
-        const messages = view.messages.some((item) => item.id === sent.id)
-          ? view.messages
-          : [...view.messages, sent];
-        return { status: "ready", thread: { ...view, conversationId: sent.conversationId, messages } };
+      const sent = await sendMessage(username, input);
+      addMessage(sent);
+      outgoing.current.delete(id);
+      setPending((current) => {
+        const done = current.find((item) => item.id === id);
+        if (done?.attachment?.url.startsWith("blob:")) URL.revokeObjectURL(done.attachment.url);
+        return current.filter((item) => item.id !== id);
       });
     } catch (error) {
-      setSendError(errorCode(error) === "MESSAGE_TOO_LONG" ? errorMessage(error) : t.messages.sendError);
-      // Give the words back so nothing typed is lost.
-      setDraft((current) => (current ? current : text));
-    } finally {
-      setPending((current) => current.filter((item) => item.id !== temp.id));
+      const code = errorCode(error);
+      setSendError(code === "FILE_TOO_LARGE" || code === "MESSAGE_TOO_LONG" ? errorMessage(error) : t.messages.sendError);
+      setPending((current) => current.map((item) => (item.id === id ? { ...item, failed: true } : item)));
+    }
+  };
+
+  const discardPending = (id: string) => {
+    outgoing.current.delete(id);
+    setPending((current) => {
+      const gone = current.find((item) => item.id === id);
+      if (gone?.attachment?.url.startsWith("blob:")) URL.revokeObjectURL(gone.attachment.url);
+      return current.filter((item) => item.id !== id);
+    });
+  };
+
+  const send = (input: Omit<OutgoingMessage, "replyToId">, preview: MessageAttachment | null = null) => {
+    setSendError(null);
+    const id = stagePending({ ...input, replyToId: replyTo?.id ?? null }, preview);
+    setReplyTo(null);
+    void sendPending(id);
+  };
+
+  const sendFiles = async (caption: string) => {
+    const files = staged;
+    setStaged([]);
+    setSendError(null);
+    const replyId = replyTo?.id ?? null;
+    setReplyTo(null);
+
+    // Every bubble appears at once; the uploads then go in order.
+    const ids: string[] = [];
+    for (const [index, original] of files.entries()) {
+      const kind = kindForFile(original);
+      let file = original;
+      let meta: OutgoingMessage["meta"] = {};
+      if (kind === "image") {
+        const prepared = await preparePhoto(original);
+        file = prepared.file;
+        meta = { width: prepared.width, height: prepared.height };
+      } else if (kind === "video") {
+        meta = await videoMeta(original);
+      }
+      const first = index === 0;
+      ids.push(
+        stagePending(
+          { kind, file, meta, body: first ? caption : "", replyToId: first ? replyId : null },
+          previewOf(file, meta),
+        ),
+      );
+    }
+    for (const id of ids) await sendPending(id);
+  };
+
+  const sendVoice = (voice: RecordedVoice) => {
+    const meta = { duration: voice.duration, waveform: voice.waveform };
+    send({ kind: "voice", file: voice.file, meta }, previewOf(voice.file, meta));
+  };
+
+  const stage = (files: File[]) => {
+    if (editing) return;
+    const fitting = files.filter((file) => {
+      if (file.size <= MAX_FILE_BYTES) return true;
+      notify(t.messages.fileTooLarge(file.name));
+      return false;
+    });
+    setStaged((current) => {
+      const next = [...current, ...fitting];
+      if (next.length > MAX_FILES_PER_POST) notify(t.messages.tooManyFiles);
+      return next.slice(0, MAX_FILES_PER_POST);
+    });
+    inputRef.current?.focus();
+  };
+
+  // ---- Message actions ----
+
+  const react = async (message: Message, reaction: ReactionType | null) => {
+    setSelected(null);
+    const before = message.reactions;
+    patchMessage(message.id, (existing) => {
+      const reactions = { ...existing.reactions };
+      if (reaction) reactions[me] = reaction;
+      else delete reactions[me];
+      return { ...existing, reactions };
+    });
+    try {
+      await reactToMessage(message.id, reaction);
+    } catch {
+      patchMessage(message.id, (existing) => ({ ...existing, reactions: before }));
+      notify(t.messages.reactError);
+    }
+  };
+
+  const saveEdit = async (body: string) => {
+    const target = editing;
+    setEditing(null);
+    if (!target || body === target.body) return;
+    patchMessage(target.id, (existing) => ({ ...existing, body, editedAt: new Date().toISOString() }));
+    try {
+      const saved = await editMessage(target.id, body);
+      patchMessage(target.id, (existing) => ({ ...saved, reactions: existing.reactions }));
+    } catch {
+      patchMessage(target.id, (existing) => ({ ...existing, body: target.body, editedAt: target.editedAt }));
+      notify(t.messages.editError);
     }
   };
 
   const unsend = async (message: Message) => {
     setSelected(null);
-    setState((current) =>
-      current.status === "ready"
-        ? {
-            status: "ready",
-            thread: { ...current.thread, messages: current.thread.messages.filter((item) => item.id !== message.id) },
-          }
-        : current,
-    );
+    if (replyTo?.id === message.id) setReplyTo(null);
+    if (editing?.id === message.id) setEditing(null);
+    patchMessage(message.id, (existing) => ({
+      ...existing,
+      body: "",
+      attachment: null,
+      sticker: null,
+      reactions: {},
+      deletedAt: new Date().toISOString(),
+    }));
     try {
       await unsendMessage(message.id);
       notify(t.messages.unsent);
@@ -257,6 +450,43 @@ export default function ChatThread({ username }: { username: string }) {
       void load();
     }
   };
+
+  const copy = async (message: Message) => {
+    setSelected(null);
+    try {
+      await navigator.clipboard.writeText(message.body);
+      notify(t.messages.copied);
+    } catch {
+      // Clipboard blocked: nothing useful to add.
+    }
+  };
+
+  const jumpTo = (messageId: string) => {
+    const element = document.getElementById(`message-${messageId}`);
+    if (!element) return;
+    element.scrollIntoView({ behavior: "smooth", block: "center" });
+    setHighlighted(messageId);
+    window.setTimeout(() => setHighlighted((current) => (current === messageId ? null : current)), 1600);
+  };
+
+  const openImage = (message: Message) => {
+    if (!thread) return;
+    const photos = thread.messages.filter((item) => item.kind === "image" && item.attachment && !item.deletedAt);
+    const images: Attachment[] = photos.map((item) => ({
+      id: item.id,
+      name: item.attachment?.name ?? "",
+      mimeType: item.attachment?.mimeType ?? "",
+      size: item.attachment?.size ?? 0,
+      kind: "image",
+      url: item.attachment?.url ?? "",
+    }));
+    const index = photos.findIndex((item) => item.id === message.id);
+    if (index >= 0) setLightbox({ images, index });
+  };
+
+  // ---- Drag and drop ----
+
+  const hasFiles = (event: DragEvent) => event.dataTransfer.types.includes("Files");
 
   if (state.status === "loading") {
     return (
@@ -291,12 +521,32 @@ export default function ChatThread({ username }: { username: string }) {
   }
 
   const { other } = thread;
-  const lastOwn = lastWhere(thread.messages, (message) => message.senderId === me);
+  const byId = new Map(thread.messages.map((message) => [message.id, message]));
+  const lastOwn = lastWhere(thread.messages, (message) => message.senderId === me && !message.deletedAt);
   const seen = Boolean(lastOwn && thread.otherReadAt && thread.otherReadAt >= lastOwn.createdAt);
-  const tooLong = draft.trim().length > MAX_LENGTH;
+  const nameOf = (id: string) => (id === me ? t.messages.youName : other.displayName);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <div
+      className="relative flex min-h-0 flex-1 flex-col"
+      onDragEnter={(event) => {
+        if (!hasFiles(event) || editing) return;
+        event.preventDefault();
+        setDragging(true);
+      }}
+      onDragOver={(event) => {
+        if (hasFiles(event) && !editing) event.preventDefault();
+      }}
+      onDragLeave={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(false);
+      }}
+      onDrop={(event) => {
+        if (!hasFiles(event)) return;
+        event.preventDefault();
+        setDragging(false);
+        stage([...event.dataTransfer.files]);
+      }}
+    >
       <header className="border-line flex shrink-0 items-center gap-2 border-b px-2 py-2 sm:px-4">
         <Link to="/messages" aria-label={t.messages.back} className="icon-btn md:hidden">
           <ArrowLeftIcon />
@@ -312,9 +562,8 @@ export default function ChatThread({ username }: { username: string }) {
               <span className="truncate">{other.displayName}</span>
               {other.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
             </span>
-            <span className="text-ink-500 block truncate text-xs">
-              @{other.username}
-              {other.school && ` · ${other.school}`}
+            <span className={`block truncate text-xs ${otherTyping ? "text-accent font-medium" : "text-ink-500"}`}>
+              {otherTyping ? t.messages.typing(other.displayName.split(" ")[0]) : `@${other.username}${other.school ? ` · ${other.school}` : ""}`}
             </span>
           </span>
         </Link>
@@ -323,144 +572,127 @@ export default function ChatThread({ username }: { username: string }) {
       <div
         ref={scroller}
         onScroll={onScroll}
-        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-4 sm:px-5"
+        className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-3 py-4 sm:px-5"
         role="log"
         aria-live="polite"
         aria-label={t.messages.title}
       >
-        {bubbles.length === 0 ? (
-          <div className="animate-rise flex h-full flex-col items-center justify-center gap-3 text-center">
-            <Avatar user={other} size="lg" />
-            <p className="text-ink-900 font-semibold">{t.messages.threadEmpty(other.displayName)}</p>
-            <p className="text-ink-500 max-w-xs text-sm">{t.messages.threadEmptyBody}</p>
-          </div>
-        ) : (
-          <ol className="flex flex-col">
-            {bubbles.map((message, index) => {
-              const previous = bubbles[index - 1];
-              const next = bubbles[index + 1];
-              const mine = message.senderId === me;
-              const newDay = !previous || dayLabel(previous.createdAt) !== dayLabel(message.createdAt);
-              const joinsPrevious =
-                !newDay &&
-                previous?.senderId === message.senderId &&
-                Date.parse(message.createdAt) - Date.parse(previous.createdAt) < GROUP_GAP_MS;
-              const joinsNext =
-                next?.senderId === message.senderId &&
-                dayLabel(next.createdAt) === dayLabel(message.createdAt) &&
-                Date.parse(next.createdAt) - Date.parse(message.createdAt) < GROUP_GAP_MS;
-              const sending = isPending(message);
-              const open = selected === message.id;
+        <div ref={list}>
+          {bubbles.length === 0 ? (
+            <div className="animate-rise flex min-h-64 flex-col items-center justify-center gap-3 text-center">
+              <Avatar user={other} size="lg" />
+              <p className="text-ink-900 font-semibold">{t.messages.threadEmpty(other.displayName)}</p>
+              <p className="text-ink-500 max-w-xs text-sm">{t.messages.threadEmptyBody}</p>
+            </div>
+          ) : (
+            <ol className="flex flex-col">
+              {bubbles.map((message, index) => {
+                const previous = bubbles[index - 1];
+                const next = bubbles[index + 1];
+                const newDay = !previous || dayLabel(previous.createdAt) !== dayLabel(message.createdAt);
+                const stickerLike = (item: Bubble | undefined) => item?.kind === "sticker";
+                const joinsPrevious =
+                  !newDay &&
+                  previous?.senderId === message.senderId &&
+                  !stickerLike(previous) &&
+                  !message.replyToId &&
+                  Date.parse(message.createdAt) - Date.parse(previous.createdAt) < GROUP_GAP_MS;
+                const joinsNext =
+                  next?.senderId === message.senderId &&
+                  !stickerLike(next) &&
+                  !next.replyToId &&
+                  dayLabel(next.createdAt) === dayLabel(message.createdAt) &&
+                  Date.parse(next.createdAt) - Date.parse(message.createdAt) < GROUP_GAP_MS;
+                const replyTarget = message.replyToId ? (byId.get(message.replyToId) ?? null) : undefined;
+                const pendingBubble = isPending(message) ? message : null;
 
-              return (
-                <li key={message.id} className="flex flex-col">
-                  {newDay && (
-                    <p className="text-ink-500 my-3 text-center text-xs font-medium">{dayLabel(message.createdAt)}</p>
-                  )}
-                  <div
-                    className={`animate-fade flex items-end gap-2 ${mine ? "flex-row-reverse" : ""} ${
-                      joinsPrevious ? "mt-0.5" : "mt-3"
-                    }`}
-                  >
-                    {!mine && (
-                      <span className="w-8 shrink-0" aria-hidden="true">
-                        {!joinsNext && <Avatar user={other} size="sm" />}
-                      </span>
+                return (
+                  <li key={message.id} className="flex flex-col">
+                    {newDay && (
+                      <p className="text-ink-500 my-3 text-center text-xs font-medium">{dayLabel(message.createdAt)}</p>
                     )}
-                    <button
-                      type="button"
-                      onClick={() => !sending && setSelected(open ? null : message.id)}
-                      aria-expanded={sending ? undefined : open}
-                      title={formatDateTime(message.createdAt)}
-                      className={`max-w-[min(80%,34rem)] rounded-2xl px-3.5 py-2 text-left text-[15px] leading-snug whitespace-pre-wrap [overflow-wrap:anywhere] transition-opacity sm:text-sm ${
-                        mine
-                          ? `bg-brand-600 text-white ${joinsPrevious ? "rounded-tr-md" : ""} ${joinsNext ? "rounded-br-md" : ""}`
-                          : `bg-surface-hover text-ink-900 ${joinsPrevious ? "rounded-tl-md" : ""} ${joinsNext ? "rounded-bl-md" : ""}`
-                      } ${sending ? "opacity-60" : ""}`}
-                    >
-                      <span className="sr-only">{mine ? t.messages.you : `${other.displayName}: `}</span>
-                      <MessageText body={message.body} />
-                    </button>
-                  </div>
-
-                  {(open || sending) && (
-                    <div
-                      className={`animate-fade text-ink-500 mt-1 flex items-center gap-3 text-xs ${
-                        mine ? "justify-end" : "pl-10"
-                      }`}
-                    >
-                      <time dateTime={message.createdAt}>
-                        {sending ? t.messages.sending : timeFormat.format(new Date(message.createdAt))}
-                      </time>
-                      {mine && !sending && (
-                        <button
-                          type="button"
-                          onClick={() => void unsend(message)}
-                          className="touch-target hover:text-danger-fg inline-flex items-center gap-1 font-medium"
-                        >
-                          <TrashIcon className="h-3.5 w-3.5" />
-                          {t.messages.unsend}
-                        </button>
-                      )}
-                    </div>
-                  )}
-
-                  {message.id === lastOwn?.id && !pending.length && !open && (
-                    <p className="text-ink-500 animate-fade mt-1 text-right text-xs">
-                      {seen ? t.messages.seen : t.messages.sent}
-                    </p>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        )}
+                    <MessageBubble
+                      message={message}
+                      me={me}
+                      other={other}
+                      joinsPrevious={joinsPrevious}
+                      joinsNext={joinsNext}
+                      replyTarget={replyTarget}
+                      selected={selected === message.id}
+                      highlighted={highlighted === message.id}
+                      onSelect={(open) => setSelected(open ? message.id : null)}
+                      onOpenImage={openImage}
+                      onReact={(reaction) => void react(message, reaction)}
+                      onReply={() => {
+                        setSelected(null);
+                        setEditing(null);
+                        setReplyTo(message);
+                        inputRef.current?.focus();
+                      }}
+                      onCopy={() => void copy(message)}
+                      onEdit={() => {
+                        setSelected(null);
+                        setReplyTo(null);
+                        setStaged([]);
+                        setEditing(message);
+                      }}
+                      onUnsend={() => void unsend(message)}
+                      onJump={jumpTo}
+                      onRetry={pendingBubble ? () => void sendPending(pendingBubble.id) : undefined}
+                      onDiscard={pendingBubble ? () => discardPending(pendingBubble.id) : undefined}
+                      footer={
+                        message.id === lastOwn?.id && !pending.length && selected !== message.id ? (
+                          <p className="text-ink-500 animate-fade mt-1 text-right text-xs">
+                            {seen ? t.messages.seen : t.messages.sent}
+                          </p>
+                        ) : null
+                      }
+                    />
+                  </li>
+                );
+              })}
+            </ol>
+          )}
+          {otherTyping && <TypingIndicator name={other.displayName} other={other} />}
+        </div>
       </div>
 
-      <form
-        onSubmit={submit}
-        className="border-line shrink-0 border-t px-3 py-2.5 sm:px-4 sm:py-3"
-      >
-        <label htmlFor={inputId} className="sr-only">
-          {t.messages.composerLabel(other.displayName)}
-        </label>
-        <div className="flex items-end gap-2">
-          <textarea
-            ref={inputRef}
-            id={inputId}
-            value={draft}
-            onChange={(event) => {
-              setDraft(event.target.value);
-              if (sendError) setSendError(null);
-            }}
-            onKeyDown={(event) => {
-              // Enter sends on keyboards; phones keep Enter for new lines.
-              if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing && matchMedia("(pointer: fine)").matches) {
-                event.preventDefault();
-                void submit();
-              }
-            }}
-            placeholder={t.messages.composerPlaceholder}
-            rows={1}
-            aria-invalid={tooLong || undefined}
-            aria-describedby={sendError || tooLong ? `${inputId}-error` : undefined}
-            className="input field-sizing-content h-auto max-h-40 min-h-11 flex-1 resize-none rounded-3xl py-2.5"
-          />
-          <button
-            type="submit"
-            disabled={!draft.trim() || tooLong}
-            aria-label={t.messages.send}
-            className="btn-primary h-11 w-11 shrink-0 rounded-full p-0"
-          >
-            <SendIcon className="h-4.5 w-4.5" />
-          </button>
+      <Composer
+        otherName={other.displayName}
+        inputRef={inputRef}
+        staged={staged}
+        onStage={stage}
+        onUnstage={(index) => setStaged((current) => current.filter((_, position) => position !== index))}
+        replyTo={replyTo ? { name: nameOf(replyTo.senderId), snippet: snippetOf(replyTo) } : null}
+        onCancelReply={() => setReplyTo(null)}
+        editing={editing ? { id: editing.id, body: editing.body } : null}
+        onCancelEdit={() => setEditing(null)}
+        onSendText={(body) => send({ kind: "text", body })}
+        onSendFiles={(caption) => void sendFiles(caption)}
+        onSendSticker={(sticker) => send({ kind: "sticker", sticker })}
+        onSendVoice={sendVoice}
+        onSaveEdit={(body) => void saveEdit(body)}
+        onTyping={() => channel.current?.typing()}
+        error={sendError}
+        onClearError={() => setSendError(null)}
+      />
+
+      {dragging && (
+        <div className="bg-surface/85 border-accent pointer-events-none absolute inset-2 z-30 flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed backdrop-blur-sm">
+          <UploadIcon className="text-accent h-8 w-8" />
+          <p className="text-ink-900 font-semibold">{t.messages.dropFiles}</p>
         </div>
-        {(sendError || tooLong) && (
-          <p id={`${inputId}-error`} role="alert" className="field-error px-2">
-            {sendError ?? t.messages.tooLong(draft.trim().length)}
-          </p>
-        )}
-      </form>
+      )}
+
+      {lightbox && (
+        <Lightbox
+          images={lightbox.images}
+          index={lightbox.index}
+          title={other.displayName}
+          onIndex={(index) => setLightbox((current) => (current ? { ...current, index } : current))}
+          onClose={() => setLightbox(null)}
+        />
+      )}
     </div>
   );
 }

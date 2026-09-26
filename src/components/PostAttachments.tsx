@@ -81,7 +81,7 @@ function ImageTile({
   );
 }
 
-function Lightbox({
+export function Lightbox({
   images,
   index,
   title,

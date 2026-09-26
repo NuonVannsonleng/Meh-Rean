@@ -1,4 +1,5 @@
 import type { PostgrestError } from "@supabase/supabase-js";
+import { MAX_MESSAGE_LENGTH } from "../lib/chat";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -6,8 +7,12 @@ import {
   type Attachment,
   type ChangePasswordInput,
   type ChatEvent,
+  type ConversationChannel,
   type ConversationSummary,
   type Message,
+  type MessageAttachment,
+  type MessageKind,
+  type OutgoingMessage,
   type ThreadView,
   type CommentView,
   type EducationLevel,
@@ -317,6 +322,7 @@ export async function deleteAccount(password: string): Promise<void> {
   if (check.error) throw new ApiError("WRONG_PASSWORD", 403);
 
   await removeStorageFolder(user.id);
+  await removeStorageFolder(user.id, "chat");
   const { error } = await supabase.rpc("delete_own_account");
   if (error) fail(error);
 
@@ -414,21 +420,21 @@ function storagePath(url: string): string | null {
 }
 
 /** Storage has no recursive delete, so walk the folders and collect the files. */
-async function collectFiles(prefix: string): Promise<string[]> {
-  const { data } = await supabase.storage.from(ATTACHMENTS_BUCKET).list(prefix, { limit: 1000 });
+async function collectFiles(prefix: string, bucket = ATTACHMENTS_BUCKET): Promise<string[]> {
+  const { data } = await supabase.storage.from(bucket).list(prefix, { limit: 1000 });
   const entries = data ?? [];
   const paths: string[] = [];
   for (const entry of entries) {
     const path = `${prefix}/${entry.name}`;
-    if (entry.id === null) paths.push(...(await collectFiles(path)));
+    if (entry.id === null) paths.push(...(await collectFiles(path, bucket)));
     else paths.push(path);
   }
   return paths;
 }
 
-async function removeStorageFolder(prefix: string): Promise<void> {
-  const paths = await collectFiles(prefix);
-  if (paths.length) await supabase.storage.from(ATTACHMENTS_BUCKET).remove(paths);
+async function removeStorageFolder(prefix: string, bucket = ATTACHMENTS_BUCKET): Promise<void> {
+  const paths = await collectFiles(prefix, bucket);
+  if (paths.length) await supabase.storage.from(bucket).remove(paths);
 }
 
 export async function createPost(input: NewPostInput): Promise<PostView> {
@@ -956,16 +962,29 @@ export async function getTrending(): Promise<TrendingView> {
 
 // ---- Direct messages ----
 
-/** Mirrors the message body check in supabase/schema.sql. */
-const MAX_MESSAGE_LENGTH = 2000;
 const THREAD_LIMIT = 200;
+/** Private bucket: chat files are shown through signed URLs only. */
+const CHAT_BUCKET = "chat";
+/** Long enough for a study session with the thread left open. */
+const SIGNED_URL_SECONDS = 12 * 60 * 60;
+/** Keeps "typing…" to one broadcast every few seconds while someone types. */
+const TYPING_THROTTLE_MS = 2500;
+
+type StoredAttachment = Omit<MessageAttachment, "url" | "downloadUrl">;
 
 interface MessageRow {
   id: string;
   conversation_id: string;
   sender_id: string;
+  kind: MessageKind;
   body: string;
+  attachment: StoredAttachment | null;
+  sticker: string | null;
+  reply_to: string | null;
+  edited_at: string | null;
+  deleted_at: string | null;
   created_at: string;
+  message_reactions?: { user_id: string; type: ReactionType | null }[];
 }
 
 interface ConversationRow {
@@ -982,25 +1001,71 @@ interface InboxRow {
   last_message_at: string;
   last_body: string;
   last_sender: string;
-  other_read_at: string;
+  last_kind: MessageKind;
+  last_attachment_name: string | null;
+  last_deleted: boolean;
   unread: number;
 }
 
-const MESSAGE_COLUMNS = "id, conversation_id, sender_id, body, created_at";
+const MESSAGE_COLUMNS =
+  "id, conversation_id, sender_id, kind, body, attachment, sticker, reply_to, edited_at, deleted_at, created_at";
 
 /** REST and Realtime format timestamps differently; one shape keeps them comparable. */
 function iso(value: string): string {
   return new Date(value).toISOString();
 }
 
-function toMessage(row: MessageRow): Message {
+function isoOrNull(value: string | null): string | null {
+  return value ? iso(value) : null;
+}
+
+/** Signed URLs for every file among `rows`, keyed by storage path. */
+async function signAttachments(rows: MessageRow[]): Promise<Map<string, string>> {
+  const paths = [...new Set(rows.flatMap((row) => (row.attachment?.path ? [row.attachment.path] : [])))];
+  if (!paths.length) return new Map();
+  const { data } = await supabase.storage.from(CHAT_BUCKET).createSignedUrls(paths, SIGNED_URL_SECONDS);
+  return new Map((data ?? []).flatMap((item) => (item.path && item.signedUrl ? [[item.path, item.signedUrl]] : [])));
+}
+
+function toMessage(row: MessageRow, urls: Map<string, string>): Message {
+  const signed = row.attachment ? urls.get(row.attachment.path) : undefined;
+  const reactions: Record<string, ReactionType> = {};
+  for (const reaction of row.message_reactions ?? []) {
+    if (reaction.type) reactions[reaction.user_id] = reaction.type;
+  }
   return {
     id: row.id,
     conversationId: row.conversation_id,
     senderId: row.sender_id,
-    body: row.body,
+    kind: row.kind ?? "text",
+    body: row.body ?? "",
+    attachment: row.attachment
+      ? {
+          ...row.attachment,
+          url: signed ?? "",
+          // Storage serves a signed URL as a download when asked to by name.
+          downloadUrl: signed ? `${signed}&download=${encodeURIComponent(row.attachment.name)}` : "",
+        }
+      : null,
+    sticker: row.sticker,
+    replyToId: row.reply_to,
+    reactions,
+    editedAt: isoOrNull(row.edited_at),
+    deletedAt: isoOrNull(row.deleted_at),
     createdAt: iso(row.created_at),
   };
+}
+
+async function toMessages(rows: MessageRow[]): Promise<Message[]> {
+  const urls = await signAttachments(rows);
+  return rows.map((row) => toMessage(row, urls));
+}
+
+/** The database raises P0002 for "no such message" from its chat functions. */
+function failChat(error: PostgrestError): never {
+  if (error.code === "P0002") throw new ApiError("NOT_FOUND", 404);
+  if (error.code === "23514" || error.code === "22023") throw new ApiError("UNKNOWN", 400, error.message);
+  fail(error);
 }
 
 export async function getConversations(): Promise<ConversationSummary[]> {
@@ -1017,7 +1082,14 @@ export async function getConversations(): Promise<ConversationSummary[]> {
       {
         id: row.id,
         other,
-        lastMessage: { body: row.last_body, senderId: row.last_sender, createdAt: iso(row.last_message_at) },
+        lastMessage: {
+          body: row.last_body,
+          senderId: row.last_sender,
+          createdAt: iso(row.last_message_at),
+          kind: row.last_kind ?? "text",
+          attachmentName: row.last_attachment_name,
+          deleted: row.last_deleted,
+        },
         unread: row.unread,
       },
     ];
@@ -1050,13 +1122,13 @@ export async function getThread(username: string): Promise<ThreadView> {
     const rows = unwrap(
       await supabase
         .from("messages")
-        .select(MESSAGE_COLUMNS)
+        .select(`${MESSAGE_COLUMNS}, message_reactions (user_id, type)`)
         .eq("conversation_id", conversation.data.id)
         .order("created_at", { ascending: false })
         .limit(THREAD_LIMIT)
         .returns<MessageRow[]>(),
     );
-    messages = rows.reverse().map(toMessage);
+    messages = await toMessages(rows.reverse());
   }
 
   const row = conversation.data;
@@ -1068,34 +1140,84 @@ export async function getThread(username: string): Promise<ThreadView> {
   };
 }
 
-export async function sendMessage(username: string, body: string): Promise<Message> {
+function fileExtensionOf(name: string): string {
+  const match = /\.([a-z0-9]{1,10})$/i.exec(name);
+  return match ? `.${match[1].toLowerCase()}` : "";
+}
+
+export async function sendMessage(username: string, input: OutgoingMessage): Promise<Message> {
   const viewer = await requireViewer();
-  const text = body.trim();
-  if (!text) throw new ApiError("UNKNOWN", 400);
-  if (text.length > MAX_MESSAGE_LENGTH) throw new ApiError("MESSAGE_TOO_LONG", 400);
+  const body = input.kind === "sticker" ? "" : (input.body ?? "").trim();
+  if (body.length > MAX_MESSAGE_LENGTH) throw new ApiError("MESSAGE_TOO_LONG", 400);
+  if (input.kind === "text" && !body) throw new ApiError("UNKNOWN", 400);
 
   const recipient = await idForUsername(username);
   if (recipient === viewer) throw new ApiError("FORBIDDEN", 403);
 
+  let attachment: Record<string, unknown> | null = null;
+  let uploaded: string | null = null;
+  if (input.kind !== "text" && input.kind !== "sticker") {
+    const { file } = input;
+    if (!file) throw new ApiError("UNKNOWN", 400);
+    if (file.size > MAX_FILE_BYTES) throw new ApiError("FILE_TOO_LARGE", 413);
+    // Only the sender's own folder is writable; the name is random so nothing
+    // about the file leaks through its path.
+    const path = `${viewer}/${crypto.randomUUID()}${fileExtensionOf(file.name)}`;
+    const upload = await supabase.storage.from(CHAT_BUCKET).upload(path, file, {
+      contentType: safeContentType(file.type || "application/octet-stream"),
+      upsert: false,
+    });
+    if (upload.error) fail(upload.error);
+    uploaded = path;
+    attachment = { path, name: file.name || "file", ...input.meta };
+  }
+
   const { data, error } = await supabase
-    .rpc("send_message", { recipient, message_body: text })
+    .rpc("send_message", {
+      recipient,
+      message_body: body,
+      message_kind: input.kind,
+      message_attachment: attachment,
+      message_sticker: input.sticker ?? null,
+      reply_to_id: input.replyToId ?? null,
+    })
     .single<MessageRow>();
-  if (error?.code === "23514") throw new ApiError("MESSAGE_TOO_LONG", 400);
-  if (error) fail(error);
+  if (error) {
+    // Nothing references the upload now, so it would only take up space.
+    if (uploaded) await supabase.storage.from(CHAT_BUCKET).remove([uploaded]);
+    failChat(error);
+  }
   if (!data) throw new ApiError("UNKNOWN", 500);
-  return toMessage(data);
+  const [message] = await toMessages([data]);
+  return message;
+}
+
+export async function editMessage(messageId: string, body: string): Promise<Message> {
+  await requireViewer();
+  const text = body.trim();
+  if (!text) throw new ApiError("UNKNOWN", 400);
+  if (text.length > MAX_MESSAGE_LENGTH) throw new ApiError("MESSAGE_TOO_LONG", 400);
+  const { data, error } = await supabase
+    .rpc("edit_message", { message_id: messageId, new_body: text })
+    .single<MessageRow>();
+  if (error) failChat(error);
+  if (!data) throw new ApiError("UNKNOWN", 500);
+  const [message] = await toMessages([data]);
+  return message;
 }
 
 export async function unsendMessage(messageId: string): Promise<void> {
-  const viewer = await requireViewer();
-  const { data, error } = await supabase
-    .from("messages")
-    .delete()
-    .eq("id", messageId)
-    .eq("sender_id", viewer)
-    .select("id");
-  if (error) fail(error);
-  if (!data?.length) throw new ApiError("NOT_FOUND", 404);
+  await requireViewer();
+  const { data, error } = await supabase.rpc("unsend_message", { message_id: messageId });
+  if (error) failChat(error);
+  // The other person can no longer read the file; the sender removes it.
+  if (typeof data === "string" && data) await supabase.storage.from(CHAT_BUCKET).remove([data]);
+}
+
+export async function reactToMessage(messageId: string, reaction: ReactionType | null): Promise<void> {
+  await requireViewer();
+  const { error } = await supabase.rpc("react_to_message", { message_id: messageId, reaction });
+  if (error) failChat(error);
 }
 
 export async function markConversationRead(conversationId: string): Promise<void> {
@@ -1119,12 +1241,15 @@ export function subscribeToChat(callback: (event: ChatEvent) => void): () => voi
   const channel = supabase
     .channel(`chat-${crypto.randomUUID()}`)
     .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, (payload) => {
-      callback({ type: "message", message: toMessage(payload.new as MessageRow) });
+      void toMessages([payload.new as MessageRow]).then(([message]) => callback({ type: "message", message }));
     })
-    .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" }, (payload) => {
-      // With RLS on, a delete event carries only the primary key.
-      const id = (payload.old as Partial<MessageRow>).id;
-      if (id) callback({ type: "unsent", messageId: id });
+    .on("postgres_changes", { event: "UPDATE", schema: "public", table: "messages" }, (payload) => {
+      void toMessages([payload.new as MessageRow]).then(([message]) => callback({ type: "updated", message }));
+    })
+    .on("postgres_changes", { event: "*", schema: "public", table: "message_reactions" }, (payload) => {
+      const row = payload.new as Partial<{ message_id: string; user_id: string; type: ReactionType | null }>;
+      if (!row.message_id || !row.user_id) return;
+      callback({ type: "reaction", messageId: row.message_id, userId: row.user_id, reaction: row.type ?? null });
     })
     .on("postgres_changes", { event: "UPDATE", schema: "public", table: "conversations" }, (payload) => {
       const row = payload.new as ConversationRow;
@@ -1138,6 +1263,30 @@ export function subscribeToChat(callback: (event: ChatEvent) => void): () => voi
 
   return () => {
     void supabase.removeChannel(channel);
+  };
+}
+
+/**
+ * "Typing…" for one conversation, over a private broadcast channel that only
+ * its two members may join (see the realtime.messages policies in schema.sql).
+ */
+export function joinConversation(conversationId: string, onTyping: () => void): ConversationChannel {
+  const channel = supabase.channel(`typing:${conversationId}`, {
+    config: { private: true, broadcast: { self: false } },
+  });
+  channel.on("broadcast", { event: "typing" }, () => onTyping()).subscribe();
+
+  let lastSent = 0;
+  return {
+    typing: () => {
+      const now = Date.now();
+      if (now - lastSent < TYPING_THROTTLE_MS) return;
+      lastSent = now;
+      void channel.send({ type: "broadcast", event: "typing", payload: {} });
+    },
+    leave: () => {
+      void supabase.removeChannel(channel);
+    },
   };
 }
 

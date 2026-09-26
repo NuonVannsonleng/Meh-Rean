@@ -125,7 +125,9 @@ The rules live in the database, so they apply no matter who calls the API.
 | Comments | everyone | you write your own; you can delete your own, or any comment on your post |
 | Reactions, ratings | everyone | only your own; you cannot rate your own post |
 | Saved posts | only you | only you |
-| Messages | only the two people in the conversation (live updates too) | you send as yourself only; you can unsend your own; nobody can edit |
+| Messages | only the two people in the conversation (live updates and "typing…" too) | you send as yourself only; you can edit your own text and unsend your own messages |
+| Chat photos, voice notes and files | only the two people in the conversation, through links that expire; unsending cuts access straight away | you upload into your own folder only, and can attach only your own uploads |
+| Message reactions | only the two people in the conversation | only your own reaction |
 | Uploaded files | everyone (public links) | you can only write and delete inside your own folder |
 
 Deleting your account calls a database function that removes the account and,

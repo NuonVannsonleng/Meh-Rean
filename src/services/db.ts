@@ -14,6 +14,8 @@ import {
 import {
   ApiError,
   type Comment,
+  type MessageAttachment,
+  type MessageKind,
   type Post,
   type ReactionType,
   type User,
@@ -76,7 +78,15 @@ export interface MessageRecord {
   id: string;
   conversationId: string;
   senderId: string;
+  kind: MessageKind;
   body: string;
+  /** The file itself is in IndexedDB under `path`; urls are made on read. */
+  attachment: Omit<MessageAttachment, "url" | "downloadUrl"> | null;
+  sticker: string | null;
+  replyToId: string | null;
+  reactions: Record<string, ReactionType>;
+  editedAt: string | null;
+  deletedAt: string | null;
   createdAt: string;
 }
 
@@ -220,7 +230,14 @@ function seedInbox(): Pick<DbState, "conversations" | "messages"> {
       id: `m-seed-${index}`,
       conversationId: conversation.id,
       senderId: fromDemo ? DEMO_USER_ID : otherId,
-      body,
+      kind: body.startsWith("sticker:") ? "sticker" : "text",
+      body: body.startsWith("sticker:") ? "" : body,
+      attachment: null,
+      sticker: body.startsWith("sticker:") ? body.slice("sticker:".length) : null,
+      replyToId: null,
+      reactions: {},
+      editedAt: null,
+      deletedAt: null,
       createdAt,
     });
   });
@@ -232,6 +249,21 @@ function seedInbox(): Pick<DbState, "conversations" | "messages"> {
   return { conversations: [...conversations.values()], messages };
 }
 
+/** Messages stored before photos, stickers and reactions existed. */
+function upgradeMessage(record: Partial<MessageRecord> & Pick<MessageRecord, "id" | "conversationId" | "senderId" | "createdAt">): MessageRecord {
+  return {
+    ...record,
+    kind: record.kind ?? "text",
+    body: record.body ?? "",
+    attachment: record.attachment ?? null,
+    sticker: record.sticker ?? null,
+    replyToId: record.replyToId ?? null,
+    reactions: record.reactions ?? {},
+    editedAt: record.editedAt ?? null,
+    deletedAt: record.deletedAt ?? null,
+  };
+}
+
 function readStored(): DbState | null {
   try {
     const raw = localStorage.getItem(DB_KEY);
@@ -241,7 +273,7 @@ function readStored(): DbState | null {
     // Stores written before direct messages existed: add them without
     // discarding the accounts and posts already there.
     parsed.conversations ??= [];
-    parsed.messages ??= [];
+    parsed.messages = (parsed.messages ?? []).map(upgradeMessage);
     return parsed;
   } catch {
     return null;

@@ -1479,33 +1479,324 @@ async function runMessages(state) {
         };
   });
 
-  await check("Messages", "B cannot unsend A's message; A can", async () => {
+  await check("Messages", "nobody can delete a message row directly", async () => {
     if (!message) return { skipped: true, reason: "A's message was not sent" };
+    await a.client.from("messages").delete().eq("id", message.id);
     await b.client.from("messages").delete().eq("id", message.id);
-    const afterB = await a.client.from("messages").select("id").eq("id", message.id);
-    if ((afterB.data?.length ?? 0) !== 1) {
-      return {
-        ok: false,
-        expected: "A's message to survive B's delete",
-        actual: "the row is gone",
-        cause: "the delete policy on messages is not limited to the sender",
-        where: `${MESSAGES_WHERE} — "delete own messages"`,
-      };
-    }
-    const own = await a.client.from("messages").delete().eq("id", message.id).select("id");
-    return own.data?.length === 1
-      ? { ok: true, detail: "B's delete matched nothing; A's removed the row" }
+    const row = await a.client.from("messages").select("id").eq("id", message.id);
+    return (row.data?.length ?? 0) === 1
+      ? { ok: true, detail: "row still present; unsending goes through unsend_message()" }
       : {
           ok: false,
-          expected: "A to unsend its own message",
-          actual: own.error ? describe(own.error) : "0 rows deleted",
-          cause: "the delete policy on messages rejects the sender",
-          where: `${MESSAGES_WHERE} — "delete own messages"`,
+          expected: "the row to survive direct deletes",
+          actual: "the row is gone",
+          cause: "messages has a delete policy again; unsends must be soft, through unsend_message()",
+          where: `${MESSAGES_WHERE} — messages policies`,
+        };
+  });
+
+  await check("Messages", "B cannot unsend A's message; A can, and the content is wiped", async () => {
+    if (!message) return { skipped: true, reason: "A's message was not sent" };
+    const byB = await b.client.rpc("unsend_message", { message_id: message.id });
+    const afterB = await a.client.from("messages").select("body, deleted_at").eq("id", message.id).single();
+    if (!byB.error || afterB.data?.deleted_at) {
+      return {
+        ok: false,
+        expected: "B's unsend to be refused",
+        actual: byB.error ? "refused, but the message is marked unsent anyway" : "accepted",
+        cause: "unsend_message() does not check the sender",
+        where: `${MESSAGES_WHERE} — unsend_message()`,
+      };
+    }
+    const byA = await a.client.rpc("unsend_message", { message_id: message.id });
+    const after = await b.client.from("messages").select("body, attachment, deleted_at").eq("id", message.id).single();
+    return !byA.error && after.data?.deleted_at && after.data.body === "" && after.data.attachment === null
+      ? { ok: true, detail: `B refused (${byB.error.code}); A's unsend wiped the body for both` }
+      : {
+          ok: false,
+          expected: "A's unsend to wipe the content",
+          actual: byA.error ? describe(byA.error) : JSON.stringify(after.data),
+          cause: "unsend_message() failed or did not clear the content",
+          where: `${MESSAGES_WHERE} — unsend_message()`,
         };
   });
 
   await listenerB.stop();
   await listenerC.stop();
+}
+
+// ---- Chat media, reactions, edits, typing ---------------------------------
+
+const CHAT_BUCKET = "chat";
+const chatPaths = [];
+
+async function uploadChatFile(account, name, bytes, contentType) {
+  const path = `${account.id}/${randomBytes(8).toString("hex")}-${name}`;
+  const { error } = await account.client.storage.from(CHAT_BUCKET).upload(path, bytes, { contentType, upsert: false });
+  if (error) throw error;
+  chatPaths.push({ account, path });
+  return path;
+}
+
+async function canSign(account, path) {
+  const { data, error } = await account.client.storage.from(CHAT_BUCKET).createSignedUrl(path, 60);
+  if (error || !data?.signedUrl) return false;
+  const response = await fetch(data.signedUrl);
+  return response.ok;
+}
+
+async function runChatMedia(state) {
+  const { a, b, c } = accounts;
+  if (!a.id || !b.id || !c.id) {
+    skip("Messages", "chat media", "accounts A, B and C are needed");
+    return;
+  }
+
+  let photoPath = null;
+  let photo = null;
+
+  await check("Messages", "an uploaded chat file is private until it is sent", async () => {
+    photoPath = await uploadChatFile(a, "photo.png", PNG_1X1, "image/png");
+    const [owner, other, outsider] = await Promise.all([canSign(a, photoPath), canSign(b, photoPath), canSign(c, photoPath)]);
+    return owner && !other && !outsider
+      ? { ok: true, detail: "A can read it; B and C cannot" }
+      : {
+          ok: false,
+          expected: "only A to read the unsent upload",
+          actual: `A ${owner}, B ${other}, C ${outsider}`,
+          cause: "the chat bucket is public, or its read policy is too broad",
+          where: `${MESSAGES_WHERE} — "read chat files"`,
+        };
+  });
+
+  await check("Messages", "B cannot upload into A's chat folder", async () => {
+    const { error } = await b.client.storage
+      .from(CHAT_BUCKET)
+      .upload(`${a.id}/${marker}-intruder.png`, PNG_1X1, { contentType: "image/png" });
+    return refusalMatches(error, RLS_REFUSAL)
+      ? { ok: true, detail: `refused: ${describe(error)}` }
+      : {
+          ok: false,
+          expected: RLS_SHAPE,
+          actual: error ? describe(error) : "the upload was accepted",
+          cause: "the chat upload policy is not limited to the uploader's own folder",
+          where: `${MESSAGES_WHERE} — "upload own chat files"`,
+        };
+  });
+
+  await check("Messages", "A sends B a photo; type and size come from storage, not the client", async () => {
+    if (!photoPath) return { skipped: true, reason: "the upload failed" };
+    const { data, error } = await a.client
+      .rpc("send_message", {
+        recipient: b.id,
+        message_body: `[${marker}] photo`,
+        message_kind: "image",
+        message_attachment: { path: photoPath, name: "photo.png", mimeType: "text/html", size: 999999999, width: 1, height: 1, evil: "x" },
+      })
+      .single();
+    if (error) throw error;
+    photo = data;
+    const attachment = data.attachment ?? {};
+    const honest = attachment.mimeType === "image/png" && attachment.size === PNG_1X1.length && !("evil" in attachment);
+    return honest
+      ? { ok: true, detail: `stored as ${attachment.mimeType}, ${attachment.size} bytes; unknown keys dropped` }
+      : {
+          ok: false,
+          expected: `image/png, ${PNG_1X1.length} bytes, no extra keys`,
+          actual: JSON.stringify(attachment),
+          cause: "send_message() trusts the client's attachment metadata",
+          where: `${MESSAGES_WHERE} — send_message()`,
+        };
+  });
+
+  await check("Messages", "B can open the sent photo; C still cannot", async () => {
+    if (!photo) return { skipped: true, reason: "the photo was not sent" };
+    const [other, outsider] = await Promise.all([canSign(b, photoPath), canSign(c, photoPath)]);
+    return other && !outsider
+      ? { ok: true, detail: "B downloads it through a signed URL; C is refused" }
+      : {
+          ok: false,
+          expected: "B allowed, C refused",
+          actual: `B ${other}, C ${outsider}`,
+          cause: "the chat read policy does not follow conversation membership",
+          where: `${MESSAGES_WHERE} — "read chat files"`,
+        };
+  });
+
+  await check("Messages", "A cannot attach a file from someone else's folder", async () => {
+    const bPath = await uploadChatFile(b, "secret.png", PNG_1X1, "image/png");
+    const { error } = await a.client.rpc("send_message", {
+      recipient: c.id,
+      message_kind: "image",
+      message_attachment: { path: bPath, name: "stolen.png" },
+    });
+    const leaked = await canSign(c, bPath);
+    return error?.code === "42501" && !leaked
+      ? { ok: true, detail: `refused (${error.code}); C still cannot read B's file` }
+      : {
+          ok: false,
+          expected: "42501 and no access for C",
+          actual: `${error ? describe(error) : "accepted"}; C can read: ${leaked}`,
+          cause: "send_message() lets a sender reference another person's upload, handing out read access",
+          where: `${MESSAGES_WHERE} — send_message()`,
+        };
+  });
+
+  await check("Messages", "made-up paths, wrong types and bad stickers are refused", async () => {
+    const textPath = await uploadChatFile(a, "notes.txt", Buffer.from("plain text"), "text/plain");
+    const attempts = {
+      missingFile: await a.client.rpc("send_message", {
+        recipient: b.id,
+        message_kind: "file",
+        message_attachment: { path: `${a.id}/does-not-exist.pdf`, name: "x.pdf" },
+      }),
+      textAsPhoto: await a.client.rpc("send_message", {
+        recipient: b.id,
+        message_kind: "image",
+        message_attachment: { path: textPath, name: "notes.png" },
+      }),
+      badSticker: await a.client.rpc("send_message", { recipient: b.id, message_kind: "sticker", message_sticker: "<script>" }),
+      unknownKind: await a.client.rpc("send_message", { recipient: b.id, message_kind: "poll", message_body: "x" }),
+    };
+    const accepted = Object.entries(attempts).filter(([, result]) => !result.error).map(([name]) => name);
+    return accepted.length === 0
+      ? { ok: true, detail: Object.entries(attempts).map(([name, result]) => `${name}: ${result.error.code}`).join(", ") }
+      : {
+          ok: false,
+          expected: "all refused",
+          actual: `accepted: ${accepted.join(", ")}`,
+          cause: "send_message() or messages_shape is missing a check",
+          where: `${MESSAGES_WHERE} — send_message(), messages_shape`,
+        };
+  });
+
+  await check("Messages", "a valid sticker sends", async () => {
+    const { data, error } = await a.client
+      .rpc("send_message", { recipient: b.id, message_kind: "sticker", message_sticker: "good-luck" })
+      .single();
+    return !error && data.kind === "sticker" && data.sticker === "good-luck" && data.body === ""
+      ? { ok: true, detail: "stored as sticker good-luck" }
+      : {
+          ok: false,
+          expected: "a sticker message",
+          actual: error ? describe(error) : JSON.stringify(data),
+          cause: "send_message() rejects or mangles stickers",
+          where: `${MESSAGES_WHERE} — send_message()`,
+        };
+  });
+
+  await check("Messages", "a reply cannot quote a message from another conversation", async () => {
+    if (!photo) return { skipped: true, reason: "the photo was not sent" };
+    const { data, error } = await c.client
+      .rpc("send_message", { recipient: b.id, message_body: `[${marker}] reply`, reply_to_id: photo.id })
+      .single();
+    if (error) throw error;
+    return data.reply_to === null
+      ? { ok: true, detail: "the foreign reply_to was dropped" }
+      : {
+          ok: false,
+          expected: "reply_to to be null",
+          actual: data.reply_to,
+          cause: "send_message() accepts a reply to a message the sender cannot see",
+          where: `${MESSAGES_WHERE} — send_message()`,
+        };
+  });
+
+  await check("Messages", "reactions: B reacts, A sees it, C can do neither", async () => {
+    if (!photo) return { skipped: true, reason: "the photo was not sent" };
+    const byB = await b.client.rpc("react_to_message", { message_id: photo.id, reaction: "love" });
+    const byC = await c.client.rpc("react_to_message", { message_id: photo.id, reaction: "like" });
+    const direct = await c.client.from("message_reactions").insert({ message_id: photo.id, user_id: c.id, type: "like" });
+    const seenByA = await a.client.from("message_reactions").select("user_id, type").eq("message_id", photo.id);
+    const seenByC = await c.client.from("message_reactions").select("user_id").eq("message_id", photo.id);
+    const ok =
+      !byB.error &&
+      byC.error &&
+      direct.error &&
+      seenByA.data?.length === 1 &&
+      seenByA.data[0].type === "love" &&
+      (seenByC.data?.length ?? 0) === 0;
+    return ok
+      ? { ok: true, detail: `A sees B's love; C refused (${byC.error.code}) and sees nothing` }
+      : {
+          ok: false,
+          expected: "one reaction from B, none from C",
+          actual: `B ${byB.error ? describe(byB.error) : "ok"}; C rpc ${byC.error ? "refused" : "accepted"}; C insert ${direct.error ? "refused" : "accepted"}; A sees ${JSON.stringify(seenByA.data)}`,
+          cause: "react_to_message() or the reactions policies are wrong",
+          where: `${MESSAGES_WHERE} — react_to_message(), message_reactions`,
+        };
+  });
+
+  await check("Messages", "edits: A edits its own text, B cannot", async () => {
+    const { data: text, error } = await a.client
+      .rpc("send_message", { recipient: b.id, message_body: `[${marker}] typo` })
+      .single();
+    if (error) throw error;
+    const byB = await b.client.rpc("edit_message", { message_id: text.id, new_body: "hijacked" });
+    const byA = await a.client.rpc("edit_message", { message_id: text.id, new_body: `[${marker}] fixed` }).single();
+    return byB.error && !byA.error && byA.data.body === `[${marker}] fixed` && byA.data.edited_at
+      ? { ok: true, detail: `B refused (${byB.error.code}); A's edit saved with edited_at` }
+      : {
+          ok: false,
+          expected: "B refused, A's edit saved",
+          actual: `B ${byB.error ? "refused" : "accepted"}; A ${byA.error ? describe(byA.error) : byA.data.body}`,
+          cause: "edit_message() does not check the sender",
+          where: `${MESSAGES_WHERE} — edit_message()`,
+        };
+  });
+
+  await check("Messages", "after an unsend, B can no longer open the file", async () => {
+    if (!photo) return { skipped: true, reason: "the photo was not sent" };
+    const { error } = await a.client.rpc("unsend_message", { message_id: photo.id });
+    if (error) throw error;
+    // Checked before the sender's client deletes the object: the policy alone must cut access.
+    const [other, owner] = await Promise.all([canSign(b, photoPath), canSign(a, photoPath)]);
+    return !other && owner
+      ? { ok: true, detail: "B refused straight away; A still owns the object until it deletes it" }
+      : {
+          ok: false,
+          expected: "B refused",
+          actual: `B ${other}, A ${owner}`,
+          cause: "the chat read policy ignores deleted_at",
+          where: `${MESSAGES_WHERE} — "read chat files"`,
+        };
+  });
+
+  await check("Messages", "typing channels: B joins and hears A, C is refused", async () => {
+    if (!photo) return { skipped: true, reason: "no conversation id" };
+    const topic = `typing:${photo.conversation_id}`;
+    const join = (account) =>
+      new Promise((resolve) => {
+        const heard = [];
+        const channel = account.client.channel(topic, { config: { private: true, broadcast: { self: false } } });
+        channel.on("broadcast", { event: "typing" }, () => heard.push(1));
+        const timer = setTimeout(() => resolve({ status: "TIMED_OUT", channel, heard }), 10_000);
+        channel.subscribe((status) => {
+          if (status === "SUBSCRIBED" || status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+            clearTimeout(timer);
+            resolve({ status, channel, heard });
+          }
+        });
+      });
+    const [joinA, joinB, joinC] = [await join(a), await join(b), await join(c)];
+    if (joinA.status === "SUBSCRIBED") await joinA.channel.send({ type: "broadcast", event: "typing", payload: {} });
+    for (let waited = 0; waited < 4_000 && !joinB.heard.length; waited += 200) await wait(200);
+    await Promise.all([a, b, c].map((account, index) => account.client.removeChannel([joinA, joinB, joinC][index].channel)));
+    return joinA.status === "SUBSCRIBED" && joinB.heard.length > 0 && joinC.status !== "SUBSCRIBED" && joinC.heard.length === 0
+      ? { ok: true, detail: `A and B joined; B heard A; C got ${joinC.status}` }
+      : {
+          ok: false,
+          expected: "members join and hear each other; C refused",
+          actual: `A ${joinA.status}, B ${joinB.status} (heard ${joinB.heard.length}), C ${joinC.status}`,
+          cause: "the realtime.messages policies for typing channels are missing or too broad",
+          where: `${MESSAGES_WHERE} — "members hear typing" / "members send typing"`,
+        };
+  });
+
+  // The harness's own uploads, removed by their owners.
+  for (const { account, path } of chatPaths) {
+    await account.client.storage.from(CHAT_BUCKET).remove([path]);
+  }
 }
 
 // ---- Roles -----------------------------------------------------------------
@@ -1762,6 +2053,7 @@ try {
   await runSavesIsolation(state);
   await runAuthorization(state);
   await runMessages(state);
+  await runChatMedia(state);
   await runRoles(state);
 } catch (error) {
   fail("Environment", "the run finished early", {
