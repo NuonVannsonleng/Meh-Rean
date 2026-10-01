@@ -43,6 +43,19 @@ npm run dev
 npm run build
 ```
 
+## Refreshing the university data
+
+```bash
+node scripts/build-institutions.mjs   # the university list (public/data/)
+node scripts/build-logos.mjs          # their logos (public/logos/)
+```
+
+Logos come only from Wikimedia Commons, so every one is freely licensed or too
+simple to be copyrighted; `public/logos/credits.json` and the in-app
+**Logo credits** page record the source, licence and author of each. Files that
+turn out not to be logos go in `scripts/logo-exclusions.json`. Thailand is
+excluded from both lists.
+
 ## Connecting a real backend (Supabase)
 
 The app ships with a browser-only store so it runs with zero setup, but it is

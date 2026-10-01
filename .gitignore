@@ -14,3 +14,6 @@ supabase/.branches
 supabase/.temp
 .env.test
 .env*.cloud
+
+# Downloaded originals for scripts/build-logos.mjs
+scripts/.logo-cache

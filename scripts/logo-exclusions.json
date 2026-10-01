@@ -1,0 +1,10 @@
+{
+  "comment": "Commons files that Wikidata lists as a university's logo but are not one, found by reviewing contact sheets of the build output. scripts/build-logos.mjs never uses them.",
+  "files": {
+    "File:CUG State Key Laboratories.jpg": "photo of a laboratory building (China University of Geosciences)",
+    "File:Logo-Editorial-Universidad-Icesi.png": "logo of the university's publishing house, not the university (Universidad ICESI)",
+    "File:ҚазҰПУ .jpg": "photo of a campus building (Abai Kazakh National Pedagogical University)",
+    "File:Motto of Nanjing University .jpg": "the university's motto in calligraphy, not its logo",
+    "File:National Pedagogical Dragomanov University.jpg": "nearly blank at small sizes"
+  }
+}

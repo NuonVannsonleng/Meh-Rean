@@ -606,6 +606,20 @@ export const en = {
     body: "The page you're looking for doesn't exist.",
     action: "Back to feed",
   },
+  credits: {
+    title: "University logo credits",
+    intro:
+      "University logos on Meh Rean come from Wikimedia Commons, which only hosts images that are freely licensed or too simple to be copyrighted. Each one is listed here with its source, licence and author.",
+    trademark:
+      "Logos are trademarks of their institutions and appear only to show which school a student attends. Meh Rean is not affiliated with or endorsed by any of them.",
+    search: "Search by university, licence or author",
+    count: (count: number) => plural(count, "logo", "logos"),
+    more: (count: number) => `Show more (${count.toLocaleString()} left)`,
+    by: (author: string) => `by ${author}`,
+    unknownLicense: "Licence on file page",
+    link: "Logo credits",
+    pickerNote: "Logos from Wikimedia Commons ·",
+  },
   footer: {
     note: "Meh Rean — a study-sharing community for students everywhere.",
     local: "Preview build: accounts and uploads are stored in your browser.",

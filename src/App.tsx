@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import RequireAuth from "./components/RequireAuth";
 import { t } from "./i18n/en";
 import CreatePost from "./pages/CreatePost";
 import Home from "./pages/Home";
+import LogoCredits from "./pages/LogoCredits";
 import Login from "./pages/Login";
 import Messages from "./pages/Messages";
 import NotFound from "./pages/NotFound";
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="/u/:username" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/credits/logos" element={<LogoCredits />} />
           <Route
             path="/create"
             element={
@@ -91,7 +93,12 @@ export default function App() {
 
       <footer className={`border-line bg-surface mt-12 hidden border-t ${fullHeight ? "" : "sm:block"}`}>
         <div className="container-page text-ink-500 flex flex-col gap-1 py-6 text-sm sm:flex-row sm:justify-between">
-          <p>{t.footer.note}</p>
+          <p>
+            {t.footer.note}{" "}
+            <Link to="/credits/logos" className="hover:text-ink-700 underline underline-offset-2">
+              {t.credits.link}
+            </Link>
+          </p>
           <p>{t.footer.local}</p>
         </div>
       </footer>

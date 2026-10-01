@@ -339,8 +339,15 @@ function InstitutionDialog({ onClose, onSelect }: DialogProps) {
         </div>
 
         {!manual && (
-          <p className="border-line text-ink-400 hidden shrink-0 border-t px-4 py-2 text-xs sm:block [@media(max-height:500px)]:hidden">
-            {t.institution.keyboardHint}
+          <p className="border-line text-ink-400 flex shrink-0 flex-wrap justify-between gap-x-4 gap-y-1 border-t px-4 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] text-xs [@media(max-height:500px)]:hidden">
+            <span className="hidden sm:inline">{t.institution.keyboardHint}</span>
+            <span>
+              {t.credits.pickerNote}{" "}
+              {/* A new tab, so a half-filled sign-up form is not lost. */}
+              <a href="/credits/logos" target="_blank" rel="noopener" className="underline underline-offset-2 hover:text-ink-700">
+                {t.credits.link}
+              </a>
+            </span>
           </p>
         )}
       </div>
