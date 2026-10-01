@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { t } from "../i18n/en";
 import { errorCode, errorMessage } from "../lib/errors";
-import { gradeOptions, type InstitutionSelection } from "../lib/institutions";
+import { gradeOptions, studyField, type InstitutionSelection } from "../lib/institutions";
 import {
   safeNext,
   suggestUsername,
@@ -52,6 +52,7 @@ export default function Signup() {
   if (user && !submitting) return <Navigate to={next} replace />;
 
   const grades = gradeOptions(school?.kind ?? "university");
+  const field = studyField(school?.kind ?? "university");
 
   const clear = (field: keyof SignupErrors) => setErrors((current) => ({ ...current, [field]: undefined }));
 
@@ -197,19 +198,19 @@ export default function Signup() {
             ))}
           </select>
         </FieldShell>
-        <FieldShell id={majorId} label={t.institution.majorLabel} optional>
+        <FieldShell id={majorId} label={field.label} optional>
           <input
             id={majorId}
             type="text"
             value={major}
             onChange={(event) => setMajor(event.target.value)}
-            placeholder={t.institution.majorPlaceholder}
+            placeholder={field.placeholder}
             list={majorListId}
             autoComplete="off"
             className="input"
           />
           <datalist id={majorListId}>
-            {t.institution.majorSuggestions.map((value) => (
+            {field.suggestions.map((value) => (
               <option key={value} value={value} />
             ))}
           </datalist>

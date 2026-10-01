@@ -28,6 +28,8 @@ export function logoUrl(domain: string): string {
 }
 
 export interface LogoCredit {
+  /** The school or university the logo belongs to. */
+  name?: string;
   /** The Commons file, e.g. "File:Seal of X.svg". */
   file: string;
   page: string;

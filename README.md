@@ -43,18 +43,24 @@ npm run dev
 npm run build
 ```
 
-## Refreshing the university data
+## Refreshing the school and university data
 
 ```bash
-node scripts/build-institutions.mjs   # the university list (public/data/)
-node scripts/build-logos.mjs          # their logos (public/logos/)
+node scripts/build-institutions.mjs   # universities (public/data/institutions.json)
+node scripts/build-high-schools.mjs   # high schools, one file per country (public/data/schools/)
+node scripts/build-logos.mjs          # logos for both (public/logos/); run last
 ```
+
+High schools come from Wikidata (CC0) and, for Cambodia, OpenStreetMap
+(© OpenStreetMap contributors, ODbL): Wikidata knows only one Cambodian school.
+Hand-checked additions and search aliases live in
+`scripts/high-schools-extra.json`.
 
 Logos come only from Wikimedia Commons, so every one is freely licensed or too
 simple to be copyrighted; `public/logos/credits.json` and the in-app
-**Logo credits** page record the source, licence and author of each. Files that
+**Credits** page record the source, licence and author of each. Files that
 turn out not to be logos go in `scripts/logo-exclusions.json`. Thailand is
-excluded from both lists.
+excluded throughout.
 
 ## Connecting a real backend (Supabase)
 

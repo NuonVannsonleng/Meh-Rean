@@ -1,0 +1,23 @@
+{
+  "comment": "Hand-checked additions for scripts/build-high-schools.mjs. include: OpenStreetMap school names that are secondary or K-12 schools although the name does not say so. aliases: other spellings people search for, matched in search but not shown.",
+  "KH": {
+    "include": [
+      "Liger Leadership Academy",
+      "Neeson Cripps Academy",
+      "New Generation School Kampongcham",
+      "Golden Gate American School",
+      "American Intercon School (AIS)",
+      "Westline School",
+      "Don Bosco Technical School",
+      "Don Bosco Technical School Kep"
+    ],
+    "aliases": {
+      "Preah Youk Thor High School": ["Preah Yukanthor High School", "Yukanthor", "Yukunthor"],
+      "Toul Tom Poung High School": ["Tuol Tumpung High School", "Toul Tompong"],
+      "Santhormok High School": ["Santhor Mok High School"],
+      "Preah Sisowath High School": ["Lycée Sisowath", "Sisovath"],
+      "Indradevi High School": ["Indra Devi High School"],
+      "Boeung Keng Kang High School": ["BKK High School", "Beung Keng Kang"]
+    }
+  }
+}

@@ -33,7 +33,7 @@ export default function LogoCredits() {
         const names = new Map(data?.institutions.map((item) => [item.domain.toLowerCase().replace(/^www\d*\./, ""), item.name]));
         const next = Object.entries(credits)
           .map(([domain, credit]) => {
-            const name = names.get(domain) ?? domain;
+            const name = credit.name ?? names.get(domain) ?? domain;
             return { ...credit, domain, name, haystack: normalizeText(`${name} ${domain} ${credit.license} ${credit.author}`) };
           })
           .sort((a, b) => a.name.localeCompare(b.name));
@@ -54,7 +54,23 @@ export default function LogoCredits() {
   return (
     <div className="container-page max-w-3xl py-6 sm:py-10">
       <h1 className="text-ink-900 font-display text-2xl font-extrabold tracking-tight sm:text-3xl">{t.credits.title}</h1>
-      <p className="text-ink-700 mt-3">{t.credits.intro}</p>
+
+      <h2 className="text-ink-900 mt-6 text-lg font-semibold">{t.credits.schoolsHeading}</h2>
+      <ul className="text-ink-700 mt-2 list-disc space-y-1 pl-5 text-sm">
+        <li>{t.credits.schoolsUniversities}</li>
+        <li>{t.credits.schoolsWikidata}</li>
+        <li>
+          {t.credits.schoolsOsmBefore}
+          {/* The ODbL asks for this credit and a link to the licence. */}
+          <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" className="link font-medium">
+            {t.credits.schoolsOsmLink}
+          </a>
+          {t.credits.schoolsOsmAfter}
+        </li>
+      </ul>
+
+      <h2 className="text-ink-900 mt-8 text-lg font-semibold">{t.credits.logosHeading}</h2>
+      <p className="text-ink-700 mt-2">{t.credits.intro}</p>
       <p className="text-ink-500 mt-2 text-sm">{t.credits.trademark}</p>
 
       <label className="relative mt-6 block">

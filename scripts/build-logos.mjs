@@ -11,7 +11,8 @@
  * Logos from elsewhere (university websites, English Wikipedia's "fair use"
  * uploads) are deliberately not used.
  *
- * Institutions are matched to public/data/institutions.json by official
+ * Universities (public/data/institutions.json) and high schools with a
+ * website (public/data/schools/) are matched by official
  * website, then by exact name within the same country. Thailand is excluded,
  * as it is from the institution list itself.
  *
@@ -21,13 +22,13 @@
 
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
-import { mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import sharp from "sharp";
+import { CACHE_DIR, DOMAIN, hostOf, normalizeName, request, sparql } from "./lib/open-data.mjs";
 
-const USER_AGENT = "MehReanLogoBuilder/1.0 (https://github.com/NuonVannsonleng/Meh-Rean; build script)";
 const INSTITUTIONS = "public/data/institutions.json";
+const SCHOOLS_DIR = "public/data/schools";
 const OUT_DIR = "public/logos";
-const CACHE_DIR = "scripts/.logo-cache";
 const EXCLUDED_CODES = new Set(["TH"]);
 /** Files reviewed by hand and found not to be logos. */
 const EXCLUSIONS = "scripts/logo-exclusions.json";
@@ -38,73 +39,11 @@ const THUMB_WIDTH = 250;
 const DOWNLOADS_AT_ONCE = 4;
 /** Subdomains that are just another door to the same university's site. */
 const SAME_SITE_PREFIXES = new Set(["web", "www2", "www3", "home", "portal", "en", "english", "int", "international", "main"]);
-/** Hosts shared by unrelated organisations, which never identify one. */
-const SHARED_HOSTS = /(^|\.)(google|facebook|wikipedia|blogspot|wordpress|wix|github|linkedin|twitter|instagram|youtube)\./;
-const DOMAIN = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/;
-
 // ---------------------------------------------------------------- helpers --
-
-const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-/**
- * Fetches and reads a whole body, retrying throttling, server errors and
- * dropped connections (a 50 MB query result can be cut off halfway).
- */
-async function request(url, init = {}, attempt = 1) {
-  try {
-    const response = await fetch(url, { ...init, headers: { "User-Agent": USER_AGENT, ...init.headers } });
-    if ((response.status === 429 || response.status >= 500) && attempt < 6) {
-      await pause(Number(response.headers.get("retry-after")) * 1000 || 2000 * attempt);
-      return request(url, init, attempt + 1);
-    }
-    return { ok: response.ok, status: response.status, body: Buffer.from(await response.arrayBuffer()) };
-  } catch (error) {
-    if (attempt >= 6) throw error;
-    await pause(3000 * attempt);
-    return request(url, init, attempt + 1);
-  }
-}
-
-/** Query results are cached for a day, so a rerun after a failure starts where it stopped. */
-async function sparql(query) {
-  const cached = `${CACHE_DIR}/query-${createHash("sha1").update(query).digest("hex")}.json`;
-  if (existsSync(cached) && Date.now() - (await stat(cached)).mtimeMs < 86_400_000) {
-    return JSON.parse(await readFile(cached, "utf8")).results.bindings;
-  }
-  const response = await request("https://query.wikidata.org/sparql", {
-    method: "POST",
-    headers: { Accept: "application/sparql-results+json", "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ query }),
-  });
-  if (!response.ok) throw new Error(`Wikidata query failed: ${response.status} ${response.body.toString().slice(0, 200)}`);
-  const parsed = JSON.parse(response.body.toString());
-  await writeFile(cached, response.body);
-  return parsed.results.bindings;
-}
-
-function hostOf(raw) {
-  try {
-    const host = new URL(raw).hostname.toLowerCase().replace(/^www\d*\./, "").replace(/\.$/, "");
-    return host.includes(".") && !SHARED_HOSTS.test(host) ? host : null;
-  } catch {
-    return null;
-  }
-}
 
 /** "Special:FilePath/Seal%20of%20X.svg" → "File:Seal of X.svg" */
 function fileTitle(filePathUrl) {
   return `File:${decodeURIComponent(filePathUrl.split("/").pop()).replace(/_/g, " ")}`;
-}
-
-function normalizeName(name) {
-  return name
-    .normalize("NFKD")
-    .replace(/\p{Diacritic}/gu, "")
-    .toLowerCase()
-    .replace(/&/g, " and ")
-    .replace(/[^\p{L}\p{N}]+/gu, " ")
-    .replace(/^the /, "")
-    .trim();
 }
 
 function stripHtml(html = "") {
@@ -185,13 +124,17 @@ function words(name) {
 }
 
 /** Whether an organisation's label plausibly names this university. */
-function sameInstitution(name, label) {
+function sameInstitution(name, label, strict = false) {
   if (!label) return false;
   const a = words(name);
   const b = words(label);
   const shared = [...a].filter((word) => b.has(word)).length;
+  const mostWords = shared / Math.max(1, Math.min(a.size, b.size)) >= 0.6;
+  // High schools are matched strictly: a district school board shares its
+  // website and its town's name with every school it runs.
+  if (strict) return mostWords;
   // Most words in common, or a school-like name sharing at least one distinctive word.
-  return shared / Math.max(1, Math.min(a.size, b.size)) >= 0.6 || (SCHOOL_WORDS.test(normalizeName(label)) && shared >= 1);
+  return mostWords || (SCHOOL_WORDS.test(normalizeName(label)) && shared >= 1);
 }
 
 // ----------------------------------------------------------------- Commons --
@@ -288,9 +231,30 @@ async function download(url) {
 
 const data = JSON.parse(await readFile(INSTITUTIONS, "utf8"));
 const excluded = new Set(Object.keys(JSON.parse(await readFile(EXCLUSIONS, "utf8")).files));
-const institutions = data.rows
-  .map(([name, codeIndex, domain]) => ({ name, code: data.codes[codeIndex], domain: domain.toLowerCase().replace(/^www\d*\./, "") }))
-  .filter((row) => !EXCLUDED_CODES.has(row.code) && DOMAIN.test(row.domain));
+const universityRows = data.rows.map(([name, codeIndex, domain]) => ({ name, code: data.codes[codeIndex], domain }));
+
+// High schools with a website, from scripts/build-high-schools.mjs. They have
+// no university entry on Wikidata, so they match through their own website.
+const schoolRows = [];
+if (existsSync(`${SCHOOLS_DIR}/index.json`)) {
+  const schoolIndex = JSON.parse(await readFile(`${SCHOOLS_DIR}/index.json`, "utf8"));
+  for (const code of Object.keys(schoolIndex.countries)) {
+    const { rows } = JSON.parse(await readFile(`${SCHOOLS_DIR}/${code}.json`, "utf8"));
+    for (const [name, , , domain] of rows) if (domain) schoolRows.push({ name, code, domain, school: true });
+  }
+}
+
+const seenDomains = new Set();
+const institutions = [...universityRows, ...schoolRows]
+  .map((row) => ({ ...row, domain: row.domain.toLowerCase().replace(/^www\d*\./, "") }))
+  .filter((row) => {
+    if (EXCLUDED_CODES.has(row.code) || !DOMAIN.test(row.domain) || seenDomains.has(row.domain)) return false;
+    seenDomains.add(row.domain);
+    return true;
+  });
+console.log(`  ${universityRows.length} universities and ${schoolRows.length} high schools with a website`);
+/** Each logo is credited under the school or university it belongs to. */
+const nameOf = new Map(institutions.map((row) => [row.domain, row.name]));
 
 await mkdir(CACHE_DIR, { recursive: true });
 console.log("Querying Wikidata…");
@@ -337,7 +301,7 @@ for (const row of institutions) {
 const labels = await entityLabels(otherCandidates.map(({ other }) => other.id));
 for (const { row, other } of otherCandidates) {
   const label = labels.get(other.id) ?? "";
-  if (sameInstitution(row.name, label)) {
+  if (sameInstitution(row.name, label, row.school)) {
     how.other += 1;
     matches.set(row.domain, other);
   } else if (!matches.has(row.domain)) {
@@ -386,7 +350,7 @@ async function worker() {
         .resize(SIZE, SIZE, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
         .webp({ quality: 82, alphaQuality: 90, effort: 5 })
         .toFile(`${OUT_DIR}/${domain}.webp`);
-      credits[domain] = { file: file.title, page: file.page, license: file.license, author: file.artist, wikidata: item.id };
+      credits[domain] = { name: nameOf.get(domain) ?? domain, file: file.title, page: file.page, license: file.license, author: file.artist, wikidata: item.id };
     } catch (error) {
       failed.push(`${domain}: ${error.message}`);
     }

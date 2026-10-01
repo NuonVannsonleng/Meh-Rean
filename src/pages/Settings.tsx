@@ -11,7 +11,7 @@ import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { t } from "../i18n/en";
 import { errorCode, errorMessage } from "../lib/errors";
-import { gradeOptions, selectionFromProfile, type InstitutionSelection } from "../lib/institutions";
+import { gradeOptions, selectionFromProfile, studyField, type InstitutionSelection } from "../lib/institutions";
 import { validateDisplayName, validateEmail, validateNewPassword, validateUsername } from "../lib/validation";
 import {
   changePassword,
@@ -301,10 +301,10 @@ function ProfileForm({ user }: { user: User }) {
         </FieldShell>
       </div>
       <TextField
-        label={t.settings.fieldLabel}
+        label={studyField(school?.kind ?? "university").label}
         value={values.fieldOfStudy}
         onChange={(value) => set("fieldOfStudy", value)}
-        placeholder={t.settings.fieldPlaceholder}
+        placeholder={studyField(school?.kind ?? "university").placeholder}
         optional
       />
       <TextField
