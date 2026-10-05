@@ -11,6 +11,7 @@ import { t } from "../i18n/en";
 import { detectAttachmentKind, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import { errorMessage } from "../lib/errors";
 import { fileExtension, formatFileSize } from "../lib/format";
+import { SUBJECT_COLORS } from "../lib/subjects";
 import { createPost } from "../services/api";
 import { EDUCATION_LEVELS, SUBJECTS, type EducationLevel, type Subject } from "../types";
 
@@ -169,39 +170,27 @@ export default function CreatePost() {
   if (!user) return null;
 
   return (
-    <div className="container-page max-w-3xl py-8">
-      <header className="border-line mb-6 border-b pb-4">
-        <h1 className="text-ink-900 text-2xl font-normal">{t.create.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm">{t.create.subtitle}</p>
+    <div className="container-page max-w-3xl py-6 sm:py-8">
+      <header className="mb-6 flex items-center gap-3">
+        <Avatar user={user} size="lg" />
+        <div>
+          <h1 className="text-ink-900 text-2xl sm:text-3xl">{t.create.title}</h1>
+          <p className="text-ink-500 mt-0.5 text-sm">{t.create.subtitle}</p>
+        </div>
       </header>
 
-      <form onSubmit={submit} noValidate className="space-y-6">
-        {/* Owner / name, the way a new project is named. */}
-        <div className="flex flex-wrap items-end gap-2">
-          <div>
-            <p className="field-label">{t.create.owner}</p>
-            <span className="btn-secondary pointer-events-none h-10 gap-2 sm:h-9">
-              <Avatar user={user} size="sm" className="h-5 w-5 text-[9px]" />
-              {user.username}
-            </span>
-          </div>
-          <span className="text-ink-500 pb-2 text-xl" aria-hidden="true">
-            /
-          </span>
-          <div className="min-w-0 flex-1 basis-64">
-            <TextField
-              label={t.create.titleLabel}
-              value={title}
-              onChange={(value) => {
-                setTitle(value);
-                if (errors.title) setErrors((current) => ({ ...current, title: undefined }));
-              }}
-              placeholder={t.create.titlePlaceholder}
-              maxLength={140}
-              error={errors.title}
-            />
-          </div>
-        </div>
+      <form onSubmit={submit} noValidate className="card space-y-6 p-4 sm:p-6">
+        <TextField
+          label={t.create.titleLabel}
+          value={title}
+          onChange={(value) => {
+            setTitle(value);
+            if (errors.title) setErrors((current) => ({ ...current, title: undefined }));
+          }}
+          placeholder={t.create.titlePlaceholder}
+          maxLength={140}
+          error={errors.title}
+        />
 
         <FieldShell id={bodyId} label={t.create.bodyLabel} error={errors.content}>
           <textarea
@@ -220,39 +209,51 @@ export default function CreatePost() {
           />
         </FieldShell>
 
-        <div className="grid gap-6 sm:grid-cols-2">
-          <FieldShell id={subjectId} label={t.create.subjectLabel} error={errors.subject}>
-            <select
-              id={subjectId}
-              value={subject}
-              onChange={(event) => {
-                setSubject(event.target.value as Subject);
-                setErrors((current) => ({ ...current, subject: undefined }));
-              }}
-              aria-invalid={errors.subject ? true : undefined}
-              aria-describedby={describedBy(subjectId, errors.subject)}
-              className="input cursor-pointer"
-            >
-              <option value="" disabled>
-                {t.create.subjectPlaceholder}
-              </option>
-              {SUBJECTS.map((value) => (
-                <option key={value} value={value}>
+        {/* Subjects as one-tap chips in their colours, like the home page filter. */}
+        <fieldset aria-describedby={errors.subject ? `${subjectId}-error` : undefined}>
+          <legend className="field-label">{t.create.subjectLabel}</legend>
+          <div className="flex flex-wrap gap-2">
+            {SUBJECTS.map((value) => {
+              const active = subject === value;
+              return (
+                <label
+                  key={value}
+                  className={`press inline-flex h-9 cursor-pointer items-center gap-2 rounded-full border px-3.5 text-sm font-medium has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-500 ${
+                    active ? "border-brand-600 bg-brand-600 text-white" : "border-line bg-surface text-ink-700 hover:border-ink-400"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name={subjectId}
+                    value={value}
+                    checked={active}
+                    onChange={() => {
+                      setSubject(value);
+                      setErrors((current) => ({ ...current, subject: undefined }));
+                    }}
+                    className="sr-only"
+                  />
+                  <span className="h-2.5 w-2.5 rounded-full ring-2 ring-white/70" style={{ backgroundColor: SUBJECT_COLORS[value] }} />
                   {t.subjects[value]}
-                </option>
-              ))}
-            </select>
-          </FieldShell>
+                </label>
+              );
+            })}
+          </div>
+          {errors.subject && (
+            <p id={`${subjectId}-error`} className="field-error">
+              {errors.subject}
+            </p>
+          )}
+        </fieldset>
 
-          <TextField
-            label={t.create.tagsLabel}
-            value={tags}
-            onChange={setTags}
-            placeholder={t.create.tagsPlaceholder}
-            hint={t.create.tagsHint}
-            optional
-          />
-        </div>
+        <TextField
+          label={t.create.tagsLabel}
+          value={tags}
+          onChange={setTags}
+          placeholder={t.create.tagsPlaceholder}
+          hint={t.create.tagsHint}
+          optional
+        />
 
         <RadioGroup
           name="level"

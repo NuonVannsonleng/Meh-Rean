@@ -29,7 +29,7 @@ function level(count: number, max: number): number {
  * contribution calendar: the steadier the green, the steadier the studying.
  */
 export default function ContributionGraph({ dates }: { dates: string[] }) {
-  const { weeks, total, months, max } = useMemo(() => {
+  const { weeks, total, months, max, streak } = useMemo(() => {
     const counts = new Map<string, number>();
     for (const iso of dates) {
       const key = dayKey(new Date(iso));
@@ -61,7 +61,14 @@ export default function ContributionGraph({ dates }: { dates: string[] }) {
       }
       grid.push(column);
     }
-    return { weeks: grid, total: sum, months: labels, max: busiest };
+    // The longest run of days in a row with at least one upload.
+    let longest = 0;
+    let run = 0;
+    for (const day of grid.flat()) {
+      run = day.count > 0 ? run + 1 : 0;
+      longest = Math.max(longest, run);
+    }
+    return { weeks: grid, total: sum, months: labels, max: busiest, streak: longest };
   }, [dates]);
 
   const cell = 11;
@@ -71,9 +78,15 @@ export default function ContributionGraph({ dates }: { dates: string[] }) {
 
   return (
     <section aria-labelledby="contributions-title">
-      <h2 id="contributions-title" className="text-ink-900 mb-2 text-base font-normal">
-        {t.profile.contributions(total)}
-      </h2>
+      <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h2 id="contributions-title" className="font-display text-ink-900 text-lg font-bold">
+          {t.profile.activity}
+        </h2>
+        <p className="text-ink-500 text-sm">
+          {t.profile.contributions(total)}
+          {streak > 1 && ` · ${t.profile.streak(streak)}`}
+        </p>
+      </div>
       <div className="card overflow-x-auto p-4">
         <svg
           // Room on the right for the last month's label.

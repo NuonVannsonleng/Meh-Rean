@@ -50,15 +50,27 @@ function Section({
   tone?: "default" | "danger";
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-24">
-      <div className="border-line mb-4 flex items-center gap-2 border-b pb-2">
-        <span className={tone === "danger" ? "text-danger-fg" : "text-ink-500"}>{icon}</span>
-        <h2 id={`${id}-title`} className={`text-xl font-normal ${tone === "danger" ? "text-danger-fg" : "text-ink-900"}`}>
-          {title}
-        </h2>
+    <section
+      id={id}
+      aria-labelledby={`${id}-title`}
+      className={`card scroll-mt-24 p-5 sm:p-6 ${tone === "danger" ? "border-danger-fg/40" : ""}`}
+    >
+      <div className="mb-5 flex items-start gap-3">
+        <span
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+            tone === "danger" ? "bg-danger-bg text-danger-fg" : "bg-brand-50 text-accent"
+          }`}
+        >
+          {icon}
+        </span>
+        <div>
+          <h2 id={`${id}-title`} className={`font-display text-lg font-bold ${tone === "danger" ? "text-danger-fg" : "text-ink-900"}`}>
+            {title}
+          </h2>
+          <p className="text-ink-500 text-sm">{body}</p>
+        </div>
       </div>
-      <p className="text-ink-500 mb-4 text-sm">{body}</p>
-      {tone === "danger" ? <div className="border-danger-fg/40 rounded-md border p-4">{children}</div> : children}
+      {children}
     </section>
   );
 }
@@ -602,7 +614,7 @@ export default function Settings() {
   return (
     <div className="container-page max-w-5xl py-6 sm:py-10">
       <header className="mb-6">
-        <h1 className="text-ink-900 text-2xl font-normal">{t.settings.title}</h1>
+        <h1 className="text-ink-900 text-2xl sm:text-3xl">{t.settings.title}</h1>
         <p className="text-ink-500 mt-2">{t.settings.subtitle}</p>
       </header>
 
@@ -613,7 +625,7 @@ export default function Settings() {
               <li key={id}>
                 <a
                   href={`#${id}`}
-                  className="press text-ink-700 hover:bg-surface-hover hover:text-ink-900 flex h-8 shrink-0 items-center gap-2.5 rounded-md px-2.5 text-sm whitespace-nowrap"
+                  className="press text-ink-700 hover:bg-surface hover:text-ink-900 flex h-10 shrink-0 items-center gap-2.5 rounded-full px-3.5 text-sm font-medium whitespace-nowrap"
                 >
                   <Icon className="h-4 w-4" />
                   {label}
@@ -623,7 +635,7 @@ export default function Settings() {
           </ul>
         </nav>
 
-        <div className="min-w-0 space-y-10">
+        <div className="min-w-0 space-y-6">
           <Section id="profile" icon={<UserIcon />} title={t.settings.profileHeading} body={t.settings.profileBody}>
             <ProfileForm key={user.id} user={user} />
           </Section>

@@ -8,8 +8,8 @@
   --font-sans:
     "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  /* One family throughout: headings differ by weight, not by typeface. */
-  --font-display: "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Archivo, the logo's typeface, for headings; Inter for reading. */
+  --font-display: "Archivo", "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   /* Primary — book-cover green */
@@ -41,17 +41,16 @@
   /* Orange page rules from the logo — decoration only */
   --color-rule: oklch(0.83 0.075 65);
 
-  /* Neutrals: a plain white canvas with grey borders, like a code host,
-     so the work is the focus. surface-muted is for box headers and side
-     panels; the page itself is surface. */
-  --color-ink-900: #1f2328;
-  --color-ink-700: #3d444d;
-  --color-ink-500: #59636e;
-  --color-ink-400: #818b98;
+  /* Neutrals: white cards on warm notebook paper, with ink that leans
+     towards the logo's book green. surface-muted is the page itself. */
+  --color-ink-900: #22261f;
+  --color-ink-700: #434a3f;
+  --color-ink-500: #697063;
+  --color-ink-400: #959a8f;
   --color-surface: #ffffff;
-  --color-surface-muted: #f6f8fa;
-  --color-surface-hover: #eff2f5;
-  --color-line: #d1d9e0;
+  --color-surface-muted: #f7f5ef;
+  --color-surface-hover: #f0ede4;
+  --color-line: #e6e1d5;
 
   --color-danger-bg: oklch(0.965 0.025 30);
   --color-danger-fg: oklch(0.52 0.16 30);
@@ -100,14 +99,15 @@
   --color-logo-page: oklch(0.94 0.022 85);
   --color-logo-ribbon: oklch(0.68 0.08 212);
 
-  --color-ink-900: #f0f6fc;
-  --color-ink-700: #d1d7e0;
-  --color-ink-500: #9198a1;
-  --color-ink-400: #6e7681;
-  --color-surface: #0d1117;
-  --color-surface-muted: #151b23;
-  --color-surface-hover: #1f262e;
-  --color-line: #3d444d;
+  /* Evening study desk: deep green-charcoal, cream ink. */
+  --color-ink-900: #eef0ea;
+  --color-ink-700: #cfd4ca;
+  --color-ink-500: #9ba393;
+  --color-ink-400: #747b6d;
+  --color-surface: #1a2019;
+  --color-surface-muted: #121712;
+  --color-surface-hover: #242c23;
+  --color-line: #303a2e;
 
   --color-danger-bg: oklch(0.3 0.06 30);
   --color-danger-fg: oklch(0.78 0.12 30);
@@ -132,7 +132,7 @@
   }
 
   body {
-    @apply bg-surface text-ink-900 font-sans antialiased;
+    @apply bg-surface-muted text-ink-900 font-sans antialiased;
     -webkit-tap-highlight-color: transparent;
     margin: 0;
     min-height: 100dvh;
@@ -152,7 +152,8 @@
 
   h1 {
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: -0.01em;
   }
 
   h1,
@@ -241,26 +242,37 @@
   }
 }
 
-/* A bordered box: the basic container, flat rather than floating. */
-@utility card {
-  @apply border-line bg-surface rounded-md border;
+/* A white card sitting on the paper. */
+/* One row that scrolls sideways, fading at its right edge. */
+@utility chip-row {
+  @apply -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0;
+  scrollbar-width: none;
+  mask-image: linear-gradient(to right, black calc(100% - 2rem), transparent);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-/* The grey title bar at the top of a box. */
+@utility card {
+  @apply border-line bg-surface rounded-xl border shadow-[0_1px_2px_rgb(34_38_31/0.04)];
+}
+
+/* The tinted title strip at the top of a card. */
 @utility box-header {
-  @apply border-line bg-surface-muted flex items-center gap-2 rounded-t-md border-b px-4 py-3;
+  @apply border-line bg-surface-muted/70 flex items-center gap-2 rounded-t-xl border-b px-4 py-3;
 }
 
 @utility btn {
-  @apply press inline-flex h-9 items-center justify-center gap-2 rounded-md px-3.5 text-sm font-semibold whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-60;
+  @apply press inline-flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-sm font-semibold whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-60;
 }
 
 @utility btn-primary {
-  @apply btn bg-brand-600 hover:bg-brand-700 active:bg-brand-800 border border-black/10 text-white;
+  @apply btn bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white shadow-sm;
 }
 
 @utility btn-secondary {
-  @apply btn border-line bg-surface-muted text-ink-900 hover:bg-surface-hover border;
+  @apply btn border-line bg-surface text-ink-900 hover:bg-surface-hover border;
 }
 
 /* Small count pill, as next to a tab or a Star button. */
@@ -282,11 +294,11 @@
 }
 
 @utility icon-btn {
-  @apply press text-ink-500 hover:bg-surface-hover hover:text-ink-900 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md;
+  @apply press text-ink-500 hover:bg-surface-hover hover:text-ink-900 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full;
 }
 
 @utility input {
-  @apply border-line bg-surface text-ink-900 placeholder:text-ink-400 h-10 w-full rounded-md border px-3 text-base transition-[border-color,box-shadow] outline-none sm:h-9 sm:text-sm;
+  @apply border-line bg-surface text-ink-900 placeholder:text-ink-400 h-11 w-full rounded-lg border px-3.5 text-base transition-[border-color,box-shadow] outline-none sm:h-10 sm:text-sm;
 
   &:focus {
     border-color: var(--color-brand-500);
@@ -312,11 +324,6 @@
 
 @utility link {
   @apply touch-target text-accent rounded font-semibold underline-offset-4 hover:underline;
-}
-
-/* The ☰ menu sliding in from the left. */
-@utility animate-drawer {
-  animation: drawer-in var(--duration-base) var(--ease-out-soft) both;
 }
 
 @utility animate-page {
@@ -368,15 +375,6 @@
 
 .logo-hover:hover .logo-ribbon {
   transform: translateY(8%);
-}
-
-@keyframes drawer-in {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: none;
-  }
 }
 
 @keyframes sheet-up {

@@ -18,6 +18,7 @@ export default function App() {
   const { pathname } = useLocation();
   // Chat fills the screen exactly: the thread scrolls, not the page.
   const fullHeight = pathname === "/messages" || pathname.startsWith("/messages/");
+  const inThread = pathname.startsWith("/messages/");
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -37,7 +38,14 @@ export default function App() {
       <main
         id="main"
         key={fullHeight ? "messages" : pathname}
-        className={`animate-page flex-1 pb-[env(safe-area-inset-bottom)] ${fullHeight ? "flex min-h-0 flex-col" : ""}`}
+        className={`animate-page flex-1 ${fullHeight ? "flex min-h-0 flex-col" : ""} ${
+          inThread
+            ? "pb-[env(safe-area-inset-bottom)] sm:pb-0"
+            : fullHeight
+              ? // Exactly the bottom bar's height, so the inbox meets it with no gap.
+                "pb-[calc(3.5rem+env(safe-area-inset-bottom))] sm:pb-0"
+              : "pb-[calc(5rem+env(safe-area-inset-bottom))] sm:pb-0"
+        }`}
       >
         <Routes>
           <Route path="/" element={<Home />} />

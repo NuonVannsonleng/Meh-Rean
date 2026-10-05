@@ -14,13 +14,14 @@ import {
   MapPinIcon,
   PlusIcon,
   SearchIcon,
-  StarIcon,
+  SettingsIcon,
+  CheckIcon,
   UserIcon,
 } from "../components/Icons";
 import ImageCropper from "../components/ImageCropper";
 import InstitutionLogo from "../components/InstitutionLogo";
 import LoadingState from "../components/LoadingState";
-import NoteRow, { SubjectMark } from "../components/NoteRow";
+import NoteRow from "../components/NoteRow";
 import UserList from "../components/UserList";
 import VerifiedBadge from "../components/VerifiedBadge";
 import { useAuth } from "../context/AuthContext";
@@ -40,7 +41,7 @@ import {
   updateProfile,
   uploadProfileImage,
 } from "../services/api";
-import { SUBJECTS, type PostView, type ProfileView, type PublicUser, type Subject } from "../types";
+import { SUBJECTS, type PostView, type ProfileImageKind, type ProfileView, type PublicUser, type Subject } from "../types";
 
 type Tab = "overview" | "notes" | "saved" | "followers" | "following";
 
@@ -50,189 +51,202 @@ type ProfileState =
   | { status: "not-found" }
   | { status: "error" };
 
-// ---- Sidebar ----
+// ---- Header ----
 
-function Sidebar({
+function ProfileHeader({
   profile,
   isOwn,
   pending,
   onFollowToggle,
-  onAvatar,
+  onImage,
   onTab,
 }: {
   profile: ProfileView;
   isOwn: boolean;
   pending: boolean;
   onFollowToggle: () => void;
-  onAvatar: (file: File) => void;
+  onImage: (file: File, kind: ProfileImageKind) => void;
   onTab: (tab: Tab) => void;
 }) {
   const { user, stats, isFollowing } = profile;
   const avatarInput = useRef<HTMLInputElement>(null);
+  const bannerInput = useRef<HTMLInputElement>(null);
 
   const facts: { key: string; icon: ReactNode; value: string }[] = [
-    {
-      key: "school",
-      // A typed-in school has no logo, so InstitutionLogo shows an initial.
-      icon: <InstitutionLogo name={user.school} domain={user.schoolDomain} className="h-4 w-4 rounded-sm border-0 p-0" />,
-      value: user.school,
-    },
     { key: "grade", icon: <GraduationIcon className="h-4 w-4" />, value: user.grade ?? "" },
     { key: "field", icon: <FileTextIcon className="h-4 w-4" />, value: user.fieldOfStudy },
     { key: "country", icon: <MapPinIcon className="h-4 w-4" />, value: user.country },
     { key: "joined", icon: <CalendarIcon className="h-4 w-4" />, value: t.profile.joined(formatDate(user.createdAt)) },
   ].filter((fact) => fact.value);
 
+  const tiles: { label: string; value: string; tab?: Tab }[] = [
+    { label: t.profile.notesStat, value: formatCount(stats.posts), tab: "notes" },
+    { label: t.profile.helpfulStat, value: formatCount(stats.reactions) },
+    { label: t.profile.followers, value: formatCount(stats.followers), tab: "followers" },
+    { label: t.profile.followingLabel, value: formatCount(stats.following), tab: "following" },
+    { label: t.profile.rating, value: stats.averageRating ? stats.averageRating.toFixed(1) : t.profile.noRating },
+  ];
+
+  const pickFile = (kind: ProfileImageKind) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (file) onImage(file, kind);
+  };
+
   return (
-    <aside aria-label={t.profile.aboutLabel} className="min-w-0">
-      <div className="flex items-center gap-4 lg:block">
-        <div className="relative shrink-0 lg:mb-4">
-          <Avatar user={user} size="xl" className="border-line h-20 w-20 border text-2xl sm:h-24 sm:w-24 lg:h-auto lg:w-full lg:text-7xl lg:aspect-square" />
-          {isOwn && (
-            <>
-              <button
-                type="button"
-                onClick={() => avatarInput.current?.click()}
-                aria-label={t.settings.avatarChange}
-                className="press bg-surface border-line text-ink-700 hover:text-ink-900 absolute right-0 bottom-0 flex h-8 w-8 items-center justify-center rounded-full border shadow-sm lg:right-[8%] lg:bottom-[8%] lg:h-9 lg:w-9"
-              >
-                <CameraIcon className="h-4 w-4" />
-              </button>
-              <input
-                ref={avatarInput}
-                type="file"
-                accept="image/*"
-                className="sr-only"
-                tabIndex={-1}
-                aria-hidden="true"
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  event.target.value = "";
-                  if (file) onAvatar(file);
-                }}
-              />
-            </>
-          )}
-        </div>
-        <div className="min-w-0">
-          <h1 className="text-ink-900 flex items-center gap-1.5 text-xl leading-tight font-semibold sm:text-2xl">
-            <span className="min-w-0 wrap-break-word">{user.displayName}</span>
-            {user.verified && <VerifiedBadge className="h-5 w-5" />}
-          </h1>
-          <p className="text-ink-500 text-lg leading-snug font-light sm:text-xl">{user.username}</p>
-        </div>
-      </div>
-
-      {user.bio && <p className="text-ink-900 mt-4 text-[15px] whitespace-pre-line">{user.bio}</p>}
-
-      <div className="mt-4 flex gap-2">
-        {isOwn ? (
-          <Link to="/settings" className="btn-secondary w-full">
-            {t.profile.edit}
-          </Link>
+    <section className="card overflow-hidden">
+      {/* The cover: the student's own banner, or the notebook look of the logo. */}
+      <div className="relative h-28 sm:h-40">
+        {user.bannerUrl ? (
+          <img src={user.bannerUrl} alt={t.profile.bannerAlt(user.displayName)} className="h-full w-full object-cover" />
         ) : (
+          <div aria-hidden="true" className="bg-brand-50 ruled-paper relative h-full w-full">
+            <span className="bg-logo-ribbon animate-ribbon absolute top-0 right-8 h-16 w-6 [clip-path:polygon(0_0,100%_0,100%_100%,50%_80%,0_100%)] sm:right-14 sm:h-24 sm:w-8" />
+          </div>
+        )}
+        {isOwn && (
           <>
             <button
               type="button"
-              onClick={onFollowToggle}
-              disabled={pending}
-              aria-pressed={isFollowing}
-              className="btn-secondary flex-1"
+              onClick={() => bannerInput.current?.click()}
+              className="press bg-surface/90 text-ink-900 hover:bg-surface absolute top-3 left-3 flex h-9 items-center gap-2 rounded-full px-3 text-xs font-semibold shadow-sm backdrop-blur"
             >
-              {isFollowing ? t.profile.unfollow : t.profile.follow}
+              <CameraIcon className="h-4 w-4" />
+              {t.profile.changeBanner}
             </button>
-            <Link to={`/messages/${user.username}`} aria-label={`${t.profile.message} ${user.displayName}`} className="btn-secondary flex-1">
-              <ChatIcon className="h-4 w-4" />
-              {t.profile.message}
-            </Link>
+            <input ref={bannerInput} type="file" accept="image/*" className="sr-only" tabIndex={-1} aria-hidden="true" onChange={pickFile("banner")} />
           </>
         )}
       </div>
 
-      <p className="text-ink-500 mt-4 flex flex-wrap items-center gap-x-1 text-sm">
-        <UserIcon className="h-4 w-4" />
-        <button type="button" onClick={() => onTab("followers")} className="hover:text-ribbon-fg">
-          <strong className="text-ink-900">{formatCount(stats.followers)}</strong> {t.profile.followersWord(stats.followers)}
-        </button>
-        <span aria-hidden="true">·</span>
-        <button type="button" onClick={() => onTab("following")} className="hover:text-ribbon-fg">
-          <strong className="text-ink-900">{formatCount(stats.following)}</strong> {t.profile.followingWord}
-        </button>
-      </p>
-
-      <ul className="border-line text-ink-700 mt-4 space-y-2 border-t pt-4 text-sm">
-        {facts.map(({ key, icon, value }) => (
-          <li key={key} className="flex items-center gap-2">
-            <span className="text-ink-500 flex w-4 shrink-0 justify-center">{icon}</span>
-            <span className="min-w-0 wrap-break-word">{value}</span>
-          </li>
-        ))}
-      </ul>
-
-      <dl className="border-line mt-4 grid grid-cols-3 gap-2 border-t pt-4 text-center">
-        {[
-          { label: t.profile.notesStat, value: formatCount(stats.posts) },
-          { label: t.profile.starsStat, value: formatCount(stats.reactions) },
-          { label: t.profile.rating, value: stats.averageRating ? stats.averageRating.toFixed(1) : t.profile.noRating },
-        ].map((item) => (
-          <div key={item.label}>
-            <dd className="text-ink-900 text-base font-semibold">{item.value}</dd>
-            <dt className="text-ink-500 text-xs">{item.label}</dt>
+      <div className="px-4 pb-5 sm:px-6">
+        <div className="relative z-10 -mt-12 flex flex-wrap items-end justify-between gap-3 sm:-mt-14">
+          <div className="relative">
+            <Avatar user={user} size="xl" className="ring-surface ring-4" />
+            {isOwn && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => avatarInput.current?.click()}
+                  aria-label={t.settings.avatarChange}
+                  className="press bg-surface border-line text-ink-700 hover:text-ink-900 absolute right-0 bottom-0 flex h-9 w-9 items-center justify-center rounded-full border shadow-sm"
+                >
+                  <CameraIcon className="h-4 w-4" />
+                </button>
+                <input ref={avatarInput} type="file" accept="image/*" className="sr-only" tabIndex={-1} aria-hidden="true" onChange={pickFile("avatar")} />
+              </>
+            )}
           </div>
-        ))}
-      </dl>
-    </aside>
+          <div className="flex gap-2">
+            {isOwn ? (
+              <Link to="/settings" className="btn-secondary rounded-full">
+                <SettingsIcon className="h-4 w-4" />
+                {t.profile.edit}
+              </Link>
+            ) : (
+              <>
+                <Link to={`/messages/${user.username}`} aria-label={`${t.profile.message} ${user.displayName}`} className="btn-secondary rounded-full">
+                  <ChatIcon className="h-4 w-4" />
+                  <span className="hidden min-[380px]:inline">{t.profile.message}</span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={onFollowToggle}
+                  disabled={pending}
+                  aria-pressed={isFollowing}
+                  className={`${isFollowing ? "btn-secondary" : "btn-primary"} min-w-28 rounded-full`}
+                >
+                  {isFollowing ? <CheckIcon className="h-4 w-4" /> : <PlusIcon className="h-4 w-4" />}
+                  {isFollowing ? t.profile.following : t.profile.follow}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+
+        <h1 className="text-ink-900 mt-3 flex items-center gap-2 text-2xl sm:text-3xl">
+          <span className="min-w-0 wrap-break-word">{user.displayName}</span>
+          {user.verified && <VerifiedBadge className="h-5 w-5" />}
+        </h1>
+        <p className="text-ink-500">@{user.username}</p>
+
+        {user.school && (
+          <Link
+            to={`/?school=${encodeURIComponent(user.school)}`}
+            className="press bg-surface-muted border-line text-ink-900 hover:bg-surface-hover mt-3 inline-flex max-w-full items-center gap-2 rounded-full border py-1 pr-3.5 pl-1 text-sm font-medium"
+          >
+            <InstitutionLogo name={user.school} domain={user.schoolDomain} className="h-7 w-7 rounded-full p-0.5" />
+            <span className="truncate">{user.school}</span>
+          </Link>
+        )}
+
+        {user.bio && <p className="text-ink-700 mt-3 max-w-2xl whitespace-pre-line">{user.bio}</p>}
+
+        <ul className="text-ink-500 mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
+          {facts.map(({ key, icon, value }) => (
+            <li key={key} className="flex items-center gap-1.5">
+              {icon}
+              {value}
+            </li>
+          ))}
+        </ul>
+
+        <dl className="mt-5 grid grid-cols-3 gap-2 sm:grid-cols-5">
+          {tiles.map((tile) => {
+            const body = (
+              <>
+                <dd className="font-display text-ink-900 text-xl font-bold">{tile.value}</dd>
+                <dt className="text-ink-500 text-xs font-medium">{tile.label}</dt>
+              </>
+            );
+            return tile.tab ? (
+              <div key={tile.label}>
+                <button
+                  type="button"
+                  onClick={() => onTab(tile.tab as Tab)}
+                  className="press bg-surface-muted hover:bg-surface-hover flex w-full flex-col-reverse items-center rounded-xl px-2 py-2.5"
+                >
+                  {body}
+                </button>
+              </div>
+            ) : (
+              <div key={tile.label} className="bg-surface-muted flex flex-col-reverse items-center rounded-xl px-2 py-2.5">
+                {body}
+              </div>
+            );
+          })}
+        </dl>
+      </div>
+    </section>
   );
 }
 
 // ---- Overview ----
 
-function PinnedNote({ post }: { post: PostView }) {
-  return (
-    <li className="card flex flex-col p-4">
-      <p className="flex items-center gap-2">
-        <FileTextIcon className="text-ink-500 h-4 w-4 shrink-0" />
-        <Link to={`/post/${post.id}`} className="text-ribbon-fg min-w-0 truncate text-sm font-semibold hover:underline">
-          {post.title}
-        </Link>
-      </p>
-      <p className="text-ink-500 mt-2 line-clamp-2 flex-1 text-xs">{post.body || t.note.noDescription}</p>
-      <p className="text-ink-500 mt-3 flex items-center gap-4 text-xs">
-        <SubjectMark subject={post.subject} />
-        {post.reactions.total > 0 && (
-          <span className="inline-flex items-center gap-1">
-            <StarIcon className="h-3.5 w-3.5" />
-            {formatCount(post.reactions.total)}
-          </span>
-        )}
-      </p>
-    </li>
-  );
-}
-
 function Overview({ posts, isOwn, name }: { posts: PostView[]; isOwn: boolean; name: string }) {
-  // The most useful notes first, as judged by stars and then discussion.
-  const pinned = [...posts]
+  // The notes others found most helpful, then the most discussed.
+  const top = [...posts]
     .sort((a, b) => b.reactions.total - a.reactions.total || b.commentCount - a.commentCount)
-    .slice(0, 6);
+    .slice(0, 4);
   return (
     <div className="space-y-8">
-      <section aria-labelledby="pinned-title">
-        <h2 id="pinned-title" className="text-ink-900 mb-2 text-base font-normal">
+      <ContributionGraph dates={posts.map((post) => post.createdAt)} />
+      <section aria-labelledby="top-notes-title">
+        <h2 id="top-notes-title" className="font-display text-ink-900 mb-3 text-lg font-bold">
           {t.profile.popular}
         </h2>
-        {pinned.length ? (
-          <ul className="grid gap-4 md:grid-cols-2">
-            {pinned.map((post) => (
-              <PinnedNote key={post.id} post={post} />
+        {top.length ? (
+          <ul className="grid gap-3 md:grid-cols-2">
+            {top.map((post) => (
+              <NoteRow key={post.id} post={post} showAuthor={false} />
             ))}
           </ul>
         ) : (
-          <div className="card text-ink-500 px-4 py-8 text-center text-sm">
+          <div className="card text-ink-500 px-4 py-10 text-center text-sm">
             {isOwn ? (
               <>
                 <p>{t.profile.emptyOwnBody}</p>
-                <Link to="/create" className="btn-primary mt-3">
+                <Link to="/create" className="btn-primary mt-4">
                   <PlusIcon className="h-4 w-4" />
                   {t.nav.newNote}
                 </Link>
@@ -243,7 +257,6 @@ function Overview({ posts, isOwn, name }: { posts: PostView[]; isOwn: boolean; n
           </div>
         )}
       </section>
-      <ContributionGraph dates={posts.map((post) => post.createdAt)} />
     </div>
   );
 }
@@ -275,7 +288,7 @@ function NotesList({ posts, showAuthor }: { posts: PostView[]; showAuthor: boole
 
   return (
     <div>
-      <div className="border-line flex flex-wrap items-center gap-2 border-b pb-4">
+      <div className="flex flex-wrap items-center gap-2">
         <label className="relative min-w-0 flex-1 basis-56">
           <span className="sr-only">{t.profile.findNote}</span>
           <SearchIcon className="text-ink-400 pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2" />
@@ -313,12 +326,12 @@ function NotesList({ posts, showAuthor }: { posts: PostView[]; showAuthor: boole
           className="btn-secondary cursor-pointer pr-2"
         >
           <option value="recent">{t.profile.sortRecent}</option>
-          <option value="stars">{t.profile.sortStars}</option>
+          <option value="stars">{t.profile.sortHelpful}</option>
           <option value="name">{t.profile.sortName}</option>
         </select>
       </div>
       {shown.length ? (
-        <ul>
+        <ul className="mt-4 space-y-3">
           {shown.map((post) => (
             <NoteRow key={post.id} post={post} showAuthor={showAuthor} />
           ))}
@@ -352,7 +365,7 @@ export default function Profile() {
   const [people, setPeople] = useState<PublicUser[] | null>(null);
   const [listError, setListError] = useState(false);
   const [pending, setPending] = useState(false);
-  const [cropping, setCropping] = useState<File | null>(null);
+  const [cropping, setCropping] = useState<{ file: File; kind: ProfileImageKind } | null>(null);
 
   const loadProfile = useCallback(async () => {
     setState({ status: "loading" });
@@ -409,11 +422,12 @@ export default function Profile() {
     }
   };
 
-  const applyAvatar = async (dataUrl: string) => {
+  const applyImage = async (dataUrl: string) => {
+    const kind = cropping?.kind ?? "avatar";
     setCropping(null);
     if (!user) return;
     try {
-      const url = await uploadProfileImage("avatar", dataUrl);
+      const url = await uploadProfileImage(kind, dataUrl);
       const next = await updateProfile({
         displayName: user.displayName,
         username: user.username,
@@ -425,8 +439,8 @@ export default function Profile() {
         grade: user.grade,
         country: user.country,
         fieldOfStudy: user.fieldOfStudy,
-        avatarUrl: url,
-        bannerUrl: user.bannerUrl,
+        avatarUrl: kind === "avatar" ? url : user.avatarUrl,
+        bannerUrl: kind === "banner" ? url : user.bannerUrl,
       });
       setUser(next);
       notify(t.settings.profileSaved);
@@ -524,44 +538,44 @@ export default function Profile() {
   }
 
   return (
-    <div>
-      {/* Tabs run across the top, as on a code host's profile page. */}
-      <nav aria-label={t.profile.tabsLabel} className="border-line bg-surface sticky top-[calc(3.5rem+env(safe-area-inset-top))] z-20 border-b">
-        <div className="container-page flex gap-1 overflow-x-auto xl:max-w-7xl lg:pl-[calc(2rem+18rem+2rem)]">
-          {tabs.map(({ id, label, Icon, count }) => {
-            const active = id === tab;
-            return (
-              <button
-                key={id}
-                type="button"
-                aria-current={active ? "page" : undefined}
-                onClick={() => setTab(id)}
-                className={`-mb-px flex h-12 shrink-0 items-center gap-2 border-b-2 px-2.5 text-sm ${
-                  active ? "border-rule text-ink-900 font-semibold" : "text-ink-700 hover:border-line border-transparent"
-                }`}
-              >
-                <Icon className="text-ink-500 h-4 w-4" />
-                {label}
-                {count !== undefined && <span className="counter">{formatCount(count)}</span>}
-              </button>
-            );
-          })}
-        </div>
+    <div className="container-page max-w-5xl space-y-5 py-6 sm:py-8">
+      <ProfileHeader
+        profile={profile}
+        isOwn={isOwn}
+        pending={pending}
+        onFollowToggle={toggleFollow}
+        onImage={(file, kind) => setCropping({ file, kind })}
+        onTab={setTab}
+      />
+
+      <nav aria-label={t.profile.tabsLabel} className="scroll-row -mx-4 px-4 sm:mx-0 sm:px-0">
+        {tabs.map(({ id, label, Icon, count }) => {
+          const active = id === tab;
+          return (
+            <button
+              key={id}
+              type="button"
+              aria-current={active ? "page" : undefined}
+              onClick={() => setTab(id)}
+              className={`press inline-flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-semibold ${
+                active ? "border-brand-600 bg-brand-600 text-white" : "border-line bg-surface text-ink-700 hover:border-ink-400"
+              }`}
+            >
+              <Icon className="h-4 w-4" />
+              {label}
+              {count !== undefined && (
+                <span className={`rounded-full px-1.5 text-xs leading-5 ${active ? "bg-white/20" : "bg-surface-hover"}`}>{formatCount(count)}</span>
+              )}
+            </button>
+          );
+        })}
       </nav>
 
-      <div className="container-page grid gap-8 py-6 lg:grid-cols-[18rem_minmax(0,1fr)] xl:max-w-7xl">
-        <Sidebar
-          profile={profile}
-          isOwn={isOwn}
-          pending={pending}
-          onFollowToggle={toggleFollow}
-          onAvatar={setCropping}
-          onTab={setTab}
-        />
-        <div className="min-w-0">{content}</div>
-      </div>
+      <div className="min-w-0">{content}</div>
 
-      {cropping && <ImageCropper file={cropping} kind="avatar" onCancel={() => setCropping(null)} onDone={applyAvatar} />}
+      {cropping && (
+        <ImageCropper file={cropping.file} kind={cropping.kind} onCancel={() => setCropping(null)} onDone={applyImage} />
+      )}
     </div>
   );
 }

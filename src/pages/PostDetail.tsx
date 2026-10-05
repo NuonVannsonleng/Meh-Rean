@@ -18,14 +18,15 @@ import {
   MoreIcon,
   ShareIcon,
   StarFilledIcon,
-  StarIcon,
+  BulbIcon,
+  ChatIcon,
   TrashIcon,
 } from "../components/Icons";
 import InstitutionLogo from "../components/InstitutionLogo";
 import LoadingState from "../components/LoadingState";
 import { AttachmentIcon, Lightbox } from "../components/PostAttachments";
 import { RatingInput } from "../components/RatingStars";
-import StarButton from "../components/StarButton";
+import HelpfulButton from "../components/HelpfulButton";
 import VerifiedBadge from "../components/VerifiedBadge";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
@@ -34,8 +35,9 @@ import { useDismiss } from "../hooks/useDismiss";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 import { t } from "../i18n/en";
 import { errorCode, errorMessage } from "../lib/errors";
-import { fileExtension, formatCount, formatDate, formatDateTime, formatFileSize, formatRelativeTime } from "../lib/format";
+import { formatCount, formatDate, formatDateTime, formatFileSize, formatRelativeTime } from "../lib/format";
 import { SUBJECT_COLORS } from "../lib/subjects";
+import { SubjectMark } from "../components/NoteRow";
 import { deletePost, getPost, ratePost, toggleSavePost } from "../services/api";
 import type { Attachment, PostView } from "../types";
 
@@ -56,7 +58,12 @@ function noteUrl(id: string): string {
 
 // ---- Files ----
 
-function FileTableRow({
+/**
+ * One file as a tile: a picture of it (or a big icon in its kind's colour),
+ * its name and size. Tapping a viewable file shows it below; the arrow
+ * downloads it.
+ */
+function FileTile({
   attachment,
   selected,
   onSelect,
@@ -68,41 +75,44 @@ function FileTableRow({
   const { url } = useAttachmentUrl(attachment);
   const previewable = PREVIEWABLE.has(attachment.kind);
   return (
-    <tr className={`border-line border-t first:border-t-0 ${selected ? "bg-ribbon-50" : "hover:bg-surface-muted"}`}>
-      <td className="w-8 py-2 pr-1 pl-4">
-        <AttachmentIcon kind={attachment.kind} className="h-6 w-6 rounded-md [&>svg]:h-3.5 [&>svg]:w-3.5" />
-      </td>
-      {/* w-full + max-w-0: the name takes the spare width and truncates. */}
-      <td className="w-full max-w-0 py-2 pr-3">
-        {previewable ? (
-          <button
-            type="button"
-            onClick={onSelect}
-            aria-pressed={selected}
-            className="text-ink-900 hover:text-ribbon-fg block max-w-full truncate text-left text-sm hover:underline"
-            title={attachment.name}
-          >
-            {attachment.name}
-          </button>
-        ) : (
-          <span className="text-ink-900 block truncate text-sm" title={attachment.name}>
-            {attachment.name}
+    <li
+      className={`card group relative overflow-hidden transition-[box-shadow,transform] hover:-translate-y-0.5 hover:shadow-md ${
+        selected ? "ring-brand-500 ring-2" : ""
+      }`}
+    >
+      <button
+        type="button"
+        onClick={previewable ? onSelect : undefined}
+        disabled={!previewable}
+        aria-pressed={previewable ? selected : undefined}
+        title={attachment.name}
+        className="block w-full text-left disabled:cursor-default"
+      >
+        <span className="bg-surface-muted flex aspect-[4/3] items-center justify-center overflow-hidden">
+          {attachment.kind === "image" && url ? (
+            <img src={url} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          ) : (
+            <AttachmentIcon kind={attachment.kind} className="h-14 w-14 rounded-2xl [&>svg]:h-7 [&>svg]:w-7" />
+          )}
+        </span>
+        <span className="block px-3 pt-2.5 pb-3">
+          <span className="text-ink-900 block truncate text-sm font-semibold">{attachment.name}</span>
+          <span className="text-ink-500 block text-xs">
+            {[t.post.kinds[attachment.kind], formatFileSize(attachment.size)].join(" · ")}
           </span>
-        )}
-      </td>
-      <td className="text-ink-500 hidden py-2 pr-3 text-sm whitespace-nowrap sm:table-cell">
-        {t.post.kinds[attachment.kind]}
-        {fileExtension(attachment.name) && ` · ${fileExtension(attachment.name)}`}
-      </td>
-      <td className="text-ink-500 py-2 pr-3 text-right text-sm whitespace-nowrap tabular-nums">{formatFileSize(attachment.size)}</td>
-      <td className="w-10 py-1.5 pr-3 text-right">
-        {url && (
-          <a href={url} download={attachment.name} aria-label={t.post.downloadAria(attachment.name)} className="icon-btn h-8 w-8">
-            <DownloadIcon className="h-4 w-4" />
-          </a>
-        )}
-      </td>
-    </tr>
+        </span>
+      </button>
+      {url && (
+        <a
+          href={url}
+          download={attachment.name}
+          aria-label={t.post.downloadAria(attachment.name)}
+          className="press bg-surface/90 text-ink-700 hover:text-ink-900 absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full shadow-sm backdrop-blur"
+        >
+          <DownloadIcon className="h-4 w-4" />
+        </a>
+      )}
+    </li>
   );
 }
 
@@ -240,9 +250,9 @@ function About({ post, onChange }: { post: PostView; onChange: (post: PostView) 
   };
 
   return (
-    <aside className="space-y-6" aria-label={t.note.about}>
-      <section>
-        <h2 className="text-ink-900 mb-3 text-base font-semibold">{t.note.about}</h2>
+    <aside className="space-y-4" aria-label={t.note.about}>
+      <section className="card p-4">
+        <h2 className="font-display text-ink-900 mb-3 text-base font-bold">{t.note.about}</h2>
         {post.tags.length > 0 && (
           <ul className="mb-4 flex flex-wrap gap-1.5">
             {post.tags.map((tag) => (
@@ -270,9 +280,7 @@ function About({ post, onChange }: { post: PostView; onChange: (post: PostView) 
               </Link>
             </AboutRow>
           )}
-          <AboutRow icon={<StarIcon className="h-4 w-4" />}>
-            <strong className="text-ink-900">{formatCount(post.reactions.total)}</strong> {t.note.starsWord(post.reactions.total)}
-          </AboutRow>
+          <AboutRow icon={<BulbIcon className="h-4 w-4" />}>{t.note.helpfulCount(post.reactions.total)}</AboutRow>
           <AboutRow icon={<CommentIcon className="h-4 w-4" />}>
             <Link to="?tab=discussion" className="hover:text-ribbon-fg">
               <strong className="text-ink-900">{formatCount(post.commentCount)}</strong> {t.note.comments(post.commentCount)}
@@ -286,8 +294,8 @@ function About({ post, onChange }: { post: PostView; onChange: (post: PostView) 
         </ul>
       </section>
 
-      <section className="border-line border-t pt-5">
-        <h2 className="text-ink-900 mb-2 text-base font-semibold">{t.note.rating}</h2>
+      <section className="card p-4">
+        <h2 className="font-display text-ink-900 mb-2 text-base font-bold">{t.note.rating}</h2>
         {average ? (
           <p className="text-ink-700 flex items-center gap-1.5 text-sm" aria-label={t.post.ratingAria(average, post.rating.count)}>
             <StarFilledIcon className="text-star h-4 w-4" />
@@ -304,19 +312,16 @@ function About({ post, onChange }: { post: PostView; onChange: (post: PostView) 
         )}
       </section>
 
-      <section className="border-line border-t pt-5">
-        <h2 className="text-ink-900 mb-3 text-base font-semibold">{t.note.uploadedBy}</h2>
-        <Link to={`/u/${post.author.username}`} className="group flex items-center gap-3">
-          <Avatar user={post.author} />
-          <span className="min-w-0">
-            <span className="text-ink-900 flex items-center gap-1 text-sm font-semibold group-hover:underline">
-              <span className="truncate">{post.author.displayName}</span>
-              {post.author.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
-            </span>
-            <span className="text-ink-500 block truncate text-xs">{post.author.username}</span>
-          </span>
-        </Link>
-      </section>
+      {!isOwner && (
+        <section className="card bg-ribbon-50 border-ribbon-100 p-4">
+          <h2 className="font-display text-ink-900 text-base font-bold">{t.note.questions}</h2>
+          <p className="text-ink-700 mt-1 text-sm">{t.note.questionsBody(post.author.displayName.split(" ")[0])}</p>
+          <Link to={`/messages/${post.author.username}`} className="btn-secondary mt-3 w-full">
+            <ChatIcon className="h-4 w-4" />
+            {t.note.messageAuthor(post.author.displayName.split(" ")[0])}
+          </Link>
+        </section>
+      )}
     </aside>
   );
 }
@@ -447,41 +452,58 @@ export default function PostDetail() {
 
   return (
     <div>
-      {/* Like a project header: owner / name, actions, then tabs. */}
-      <header className="border-line bg-surface-muted border-b pt-5">
-        <div className="container-page xl:max-w-7xl">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <h1 className="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1 text-xl leading-tight font-normal">
-              <FileTextIcon className="text-ink-500 h-5 w-5" />
-              <Link to={`/u/${post.author.username}`} className="text-ribbon-fg hover:underline">
-                {post.author.username}
-              </Link>
-              <span className="text-ink-500">/</span>
-              <span className="text-ink-900 min-w-0 font-semibold wrap-break-word">{post.title}</span>
-              <span className="border-line text-ink-500 ml-1 rounded-full border px-2 text-xs leading-5 font-medium">
-                {t.subjects[post.subject]}
+      <header className="bg-surface border-line border-b">
+        <div className="container-page pt-6 xl:max-w-7xl">
+          <p className="text-ink-500 flex flex-wrap items-center gap-2 text-xs">
+            <Link to={`/?subject=${post.subject}`} className="press">
+              <SubjectMark subject={post.subject} />
+            </Link>
+            <span>{t.levels[post.level]}</span>
+          </p>
+          <h1 className="text-ink-900 mt-3 max-w-4xl text-2xl leading-tight wrap-break-word sm:text-4xl">{post.title}</h1>
+
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+            <Link to={`/u/${post.author.username}`} className="group flex min-w-0 items-center gap-3">
+              <Avatar user={post.author} />
+              <span className="min-w-0 text-sm">
+                <span className="text-ink-900 flex items-center gap-1 font-semibold group-hover:underline">
+                  <span className="truncate">{post.author.displayName}</span>
+                  {post.author.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
+                </span>
+                <span className="text-ink-500 flex min-w-0 items-center gap-1.5">
+                  {post.author.school && (
+                    <>
+                      <InstitutionLogo name={post.author.school} domain={post.author.schoolDomain} className="h-4 w-4 rounded-sm border-0 p-0" />
+                      <span className="truncate">{post.author.school}</span>
+                      <span aria-hidden="true">·</span>
+                    </>
+                  )}
+                  <time dateTime={post.createdAt} title={formatDateTime(post.createdAt)} className="shrink-0">
+                    {formatRelativeTime(post.createdAt)}
+                  </time>
+                </span>
               </span>
-            </h1>
+            </Link>
             <div className="flex shrink-0 items-center gap-2">
+              <HelpfulButton post={post} onChange={update} />
               <button
                 type="button"
                 onClick={save}
                 disabled={saving}
                 aria-pressed={post.saved}
-                className="btn-secondary h-8 px-3"
+                className={`btn-secondary rounded-full ${post.saved ? "border-ribbon-500 text-ribbon-fg bg-ribbon-50" : ""}`}
               >
-                {post.saved ? <BookmarkFilledIcon className="text-ribbon-fg h-4 w-4" /> : <BookmarkIcon className="h-4 w-4" />}
+                {post.saved ? <BookmarkFilledIcon className="animate-ribbon h-4 w-4" /> : <BookmarkIcon className="h-4 w-4" />}
                 {post.saved ? t.post.saved : t.post.save}
               </button>
-              <StarButton post={post} onChange={update} />
-              <button type="button" onClick={share} aria-label={t.post.share} className="btn-secondary h-8 w-8 px-0">
+              <button type="button" onClick={share} aria-label={t.post.share} className="btn-secondary w-10 rounded-full px-0">
                 <ShareIcon className="h-4 w-4" />
               </button>
               {isOwner && <NoteMenu post={post} onDelete={remove} />}
             </div>
           </div>
 
-          <nav aria-label={t.note.tabsLabel} className="-mb-px mt-4 flex gap-1 overflow-x-auto">
+          <nav aria-label={t.note.tabsLabel} className="mt-6 flex gap-6 overflow-x-auto">
             {tabs.map(({ id: tabId, label, Icon, count }) => {
               const active = tab === tabId;
               return (
@@ -490,15 +512,14 @@ export default function PostDetail() {
                   type="button"
                   onClick={() => setTab(tabId)}
                   aria-current={active ? "page" : undefined}
-                  className={`flex h-11 shrink-0 items-center gap-2 border-b-2 px-3 text-sm ${
-                    active
-                      ? "border-rule text-ink-900 font-semibold"
-                      : "text-ink-700 hover:border-line border-transparent"
+                  className={`relative flex h-11 shrink-0 items-center gap-2 text-sm font-semibold ${
+                    active ? "text-accent" : "text-ink-500 hover:text-ink-900"
                   }`}
                 >
-                  <Icon className="text-ink-500 h-4 w-4" />
+                  <Icon className="h-4 w-4" />
                   {label}
-                  <span className="counter">{count}</span>
+                  <span className={`rounded-full px-2 text-xs leading-5 ${active ? "bg-brand-50" : "bg-surface-hover"}`}>{count}</span>
+                  {active && <span className="bg-brand-600 animate-fade absolute inset-x-0 bottom-0 h-[3px] rounded-t-full" />}
                 </button>
               );
             })}
@@ -506,39 +527,36 @@ export default function PostDetail() {
         </div>
       </header>
 
-      <div className="container-page grid gap-8 py-6 lg:grid-cols-[minmax(0,1fr)_18rem] xl:max-w-7xl">
+      <div className="container-page grid gap-8 py-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_19rem] xl:max-w-7xl">
         <div className="min-w-0 space-y-6">
           {tab === "files" ? (
             <>
-              <section className="card overflow-hidden" aria-label={t.note.filesTab}>
-                <div className="box-header rounded-none">
-                  <Avatar user={post.author} size="sm" className="h-6 w-6 text-[10px]" />
-                  <p className="text-ink-700 min-w-0 flex-1 truncate text-sm">
-                    <Link to={`/u/${post.author.username}`} className="text-ink-900 font-semibold hover:underline">
-                      {post.author.username}
-                    </Link>{" "}
-                    {t.note.uploaded}
-                  </p>
-                  <time dateTime={post.createdAt} title={formatDateTime(post.createdAt)} className="text-ink-500 shrink-0 text-xs">
-                    {formatRelativeTime(post.createdAt)}
-                  </time>
-                </div>
+              {post.body && (
+                <section className="card p-5 sm:p-6" aria-labelledby="readme-title">
+                  <h2 id="readme-title" className="font-display text-ink-900 mb-2 text-lg font-bold">
+                    {t.note.readme}
+                  </h2>
+                  <p className="text-ink-700 leading-relaxed whitespace-pre-line">{post.body}</p>
+                </section>
+              )}
+
+              <section aria-labelledby="files-title">
+                <h2 id="files-title" className="font-display text-ink-900 mb-3 text-lg font-bold">
+                  {t.note.files(post.attachments.length)}
+                </h2>
                 {post.attachments.length ? (
-                  <table className="w-full border-collapse">
-                    <caption className="sr-only">{t.note.files(post.attachments.length)}</caption>
-                    <tbody>
-                      {post.attachments.map((attachment) => (
-                        <FileTableRow
-                          key={attachment.id}
-                          attachment={attachment}
-                          selected={attachment.id === selected}
-                          onSelect={() => setSelected(attachment.id)}
-                        />
-                      ))}
-                    </tbody>
-                  </table>
+                  <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+                    {post.attachments.map((attachment) => (
+                      <FileTile
+                        key={attachment.id}
+                        attachment={attachment}
+                        selected={attachment.id === selected}
+                        onSelect={() => setSelected(attachment.id)}
+                      />
+                    ))}
+                  </ul>
                 ) : (
-                  <p className="text-ink-500 px-4 py-6 text-center text-sm">{t.note.noFiles}</p>
+                  <p className="card text-ink-500 px-4 py-8 text-center text-sm">{t.note.noFiles}</p>
                 )}
               </section>
 
@@ -549,23 +567,6 @@ export default function PostDetail() {
                   onZoom={() => setZoom(Math.max(0, images.findIndex((item) => item.id === current.id)))}
                 />
               )}
-
-              <section className="card overflow-hidden" aria-labelledby="readme-title">
-                <div className="box-header rounded-none">
-                  <FileTextIcon className="text-ink-500 h-4 w-4" />
-                  <h2 id="readme-title" className="text-ink-900 text-sm font-semibold">
-                    {t.note.readme}
-                  </h2>
-                </div>
-                <div className="px-4 py-5 sm:px-6">
-                  <h2 className="text-ink-900 border-line mb-3 border-b pb-2 text-2xl font-semibold">{post.title}</h2>
-                  {post.body ? (
-                    <p className="text-ink-700 leading-relaxed whitespace-pre-line">{post.body}</p>
-                  ) : (
-                    <p className="text-ink-500 text-sm italic">{t.note.noDescription}</p>
-                  )}
-                </div>
-              </section>
             </>
           ) : (
             <section aria-label={t.note.discussionTab}>
