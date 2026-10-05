@@ -9,7 +9,7 @@ interface EmptyStateProps {
 
 export default function EmptyState({ title, body, icon, action }: EmptyStateProps) {
   return (
-    <div className="border-line bg-surface animate-rise flex flex-col items-center gap-3 rounded-2xl border border-dashed px-6 py-12 text-center">
+    <div className="border-line bg-surface animate-rise flex flex-col items-center gap-3 rounded-md border border-dashed px-6 py-12 text-center">
       {icon && (
         <span className="bg-surface-hover text-ink-500 animate-pop flex h-12 w-12 items-center justify-center rounded-full">
           {icon}

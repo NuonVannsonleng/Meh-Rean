@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { t } from "../i18n/en";
 import type { PublicUser } from "../types";
 import Avatar from "./Avatar";
+import { GraduationIcon } from "./Icons";
 import VerifiedBadge from "./VerifiedBadge";
 
 interface UserListProps {
@@ -11,24 +11,28 @@ interface UserListProps {
 /** Rows of accounts, used for follower and following lists. */
 export default function UserList({ people }: UserListProps) {
   return (
-    <ul className="card animate-fade divide-line divide-y">
+    <ul className="animate-fade">
       {people.map((person) => (
-        <li key={person.id}>
-          <Link
-            to={`/u/${person.username}`}
-            className="hover:bg-surface-hover flex items-center gap-3 p-4 transition-colors"
-          >
+        <li key={person.id} className="border-line flex gap-4 border-b py-5 first:pt-0 last:border-b-0">
+          <Link to={`/u/${person.username}`} className="shrink-0 rounded-full" tabIndex={-1} aria-hidden="true">
             <Avatar user={person} size="lg" className="h-12 w-12" />
-            <span className="min-w-0 flex-1">
-              <span className="flex items-center gap-1">
-                <span className="text-ink-900 truncate font-semibold">{person.displayName}</span>
-                {person.verified && <VerifiedBadge />}
-              </span>
-              <span className="text-ink-500 block truncate text-sm">@{person.username}</span>
-              {person.school && <span className="text-ink-500 block truncate text-sm">{person.school}</span>}
-            </span>
-            <span className="text-accent shrink-0 text-sm font-semibold">{t.profile.viewProfile}</span>
           </Link>
+          <div className="min-w-0 flex-1">
+            <p className="flex flex-wrap items-baseline gap-x-2">
+              <Link to={`/u/${person.username}`} className="text-ink-900 inline-flex items-center gap-1 font-semibold hover:underline">
+                {person.displayName}
+                {person.verified && <VerifiedBadge className="h-4 w-4" />}
+              </Link>
+              <span className="text-ink-500 text-sm">{person.username}</span>
+            </p>
+            {person.bio && <p className="text-ink-500 mt-1 line-clamp-2 text-sm">{person.bio}</p>}
+            {person.school && (
+              <p className="text-ink-500 mt-1.5 flex items-center gap-1.5 text-xs">
+                <GraduationIcon className="h-3.5 w-3.5" />
+                {person.school}
+              </p>
+            )}
+          </div>
         </li>
       ))}
     </ul>

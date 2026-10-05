@@ -78,7 +78,7 @@ export default function NewMessageDialog({ onClose }: { onClose: () => void }) {
         if (event.target === event.currentTarget) dialogRef.current?.close();
       }}
     >
-      <div className="bg-surface animate-page flex h-full flex-col pt-[env(safe-area-inset-top)] sm:mx-auto sm:mt-16 sm:h-auto sm:max-h-[min(32rem,calc(100dvh-6rem))] sm:w-[min(28rem,calc(100vw-2rem))] sm:rounded-2xl sm:border sm:border-line sm:pt-0 sm:shadow-2xl [@media(max-height:500px)]:sm:mt-3 [@media(max-height:500px)]:sm:max-h-[calc(100dvh-1.5rem)]">
+      <div className="bg-surface animate-page flex h-full flex-col pt-[env(safe-area-inset-top)] sm:mx-auto sm:mt-16 sm:h-auto sm:max-h-[min(32rem,calc(100dvh-6rem))] sm:w-[min(28rem,calc(100vw-2rem))] sm:rounded-md sm:border sm:border-line sm:pt-0 sm:shadow-2xl [@media(max-height:500px)]:sm:mt-3 [@media(max-height:500px)]:sm:max-h-[calc(100dvh-1.5rem)]">
         <div className="border-line flex shrink-0 items-center gap-2 border-b px-3 py-2.5 sm:px-4">
           <SearchIcon className="text-ink-400 h-5 w-5" />
           <input
@@ -122,7 +122,7 @@ export default function NewMessageDialog({ onClose }: { onClose: () => void }) {
                   aria-selected={index === active}
                   onClick={() => open(person)}
                   onPointerMove={() => setActive(index)}
-                  className={`press flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 ${
+                  className={`press flex cursor-pointer items-center gap-3 rounded-md px-3 py-2.5 ${
                     index === active ? "bg-surface-hover" : ""
                   }`}
                 >

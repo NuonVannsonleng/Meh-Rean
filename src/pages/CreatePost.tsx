@@ -43,7 +43,7 @@ function FilePreview({ picked, onRemove }: { picked: PickedFile; onRemove: () =>
   const kind = detectAttachmentKind(file.type, file.name);
 
   return (
-    <li className="border-line bg-surface animate-pop flex items-center gap-3 rounded-xl border p-2.5">
+    <li className="border-line bg-surface animate-pop flex items-center gap-3 rounded-md border p-2.5">
       {previewUrl && kind === "image" ? (
         <img src={previewUrl} alt="" className="h-12 w-12 shrink-0 rounded-lg object-cover" />
       ) : previewUrl && kind === "video" ? (
@@ -169,32 +169,39 @@ export default function CreatePost() {
   if (!user) return null;
 
   return (
-    <div className="container-page max-w-2xl py-6 sm:py-10">
-      <header className="mb-6">
-        <h1 className="text-ink-900 text-2xl font-display font-extrabold tracking-tight sm:text-3xl">{t.create.title}</h1>
-        <p className="text-ink-500 mt-2">{t.create.subtitle}</p>
+    <div className="container-page max-w-3xl py-8">
+      <header className="border-line mb-6 border-b pb-4">
+        <h1 className="text-ink-900 text-2xl font-normal">{t.create.title}</h1>
+        <p className="text-ink-500 mt-1 text-sm">{t.create.subtitle}</p>
       </header>
 
-      <form onSubmit={submit} noValidate className="card space-y-6 p-4 sm:p-6">
-        <div className="flex items-center gap-3">
-          <Avatar user={user} />
+      <form onSubmit={submit} noValidate className="space-y-6">
+        {/* Owner / name, the way a new project is named. */}
+        <div className="flex flex-wrap items-end gap-2">
           <div>
-            <p className="text-ink-900 text-sm font-semibold">{user.displayName}</p>
-            <p className="text-ink-500 text-sm">@{user.username}</p>
+            <p className="field-label">{t.create.owner}</p>
+            <span className="btn-secondary pointer-events-none h-10 gap-2 sm:h-9">
+              <Avatar user={user} size="sm" className="h-5 w-5 text-[9px]" />
+              {user.username}
+            </span>
+          </div>
+          <span className="text-ink-500 pb-2 text-xl" aria-hidden="true">
+            /
+          </span>
+          <div className="min-w-0 flex-1 basis-64">
+            <TextField
+              label={t.create.titleLabel}
+              value={title}
+              onChange={(value) => {
+                setTitle(value);
+                if (errors.title) setErrors((current) => ({ ...current, title: undefined }));
+              }}
+              placeholder={t.create.titlePlaceholder}
+              maxLength={140}
+              error={errors.title}
+            />
           </div>
         </div>
-
-        <TextField
-          label={t.create.titleLabel}
-          value={title}
-          onChange={(value) => {
-            setTitle(value);
-            if (errors.title) setErrors((current) => ({ ...current, title: undefined }));
-          }}
-          placeholder={t.create.titlePlaceholder}
-          maxLength={140}
-          error={errors.title}
-        />
 
         <FieldShell id={bodyId} label={t.create.bodyLabel} error={errors.content}>
           <textarea
@@ -267,7 +274,7 @@ export default function CreatePost() {
             }}
             onDragLeave={() => setDragging(false)}
             onDrop={onDrop}
-            className={`flex flex-col items-center gap-2 rounded-2xl border-2 border-dashed px-4 py-8 text-center transition-colors duration-200 ${
+            className={`flex flex-col items-center gap-2 rounded-md border-2 border-dashed px-4 py-8 text-center transition-colors duration-200 ${
               dragging
                 ? "border-brand-500 bg-brand-50"
                 : errors.files || errors.content
@@ -275,9 +282,7 @@ export default function CreatePost() {
                   : "border-line bg-surface-muted/60"
             }`}
           >
-            <span className="bg-brand-50 text-accent flex h-12 w-12 items-center justify-center rounded-full">
-              <UploadIcon className="h-6 w-6" />
-            </span>
+            <UploadIcon className="text-ink-500 h-7 w-7" />
             <p className="text-ink-900 hidden text-sm font-semibold sm:block">{t.create.dropTitle}</p>
             <p className="text-ink-500 hidden text-sm sm:block">{t.create.dropOr}</p>
             <button type="button" onClick={() => inputRef.current?.click()} className="btn-secondary">
@@ -313,12 +318,13 @@ export default function CreatePost() {
         </div>
 
         {errors.submit && (
-          <p role="alert" className="bg-danger-bg text-danger-fg rounded-xl px-4 py-3 text-sm font-medium">
+          <p role="alert" className="bg-danger-bg text-danger-fg rounded-md px-4 py-3 text-sm font-medium">
             {errors.submit}
           </p>
         )}
 
         <div className="border-line flex flex-col-reverse gap-2 border-t pt-5 sm:flex-row sm:justify-end">
+          <p className="text-ink-500 mr-auto hidden self-center text-xs sm:block">{t.create.publicNote}</p>
           <button type="button" onClick={() => navigate(-1)} className="btn-ghost">
             {t.common.cancel}
           </button>

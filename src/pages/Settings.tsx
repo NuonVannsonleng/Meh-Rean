@@ -50,23 +50,15 @@ function Section({
   tone?: "default" | "danger";
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="card animate-rise scroll-mt-24 p-5 sm:p-6">
-      <div className="mb-5 flex items-start gap-3">
-        <span
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
-            tone === "danger" ? "bg-danger-bg text-danger-fg" : "bg-brand-50 text-accent"
-          }`}
-        >
-          {icon}
-        </span>
-        <div>
-          <h2 id={`${id}-title`} className="text-ink-900 text-lg font-semibold">
-            {title}
-          </h2>
-          <p className="text-ink-500 text-sm">{body}</p>
-        </div>
+    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-24">
+      <div className="border-line mb-4 flex items-center gap-2 border-b pb-2">
+        <span className={tone === "danger" ? "text-danger-fg" : "text-ink-500"}>{icon}</span>
+        <h2 id={`${id}-title`} className={`text-xl font-normal ${tone === "danger" ? "text-danger-fg" : "text-ink-900"}`}>
+          {title}
+        </h2>
       </div>
-      {children}
+      <p className="text-ink-500 mb-4 text-sm">{body}</p>
+      {tone === "danger" ? <div className="border-danger-fg/40 rounded-md border p-4">{children}</div> : children}
     </section>
   );
 }
@@ -96,7 +88,6 @@ function ProfileForm({ user }: { user: User }) {
   const [errors, setErrors] = useState<ProfileErrors>({});
   const [saving, setSaving] = useState(false);
   const [cropping, setCropping] = useState<{ file: File; kind: ProfileImageKind } | null>(null);
-  const bannerRef = useRef<HTMLInputElement>(null);
 
   const set = <K extends keyof UpdateProfileInput>(key: K, value: UpdateProfileInput[K]) => {
     setValues((current) => ({ ...current, [key]: value }));
@@ -166,44 +157,6 @@ function ProfileForm({ user }: { user: User }) {
 
   return (
     <form onSubmit={submit} noValidate className="space-y-5">
-      <fieldset>
-        <legend className="field-label">{t.settings.bannerLabel}</legend>
-        <div
-          className={`border-line relative mb-3 h-28 overflow-hidden rounded-xl border sm:h-36 ${
-            values.bannerUrl ? "" : "bg-brand-50 ruled-paper"
-          }`}
-        >
-          {values.bannerUrl && <img src={values.bannerUrl} alt="" className="h-full w-full object-cover" />}
-          <div className="absolute right-2 bottom-2 flex gap-2">
-            {values.bannerUrl && (
-              <button
-                type="button"
-                onClick={() => set("bannerUrl", null)}
-                className="btn-secondary h-9 px-3 text-xs"
-              >
-                {t.settings.avatarRemove}
-              </button>
-            )}
-            <button type="button" onClick={() => bannerRef.current?.click()} className="btn-secondary h-9 px-3 text-xs">
-              <CameraIcon className="h-4 w-4" />
-              {t.settings.bannerChange}
-            </button>
-          </div>
-        </div>
-        <p className="field-hint mb-5">{t.settings.bannerHint}</p>
-        <input
-          ref={bannerRef}
-          type="file"
-          accept="image/*"
-          className="sr-only"
-          tabIndex={-1}
-          aria-hidden="true"
-          onChange={(event) => {
-            pickImage(event.target.files?.[0], "banner");
-            event.target.value = "";
-          }}
-        />
-      </fieldset>
 
       {cropping && (
         <ImageCropper
@@ -317,7 +270,7 @@ function ProfileForm({ user }: { user: User }) {
       />
 
       {errors.submit && (
-        <p role="alert" className="bg-danger-bg text-danger-fg rounded-xl px-4 py-3 text-sm font-medium">
+        <p role="alert" className="bg-danger-bg text-danger-fg rounded-md px-4 py-3 text-sm font-medium">
           {errors.submit}
         </p>
       )}
@@ -443,7 +396,7 @@ function AccountActions() {
         </button>
       </div>
 
-      <form onSubmit={handleDelete} noValidate className="border-danger-fg/30 bg-danger-bg/40 space-y-4 rounded-xl border p-4">
+      <form onSubmit={handleDelete} noValidate className="border-danger-fg/30 bg-danger-bg/40 space-y-4 rounded-md border p-4">
         <div>
           <h3 className="text-danger-fg font-semibold">{t.settings.deleteHeading}</h3>
           <p className="text-ink-700 mt-1 text-sm">{t.settings.deleteBody}</p>
@@ -520,7 +473,7 @@ function VerificationPanel({ user }: { user: User }) {
 
   if (status === "pending") {
     return (
-      <div className="bg-surface-muted border-line rounded-xl border p-4">
+      <div className="bg-surface-muted border-line rounded-md border p-4">
         <p className="text-ink-900 text-sm font-semibold">{t.verification.statusPending}</p>
         {requestedAt && <p className="text-ink-500 mt-1 text-sm">{t.verification.requestedOn(formatDate(requestedAt))}</p>}
       </div>
@@ -530,7 +483,7 @@ function VerificationPanel({ user }: { user: User }) {
   return (
     <form onSubmit={submit} noValidate className="space-y-4">
       {status === "rejected" && (
-        <p className="text-ink-700 bg-surface-muted border-line rounded-xl border px-4 py-3 text-sm">
+        <p className="text-ink-700 bg-surface-muted border-line rounded-md border px-4 py-3 text-sm">
           {t.verification.statusRejected}
         </p>
       )}
@@ -597,7 +550,7 @@ function VerificationQueue() {
   return (
     <ul className="space-y-3">
       {requests.map((request) => (
-        <li key={request.id} className="border-line animate-fade rounded-xl border p-4">
+        <li key={request.id} className="border-line animate-fade rounded-md border p-4">
           <div className="flex items-center gap-3">
             <Avatar user={request.user} />
             <div className="min-w-0 flex-1">
@@ -649,18 +602,18 @@ export default function Settings() {
   return (
     <div className="container-page max-w-5xl py-6 sm:py-10">
       <header className="mb-6">
-        <h1 className="text-ink-900 text-2xl font-display font-extrabold tracking-tight sm:text-3xl">{t.settings.title}</h1>
+        <h1 className="text-ink-900 text-2xl font-normal">{t.settings.title}</h1>
         <p className="text-ink-500 mt-2">{t.settings.subtitle}</p>
       </header>
 
       <div className="grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10">
-        <nav aria-label={t.settings.sectionsLabel} className="hidden lg:block">
-          <ul className="sticky top-24 space-y-1">
+        <nav aria-label={t.settings.sectionsLabel}>
+          <ul className="-mx-4 flex gap-1 overflow-x-auto px-4 lg:sticky lg:top-20 lg:mx-0 lg:block lg:space-y-0.5 lg:px-0">
             {sections.map(({ id, label, Icon }) => (
               <li key={id}>
                 <a
                   href={`#${id}`}
-                  className="press text-ink-700 hover:bg-surface hover:text-ink-900 flex h-10 items-center gap-3 rounded-xl px-3 text-sm font-medium"
+                  className="press text-ink-700 hover:bg-surface-hover hover:text-ink-900 flex h-8 shrink-0 items-center gap-2.5 rounded-md px-2.5 text-sm whitespace-nowrap"
                 >
                   <Icon className="h-4 w-4" />
                   {label}
@@ -670,7 +623,7 @@ export default function Settings() {
           </ul>
         </nav>
 
-        <div className="min-w-0 space-y-6">
+        <div className="min-w-0 space-y-10">
           <Section id="profile" icon={<UserIcon />} title={t.settings.profileHeading} body={t.settings.profileBody}>
             <ProfileForm key={user.id} user={user} />
           </Section>

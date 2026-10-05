@@ -87,7 +87,7 @@ export default function Login() {
         />
 
         {errors.submit && (
-          <div role="alert" className="bg-danger-bg text-danger-fg animate-fade rounded-xl px-4 py-3 text-sm font-medium">
+          <div role="alert" className="bg-danger-bg text-danger-fg animate-fade rounded-md px-4 py-3 text-sm font-medium">
             <p>{errors.submit}</p>
             {unconfirmed && (
               <button
@@ -119,7 +119,7 @@ export default function Login() {
       </form>
 
       {isLocalMode && (
-      <div className="bg-surface-muted border-line mt-6 rounded-xl border p-4">
+      <div className="bg-surface-muted border-line mt-6 rounded-md border p-4">
         <p className="text-ink-900 text-sm font-semibold">{t.auth.demoTitle}</p>
         <p className="text-ink-500 mt-1 text-sm">{t.auth.demoBody(DEMO_ACCOUNT.email, DEMO_ACCOUNT.password)}</p>
         <button

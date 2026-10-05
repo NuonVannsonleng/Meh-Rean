@@ -99,7 +99,7 @@ export default function LogoCredits() {
           <p className="text-ink-500 mt-4 text-sm" aria-live="polite">
             {t.credits.count(filtered.length)}
           </p>
-          <ul className="divide-line border-line bg-surface mt-3 divide-y rounded-2xl border">
+          <ul className="divide-line border-line bg-surface mt-3 divide-y rounded-md border">
             {filtered.slice(0, shown).map((row) => (
               <li key={row.domain} className="flex items-start gap-3 px-4 py-3">
                 <InstitutionLogo name={row.name} domain={row.domain} className="h-10 w-10" />

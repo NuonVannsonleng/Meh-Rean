@@ -299,7 +299,7 @@ function InstitutionDialog({ initialKind, onClose, onSelect }: DialogProps) {
         if (event.target === event.currentTarget) dialogRef.current?.close();
       }}
     >
-      <div className="bg-surface animate-page flex h-full flex-col pt-[env(safe-area-inset-top)] sm:mx-auto sm:mt-16 sm:h-auto sm:max-h-[min(40rem,calc(100dvh-6rem))] sm:w-[min(36rem,calc(100vw-2rem))] sm:rounded-2xl sm:border sm:border-line sm:pt-0 sm:shadow-2xl [@media(max-height:500px)]:sm:mt-3 [@media(max-height:500px)]:sm:max-h-[calc(100dvh-1.5rem)]">
+      <div className="bg-surface animate-page flex h-full flex-col pt-[env(safe-area-inset-top)] sm:mx-auto sm:mt-16 sm:h-auto sm:max-h-[min(40rem,calc(100dvh-6rem))] sm:w-[min(36rem,calc(100vw-2rem))] sm:rounded-md sm:border sm:border-line sm:pt-0 sm:shadow-2xl [@media(max-height:500px)]:sm:mt-3 [@media(max-height:500px)]:sm:max-h-[calc(100dvh-1.5rem)]">
         <div className="border-line flex shrink-0 items-center gap-2 border-b px-3 py-2.5 sm:px-4">
           {manual ? (
             <h2 className="text-ink-900 flex-1 truncate text-base font-semibold">{t.institution.manualTitle}</h2>
@@ -356,7 +356,7 @@ function InstitutionDialog({ initialKind, onClose, onSelect }: DialogProps) {
 
         {!manual && (
           <div className="border-line flex shrink-0 flex-wrap items-center gap-2 border-b px-3 py-2 sm:px-4">
-            <div role="radiogroup" aria-label={t.institution.kindLabel} className="bg-surface-hover flex rounded-xl p-0.5">
+            <div role="radiogroup" aria-label={t.institution.kindLabel} className="bg-surface-hover flex rounded-md p-0.5">
               {(["high-school", "university"] as const).map((value) => (
                 <button
                   key={value}
@@ -386,7 +386,7 @@ function InstitutionDialog({ initialKind, onClose, onSelect }: DialogProps) {
                     if (next) rememberSchoolCountry(next.code);
                     inputRef.current?.focus();
                   }}
-                  className="border-line bg-surface text-ink-900 h-9 min-w-0 flex-1 cursor-pointer rounded-xl border px-2.5 text-sm sm:max-w-64"
+                  className="border-line bg-surface text-ink-900 h-9 min-w-0 flex-1 cursor-pointer rounded-md border px-2.5 text-sm sm:max-w-64"
                 >
                   {schoolCountries.map((item) => (
                     <option key={item.code} value={item.code}>
@@ -452,7 +452,7 @@ function InstitutionDialog({ initialKind, onClose, onSelect }: DialogProps) {
                           onPointerMove={() => setActive(index)}
                           onClick={() => pick(choice)}
                           style={{ animationDelay: `${Math.min(index, 8) * 18}ms` }}
-                          className={`animate-fade flex cursor-pointer items-center gap-3 rounded-xl px-2.5 py-2 transition-colors duration-100 ${
+                          className={`animate-fade flex cursor-pointer items-center gap-3 rounded-md px-2.5 py-2 transition-colors duration-100 ${
                             index === active ? "bg-surface-hover" : ""
                           }`}
                         >
@@ -471,7 +471,7 @@ function InstitutionDialog({ initialKind, onClose, onSelect }: DialogProps) {
                         aria-selected={active === choices.length}
                         onPointerMove={() => setActive(choices.length)}
                         onClick={() => setManual(true)}
-                        className={`flex cursor-pointer items-center gap-3 rounded-xl px-2.5 py-2 transition-colors duration-100 ${
+                        className={`flex cursor-pointer items-center gap-3 rounded-md px-2.5 py-2 transition-colors duration-100 ${
                           active === choices.length ? "bg-surface-hover" : ""
                         }`}
                       >

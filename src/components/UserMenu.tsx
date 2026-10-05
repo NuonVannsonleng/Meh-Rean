@@ -6,12 +6,12 @@ import { useDismiss } from "../hooks/useDismiss";
 import { t } from "../i18n/en";
 import type { User } from "../types";
 import Avatar from "./Avatar";
-import { BookmarkIcon, LogOutIcon, SettingsIcon, UserIcon } from "./Icons";
+import { BookmarkIcon, FileTextIcon, LogOutIcon, SettingsIcon, UserIcon } from "./Icons";
 import ThemeSwitcher from "./ThemeSwitcher";
 import VerifiedBadge from "./VerifiedBadge";
 
 const itemClass =
-  "press text-ink-700 hover:bg-surface-hover hover:text-ink-900 flex h-11 w-full items-center gap-3 rounded-lg px-3 text-sm font-medium";
+  "press text-ink-700 hover:bg-surface-hover hover:text-ink-900 flex h-9 w-full items-center gap-3 rounded-md px-2.5 text-sm";
 
 export default function UserMenu({ user }: { user: User }) {
   const [open, setOpen] = useState(false);
@@ -41,13 +41,13 @@ export default function UserMenu({ user }: { user: User }) {
         aria-label={t.nav.userMenu}
         className="press hover:ring-brand-200 rounded-full ring-2 ring-transparent"
       >
-        <Avatar user={user} size="sm" className="sm:h-9 sm:w-9" />
+        <Avatar user={user} size="sm" />
       </button>
 
       {open && (
         <div
           id={menuId}
-          className="card animate-pop absolute right-0 z-50 mt-2 w-72 origin-top-right p-2 shadow-xl"
+          className="card animate-pop absolute right-0 z-50 mt-2 w-64 origin-top-right p-1.5 shadow-lg"
         >
           <div className="flex items-center gap-3 px-3 py-2.5">
             <Avatar user={user} />
@@ -62,8 +62,12 @@ export default function UserMenu({ user }: { user: User }) {
           <div className="border-line my-1 border-t" />
           <nav aria-label={t.nav.userMenu}>
             <Link to={`/u/${user.username}`} onClick={close} className={itemClass}>
-              <UserIcon className="h-4.5 w-4.5" />
-              {t.nav.profile}
+              <UserIcon className="h-4 w-4" />
+              {t.nav.yourProfile}
+            </Link>
+            <Link to={`/u/${user.username}?tab=notes`} onClick={close} className={itemClass}>
+              <FileTextIcon className="h-4 w-4" />
+              {t.nav.yourNotes}
             </Link>
             <Link to={`/u/${user.username}?tab=saved`} onClick={close} className={itemClass}>
               <BookmarkIcon className="h-4.5 w-4.5" />

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useSearchParams } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import ChatThread from "../components/ChatThread";
 import { ChatIcon, FileIcon, ImageIcon, MicIcon, PenIcon, SmileIcon, VideoIcon } from "../components/Icons";
@@ -135,7 +135,9 @@ export default function Messages() {
   const { username } = useParams();
   const { subscribe } = useChat();
   const [state, setState] = useState<InboxState>({ status: "loading" });
-  const [composing, setComposing] = useState(false);
+  const [params, setParams] = useSearchParams();
+  // "New message" in the header's + menu lands here with ?compose=1.
+  const [composing, setComposing] = useState(params.get("compose") === "1");
   const refreshTimer = useRef<number | undefined>(undefined);
 
   const load = useCallback(() => {
@@ -209,7 +211,14 @@ export default function Messages() {
         )}
       </section>
 
-      {composing && <NewMessageDialog onClose={() => setComposing(false)} />}
+      {composing && (
+        <NewMessageDialog
+          onClose={() => {
+            setComposing(false);
+            if (params.has("compose")) setParams({}, { replace: true });
+          }}
+        />
+      )}
     </div>
   );
 }

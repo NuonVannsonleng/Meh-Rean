@@ -6,7 +6,7 @@ import Avatar from "./Avatar";
 import { GraduationIcon } from "./Icons";
 import VerifiedBadge from "./VerifiedBadge";
 
-/** Discovery column: trending tags, active schools and top contributors. */
+/** The dashboard's right column: topics, schools and people worth a look. */
 export default function TrendingSidebar() {
   const [data, setData] = useState<TrendingView | null>(null);
 
@@ -17,40 +17,36 @@ export default function TrendingSidebar() {
   }, []);
 
   if (!data) {
-    return <div className="card bg-surface-hover animate-shimmer h-72" aria-hidden="true" />;
+    return <div className="bg-surface-hover animate-shimmer h-72 rounded-md" aria-hidden="true" />;
   }
 
   return (
-    <div className="animate-fade space-y-4">
-      <section className="card p-5">
-        <h2 className="text-ink-900 mb-3 text-base font-semibold">{t.feed.trendingTags}</h2>
-        <div className="flex flex-wrap gap-1.5">
+    <div className="animate-fade space-y-6">
+      <section>
+        <h2 className="text-ink-900 mb-3 text-sm font-semibold">{t.feed.trendingTags}</h2>
+        <ul className="flex flex-wrap gap-1.5">
           {data.tags.map((item) => (
-            <Link
-              key={item.tag}
-              to={`/?q=${encodeURIComponent(item.tag)}`}
-              className="bg-surface-hover text-accent hover:bg-brand-50 press inline-flex h-8 items-center rounded-full px-3 text-sm font-medium"
-            >
-              #{item.tag}
-            </Link>
+            <li key={item.tag}>
+              <Link to={`/?q=${encodeURIComponent(item.tag)}`} className="topic">
+                {item.tag}
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
-      <section className="card p-5">
-        <h2 className="text-ink-900 mb-2 text-base font-semibold">{t.feed.topSchools}</h2>
-        <ul className="-mx-2">
+      <section className="border-line border-t pt-5">
+        <h2 className="text-ink-900 mb-2 text-sm font-semibold">{t.feed.topSchools}</h2>
+        <ul>
           {data.schools.map((school) => (
             <li key={school.name}>
               <Link
                 to={`/?school=${encodeURIComponent(school.name)}`}
-                className="hover:bg-surface-hover flex items-center gap-3 rounded-xl px-2 py-2 transition-colors"
+                className="hover:bg-surface-hover -mx-1.5 flex items-center gap-2.5 rounded-md px-1.5 py-1.5"
               >
-                <span className="bg-ribbon-50 text-ribbon-fg flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
-                  <GraduationIcon className="h-4 w-4" />
-                </span>
+                <GraduationIcon className="text-ink-500 h-4 w-4 shrink-0" />
                 <span className="min-w-0">
-                  <span className="text-ink-700 block truncate text-sm font-medium">{school.name}</span>
+                  <span className="text-ink-900 block truncate text-sm">{school.name}</span>
                   <span className="text-ink-500 block truncate text-xs">
                     {t.search.schoolMeta(school.country, school.students, school.posts)}
                   </span>
@@ -61,22 +57,19 @@ export default function TrendingSidebar() {
         </ul>
       </section>
 
-      <section className="card p-5">
-        <h2 className="text-ink-900 mb-2 text-base font-semibold">{t.feed.topContributors}</h2>
-        <ul className="-mx-2">
+      <section className="border-line border-t pt-5">
+        <h2 className="text-ink-900 mb-2 text-sm font-semibold">{t.feed.topContributors}</h2>
+        <ul>
           {data.people.map((person) => (
             <li key={person.id}>
-              <Link
-                to={`/u/${person.username}`}
-                className="hover:bg-surface-hover flex items-center gap-3 rounded-xl px-2 py-2 transition-colors"
-              >
+              <Link to={`/u/${person.username}`} className="hover:bg-surface-hover -mx-1.5 flex items-center gap-2.5 rounded-md px-1.5 py-1.5">
                 <Avatar user={person} size="sm" />
                 <span className="min-w-0">
-                  <span className="text-ink-700 flex items-center gap-1 text-sm font-medium">
+                  <span className="text-ink-900 flex items-center gap-1 text-sm font-semibold">
                     <span className="truncate">{person.displayName}</span>
                     {person.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
                   </span>
-                  <span className="text-ink-500 block truncate text-xs">@{person.username}</span>
+                  <span className="text-ink-500 block truncate text-xs">{person.username}</span>
                 </span>
               </Link>
             </li>

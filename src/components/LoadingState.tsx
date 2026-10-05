@@ -34,7 +34,7 @@ export default function LoadingState({ count = 3, variant = "post" }: LoadingSta
               <Bar className="mt-5 h-5 w-3/4" />
               <Bar className="mt-3 h-4 w-full" />
               <Bar className="mt-2 h-4 w-2/3" />
-              <Bar className="mt-5 h-40 w-full rounded-xl" />
+              <Bar className="mt-5 h-40 w-full rounded-md" />
             </>
           ) : (
             <>

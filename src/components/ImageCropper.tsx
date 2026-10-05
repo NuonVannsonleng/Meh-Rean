@@ -144,7 +144,7 @@ export default function ImageCropper({ file, kind, onCancel, onDone }: ImageCrop
       className="m-0 h-dvh max-h-none w-screen max-w-none border-0 bg-transparent p-0 backdrop:bg-ink-900/50 backdrop:backdrop-blur-[2px]"
     >
       <div className="flex h-full items-end justify-center sm:items-center">
-        <div className="bg-surface border-line w-full max-w-lg rounded-t-3xl border p-5 shadow-2xl [animation:sheet-up_320ms_var(--ease-out-soft)_both] sm:rounded-2xl sm:[animation:pop_220ms_var(--ease-spring)_both]">
+        <div className="bg-surface border-line w-full max-w-lg rounded-t-3xl border p-5 shadow-2xl [animation:sheet-up_320ms_var(--ease-out-soft)_both] sm:rounded-md sm:[animation:pop_220ms_var(--ease-spring)_both]">
           <div className="mb-4 flex items-center justify-between gap-3">
             <h2 className="text-ink-900 text-lg font-semibold">{t.cropper.title[kind]}</h2>
             <button type="button" onClick={onCancel} aria-label={t.common.close} className="icon-btn">
@@ -153,7 +153,7 @@ export default function ImageCropper({ file, kind, onCancel, onDone }: ImageCrop
           </div>
 
           {failed ? (
-            <p role="alert" className="bg-danger-bg text-danger-fg rounded-xl px-4 py-3 text-sm font-medium">
+            <p role="alert" className="bg-danger-bg text-danger-fg rounded-md px-4 py-3 text-sm font-medium">
               {t.settings.avatarError}
             </p>
           ) : (
@@ -171,7 +171,7 @@ export default function ImageCropper({ file, kind, onCancel, onDone }: ImageCrop
                 }
                 style={{ height: frame.height || undefined }}
                 className={`bg-surface-hover relative w-full cursor-grab touch-none overflow-hidden active:cursor-grabbing ${
-                  shape.round ? "mx-auto max-w-72 rounded-full" : "rounded-xl"
+                  shape.round ? "mx-auto max-w-72 rounded-full" : "rounded-md"
                 }`}
               >
                 {image && (

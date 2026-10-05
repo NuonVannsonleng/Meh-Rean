@@ -17,7 +17,7 @@ export default function ThemeSwitcher({ showLegend = false }: { showLegend?: boo
   return (
     <fieldset>
       <legend className={showLegend ? "field-label" : "sr-only"}>{t.theme.label}</legend>
-      <div className="bg-surface-muted border-line grid grid-cols-3 gap-1 rounded-xl border p-1">
+      <div className="bg-surface-muted border-line grid grid-cols-3 gap-1 rounded-md border p-1">
         {options.map(({ value, Icon }) => {
           const isActive = preference === value;
           return (

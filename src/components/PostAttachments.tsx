@@ -33,7 +33,7 @@ const kindStyles: Record<AttachmentKind, { Icon: typeof FileIcon; tone: string }
 export function AttachmentIcon({ kind, className = "h-11 w-11" }: { kind: AttachmentKind; className?: string }) {
   const { Icon, tone } = kindStyles[kind];
   return (
-    <span className={`${tone} ${className} flex shrink-0 items-center justify-center rounded-xl`}>
+    <span className={`${tone} ${className} flex shrink-0 items-center justify-center rounded-md`}>
       <Icon className="h-5 w-5" />
     </span>
   );
@@ -201,7 +201,7 @@ function ImageGrid({ images, title }: { images: Attachment[]; title: string }) {
 
   return (
     <>
-      <div className={`grid gap-1 overflow-hidden rounded-xl ${layout}`}>
+      <div className={`grid gap-1 overflow-hidden rounded-md ${layout}`}>
         {shown.map((image, index) => (
           <ImageTile
             key={image.id}
@@ -226,7 +226,7 @@ function ImageGrid({ images, title }: { images: Attachment[]; title: string }) {
 function VideoPlayer({ attachment }: { attachment: Attachment }) {
   const { url } = useAttachmentUrl(attachment);
   return (
-    <div className="aspect-video overflow-hidden rounded-xl bg-black">
+    <div className="aspect-video overflow-hidden rounded-md bg-black">
       {url && (
         <video src={url} controls preload="metadata" playsInline className="h-full w-full" aria-label={attachment.name} />
       )}
@@ -242,7 +242,7 @@ function FileRow({ attachment }: { attachment: Attachment }) {
     .join(" · ");
 
   return (
-    <div className="border-line bg-surface-muted/60 rounded-xl border p-3">
+    <div className="border-line bg-surface-muted/60 rounded-md border p-3">
       <div className="flex items-center gap-3">
         <AttachmentIcon kind={attachment.kind} />
         <div className="min-w-0 flex-1">

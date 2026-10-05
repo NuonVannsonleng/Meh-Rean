@@ -108,7 +108,7 @@ export default function Signup() {
       }
     >
       {confirmationSent && (
-        <p role="status" className="bg-success-bg text-success-fg animate-fade mb-5 rounded-xl px-4 py-3 text-sm font-medium">
+        <p role="status" className="bg-success-bg text-success-fg animate-fade mb-5 rounded-md px-4 py-3 text-sm font-medium">
           {t.apiErrors.EMAIL_CONFIRMATION}
         </p>
       )}
@@ -217,7 +217,7 @@ export default function Signup() {
         </FieldShell>
 
         {errors.submit && (
-          <p role="alert" className="bg-danger-bg text-danger-fg animate-fade rounded-xl px-4 py-3 text-sm font-medium">
+          <p role="alert" className="bg-danger-bg text-danger-fg animate-fade rounded-md px-4 py-3 text-sm font-medium">
             {errors.submit}
           </p>
         )}

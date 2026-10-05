@@ -6,7 +6,7 @@ import { formatDateTime, formatRelativeTime } from "../lib/format";
 import { addComment, deleteComment, getComments } from "../services/api";
 import type { CommentView } from "../types";
 import Avatar from "./Avatar";
-import { SendIcon, TrashIcon } from "./Icons";
+import { TrashIcon } from "./Icons";
 import VerifiedBadge from "./VerifiedBadge";
 
 interface CommentSectionProps {
@@ -16,6 +16,7 @@ interface CommentSectionProps {
   autoFocus?: boolean;
 }
 
+/** A note's discussion: a timeline of comment boxes, then a box to write in. */
 export default function CommentSection({ postId, postAuthorId, onCountChange, autoFocus }: CommentSectionProps) {
   const { user } = useAuth();
   const inputId = useId();
@@ -63,7 +64,7 @@ export default function CommentSection({ postId, postAuthorId, onCountChange, au
   };
 
   return (
-    <section aria-label={t.comments.heading} className="space-y-4">
+    <div className="space-y-4">
       {loadFailed ? (
         <p className="text-ink-500 text-sm">
           {t.error.body}{" "}
@@ -76,99 +77,100 @@ export default function CommentSection({ postId, postAuthorId, onCountChange, au
           {t.common.loading}
         </p>
       ) : comments.length === 0 ? (
-        <p className="text-ink-500 text-sm">{t.comments.empty}</p>
+        <p className="card text-ink-500 px-4 py-6 text-center text-sm">{t.comments.empty}</p>
       ) : (
-        <ul className="space-y-3">
+        // The faint line down the left joins the boxes into one timeline.
+        <ol className="relative space-y-4 before:absolute before:top-0 before:bottom-0 before:left-4.75 before:w-0.5 before:bg-line">
           {comments.map((comment) => {
             const canDelete = user && (user.id === comment.authorId || user.id === postAuthorId);
+            const byAuthor = comment.authorId === postAuthorId;
             return (
-              <li key={comment.id} className="animate-fade group flex gap-2.5">
-                <Link to={`/u/${comment.author.username}`} className="rounded-full" tabIndex={-1} aria-hidden="true">
-                  <Avatar user={comment.author} size="sm" />
+              <li key={comment.id} className="animate-fade relative flex gap-3">
+                <Link to={`/u/${comment.author.username}`} className="relative shrink-0 rounded-full" tabIndex={-1} aria-hidden="true">
+                  <Avatar user={comment.author} className="ring-surface ring-4" />
                 </Link>
-                <div className="min-w-0 flex-1">
-                  <div className="bg-surface-hover rounded-2xl rounded-tl-md px-3.5 py-2.5">
-                    <span className="flex items-center gap-1">
-                      <Link
-                        to={`/u/${comment.author.username}`}
-                        className="touch-target text-ink-900 text-sm font-semibold hover:underline"
-                      >
-                        {comment.author.displayName}
+                <article className="card min-w-0 flex-1 overflow-hidden">
+                  <header className={`box-header rounded-none py-2 text-sm ${byAuthor ? "bg-ribbon-50" : ""}`}>
+                    <p className="text-ink-500 min-w-0 flex-1 truncate">
+                      <Link to={`/u/${comment.author.username}`} className="text-ink-900 font-semibold hover:underline">
+                        {comment.author.username}
                       </Link>
-                      {comment.author.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
-                    </span>
-                    <p className="text-ink-700 text-sm whitespace-pre-line">{comment.body}</p>
-                  </div>
-                  <div className="text-ink-500 mt-1 flex items-center gap-3 px-2 text-xs">
-                    <time dateTime={comment.createdAt} title={formatDateTime(comment.createdAt)}>
-                      {formatRelativeTime(comment.createdAt)}
-                    </time>
+                      {comment.author.verified && <VerifiedBadge className="ml-1 inline h-3.5 w-3.5 align-[-2px]" />}{" "}
+                      {t.comments.commented}{" "}
+                      <time dateTime={comment.createdAt} title={formatDateTime(comment.createdAt)}>
+                        {formatRelativeTime(comment.createdAt)}
+                      </time>
+                    </p>
+                    {byAuthor && (
+                      <span className="border-line text-ink-500 rounded-full border px-2 text-xs leading-5 font-medium">
+                        {t.comments.author}
+                      </span>
+                    )}
                     {canDelete && (
                       <button
                         type="button"
                         onClick={() => remove(comment.id)}
                         aria-label={t.comments.delete}
-                        className="touch-target hover:text-danger-fg inline-flex h-6 w-6 items-center justify-center rounded-full font-medium"
+                        className="icon-btn hover:text-danger-fg h-7 w-7"
                       >
                         <TrashIcon className="h-3.5 w-3.5" />
                       </button>
                     )}
-                  </div>
-                </div>
+                  </header>
+                  <p className="text-ink-900 px-4 py-3 text-sm leading-relaxed whitespace-pre-line wrap-anywhere">
+                    {comment.body}
+                  </p>
+                </article>
               </li>
             );
           })}
-        </ul>
+        </ol>
       )}
 
       {user ? (
-        <form onSubmit={submit} className="flex items-start gap-2.5">
-          <Avatar user={user} size="sm" className="mt-1.5" />
-          <div className="min-w-0 flex-1">
-            <label htmlFor={inputId} className="sr-only">
+        <form onSubmit={submit} className="border-line flex gap-3 border-t pt-4">
+          <Avatar user={user} className="hidden sm:flex" />
+          <div className="card min-w-0 flex-1 p-2">
+            <label htmlFor={inputId} className="text-ink-900 block px-1 pb-1.5 text-sm font-semibold">
               {t.comments.label}
             </label>
-            <div className="relative">
-              <textarea
-                id={inputId}
-                value={draft}
-                onChange={(event) => setDraft(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" && !event.shiftKey) {
-                    event.preventDefault();
-                    event.currentTarget.form?.requestSubmit();
-                  }
-                }}
-                placeholder={t.comments.placeholder}
-                rows={1}
-                maxLength={1000}
-                autoFocus={autoFocus}
-                className="input field-sizing-content h-auto min-h-11 resize-none rounded-2xl py-2.5 pr-12"
-              />
-              <button
-                type="submit"
-                disabled={!draft.trim() || posting}
-                aria-label={posting ? t.comments.posting : t.comments.submit}
-                className="text-accent hover:bg-brand-50 press absolute right-1.5 bottom-1.5 flex h-8 w-8 items-center justify-center rounded-full disabled:opacity-40"
-              >
-                <SendIcon className="h-4 w-4" />
-              </button>
-            </div>
+            <textarea
+              id={inputId}
+              value={draft}
+              onChange={(event) => setDraft(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+                  event.preventDefault();
+                  event.currentTarget.form?.requestSubmit();
+                }
+              }}
+              placeholder={t.comments.placeholder}
+              rows={4}
+              maxLength={1000}
+              autoFocus={autoFocus}
+              className="input bg-surface-muted h-auto min-h-24 resize-y py-2"
+            />
             {error && (
-              <p role="alert" className="field-error">
+              <p role="alert" className="field-error px-1">
                 {error}
               </p>
             )}
+            <div className="mt-2 flex items-center justify-between gap-3">
+              <p className="text-ink-500 hidden px-1 text-xs sm:block">{t.comments.hint}</p>
+              <button type="submit" disabled={!draft.trim() || posting} className="btn-primary ml-auto">
+                {posting ? t.comments.posting : t.comments.submit}
+              </button>
+            </div>
           </div>
         </form>
       ) : (
-        <p className="text-ink-500 text-sm">
-          <Link to={`/login?next=${encodeURIComponent(`/post/${postId}`)}`} className="link">
+        <p className="card text-ink-500 px-4 py-4 text-center text-sm">
+          <Link to={`/login?next=${encodeURIComponent(`/post/${postId}?tab=discussion`)}`} className="link">
             {t.nav.signIn}
           </Link>{" "}
           {t.comments.signInPrompt}
         </p>
       )}
-    </section>
+    </div>
   );
 }
