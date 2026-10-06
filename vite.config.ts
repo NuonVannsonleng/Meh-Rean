@@ -4,6 +4,9 @@ import tailwindcss from "@tailwindcss/vite";
 
 /** Server-only settings for api/ functions; never exposed to the browser. */
 const SERVER_ENV = [
+  "GEMINI_API_KEY",
+  "BACII_GEMINI_MODEL",
+  "GEMINI_BASE_URL",
   "ANTHROPIC_API_KEY",
   "YOUTUBE_API_KEY",
   "BACII_AI_MODEL",

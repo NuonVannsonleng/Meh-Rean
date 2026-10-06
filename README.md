@@ -77,16 +77,17 @@ security rules and storage bucket are in
 
 ## BacII video finder
 
-`/bacii/videos` reads an exercise with Claude and searches YouTube from a
-Vercel Function ([`api/bacii-videos.ts`](api/bacii-videos.ts)), so the keys
-never reach the browser. To turn it on, add these in Vercel → Project →
-Settings → Environment Variables, then redeploy:
+`/bacii/videos` reads an exercise with AI and searches YouTube from a Vercel
+Function ([`api/bacii-videos.ts`](api/bacii-videos.ts)), so the keys never
+reach the browser. To turn it on, add these in Vercel → Project → Settings →
+Environment Variables, then redeploy:
 
 | Variable | Where to get it |
 | --- | --- |
-| `ANTHROPIC_API_KEY` | [console.anthropic.com](https://console.anthropic.com) → API keys |
+| `GEMINI_API_KEY` | [aistudio.google.com](https://aistudio.google.com) → Get API key (free tier) |
 | `YOUTUBE_API_KEY` | Google Cloud console → enable **YouTube Data API v3** → Credentials → API key |
-| `BACII_AI_MODEL` (optional) | Defaults to `claude-opus-5-5`; `claude-sonnet-5-5` costs less |
+| `ANTHROPIC_API_KEY` (optional) | Use Claude instead of Gemini; when set, it is used |
+| `BACII_GEMINI_MODEL` (optional) | Defaults to `gemini-flash-latest` |
 | `BACII_DAILY_LIMIT` (optional) | Lookups per student per day, default 20 |
 
 Re-run [`supabase/schema.sql`](supabase/schema.sql) as well: it adds the table

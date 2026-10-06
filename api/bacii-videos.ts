@@ -1,15 +1,17 @@
 /**
  * POST /api/bacii-videos — "Stuck on an exercise?" for BacII (Grade 12) students.
  *
- * Takes an exercise as a photo and/or text, has Claude read it (subject, topic,
- * which BacII paper it is from if it can tell), searches YouTube for teaching
- * videos in Khmer and English, then has Claude rank them so a video that works
- * the very same exercise comes first.
+ * Takes an exercise as a photo and/or text, has an AI model read it (subject,
+ * topic, which BacII paper it is from if it can tell), searches YouTube for
+ * teaching videos in Khmer and English, then has the model rank them so a video
+ * that works the very same exercise comes first.
  *
  * Runs as a Vercel Function, so the keys stay on the server. Environment:
- *   ANTHROPIC_API_KEY    required, from console.anthropic.com
+ *   GEMINI_API_KEY       Google Gemini, from aistudio.google.com (has a free tier)
+ *   ANTHROPIC_API_KEY    or Claude, from console.anthropic.com; used when set
  *   YOUTUBE_API_KEY      required, YouTube Data API v3 key from Google Cloud
- *   BACII_AI_MODEL       optional, default claude-opus-5-5
+ *   BACII_GEMINI_MODEL   optional, default gemini-flash-latest
+ *   BACII_AI_MODEL       optional Claude model, default claude-opus-5-5
  *   BACII_DAILY_LIMIT    optional, lookups per student per day, default 20
  *   VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY (or _ANON_KEY), which
  *   the app already has: used to check who is asking and to count lookups.
@@ -115,7 +117,7 @@ async function takeLookup(token: string, limit: number): Promise<"ok" | "limit" 
   return "ok";
 }
 
-// --------------------------------------------------------------- Claude --
+// ------------------------------------------------------------- AI models --
 
 type ContentBlock =
   | { type: "text"; text: string }
@@ -146,6 +148,70 @@ async function askClaude<T>(system: string, content: ContentBlock[], tool: { nam
   if (!call?.input) throw new Error("Claude did not answer with the tool");
   return call.input as T;
 }
+
+// --------------------------------------------------------------- Gemini --
+
+type JsonSchema = {
+  type?: string | string[];
+  properties?: Record<string, JsonSchema>;
+  items?: JsonSchema;
+  enum?: string[];
+  required?: string[];
+  minItems?: number;
+  maxItems?: number;
+};
+
+/** The tools' JSON Schema in Gemini's dialect: upper-case types, `nullable` for null. */
+function geminiSchema(schema: JsonSchema): Record<string, unknown> {
+  const types = Array.isArray(schema.type) ? schema.type : schema.type ? [schema.type] : [];
+  const type = types.find((name) => name !== "null");
+  const out: Record<string, unknown> = {};
+  if (type) out.type = type.toUpperCase();
+  if (types.includes("null")) out.nullable = true;
+  if (schema.enum) out.enum = schema.enum;
+  if (schema.properties) {
+    out.properties = Object.fromEntries(Object.entries(schema.properties).map(([key, value]) => [key, geminiSchema(value)]));
+  }
+  if (schema.items) out.items = geminiSchema(schema.items);
+  if (schema.required) out.required = schema.required;
+  if (schema.minItems !== undefined) out.minItems = schema.minItems;
+  if (schema.maxItems !== undefined) out.maxItems = schema.maxItems;
+  return out;
+}
+
+/** One Gemini call answering in the tool's shape as JSON; returns that object. */
+async function askGemini<T>(system: string, content: ContentBlock[], tool: { name: string; description: string; input_schema: object }): Promise<T> {
+  const base = (env("GEMINI_BASE_URL") || "https://generativelanguage.googleapis.com").replace(/\/$/, "");
+  const model = env("BACII_GEMINI_MODEL") || "gemini-flash-latest";
+  const parts = content.map((block) =>
+    block.type === "image"
+      ? { inline_data: { mime_type: block.source.media_type, data: block.source.data } }
+      : { text: block.text },
+  );
+  const response = await fetch(`${base}/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+    method: "POST",
+    // The key goes in a header, never the URL, so it stays out of request logs.
+    headers: { "Content-Type": "application/json", "x-goog-api-key": env("GEMINI_API_KEY") },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: `${system}\n\nAnswer with JSON only: ${tool.description}` }] },
+      contents: [{ role: "user", parts }],
+      generationConfig: {
+        responseMimeType: "application/json",
+        responseSchema: geminiSchema(tool.input_schema as JsonSchema),
+        temperature: 0.2,
+      },
+    }),
+  });
+  if (!response.ok) throw new Error(`Gemini ${response.status}: ${(await response.text()).slice(0, 300)}`);
+  const result = (await response.json()) as { candidates?: { content?: { parts?: { text?: string }[] } }[] };
+  const text = result.candidates?.[0]?.content?.parts?.map((part) => part.text ?? "").join("") ?? "";
+  if (!text) throw new Error("Gemini returned no answer");
+  return JSON.parse(text) as T;
+}
+
+/** Claude when its key is set, otherwise Gemini (which has a free tier). */
+const askAI = <T>(system: string, content: ContentBlock[], tool: { name: string; description: string; input_schema: object }) =>
+  env("ANTHROPIC_API_KEY") ? askClaude<T>(system, content, tool) : askGemini<T>(system, content, tool);
 
 const READ_SYSTEM = `You help Cambodian Grade 12 students revise for the BacII (បាក់ឌុប), the national upper-secondary exam.
 A student is stuck on an exercise and wants a YouTube video that teaches it. Read the exercise (it may be in Khmer, English or French, typed or photographed, possibly handwritten) and report it with the tool.
@@ -263,7 +329,7 @@ interface Body {
 export async function POST(request: Request): Promise<Response> {
   // Names only, never values: tells the site owner which setting to add.
   const missing = [
-    !env("ANTHROPIC_API_KEY") && "ANTHROPIC_API_KEY",
+    !env("ANTHROPIC_API_KEY") && !env("GEMINI_API_KEY") && "GEMINI_API_KEY",
     !env("YOUTUBE_API_KEY") && "YOUTUBE_API_KEY",
     !supabaseUrl() && "VITE_SUPABASE_URL",
     !supabaseKey() && "VITE_SUPABASE_PUBLISHABLE_KEY",
@@ -322,7 +388,7 @@ export async function POST(request: Request): Promise<Response> {
         text ? `The exercise, as the student typed it:\n${text}` : "The exercise is in the photo.",
       ].join("\n\n"),
     });
-    reading = await askClaude<ExerciseReading>(READ_SYSTEM, content, READ_TOOL);
+    reading = await askAI<ExerciseReading>(READ_SYSTEM, content, READ_TOOL);
   } catch (error) {
     console.error(error);
     return fail(502, "UPSTREAM", "Could not read the exercise right now. Try again.");
@@ -348,7 +414,7 @@ export async function POST(request: Request): Promise<Response> {
   let videos: (Candidate & { match: Match; reason: string })[] = candidates.map((video) => ({ ...video, match: "related", reason: "" }));
   if (candidates.length) {
     try {
-      const { ranked } = await askClaude<{ ranked: { id: string; match: string; reason: string }[] }>(
+      const { ranked } = await askAI<{ ranked: { id: string; match: string; reason: string }[] }>(
         RANK_SYSTEM,
         [
           {
