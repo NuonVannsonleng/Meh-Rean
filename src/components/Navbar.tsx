@@ -4,7 +4,7 @@ import { useChat } from "../context/ChatContext";
 import { t } from "../i18n/en";
 import Avatar from "./Avatar";
 import GlobalSearch from "./GlobalSearch";
-import { BookmarkIcon, ChatIcon, HomeIcon, PlusIcon, UserIcon } from "./Icons";
+import { BookmarkIcon, ChatIcon, GraduationIcon, HomeIcon, PlusIcon, UserIcon } from "./Icons";
 import Logo from "./Logo";
 import UserMenu from "./UserMenu";
 
@@ -49,35 +49,43 @@ export default function Navbar() {
             <Logo />
           </Link>
 
-          {user && (
-            <nav aria-label={t.nav.label} className="ml-4 hidden md:block">
-              <ul className="flex items-center gap-1">
-                <li>
-                  <NavLink to="/" end className={desktopLink}>
-                    <HomeIcon className="h-4.5 w-4.5" />
-                    {t.nav.home}
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to={`/u/${user.username}?tab=saved`} className={() => desktopLink({ isActive: onSaved })}>
-                    <BookmarkIcon className="h-4.5 w-4.5" />
-                    {t.nav.saved}
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/messages" aria-label={messagesLabel} className={desktopLink}>
-                    <ChatIcon className="h-4.5 w-4.5" />
-                    {t.nav.messages}
-                    {unread > 0 && (
-                      <span aria-hidden="true" className="bg-brand-600 rounded-full px-1.5 text-xs leading-5 font-bold text-white">
-                        {unread > 99 ? "99+" : unread}
-                      </span>
-                    )}
-                  </NavLink>
-                </li>
-              </ul>
-            </nav>
-          )}
+          <nav aria-label={t.nav.label} className="ml-4 hidden md:block">
+            <ul className="flex items-center gap-1">
+              <li>
+                <NavLink to="/" end className={desktopLink}>
+                  <HomeIcon className="h-4.5 w-4.5" />
+                  {t.nav.home}
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/bacii" className={desktopLink}>
+                  <GraduationIcon className="h-4.5 w-4.5" />
+                  {t.nav.bacii}
+                </NavLink>
+              </li>
+              {user && (
+                <>
+                  <li>
+                    <NavLink to={`/u/${user.username}?tab=saved`} className={() => desktopLink({ isActive: onSaved })}>
+                      <BookmarkIcon className="h-4.5 w-4.5" />
+                      {t.nav.saved}
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/messages" aria-label={messagesLabel} className={desktopLink}>
+                      <ChatIcon className="h-4.5 w-4.5" />
+                      {t.nav.messages}
+                      {unread > 0 && (
+                        <span aria-hidden="true" className="bg-brand-600 rounded-full px-1.5 text-xs leading-5 font-bold text-white">
+                          {unread > 99 ? "99+" : unread}
+                        </span>
+                      )}
+                    </NavLink>
+                  </li>
+                </>
+              )}
+            </ul>
+          </nav>
 
           <div className="ml-auto flex items-center gap-2">
             <GlobalSearch />
@@ -122,6 +130,12 @@ export default function Navbar() {
             <NavLink to="/" end className={tabLink}>
               <HomeIcon />
               {t.nav.home}
+            </NavLink>
+          </li>
+          <li className="flex flex-1">
+            <NavLink to="/bacii" className={tabLink}>
+              <GraduationIcon />
+              {t.nav.bacii}
             </NavLink>
           </li>
           {user && (

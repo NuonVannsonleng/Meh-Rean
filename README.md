@@ -19,6 +19,7 @@
 - **Brand theme from the logo:** book-cover green, bookmark teal, cream notebook pages, in light, dark and system modes with no flash on load.
 - **Custom reaction icons** (Like, Love, Insightful, Helpful, Wow) with a burst animation, plus bookmark-drop, star-pop, staggered feed and page transitions. All motion respects reduced-motion settings.
 - **Works on every screen:** tested from 320px phones through landscape phones and tablets up to 1920px desktops. Phones get a bottom tab bar and bottom sheets; wide screens get a three-column layout. Safe areas for notched phones, 44px tap targets, and no iOS zoom on input focus.
+- **BacII (Grade 12):** a section for students preparing for Cambodia's national exam. Its first option, *Find a video for an exercise*, reads a photo or typed exercise with AI and finds YouTube lessons that teach it, with videos of the very same exercise first.
 - **Installable:** add it to your home screen on iOS or Android and it opens full-screen like an app, using the Meh Rean icon.
 
 ## Tech stack
@@ -73,6 +74,28 @@ backend.
 Step-by-step guide: **[SUPABASE.md](SUPABASE.md)**. The database schema,
 security rules and storage bucket are in
 [`supabase/schema.sql`](supabase/schema.sql).
+
+## BacII video finder
+
+`/bacii/videos` reads an exercise with Claude and searches YouTube from a
+Vercel Function ([`api/bacii-videos.ts`](api/bacii-videos.ts)), so the keys
+never reach the browser. To turn it on, add these in Vercel → Project →
+Settings → Environment Variables, then redeploy:
+
+| Variable | Where to get it |
+| --- | --- |
+| `ANTHROPIC_API_KEY` | [console.anthropic.com](https://console.anthropic.com) → API keys |
+| `YOUTUBE_API_KEY` | Google Cloud console → enable **YouTube Data API v3** → Credentials → API key |
+| `BACII_AI_MODEL` (optional) | Defaults to `claude-opus-5-5`; `claude-sonnet-5-5` costs less |
+| `BACII_DAILY_LIMIT` (optional) | Lookups per student per day, default 20 |
+
+Re-run [`supabase/schema.sql`](supabase/schema.sql) as well: it adds the table
+that counts each student's lookups. Only signed-in students can use it. Each
+lookup uses two YouTube searches (200 of YouTube's free 10,000 daily quota
+units, so about 50 lookups a day) until you ask Google for more quota. Without
+the keys, and in the browser-only preview, the page offers ready-made YouTube
+searches instead. For `npm run dev`, put the two keys in `.env.local`
+(without a `VITE_` prefix, so they stay on the server).
 
 ## Current limitations
 

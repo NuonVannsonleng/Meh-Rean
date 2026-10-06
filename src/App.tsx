@@ -3,6 +3,8 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import RequireAuth from "./components/RequireAuth";
 import { t } from "./i18n/en";
+import Bacii from "./pages/Bacii";
+import BaciiVideos from "./pages/BaciiVideos";
 import CreatePost from "./pages/CreatePost";
 import Home from "./pages/Home";
 import LogoCredits from "./pages/LogoCredits";
@@ -54,6 +56,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/credits/logos" element={<LogoCredits />} />
+          <Route path="/bacii" element={<Bacii />} />
+          <Route path="/bacii/videos" element={<BaciiVideos />} />
           <Route
             path="/create"
             element={

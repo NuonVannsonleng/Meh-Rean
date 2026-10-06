@@ -987,3 +987,28 @@ do $$ begin
     $policy$;
   end if;
 end $$;
+
+-- ---------------------------------------------------------------- BacII --
+
+-- One row per "find videos for this exercise" lookup, so /api/bacii-videos
+-- can hold each student to a daily limit (it spends AI and YouTube quota).
+-- The function counts and inserts with the student's own session; a student
+-- can add and see only their own rows, and cannot delete or change them, so
+-- the count cannot be reset. created_at is set by the database.
+create table if not exists public.bacii_video_lookups (
+  id bigint generated always as identity primary key,
+  user_id uuid not null default auth.uid() references public.profiles on delete cascade,
+  created_at timestamptz not null default now()
+);
+create index if not exists bacii_video_lookups_user_time on public.bacii_video_lookups (user_id, created_at desc);
+alter table public.bacii_video_lookups enable row level security;
+revoke all on public.bacii_video_lookups from anon;
+revoke update, delete, truncate on public.bacii_video_lookups from authenticated;
+grant select, insert on public.bacii_video_lookups to authenticated;
+
+drop policy if exists "see own lookups" on public.bacii_video_lookups;
+create policy "see own lookups" on public.bacii_video_lookups for select to authenticated
+  using (user_id = auth.uid());
+drop policy if exists "add own lookups" on public.bacii_video_lookups;
+create policy "add own lookups" on public.bacii_video_lookups for insert to authenticated
+  with check (user_id = auth.uid() and created_at > now() - interval '1 minute');
