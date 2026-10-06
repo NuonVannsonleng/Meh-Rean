@@ -75,7 +75,15 @@ function json(status: number, body: unknown): Response {
   });
 }
 
-const fail = (status: number, code: string, message: string) => json(status, { error: { code, message } });
+const fail = (status: number, code: string, message: string, detail?: string) =>
+  json(status, { error: { code, message, ...(detail ? { detail } : {}) } });
+
+/**
+ * What an upstream service said went wrong, for the site owner to act on (an
+ * invalid key, a model not on this plan, quota used up). Keys travel in headers
+ * and are never part of these messages.
+ */
+const upstreamDetail = (error: unknown) => String(error instanceof Error ? error.message : error).slice(0, 400);
 
 // ------------------------------------------------------------- Supabase --
 
@@ -182,32 +190,66 @@ function geminiSchema(schema: JsonSchema): Record<string, unknown> {
 /** One Gemini call answering in the tool's shape as JSON; returns that object. */
 async function askGemini<T>(system: string, content: ContentBlock[], tool: { name: string; description: string; input_schema: object }): Promise<T> {
   const base = (env("GEMINI_BASE_URL") || "https://generativelanguage.googleapis.com").replace(/\/$/, "");
-  const model = env("BACII_GEMINI_MODEL") || "gemini-flash-latest";
+  const chosen = env("BACII_GEMINI_MODEL") || "gemini-flash-latest";
   const parts = content.map((block) =>
     block.type === "image"
       ? { inline_data: { mime_type: block.source.media_type, data: block.source.data } }
       : { text: block.text },
   );
-  const response = await fetch(`${base}/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
-    method: "POST",
-    // The key goes in a header, never the URL, so it stays out of request logs.
-    headers: { "Content-Type": "application/json", "x-goog-api-key": env("GEMINI_API_KEY") },
-    body: JSON.stringify({
-      systemInstruction: { parts: [{ text: `${system}\n\nAnswer with JSON only: ${tool.description}` }] },
-      contents: [{ role: "user", parts }],
-      generationConfig: {
-        responseMimeType: "application/json",
-        responseSchema: geminiSchema(tool.input_schema as JsonSchema),
-        temperature: 0.2,
-      },
-    }),
-  });
+
+  const call = (model: string, withSchema: boolean) =>
+    fetch(`${base}/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+      method: "POST",
+      // The key goes in a header, never the URL, so it stays out of request logs.
+      headers: { "Content-Type": "application/json", "x-goog-api-key": env("GEMINI_API_KEY") },
+      body: JSON.stringify({
+        systemInstruction: {
+          parts: [
+            {
+              text: withSchema
+                ? `${system}\n\nAnswer with JSON only: ${tool.description}`
+                : `${system}\n\nAnswer with one JSON object only, no other text, matching this JSON Schema: ${JSON.stringify(tool.input_schema)}`,
+            },
+          ],
+        },
+        contents: [{ role: "user", parts }],
+        generationConfig: {
+          responseMimeType: "application/json",
+          ...(withSchema ? { responseSchema: geminiSchema(tool.input_schema as JsonSchema) } : {}),
+          temperature: 0.2,
+        },
+      }),
+    });
+
+  let model = chosen;
+  let response = await call(model, true);
+  // An alias the key cannot use: fall back to a model every key has.
+  if (response.status === 404 && model !== GEMINI_FALLBACK_MODEL) {
+    model = GEMINI_FALLBACK_MODEL;
+    response = await call(model, true);
+  }
+  // A schema this API version does not accept: describe it in words instead.
+  if (response.status === 400) {
+    const reason = await response.clone().text();
+    if (/schema|Invalid JSON payload|Unknown name/i.test(reason)) response = await call(model, false);
+  }
   if (!response.ok) throw new Error(`Gemini ${response.status}: ${(await response.text()).slice(0, 300)}`);
-  const result = (await response.json()) as { candidates?: { content?: { parts?: { text?: string }[] } }[] };
-  const text = result.candidates?.[0]?.content?.parts?.map((part) => part.text ?? "").join("") ?? "";
-  if (!text) throw new Error("Gemini returned no answer");
-  return JSON.parse(text) as T;
+
+  const result = (await response.json()) as {
+    candidates?: { content?: { parts?: { text?: string; thought?: boolean }[] }; finishReason?: string }[];
+    promptFeedback?: { blockReason?: string };
+  };
+  const candidate = result.candidates?.[0];
+  const text = candidate?.content?.parts?.filter((part) => !part.thought).map((part) => part.text ?? "").join("") ?? "";
+  if (!text) throw new Error(`Gemini returned no answer (${result.promptFeedback?.blockReason ?? candidate?.finishReason ?? "empty"})`);
+  // Without a schema a model may still wrap the JSON in a code fence.
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  return JSON.parse(start >= 0 && end > start ? text.slice(start, end + 1) : text) as T;
 }
+
+/** A Gemini model available to every API key, free tier included. */
+const GEMINI_FALLBACK_MODEL = "gemini-2.5-flash";
 
 /** Claude when its key is set, otherwise Gemini (which has a free tier). */
 const askAI = <T>(system: string, content: ContentBlock[], tool: { name: string; description: string; input_schema: object }) =>
@@ -373,7 +415,7 @@ export async function POST(request: Request): Promise<Response> {
     if (taken === "setup") return fail(503, "NOT_CONFIGURED", "Video search needs the latest supabase/schema.sql.");
   } catch (error) {
     console.error(error);
-    return fail(502, "UPSTREAM", "Could not check your daily lookups. Try again.");
+    return fail(502, "UPSTREAM", "Could not check your daily lookups. Try again.", upstreamDetail(error));
   }
 
   // 1. Read the exercise.
@@ -391,7 +433,7 @@ export async function POST(request: Request): Promise<Response> {
     reading = await askAI<ExerciseReading>(READ_SYSTEM, content, READ_TOOL);
   } catch (error) {
     console.error(error);
-    return fail(502, "UPSTREAM", "Could not read the exercise right now. Try again.");
+    return fail(502, "UPSTREAM", "Could not read the exercise right now. Try again.", upstreamDetail(error));
   }
   if (!reading.is_exercise) {
     return fail(422, "NOT_AN_EXERCISE", "That does not look like an exercise. Try a clearer photo, or type it in.");
@@ -407,7 +449,7 @@ export async function POST(request: Request): Promise<Response> {
     candidates = results.flat().filter((video) => !seen.has(video.id) && seen.add(video.id));
   } catch (error) {
     console.error(error);
-    return fail(502, "UPSTREAM", "Could not search YouTube right now. Try again.");
+    return fail(502, "UPSTREAM", "Could not search YouTube right now. Try again.", upstreamDetail(error));
   }
 
   // 3. Rank them against the exercise; if that fails, keep YouTube's order.

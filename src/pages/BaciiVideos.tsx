@@ -431,9 +431,12 @@ export default function BaciiVideos() {
             <Fallback text={text} subject={subject} notReady />
           ) : (
             <div className="space-y-4">
-              <p role="alert" className="bg-danger-bg text-danger-fg rounded-md px-4 py-3 text-sm font-medium">
-                {state.error.message}
-              </p>
+              <div role="alert" className="bg-danger-bg text-danger-fg rounded-md px-4 py-3 text-sm font-medium">
+                <p>{state.error.message}</p>
+                {state.error.detail && (
+                  <p className="mt-1 font-mono text-xs font-normal break-words opacity-80">{state.error.detail}</p>
+                )}
+              </div>
               {state.error.code !== "UNAUTHORIZED" && <Fallback text={text} subject={subject} notReady={false} />}
             </div>
           ))}

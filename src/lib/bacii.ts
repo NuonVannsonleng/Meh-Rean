@@ -59,9 +59,12 @@ export type LookupErrorCode =
 
 export class LookupError extends Error {
   readonly code: LookupErrorCode;
-  constructor(code: LookupErrorCode, message: string) {
+  /** The upstream service's own reason, when the server passed one on. */
+  readonly detail: string | null;
+  constructor(code: LookupErrorCode, message: string, detail: string | null = null) {
     super(message);
     this.code = code;
+    this.detail = detail;
   }
 }
 
@@ -119,12 +122,16 @@ export async function findExerciseVideos(input: {
   }
   const body = (await response.json().catch(() => null)) as
     | (VideoLookup & { error?: undefined })
-    | { error?: { code: LookupErrorCode; message: string } }
+    | { error?: { code: LookupErrorCode; message: string; detail?: string } }
     | null;
   if (!response.ok || !body || body.error) {
     const error = body?.error;
     // A missing function (404) is a server that has not been set up yet.
-    throw new LookupError(error?.code ?? (response.status === 404 ? "NOT_CONFIGURED" : "UPSTREAM"), error?.message ?? "Something went wrong. Try again.");
+    throw new LookupError(
+      error?.code ?? (response.status === 404 ? "NOT_CONFIGURED" : "UPSTREAM"),
+      error?.message ?? "Something went wrong. Try again.",
+      error?.detail ?? null,
+    );
   }
   return body as VideoLookup;
 }
