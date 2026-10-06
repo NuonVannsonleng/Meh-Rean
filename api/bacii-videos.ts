@@ -221,17 +221,25 @@ async function askGemini<T>(system: string, content: ContentBlock[], tool: { nam
       }),
     });
 
-  let model = chosen;
-  let response = await call(model, true);
-  // An alias the key cannot use: fall back to a model every key has.
-  if (response.status === 404 && model !== GEMINI_FALLBACK_MODEL) {
-    model = GEMINI_FALLBACK_MODEL;
-    response = await call(model, true);
-  }
-  // A schema this API version does not accept: describe it in words instead.
-  if (response.status === 400) {
-    const reason = await response.clone().text();
-    if (/schema|Invalid JSON payload|Unknown name/i.test(reason)) response = await call(model, false);
+  // The chosen model first, then the others: one model can be overloaded (503),
+  // out of free-tier quota (429) or not offered to this key (404) while the
+  // next one answers fine.
+  const models = [...new Set([chosen, ...GEMINI_FALLBACK_MODELS])];
+  // Replaced on the first call; models is never empty.
+  let response = new Response(null, { status: 599 });
+  for (const model of models) {
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      response = await call(model, true);
+      // A schema this API version does not accept: describe it in words instead.
+      if (response.status === 400) {
+        const reason = await response.clone().text();
+        if (/schema|Invalid JSON payload|Unknown name/i.test(reason)) response = await call(model, false);
+      }
+      // Busy for a moment: wait briefly and ask once more before moving on.
+      if (response.status !== 503 && response.status !== 500) break;
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+    }
+    if (response.ok || ![404, 429, 500, 503].includes(response.status)) break;
   }
   if (!response.ok) throw new Error(`Gemini ${response.status}: ${(await response.text()).slice(0, 300)}`);
 
@@ -248,8 +256,8 @@ async function askGemini<T>(system: string, content: ContentBlock[], tool: { nam
   return JSON.parse(start >= 0 && end > start ? text.slice(start, end + 1) : text) as T;
 }
 
-/** A Gemini model available to every API key, free tier included. */
-const GEMINI_FALLBACK_MODEL = "gemini-2.5-flash";
+/** Gemini models to try after the chosen one, all on the free tier. */
+const GEMINI_FALLBACK_MODELS = ["gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"];
 
 /** Claude when its key is set, otherwise Gemini (which has a free tier). */
 const askAI = <T>(system: string, content: ContentBlock[], tool: { name: string; description: string; input_schema: object }) =>
