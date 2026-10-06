@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
-import { SUBJECT_COLORS } from "../lib/subjects";
+import { subjectColor } from "../lib/subjects";
 import { getFeed, getTrending, type TrendingView } from "../services/api";
 import type { PostView } from "../types";
 import Avatar from "./Avatar";
@@ -54,7 +54,7 @@ function YourNotes() {
           {notes.slice(0, 5).map((note) => (
             <li key={note.id}>
               <Link to={`/post/${note.id}`} className="hover:bg-surface-hover flex items-center gap-2.5 rounded-lg px-1.5 py-1.5">
-                <span className="h-6 w-1 shrink-0 rounded-full" style={{ backgroundColor: SUBJECT_COLORS[note.subject] }} />
+                <span className="h-6 w-1 shrink-0 rounded-full" style={{ backgroundColor: subjectColor(note.subject) }} />
                 <span className="text-ink-900 min-w-0 truncate text-sm font-medium">{note.title}</span>
               </Link>
             </li>

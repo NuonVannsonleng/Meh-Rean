@@ -2,18 +2,26 @@ import { useEffect, useId, useMemo, useRef, useState, type DragEvent, type FormE
 import { useNavigate } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import { describedBy, FieldShell, TextField } from "../components/FormField";
-import { CloseIcon, PaperclipIcon, UploadIcon } from "../components/Icons";
+import { ChevronDownIcon, CloseIcon, PaperclipIcon, UploadIcon } from "../components/Icons";
+import InstitutionPicker from "../components/InstitutionPicker";
 import { AttachmentIcon } from "../components/PostAttachments";
 import RadioGroup from "../components/RadioGroup";
+import SubjectPicker from "../components/SubjectPicker";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { t } from "../i18n/en";
 import { detectAttachmentKind, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import { errorMessage } from "../lib/errors";
 import { fileExtension, formatFileSize } from "../lib/format";
-import { SUBJECT_COLORS } from "../lib/subjects";
+import { selectionFromProfile, type InstitutionSelection } from "../lib/institutions";
+import { isMainSubject, SUBJECT_COLORS, subjectColor, subjectLabel } from "../lib/subjects";
 import { createPost } from "../services/api";
-import { EDUCATION_LEVELS, SUBJECTS, type EducationLevel, type Subject } from "../types";
+import { EDUCATION_LEVELS, SUBJECTS, type EducationLevel, type InstitutionKind } from "../types";
+
+/** High schools for high school notes; universities for university and postgraduate ones. */
+function kindForLevel(level: EducationLevel): InstitutionKind {
+  return level === "high-school" ? "high-school" : "university";
+}
 
 interface FormErrors {
   title?: string;
@@ -78,8 +86,12 @@ export default function CreatePost() {
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [subject, setSubject] = useState<Subject | "">("");
-  const [level, setLevel] = useState<EducationLevel>("university");
+  const [subject, setSubject] = useState<string>("");
+  const [pickingSubject, setPickingSubject] = useState(false);
+  // The student's own school is the first guess for where a note is from.
+  const [school, setSchool] = useState<InstitutionSelection | null>(() => (user ? selectionFromProfile(user) : null));
+  const [schoolOpen, setSchoolOpen] = useState(false);
+  const [level, setLevel] = useState<EducationLevel>(() => (school?.kind === "high-school" ? "high-school" : "university"));
   const [tags, setTags] = useState("");
   const [files, setFiles] = useState<PickedFile[]>([]);
   const [dragging, setDragging] = useState(false);
@@ -87,6 +99,8 @@ export default function CreatePost() {
   const [submitting, setSubmitting] = useState(false);
 
   const parsedTags = useMemo(() => parseTags(tags), [tags]);
+  // A subject from the full list (or "other") shows on the Other chip.
+  const pickedMore = Boolean(subject) && (!isMainSubject(subject) || subject === "other");
 
   // Revoke preview URLs when files are removed or the page unmounts.
   const filesRef = useRef(files);
@@ -155,6 +169,8 @@ export default function CreatePost() {
         body,
         subject,
         level,
+        school: level === "self-study" ? null : (school?.name ?? null),
+        schoolDomain: level === "self-study" ? null : (school?.domain ?? null),
         tags: parsedTags,
         files: files.map((item) => item.file),
       });
@@ -213,7 +229,7 @@ export default function CreatePost() {
         <fieldset aria-describedby={errors.subject ? `${subjectId}-error` : undefined}>
           <legend className="field-label">{t.create.subjectLabel}</legend>
           <div className="flex flex-wrap gap-2">
-            {SUBJECTS.map((value) => {
+            {SUBJECTS.filter((value) => value !== "other").map((value) => {
               const active = subject === value;
               return (
                 <label
@@ -238,6 +254,23 @@ export default function CreatePost() {
                 </label>
               );
             })}
+            {/* "Other" opens every specific subject, searchable; the chip then shows the pick. */}
+            <button
+              type="button"
+              onClick={() => setPickingSubject(true)}
+              aria-haspopup="dialog"
+              aria-pressed={pickedMore}
+              className={`press inline-flex h-9 items-center gap-2 rounded-full border px-3.5 text-sm font-medium ${
+                pickedMore ? "border-brand-600 bg-brand-600 text-white" : "border-line bg-surface text-ink-700 border-dashed hover:border-ink-400"
+              }`}
+            >
+              <span
+                className="h-2.5 w-2.5 rounded-full ring-2 ring-white/70"
+                style={{ backgroundColor: pickedMore ? subjectColor(subject) : SUBJECT_COLORS.other }}
+              />
+              {pickedMore ? subjectLabel(subject) : t.create.subjectOther}
+              <ChevronDownIcon className="h-3.5 w-3.5 opacity-70" />
+            </button>
           </div>
           {errors.subject && (
             <p id={`${subjectId}-error`} className="field-error">
@@ -260,8 +293,36 @@ export default function CreatePost() {
           legend={t.create.levelLabel}
           options={EDUCATION_LEVELS.map((value) => ({ value, label: t.levels[value] }))}
           value={level}
-          onChange={setLevel}
+          onChange={(next) => {
+            setLevel(next);
+            if (next === "self-study") return;
+            // Tapping a level opens the matching school search, unless the
+            // school already picked (or the student's own) is the right kind.
+            if (school?.kind !== kindForLevel(next)) {
+              setSchool(null);
+              setSchoolOpen(true);
+            }
+          }}
         />
+
+        {level !== "self-study" && (
+          <InstitutionPicker
+            label={level === "high-school" ? t.create.schoolLabel : t.create.universityLabel}
+            placeholder={level === "high-school" ? t.create.schoolPlaceholder : t.create.universityPlaceholder}
+            hint={t.create.schoolHint}
+            kind={kindForLevel(level)}
+            value={school}
+            onChange={(selection) => {
+              setSchool(selection);
+              // Picking a high school while on University (or the other way) moves the level too.
+              if (selection.kind === "high-school") setLevel("high-school");
+              else if (level === "high-school") setLevel("university");
+            }}
+            open={schoolOpen}
+            onOpenChange={setSchoolOpen}
+            optional
+          />
+        )}
 
         {/* Files */}
         <div>
@@ -317,6 +378,17 @@ export default function CreatePost() {
             </ul>
           )}
         </div>
+
+        {pickingSubject && (
+          <SubjectPicker
+            value={subject}
+            onSelect={(id) => {
+              setSubject(id);
+              setErrors((current) => ({ ...current, subject: undefined }));
+            }}
+            onClose={() => setPickingSubject(false)}
+          />
+        )}
 
         {errors.submit && (
           <p role="alert" className="bg-danger-bg text-danger-fg rounded-md px-4 py-3 text-sm font-medium">

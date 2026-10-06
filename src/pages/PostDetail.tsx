@@ -36,7 +36,7 @@ import { useRequireAuth } from "../hooks/useRequireAuth";
 import { t } from "../i18n/en";
 import { errorCode, errorMessage } from "../lib/errors";
 import { formatCount, formatDate, formatDateTime, formatFileSize, formatRelativeTime } from "../lib/format";
-import { SUBJECT_COLORS } from "../lib/subjects";
+import { subjectCategory, subjectColor, subjectLabel } from "../lib/subjects";
 import { SubjectMark } from "../components/NoteRow";
 import { deletePost, getPost, ratePost, toggleSavePost } from "../services/api";
 import type { Attachment, PostView } from "../types";
@@ -51,6 +51,11 @@ type Tab = "files" | "discussion";
 
 /** Kinds the browser can show in the page; anything else is a download. */
 const PREVIEWABLE = new Set<Attachment["kind"]>(["image", "video", "audio", "pdf"]);
+
+/** The note's own school, or its author's for notes from before notes had one. */
+function noteSchool(post: PostView): { name: string; domain: string | null } {
+  return post.school ? { name: post.school, domain: post.schoolDomain } : { name: post.author.school, domain: post.author.schoolDomain };
+}
 
 function noteUrl(id: string): string {
   return `${window.location.origin}/post/${id}`;
@@ -235,6 +240,7 @@ function About({ post, onChange }: { post: PostView; onChange: (post: PostView) 
   const [pending, setPending] = useState(false);
   const isOwner = user?.id === post.authorId;
   const average = post.rating.count ? post.rating.average.toFixed(1) : null;
+  const school = noteSchool(post);
 
   const rate = async (value: number | null) => {
     if (!requireAuth() || pending) return;
@@ -266,17 +272,17 @@ function About({ post, onChange }: { post: PostView; onChange: (post: PostView) 
         )}
         <ul className="space-y-2.5">
           <AboutRow
-            icon={<span className="h-3 w-3 rounded-full border border-black/10" style={{ backgroundColor: SUBJECT_COLORS[post.subject] }} />}
+            icon={<span className="h-3 w-3 rounded-full border border-black/10" style={{ backgroundColor: subjectColor(post.subject) }} />}
           >
-            <Link to={`/?subject=${post.subject}`} className="hover:text-ribbon-fg">
-              {t.subjects[post.subject]}
+            <Link to={`/?subject=${subjectCategory(post.subject)}`} className="hover:text-ribbon-fg">
+              {subjectLabel(post.subject)}
             </Link>
           </AboutRow>
           <AboutRow icon={<GraduationIcon className="h-4 w-4" />}>{t.levels[post.level]}</AboutRow>
-          {post.author.school && (
-            <AboutRow icon={<InstitutionLogo name={post.author.school} domain={post.author.schoolDomain} className="h-4 w-4 rounded-sm p-0" />}>
-              <Link to={`/?school=${encodeURIComponent(post.author.school)}`} className="hover:text-ribbon-fg hover:underline">
-                {post.author.school}
+          {school.name && (
+            <AboutRow icon={<InstitutionLogo name={school.name} domain={school.domain} className="h-4 w-4 rounded-sm p-0" />}>
+              <Link to={`/?school=${encodeURIComponent(school.name)}`} className="hover:text-ribbon-fg hover:underline">
+                {school.name}
               </Link>
             </AboutRow>
           )}
@@ -455,7 +461,7 @@ export default function PostDetail() {
       <header className="bg-surface border-line border-b">
         <div className="container-page pt-6 xl:max-w-7xl">
           <p className="text-ink-500 flex flex-wrap items-center gap-2 text-xs">
-            <Link to={`/?subject=${post.subject}`} className="press">
+            <Link to={`/?subject=${subjectCategory(post.subject)}`} className="press">
               <SubjectMark subject={post.subject} />
             </Link>
             <span>{t.levels[post.level]}</span>
@@ -471,10 +477,10 @@ export default function PostDetail() {
                   {post.author.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
                 </span>
                 <span className="text-ink-500 flex min-w-0 items-center gap-1.5">
-                  {post.author.school && (
+                  {noteSchool(post).name && (
                     <>
-                      <InstitutionLogo name={post.author.school} domain={post.author.schoolDomain} className="h-4 w-4 rounded-sm border-0 p-0" />
-                      <span className="truncate">{post.author.school}</span>
+                      <InstitutionLogo name={noteSchool(post).name} domain={noteSchool(post).domain} className="h-4 w-4 rounded-sm border-0 p-0" />
+                      <span className="truncate">{noteSchool(post).name}</span>
                       <span aria-hidden="true">·</span>
                     </>
                   )}

@@ -5,7 +5,6 @@ import type {
   Post,
   PublicUser,
   ReactionType,
-  Subject,
 } from "../types";
 
 /**
@@ -164,7 +163,8 @@ interface PostSeed {
   authorId: string;
   title: string;
   body: string;
-  subject: Subject;
+  /** A main subject or a specific one (see src/lib/subjects.ts). */
+  subject: string;
   level: EducationLevel;
   tags: string[];
   attachments: Attachment[];
@@ -177,7 +177,7 @@ const postSeed: PostSeed[] = [
     authorId: "u1",
     title: "Database Normalization — 1NF to BCNF cheat sheet",
     body: "Made this after failing to understand functional dependencies for two weeks. It walks through one messy table and normalizes it step by step, with the anomalies each step removes.\n\nSlides + my handwritten summary page.",
-    subject: "computer-science",
+    subject: "databases",
     level: "university",
     tags: ["databases", "sql", "normalization"],
     attachments: [
@@ -197,7 +197,7 @@ const postSeed: PostSeed[] = [
     authorId: "u2",
     title: "Brachial plexus — the only diagram you need",
     body: "Randy Travis Drinks Cold Beer: Roots, Trunks, Divisions, Cords, Branches. I redrew the plexus with colour coding for each cord and the five terminal branches. Good luck with your anatomy practical!",
-    subject: "medicine",
+    subject: "anatomy",
     level: "university",
     tags: ["anatomy", "mnemonics"],
     attachments: [
@@ -257,7 +257,7 @@ const postSeed: PostSeed[] = [
     authorId: "u5",
     title: "IS-LM model explained with examples",
     body: "My summary of the IS-LM model for Macro II: how fiscal and monetary policy shift each curve, plus three past exam questions with worked answers. Slides are in English, notes partly in Spanish.",
-    subject: "economics",
+    subject: "macroeconomics",
     level: "university",
     tags: ["macroeconomics", "is-lm"],
     attachments: [
@@ -271,7 +271,7 @@ const postSeed: PostSeed[] = [
     authorId: "u8",
     title: "Eigenvalues & eigenvectors — handwritten notes",
     body: "Part 3 of my linear algebra series. Characteristic polynomial, diagonalization and a few tricks for 3×3 matrices.",
-    subject: "mathematics",
+    subject: "linear-algebra",
     level: "university",
     tags: ["linear-algebra", "handwritten"],
     attachments: [
@@ -315,7 +315,7 @@ const postSeed: PostSeed[] = [
     authorId: "u1",
     title: "Computer Networks midterm 2025 (with my answers)",
     body: "Past midterm paper from last year. I added my answers, but please double-check question 4 on subnetting — I'm not 100% sure.",
-    subject: "computer-science",
+    subject: "computer-networks",
     level: "university",
     tags: ["networks", "past-paper", "subnetting"],
     attachments: [pdf("a13", "Networks-Midterm-2025.pdf", 1_050_000)],
@@ -326,7 +326,7 @@ const postSeed: PostSeed[] = [
     authorId: "u2",
     title: "How I study with active recall (no fancy apps)",
     body: "A few people asked how I got through first-year physiology. Short version: close the book, write everything you remember, then check. Repeat after 1, 3 and 7 days. That's it.",
-    subject: "other",
+    subject: "study-skills",
     level: "self-study",
     tags: ["study-tips", "active-recall"],
     attachments: [],
@@ -348,7 +348,7 @@ const postSeed: PostSeed[] = [
     authorId: "u6",
     title: "Organic chemistry functional groups (flashcard photos)",
     body: "Photos of my flashcards for the functional groups unit. Name on one side, structure on the other.",
-    subject: "chemistry",
+    subject: "organic-chemistry",
     level: "high-school",
     tags: ["organic-chemistry", "flashcards"],
     attachments: [
@@ -364,7 +364,12 @@ const postSeed: PostSeed[] = [
   },
 ];
 
-export const seedPosts: Post[] = postSeed;
+/** Each demo note comes from its author's school, except self-study ones. */
+export const seedPosts: Post[] = postSeed.map((post) => {
+  const author = seedUsers.find((user) => user.id === post.authorId);
+  const fromSchool = post.level !== "self-study" && author;
+  return { ...post, school: fromSchool ? author.school : null, schoolDomain: fromSchool ? author.schoolDomain : null };
+});
 
 // ---- Social activity ----
 

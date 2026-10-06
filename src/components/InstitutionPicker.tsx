@@ -211,7 +211,7 @@ function InstitutionDialog({ initialKind, onClose, onSelect }: DialogProps) {
     if (!highSchool || !country || trimmed.length < 2) return;
     let live = true;
     const timer = window.setTimeout(() => {
-      searchSuggestions(trimmed, "schools", t.subjects)
+      searchSuggestions(trimmed, "schools")
         .then((result) => live && setCommunity(result.schools.filter((school) => school.country === country.name)))
         .catch(() => {});
     }, 250);
@@ -512,12 +512,34 @@ interface InstitutionPickerProps {
   hint?: string;
   error?: string;
   optional?: boolean;
+  /** Which list the search opens on when nothing is picked yet. */
+  kind?: InstitutionKind;
+  placeholder?: string;
+  /** Lets a parent open the search, e.g. when a level is tapped. */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 /** Button + searchable dialog for choosing a school or university. */
-export default function InstitutionPicker({ label, value, onChange, hint, error, optional }: InstitutionPickerProps) {
+export default function InstitutionPicker({
+  label,
+  value,
+  onChange,
+  hint,
+  error,
+  optional,
+  kind,
+  placeholder,
+  open: openProp,
+  onOpenChange,
+}: InstitutionPickerProps) {
   const id = useId();
-  const [open, setOpen] = useState(false);
+  const [openState, setOpenState] = useState(false);
+  const open = openProp ?? openState;
+  const setOpen = (next: boolean) => {
+    setOpenState(next);
+    onOpenChange?.(next);
+  };
 
   return (
     <FieldShell id={id} label={label} hint={hint} error={error} optional={optional}>
@@ -541,14 +563,14 @@ export default function InstitutionPicker({ label, value, onChange, hint, error,
         ) : (
           <>
             <GraduationIcon className="text-ink-400 h-5 w-5 shrink-0" />
-            <span className="text-ink-400 min-w-0 flex-1 truncate">{t.institution.placeholder}</span>
+            <span className="text-ink-400 min-w-0 flex-1 truncate">{placeholder ?? t.institution.placeholder}</span>
           </>
         )}
         <ChevronDownIcon className="text-ink-400 h-4 w-4 shrink-0" />
       </button>
       {open && (
         <InstitutionDialog
-          initialKind={value?.kind ?? "high-school"}
+          initialKind={kind ?? value?.kind ?? "high-school"}
           onClose={() => setOpen(false)}
           onSelect={onChange}
         />

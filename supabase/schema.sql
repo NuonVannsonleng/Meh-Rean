@@ -30,6 +30,28 @@ create table if not exists public.posts (
   created_at timestamptz not null default now()
 );
 
+-- Where a note is from: picked on New note, prefilled from the author's own
+-- school. Free text shown publicly, so bounded like profiles.school, and the
+-- domain is a plain hostname for the same reason as profiles.school_domain.
+-- A note's subject is a main subject or a specific one ("anatomy").
+alter table public.posts add column if not exists school text;
+alter table public.posts add column if not exists school_domain text;
+
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'posts_school_len') then
+    alter table public.posts add constraint posts_school_len
+      check (char_length(school) <= 150);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'posts_school_domain_host') then
+    alter table public.posts add constraint posts_school_domain_host
+      check (school_domain is null or (char_length(school_domain) <= 253 and school_domain ~ '^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$'));
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'posts_subject_len') then
+    alter table public.posts add constraint posts_subject_len
+      check (char_length(subject) between 1 and 60);
+  end if;
+end $$;
+
 create table if not exists public.comments (
   id uuid primary key default gen_random_uuid(),
   post_id uuid not null references public.posts on delete cascade,

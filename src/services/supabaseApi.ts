@@ -1,5 +1,6 @@
 import type { PostgrestError } from "@supabase/supabase-js";
 import { MAX_MESSAGE_LENGTH } from "../lib/chat";
+import { subjectLabel, subjectMembers } from "../lib/subjects";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -27,7 +28,6 @@ import {
   type SearchSuggestions,
   type SignInInput,
   type SignUpInput,
-  type Subject,
   type SubjectSummary,
   type TagSummary,
   type UpdateProfileInput,
@@ -69,8 +69,11 @@ interface PostRow {
   author_id: string;
   title: string;
   body: string;
-  subject: Subject;
+  subject: string;
   level: EducationLevel;
+  /** Absent until schema.sql has been re-run with the note-school columns. */
+  school?: string | null;
+  school_domain?: string | null;
   tags: string[];
   attachments: Attachment[];
   created_at: string;
@@ -84,8 +87,10 @@ interface PostRow {
 const PROFILE_COLUMNS =
   "id, username, display_name, bio, school, school_domain, school_country, grade, country, field_of_study, avatar_url, banner_url, verified, created_at";
 
+// "*" rather than a column list, so a database that has not been migrated yet
+// (no school columns) still loads notes instead of failing the whole query.
 const POST_SELECT = `
-  id, author_id, title, body, subject, level, tags, attachments, created_at,
+  *,
   author:profiles!posts_author_id_fkey (${PROFILE_COLUMNS}),
   reactions (user_id, type),
   ratings (user_id, value),
@@ -158,6 +163,8 @@ function toPostView(row: PostRow, viewer: string | null): PostView {
     body: row.body,
     subject: row.subject,
     level: row.level,
+    school: row.school ?? null,
+    schoolDomain: row.school_domain ?? null,
     tags: row.tags ?? [],
     attachments: row.attachments ?? [],
     createdAt: row.created_at,
@@ -373,7 +380,8 @@ export async function getFeed(query: FeedQuery = {}): Promise<PostView[]> {
     builder = builder.in("author_id", ids);
   }
 
-  if (query.subject && query.subject !== "all") builder = builder.eq("subject", query.subject);
+  // A main subject also finds the specific subjects filed under it.
+  if (query.subject && query.subject !== "all") builder = builder.in("subject", subjectMembers(query.subject));
   if (query.level && query.level !== "all") builder = builder.eq("level", query.level);
 
   if (query.search?.trim()) {
@@ -472,7 +480,7 @@ export async function createPost(input: NewPostInput): Promise<PostView> {
       });
     }
 
-    const { error } = await supabase.from("posts").insert({
+    const row = {
       id: postId,
       author_id: viewer,
       title: input.title.trim(),
@@ -481,7 +489,13 @@ export async function createPost(input: NewPostInput): Promise<PostView> {
       level: input.level,
       tags: input.tags,
       attachments,
-    });
+    };
+    const school = input.school ? { school: input.school.trim().slice(0, 150), school_domain: input.schoolDomain } : {};
+    let { error } = await supabase.from("posts").insert({ ...row, ...school });
+    // A database from before notes had a school rejects the unknown columns
+    // (PGRST204). Save the note without its school rather than not at all;
+    // re-running supabase/schema.sql adds them.
+    if (error?.code === "PGRST204" && input.school) ({ error } = await supabase.from("posts").insert(row));
     if (error) fail(error);
   } catch (error) {
     if (uploaded.length) await supabase.storage.from(ATTACHMENTS_BUCKET).remove(uploaded);
@@ -869,7 +883,6 @@ export async function uploadProfileImage(kind: ProfileImageKind, dataUrl: string
 export async function searchSuggestions(
   query: string,
   scope: SearchScope = "all",
-  subjectLabels: Record<Subject, string>,
 ): Promise<SearchSuggestions> {
   const term = query.trim();
   if (!term) return { people: [], schools: [], subjects: [], tags: [] };
@@ -920,8 +933,8 @@ export async function searchSuggestions(
       ? (unwrap(subjects) ?? [])
           .filter(
             (item) =>
-              subjectLabels[item.subject]?.toLowerCase().includes(lower) ||
-              item.subject.replace("-", " ").includes(lower),
+              subjectLabel(item.subject).toLowerCase().includes(lower) ||
+              item.subject.replace(/-/g, " ").includes(lower),
           )
           .sort((a, b) => b.posts - a.posts)
           .slice(0, limit)

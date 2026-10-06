@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAttachmentUrl } from "../hooks/useAttachmentUrl";
 import { t } from "../i18n/en";
 import { formatCount, formatDateTime, formatRelativeTime } from "../lib/format";
-import { SUBJECT_COLORS } from "../lib/subjects";
+import { subjectColor, subjectLabel } from "../lib/subjects";
 import type { Attachment, AttachmentKind, PostView } from "../types";
 import Avatar from "./Avatar";
 import { CommentIcon } from "./Icons";
@@ -13,14 +13,14 @@ import VerifiedBadge from "./VerifiedBadge";
 
 /** A subject's name on a soft wash of its own colour. */
 export function SubjectMark({ subject }: { subject: PostView["subject"] }) {
-  const color = SUBJECT_COLORS[subject];
+  const color = subjectColor(subject);
   return (
     <span
       className="inline-flex h-6 items-center gap-1.5 rounded-full px-2.5 text-xs font-semibold"
       style={{ backgroundColor: `color-mix(in oklch, ${color} 14%, transparent)`, color: `color-mix(in oklch, ${color} 45%, var(--color-ink-900))` }}
     >
       <span className="h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
-      {t.subjects[subject]}
+      {subjectLabel(subject)}
     </span>
   );
 }
@@ -67,7 +67,9 @@ export default function NoteRow({
   onChange?: (post: PostView) => void;
 }) {
   const [post, setPost] = useState(initial);
-  const color = SUBJECT_COLORS[post.subject];
+  const color = subjectColor(post.subject);
+  // The note's own school, or its author's for notes from before notes had one.
+  const school = post.school ?? post.author.school;
   const image = post.attachments.find((item) => item.kind === "image");
 
   return (
@@ -112,7 +114,7 @@ export default function NoteRow({
                     <span className="truncate">{post.author.displayName}</span>
                     {post.author.verified && <VerifiedBadge className="h-3.5 w-3.5" />}
                   </span>
-                  {post.author.school && <span className="text-ink-500 block truncate text-xs">{post.author.school}</span>}
+                  {school && <span className="text-ink-500 block truncate text-xs">{school}</span>}
                 </span>
               </Link>
             ) : (

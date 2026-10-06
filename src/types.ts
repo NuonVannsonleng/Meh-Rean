@@ -113,13 +113,22 @@ export interface User extends PublicUser {
   isAdmin: boolean;
 }
 
+/**
+ * A main subject ("medicine") or a specific one filed under it ("anatomy");
+ * see MORE_SUBJECTS in src/lib/subjects.ts.
+ */
+export type SubjectId = string;
+
 export interface Post {
   id: string;
   authorId: string;
   title: string;
   body: string;
-  subject: Subject;
+  subject: SubjectId;
   level: EducationLevel;
+  /** The school or university the note is from; null for self-study. */
+  school: string | null;
+  schoolDomain: string | null;
   tags: string[];
   attachments: Attachment[];
   createdAt: string;
@@ -309,7 +318,7 @@ export interface TagSummary {
 }
 
 export interface SubjectSummary {
-  subject: Subject;
+  subject: SubjectId;
   posts: number;
 }
 
@@ -342,8 +351,10 @@ export interface SignInInput {
 export interface NewPostInput {
   title: string;
   body: string;
-  subject: Subject;
+  subject: SubjectId;
   level: EducationLevel;
+  school: string | null;
+  schoolDomain: string | null;
   tags: string[];
   files: File[];
 }

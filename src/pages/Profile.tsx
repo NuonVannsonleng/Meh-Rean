@@ -31,6 +31,7 @@ import { t } from "../i18n/en";
 import { errorCode, errorMessage } from "../lib/errors";
 import { formatCount, formatDate } from "../lib/format";
 import { normalizeText as normalizeSearch } from "../lib/institutions";
+import { subjectCategory } from "../lib/subjects";
 import {
   followUser,
   getFeed,
@@ -272,7 +273,7 @@ function NotesList({ posts, showAuthor }: { posts: PostView[]; showAuthor: boole
     const terms = normalizeSearch(query).split(/\s+/).filter(Boolean);
     const filtered = posts.filter(
       (post) =>
-        (subject === "all" || post.subject === subject) &&
+        (subject === "all" || subjectCategory(post.subject) === subject) &&
         terms.every((term) => normalizeSearch(`${post.title} ${post.body} ${post.tags.join(" ")}`).includes(term)),
     );
     return filtered.sort((a, b) =>
@@ -284,7 +285,7 @@ function NotesList({ posts, showAuthor }: { posts: PostView[]; showAuthor: boole
     );
   }, [posts, query, subject, sort]);
 
-  const used = SUBJECTS.filter((value) => posts.some((post) => post.subject === value));
+  const used = SUBJECTS.filter((value) => posts.some((post) => subjectCategory(post.subject) === value));
 
   return (
     <div>

@@ -1,4 +1,5 @@
 import { MAX_MESSAGE_LENGTH } from "../lib/chat";
+import { subjectLabel, subjectMembers } from "../lib/subjects";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -23,7 +24,6 @@ import {
   type SearchScope,
   type SearchSuggestions,
   type SignInInput,
-  type Subject,
   type SubjectSummary,
   type TagSummary,
   type SignUpInput,
@@ -136,6 +136,9 @@ function toPostView(db: DbState, post: Post, viewer: string | null): PostView {
 
   return structuredClone({
     ...post,
+    // Notes saved before notes had a school have neither field.
+    school: post.school ?? null,
+    schoolDomain: post.schoolDomain ?? null,
     author: toPublicUser(findUser(db, post.authorId)),
     reactions: {
       counts,
@@ -347,7 +350,9 @@ export async function getFeed(query: FeedQuery = {}): Promise<PostView[]> {
     posts = posts.filter((post) => saved.has(post.id));
   }
   if (query.subject && query.subject !== "all") {
-    posts = posts.filter((post) => post.subject === query.subject);
+    // A main subject also finds the specific subjects filed under it.
+    const members = new Set(subjectMembers(query.subject));
+    posts = posts.filter((post) => members.has(post.subject));
   }
   if (query.level && query.level !== "all") {
     posts = posts.filter((post) => post.level === query.level);
@@ -362,7 +367,8 @@ export async function getFeed(query: FeedQuery = {}): Promise<PostView[]> {
       const haystack = [
         post.title,
         post.body,
-        post.subject.replace("-", " "),
+        subjectLabel(post.subject),
+        post.school ?? "",
         post.tags.join(" "),
         author.displayName,
         author.username,
@@ -437,6 +443,8 @@ export async function createPost(input: NewPostInput): Promise<PostView> {
     body: input.body.trim(),
     subject: input.subject,
     level: input.level,
+    school: input.school,
+    schoolDomain: input.schoolDomain,
     tags: input.tags,
     attachments,
     createdAt: new Date().toISOString(),
@@ -736,7 +744,7 @@ function matches(terms: string[], ...fields: string[]): boolean {
 function summarize(db: DbState) {
   const postsByAuthor = new Map<string, number>();
   const tagCounts = new Map<string, number>();
-  const subjectCounts = new Map<Subject, number>();
+  const subjectCounts = new Map<string, number>();
   for (const post of db.posts) {
     postsByAuthor.set(post.authorId, (postsByAuthor.get(post.authorId) ?? 0) + 1);
     subjectCounts.set(post.subject, (subjectCounts.get(post.subject) ?? 0) + 1);
@@ -775,7 +783,6 @@ function summarize(db: DbState) {
 export async function searchSuggestions(
   query: string,
   scope: SearchScope = "all",
-  subjectLabels: Record<Subject, string>,
 ): Promise<SearchSuggestions> {
   await delay(120);
   const db = await loadDb();
@@ -796,7 +803,7 @@ export async function searchSuggestions(
     schools: wants("schools") ? schools.filter((school) => matches(terms, school.name, school.country)).slice(0, limit) : [],
     subjects: wants("subjects")
       ? subjects
-          .filter((item) => matches(terms, subjectLabels[item.subject], item.subject.replace("-", " ")))
+          .filter((item) => matches(terms, subjectLabel(item.subject), item.subject.replace(/-/g, " ")))
           .slice(0, limit)
       : [],
     tags: wants("tags") ? tags.filter((item) => matches(terms, item.tag.replace(/-/g, " "), item.tag)).slice(0, limit) : [],

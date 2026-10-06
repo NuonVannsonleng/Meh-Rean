@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { t } from "../i18n/en";
+import { subjectCategory, subjectLabel } from "../lib/subjects";
 import { getTrending, searchSuggestions, type TrendingView } from "../services/api";
 import type { SearchScope, SearchSuggestions } from "../types";
 import Avatar from "./Avatar";
@@ -154,8 +155,8 @@ function buildOptions(query: string, scope: SearchScope, results: SearchSuggesti
       key: `subject-${item.subject}`,
       kind: "subject",
       group: t.search.subjects,
-      label: t.subjects[item.subject],
-      href: `/?subject=${item.subject}`,
+      label: subjectLabel(item.subject),
+      href: `/?subject=${subjectCategory(item.subject)}`,
       render: (
         <>
           <Glyph tone="bg-surface-hover text-ink-700">
@@ -163,7 +164,7 @@ function buildOptions(query: string, scope: SearchScope, results: SearchSuggesti
           </Glyph>
           <span className="min-w-0">
             <span className="text-ink-700 block truncate text-sm">
-              <Highlight text={t.subjects[item.subject]} query={q} />
+              <Highlight text={subjectLabel(item.subject)} query={q} />
             </span>
             <span className="text-ink-500 block text-xs">{t.search.postsCount(item.posts)}</span>
           </span>
@@ -232,7 +233,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
     let live = true;
     setLoading(true);
     const timer = window.setTimeout(() => {
-      searchSuggestions(trimmed, scope, t.subjects)
+      searchSuggestions(trimmed, scope)
         .then((next) => live && setResults(next))
         .catch(() => live && setResults(EMPTY))
         .finally(() => live && setLoading(false));

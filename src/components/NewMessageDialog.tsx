@@ -33,7 +33,7 @@ export default function NewMessageDialog({ onClose }: { onClose: () => void }) {
     }
     let current = true;
     const timer = window.setTimeout(() => {
-      searchSuggestions(term, "people", t.subjects)
+      searchSuggestions(term, "people")
         .then((result) => {
           if (!current) return;
           setPeople(result.people.filter((person) => person.id !== user?.id));
