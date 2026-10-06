@@ -724,12 +724,12 @@ export const en = {
     schoolsHeading: "School and university lists",
     schoolsUniversities: "Universities: the Hipo university-domains-list (public domain), with a few Cambodian additions.",
     schoolsWikidata: "High schools: Wikidata, whose data is free to use (CC0).",
-    schoolsOsmBefore: "High schools in Cambodia: ",
+    schoolsOsmBefore: "High schools in Cambodia, and school websites worldwide: ",
     schoolsOsmLink: "© OpenStreetMap contributors",
     schoolsOsmAfter: ", available under the Open Database License.",
     logosHeading: "Logos",
     intro:
-      "Logos on Meh Rean come from Wikimedia Commons, which only hosts images that are freely licensed or too simple to be copyrighted. Each one is listed here with its source, licence and author.",
+      "Logos stored by Meh Rean come from Wikimedia Commons, which only hosts images that are freely licensed or too simple to be copyrighted. Each one is listed here with its source, licence and author. Where Commons has none, a school's logo is shown from its own website (resized by the wsrv.nl image service) or as its website's icon; Meh Rean does not keep a copy of those.",
     trademark:
       "Logos are trademarks of their institutions and appear only to show which school a student attends. Meh Rean is not affiliated with or endorsed by any of them.",
     search: "Search by university, licence or author",
@@ -738,7 +738,7 @@ export const en = {
     by: (author: string) => `by ${author}`,
     unknownLicense: "Licence on file page",
     link: "Credits",
-    pickerNote: "Logos from Wikimedia Commons ·",
+    pickerNote: "Logos from Wikimedia Commons and school websites ·",
     schoolSourcesNote: "Schools from Wikidata and © OpenStreetMap contributors ·",
   },
   footer: {

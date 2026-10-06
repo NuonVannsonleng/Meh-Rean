@@ -13,6 +13,12 @@
  *   OpenStreetMap. The ODbL asks for credit, which the app shows next to the
  *   list and on the credits page, and that this derived list stay open.
  *
+ * - OpenStreetMap again, worldwide, for websites only: a school mapped there
+ *   with a link to its Wikidata item lends that item its website when
+ *   Wikidata has none. Matched by the item's id, never by name.
+ * - scripts/high-schools-extra.json: hand-checked additions, and the schools
+ *   whose campuses are listed once (see `schools` there).
+ *
  * Thailand is excluded, as it is from the university list.
  *
  * Output:
@@ -106,11 +112,26 @@ async function wikidataSchools(country) {
     en: row.enName?.value ?? "",
     local: row.localName?.value ?? "",
     place: row.placeEnName?.value ?? row.placeLocalName?.value ?? "",
-    domain: row.website ? hostOf(row.website.value) : null,
+    domain: (row.website ? hostOf(row.website.value) : null) ?? osmWebsites.get(row.item.value.split("/").pop()) ?? null,
   }));
 }
 
 // -------------------------------------------------------- OpenStreetMap --
+
+/**
+ * Websites of schools OpenStreetMap links to a Wikidata item, by item id:
+ * fills in a website Wikidata does not have, which gives the school a logo.
+ */
+const osmWebsites = new Map();
+for (const element of await overpass(`
+[out:json][timeout:600];
+nwr["amenity"="school"]["wikidata"][~"^(website|contact:website|url)$"~"."];
+out tags;`)) {
+  const tags = element.tags ?? {};
+  const host = hostOf(tags.website ?? tags["contact:website"] ?? tags.url ?? "");
+  if (host && /^Q\d+$/.test(tags.wikidata)) osmWebsites.set(tags.wikidata, host);
+}
+console.log(`  ${osmWebsites.size} school websites from OpenStreetMap's Wikidata links`);
 
 /** A secondary school by its name: high school, secondary, lycée, international school. */
 const SECONDARY_NAME = /វិទ្យាល័យ|high\s*school|sen?con?dary|lyc[ée]e|international school|\bk-?12\b/i;
@@ -164,23 +185,49 @@ out tags;`);
 
 // ------------------------------------------------------------------ main --
 
+/**
+ * Hand-checked schools from high-schools-extra.json: `match` (a regular
+ * expression, default the exact name) picks every row that is this school or
+ * one of its campuses, and they become one row with this name and website.
+ */
+function handChecked(extra) {
+  return (extra.schools ?? []).map((school) => {
+    const pattern = school.match ? new RegExp(school.match, "i") : null;
+    const exact = normalizeName(school.name);
+    return { ...school, match: { test: (value) => (pattern ? pattern.test(value) : normalizeName(value) === exact) } };
+  });
+}
+
 /** One row per school; the same school from two sources (or twice in one) is kept once. */
-function toRows(schools, aliases = {}) {
+function toRows(schools, aliases = {}, checked = []) {
   const seen = new Map();
   for (const school of schools) {
-    const name = (school.en || school.local).replace(/\s+/g, " ").trim();
+    let name = (school.en || school.local).replace(/\s+/g, " ").trim();
     if (!name || GENERIC.test(name) || name.length > 150) continue;
-    const other = school.local && school.local !== name ? school.local.replace(/\s+/g, " ").trim() : "";
-    const key = `${normalizeName(name)}|${normalizeName(school.place)}`;
+    let other = school.local && school.local !== name ? school.local.replace(/\s+/g, " ").trim() : "";
+    let place = school.place;
+    let domain = school.domain ?? "";
+    const spellings = [...(aliases[name] ?? [])];
+    // A campus is listed under its school: one row, its campus names searchable.
+    const known = checked.find((entry) => entry.match.test(name) || (other && entry.match.test(other)));
+    if (known) {
+      spellings.push(...[name, other].filter((value) => value && value !== known.name));
+      name = known.name;
+      other = known.other ?? "";
+      place = known.place ?? "";
+      domain = known.domain ?? domain;
+    }
+    const key = `${normalizeName(name)}|${normalizeName(place)}`;
     const existing = seen.get(key);
     if (existing) {
       // Fill gaps from the duplicate rather than dropping what it knew.
       existing[1] ||= other;
-      existing[3] ||= school.domain ?? "";
+      existing[3] ||= domain;
+      existing[4] = [...new Set([...existing[4].split(" · "), ...spellings].filter(Boolean))].join(" · ");
       continue;
     }
     // A fifth field holds other spellings: searched, never shown.
-    seen.set(key, [name, other, school.place.slice(0, 80), school.domain ?? "", (aliases[name] ?? []).join(" · ")]);
+    seen.set(key, [name, other, place.slice(0, 80), domain, [...new Set(spellings)].join(" · ")]);
   }
   return [...seen.values()]
     .sort((a, b) => a[0].localeCompare(b[0]))
@@ -219,7 +266,9 @@ async function worker() {
     if (OPENSTREETMAP_COUNTRIES.includes(country.code)) {
       schools.push(...(await openStreetMapSchools(country.code, new Set(extra.include ?? []))));
     }
-    const rows = toRows(schools, extra.aliases);
+    const checked = handChecked(extra);
+    for (const entry of checked) if (entry.domain) handCheckedDomains.add(entry.domain);
+    const rows = toRows(schools, extra.aliases, checked);
     done += 1;
     process.stdout.write(`\r  ${done}/${todo.length} countries   `);
     if (rows.length) built.set(country.code, { country, rows });
@@ -227,6 +276,8 @@ async function worker() {
 }
 
 const built = new Map();
+/** Websites checked by hand: shared on purpose by one school's campuses. */
+const handCheckedDomains = new Set();
 await Promise.all(Array.from({ length: QUERIES_AT_ONCE }, worker));
 process.stdout.write("\n");
 
@@ -240,7 +291,7 @@ for (const { rows } of built.values()) {
 let sharedDropped = 0;
 for (const { country, rows } of built.values()) {
   for (const row of rows) {
-    if (row[3] && domainUses.get(row[3]) > 1) {
+    if (row[3] && domainUses.get(row[3]) > 1 && !handCheckedDomains.has(row[3])) {
       row[3] = "";
       sharedDropped += 1;
     }

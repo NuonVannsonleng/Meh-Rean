@@ -27,6 +27,35 @@ export function logoUrl(domain: string): string {
   return `${BASE}${domain}.webp`;
 }
 
+let pendingOfficial: Promise<Map<string, string>> | null = null;
+
+/**
+ * Hand-checked logos on schools' own websites (public/logos/official.json),
+ * by domain, for schools Commons has no free logo for. Fetched once per session.
+ */
+export function loadOfficialLogos(): Promise<Map<string, string>> {
+  pendingOfficial ??= fetch(`${BASE}official.json`)
+    .then(async (response) => {
+      if (!response.ok) throw new Error(`official logos: ${response.status}`);
+      const { links } = (await response.json()) as { links: Record<string, string> };
+      return new Map(Object.entries(links));
+    })
+    .catch(() => {
+      pendingOfficial = null;
+      return new Map<string, string>();
+    });
+  return pendingOfficial;
+}
+
+/**
+ * An official logo, shrunk to a small square by the wsrv.nl image CDN: school
+ * sites are often slow, or serve a 3000px file for a 32px tile. Like the
+ * favicon service, it is fetched by the viewer and nothing is stored here.
+ */
+export function officialLogoUrl(source: string): string {
+  return `https://wsrv.nl/?url=${encodeURIComponent(source)}&w=96&h=96&fit=contain&cbg=white&output=webp&default=404`;
+}
+
 export interface LogoCredit {
   /** The school or university the logo belongs to. */
   name?: string;

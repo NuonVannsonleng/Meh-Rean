@@ -1,5 +1,5 @@
 {
-  "comment": "Hand-checked additions for scripts/build-high-schools.mjs. include: OpenStreetMap school names that are secondary or K-12 schools although the name does not say so. aliases: other spellings people search for, matched in search but not shown.",
+  "comment": "Hand-checked additions for scripts/build-high-schools.mjs. include: OpenStreetMap school names that are secondary or K-12 schools although the name does not say so. aliases: other spellings people search for, matched in search but not shown. schools: a school's official website, and every row that `match` (a case-insensitive regular expression; default the exact name) finds becomes this one school, so a school with many campuses is listed once and its campus names stay searchable.",
   "KH": {
     "include": [
       "Liger Leadership Academy",
@@ -18,6 +18,41 @@
       "Preah Sisowath High School": ["Lycée Sisowath", "Sisovath"],
       "Indradevi High School": ["Indra Devi High School"],
       "Boeung Keng Kang High School": ["BKK High School", "Beung Keng Kang"]
-    }
+    },
+    "schools": [
+      { "name": "American Intercon School (AIS)", "match": "^(american intercon school|ais )", "domain": "ais.edu.kh" },
+      { "name": "Australian International School Phnom Penh (AISPP)", "match": "australian international school", "domain": "aispp.edu.kh" },
+      { "name": "BELTEI International School", "match": "^beltei international school", "domain": "beltei.edu.kh" },
+      { "name": "Western International School", "match": "^western international school", "domain": "western.edu.kh" },
+      { "name": "CIA FIRST International School", "match": "^cia first", "domain": "ciaschool.edu.kh" },
+      { "name": "Footprints International School", "match": "^footprints? international school", "domain": "footprintsschool.edu.kh" },
+      { "name": "Golden Bridge International School", "match": "^golden bridge international school", "domain": "gbispp.edu.kh" },
+      { "name": "HOPE International School", "match": "^hope international school", "domain": "hope.edu.kh" },
+      { "name": "Canadian International School of Phnom Penh (CIS)", "match": "^canadian international school", "domain": "cisp.edu.kh" },
+      { "name": "Paññāsāstra International School (PSIS)", "match": "^(pa[nñ]+[aā]s[aā]s?t?ra|pannasatra) international school", "domain": "psis.edu.kh" },
+      { "name": "New Gateway International School (NGIS)", "match": "^new gateway international school", "domain": "ngis.edu.kh" },
+      { "name": "Smart Kids International School", "match": "^smart kids international school" },
+      { "name": "Better International School", "match": "^better international school" },
+      { "name": "Liger Leadership Academy", "match": "^liger (leadership academy|international school)", "domain": "ligeracademy.org" },
+      { "name": "Don Bosco Technical School", "match": "^don bosco technical school", "domain": "dbtspp.info" },
+      { "name": "Happy Chandara School (Toutes à l'école)", "match": "happy chandara|^toutes [aà] l", "domain": "toutes-a-l-ecole.org" },
+      { "name": "International School of Siem Reap (ISSR)", "match": "^issr", "domain": "issr.edu.kh" },
+      { "name": "Westline School", "match": "^(the )?westline school", "domain": "westlineschool.edu.kh" },
+      { "name": "Zhonghua International School", "match": "^zh[oō]nghu[aà] international school", "domain": "zhonghuaschool.com" },
+      { "name": "International School of Phnom Penh (ISPP)", "domain": "ispp.edu.kh" },
+      { "name": "The British International School of Phnom Penh", "domain": "bispp.edu.kh" },
+      { "name": "Northbridge International School", "domain": "nisc.edu.kh" },
+      { "name": "Southbridge International School Cambodia", "domain": "sisc.edu.kh" },
+      { "name": "Asian Hope International School", "domain": "asianhopeschool.org" },
+      { "name": "Paragon International School", "domain": "paragonisc.edu.kh" },
+      { "name": "Herrington International School", "domain": "his.edu.kh" },
+      { "name": "iLead International School", "domain": "ilead-international.org" },
+      { "name": "IEL International School", "domain": "iel.edu.kh" },
+      { "name": "Raffles Montessori International School Phnom Penh", "domain": "rmispp.edu.kh" },
+      { "name": "USA International School", "domain": "usainternationalschool.net" },
+      { "name": "Asia Pacific Fredfort International School", "domain": "afisedu.com" },
+      { "name": "Learning Jungle International School", "domain": "learningjungle.com" },
+      { "name": "Neeson Cripps Academy", "domain": "cambodianchildrensfund.org" }
+    ]
   }
 }
