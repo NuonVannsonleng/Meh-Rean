@@ -132,10 +132,16 @@ type ContentBlock =
   | { type: "image"; source: { type: "base64"; media_type: string; data: string } };
 
 /** One Claude call that must answer through `tool`; returns the tool's input. */
-async function askClaude<T>(system: string, content: ContentBlock[], tool: { name: string; description: string; input_schema: object }): Promise<T> {
+async function askClaude<T>(
+  system: string,
+  content: ContentBlock[],
+  tool: { name: string; description: string; input_schema: object },
+  deadline: number,
+): Promise<T> {
   const base = (env("ANTHROPIC_BASE_URL") || "https://api.anthropic.com").replace(/\/$/, "");
   const response = await fetch(`${base}/v1/messages`, {
     method: "POST",
+    signal: AbortSignal.timeout(Math.max(1000, deadline - Date.now() - 1500)),
     headers: {
       "Content-Type": "application/json",
       "x-api-key": env("ANTHROPIC_API_KEY"),
@@ -188,46 +194,66 @@ function geminiSchema(schema: JsonSchema): Record<string, unknown> {
 }
 
 /** One Gemini call answering in the tool's shape as JSON; returns that object. */
-async function askGemini<T>(system: string, content: ContentBlock[], tool: { name: string; description: string; input_schema: object }): Promise<T> {
+async function askGemini<T>(
+  system: string,
+  content: ContentBlock[],
+  tool: { name: string; description: string; input_schema: object },
+  deadline: number,
+  state: AIState,
+): Promise<T> {
   const base = (env("GEMINI_BASE_URL") || "https://generativelanguage.googleapis.com").replace(/\/$/, "");
-  const chosen = env("BACII_GEMINI_MODEL") || "gemini-flash-latest";
+  const chosen = env("BACII_GEMINI_MODEL") || GEMINI_MODELS[0];
   const parts = content.map((block) =>
     block.type === "image"
       ? { inline_data: { mime_type: block.source.media_type, data: block.source.data } }
       : { text: block.text },
   );
 
-  const call = (model: string, withSchema: boolean) =>
-    fetch(`${base}/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
-      method: "POST",
-      // The key goes in a header, never the URL, so it stays out of request logs.
-      headers: { "Content-Type": "application/json", "x-goog-api-key": env("GEMINI_API_KEY") },
-      body: JSON.stringify({
-        systemInstruction: {
-          parts: [
-            {
-              text: withSchema
-                ? `${system}\n\nAnswer with JSON only: ${tool.description}`
-                : `${system}\n\nAnswer with one JSON object only, no other text, matching this JSON Schema: ${JSON.stringify(tool.input_schema)}`,
-            },
-          ],
-        },
-        contents: [{ role: "user", parts }],
-        generationConfig: {
-          responseMimeType: "application/json",
-          ...(withSchema ? { responseSchema: geminiSchema(tool.input_schema as JsonSchema) } : {}),
-          temperature: 0.2,
-        },
-      }),
-    });
+  /** One request, given up in time to try another model before the deadline. */
+  const call = async (model: string, withSchema: boolean): Promise<Response> => {
+    const left = deadline - Date.now();
+    if (left < 3000) return new Response(JSON.stringify({ error: { message: "out of time" } }), { status: 504 });
+    try {
+      return await fetch(`${base}/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+        method: "POST",
+        signal: AbortSignal.timeout(Math.min(left - 1500, 25_000)),
+        // The key goes in a header, never the URL, so it stays out of request logs.
+        headers: { "Content-Type": "application/json", "x-goog-api-key": env("GEMINI_API_KEY") },
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [
+              {
+                text: withSchema
+                  ? `${system}\n\nAnswer with JSON only: ${tool.description}`
+                  : `${system}\n\nAnswer with one JSON object only, no other text, matching this JSON Schema: ${JSON.stringify(tool.input_schema)}`,
+              },
+            ],
+          },
+          contents: [{ role: "user", parts }],
+          generationConfig: {
+            responseMimeType: "application/json",
+            ...(withSchema ? { responseSchema: geminiSchema(tool.input_schema as JsonSchema) } : {}),
+            // Reading an exercise and naming its topic needs no long reasoning:
+            // without "thinking" a 2.5 model answers in seconds.
+            ...(model.startsWith("gemini-2.5") ? { thinkingConfig: { thinkingBudget: 0 } } : {}),
+            temperature: 0.2,
+          },
+        }),
+      });
+    } catch {
+      return new Response(JSON.stringify({ error: { message: `${model} did not answer in time` } }), { status: 504 });
+    }
+  };
 
   // The chosen model first, then the others: one model can be overloaded (503),
-  // out of free-tier quota (429) or not offered to this key (404) while the
-  // next one answers fine.
-  const models = [...new Set([chosen, ...GEMINI_FALLBACK_MODELS])];
+  // slow (504), out of free-tier quota (429) or not offered to this key (404)
+  // while the next one answers fine.
+  const models = [...new Set([state.model ?? chosen, chosen, ...GEMINI_MODELS])];
   // Replaced on the first call; models is never empty.
   let response = new Response(null, { status: 599 });
+  let used = chosen;
   for (const model of models) {
+    used = model;
     for (let attempt = 0; attempt < 2; attempt += 1) {
       response = await call(model, true);
       // A schema this API version does not accept: describe it in words instead.
@@ -235,13 +261,14 @@ async function askGemini<T>(system: string, content: ContentBlock[], tool: { nam
         const reason = await response.clone().text();
         if (/schema|Invalid JSON payload|Unknown name/i.test(reason)) response = await call(model, false);
       }
-      // Busy for a moment: wait briefly and ask once more before moving on.
-      if (response.status !== 503 && response.status !== 500) break;
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      // Busy for a moment: wait briefly and ask once more, if there is time.
+      if ((response.status !== 503 && response.status !== 500) || deadline - Date.now() < 15_000) break;
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
-    if (response.ok || ![404, 429, 500, 503].includes(response.status)) break;
+    if (response.ok || ![404, 429, 500, 503, 504].includes(response.status) || deadline - Date.now() < 4000) break;
   }
   if (!response.ok) throw new Error(`Gemini ${response.status}: ${(await response.text()).slice(0, 300)}`);
+  state.model = used;
 
   const result = (await response.json()) as {
     candidates?: { content?: { parts?: { text?: string; thought?: boolean }[] }; finishReason?: string }[];
@@ -256,12 +283,29 @@ async function askGemini<T>(system: string, content: ContentBlock[], tool: { nam
   return JSON.parse(start >= 0 && end > start ? text.slice(start, end + 1) : text) as T;
 }
 
-/** Gemini models to try after the chosen one, all on the free tier. */
-const GEMINI_FALLBACK_MODELS = ["gemini-2.5-flash", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"];
+/**
+ * Gemini models in the order they are tried, all on the free tier. The 2.5
+ * models first: fast with thinking off and less crowded than the newest one.
+ * The "-latest" aliases follow, for when Google retires the 2.5 models.
+ */
+const GEMINI_MODELS = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-flash-latest", "gemini-flash-lite-latest"];
+
+/**
+ * Shared by the calls of one lookup: the model that answered the first call is
+ * asked first for the second, skipping one found down a moment ago.
+ */
+interface AIState {
+  model: string | null;
+}
 
 /** Claude when its key is set, otherwise Gemini (which has a free tier). */
-const askAI = <T>(system: string, content: ContentBlock[], tool: { name: string; description: string; input_schema: object }) =>
-  env("ANTHROPIC_API_KEY") ? askClaude<T>(system, content, tool) : askGemini<T>(system, content, tool);
+const askAI = <T>(
+  system: string,
+  content: ContentBlock[],
+  tool: { name: string; description: string; input_schema: object },
+  deadline: number,
+  state: AIState,
+) => (env("ANTHROPIC_API_KEY") ? askClaude<T>(system, content, tool, deadline) : askGemini<T>(system, content, tool, deadline, state));
 
 const READ_SYSTEM = `You help Cambodian Grade 12 students revise for the BacII (បាក់ឌុប), the national upper-secondary exam.
 A student is stuck on an exercise and wants a YouTube video that teaches it. Read the exercise (it may be in Khmer, English or French, typed or photographed, possibly handwritten) and report it with the tool.
@@ -342,7 +386,7 @@ async function searchYouTube(query: string, language: string): Promise<Candidate
     videoEmbeddable: "true",
     key: env("YOUTUBE_API_KEY"),
   });
-  const response = await fetch(`${base}/search?${params}`);
+  const response = await fetch(`${base}/search?${params}`, { signal: AbortSignal.timeout(8000) });
   if (!response.ok) throw new Error(`YouTube ${response.status}: ${(await response.text()).slice(0, 200)}`);
   const body = (await response.json()) as {
     items?: { id?: { videoId?: string }; snippet?: Record<string, unknown> }[];
@@ -376,7 +420,12 @@ interface Body {
   image?: { mediaType?: unknown; data?: unknown } | null;
 }
 
+/** Vercel stops the function at 60s (vercel.json); finish well before that. */
+const TIME_BUDGET_MS = 50_000;
+
 export async function POST(request: Request): Promise<Response> {
+  const deadline = Date.now() + TIME_BUDGET_MS;
+  const ai: AIState = { model: null };
   // Names only, never values: tells the site owner which setting to add.
   const missing = [
     !env("ANTHROPIC_API_KEY") && !env("GEMINI_API_KEY") && "GEMINI_API_KEY",
@@ -438,7 +487,8 @@ export async function POST(request: Request): Promise<Response> {
         text ? `The exercise, as the student typed it:\n${text}` : "The exercise is in the photo.",
       ].join("\n\n"),
     });
-    reading = await askAI<ExerciseReading>(READ_SYSTEM, content, READ_TOOL);
+    // Leave time for the YouTube search after reading.
+    reading = await askAI<ExerciseReading>(READ_SYSTEM, content, READ_TOOL, deadline - 8000, ai);
   } catch (error) {
     console.error(error);
     return fail(502, "UPSTREAM", "Could not read the exercise right now. Try again.", upstreamDetail(error));
@@ -462,7 +512,8 @@ export async function POST(request: Request): Promise<Response> {
 
   // 3. Rank them against the exercise; if that fails, keep YouTube's order.
   let videos: (Candidate & { match: Match; reason: string })[] = candidates.map((video) => ({ ...video, match: "related", reason: "" }));
-  if (candidates.length) {
+  // Ranking is a bonus: skipped when reading the exercise used up the time.
+  if (candidates.length && deadline - Date.now() > 10_000) {
     try {
       const { ranked } = await askAI<{ ranked: { id: string; match: string; reason: string }[] }>(
         RANK_SYSTEM,
@@ -482,6 +533,8 @@ export async function POST(request: Request): Promise<Response> {
           },
         ],
         RANK_TOOL,
+        deadline,
+        ai,
       );
       const byId = new Map(candidates.map((video) => [video.id, video]));
       const order: Match[] = ["exact", "same-topic", "related"];

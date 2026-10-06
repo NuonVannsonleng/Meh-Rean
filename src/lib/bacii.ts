@@ -127,10 +127,13 @@ export async function findExerciseVideos(input: {
   if (!response.ok || !body || body.error) {
     const error = body?.error;
     // A missing function (404) is a server that has not been set up yet.
+    if (error) throw new LookupError(error.code, error.message, error.detail ?? null);
+    // No answer of ours: a missing function (404), or the host stopping a slow one (504).
+    if (response.status === 404) throw new LookupError("NOT_CONFIGURED", "Video search isn't available here yet.", "HTTP 404");
     throw new LookupError(
-      error?.code ?? (response.status === 404 ? "NOT_CONFIGURED" : "UPSTREAM"),
-      error?.message ?? "Something went wrong. Try again.",
-      error?.detail ?? null,
+      "UPSTREAM",
+      response.status === 504 ? "That took too long. Please try again." : "Something went wrong. Try again.",
+      `HTTP ${response.status}`,
     );
   }
   return body as VideoLookup;
