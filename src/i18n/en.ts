@@ -768,7 +768,8 @@ export const en = {
       fallbackBody: "Automatic video finding isn't available here, but these searches are a good start:",
       fallbackKhmer: "Search in Khmer",
       fallbackEnglish: "Search in English",
-      fallbackNeedsText: "Type the topic or the exercise above to get search links.",
+      fallbackNotReady: "Automatic video finding isn't switched on yet. Meanwhile, these YouTube searches can help:",
+      fallbackNeedsText: "Tip: type the topic or the exercise above for more exact searches.",
     },
   },
   credits: {

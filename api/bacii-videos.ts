@@ -261,8 +261,17 @@ interface Body {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  if (!env("ANTHROPIC_API_KEY") || !env("YOUTUBE_API_KEY") || !supabaseUrl() || !supabaseKey()) {
-    return fail(503, "NOT_CONFIGURED", "Video search is not set up on this server yet.");
+  // Names only, never values: tells the site owner which setting to add.
+  const missing = [
+    !env("ANTHROPIC_API_KEY") && "ANTHROPIC_API_KEY",
+    !env("YOUTUBE_API_KEY") && "YOUTUBE_API_KEY",
+    !supabaseUrl() && "VITE_SUPABASE_URL",
+    !supabaseKey() && "VITE_SUPABASE_PUBLISHABLE_KEY",
+  ].filter(Boolean);
+  if (missing.length) {
+    return json(503, {
+      error: { code: "NOT_CONFIGURED", message: "Video search is not set up on this server yet.", missing },
+    });
   }
 
   const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? "";

@@ -188,34 +188,27 @@ function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => 
 }
 
 /** Plain YouTube searches, for when the server cannot read the exercise. */
-function Fallback({ text, subject }: { text: string; subject: BaciiSubject | "" }) {
+function Fallback({ text, subject, notReady }: { text: string; subject: BaciiSubject | ""; notReady: boolean }) {
   const words = text.replace(/\s+/g, " ").trim().slice(0, 80);
   const km = BACII_SUBJECTS.find((item) => item.id === subject)?.km ?? "";
+  // With only a photo there are no words to search: fall back to the subject.
+  const khmer = [words, km, "បាក់ឌុប"].filter(Boolean).join(" ");
+  const english = [words, subject ? subjectLabel(subject) : "", words ? "lesson" : "BacII grade 12 lesson"].filter(Boolean).join(" ");
   return (
     <section className="card p-4 sm:p-5">
       <h2 className="text-ink-900 text-base font-bold">{copy.fallbackTitle}</h2>
-      {words ? (
-        <>
-          <p className="text-ink-700 mt-1 text-sm">{copy.fallbackBody}</p>
-          <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-            <a href={youtubeSearchUrl(`${words} ${km} បាក់ឌុប`.trim())} target="_blank" rel="noreferrer" className="btn-secondary">
-              <SearchIcon className="h-4 w-4" />
-              {copy.fallbackKhmer}
-            </a>
-            <a
-              href={youtubeSearchUrl(`${words} ${subject ? subjectLabel(subject) : ""} lesson`.trim())}
-              target="_blank"
-              rel="noreferrer"
-              className="btn-secondary"
-            >
-              <SearchIcon className="h-4 w-4" />
-              {copy.fallbackEnglish}
-            </a>
-          </div>
-        </>
-      ) : (
-        <p className="text-ink-700 mt-1 text-sm">{copy.fallbackNeedsText}</p>
-      )}
+      <p className="text-ink-700 mt-1 text-sm">{notReady ? copy.fallbackNotReady : copy.fallbackBody}</p>
+      <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+        <a href={youtubeSearchUrl(khmer)} target="_blank" rel="noreferrer" className="btn-secondary">
+          <SearchIcon className="h-4 w-4" />
+          {copy.fallbackKhmer}
+        </a>
+        <a href={youtubeSearchUrl(english)} target="_blank" rel="noreferrer" className="btn-secondary">
+          <SearchIcon className="h-4 w-4" />
+          {copy.fallbackEnglish}
+        </a>
+      </div>
+      {!words && <p className="text-ink-500 mt-3 text-xs">{copy.fallbackNeedsText}</p>}
     </section>
   );
 }
@@ -435,13 +428,13 @@ export default function BaciiVideos() {
         {state.kind === "done" && <Results result={state.result} onAnother={reset} />}
         {state.kind === "error" &&
           (state.error.code === "NOT_CONFIGURED" ? (
-            <Fallback text={text} subject={subject} />
+            <Fallback text={text} subject={subject} notReady />
           ) : (
             <div className="space-y-4">
               <p role="alert" className="bg-danger-bg text-danger-fg rounded-md px-4 py-3 text-sm font-medium">
                 {state.error.message}
               </p>
-              {state.error.code !== "UNAUTHORIZED" && <Fallback text={text} subject={subject} />}
+              {state.error.code !== "UNAUTHORIZED" && <Fallback text={text} subject={subject} notReady={false} />}
             </div>
           ))}
       </div>
