@@ -16,6 +16,7 @@ import {
   GraduationIcon,
   LinkIcon,
   MoreIcon,
+  PenIcon,
   ShareIcon,
   StarFilledIcon,
   BulbIcon,
@@ -166,6 +167,7 @@ function FileViewer({ attachment, onZoom }: { attachment: Attachment; onZoom: ()
 // ---- Header actions ----
 
 function NoteMenu({ post, onDelete }: { post: PostView; onDelete: () => void }) {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const close = useCallback(() => setOpen(false), []);
@@ -187,6 +189,18 @@ function NoteMenu({ post, onDelete }: { post: PostView; onDelete: () => void }) 
       </button>
       {open && (
         <div role="menu" className="card animate-pop absolute right-0 z-30 mt-1 w-48 origin-top-right p-1.5 shadow-lg">
+          <button
+            type="button"
+            role="menuitem"
+            onClick={() => {
+              close();
+              navigate(`/post/${post.id}/edit`);
+            }}
+            className={item}
+          >
+            <PenIcon className="h-4 w-4" />
+            {t.post.edit}
+          </button>
           <button
             type="button"
             role="menuitem"
@@ -297,6 +311,13 @@ function About({ post, onChange }: { post: PostView; onChange: (post: PostView) 
               {t.note.uploadedOn(formatDate(post.createdAt))}
             </time>
           </AboutRow>
+          {post.editedAt && (
+            <AboutRow icon={<PenIcon className="h-4 w-4" />}>
+              <time dateTime={post.editedAt} title={formatDateTime(post.editedAt)}>
+                {t.note.editedOn(formatDate(post.editedAt))}
+              </time>
+            </AboutRow>
+          )}
         </ul>
       </section>
 
@@ -487,6 +508,11 @@ export default function PostDetail() {
                   <time dateTime={post.createdAt} title={formatDateTime(post.createdAt)} className="shrink-0">
                     {formatRelativeTime(post.createdAt)}
                   </time>
+                  {post.editedAt && (
+                    <span className="shrink-0" title={formatDateTime(post.editedAt)}>
+                      · {t.note.edited}
+                    </span>
+                  )}
                 </span>
               </span>
             </Link>

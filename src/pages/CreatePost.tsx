@@ -1,9 +1,10 @@
 import { useEffect, useId, useMemo, useRef, useState, type DragEvent, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import { describedBy, FieldShell, TextField } from "../components/FormField";
 import { ChevronDownIcon, CloseIcon, PaperclipIcon, UploadIcon } from "../components/Icons";
 import InstitutionPicker from "../components/InstitutionPicker";
+import LoadingState from "../components/LoadingState";
 import { AttachmentIcon } from "../components/PostAttachments";
 import RadioGroup from "../components/RadioGroup";
 import SubjectPicker from "../components/SubjectPicker";
@@ -15,8 +16,8 @@ import { errorMessage } from "../lib/errors";
 import { fileExtension, formatFileSize } from "../lib/format";
 import { selectionFromProfile, type InstitutionSelection } from "../lib/institutions";
 import { isMainSubject, SUBJECT_COLORS, subjectColor, subjectLabel } from "../lib/subjects";
-import { createPost } from "../services/api";
-import { EDUCATION_LEVELS, SUBJECTS, type EducationLevel, type InstitutionKind } from "../types";
+import { createPost, getPost, updatePost } from "../services/api";
+import { EDUCATION_LEVELS, SUBJECTS, type Attachment, type EducationLevel, type InstitutionKind } from "../types";
 
 /** High schools for high school notes; universities for university and postgraduate ones. */
 function kindForLevel(level: EducationLevel): InstitutionKind {
@@ -75,10 +76,33 @@ function FilePreview({ picked, onRemove }: { picked: PickedFile; onRemove: () =>
   );
 }
 
+/** A file the note already has, when editing: kept unless removed. */
+function ExistingFile({ attachment, onRemove }: { attachment: Attachment; onRemove: () => void }) {
+  return (
+    <li className="border-line bg-surface flex items-center gap-3 rounded-md border p-2.5">
+      <AttachmentIcon kind={attachment.kind} className="h-12 w-12" />
+      <div className="min-w-0 flex-1">
+        <p className="text-ink-900 truncate text-sm font-medium" title={attachment.name}>
+          {attachment.name}
+        </p>
+        <p className="text-ink-500 text-xs">
+          {[fileExtension(attachment.name) || t.post.kinds[attachment.kind], formatFileSize(attachment.size)].join(" · ")}
+        </p>
+      </div>
+      <button type="button" onClick={onRemove} aria-label={t.create.removeFile(attachment.name)} className="icon-btn">
+        <CloseIcon className="h-4 w-4" />
+      </button>
+    </li>
+  );
+}
+
+/** New note, and editing one (/post/:id/edit): the same form. */
 export default function CreatePost() {
   const { user } = useAuth();
   const { notify } = useToast();
   const navigate = useNavigate();
+  const { id: editId } = useParams();
+  const editing = Boolean(editId);
   const inputRef = useRef<HTMLInputElement>(null);
   const subjectId = useId();
   const bodyId = useId();
@@ -94,9 +118,40 @@ export default function CreatePost() {
   const [level, setLevel] = useState<EducationLevel>(() => (school?.kind === "high-school" ? "high-school" : "university"));
   const [tags, setTags] = useState("");
   const [files, setFiles] = useState<PickedFile[]>([]);
+  /** Editing: the note's current files that stay. */
+  const [existing, setExisting] = useState<Attachment[]>([]);
+  const [loadState, setLoadState] = useState<"ready" | "loading" | "missing">(editing ? "loading" : "ready");
   const [dragging, setDragging] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (!editId || !user) return;
+    let active = true;
+    getPost(editId)
+      .then((post) => {
+        if (!active) return;
+        // Only the author can edit; anyone else just goes to the note.
+        if (post.authorId !== user.id) {
+          navigate(`/post/${post.id}`, { replace: true });
+          return;
+        }
+        setTitle(post.title);
+        setBody(post.body);
+        setSubject(post.subject);
+        setLevel(post.level);
+        setSchool(post.school ? { name: post.school, domain: post.schoolDomain, country: null, kind: kindForLevel(post.level) } : null);
+        setTags(post.tags.join(", "));
+        setExisting(post.attachments);
+        setLoadState("ready");
+      })
+      .catch(() => {
+        if (active) setLoadState("missing");
+      });
+    return () => {
+      active = false;
+    };
+  }, [editId, user, navigate]);
 
   const parsedTags = useMemo(() => parseTags(tags), [tags]);
   // A subject from the full list (or "other") shows on the Other chip.
@@ -145,8 +200,8 @@ export default function CreatePost() {
     if (!title.trim()) next.title = t.create.errors.title;
     else if (title.trim().length < 4) next.title = t.create.errors.titleShort;
     if (!subject) next.subject = t.create.errors.subject;
-    if (!body.trim() && files.length === 0) next.content = t.create.errors.content;
-    if (files.length > MAX_FILES_PER_POST) next.files = t.create.errors.tooManyFiles;
+    if (!body.trim() && files.length === 0 && existing.length === 0) next.content = t.create.errors.content;
+    if (existing.length + files.length > MAX_FILES_PER_POST) next.files = t.create.errors.tooManyFiles;
     const tooLarge = files.find((item) => item.file.size > MAX_FILE_BYTES);
     if (tooLarge) next.files = t.create.errors.fileTooLarge(tooLarge.file.name);
     return next;
@@ -164,7 +219,7 @@ export default function CreatePost() {
 
     setSubmitting(true);
     try {
-      const post = await createPost({
+      const fields = {
         title,
         body,
         subject,
@@ -173,9 +228,12 @@ export default function CreatePost() {
         schoolDomain: level === "self-study" ? null : (school?.domain ?? null),
         tags: parsedTags,
         files: files.map((item) => item.file),
-      });
-      notify(t.create.success);
-      navigate(`/post/${post.id}`);
+      };
+      const post = editId
+        ? await updatePost(editId, { ...fields, keepAttachmentIds: existing.map((attachment) => attachment.id) })
+        : await createPost(fields);
+      notify(editId ? t.create.saved : t.create.success);
+      navigate(`/post/${post.id}`, { replace: Boolean(editId) });
     } catch (error) {
       setErrors({ submit: errorMessage(error) });
     } finally {
@@ -185,13 +243,28 @@ export default function CreatePost() {
 
   if (!user) return null;
 
+  if (loadState === "loading") {
+    return (
+      <div className="container-page max-w-3xl py-6 sm:py-8">
+        <LoadingState count={1} variant="block" />
+      </div>
+    );
+  }
+  if (loadState === "missing") {
+    return (
+      <div className="container-page max-w-3xl py-10 text-center">
+        <p className="text-ink-700">{t.create.missing}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="container-page max-w-3xl py-6 sm:py-8">
       <header className="mb-6 flex items-center gap-3">
         <Avatar user={user} size="lg" />
         <div>
-          <h1 className="text-ink-900 text-2xl sm:text-3xl">{t.create.title}</h1>
-          <p className="text-ink-500 mt-0.5 text-sm">{t.create.subtitle}</p>
+          <h1 className="text-ink-900 text-2xl sm:text-3xl">{editing ? t.create.editTitle : t.create.title}</h1>
+          <p className="text-ink-500 mt-0.5 text-sm">{editing ? t.create.editSubtitle : t.create.subtitle}</p>
         </div>
       </header>
 
@@ -370,6 +443,17 @@ export default function CreatePost() {
             />
           </div>
           {errors.files && <p className="field-error">{errors.files}</p>}
+          {existing.length > 0 && (
+            <ul className="mt-3 space-y-2" aria-label={t.create.currentFiles}>
+              {existing.map((attachment) => (
+                <ExistingFile
+                  key={attachment.id}
+                  attachment={attachment}
+                  onRemove={() => setExisting((current) => current.filter((item) => item.id !== attachment.id))}
+                />
+              ))}
+            </ul>
+          )}
           {files.length > 0 && (
             <ul className="mt-3 space-y-2">
               {files.map((item) => (
@@ -402,7 +486,7 @@ export default function CreatePost() {
             {t.common.cancel}
           </button>
           <button type="submit" disabled={submitting} className="btn-primary sm:min-w-36">
-            {submitting ? t.create.submitting : t.create.submit}
+            {editing ? (submitting ? t.create.saving : t.create.save) : submitting ? t.create.submitting : t.create.submit}
           </button>
         </div>
       </form>

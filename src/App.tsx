@@ -59,6 +59,14 @@ export default function App() {
           <Route path="/bacii" element={<Bacii />} />
           <Route path="/bacii/videos" element={<BaciiVideos />} />
           <Route
+            path="/post/:id/edit"
+            element={
+              <RequireAuth>
+                <CreatePost />
+              </RequireAuth>
+            }
+          />
+          <Route
             path="/create"
             element={
               <RequireAuth>

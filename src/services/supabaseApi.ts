@@ -19,6 +19,7 @@ import {
   type EducationLevel,
   type FeedQuery,
   type NewPostInput,
+  type UpdatePostInput,
   type PostView,
   type ProfileView,
   type PublicUser,
@@ -77,6 +78,8 @@ interface PostRow {
   tags: string[];
   attachments: Attachment[];
   created_at: string;
+  /** Absent until schema.sql has been re-run with note editing. */
+  edited_at?: string | null;
   author: ProfileRow | null;
   reactions: { user_id: string; type: ReactionType }[];
   ratings: { user_id: string; value: number }[];
@@ -168,6 +171,7 @@ function toPostView(row: PostRow, viewer: string | null): PostView {
     tags: row.tags ?? [],
     attachments: row.attachments ?? [],
     createdAt: row.created_at,
+    editedAt: row.edited_at ?? null,
     author: toPublicUser(row.author),
     reactions: { counts, total: (row.reactions ?? []).length, mine },
     rating: {
@@ -503,6 +507,80 @@ export async function createPost(input: NewPostInput): Promise<PostView> {
   }
 
   return getPost(postId);
+}
+
+/** Uploads a note's files under the author's folder; see createPost() on content types. */
+async function uploadAttachments(viewer: string, postId: string, files: File[], uploaded: string[]): Promise<Attachment[]> {
+  const attachments: Attachment[] = [];
+  // A timestamp keeps names added in a later edit from colliding with earlier ones.
+  const batch = Date.now().toString(36);
+  for (const [index, file] of files.entries()) {
+    const safeName = file.name.replace(/[^\w.\-]+/g, "_").slice(-80);
+    const path = `${viewer}/${postId}/${batch}-${index}-${safeName}`;
+    const contentType = safeContentType(file.type || "application/octet-stream");
+    const upload = await supabase.storage.from(ATTACHMENTS_BUCKET).upload(path, file, { contentType, upsert: false });
+    if (upload.error) fail(upload.error);
+    uploaded.push(path);
+    const { data } = supabase.storage.from(ATTACHMENTS_BUCKET).getPublicUrl(path);
+    attachments.push({
+      id: path,
+      name: file.name,
+      mimeType: contentType,
+      size: file.size,
+      kind: detectAttachmentKind(contentType, file.name),
+      url: data.publicUrl,
+    });
+  }
+  return attachments;
+}
+
+/**
+ * Changes a note: its text and details, which of its files stay, and new
+ * files. Only its author may; the database keeps its id, author and first
+ * shared date, and stamps edited_at (see guard_post_update in schema.sql).
+ */
+export async function updatePost(id: string, input: UpdatePostInput): Promise<PostView> {
+  const viewer = await requireViewer();
+  const current = unwrap(
+    await supabase.from("posts").select("author_id, attachments").eq("id", id).single<{ author_id: string; attachments: Attachment[] }>(),
+  );
+  if (current.author_id !== viewer) throw new ApiError("FORBIDDEN", 403);
+
+  const keep = new Set(input.keepAttachmentIds);
+  const kept = (current.attachments ?? []).filter((attachment) => keep.has(attachment.id));
+  const dropped = (current.attachments ?? []).filter((attachment) => !keep.has(attachment.id));
+  if (kept.length + input.files.length > MAX_FILES_PER_POST) throw new ApiError("TOO_MANY_FILES", 413);
+  if (input.files.some((file) => file.size > MAX_FILE_BYTES)) throw new ApiError("FILE_TOO_LARGE", 413);
+
+  const uploaded: string[] = [];
+  try {
+    const added = await uploadAttachments(viewer, id, input.files, uploaded);
+    const changes = {
+      title: input.title.trim(),
+      body: input.body.trim(),
+      subject: input.subject,
+      level: input.level,
+      tags: input.tags,
+      attachments: [...kept, ...added],
+    };
+    const school = {
+      school: input.school ? input.school.trim().slice(0, 150) : null,
+      school_domain: input.school ? input.schoolDomain : null,
+    };
+    let { error } = await supabase.from("posts").update({ ...changes, ...school }).eq("id", id);
+    // A database from before notes had a school: save the rest (see createPost).
+    if (error?.code === "PGRST204") ({ error } = await supabase.from("posts").update(changes).eq("id", id));
+    if (error) fail(error);
+  } catch (error) {
+    if (uploaded.length) await supabase.storage.from(ATTACHMENTS_BUCKET).remove(uploaded);
+    throw error;
+  }
+
+  // Only once the note no longer points at them: remove the files taken out.
+  const paths = dropped.map((attachment) => storagePath(attachment.url)).filter((path): path is string => Boolean(path));
+  if (paths.length) await supabase.storage.from(ATTACHMENTS_BUCKET).remove(paths);
+
+  return getPost(id);
 }
 
 export async function deletePost(id: string): Promise<void> {

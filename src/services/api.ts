@@ -31,6 +31,7 @@ export const {
   getFeed,
   getPost,
   createPost,
+  updatePost,
   deletePost,
   reactToPost,
   ratePost,

@@ -15,6 +15,7 @@ import {
   type CommentView,
   type FeedQuery,
   type NewPostInput,
+  type UpdatePostInput,
   type Post,
   type PostView,
   type ProfileView,
@@ -139,6 +140,7 @@ function toPostView(db: DbState, post: Post, viewer: string | null): PostView {
     // Notes saved before notes had a school have neither field.
     school: post.school ?? null,
     schoolDomain: post.schoolDomain ?? null,
+    editedAt: post.editedAt ?? null,
     author: toPublicUser(findUser(db, post.authorId)),
     reactions: {
       counts,
@@ -452,6 +454,57 @@ export async function createPost(input: NewPostInput): Promise<PostView> {
   db.posts.push(post);
   persist();
   await delay(250);
+  return toPostView(db, post, viewer.id);
+}
+
+/** Changes a note's text, details and files; only its author may. Mirrors supabaseApi.updatePost. */
+export async function updatePost(id: string, input: UpdatePostInput): Promise<PostView> {
+  await delay();
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  const post = findPost(db, id);
+  if (post.authorId !== viewer.id) throw new ApiError("FORBIDDEN", 403);
+
+  const keep = new Set(input.keepAttachmentIds);
+  const kept = post.attachments.filter((attachment) => keep.has(attachment.id));
+  const dropped = post.attachments.filter((attachment) => !keep.has(attachment.id));
+  if (kept.length + input.files.length > MAX_FILES_PER_POST) throw new ApiError("TOO_MANY_FILES", 413);
+  if (input.files.some((file) => file.size > MAX_FILE_BYTES)) throw new ApiError("FILE_TOO_LARGE", 413);
+
+  const added: Attachment[] = [];
+  try {
+    for (const file of input.files) {
+      const fileId = createId("f");
+      // Re-typed like createPost(), so a renderable type never reaches a blob: URL.
+      const contentType = safeContentType(file.type || "application/octet-stream");
+      await putFile(fileId, file.slice(0, file.size, contentType));
+      added.push({
+        id: fileId,
+        name: file.name,
+        mimeType: contentType,
+        size: file.size,
+        kind: detectAttachmentKind(contentType, file.name),
+        url: `${LOCAL_FILE_PREFIX}${fileId}`,
+      });
+    }
+  } catch {
+    await deleteFiles(added.map((attachment) => attachment.id));
+    throw new ApiError("STORAGE_FULL", 507);
+  }
+
+  Object.assign(post, {
+    title: input.title.trim(),
+    body: input.body.trim(),
+    subject: input.subject,
+    level: input.level,
+    school: input.school,
+    schoolDomain: input.schoolDomain,
+    tags: input.tags,
+    attachments: [...kept, ...added],
+    editedAt: new Date().toISOString(),
+  });
+  persist();
+  await deleteFiles(dropped.map((attachment) => attachment.id));
   return toPostView(db, post, viewer.id);
 }
 

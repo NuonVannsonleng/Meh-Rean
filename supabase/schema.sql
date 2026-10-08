@@ -52,6 +52,35 @@ do $$ begin
   end if;
 end $$;
 
+-- Editing a note: the author may change what it says, never whose it is,
+-- its id or when it was first shared. edited_at is set here, by the database,
+-- whenever the content changes, so the "edited" label cannot be faked or hidden.
+alter table public.posts add column if not exists edited_at timestamptz;
+
+create or replace function public.guard_post_update()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  new.id := old.id;
+  new.author_id := old.author_id;
+  new.created_at := old.created_at;
+  if (new.title, new.body, new.subject, new.level, new.tags, new.attachments, new.school, new.school_domain)
+     is distinct from
+     (old.title, old.body, old.subject, old.level, old.tags, old.attachments, old.school, old.school_domain) then
+    new.edited_at := now();
+  else
+    new.edited_at := old.edited_at;
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists posts_guard_update on public.posts;
+create trigger posts_guard_update before update on public.posts
+  for each row execute function public.guard_post_update();
+
 create table if not exists public.comments (
   id uuid primary key default gen_random_uuid(),
   post_id uuid not null references public.posts on delete cascade,

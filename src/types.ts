@@ -132,6 +132,8 @@ export interface Post {
   tags: string[];
   attachments: Attachment[];
   createdAt: string;
+  /** When the author last changed it; null (or absent in old data) if never. */
+  editedAt?: string | null;
 }
 
 export interface Comment {
@@ -357,6 +359,12 @@ export interface NewPostInput {
   schoolDomain: string | null;
   tags: string[];
   files: File[];
+}
+
+/** An edit to a note: the same fields, plus which of its files to keep. */
+export interface UpdatePostInput extends NewPostInput {
+  /** Ids of the note's current attachments to keep; the rest are deleted. */
+  keepAttachmentIds: string[];
 }
 
 export interface UpdateProfileInput {
