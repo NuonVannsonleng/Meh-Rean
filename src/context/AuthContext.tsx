@@ -16,31 +16,61 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+/**
+ * The signed-in account, remembered in this browser so a returning student
+ * sees their own home at once instead of the signed-out page while the
+ * session is checked (renewing a token and loading the profile can take a
+ * few seconds). The server's answer replaces it moments later; signing out
+ * forgets it. Only the student's own details, which the session already
+ * keeps in this browser, are stored.
+ */
+const ACCOUNT_KEY = "meh-rean:account";
+
+function rememberedAccount(): User | null {
+  try {
+    const raw = localStorage.getItem(ACCOUNT_KEY);
+    const parsed = raw ? (JSON.parse(raw) as Partial<User>) : null;
+    return parsed && typeof parsed.id === "string" && typeof parsed.username === "string" ? (parsed as User) : null;
+  } catch {
+    return null;
+  }
+}
+
+function remember(user: User | null) {
+  try {
+    if (user) localStorage.setItem(ACCOUNT_KEY, JSON.stringify(user));
+    else localStorage.removeItem(ACCOUNT_KEY);
+  } catch {
+    // Private mode or storage full: the app still works, just without the head start.
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [status, setStatus] = useState<AuthStatus>("loading");
+  const [user, setUser] = useState<User | null>(rememberedAccount);
+  const [status, setStatus] = useState<AuthStatus>(() => (rememberedAccount() ? "signed-in" : "loading"));
+
+  const applyUser = useCallback((next: User | null) => {
+    setUser(next);
+    setStatus(next ? "signed-in" : "signed-out");
+    remember(next);
+  }, []);
 
   useEffect(() => {
     let active = true;
     api
       .getCurrentUser()
       .then((current) => {
-        if (!active) return;
-        setUser(current);
-        setStatus(current ? "signed-in" : "signed-out");
+        if (active) applyUser(current);
       })
       .catch(() => {
-        if (active) setStatus("signed-out");
+        // Offline or the server is unreachable: keep a remembered account
+        // rather than signing the student out; with none, they are signed out.
+        if (active) setStatus((current) => (current === "loading" ? "signed-out" : current));
       });
     return () => {
       active = false;
     };
-  }, []);
-
-  const applyUser = useCallback((next: User | null) => {
-    setUser(next);
-    setStatus(next ? "signed-in" : "signed-out");
-  }, []);
+  }, [applyUser]);
 
   // Stay in step with the server session (refresh, other tabs, email links).
   useEffect(() => api.subscribeToAuth(applyUser), [applyUser]);

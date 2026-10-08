@@ -174,7 +174,7 @@ function SmallSelect<T extends string>({
 }
 
 export default function Home() {
-  const { user } = useAuth();
+  const { user, status } = useAuth();
   const [params, setParams] = useSearchParams();
 
   const query = params.get("q") ?? "";
@@ -225,7 +225,8 @@ export default function Home() {
 
   return (
     <div className="container-page py-6 sm:py-8 xl:max-w-7xl">
-      {!hasFilters && (user ? <Welcome /> : <Intro />)}
+      {/* Nothing until the session is known, so a signed-in student never sees the sign-up intro. */}
+      {!hasFilters && status !== "loading" && (user ? <Welcome /> : <Intro />)}
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
         <section aria-labelledby="feed-title" className="min-w-0">

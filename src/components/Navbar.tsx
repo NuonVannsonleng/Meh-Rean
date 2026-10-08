@@ -170,11 +170,14 @@ export default function Navbar() {
                 <Avatar user={user} size="sm" className="h-6 w-6 text-[10px]" />
                 {t.nav.profile}
               </NavLink>
-            ) : (
+            ) : status === "signed-out" ? (
               <NavLink to="/login" className={tabLink}>
                 <UserIcon />
                 {t.nav.signIn}
               </NavLink>
+            ) : (
+              // Still checking the session: an empty slot, not a "Sign in" that flips away.
+              <span className="h-14 flex-1" aria-hidden="true" />
             )}
           </li>
         </ul>
