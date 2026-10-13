@@ -127,6 +127,13 @@ and `src/pages/BaciiAttempt.tsx` (result and review).
 Grade estimate (2.5): `src/lib/grades.ts` + `src/data/grade-scale.json`,
 shown by `src/components/GradeEstimateCard.tsx`.
 
+## Mistake notebook (roadmap 3.1)
+
+`mistakes` (primary key user + question), written by `mark_exam_attempt` and
+`record_practice_answer`. API: `recordPracticeAnswer`, `getMistakes`,
+`deleteMistake`. `PracticeQuestion` records answers for signed-in students
+(`onChecked`, `note` props); page `src/pages/BaciiMistakes.tsx`.
+
 ## Other parts
 
 - Subjects: `src/lib/subjects.ts` (15 main + ~130 specific, colours).

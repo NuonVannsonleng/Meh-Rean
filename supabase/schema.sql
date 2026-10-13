@@ -1719,6 +1719,31 @@ create policy "see own answers" on public.exam_answers for select to authenticat
   using (exists (select 1 from public.exam_attempts a where a.id = attempt_id and a.user_id = auth.uid()));
 revoke insert, update, delete on public.exam_attempts, public.exam_answers from anon, authenticated;
 
+-- Mistake notebook (roadmap 3.1): each question a student got wrong, in a
+-- mock exam or in practice, until they get it right. Written only by
+-- mark_exam_attempt and record_practice_answer, which mark on the server.
+create table if not exists public.mistakes (
+  user_id uuid not null references public.profiles on delete cascade,
+  question_id uuid not null references public.questions on delete cascade,
+  last_answer text not null default '' check (char_length(last_answer) <= 5000),
+  source text not null check (source in ('practice', 'exam')),
+  attempt_id uuid references public.exam_attempts on delete set null,
+  times_wrong integer not null default 1 check (times_wrong >= 1),
+  first_wrong_at timestamptz not null default now(),
+  last_wrong_at timestamptz not null default now(),
+  -- Set when the student answers it right; cleared if they get it wrong again.
+  fixed_at timestamptz,
+  primary key (user_id, question_id)
+);
+create index if not exists mistakes_user_idx on public.mistakes (user_id, last_wrong_at desc);
+
+alter table public.mistakes enable row level security;
+drop policy if exists "see own mistakes" on public.mistakes;
+create policy "see own mistakes" on public.mistakes for select to authenticated using (user_id = auth.uid());
+drop policy if exists "remove own mistakes" on public.mistakes;
+create policy "remove own mistakes" on public.mistakes for delete to authenticated using (user_id = auth.uid());
+revoke insert, update on public.mistakes from anon, authenticated;
+
 -- During a student's own running attempt, that paper's answer key is hidden
 -- from them; it comes back once the attempt is submitted or timed out.
 -- Admins always see it, so editing a question never loses its solution.
@@ -1736,6 +1761,33 @@ create policy "questions are public" on public.question_solutions for select usi
       and epq.question_id = question_solutions.question_id
   )
 );
+
+-- Is this answer right? true / false, or null when it needs a person
+-- (worked problems, or a numeric question without a numeric key). Used by
+-- exam marking and by practice answers, so both agree.
+create or replace function public.answer_matches(
+  question_type text, given text, correct_choice text, numeric_answer numeric, numeric_tolerance numeric
+)
+returns boolean
+language plpgsql
+immutable
+set search_path = ''
+as $$
+declare
+  cleaned text := btrim(replace(coalesce(given, ''), ',', '.'));
+begin
+  if question_type = 'multiple-choice' then
+    return btrim(coalesce(given, '')) = correct_choice;
+  end if;
+  if question_type = 'numeric' and numeric_answer is not null then
+    if cleaned !~ '^[-+]?([0-9]+(\.[0-9]*)?|\.[0-9]+)$' then
+      return false;
+    end if;
+    return abs(cleaned::numeric - numeric_answer) <= coalesce(numeric_tolerance, 0);
+  end if;
+  return null;
+end;
+$$;
 
 -- Marks an attempt from the answer key and closes it. Internal: called by
 -- submit_exam and by the other functions when they find a deadline passed.
@@ -1755,14 +1807,7 @@ begin
   on conflict (attempt_id, question_id) do nothing;
 
   update public.exam_answers ea set
-    is_correct = case
-      when q.type = 'multiple-choice' then btrim(ea.answer) = s.correct_choice
-      when q.type = 'numeric' and s.numeric_answer is not null then
-        case when btrim(replace(ea.answer, ',', '.')) ~ '^-?[0-9]+(\.[0-9]+)?$'
-          then abs(btrim(replace(ea.answer, ',', '.'))::numeric - s.numeric_answer) <= coalesce(s.numeric_tolerance, 0)
-          else false end
-      else null
-    end
+    is_correct = public.answer_matches(q.type, ea.answer, s.correct_choice, s.numeric_answer, s.numeric_tolerance)
   from public.exam_attempts a, public.questions q, public.question_solutions s
   where ea.attempt_id = attempt and a.id = ea.attempt_id and q.id = ea.question_id and s.question_id = ea.question_id;
 
@@ -1783,6 +1828,29 @@ begin
     ),
     unmarked = (select count(*) from public.exam_answers ea where ea.attempt_id = a.id and ea.is_correct is null)
   where a.id = attempt and a.status = 'in-progress';
+  if not found then
+    return;
+  end if;
+
+  -- Mistake notebook (roadmap 3.1): wrong or blank answers go in; right
+  -- answers mark an earlier mistake on the same question as fixed.
+  insert into public.mistakes (user_id, question_id, last_answer, source, attempt_id)
+  select a.user_id, ea.question_id, ea.answer, 'exam', a.id
+  from public.exam_answers ea
+  join public.exam_attempts a on a.id = ea.attempt_id
+  where ea.attempt_id = attempt and ea.is_correct = false
+  on conflict (user_id, question_id) do update set
+    last_answer = excluded.last_answer,
+    source = 'exam',
+    attempt_id = excluded.attempt_id,
+    times_wrong = public.mistakes.times_wrong + 1,
+    last_wrong_at = now(),
+    fixed_at = null;
+
+  update public.mistakes m set fixed_at = now()
+  from public.exam_answers ea, public.exam_attempts a
+  where ea.attempt_id = attempt and a.id = attempt and ea.is_correct
+    and m.user_id = a.user_id and m.question_id = ea.question_id and m.fixed_at is null;
 end;
 $$;
 revoke execute on function public.mark_exam_attempt(uuid, text) from public, anon, authenticated;
@@ -1909,3 +1977,63 @@ end;
 $$;
 revoke execute on function public.submit_exam(uuid) from public, anon;
 grant execute on function public.submit_exam(uuid) to authenticated;
+
+-- A practice answer from a signed-in student: marked here, recorded in the
+-- mistake notebook when wrong, and an earlier mistake marked fixed when
+-- right. Returns null for questions that cannot be marked automatically.
+-- Refused for a question on the student's running mock exam, so it cannot
+-- be used to test answers mid-exam.
+create or replace function public.record_practice_answer(question uuid, answer text)
+returns boolean
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  me uuid := auth.uid();
+  q record;
+  right_answer boolean;
+begin
+  if me is null then
+    raise exception 'sign in to keep a mistake notebook' using errcode = '42501';
+  end if;
+  if char_length(btrim(coalesce(answer, ''))) = 0 or char_length(answer) > 5000 then
+    raise exception 'give an answer (up to 5000 characters)' using errcode = '22023';
+  end if;
+  if exists (
+    select 1
+    from public.exam_attempts a
+    join public.exam_paper_questions epq on epq.paper_id = a.paper_id
+    where a.user_id = me and a.status = 'in-progress' and a.deadline_at > now() and epq.question_id = question
+  ) then
+    raise exception 'finish your mock exam first' using errcode = '42501';
+  end if;
+
+  select qq.type, s.correct_choice, s.numeric_answer, s.numeric_tolerance into q
+  from public.questions qq
+  join public.question_solutions s on s.question_id = qq.id
+  where qq.id = question;
+  if not found then
+    return null;
+  end if;
+  right_answer := public.answer_matches(q.type, answer, q.correct_choice, q.numeric_answer, q.numeric_tolerance);
+
+  if right_answer = false then
+    insert into public.mistakes (user_id, question_id, last_answer, source)
+    values (me, question, answer, 'practice')
+    on conflict (user_id, question_id) do update set
+      last_answer = excluded.last_answer,
+      source = 'practice',
+      attempt_id = null,
+      times_wrong = public.mistakes.times_wrong + 1,
+      last_wrong_at = now(),
+      fixed_at = null;
+  elsif right_answer then
+    update public.mistakes m set fixed_at = now()
+    where m.user_id = me and m.question_id = question and m.fixed_at is null;
+  end if;
+  return right_answer;
+end;
+$$;
+revoke execute on function public.record_practice_answer(uuid, text) from public, anon;
+grant execute on function public.record_practice_answer(uuid, text) to authenticated;

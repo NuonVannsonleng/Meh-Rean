@@ -1,6 +1,6 @@
 import { useEffect, type ComponentType } from "react";
 import { Link } from "react-router-dom";
-import { BulbIcon, FileTextIcon, GraduationIcon, VideoIcon } from "../components/Icons";
+import { BulbIcon, FileTextIcon, GraduationIcon, PenIcon, VideoIcon } from "../components/Icons";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 
@@ -27,6 +27,13 @@ const OPTIONS: BaciiOption[] = [
     titleKm: t.bacii.papers.optionTitleKm,
     description: t.bacii.papers.optionDescription,
     Icon: FileTextIcon,
+  },
+  {
+    to: "/bacii/mistakes",
+    title: t.bacii.mistakes.optionTitle,
+    titleKm: t.bacii.mistakes.optionTitleKm,
+    description: t.bacii.mistakes.optionDescription,
+    Icon: PenIcon,
   },
   {
     to: "/bacii/videos",

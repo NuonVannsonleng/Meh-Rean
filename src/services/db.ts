@@ -16,6 +16,7 @@ import {
   type Comment,
   type ExamAnswer,
   type ExamAttempt,
+  type Mistake,
   type Question,
   type MessageAttachment,
   type MessageKind,
@@ -112,6 +113,8 @@ export interface DbState {
   /** Mock exam attempts and their answers (supabase: exam_attempts, exam_answers). */
   examAttempts?: (ExamAttempt & { userId: string })[];
   examAnswers?: (ExamAnswer & { attemptId: string })[];
+  /** Mistake notebook (supabase: mistakes). */
+  mistakes?: (Omit<Mistake, "question"> & { userId: string })[];
 }
 
 const DB_KEY = "meh-rean:db:v3";

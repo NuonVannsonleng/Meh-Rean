@@ -2,9 +2,8 @@
 
 ## Current
 
-**Phase 3 — Task 3.1: Mistake notebook** (next up). Wrong answers from
-practice and mock exams saved with the correct answer, solution and chapter,
-to retry.
+**Phase 3 — Task 3.2: Spaced repetition** (next up). Reviews of notebook
+questions after 1, 3, 7 and 14 days, adapting to results.
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; exam marking and
@@ -116,16 +115,27 @@ timing only in database functions, never in the browser.
   data change (with `verification: "verified"` and a `source`, the practice
   labels drop). `npm run test:grades` 12/12; UI 8/8 online and browser-only;
   320px dark checked.
+- **2026-10-13 — 3.1 Mistake notebook.** Table `mistakes` (one row per
+  student and question: last answer, source, times wrong, first/last wrong,
+  fixed) — students read and remove their own; only the server writes.
+  `mark_exam_attempt` adds wrong and blank exam answers and fixes earlier
+  mistakes answered right; `record_practice_answer` marks a signed-in
+  student's practice answer on the server (shared `answer_matches`), adds or
+  fixes the entry, and refuses questions on their running mock exam. Practice
+  feedback still shows at once from the answer key; the notebook update
+  follows. Page `/bacii/mistakes` (BacII hub entry, link from exam results).
+  Works browser-only with the same rules. `npm run test:mistakes` 8/8; UI 9/9
+  online and browser-only; 320px checked.
 
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
-| Production database | 1.1–2.4 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
+| Production database | 1.1–3.1 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. Grade bands: edit `src/data/grade-scale.json`. |
 | YouTube transcripts | 4.4, 4.6 | The Data API only gives captions to a video's owner; third-party timestamps and video quizzes need another lawful source or will be limited. |
 | Telegram bot | 5.5 | A bot token from @BotFather (free) and owner approval. |
 | Khmer interface wording | 5.4 | A Khmer speaker to review translations. |
-| Bundle size (694 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |
+| Bundle size (700 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |

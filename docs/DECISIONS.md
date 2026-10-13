@@ -34,6 +34,19 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-13 — The mistake notebook is written by the server
+
+Mistakes come from marking, so they are recorded where marking happens:
+`mark_exam_attempt` and `record_practice_answer`, both using
+`answer_matches`. Students can read and delete their entries but not write
+them. Practice keeps instant feedback from the (public) answer key and then
+records on the server; the server's verdict wins if they differ. A blank
+mock-exam answer counts as a mistake (worth reviewing); worked problems never
+do, since nobody marked them. `record_practice_answer` refuses questions on
+the student's running mock exam so it cannot be used to test exam answers.
+One row per student and question (times wrong counts repeats); answering
+right sets `fixed_at`, getting it wrong again clears it.
+
 ## 2026-10-13 — Grade estimates use labelled practice bands
 
 No official BacII grade boundaries were available to cite, so the bands in

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import GivenAnswer from "../components/GivenAnswer";
 import GradeEstimateCard from "../components/GradeEstimateCard";
 import { ArrowLeftIcon, CheckIcon, CloseIcon } from "../components/Icons";
 import LoadingState from "../components/LoadingState";
@@ -8,7 +9,7 @@ import SolutionSteps from "../components/SolutionSteps";
 import { t } from "../i18n/en";
 import { formatPercent } from "../lib/grades";
 import { getCurriculumChapters, getCurriculumSubjects, getExamAttempt, getExamPaper } from "../services/api";
-import type { CurriculumChapter, ExamAnswer, ExamAttemptDetail, ExamPaperDetail, ExamPaperQuestion } from "../types";
+import type { CurriculumChapter, ExamAnswer, ExamAttemptDetail, ExamPaperDetail } from "../types";
 
 const copy = t.bacii.exam;
 
@@ -30,21 +31,6 @@ function Verdict({ answer }: { answer: ExamAnswer | undefined }) {
     );
   }
   return <span className="bg-surface-hover text-ink-700 rounded-full px-2 py-0.5 text-xs font-semibold">{copy.checkYourself}</span>;
-}
-
-/** What the student answered, readable: a choice shows its letter and text. */
-function GivenAnswer({ entry, answer }: { entry: ExamPaperQuestion; answer: string }) {
-  if (!answer.trim()) return <span className="text-ink-500 italic">{copy.noAnswer}</span>;
-  if (entry.question.type === "multiple-choice") {
-    const choice = entry.question.choices.find((item) => item.id === answer);
-    return (
-      <span className="inline-flex items-start gap-1">
-        <strong>{answer.toUpperCase()}.</strong>
-        {choice && <MathText text={choice.content} as="span" />}
-      </span>
-    );
-  }
-  return <span className="whitespace-pre-line">{answer}</span>;
 }
 
 /** The result of a mock exam, with every question to review (roadmap 2.4). */
@@ -105,6 +91,7 @@ export default function BaciiAttempt() {
   const { attempt } = detail;
   const score = attempt.score ?? 0;
   const max = attempt.maxScore ?? 0;
+  const missed = detail.answers.filter((answer) => answer.isCorrect === false).length;
 
   return (
     <div className="container-page max-w-3xl py-6 sm:py-8">
@@ -144,6 +131,15 @@ export default function BaciiAttempt() {
 
       <GradeEstimateCard score={score} max={max} unmarked={attempt.unmarked ?? 0} />
 
+      {missed > 0 && (
+        <p className="bg-surface-muted text-ink-700 mb-5 rounded-md px-4 py-3 text-sm">
+          {t.bacii.mistakes.fromResult(missed)}{" "}
+          <Link to="/bacii/mistakes" className="text-accent font-semibold hover:underline">
+            {t.bacii.mistakes.openNotebook}
+          </Link>
+        </p>
+      )}
+
       <h2 className="font-display text-ink-900 mb-2 text-lg font-bold">{copy.review}</h2>
       <ol className="space-y-3">
         {paper.questions.map((entry) => {
@@ -164,7 +160,7 @@ export default function BaciiAttempt() {
                 <div className="bg-surface-muted rounded-md px-3 py-2">
                   <dt className="text-ink-500 text-[11px] font-semibold tracking-wide uppercase">{copy.yourAnswer}</dt>
                   <dd className="text-ink-900 mt-0.5">
-                    <GivenAnswer entry={entry} answer={answer?.answer ?? ""} />
+                    <GivenAnswer question={entry.question} answer={answer?.answer ?? ""} />
                   </dd>
                 </div>
                 {solution && (

@@ -518,6 +518,21 @@ export interface ExamStart {
   clockOffsetMs: number;
 }
 
+/** A question the student got wrong, kept until they get it right (roadmap 3.1). */
+export interface Mistake {
+  questionId: string;
+  /** What they answered last time ("" when left blank in a mock exam). */
+  lastAnswer: string;
+  source: "practice" | "exam";
+  attemptId: string | null;
+  timesWrong: number;
+  firstWrongAt: string;
+  lastWrongAt: string;
+  /** When they answered it right; null while it still needs fixing. */
+  fixedAt: string | null;
+  question: Question;
+}
+
 export type MediaFilter = "all" | "documents" | "images" | "videos";
 export type FeedSort = "latest" | "top" | "discussed";
 

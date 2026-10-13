@@ -1,6 +1,8 @@
-import { useId, useState, type FormEvent } from "react";
+import { useId, useState, type FormEvent, type ReactNode } from "react";
+import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 import { isCorrect } from "../lib/questions";
+import { recordPracticeAnswer } from "../services/api";
 import type { CurriculumChapter, Question } from "../types";
 import { CheckIcon } from "./Icons";
 import MathText from "./MathText";
@@ -12,23 +14,32 @@ const copy = t.bacii.practice;
 
 /**
  * One question to practise: answer it, get instant feedback (multiple choice
- * and numbers), and open the worked solution. Feedback here is for practice
- * only; exam marks are computed on the server (roadmap 2.4).
+ * and numbers), and open the worked solution. Feedback shows at once from
+ * the answer key; for a signed-in student the answer is also marked on the
+ * server, which keeps their mistake notebook (roadmap 3.1).
  */
 export default function PracticeQuestion({
   question,
   number,
   chapter,
   subjectKey,
+  note,
+  onChecked,
 }: {
   question: Question;
   number: number;
   chapter: CurriculumChapter | undefined;
   subjectKey: string;
+  /** Shown under the question, before the answer (the mistake notebook uses it). */
+  note?: ReactNode;
+  /** After the server has marked a signed-in student's answer. */
+  onChecked?: (correct: boolean, answer: string) => void;
 }) {
   const formId = useId();
+  const { user } = useAuth();
   const [given, setGiven] = useState("");
   const [result, setResult] = useState<"correct" | "incorrect" | "empty" | null>(null);
+  const [recorded, setRecorded] = useState<"added" | "fixed" | "failed" | null>(null);
   const checkable = question.solution && (question.type === "multiple-choice" || question.type === "numeric");
 
   const check = (event: FormEvent) => {
@@ -39,6 +50,16 @@ export default function PracticeQuestion({
       return;
     }
     setResult(isCorrect(question, question.solution, given) ? "correct" : "incorrect");
+    setRecorded(null);
+    if (!user) return;
+    recordPracticeAnswer(question.id, given)
+      .then((correct) => {
+        if (correct === null) return;
+        setResult(correct ? "correct" : "incorrect");
+        setRecorded(correct ? "fixed" : "added");
+        onChecked?.(correct, given);
+      })
+      .catch(() => setRecorded("failed"));
   };
 
   return (
@@ -61,6 +82,8 @@ export default function PracticeQuestion({
           ))}
         </div>
       )}
+
+      {note}
 
       {checkable && (
         <form onSubmit={check} className="mt-3">
@@ -123,6 +146,11 @@ export default function PracticeQuestion({
               {result === "incorrect" && <span className="text-danger-fg">{copy.incorrect}</span>}
               {result === "empty" && <span className="text-ink-500">{question.type === "numeric" ? copy.typeFirst : copy.pickFirst}</span>}
             </p>
+            {recorded && (
+              <p className="text-ink-500 w-full text-xs" aria-live="polite">
+                {recorded === "added" ? copy.addedToNotebook : recorded === "fixed" ? copy.fixedInNotebook : copy.notRecorded}
+              </p>
+            )}
           </div>
         </form>
       )}

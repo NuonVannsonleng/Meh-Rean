@@ -77,8 +77,13 @@ Khmer names. Note sharing with subject and level tags.
 
 ## Phase 3 — Bring students back daily
 
-- [ ] **3.1 Mistake notebook (M)** — wrong answers saved automatically with
+- [x] **3.1 Mistake notebook (M)** — wrong answers saved automatically with
   answer, correct answer, explanation and chapter; retry them.
+  ✔ 2026-10-13: `/bacii/mistakes` ("To fix" / "Fixed", chapter filter, last
+  answer, times wrong, retry with step-by-step solution, remove). Filled on
+  the server from mock exams (wrong and blank answers) and practice
+  (`record_practice_answer`); a right answer marks it fixed.
+  `npm run test:mistakes` 8/8; UI 9/9 in both backends; 320px checked.
 - [ ] **3.2 Spaced repetition (M)** — reviews after 1, 3, 7, 14 days, adapting
   to results.
 - [ ] **3.3 Daily question and streak (S)** — one question from the weakest

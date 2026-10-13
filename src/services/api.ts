@@ -77,6 +77,9 @@ export const {
   submitExam,
   getExamAttempt,
   getMyExamAttempts,
+  recordPracticeAnswer,
+  getMistakes,
+  deleteMistake,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

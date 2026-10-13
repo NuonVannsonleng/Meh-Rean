@@ -33,6 +33,7 @@ import {
   type CurriculumSubject,
   type ExamAnswer,
   type ExamAttempt,
+  type Mistake,
   type ExamAttemptDetail,
   type ExamPaper,
   type ExamPaperDetail,
@@ -1724,4 +1725,59 @@ export async function getMyExamAttempts(paperId?: string): Promise<ExamAttempt[]
   let builder = supabase.from("exam_attempts").select("*").eq("user_id", viewer).order("started_at", { ascending: false }).limit(50);
   if (paperId) builder = builder.eq("paper_id", paperId);
   return unwrap(await builder.returns<ExamAttemptRow[]>()).map(toExamAttempt);
+}
+
+// ---- Mistake notebook ----
+
+interface MistakeRow {
+  question_id: string;
+  last_answer: string;
+  source: "practice" | "exam";
+  attempt_id: string | null;
+  times_wrong: number;
+  first_wrong_at: string;
+  last_wrong_at: string;
+  fixed_at: string | null;
+  question: QuestionRowWithSolution | null;
+}
+
+/** Marked by record_practice_answer, which also keeps the notebook; null when it cannot be marked. */
+export async function recordPracticeAnswer(questionId: string, answer: string): Promise<boolean | null> {
+  await requireViewer();
+  const { data, error } = await supabase.rpc("record_practice_answer", { question: questionId, answer });
+  if (error) throw new ApiError(error.code === "42501" ? "FORBIDDEN" : "UNKNOWN", error.code === "42501" ? 403 : 400, error.message);
+  return data as boolean | null;
+}
+
+export async function getMistakes(): Promise<Mistake[]> {
+  const viewer = await viewerId();
+  if (!viewer) return [];
+  const rows = unwrap(
+    await supabase
+      .from("mistakes")
+      .select(`*, question:questions(${QUESTION_SELECT})`)
+      .eq("user_id", viewer)
+      .order("last_wrong_at", { ascending: false })
+      .limit(500)
+      .returns<MistakeRow[]>(),
+  );
+  return rows
+    .filter((row) => row.question)
+    .map((row) => ({
+      questionId: row.question_id,
+      lastAnswer: row.last_answer,
+      source: row.source,
+      attemptId: row.attempt_id,
+      timesWrong: row.times_wrong,
+      firstWrongAt: row.first_wrong_at,
+      lastWrongAt: row.last_wrong_at,
+      fixedAt: row.fixed_at,
+      question: toQuestion(row.question!, questionImageUrl),
+    }));
+}
+
+export async function deleteMistake(questionId: string): Promise<void> {
+  const viewer = await requireViewer();
+  const { error } = await supabase.from("mistakes").delete().eq("user_id", viewer).eq("question_id", questionId);
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
 }

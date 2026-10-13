@@ -25,6 +25,7 @@ import {
   type CurriculumSubject,
   type ExamAnswer,
   type ExamAttempt,
+  type Mistake,
   type ExamAttemptDetail,
   type ExamPaper,
   type ExamPaperDetail,
@@ -1432,6 +1433,67 @@ function markAttempt(db: DbState, attempt: ExamAttempt & { userId: string }, sta
     maxScore,
     unmarked,
   });
+  for (const answer of db.examAnswers.filter((item) => item.attemptId === attempt.id)) {
+    if (answer.isCorrect === false) noteMistake(db, attempt.userId, answer.questionId, answer.answer, "exam", attempt.id);
+    if (answer.isCorrect === true) noteFixed(db, attempt.userId, answer.questionId);
+  }
+}
+
+// ---- Mistake notebook ----
+// Mirrors the mistakes table, mark_exam_attempt and record_practice_answer.
+
+function noteMistake(db: DbState, userId: string, questionId: string, answer: string, source: Mistake["source"], attemptId: string | null) {
+  db.mistakes ??= [];
+  const now = new Date().toISOString();
+  const entry = db.mistakes.find((item) => item.userId === userId && item.questionId === questionId);
+  if (entry) {
+    Object.assign(entry, { lastAnswer: answer, source, attemptId, timesWrong: entry.timesWrong + 1, lastWrongAt: now, fixedAt: null });
+  } else {
+    db.mistakes.push({ userId, questionId, lastAnswer: answer, source, attemptId, timesWrong: 1, firstWrongAt: now, lastWrongAt: now, fixedAt: null });
+  }
+}
+
+function noteFixed(db: DbState, userId: string, questionId: string) {
+  const entry = (db.mistakes ?? []).find((item) => item.userId === userId && item.questionId === questionId);
+  if (entry && !entry.fixedAt) entry.fixedAt = new Date().toISOString();
+}
+
+/** Marks a practice answer and keeps the notebook up to date; null when it cannot be marked. */
+export async function recordPracticeAnswer(questionId: string, answer: string): Promise<boolean | null> {
+  const db = await loadQuestions();
+  const viewer = requireViewer(db);
+  if (!answer.trim() || answer.length > 5000) throw new ApiError("UNKNOWN", 400, "give an answer (up to 5000 characters)");
+  closeExpiredAttempts(db);
+  const running = new Set((db.examAttempts ?? []).filter((a) => a.userId === viewer.id && a.status === "in-progress").map((a) => a.paperId));
+  const onRunningPaper = loadPapers().some((paper) => running.has(paper.id) && paper.questions.some((entry) => entry.question.id === questionId));
+  if (onRunningPaper) throw new ApiError("FORBIDDEN", 403, "finish your mock exam first");
+  const question = db.questions.find((item) => item.id === questionId);
+  if (!question?.solution) return null;
+  const right = isCorrect(question, question.solution, answer);
+  if (right === false) noteMistake(db, viewer.id, questionId, answer, "practice", null);
+  if (right === true) noteFixed(db, viewer.id, questionId);
+  persist();
+  return right;
+}
+
+export async function getMistakes(): Promise<Mistake[]> {
+  const db = await loadQuestions();
+  const viewer = viewerId(db);
+  if (!viewer) return [];
+  const questions = new Map(hideRunningExamSolutions(db, db.questions).map((question) => [question.id, question]));
+  return structuredClone(
+    (db.mistakes ?? [])
+      .filter((entry) => entry.userId === viewer && questions.has(entry.questionId))
+      .sort((a, b) => b.lastWrongAt.localeCompare(a.lastWrongAt))
+      .map(({ userId: _userId, ...entry }) => ({ ...entry, question: questions.get(entry.questionId)! })),
+  );
+}
+
+export async function deleteMistake(questionId: string): Promise<void> {
+  const db = await loadQuestions();
+  const viewer = requireViewer(db);
+  db.mistakes = (db.mistakes ?? []).filter((entry) => !(entry.userId === viewer.id && entry.questionId === questionId));
+  persist();
 }
 
 function ownAttempt(db: DbState, id: string) {
