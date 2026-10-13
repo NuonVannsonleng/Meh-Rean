@@ -2,12 +2,11 @@
 
 ## Current
 
-**Phase 1 — Task 1.4: Content entry (admin question form)** (next up).
+**Phase 2 — Task 2.1: Past paper bank** (next up). Phase 1 is complete.
 
-Rules carried from the 1.2 security review, now built into `MathText`
-(1.3): stored text goes through KaTeX with `trust: false`; never through
-`dangerouslySetInnerHTML`. Still to honour in 1.4 and later: only `https:`
-image sources with `alt`; AI-derived content labelled with its origin.
+Rules to keep: stored text only through `MathText`; question images only by
+storage path; AI-derived content labelled with its origin; solutions held
+back on the server before mock exams (2.4).
 
 ## Done
 
@@ -40,13 +39,28 @@ image sources with `alt`; AI-derived content labelled with its origin.
   (development builds only) at 320px, 375px dark and desktop: Noto Sans
   Khmer loaded, 19 formulas with MathML, no page overflow, hostile input
   creates no links, images or scripts, and no alerts.
+- **2026-10-13 — 1.4 Content entry.** Admin pages `/bacii/admin/questions`
+  (list with subject/chapter filters; new; edit; delete), linked from the
+  BacII page for admins only and downloaded only by them. The editor covers
+  chapter, topic, year, difficulty, language, type, text with live
+  Khmer + maths preview, images with descriptions, choices with the correct
+  one, numeric answer and tolerance, final answer, ordered steps, and origin,
+  source and status for question and solution; problems are shown per field
+  and re-checked as the admin types. Saved by `save_question` (one
+  transaction, admin-only, all guards apply); images stored by path only, in
+  an admin's own folder, raster files only (storage policies). Works in the
+  browser-only demo with the same rules (`checkQuestionInput`). Checks:
+  `npm run test:questions` 21/21; UI end to end 10/10 online and 9/9
+  browser-only; 320px phone layout. Security review: no critical or high
+  issues; both low findings fixed. Also fixed: the six-tab bottom bar wrapped
+  "Messages" at 320px.
 
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
-| Production database | 1.1 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, in the Supabase SQL editor. |
+| Production database | 1.1–1.4 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, in the Supabase SQL editor. |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. |
 | YouTube transcripts | 4.4, 4.6 | The Data API only gives captions to a video's owner; third-party timestamps and video quizzes need another lawful source or will be limited. |

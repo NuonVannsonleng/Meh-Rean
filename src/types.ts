@@ -407,6 +407,38 @@ export interface Question {
   solution: QuestionSolution | null;
 }
 
+/** What the admin form sends to save a question with its solution. */
+export interface QuestionInput {
+  chapterId: string;
+  topicId: string | null;
+  year: number | null;
+  type: QuestionType;
+  content: string;
+  choices: QuestionChoice[];
+  images: QuestionImage[];
+  difficulty: number | null;
+  language: ContentLanguage;
+  origin: QuestionOrigin;
+  source: string;
+  verification: Verification;
+  solution: {
+    answer: string;
+    correctChoice: string | null;
+    numericAnswer: number | null;
+    numericTolerance: number | null;
+    steps: SolutionStep[];
+    origin: SolutionOrigin;
+    source: string;
+    verification: Verification;
+  };
+}
+
+export interface QuestionFilter {
+  subjectId?: string;
+  chapterId?: string;
+  topicId?: string;
+}
+
 export type MediaFilter = "all" | "documents" | "images" | "videos";
 export type FeedSort = "latest" | "top" | "discussed";
 
@@ -520,7 +552,8 @@ export type ApiErrorCode =
   | "ALREADY_REQUESTED"
   | "MESSAGE_TOO_LONG"
   | "MICROPHONE_BLOCKED"
-  | "STORAGE_FULL";
+  | "STORAGE_FULL"
+  | "UNSUPPORTED_FILE";
 
 /** Error surfaced by the service layer; UI maps `code` to friendly copy. */
 export class ApiError extends Error {

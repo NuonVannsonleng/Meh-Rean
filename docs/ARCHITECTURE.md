@@ -97,6 +97,15 @@ rendered as React text, maths through KaTeX (`trust: false`), which is
 loaded with its CSS only when needed. `/dev/math` (development builds only)
 shows samples, including hostile ones.
 
+## Admin question entry (roadmap 1.4)
+
+`/bacii/admin/questions` (`src/pages/admin/`, lazy-loaded, behind
+`RequireAdmin`). API: `getQuestions(filter)`, `getQuestion(id)`,
+`saveQuestion(input, id)`, `deleteQuestion(id)`, `uploadQuestionImage(file)`
+in both backends. Online, `saveQuestion` calls the `save_question` database
+function; `checkQuestionInput()` in `src/lib/questions.ts` mirrors the
+database rules for messages in the form and for the browser-only store.
+
 ## Other parts
 
 - Subjects: `src/lib/subjects.ts` (15 main + ~130 specific, colours).

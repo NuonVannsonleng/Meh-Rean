@@ -191,13 +191,21 @@ await check("creator, verifier and dates come from the session, not the client",
   assert(back.data.verified_by === null && back.data.verified_at === null, "verifier kept after un-verifying");
 });
 
-await check("images must be https links; choices and steps have size limits", async () => {
-  const image = (url) => [{ path: "x.png", url, alt: "graph" }];
-  await refused(db.from("questions").insert(mcq({ images: image("javascript:alert(1)") })).select(), "javascript: image");
-  await refused(db.from("questions").insert(mcq({ images: image("data:text/html,<b>x</b>") })).select(), "data: image");
-  await refused(db.from("questions").insert(mcq({ images: image("http://example.com/a.png") })).select(), "http image");
-  await refused(db.from("questions").insert(mcq({ images: [{ url: "https://example.com/a.png", alt: "x".repeat(301) }] })).select(), "long alt");
-  await insertQuestion(mcq({ images: image("https://example.com/graph.png") }));
+await check("images are stored by path in the questions folder only; choices and steps have size limits", async () => {
+  const image = (path, extra = {}) => [{ path, alt: "graph", ...extra }];
+  const good = `${admin.id}/questions/${crypto.randomUUID()}.png`;
+  await refused(db.from("questions").insert(mcq({ images: image("javascript:alert(1)") })).select(), "javascript: path");
+  await refused(db.from("questions").insert(mcq({ images: image(`${admin.id}/avatar.png`) })).select(), "outside the questions folder");
+  await refused(db.from("questions").insert(mcq({ images: image(`${admin.id}/questions/${crypto.randomUUID()}.svg`) })).select(), "svg");
+  await refused(db.from("questions").insert(mcq({ images: image(`../${admin.id}/questions/x.png`) })).select(), "path trick");
+  await refused(db.from("questions").insert(mcq({ images: image(good, { alt: "x".repeat(301) }) })).select(), "long alt");
+  await refused(db.from("questions").insert(mcq({ images: image(good, { alt: " " }) })).select(), "no description");
+  await refused(
+    db.from("questions").insert(mcq({ images: image(`${student.id}/questions/${crypto.randomUUID()}.png`) })).select(),
+    "an image in a non-admin's folder",
+  );
+  const stored = await insertQuestion(mcq({ images: image(good, { url: "javascript:alert(1)" }) }));
+  if (stored.images.length !== 1 || "url" in stored.images[0]) throw new Error(`url kept: ${JSON.stringify(stored.images)}`);
   const long = mcq();
   long.choices[0] = { id: "a", content: "x".repeat(2001) };
   await refused(db.from("questions").insert(long).select(), "2001-character choice");
@@ -206,6 +214,20 @@ await check("images must be https links; choices and steps have size limits", as
     db.from("question_solutions").insert({ question_id: q.id, answer: "1", correct_choice: "b", origin: "demo", steps: [{ content: "x".repeat(5001) }] }).select(),
     "5001-character step",
   );
+});
+
+await check("only admins may upload into a questions folder, and only images", async () => {
+  const png = new Blob([new Uint8Array([137, 80, 78, 71])], { type: "image/png" });
+  const studentUpload = await student.client.storage.from("attachments").upload(`${student.id}/questions/${crypto.randomUUID()}.png`, png);
+  assert(studentUpload.error, "a student uploaded into a questions folder");
+  const html = await db.storage.from("attachments").upload(`${admin.id}/questions/${crypto.randomUUID()}.html`, new Blob(["<b>x</b>"], { type: "text/html" }));
+  assert(html.error, "an admin uploaded an .html file as a question image");
+  const ok = await db.storage.from("attachments").upload(`${admin.id}/questions/${crypto.randomUUID()}.png`, png);
+  assert(!ok.error, `admin image upload failed: ${ok.error?.message}`);
+  await db.storage.from("attachments").remove([ok.data.path]);
+  const notes = await student.client.storage.from("attachments").upload(`${student.id}/notes-${crypto.randomUUID()}.html`, new Blob(["x"], { type: "text/plain" }));
+  assert(!notes.error, `ordinary uploads are affected: ${notes.error?.message}`);
+  await student.client.storage.from("attachments").remove([notes.data.path]);
 });
 
 await check("a question's type cannot change once it has a solution", async () =>
@@ -237,6 +259,51 @@ await check("a chapter or topic with questions cannot move to another subject or
     blocked = true;
   }
   assert(blocked, "topic with questions was moved");
+});
+
+const saveArgs = (question, solution) => ({
+  question: { chapter_id: INTEGRALS, type: "multiple-choice", content: "Pick one", choices: mcq().choices, origin: "demo", ...question },
+  solution: { answer: "$1$", correct_choice: "b", steps: [{ content: "Because." }], origin: "demo", ...solution },
+});
+
+await check("save_question saves a question and its solution together (task 1.4)", async () => {
+  const { data: id, error } = await db.rpc("save_question", { target: null, ...saveArgs({}, {}) });
+  if (error) throw new Error(`${error.code}: ${error.message}`);
+  made.push(id);
+  const { data } = await anon.from("questions").select(QUESTION_SELECT).eq("id", id).single();
+  const q = toQuestion(data);
+  assert(q.solution?.correctChoice === "b" && q.solution.steps.length === 1, JSON.stringify(q.solution));
+  return id;
+});
+
+await check("save_question is all or nothing: a bad solution saves no question", async () => {
+  const before = sql("select count(*) from public.questions");
+  const { error } = await db.rpc("save_question", { target: null, ...saveArgs({ content: `Atomic ${run}` }, { correct_choice: "z" }) });
+  assert(error, "saved with an answer that is not a choice");
+  assert(sql("select count(*) from public.questions") === before, "the question was saved without its solution");
+  assert(sql(`select count(*) from public.questions where content = 'Atomic ${run}'`) === "0", "question left behind");
+});
+
+await check("save_question can change the type, replacing the solution", async () => {
+  const { data: id } = await db.rpc("save_question", { target: null, ...saveArgs({}, {}) });
+  made.push(id);
+  const { error } = await db.rpc("save_question", {
+    target: id,
+    ...saveArgs({ type: "numeric", choices: [], content: "How much is $1+1$?" }, { correct_choice: null, numeric_answer: 2, numeric_tolerance: 0, answer: "$2$" }),
+  });
+  if (error) throw new Error(`${error.code}: ${error.message}`);
+  const { data } = await anon.from("questions").select(QUESTION_SELECT).eq("id", id).single();
+  const q = toQuestion(data);
+  assert(q.type === "numeric" && q.solution?.numericAnswer === 2 && q.solution.correctChoice === null, JSON.stringify(q));
+});
+
+await check("save_question refuses students and visitors", async () => {
+  const asStudent = await student.client.rpc("save_question", { target: null, ...saveArgs({}, {}) });
+  assert(asStudent.error?.code === "42501", `student: ${asStudent.error?.code}`);
+  const asVisitor = await anon.rpc("save_question", { target: null, ...saveArgs({}, {}) });
+  assert(asVisitor.error, "visitor could call save_question");
+  const asStudentEdit = await student.client.rpc("save_question", { target: question.id, ...saveArgs({ content: "hacked" }, {}) });
+  assert(asStudentEdit.error, "student edited through save_question");
 });
 
 await check("students and visitors can read but not write", async () => {

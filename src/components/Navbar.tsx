@@ -26,8 +26,9 @@ const desktopLink = ({ isActive }: { isActive: boolean }) =>
     isActive ? "bg-brand-50 text-accent" : "text-ink-700 hover:bg-surface-hover hover:text-ink-900"
   }`;
 
+// Six tabs share a 320px screen: labels shrink a little there and never wrap.
 const tabLink = ({ isActive }: { isActive: boolean }) =>
-  `press flex h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[11px] font-medium ${
+  `press flex h-14 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 text-[10px] font-medium whitespace-nowrap min-[360px]:text-[11px] ${
     isActive ? "text-accent" : "text-ink-500"
   }`;
 

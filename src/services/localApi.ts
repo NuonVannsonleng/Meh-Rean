@@ -1,6 +1,7 @@
 import { MAX_MESSAGE_LENGTH } from "../lib/chat";
 import { subjectLabel, subjectMembers } from "../lib/subjects";
 import { flattenCurriculum, type CurriculumSeed, type FlatCurriculum } from "../lib/curriculum";
+import { checkQuestionInput, MAX_QUESTION_IMAGE_BYTES, questionImageExtension } from "../lib/questions";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
@@ -20,6 +21,10 @@ import {
   type UpdatePostInput,
   type CurriculumChapter,
   type CurriculumSubject,
+  type Question,
+  type QuestionFilter,
+  type QuestionImage,
+  type QuestionInput,
   type Post,
   type PostView,
   type ProfileView,
@@ -1178,4 +1183,132 @@ export async function getCurriculumSubjects(): Promise<CurriculumSubject[]> {
 /** A subject's chapters in order, each with its topics. */
 export async function getCurriculumChapters(subjectId: string): Promise<CurriculumChapter[]> {
   return structuredClone(loadCurriculum().chapters.filter((chapter) => chapter.subjectId === subjectId));
+}
+
+// ---- BacII questions ----
+
+function requireAdmin(db: DbState): UserRecord {
+  const viewer = requireViewer(db);
+  if (!viewer.isAdmin) throw new ApiError("FORBIDDEN", 403);
+  return viewer;
+}
+
+export async function getQuestions(filter: QuestionFilter = {}): Promise<Question[]> {
+  const db = await loadDb();
+  return structuredClone(
+    db.questions
+      .filter((question) => !filter.subjectId || question.subjectId === filter.subjectId)
+      .filter((question) => !filter.chapterId || question.chapterId === filter.chapterId)
+      .filter((question) => !filter.topicId || question.topicId === filter.topicId)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
+  );
+}
+
+export async function getQuestion(id: string): Promise<Question> {
+  const db = await loadDb();
+  const question = db.questions.find((item) => item.id === id);
+  if (!question) throw new ApiError("NOT_FOUND", 404);
+  return structuredClone(question);
+}
+
+/**
+ * Saves a question with its solution (admins only), applying the same rules
+ * as the database does online: see checkQuestionInput and guard_question.
+ */
+export async function saveQuestion(input: QuestionInput, id: string | null): Promise<Question> {
+  await delay(150);
+  const db = await loadDb();
+  requireAdmin(db);
+  const { chapters } = loadCurriculum();
+  const problems = checkQuestionInput(input, chapters);
+  const first = Object.entries(problems)[0];
+  if (first) throw new ApiError("UNKNOWN", 400, `${first[0]}: ${first[1]}`);
+  const chapter = chapters.find((item) => item.id === input.chapterId)!;
+
+  const existing = id ? db.questions.find((item) => item.id === id) : undefined;
+  if (id && !existing) throw new ApiError("NOT_FOUND", 404);
+  const now = new Date().toISOString();
+
+  // Editing verified content sends it back for review, as online.
+  let verification = input.verification;
+  if (existing?.verification === "verified" && verification === "verified") {
+    const before = [existing.content, existing.choices, existing.images, existing.type, existing.year, existing.chapterId, existing.topicId, existing.origin];
+    const after = [input.content.trim(), input.choices, input.images, input.type, input.year, input.chapterId, input.topicId, input.origin];
+    if (JSON.stringify(before) !== JSON.stringify(after)) verification = "needs-review";
+  }
+  let solutionVerification = input.solution.verification;
+  const oldSolution = existing?.type === input.type ? existing.solution : null;
+  if (oldSolution?.verification === "verified" && solutionVerification === "verified") {
+    const before = [oldSolution.answer, oldSolution.correctChoice, oldSolution.numericAnswer, oldSolution.numericTolerance, oldSolution.steps, oldSolution.origin];
+    const after = [input.solution.answer.trim(), input.solution.correctChoice, input.solution.numericAnswer, input.solution.numericTolerance, input.solution.steps, input.solution.origin];
+    if (JSON.stringify(before) !== JSON.stringify(after)) solutionVerification = "needs-review";
+  }
+  const stamp = (was: { verification: string; verifiedAt: string | null } | null | undefined, next: string) =>
+    next !== "verified" ? null : was?.verification === "verified" ? was.verifiedAt : now;
+
+  const questionId = existing?.id ?? createId("q");
+  const question: Question = {
+    id: questionId,
+    subjectId: chapter.subjectId,
+    chapterId: chapter.id,
+    topicId: input.topicId,
+    year: input.year,
+    type: input.type,
+    content: input.content.trim(),
+    choices: input.type === "multiple-choice" ? input.choices.map((choice) => ({ id: choice.id, content: choice.content.trim() })) : [],
+    images: input.images,
+    difficulty: input.difficulty,
+    language: input.language,
+    origin: input.origin,
+    source: input.source.trim(),
+    verification,
+    verifiedAt: stamp(existing, verification),
+    createdAt: existing?.createdAt ?? now,
+    updatedAt: now,
+    solution: {
+      questionId,
+      answer: input.solution.answer.trim(),
+      correctChoice: input.type === "multiple-choice" ? input.solution.correctChoice : null,
+      numericAnswer: input.type === "numeric" ? input.solution.numericAnswer : null,
+      numericTolerance: input.type === "numeric" ? input.solution.numericTolerance : null,
+      steps: input.solution.steps.map((step) => ({ content: step.content.trim() })),
+      origin: input.solution.origin,
+      source: input.solution.source.trim(),
+      verification: solutionVerification,
+      verifiedAt: stamp(oldSolution, solutionVerification),
+      updatedAt: now,
+    },
+  };
+  db.questions = existing ? db.questions.map((item) => (item.id === questionId ? question : item)) : [...db.questions, question];
+  persist();
+  // Images taken off the question are no longer needed in this browser.
+  const kept = new Set(question.images.map((image) => image.url));
+  const dropped = (existing?.images ?? []).filter((image) => !kept.has(image.url) && image.url.startsWith(LOCAL_FILE_PREFIX));
+  await deleteFiles(dropped.map((image) => image.url.slice(LOCAL_FILE_PREFIX.length)));
+  return structuredClone(question);
+}
+
+export async function deleteQuestion(id: string): Promise<void> {
+  const db = await loadDb();
+  requireAdmin(db);
+  const question = db.questions.find((item) => item.id === id);
+  if (!question) throw new ApiError("NOT_FOUND", 404);
+  db.questions = db.questions.filter((item) => item.id !== id);
+  persist();
+  await deleteFiles(question.images.filter((image) => image.url.startsWith(LOCAL_FILE_PREFIX)).map((image) => image.url.slice(LOCAL_FILE_PREFIX.length)));
+}
+
+/** Stores a question image in this browser; alt text is added by the form. */
+export async function uploadQuestionImage(file: File): Promise<Omit<QuestionImage, "alt">> {
+  const db = await loadDb();
+  requireAdmin(db);
+  if (!questionImageExtension(file.type)) throw new ApiError("UNSUPPORTED_FILE", 415);
+  if (file.size > MAX_QUESTION_IMAGE_BYTES) throw new ApiError("FILE_TOO_LARGE", 413);
+  const id = createId("qi");
+  try {
+    await putFile(id, file);
+  } catch {
+    throw new ApiError("STORAGE_FULL", 507);
+  }
+  return { path: id, url: `${LOCAL_FILE_PREFIX}${id}` };
 }

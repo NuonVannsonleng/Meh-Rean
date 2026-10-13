@@ -387,6 +387,29 @@ create policy "update own attachments" on storage.objects for update to authenti
   using (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text)
   with check (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text);
 
+-- Question images (<uid>/questions/…) may only be raster images uploaded by
+-- admins. Restrictive, so it narrows the policies above without widening
+-- anything; other folders and buckets are unaffected.
+drop policy if exists "question images by admins" on storage.objects;
+create policy "question images by admins" on storage.objects as restrictive for insert to authenticated
+  with check (
+    bucket_id <> 'attachments'
+    or (storage.foldername(name))[2] is distinct from 'questions'
+    or (public.is_admin(auth.uid()) and name ~ '^[0-9a-f-]{36}/questions/[0-9a-f-]{36}\.(png|jpg|webp|gif)$')
+  );
+drop policy if exists "question images stay images" on storage.objects;
+create policy "question images stay images" on storage.objects as restrictive for update to authenticated
+  using (
+    bucket_id <> 'attachments'
+    or (storage.foldername(name))[2] is distinct from 'questions'
+    or public.is_admin(auth.uid())
+  )
+  with check (
+    bucket_id <> 'attachments'
+    or (storage.foldername(name))[2] is distinct from 'questions'
+    or (public.is_admin(auth.uid()) and name ~ '^[0-9a-f-]{36}/questions/[0-9a-f-]{36}\.(png|jpg|webp|gif)$')
+  );
+
 drop policy if exists "delete own attachments" on storage.objects;
 create policy "delete own attachments" on storage.objects for delete to authenticated
   using (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text);
@@ -1163,7 +1186,7 @@ create table if not exists public.questions (
   content text not null check (char_length(btrim(content)) between 1 and 20000),
   -- [{ "id": "a", "content": "…" }], 2–8 of them for multiple choice.
   choices jsonb not null default '[]'::jsonb,
-  -- [{ "path": "…", "url": "…", "alt": "…" }]
+  -- [{ "path": "<uploader>/questions/<id>.png", "alt": "…" }]
   images jsonb not null default '[]'::jsonb,
   difficulty smallint check (difficulty between 1 and 5),
   language text not null default 'km' check (language in ('km', 'en', 'fr')),
@@ -1241,6 +1264,7 @@ declare
   chapter_subject text;
   choice jsonb;
   image jsonb;
+  cleaned jsonb := '[]'::jsonb;
   ids text[] := '{}';
   stamp record;
   key text;
@@ -1267,16 +1291,27 @@ begin
     ids := ids || (choice->>'id');
   end loop;
 
-  -- Images are shown in <img>: https only, so no javascript: or data: URLs.
+  -- Images are files in the attachments bucket, stored by path only: the app
+  -- builds the address from the path, so no URL (javascript:, data:, another
+  -- site) can be stored, and a moved project keeps working.
   for image in select * from jsonb_array_elements(new.images) loop
     if jsonb_typeof(image) <> 'object'
-       or coalesce(image->>'url', '') !~ '^https://[^\s"<>]+$'
-       or char_length(image->>'url') > 2000
-       or char_length(coalesce(image->>'path', '')) > 500
-       or char_length(coalesce(image->>'alt', '')) > 300 then
-      raise exception 'each image needs an https url and an alt text of at most 300 characters' using errcode = '23514';
+       or coalesce(image->>'path', '') !~ '^[0-9a-f-]{36}/questions/[0-9a-f-]{36}\.(png|jpg|webp|gif)$'
+       or char_length(btrim(coalesce(image->>'alt', ''))) not between 1 and 300 then
+      raise exception 'each image needs a question image path and a description of at most 300 characters' using errcode = '23514';
     end if;
+    -- A newly added image must be an admin's upload: anyone else could later
+    -- replace the file (owners may overwrite their own uploads) and change
+    -- what a checked question shows. Images already on the question stay.
+    if (tg_op = 'INSERT' or not exists (
+          select 1 from jsonb_array_elements(old.images) o where o->>'path' = image->>'path'))
+       and not exists (
+          select 1 from public.profiles p where p.id::text = split_part(image->>'path', '/', 1) and p.is_admin) then
+      raise exception 'question images must be uploaded by an admin' using errcode = '23514';
+    end if;
+    cleaned := cleaned || jsonb_build_object('path', image->>'path', 'alt', btrim(image->>'alt'));
   end loop;
+  new.images := cleaned;
 
   -- A solution already filed must still fit if the question changes.
   if tg_op = 'UPDATE' then
@@ -1440,3 +1475,94 @@ begin
     );
   end loop;
 end $$;
+
+-- Saves a question and its solution together, so the admin form (roadmap
+-- 1.4) never leaves a question without its answer. Runs as the caller: the
+-- admin-only policies and every trigger above still apply. A type change
+-- replaces the solution, which guard_question otherwise refuses.
+create or replace function public.save_question(target uuid, question jsonb, solution jsonb)
+returns uuid
+language plpgsql
+security invoker
+set search_path = ''
+as $$
+declare
+  saved uuid := target;
+  current_type text;
+begin
+  if not public.is_admin(auth.uid()) then
+    raise exception 'only admins can save questions' using errcode = '42501';
+  end if;
+  if jsonb_typeof(question) <> 'object' or jsonb_typeof(solution) <> 'object' then
+    raise exception 'question and solution must be objects' using errcode = '22023';
+  end if;
+
+  if saved is null then
+    insert into public.questions (chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+    values (
+      question->>'chapter_id',
+      nullif(question->>'topic_id', ''),
+      (question->>'year')::smallint,
+      question->>'type',
+      question->>'content',
+      coalesce(question->'choices', '[]'::jsonb),
+      coalesce(question->'images', '[]'::jsonb),
+      (question->>'difficulty')::smallint,
+      coalesce(question->>'language', 'km'),
+      question->>'origin',
+      coalesce(question->>'source', ''),
+      coalesce(question->>'verification', 'provisional')
+    )
+    returning id into saved;
+  else
+    select q.type into current_type from public.questions q where q.id = saved;
+    if not found then
+      raise exception 'question % not found', saved using errcode = 'P0002';
+    end if;
+    if current_type is distinct from question->>'type' then
+      delete from public.question_solutions s where s.question_id = saved;
+    end if;
+    update public.questions set
+      chapter_id = question->>'chapter_id',
+      topic_id = nullif(question->>'topic_id', ''),
+      year = (question->>'year')::smallint,
+      type = question->>'type',
+      content = question->>'content',
+      choices = coalesce(question->'choices', '[]'::jsonb),
+      images = coalesce(question->'images', '[]'::jsonb),
+      difficulty = (question->>'difficulty')::smallint,
+      language = coalesce(question->>'language', 'km'),
+      origin = question->>'origin',
+      source = coalesce(question->>'source', ''),
+      verification = coalesce(question->>'verification', 'provisional')
+    where id = saved;
+  end if;
+
+  insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+  values (
+    saved,
+    solution->>'answer',
+    nullif(solution->>'correct_choice', ''),
+    (solution->>'numeric_answer')::numeric,
+    (solution->>'numeric_tolerance')::numeric,
+    coalesce(solution->'steps', '[]'::jsonb),
+    solution->>'origin',
+    coalesce(solution->>'source', ''),
+    coalesce(solution->>'verification', 'provisional')
+  )
+  on conflict (question_id) do update set
+    answer = excluded.answer,
+    correct_choice = excluded.correct_choice,
+    numeric_answer = excluded.numeric_answer,
+    numeric_tolerance = excluded.numeric_tolerance,
+    steps = excluded.steps,
+    origin = excluded.origin,
+    source = excluded.source,
+    verification = excluded.verification;
+
+  return saved;
+end;
+$$;
+
+revoke execute on function public.save_question(uuid, jsonb, jsonb) from public, anon;
+grant execute on function public.save_question(uuid, jsonb, jsonb) to authenticated;

@@ -14,6 +14,7 @@ import {
 import {
   ApiError,
   type Comment,
+  type Question,
   type MessageAttachment,
   type MessageKind,
   type Post,
@@ -102,6 +103,8 @@ export interface DbState {
   verifications: VerificationRecord[];
   conversations: ConversationRecord[];
   messages: MessageRecord[];
+  /** BacII questions, each with its solution (supabase: questions + question_solutions). */
+  questions: Question[];
 }
 
 const DB_KEY = "meh-rean:db:v3";
@@ -201,6 +204,7 @@ async function createSeedState(): Promise<DbState> {
     verifications: [],
     conversations,
     messages,
+    questions: [],
   };
 }
 
@@ -273,6 +277,7 @@ function readStored(): DbState | null {
     // Stores written before direct messages existed: add them without
     // discarding the accounts and posts already there.
     parsed.conversations ??= [];
+    parsed.questions ??= [];
     parsed.messages = (parsed.messages ?? []).map(upgradeMessage);
     return parsed;
   } catch {

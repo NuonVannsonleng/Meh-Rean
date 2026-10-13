@@ -2,6 +2,24 @@
 
 Short records of choices that shape the code. Newest first.
 
+## 2026-10-13 — Question images are stored by path, not URL
+
+`questions.images` keeps only `{ path, alt }`; the app builds the address
+from the path with the storage bucket's public URL. The database accepts only
+`<admin id>/questions/<uuid>.(png|jpg|webp|gif)` paths for newly added
+images, and storage policies let only admins upload there, only those
+extensions. Why: no URL (javascript:, data:, another site) can ever be
+stored; a non-admin cannot swap a picture in a checked question; and images
+survive a change of project address. Deleting a question leaves its files in
+storage (harmless; can be cleaned up later).
+
+## 2026-10-13 — Questions are saved by one database function
+
+`save_question(target, question, solution)` writes both rows in one
+transaction as the calling admin (security invoker), so a question never
+exists without its answer and every policy and trigger still applies. It is
+the only write path the app uses for questions.
+
 ## 2026-10-13 — Maths with KaTeX, loaded on demand; Khmer stays Noto Sans Khmer
 
 KaTeX renders LaTeX in question text (`MathText`). It is imported only when

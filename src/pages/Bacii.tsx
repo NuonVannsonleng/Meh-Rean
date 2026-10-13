@@ -1,6 +1,7 @@
 import { useEffect, type ComponentType } from "react";
 import { Link } from "react-router-dom";
-import { GraduationIcon, VideoIcon } from "../components/Icons";
+import { FileTextIcon, GraduationIcon, VideoIcon } from "../components/Icons";
+import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 
 interface BaciiOption {
@@ -24,6 +25,7 @@ const OPTIONS: BaciiOption[] = [
 
 /** The BacII section: tools for Grade 12 students preparing for the national exam. */
 export default function Bacii() {
+  const { user } = useAuth();
   useEffect(() => {
     document.title = `${t.bacii.title} · ${t.common.appName}`;
   }, []);
@@ -64,6 +66,21 @@ export default function Bacii() {
           ))}
         </ul>
       </nav>
+
+      {user?.isAdmin && (
+        <Link
+          to="/bacii/admin/questions"
+          className="card press hover:border-brand-500 mt-6 flex items-center gap-3 p-4 transition-colors"
+        >
+          <span className="bg-surface-hover text-ink-700 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
+            <FileTextIcon className="h-5 w-5" />
+          </span>
+          <span>
+            <span className="text-ink-900 block text-sm font-semibold">{t.admin.manageQuestions}</span>
+            <span className="text-ink-500 block text-xs">{t.admin.manageQuestionsHint}</span>
+          </span>
+        </Link>
+      )}
     </div>
   );
 }

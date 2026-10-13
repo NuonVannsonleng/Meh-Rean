@@ -35,9 +35,12 @@ Khmer names. Note sharing with subject and level tags.
   ✔ 2026-10-13: `MathText` component (KaTeX loaded on demand, `trust: false`)
   with the Khmer font already in the app (Noto Sans Khmer); checked at 320px,
   375px dark and desktop, including hostile input (`npm run test:math` 17/17).
-- [ ] **1.4 Content entry (M)** — admin-only form to add and edit questions
+- [x] **1.4 Content entry (M)** — admin-only form to add and edit questions
   (text, LaTeX, images, track, subject, chapter, steps, answer, source,
   verification). *Done when an admin can add and edit without code.*
+  ✔ 2026-10-13: `/bacii/admin/questions` (list, new, edit, delete) with live
+  Khmer + maths preview; saved through `save_question` in one transaction;
+  checked end to end in both backends and security-reviewed.
 
 ## Phase 2 — Ship the MVP
 

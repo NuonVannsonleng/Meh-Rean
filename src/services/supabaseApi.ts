@@ -1,6 +1,15 @@
 import type { PostgrestError } from "@supabase/supabase-js";
 import { MAX_MESSAGE_LENGTH } from "../lib/chat";
 import { subjectLabel, subjectMembers } from "../lib/subjects";
+import {
+  MAX_QUESTION_IMAGE_BYTES,
+  QUESTION_SELECT,
+  questionImageExtension,
+  toQuestion,
+  toSaveQuestionArgs,
+  type QuestionRow,
+  type QuestionSolutionRow,
+} from "../lib/questions";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -22,6 +31,10 @@ import {
   type UpdatePostInput,
   type CurriculumChapter,
   type CurriculumSubject,
+  type Question,
+  type QuestionFilter,
+  type QuestionImage,
+  type QuestionInput,
   type Verification,
   type PostView,
   type ProfileView,
@@ -1482,4 +1495,60 @@ export async function getCurriculumChapters(subjectId: string): Promise<Curricul
         verification: topic.verification,
       })),
   }));
+}
+
+// ---- BacII questions ----
+
+type QuestionRowWithSolution = QuestionRow & { solution: QuestionSolutionRow | QuestionSolutionRow[] | null };
+
+const questionImageUrl = (path: string) => supabase.storage.from(ATTACHMENTS_BUCKET).getPublicUrl(path).data.publicUrl;
+
+/** Database refusals of a question (check rules, unknown chapter) keep their reason. */
+function failQuestion(error: PostgrestError): never {
+  if (error.code === "P0002") throw new ApiError("NOT_FOUND", 404);
+  if (["23514", "22023", "23503", "23502", "22P02"].includes(error.code)) throw new ApiError("UNKNOWN", 400, error.message);
+  fail(error);
+}
+
+export async function getQuestions(filter: QuestionFilter = {}): Promise<Question[]> {
+  let builder = supabase.from("questions").select(QUESTION_SELECT).order("created_at", { ascending: false }).limit(500);
+  if (filter.subjectId) builder = builder.eq("subject_id", filter.subjectId);
+  if (filter.chapterId) builder = builder.eq("chapter_id", filter.chapterId);
+  if (filter.topicId) builder = builder.eq("topic_id", filter.topicId);
+  return unwrap(await builder.returns<QuestionRowWithSolution[]>()).map((row) => toQuestion(row, questionImageUrl));
+}
+
+export async function getQuestion(id: string): Promise<Question> {
+  const { data, error } = await supabase.from("questions").select(QUESTION_SELECT).eq("id", id).maybeSingle<QuestionRowWithSolution>();
+  if (error) failQuestion(error);
+  if (!data) throw new ApiError("NOT_FOUND", 404);
+  return toQuestion(data, questionImageUrl);
+}
+
+/** Saves a question with its solution in one transaction (save_question in schema.sql); admins only. */
+export async function saveQuestion(input: QuestionInput, id: string | null): Promise<Question> {
+  await requireViewer();
+  const { question, solution } = toSaveQuestionArgs(input);
+  const { data, error } = await supabase.rpc("save_question", { target: id, question, solution });
+  if (error) failQuestion(error);
+  return getQuestion(data as string);
+}
+
+export async function deleteQuestion(id: string): Promise<void> {
+  await requireViewer();
+  const { data, error } = await supabase.from("questions").delete().eq("id", id).select("id");
+  if (error) failQuestion(error);
+  if (!data?.length) throw new ApiError("FORBIDDEN", 403);
+}
+
+/** Uploads a question image to the uploader's own folder in the public bucket. */
+export async function uploadQuestionImage(file: File): Promise<Omit<QuestionImage, "alt">> {
+  const viewer = await requireViewer();
+  const extension = questionImageExtension(file.type);
+  if (!extension) throw new ApiError("UNSUPPORTED_FILE", 415);
+  if (file.size > MAX_QUESTION_IMAGE_BYTES) throw new ApiError("FILE_TOO_LARGE", 413);
+  const path = `${viewer}/questions/${crypto.randomUUID()}.${extension}`;
+  const upload = await supabase.storage.from(ATTACHMENTS_BUCKET).upload(path, file, { contentType: file.type, upsert: false });
+  if (upload.error) fail(upload.error);
+  return { path, url: questionImageUrl(path) };
 }

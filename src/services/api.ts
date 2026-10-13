@@ -65,6 +65,11 @@ export const {
   subscribeToChat,
   getCurriculumSubjects,
   getCurriculumChapters,
+  getQuestions,
+  getQuestion,
+  saveQuestion,
+  deleteQuestion,
+  uploadQuestionImage,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

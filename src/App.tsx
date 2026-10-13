@@ -1,7 +1,9 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import RequireAdmin from "./components/RequireAdmin";
 import RequireAuth from "./components/RequireAuth";
+import LoadingState from "./components/LoadingState";
 import { t } from "./i18n/en";
 import Bacii from "./pages/Bacii";
 import BaciiVideos from "./pages/BaciiVideos";
@@ -15,6 +17,24 @@ import PostDetail from "./pages/PostDetail";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Signup from "./pages/Signup";
+
+/** Admin pages: downloaded only by the admins who open them. */
+const AdminQuestions = lazy(() => import("./pages/admin/AdminQuestions"));
+const QuestionEditor = lazy(() => import("./pages/admin/QuestionEditor"));
+
+const adminPage = (page: ReactNode) => (
+  <RequireAdmin>
+    <Suspense
+      fallback={
+        <div className="container-page max-w-3xl py-8">
+          <LoadingState count={2} variant="block" />
+        </div>
+      }
+    >
+      {page}
+    </Suspense>
+  </RequireAdmin>
+);
 
 /** Development-only tools; the condition is false in production builds, so they are left out. */
 const MathPreview = import.meta.env.DEV ? lazy(() => import("./pages/dev/MathPreview")) : null;
@@ -61,6 +81,9 @@ export default function App() {
           <Route path="/credits/logos" element={<LogoCredits />} />
           <Route path="/bacii" element={<Bacii />} />
           <Route path="/bacii/videos" element={<BaciiVideos />} />
+          <Route path="/bacii/admin/questions" element={adminPage(<AdminQuestions />)} />
+          <Route path="/bacii/admin/questions/new" element={adminPage(<QuestionEditor key="new" />)} />
+          <Route path="/bacii/admin/questions/:id" element={adminPage(<QuestionEditor />)} />
           <Route
             path="/post/:id/edit"
             element={
