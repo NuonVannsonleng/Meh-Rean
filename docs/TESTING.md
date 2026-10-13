@@ -10,6 +10,7 @@ npm run test:curriculum   # curriculum seed + database checks (task 1.1)
 npm run test:questions    # question schema rules and permissions (task 1.2)
 npm run test:math         # LaTeX/Khmer text splitter (task 1.3), no database
 npm run test:papers       # demo papers seed + paper rules (task 2.1)
+npm run test:exams        # mock exam timing, marking, hidden answers (task 2.4)
 ```
 
 The harnesses need a local Supabase for their database parts:
@@ -33,6 +34,8 @@ are not in the repository yet (see Architecture finding 4).
 | Date | Check | Result |
 | --- | --- | --- |
 | 2026-10-13 | `npm run lint`, `npm run build` | pass |
+| 2026-10-13 | `npm run test:exams` (local Supabase) | 12 passed, 0 failed |
+| 2026-10-13 | Playwright: mock exam (start, autosave, hidden answers, resume, hand in, time-out, 320px), online / browser-only | 8/8, 8/8 |
 | 2026-10-13 | `npm run test:curriculum` (local Supabase) | 11 passed, 0 failed |
 | 2026-10-13 | `npm run test:questions` (local Supabase) | 21 passed, 0 failed |
 | 2026-10-13 | Playwright: admin question pages, online / browser-only | 10/10, 9/9 |

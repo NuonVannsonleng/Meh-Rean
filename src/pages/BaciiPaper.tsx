@@ -6,8 +6,10 @@ import MathText from "../components/MathText";
 import QuestionImage from "../components/QuestionImage";
 import SolutionSteps from "../components/SolutionSteps";
 import { t } from "../i18n/en";
-import { getCurriculumChapters, getCurriculumSubjects, getExamPaper } from "../services/api";
-import type { CurriculumChapter, CurriculumSubject, ExamPaperDetail, ExamPaperQuestion } from "../types";
+import { useAuth } from "../context/AuthContext";
+import { formatDate } from "../lib/format";
+import { getCurriculumChapters, getCurriculumSubjects, getExamPaper, getMyExamAttempts } from "../services/api";
+import type { CurriculumChapter, CurriculumSubject, ExamAttempt, ExamPaperDetail, ExamPaperQuestion } from "../types";
 import { PaperOriginBadge } from "./BaciiPapers";
 
 const copy = t.bacii.papers;
@@ -58,6 +60,8 @@ function PaperQuestion({
 /** BacII → Past papers → one paper. */
 export default function BaciiPaper() {
   const { id = "" } = useParams();
+  const { user } = useAuth();
+  const [attempts, setAttempts] = useState<ExamAttempt[]>([]);
   const [paper, setPaper] = useState<ExamPaperDetail | null>(null);
   const [missing, setMissing] = useState(false);
   const [subject, setSubject] = useState<CurriculumSubject | null>(null);
@@ -82,6 +86,11 @@ export default function BaciiPaper() {
   }, [id]);
 
   const chapterOf = useMemo(() => new Map(chapters.map((chapter) => [chapter.id, chapter])), [chapters]);
+
+  useEffect(() => {
+    if (!user) return;
+    getMyExamAttempts(id).then(setAttempts).catch(() => setAttempts([]));
+  }, [id, user]);
 
   if (missing) {
     return (
@@ -126,6 +135,37 @@ export default function BaciiPaper() {
         <p role="note" className="bg-ribbon-50 text-ribbon-fg mb-5 rounded-md px-4 py-3 text-sm font-medium">
           {copy.demoBanner}
         </p>
+      )}
+      <div className="card mb-5 flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
+        <div className="min-w-0 flex-1">
+          <p className="text-ink-900 text-sm font-semibold">{t.bacii.exam.take}</p>
+          <p className="text-ink-500 text-xs">{t.bacii.exam.takeHint}</p>
+        </div>
+        <Link to={user ? `/bacii/papers/${paper.id}/exam` : `/login?next=${encodeURIComponent(`/bacii/papers/${paper.id}/exam`)}`} className="btn-primary">
+          {t.bacii.exam.take}
+        </Link>
+      </div>
+      {attempts.length > 0 && (
+        <section className="mb-5" aria-labelledby="attempts-title">
+          <h2 id="attempts-title" className="text-ink-900 mb-2 text-sm font-bold">
+            {t.bacii.exam.yourAttempts}
+          </h2>
+          <ul className="card divide-line divide-y">
+            {attempts.map((attempt) => (
+              <li key={attempt.id}>
+                <Link
+                  to={attempt.status === "in-progress" ? `/bacii/papers/${paper.id}/exam` : `/bacii/attempts/${attempt.id}`}
+                  className="hover:bg-surface-hover flex items-center justify-between gap-3 px-4 py-2.5 text-sm"
+                >
+                  <span className="text-ink-700">{t.bacii.exam.attemptLine(formatDate(attempt.startedAt), t.bacii.exam.statuses[attempt.status])}</span>
+                  {attempt.score !== null && attempt.maxScore !== null && (
+                    <span className="text-ink-900 font-semibold tabular-nums">{t.bacii.exam.score(attempt.score, attempt.maxScore)}</span>
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
       <ol className="space-y-3">
         {paper.questions.map((entry) => (

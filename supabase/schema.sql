@@ -1668,3 +1668,244 @@ begin
     );
   end loop;
 end $$;
+
+-- ----------------------------------------------------------- Mock exams --
+
+-- A student's timed attempt at a paper (roadmap 2.4). Everything that counts
+-- happens in the functions below, never in the browser: the deadline is set
+-- when the attempt starts, answers after it are refused, and the score is
+-- worked out here from the answer key. Students read only their own rows and
+-- cannot write either table directly.
+create table if not exists public.exam_attempts (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles on delete cascade,
+  paper_id uuid not null references public.exam_papers on delete cascade,
+  -- official: the paper's sourced duration; practice: chosen by the student.
+  timing text not null check (timing in ('official', 'practice')),
+  duration_minutes smallint not null check (duration_minutes between 5 and 600),
+  started_at timestamptz not null default now(),
+  deadline_at timestamptz not null,
+  submitted_at timestamptz,
+  status text not null default 'in-progress' check (status in ('in-progress', 'submitted', 'timed-out')),
+  -- Points from automatically marked questions only.
+  score numeric,
+  max_score numeric,
+  -- Questions that need a person to mark them (worked problems, short answers).
+  unmarked integer
+);
+
+create table if not exists public.exam_answers (
+  attempt_id uuid not null references public.exam_attempts on delete cascade,
+  question_id uuid not null references public.questions on delete cascade,
+  answer text not null default '' check (char_length(answer) <= 5000),
+  updated_at timestamptz not null default now(),
+  -- Set when the attempt is marked; null for questions that need a person.
+  is_correct boolean,
+  points_awarded numeric,
+  primary key (attempt_id, question_id)
+);
+
+create index if not exists exam_attempts_user_idx on public.exam_attempts (user_id, started_at desc);
+-- At most one running attempt per student and paper, even if two starts race.
+drop index if exists public.exam_attempts_open_idx;
+create unique index if not exists exam_attempts_one_open on public.exam_attempts (user_id, paper_id) where status = 'in-progress';
+
+alter table public.exam_attempts enable row level security;
+alter table public.exam_answers enable row level security;
+drop policy if exists "see own attempts" on public.exam_attempts;
+create policy "see own attempts" on public.exam_attempts for select to authenticated using (user_id = auth.uid());
+drop policy if exists "see own answers" on public.exam_answers;
+create policy "see own answers" on public.exam_answers for select to authenticated
+  using (exists (select 1 from public.exam_attempts a where a.id = attempt_id and a.user_id = auth.uid()));
+revoke insert, update, delete on public.exam_attempts, public.exam_answers from anon, authenticated;
+
+-- During a student's own running attempt, that paper's answer key is hidden
+-- from them; it comes back once the attempt is submitted or timed out.
+-- Admins always see it, so editing a question never loses its solution.
+drop policy if exists "questions are public" on public.question_solutions;
+create policy "questions are public" on public.question_solutions for select using (
+  auth.uid() is null
+  or public.is_admin(auth.uid())
+  or not exists (
+    select 1
+    from public.exam_attempts a
+    join public.exam_paper_questions epq on epq.paper_id = a.paper_id
+    where a.user_id = auth.uid()
+      and a.status = 'in-progress'
+      and a.deadline_at > now()
+      and epq.question_id = question_solutions.question_id
+  )
+);
+
+-- Marks an attempt from the answer key and closes it. Internal: called by
+-- submit_exam and by the other functions when they find a deadline passed.
+create or replace function public.mark_exam_attempt(attempt uuid, final_status text)
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  -- Every question on the paper gets a row, so unanswered ones count as wrong.
+  insert into public.exam_answers (attempt_id, question_id, answer)
+  select a.id, epq.question_id, ''
+  from public.exam_attempts a
+  join public.exam_paper_questions epq on epq.paper_id = a.paper_id
+  where a.id = attempt
+  on conflict (attempt_id, question_id) do nothing;
+
+  update public.exam_answers ea set
+    is_correct = case
+      when q.type = 'multiple-choice' then btrim(ea.answer) = s.correct_choice
+      when q.type = 'numeric' and s.numeric_answer is not null then
+        case when btrim(replace(ea.answer, ',', '.')) ~ '^-?[0-9]+(\.[0-9]+)?$'
+          then abs(btrim(replace(ea.answer, ',', '.'))::numeric - s.numeric_answer) <= coalesce(s.numeric_tolerance, 0)
+          else false end
+      else null
+    end
+  from public.exam_attempts a, public.questions q, public.question_solutions s
+  where ea.attempt_id = attempt and a.id = ea.attempt_id and q.id = ea.question_id and s.question_id = ea.question_id;
+
+  update public.exam_answers ea set
+    points_awarded = case when ea.is_correct is null then null when ea.is_correct then coalesce(epq.points, 1) else 0 end
+  from public.exam_attempts a, public.exam_paper_questions epq
+  where ea.attempt_id = attempt and a.id = ea.attempt_id and epq.paper_id = a.paper_id and epq.question_id = ea.question_id;
+
+  update public.exam_attempts a set
+    status = final_status,
+    submitted_at = least(now(), a.deadline_at),
+    score = (select coalesce(sum(ea.points_awarded), 0) from public.exam_answers ea where ea.attempt_id = a.id and ea.is_correct is not null),
+    max_score = (
+      select coalesce(sum(coalesce(epq.points, 1)), 0)
+      from public.exam_answers ea
+      join public.exam_paper_questions epq on epq.paper_id = a.paper_id and epq.question_id = ea.question_id
+      where ea.attempt_id = a.id and ea.is_correct is not null
+    ),
+    unmarked = (select count(*) from public.exam_answers ea where ea.attempt_id = a.id and ea.is_correct is null)
+  where a.id = attempt and a.status = 'in-progress';
+end;
+$$;
+revoke execute on function public.mark_exam_attempt(uuid, text) from public, anon, authenticated;
+
+-- Starts an attempt, or returns the student's running one for this paper.
+-- practice_minutes is used only when the paper has no sourced duration.
+create or replace function public.start_exam(paper uuid, practice_minutes integer)
+returns table (attempt_id uuid, deadline_at timestamptz, server_now timestamptz)
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  me uuid := auth.uid();
+  p record;
+  running record;
+  minutes integer;
+  official boolean;
+begin
+  if me is null then
+    raise exception 'sign in to take a mock exam' using errcode = '42501';
+  end if;
+  select ep.id, ep.duration_minutes, ep.duration_source into p from public.exam_papers ep where ep.id = paper;
+  if not found then
+    raise exception 'paper not found' using errcode = 'P0002';
+  end if;
+  if not exists (select 1 from public.exam_paper_questions epq where epq.paper_id = paper) then
+    raise exception 'this paper has no questions yet' using errcode = '22023';
+  end if;
+
+  -- Close any of this student's attempts whose time ran out.
+  perform public.mark_exam_attempt(a.id, 'timed-out')
+  from public.exam_attempts a
+  where a.user_id = me and a.status = 'in-progress' and a.deadline_at <= now();
+
+  select a.id, a.deadline_at into running
+  from public.exam_attempts a
+  where a.user_id = me and a.paper_id = paper and a.status = 'in-progress'
+  order by a.started_at desc
+  limit 1;
+  if found then
+    return query select running.id, running.deadline_at, now();
+    return;
+  end if;
+
+  -- Keeps one account from filling the table: plenty for real practice.
+  if (select count(*) from public.exam_attempts a where a.user_id = me and a.started_at > now() - interval '1 day') >= 30 then
+    raise exception 'that is 30 mock exams today; try again tomorrow' using errcode = '54000';
+  end if;
+
+  official := p.duration_minutes is not null and char_length(btrim(p.duration_source)) > 0;
+  minutes := case when official then p.duration_minutes else practice_minutes end;
+  if minutes is null or minutes not between 5 and 600 then
+    raise exception 'choose a practice time between 5 and 600 minutes' using errcode = '22023';
+  end if;
+
+  return query
+  insert into public.exam_attempts (user_id, paper_id, timing, duration_minutes, deadline_at)
+  values (me, paper, case when official then 'official' else 'practice' end, minutes, now() + make_interval(mins => minutes))
+  returning id, exam_attempts.deadline_at, now();
+end;
+$$;
+revoke execute on function public.start_exam(uuid, integer) from public, anon;
+grant execute on function public.start_exam(uuid, integer) to authenticated;
+
+-- Saves one answer while the attempt is running. Returns 'saved', or
+-- 'time-up' once the deadline has passed: then the attempt is closed and
+-- marked instead (returned, not raised, so that marking is not rolled back).
+drop function if exists public.save_exam_answer(uuid, uuid, text);
+create function public.save_exam_answer(attempt uuid, question uuid, answer text)
+returns text
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  a record;
+begin
+  select ea.id, ea.user_id, ea.paper_id, ea.status, ea.deadline_at into a from public.exam_attempts ea where ea.id = attempt;
+  if not found or a.user_id is distinct from auth.uid() then
+    raise exception 'attempt not found' using errcode = 'P0002';
+  end if;
+  if a.status <> 'in-progress' then
+    raise exception 'this attempt is already finished' using errcode = '22023';
+  end if;
+  if a.deadline_at <= now() then
+    perform public.mark_exam_attempt(attempt, 'timed-out');
+    return 'time-up';
+  end if;
+  if not exists (select 1 from public.exam_paper_questions epq where epq.paper_id = a.paper_id and epq.question_id = question) then
+    raise exception 'that question is not on this paper' using errcode = '22023';
+  end if;
+  if char_length(coalesce(answer, '')) > 5000 then
+    raise exception 'answer too long' using errcode = '22023';
+  end if;
+
+  insert into public.exam_answers (attempt_id, question_id, answer, updated_at)
+  values (attempt, question, coalesce(answer, ''), now())
+  on conflict (attempt_id, question_id) do update set answer = excluded.answer, updated_at = now();
+  return 'saved';
+end;
+$$;
+revoke execute on function public.save_exam_answer(uuid, uuid, text) from public, anon;
+grant execute on function public.save_exam_answer(uuid, uuid, text) to authenticated;
+
+-- Hands the attempt in (or records that time ran out) and marks it.
+create or replace function public.submit_exam(attempt uuid)
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  a record;
+begin
+  select ea.user_id, ea.status, ea.deadline_at into a from public.exam_attempts ea where ea.id = attempt;
+  if not found or a.user_id is distinct from auth.uid() then
+    raise exception 'attempt not found' using errcode = 'P0002';
+  end if;
+  if a.status = 'in-progress' then
+    perform public.mark_exam_attempt(attempt, case when a.deadline_at <= now() then 'timed-out' else 'submitted' end);
+  end if;
+end;
+$$;
+revoke execute on function public.submit_exam(uuid) from public, anon;
+grant execute on function public.submit_exam(uuid) to authenticated;

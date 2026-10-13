@@ -14,6 +14,8 @@ import {
 import {
   ApiError,
   type Comment,
+  type ExamAnswer,
+  type ExamAttempt,
   type Question,
   type MessageAttachment,
   type MessageKind,
@@ -107,6 +109,9 @@ export interface DbState {
   questions: Question[];
   /** Demo questions already copied in once, so a deleted one is not added back. */
   seededDemoQuestions?: string[];
+  /** Mock exam attempts and their answers (supabase: exam_attempts, exam_answers). */
+  examAttempts?: (ExamAttempt & { userId: string })[];
+  examAnswers?: (ExamAnswer & { attemptId: string })[];
 }
 
 const DB_KEY = "meh-rean:db:v3";

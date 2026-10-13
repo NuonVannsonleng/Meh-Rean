@@ -137,6 +137,8 @@ The rules live in the database, so they apply no matter who calls the API.
 | Chat photos, voice notes and files | only the two people in the conversation, through links that expire; unsending cuts access straight away | you upload into your own folder only, and can attach only your own uploads |
 | Message reactions | only the two people in the conversation | only your own reaction |
 | Uploaded files | everyone (public links) | you can only write and delete inside your own folder |
+| Mock exam attempts and answers | only you | only through the exam functions: they set the deadline, refuse late answers and do the marking |
+| BacII solutions | everyone, except your own running mock exam's answers (admins always) | admins only |
 
 Deleting your account calls a database function that removes the account and,
 through cascading deletes, its posts, comments, reactions and ratings. Uploaded

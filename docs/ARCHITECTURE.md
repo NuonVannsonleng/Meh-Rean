@@ -115,6 +115,15 @@ in `src/data/demo/*.json`, built by `src/lib/papers.ts`
 `getExamPapers(filter)`, `getExamPaper(id)`. Pages: `src/pages/BaciiPapers.tsx`,
 `src/pages/BaciiPaper.tsx`.
 
+## Mock exams (roadmap 2.4)
+
+`exam_attempts` + `exam_answers`, written only by `start_exam`,
+`save_exam_answer` and `submit_exam` (security definer; marking in
+`mark_exam_attempt`). API: `startExam`, `saveExamAnswer`, `submitExam`,
+`getExamAttempt`, `getMyExamAttempts`; the browser-only store mirrors the same
+rules. Pages: `src/pages/BaciiExam.tsx` (intro, timer, navigator, autosave)
+and `src/pages/BaciiAttempt.tsx` (result and review).
+
 ## Other parts
 
 - Subjects: `src/lib/subjects.ts` (15 main + ~130 specific, colours).

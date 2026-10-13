@@ -2,12 +2,12 @@
 
 ## Current
 
-**Phase 2 — Task 2.4: Mock exam mode** (next up). Needs: solutions held
-back during an attempt and marking on the server (see DECISIONS).
+**Phase 2 — Task 2.5: Grade estimate** (next up). Bands are configurable
+and labelled as an estimate; no official bands are known yet.
 
 Rules to keep: stored text only through `MathText`; question images only by
-storage path; AI-derived content labelled with its origin; solutions held
-back on the server before mock exams (2.4).
+storage path; AI-derived content labelled with its origin; exam marking and
+timing only in database functions, never in the browser.
 
 ## Done
 
@@ -89,16 +89,31 @@ back on the server before mock exams (2.4).
   store now copies the demo questions in once, so practice and the admin
   list see them there too (a deleted one stays deleted). `npm run test:papers`
   8/8 (filter check added); UI 5/5 online and browser-only; 320px checked.
+- **2026-10-13 — 2.4 Mock exam mode.** "Take as a mock exam" on each paper
+  page. Time: the paper's official duration only when it has a source;
+  otherwise the student picks a practice time (30–150 minutes, labelled
+  "not an exam rule"). Sticky timer, question navigator, answers saved as
+  you type (retrying if the network drops), warning before leaving, resume
+  while time is left, automatic hand-in at zero. Tables `exam_attempts` and
+  `exam_answers` (students read their own, write nothing directly);
+  functions `start_exam`, `save_exam_answer`, `submit_exam` set the
+  deadline, refuse late answers and mark multiple-choice and number answers
+  from the answer key; worked problems are left for the student to check.
+  During a running attempt the paper's solutions are hidden from that
+  student everywhere (not from admins). One running attempt per paper;
+  30 starts a day. Result page with score, percent, review and solutions;
+  "Your attempts" on the paper page. `npm run test:exams` 12/12; UI 8/8
+  online and browser-only; 320px checked.
 
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
-| Production database | 1.1–2.1 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
+| Production database | 1.1–2.4 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. |
 | YouTube transcripts | 4.4, 4.6 | The Data API only gives captions to a video's owner; third-party timestamps and video quizzes need another lawful source or will be limited. |
 | Telegram bot | 5.5 | A bot token from @BotFather (free) and owner approval. |
 | Khmer interface wording | 5.4 | A Khmer speaker to review translations. |
-| Bundle size (811 kB) | Phase 2+ on cheap phones | Route-level code splitting (no approval needed; scheduled before Phase 2). |
+| Bundle size (694 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |

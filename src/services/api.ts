@@ -72,6 +72,11 @@ export const {
   uploadQuestionImage,
   getExamPapers,
   getExamPaper,
+  startExam,
+  saveExamAnswer,
+  submitExam,
+  getExamAttempt,
+  getMyExamAttempts,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

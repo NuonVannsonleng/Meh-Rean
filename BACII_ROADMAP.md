@@ -61,9 +61,13 @@ Khmer names. Note sharing with subject and level tags.
   ✔ 2026-10-13: `/bacii/practice` (subject, chapter and topic chips with
   counts; database filtering) with practice answering and step-by-step
   solutions; `npm run test:papers` 8/8, UI 5/5 in both backends.
-- [ ] **2.4 Mock exam mode (M)** — timer, navigation, auto-save, auto-submit,
+- [x] **2.4 Mock exam mode (M)** — timer, navigation, auto-save, auto-submit,
   scoring of objective questions on the server, results and review.
   Durations come from data; unverified ones are labelled practice settings.
+  ✔ 2026-10-13: `/bacii/papers/:id/exam` and `/bacii/attempts/:id`. The
+  database sets the deadline, refuses late answers, hides the paper's answer
+  key from the student until hand-in and marks on hand-in or time-out.
+  `npm run test:exams` 12/12; UI 8/8 in both backends; 320px checked.
 - [ ] **2.5 Grade estimate (S)** — configurable A–F bands: estimate, percent,
   points to the next grade. Never presented as an official result.
 

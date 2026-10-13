@@ -34,7 +34,29 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-13 — Mock exams are timed and marked by the database
+
+The browser shows a clock but decides nothing. `start_exam` sets the
+deadline from the server clock; `save_exam_answer` refuses answers after it
+(and closes the attempt, returning `'time-up'` instead of raising, so the
+marking is not rolled back); `mark_exam_attempt` scores from the answer key
+and cannot be called directly. Students cannot write attempt or answer rows.
+
+During a student's own running attempt, the select policy on
+`question_solutions` hides that paper's answer key from them everywhere
+(practice and paper pages too). Admins are exempt, so editing a question
+mid-exam cannot lose its solution. This stops casual peeking; it is not exam
+security (a signed-out window still shows solutions), which is acceptable
+for a practice tool.
+
+Durations: only a paper's `duration_minutes` with a `duration_source` counts
+as official. Otherwise the student chooses a practice time, labelled as
+such. Worked problems are not auto-marked; they are counted as "to check
+yourself" and left out of the score and the maximum.
+
 ## 2026-10-13 — Solutions in their own table, readable by everyone for now
+
+Update (2.4): now hidden during the student's own mock exam; see above.
 
 Answers and worked steps live in `question_solutions`, not on the question.
 For practice they are meant to be seen, so they are public today. Before mock

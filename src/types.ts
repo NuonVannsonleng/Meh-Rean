@@ -476,6 +476,48 @@ export interface PaperFilter {
   year?: number;
 }
 
+// ---- BacII mock exams ----
+
+export type AttemptStatus = "in-progress" | "submitted" | "timed-out";
+
+export interface ExamAttempt {
+  id: string;
+  paperId: string;
+  /** official: the paper's sourced duration; practice: chosen by the student. */
+  timing: "official" | "practice";
+  durationMinutes: number;
+  startedAt: string;
+  deadlineAt: string;
+  submittedAt: string | null;
+  status: AttemptStatus;
+  /** Points from automatically marked questions; null until marked. */
+  score: number | null;
+  maxScore: number | null;
+  /** Questions a person has to mark (worked problems, short answers). */
+  unmarked: number | null;
+}
+
+export interface ExamAnswer {
+  questionId: string;
+  answer: string;
+  /** null while running, and for questions that are not marked automatically. */
+  isCorrect: boolean | null;
+  pointsAwarded: number | null;
+  updatedAt: string;
+}
+
+export interface ExamAttemptDetail {
+  attempt: ExamAttempt;
+  answers: ExamAnswer[];
+}
+
+/** A started (or resumed) attempt, with how far this device's clock is off the server's. */
+export interface ExamStart {
+  attemptId: string;
+  deadlineAt: string;
+  clockOffsetMs: number;
+}
+
 export type MediaFilter = "all" | "documents" | "images" | "videos";
 export type FeedSort = "latest" | "top" | "discussed";
 

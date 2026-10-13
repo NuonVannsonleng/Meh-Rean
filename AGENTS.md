@@ -55,6 +55,7 @@ npm run test:curriculum  # curriculum seed checks; local Supabase for the DB par
 npm run test:questions   # question schema rules and permissions; local Supabase
 npm run test:math        # LaTeX/Khmer text splitter
 npm run test:papers      # demo papers seed + paper rules; local Supabase
+npm run test:exams       # mock exam timing, marking, hidden answers; local Supabase
 npx supabase start       # local Supabase (Docker)
 ```
 

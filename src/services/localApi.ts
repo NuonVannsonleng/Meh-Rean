@@ -1,7 +1,7 @@
 import { MAX_MESSAGE_LENGTH } from "../lib/chat";
 import { subjectLabel, subjectMembers } from "../lib/subjects";
 import { flattenCurriculum, type CurriculumSeed, type FlatCurriculum } from "../lib/curriculum";
-import { checkQuestionInput, MAX_QUESTION_IMAGE_BYTES, questionImageExtension } from "../lib/questions";
+import { checkQuestionInput, isCorrect, MAX_QUESTION_IMAGE_BYTES, questionImageExtension } from "../lib/questions";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
 import { buildDemoPapers, sortPapers, type DemoPaperSeed } from "../lib/papers";
@@ -23,8 +23,12 @@ import {
   type UpdatePostInput,
   type CurriculumChapter,
   type CurriculumSubject,
+  type ExamAnswer,
+  type ExamAttempt,
+  type ExamAttemptDetail,
   type ExamPaper,
   type ExamPaperDetail,
+  type ExamStart,
   type PaperFilter,
   type Question,
   type QuestionFilter,
@@ -1222,10 +1226,24 @@ function requireAdmin(db: DbState): UserRecord {
   return viewer;
 }
 
+/**
+ * As online: during a student's own running mock exam, that paper's answer
+ * key is hidden from them everywhere (admins excepted, so editing still works).
+ */
+function hideRunningExamSolutions(db: DbState, questions: Question[]): Question[] {
+  const viewer = db.users.find((user) => user.id === viewerId(db));
+  if (!viewer || viewer.isAdmin) return questions;
+  closeExpiredAttempts(db);
+  const papers = new Set((db.examAttempts ?? []).filter((a) => a.userId === viewer.id && a.status === "in-progress").map((a) => a.paperId));
+  if (!papers.size) return questions;
+  const hidden = new Set(loadPapers().filter((paper) => papers.has(paper.id)).flatMap((paper) => paper.questions.map((entry) => entry.question.id)));
+  return questions.map((question) => (hidden.has(question.id) ? { ...question, solution: null } : question));
+}
+
 export async function getQuestions(filter: QuestionFilter = {}): Promise<Question[]> {
   const db = await loadQuestions();
   return structuredClone(
-    db.questions
+    hideRunningExamSolutions(db, db.questions)
       .filter((question) => !filter.subjectId || question.subjectId === filter.subjectId)
       .filter((question) => !filter.chapterId || question.chapterId === filter.chapterId)
       .filter((question) => !filter.topicId || question.topicId === filter.topicId)
@@ -1237,7 +1255,7 @@ export async function getQuestion(id: string): Promise<Question> {
   const db = await loadQuestions();
   const question = db.questions.find((item) => item.id === id);
   if (!question) throw new ApiError("NOT_FOUND", 404);
-  return structuredClone(question);
+  return structuredClone(hideRunningExamSolutions(db, [question])[0]);
 }
 
 /**
@@ -1367,8 +1385,145 @@ export async function getExamPaper(id: string): Promise<ExamPaperDetail> {
   // Questions as they are now in the store: edited by an admin, or gone.
   const db = await loadQuestions();
   const current = new Map(db.questions.map((question) => [question.id, question]));
-  const questions = paper.questions
-    .filter((entry) => current.has(entry.question.id))
-    .map((entry) => ({ ...entry, question: current.get(entry.question.id)! }));
+  const shown = new Map(hideRunningExamSolutions(db, [...current.values()]).map((question) => [question.id, question]));
+  const questions = paper.questions.filter((entry) => shown.has(entry.question.id)).map((entry) => ({ ...entry, question: shown.get(entry.question.id)! }));
   return structuredClone({ ...paper, questions, questionCount: questions.length });
+}
+
+// ---- BacII mock exams ----
+// Mirrors start_exam, save_exam_answer and submit_exam in supabase/schema.sql.
+
+function closeExpiredAttempts(db: DbState) {
+  const now = Date.now();
+  for (const attempt of db.examAttempts ?? []) {
+    if (attempt.status === "in-progress" && Date.parse(attempt.deadlineAt) <= now) markAttempt(db, attempt, "timed-out");
+  }
+}
+
+function markAttempt(db: DbState, attempt: ExamAttempt & { userId: string }, status: "submitted" | "timed-out") {
+  const paper = loadPapers().find((item) => item.id === attempt.paperId);
+  const current = new Map(db.questions.map((question) => [question.id, question]));
+  db.examAnswers ??= [];
+  let score = 0;
+  let maxScore = 0;
+  let unmarked = 0;
+  for (const entry of paper?.questions ?? []) {
+    const question = current.get(entry.question.id);
+    if (!question) continue;
+    let answer = db.examAnswers.find((item) => item.attemptId === attempt.id && item.questionId === question.id);
+    if (!answer) {
+      answer = { attemptId: attempt.id, questionId: question.id, answer: "", isCorrect: null, pointsAwarded: null, updatedAt: new Date().toISOString() };
+      db.examAnswers.push(answer);
+    }
+    const right = question.solution ? isCorrect(question, question.solution, answer.answer) : null;
+    const points = entry.points ?? 1;
+    answer.isCorrect = right;
+    answer.pointsAwarded = right === null ? null : right ? points : 0;
+    if (right === null) unmarked += 1;
+    else {
+      maxScore += points;
+      if (right) score += points;
+    }
+  }
+  Object.assign(attempt, {
+    status,
+    submittedAt: new Date(Math.min(Date.now(), Date.parse(attempt.deadlineAt))).toISOString(),
+    score,
+    maxScore,
+    unmarked,
+  });
+}
+
+function ownAttempt(db: DbState, id: string) {
+  const viewer = requireViewer(db);
+  const attempt = (db.examAttempts ?? []).find((item) => item.id === id && item.userId === viewer.id);
+  if (!attempt) throw new ApiError("NOT_FOUND", 404);
+  return attempt;
+}
+
+export async function startExam(paperId: string, practiceMinutes: number): Promise<ExamStart> {
+  const db = await loadQuestions();
+  const viewer = requireViewer(db);
+  const paper = loadPapers().find((item) => item.id === paperId);
+  if (!paper) throw new ApiError("NOT_FOUND", 404);
+  closeExpiredAttempts(db);
+  db.examAttempts ??= [];
+  const running = db.examAttempts.find((a) => a.userId === viewer.id && a.paperId === paperId && a.status === "in-progress");
+  if (running) {
+    persist();
+    return { attemptId: running.id, deadlineAt: running.deadlineAt, clockOffsetMs: 0 };
+  }
+  const today = db.examAttempts.filter((a) => a.userId === viewer.id && Date.parse(a.startedAt) > Date.now() - 86_400_000).length;
+  if (today >= 30) throw new ApiError("UNKNOWN", 429, "that is 30 mock exams today; try again tomorrow");
+  const official = paper.durationMinutes !== null && paper.durationSource.trim() !== "";
+  const minutes = official ? paper.durationMinutes! : practiceMinutes;
+  if (!Number.isInteger(minutes) || minutes < 5 || minutes > 600) throw new ApiError("UNKNOWN", 400, "choose a practice time between 5 and 600 minutes");
+  const now = new Date();
+  const attempt = {
+    id: createId("att"),
+    userId: viewer.id,
+    paperId,
+    timing: official ? ("official" as const) : ("practice" as const),
+    durationMinutes: minutes,
+    startedAt: now.toISOString(),
+    deadlineAt: new Date(now.getTime() + minutes * 60_000).toISOString(),
+    submittedAt: null,
+    status: "in-progress" as const,
+    score: null,
+    maxScore: null,
+    unmarked: null,
+  };
+  db.examAttempts.push(attempt);
+  persist();
+  return { attemptId: attempt.id, deadlineAt: attempt.deadlineAt, clockOffsetMs: 0 };
+}
+
+export async function saveExamAnswer(attemptId: string, questionId: string, answer: string): Promise<void> {
+  const db = await loadQuestions();
+  const attempt = ownAttempt(db, attemptId);
+  if (attempt.status !== "in-progress") throw new ApiError("UNKNOWN", 400, "this attempt is already finished");
+  if (Date.parse(attempt.deadlineAt) <= Date.now()) {
+    markAttempt(db, attempt, "timed-out");
+    persist();
+    throw new ApiError("UNKNOWN", 400, "time is up");
+  }
+  const paper = loadPapers().find((item) => item.id === attempt.paperId);
+  if (!paper?.questions.some((entry) => entry.question.id === questionId)) throw new ApiError("UNKNOWN", 400, "that question is not on this paper");
+  db.examAnswers ??= [];
+  const existing = db.examAnswers.find((item) => item.attemptId === attemptId && item.questionId === questionId);
+  const now = new Date().toISOString();
+  if (existing) Object.assign(existing, { answer: answer.slice(0, 5000), updatedAt: now });
+  else db.examAnswers.push({ attemptId, questionId, answer: answer.slice(0, 5000), isCorrect: null, pointsAwarded: null, updatedAt: now });
+  persist();
+}
+
+export async function submitExam(attemptId: string): Promise<void> {
+  const db = await loadQuestions();
+  const attempt = ownAttempt(db, attemptId);
+  if (attempt.status === "in-progress") markAttempt(db, attempt, Date.parse(attempt.deadlineAt) <= Date.now() ? "timed-out" : "submitted");
+  persist();
+}
+
+export async function getExamAttempt(attemptId: string): Promise<ExamAttemptDetail> {
+  const db = await loadQuestions();
+  const attempt = ownAttempt(db, attemptId);
+  closeExpiredAttempts(db);
+  const { userId: _userId, ...rest } = attempt;
+  const answers: ExamAnswer[] = (db.examAnswers ?? [])
+    .filter((item) => item.attemptId === attemptId)
+    .map(({ attemptId: _attemptId, ...answer }) => answer);
+  return structuredClone({ attempt: rest, answers });
+}
+
+export async function getMyExamAttempts(paperId?: string): Promise<ExamAttempt[]> {
+  const db = await loadQuestions();
+  const viewer = viewerId(db);
+  if (!viewer) return [];
+  closeExpiredAttempts(db);
+  return structuredClone(
+    (db.examAttempts ?? [])
+      .filter((a) => a.userId === viewer && (!paperId || a.paperId === paperId))
+      .sort((a, b) => b.startedAt.localeCompare(a.startedAt))
+      .map(({ userId: _userId, ...attempt }) => attempt),
+  );
 }

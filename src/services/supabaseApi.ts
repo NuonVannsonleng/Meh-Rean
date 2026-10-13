@@ -31,8 +31,12 @@ import {
   type UpdatePostInput,
   type CurriculumChapter,
   type CurriculumSubject,
+  type ExamAnswer,
+  type ExamAttempt,
+  type ExamAttemptDetail,
   type ExamPaper,
   type ExamPaperDetail,
+  type ExamStart,
   type PaperFilter,
   type PaperOrigin,
   type Question,
@@ -1621,4 +1625,103 @@ export async function getExamPaper(id: string): Promise<ExamPaperDetail> {
       question: toQuestion(entry.question!, questionImageUrl),
     }));
   return { ...toExamPaper(data), questions };
+}
+
+// ---- BacII mock exams ----
+// Everything that counts runs in the database: start_exam, save_exam_answer
+// and submit_exam (supabase/schema.sql). These only read and call them.
+
+interface ExamAttemptRow {
+  id: string;
+  paper_id: string;
+  timing: "official" | "practice";
+  duration_minutes: number;
+  started_at: string;
+  deadline_at: string;
+  submitted_at: string | null;
+  status: ExamAttempt["status"];
+  score: number | string | null;
+  max_score: number | string | null;
+  unmarked: number | null;
+}
+
+const asNumber = (value: number | string | null) => (value === null ? null : Number(value));
+
+function toExamAttempt(row: ExamAttemptRow): ExamAttempt {
+  return {
+    id: row.id,
+    paperId: row.paper_id,
+    timing: row.timing,
+    durationMinutes: row.duration_minutes,
+    startedAt: row.started_at,
+    deadlineAt: row.deadline_at,
+    submittedAt: row.submitted_at,
+    status: row.status,
+    score: asNumber(row.score),
+    maxScore: asNumber(row.max_score),
+    unmarked: row.unmarked,
+  };
+}
+
+export async function startExam(paperId: string, practiceMinutes: number): Promise<ExamStart> {
+  await requireViewer();
+  const sent = Date.now();
+  const { data, error } = await supabase.rpc("start_exam", { paper: paperId, practice_minutes: practiceMinutes });
+  if (error) failQuestion(error);
+  const row = (data as { attempt_id: string; deadline_at: string; server_now: string }[])[0];
+  // The server's clock, corrected for half the round trip, decides the time left.
+  const clockOffsetMs = Date.parse(row.server_now) - (sent + Date.now()) / 2;
+  return { attemptId: row.attempt_id, deadlineAt: row.deadline_at, clockOffsetMs };
+}
+
+export async function saveExamAnswer(attemptId: string, questionId: string, answer: string): Promise<void> {
+  const { data, error } = await supabase.rpc("save_exam_answer", { attempt: attemptId, question: questionId, answer });
+  if (error) failQuestion(error);
+  if (data === "time-up") throw new ApiError("UNKNOWN", 400, "time is up");
+}
+
+export async function submitExam(attemptId: string): Promise<void> {
+  const { error } = await supabase.rpc("submit_exam", { attempt: attemptId });
+  if (error) failQuestion(error);
+}
+
+export async function getExamAttempt(attemptId: string): Promise<ExamAttemptDetail> {
+  await requireViewer();
+  let { data, error } = await supabase.from("exam_attempts").select("*").eq("id", attemptId).maybeSingle<ExamAttemptRow>();
+  if (error) failQuestion(error);
+  if (!data) throw new ApiError("NOT_FOUND", 404);
+  // Time ran out while away: let the server close and mark it first.
+  if (data.status === "in-progress" && Date.parse(data.deadline_at) <= Date.now()) {
+    await submitExam(attemptId);
+    ({ data, error } = await supabase.from("exam_attempts").select("*").eq("id", attemptId).maybeSingle<ExamAttemptRow>());
+    if (error) failQuestion(error);
+    if (!data) throw new ApiError("NOT_FOUND", 404);
+  }
+  const answers = unwrap(
+    await supabase
+      .from("exam_answers")
+      .select("question_id, answer, is_correct, points_awarded, updated_at")
+      .eq("attempt_id", attemptId)
+      .returns<{ question_id: string; answer: string; is_correct: boolean | null; points_awarded: number | string | null; updated_at: string }[]>(),
+  );
+  return {
+    attempt: toExamAttempt(data),
+    answers: answers.map(
+      (row): ExamAnswer => ({
+        questionId: row.question_id,
+        answer: row.answer,
+        isCorrect: row.is_correct,
+        pointsAwarded: asNumber(row.points_awarded),
+        updatedAt: row.updated_at,
+      }),
+    ),
+  };
+}
+
+export async function getMyExamAttempts(paperId?: string): Promise<ExamAttempt[]> {
+  const viewer = await viewerId();
+  if (!viewer) return [];
+  let builder = supabase.from("exam_attempts").select("*").eq("user_id", viewer).order("started_at", { ascending: false }).limit(50);
+  if (paperId) builder = builder.eq("paper_id", paperId);
+  return unwrap(await builder.returns<ExamAttemptRow[]>()).map(toExamAttempt);
 }
