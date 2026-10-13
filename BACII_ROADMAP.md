@@ -159,8 +159,13 @@ Khmer names. Note sharing with subject and level tags.
   take it under the player, labelled by origin and permission. Admins can
   also write quizzes by hand (works browser-only). `npm run
   test:video-quizzes` 4/4; UI 8/8 online, 6/6 browser-only.
-- [ ] **4.7 Track watched videos (S)** — watched / understood / needs
+- [x] **4.7 Track watched videos (S)** — watched / understood / needs
   revision, linked to question history and mistakes.
+  ✔ 2026-10-13: marks under the player (saved with the exercise's chapter in
+  `video_progress`, own rows only), shown on results; `/bacii/my-videos`
+  groups them and shows each chapter's results and open mistakes with links;
+  the notebook links to "Videos to revise". `npm run test:video-progress`
+  5/5; UI 5/5 online, 3/3 browser-only.
 
 ## Phase 5 — Make it work on any phone
 

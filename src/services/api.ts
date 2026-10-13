@@ -92,6 +92,9 @@ export const {
   getVideoQuizzes,
   saveVideoQuiz,
   deleteVideoQuiz,
+  getVideoProgress,
+  setVideoProgress,
+  deleteVideoProgress,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

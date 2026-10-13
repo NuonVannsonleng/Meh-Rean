@@ -40,6 +40,7 @@ import {
   type StudyPlan,
   type StudyPlanInput,
   type VideoChannel,
+  type VideoProgress,
   type VideoQuiz,
   type VideoQuizInput,
   type ExamAttemptDetail,
@@ -1996,5 +1997,60 @@ export async function saveVideoQuiz(input: VideoQuizInput): Promise<VideoQuiz> {
 export async function deleteVideoQuiz(videoId: string): Promise<void> {
   await requireViewer();
   const { error } = await supabase.from("video_quizzes").delete().eq("video_id", videoId);
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+}
+
+// ---- Watched videos ----
+
+interface VideoProgressRow {
+  video_id: string;
+  title: string;
+  channel: string;
+  status: VideoProgress["status"];
+  chapter_id: string | null;
+  updated_at: string;
+}
+
+const PROGRESS_COLUMNS = "video_id, title, channel, status, chapter_id, updated_at";
+const toVideoProgress = (row: VideoProgressRow): VideoProgress => ({
+  videoId: row.video_id,
+  title: row.title,
+  channel: row.channel,
+  status: row.status,
+  chapterId: row.chapter_id,
+  updatedAt: row.updated_at,
+});
+
+export async function getVideoProgress(): Promise<VideoProgress[]> {
+  const viewer = await viewerId();
+  if (!viewer) return [];
+  const rows = unwrap(
+    await supabase.from("video_progress").select(PROGRESS_COLUMNS).eq("user_id", viewer).order("updated_at", { ascending: false }).limit(500).returns<VideoProgressRow[]>(),
+  );
+  return rows.map(toVideoProgress);
+}
+
+export async function setVideoProgress(input: Omit<VideoProgress, "updatedAt">): Promise<VideoProgress> {
+  const viewer = await requireViewer();
+  const { data, error } = await supabase
+    .from("video_progress")
+    .upsert({
+      user_id: viewer,
+      video_id: input.videoId,
+      title: input.title.slice(0, 300),
+      channel: input.channel.slice(0, 200),
+      status: input.status,
+      chapter_id: input.chapterId,
+      updated_at: new Date().toISOString(),
+    })
+    .select(PROGRESS_COLUMNS)
+    .single<VideoProgressRow>();
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+  return toVideoProgress(data);
+}
+
+export async function deleteVideoProgress(videoId: string): Promise<void> {
+  const viewer = await requireViewer();
+  const { error } = await supabase.from("video_progress").delete().eq("user_id", viewer).eq("video_id", videoId);
   if (error) throw new ApiError("UNKNOWN", 400, error.message);
 }

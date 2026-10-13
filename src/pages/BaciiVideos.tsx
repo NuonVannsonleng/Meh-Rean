@@ -4,8 +4,8 @@ import { describedBy, FieldShell } from "../components/FormField";
 import { ArrowLeftIcon, CameraIcon, CheckIcon, CloseIcon, ExternalLinkIcon, SearchIcon, TrashIcon, VideoIcon } from "../components/Icons";
 import VideoQuizPanel from "../components/VideoQuizPanel";
 import { useAuth } from "../context/AuthContext";
-import { getVideoQuizzes } from "../services/api";
-import type { VideoQuiz } from "../types";
+import { getVideoProgress, getVideoQuizzes, setVideoProgress } from "../services/api";
+import type { VideoQuiz, VideoStatus } from "../types";
 import { t } from "../i18n/en";
 import {
   BACII_SUBJECTS,
@@ -68,7 +68,20 @@ function SearchingStatus() {
   );
 }
 
-function Player({ video, quiz, onClose }: { video: ExerciseVideo; quiz: VideoQuiz | undefined; onClose: () => void }) {
+function Player({
+  video,
+  quiz,
+  status,
+  onMark,
+  onClose,
+}: {
+  video: ExerciseVideo;
+  quiz: VideoQuiz | undefined;
+  status: VideoStatus | undefined;
+  /** Absent when signed out: nothing to save to. */
+  onMark: ((status: VideoStatus) => void) | null;
+  onClose: () => void;
+}) {
   return (
     <section aria-label={copy.playing} className="card animate-pop overflow-hidden">
       <div className="aspect-video bg-black">
@@ -100,6 +113,22 @@ function Player({ video, quiz, onClose }: { video: ExerciseVideo; quiz: VideoQui
           <CloseIcon className="h-4 w-4" />
         </button>
       </div>
+      {onMark && (
+        <div role="group" aria-label={copy.markLabel} className="border-line flex flex-wrap items-center gap-2 border-t px-3 py-2 sm:px-4">
+          <span className="text-ink-500 text-xs">{copy.markLabel}</span>
+          {(["watched", "understood", "needs-revision"] as const).map((value) => (
+            <button
+              key={value}
+              type="button"
+              aria-pressed={status === value}
+              onClick={() => onMark(value)}
+              className={`rounded-full border px-2.5 py-1 text-xs font-medium ${status === value ? "border-brand-600 bg-brand-600 text-white" : "border-line text-ink-700 hover:border-ink-400"}`}
+            >
+              {copy.mark[value]}
+            </button>
+          ))}
+        </div>
+      )}
       {quiz && <VideoQuizPanel key={quiz.videoId} quiz={quiz} />}
     </section>
   );
@@ -115,13 +144,35 @@ function readOrder(): "km" | "other" {
   }
 }
 
-function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => void }) {
+function Results({ result, onAnother, signedIn }: { result: VideoLookup; onAnother: () => void; signedIn: boolean }) {
   const [playing, setPlaying] = useState<ExerciseVideo | null>(null);
   const [first, setFirst] = useState<"km" | "other">(readOrder);
   const { exercise, videos } = result;
   // Quizzes admins made for any of these videos (roadmap 4.6).
   const [quizzes, setQuizzes] = useState<Map<string, VideoQuiz>>(() => new Map());
   const ids = videos.map((video) => video.id).join(",");
+  // The student's own marks (roadmap 4.7).
+  const [marks, setMarks] = useState<Map<string, VideoStatus>>(() => new Map());
+  useEffect(() => {
+    if (!signedIn) return;
+    let active = true;
+    getVideoProgress()
+      .then((list) => active && setMarks(new Map(list.map((item) => [item.videoId, item.status]))))
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [signedIn]);
+  const mark = (video: ExerciseVideo, status: VideoStatus) => {
+    setMarks((current) => new Map(current).set(video.id, status));
+    setVideoProgress({ videoId: video.id, title: video.title, channel: video.channel, status, chapterId: exercise.chapter?.id ?? null }).catch(() =>
+      setMarks((current) => {
+        const next = new Map(current);
+        next.delete(video.id);
+        return next;
+      }),
+    );
+  };
   useEffect(() => {
     if (!ids) return;
     let active = true;
@@ -185,7 +236,15 @@ function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => 
       </section>
 
       <div ref={playerRef} className="scroll-mt-20">
-        {playing && <Player video={playing} quiz={quizzes.get(playing.id)} onClose={() => setPlaying(null)} />}
+        {playing && (
+          <Player
+            video={playing}
+            quiz={quizzes.get(playing.id)}
+            status={marks.get(playing.id)}
+            onMark={signedIn ? (status) => mark(playing, status) : null}
+            onClose={() => setPlaying(null)}
+          />
+        )}
       </div>
 
       <section aria-labelledby="videos-heading">
@@ -244,6 +303,9 @@ function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => 
                     <span className="text-ink-900 line-clamp-2 block text-sm font-semibold">{video.title}</span>
                     <span className="text-ink-500 flex min-w-0 items-center gap-1.5 text-xs">
                       <span className="truncate">{video.channel}</span>
+                      {marks.has(video.id) && (
+                        <span className="bg-surface-hover text-ink-700 shrink-0 rounded-full px-1.5 py-px text-[10px] font-semibold">{copy.mark[marks.get(video.id)!]}</span>
+                      )}
                       {quizzes.has(video.id) && (
                         <span className="bg-ribbon-50 text-ribbon-fg shrink-0 rounded-full px-1.5 py-px text-[10px] font-semibold">{copy.quiz.badge}</span>
                       )}
@@ -427,6 +489,12 @@ export default function BaciiVideos() {
         <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
         <p className="text-ink-500 mt-1 text-sm">{t.bacii.videos.optionTitleKm}</p>
         <p className="text-ink-700 mt-2 text-sm leading-relaxed">{copy.subtitle}</p>
+        {user && (
+          <Link to="/bacii/my-videos" className="text-accent mt-2 inline-flex items-center gap-1.5 text-sm font-semibold hover:underline">
+            <VideoIcon className="h-4 w-4" />
+            {copy.myVideos}
+          </Link>
+        )}
       </header>
 
       <form onSubmit={submit} noValidate className="card space-y-5 p-4 sm:p-6">
@@ -599,7 +667,7 @@ export default function BaciiVideos() {
             </button>
           </div>
         )}
-        {state.kind === "done" && <Results result={state.result} onAnother={reset} />}
+        {state.kind === "done" && <Results result={state.result} onAnother={reset} signedIn={Boolean(user)} />}
         {state.kind === "error" &&
           (state.error.code === "NOT_CONFIGURED" ? (
             <Fallback text={text} subject={subject} notReady />

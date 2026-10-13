@@ -23,6 +23,7 @@ npm run test:video-channels # trusted channels: admin-only writes, checks; local
 npm run test:video-chapters # description chapter parsing (task 4.4)
 npm run test:question-match # matching an exercise to the question bank (task 4.5)
 npm run test:video-quizzes # video quizzes: admin-only writes, shape checks; local Supabase (task 4.6)
+npm run test:video-progress # watched-video marks: own rows, checks; local Supabase (task 4.7)
 ```
 
 The harnesses need a local Supabase for their database parts:
@@ -59,6 +60,8 @@ are not in the repository yet (see Architecture finding 4).
 | 2026-10-13 | `npm run test:video-chapters` | 8 passed, 0 failed |
 | 2026-10-13 | `npm run test:question-match` | 8 passed, 0 failed |
 | 2026-10-13 | `npm run test:video-quizzes` (local Supabase) | 4 passed, 0 failed |
+| 2026-10-13 | `npm run test:video-progress` (local Supabase) | 5 passed, 0 failed |
+| 2026-10-13 | Playwright: watched videos (mark, kept, My videos, change, remove, 320px), online / browser-only | 5/5, 3/3 |
 | 2026-10-13 | Playwright: video quizzes (admin drafts with mock AI, student takes it), online / browser-only (by hand) | 8/8, 6/6 |
 | 2026-10-13 | Playwright: photo to solution, online with mock Gemini / browser-only | 8/8, 4/4 |
 | 2026-10-13 | Playwright: trusted channels admin page, browser-only / online | 5/5, 6/6 |

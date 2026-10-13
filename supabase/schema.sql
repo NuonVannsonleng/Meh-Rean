@@ -1190,6 +1190,28 @@ drop policy if exists "admins manage quizzes" on public.video_quizzes;
 create policy "admins manage quizzes" on public.video_quizzes for all to authenticated
   using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()));
 
+-- Videos a student marked (roadmap 4.7): watched, understood, or needs
+-- revision, with the chapter of the exercise they were looking at, so the
+-- page can link them to that chapter's results and mistakes. The student's
+-- own notes: they read and write only their own rows.
+create table if not exists public.video_progress (
+  user_id uuid not null default auth.uid() references public.profiles on delete cascade,
+  video_id text not null check (video_id ~ '^[A-Za-z0-9_-]{11}$'),
+  title text not null check (char_length(title) between 1 and 300),
+  channel text not null default '' check (char_length(channel) <= 200),
+  status text not null check (status in ('watched', 'understood', 'needs-revision')),
+  chapter_id text references public.curriculum_chapters on delete set null,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, video_id)
+);
+create index if not exists video_progress_user_idx on public.video_progress (user_id, updated_at desc);
+alter table public.video_progress enable row level security;
+drop policy if exists "own video progress" on public.video_progress;
+create policy "own video progress" on public.video_progress for all to authenticated
+  using (user_id = auth.uid()) with check (user_id = auth.uid());
+revoke all on public.video_progress from anon;
+grant select, insert, update, delete on public.video_progress to authenticated;
+
 -- ----------------------------------------------------------- Curriculum --
 
 -- BacII curriculum: version → track → subject → chapter → topic. The rows

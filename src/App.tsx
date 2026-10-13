@@ -21,6 +21,7 @@ const BaciiMistakes = lazy(() => import("./pages/BaciiMistakes"));
 const BaciiToday = lazy(() => import("./pages/BaciiToday"));
 const BaciiPlan = lazy(() => import("./pages/BaciiPlan"));
 const BaciiSolve = lazy(() => import("./pages/BaciiSolve"));
+const BaciiMyVideos = lazy(() => import("./pages/BaciiMyVideos"));
 const CreatePost = lazy(() => import("./pages/CreatePost"));
 const LogoCredits = lazy(() => import("./pages/LogoCredits"));
 const Login = lazy(() => import("./pages/Login"));
@@ -122,6 +123,14 @@ export default function App() {
               }
             />
             <Route path="/bacii/solve" element={<BaciiSolve />} />
+            <Route
+              path="/bacii/my-videos"
+              element={
+                <RequireAuth>
+                  <BaciiMyVideos />
+                </RequireAuth>
+              }
+            />
             <Route
               path="/bacii/plan"
               element={

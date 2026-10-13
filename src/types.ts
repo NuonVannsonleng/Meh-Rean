@@ -520,6 +520,19 @@ export interface ExamStart {
   clockOffsetMs: number;
 }
 
+export type VideoStatus = "watched" | "understood" | "needs-revision";
+
+/** A video a student marked (roadmap 4.7). */
+export interface VideoProgress {
+  videoId: string;
+  title: string;
+  channel: string;
+  status: VideoStatus;
+  /** The chapter of the exercise they found it for. */
+  chapterId: string | null;
+  updatedAt: string;
+}
+
 /** One multiple-choice question of a video quiz (roadmap 4.6). */
 export interface VideoQuizQuestion {
   prompt: string;

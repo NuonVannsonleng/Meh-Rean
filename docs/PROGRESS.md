@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 4 — Task 4.7: Track watched videos** (next up).
+**Phase 5 — Task 5.1: Progressive Web App** (next up). Phase 4 is done.
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; exam marking and
@@ -242,13 +242,24 @@ timing only in database functions, never in the browser.
   "Drafted by AI, checked by Meh Rean" or "Drafted by AI, not checked yet",
   with the permission note. `npm run test:video-quizzes` 4/4; UI 8/8 online
   (mock AI; student cannot draft), 6/6 browser-only; video e2e 22/22.
+- **2026-10-13 — 4.7 Track watched videos.** Table `video_progress` (per
+  student and video: title, channel, status watched / understood /
+  needs-revision, the chapter of the exercise; own rows only). Under the
+  player in the video finder: "How was this video for you?" with the three
+  marks; results show each video's mark. `/bacii/my-videos` (linked from the
+  video finder) filters by mark and shows, per video, its chapter (to
+  practice), the student's results there (`chapter_progress`) and open
+  mistakes (to the notebook, filtered by chapter); marks can be changed or
+  removed. The mistake notebook links to "Videos to revise". `npm run
+  test:video-progress` 5/5; UI 5/5 online, 3/3 browser-only; notebook,
+  quiz and video e2e regressions pass.
 
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
-| Production database | 1.1–4.6 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
+| Production database | 1.1–4.7 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. Grade bands: edit `src/data/grade-scale.json`. |
 | YouTube transcripts | 4.6 content | The Data API only gives captions to a video's owner. 4.4 uses creators' description chapters; 4.6 quizzes need an admin with a transcript they may use (channels that agree to share theirs). |
@@ -256,4 +267,4 @@ timing only in database functions, never in the browser.
 | Khmer interface wording | 5.4 | A Khmer speaker to review translations. |
 | Real-photo reading | 4.5 quality | Try "Photo to solution" on the live site with real handwritten and printed exercises; tune the prompt from what goes wrong. |
 | Trusted video channels | 4.3 useful | An admin (a teacher, ideally) to add Khmer channels they have checked at `/bacii/admin/channels`. |
-| Bundle size (722 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |
+| Bundle size (725 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |

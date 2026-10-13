@@ -4,7 +4,7 @@ import { flattenCurriculum, type CurriculumSeed, type FlatCurriculum } from "../
 import { checkQuestionInput, isCorrect, MAX_QUESTION_IMAGE_BYTES, questionImageExtension } from "../lib/questions";
 import { afterRight, afterWrong } from "../lib/review";
 import { CHANNEL_ID_PATTERN } from "../lib/channels";
-import { isValidVideoQuiz } from "../lib/videoQuiz";
+import { isValidVideoQuiz, VIDEO_ID_PATTERN } from "../lib/videoQuiz";
 import { addDays, cambodiaDay, streakOf, weakestChapter } from "../lib/daily";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
@@ -36,6 +36,7 @@ import {
   type StudyPlan,
   type StudyPlanInput,
   type VideoChannel,
+  type VideoProgress,
   type VideoQuiz,
   type VideoQuizInput,
   type ExamAttemptDetail,
@@ -1772,5 +1773,35 @@ export async function deleteVideoQuiz(videoId: string): Promise<void> {
   const db = await loadDb();
   requireAdmin(db);
   db.videoQuizzes = (db.videoQuizzes ?? []).filter((item) => item.videoId !== videoId);
+  persist();
+}
+
+// ---- Watched videos ----
+// Mirrors video_progress: each student's own rows.
+
+export async function getVideoProgress(): Promise<VideoProgress[]> {
+  const db = await loadDb();
+  const viewer = viewerId(db);
+  if (!viewer) return [];
+  return structuredClone((db.videoProgress ?? []).filter((item) => item.userId === viewer))
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+    .map(({ userId: _userId, ...item }) => item);
+}
+
+export async function setVideoProgress(input: Omit<VideoProgress, "updatedAt">): Promise<VideoProgress> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  if (!VIDEO_ID_PATTERN.test(input.videoId) || !input.title.trim()) throw new ApiError("UNKNOWN", 400, "check the video");
+  const item = { ...input, title: input.title.slice(0, 300), channel: input.channel.slice(0, 200), userId: viewer.id, updatedAt: new Date().toISOString() };
+  db.videoProgress = [...(db.videoProgress ?? []).filter((entry) => !(entry.userId === viewer.id && entry.videoId === input.videoId)), item];
+  persist();
+  const { userId: _userId, ...rest } = item;
+  return rest;
+}
+
+export async function deleteVideoProgress(videoId: string): Promise<void> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  db.videoProgress = (db.videoProgress ?? []).filter((entry) => !(entry.userId === viewer.id && entry.videoId === videoId));
   persist();
 }

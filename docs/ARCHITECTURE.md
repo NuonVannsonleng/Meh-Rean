@@ -75,6 +75,12 @@ function (admins); API `getVideoQuizzes`, `saveVideoQuiz`, `deleteVideoQuiz`;
 admin page `src/pages/admin/AdminQuizzes.tsx`; student panel
 `src/components/VideoQuizPanel.tsx`; shared checks `src/lib/videoQuiz.ts`.
 
+## Watched videos (roadmap 4.7)
+
+`video_progress` (student-owned); API `getVideoProgress`,
+`setVideoProgress`, `deleteVideoProgress`; marks in the video finder's
+player; page `src/pages/BaciiMyVideos.tsx`.
+
 `/bacii/videos` → `src/lib/bacii.ts` → `POST /api/bacii-videos`
 (`api/bacii-videos.ts`):
 

@@ -139,7 +139,12 @@ export default function BaciiMistakes() {
         </p>
       </header>
 
-      <p className="text-ink-500 mb-3 text-xs">{copy.reviewHint(REVIEW_INTERVAL_DAYS.join(", "))}</p>
+      <p className="text-ink-500 mb-3 text-xs">
+        {copy.reviewHint(REVIEW_INTERVAL_DAYS.join(", "))}{" "}
+        <Link to="/bacii/my-videos?status=needs-revision" className="text-accent font-semibold hover:underline">
+          {t.bacii.myVideos.notebookLink}
+        </Link>
+      </p>
 
       <div role="group" aria-label={copy.views} className="chip-row mb-2">
         <button type="button" aria-pressed={view === "due"} onClick={() => set({ view: "due", chapter: "" })} className={chip(view === "due")}>

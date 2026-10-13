@@ -139,6 +139,7 @@ The rules live in the database, so they apply no matter who calls the API.
 | Uploaded files | everyone (public links) | you can only write and delete inside your own folder |
 | Trusted video channels | everyone | admins only |
 | Video quizzes | everyone | admins only (shape checked; transcripts never stored) |
+| Watched-video marks | only you | only you |
 | Study plan | only you | only you (settings and size are checked) |
 | Chapter progress, daily questions and streak | only you | only the server, when your answers are marked |
 | Mistake notebook | only you | only through marking (mock exams, practice answers); you can remove your own entries |
