@@ -86,6 +86,9 @@ export const {
   getStudyPlan,
   saveStudyPlan,
   deleteStudyPlan,
+  getVideoChannels,
+  saveVideoChannel,
+  deleteVideoChannel,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

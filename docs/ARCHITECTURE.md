@@ -57,7 +57,9 @@ Since 4.1: in-memory search cache in `api/bacii-videos.ts`, `GET` for usage,
 lookups in the browser (`src/lib/videoCache.ts`). Since 4.2: the function
 reads `curriculum_chapters`/`curriculum_topics` (cached) and returns
 `exercise.chapter` / `exercise.topicId`; `?chapter=` hints come from
-`SolutionSteps`.
+`SolutionSteps`. Since 4.3: `video_channels` (admin page
+`src/pages/admin/AdminChannels.tsx`); each returned video has `language`
+and `trusted`.
 
 `/bacii/videos` → `src/lib/bacii.ts` → `POST /api/bacii-videos`
 (`api/bacii-videos.ts`):

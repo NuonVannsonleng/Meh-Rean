@@ -34,6 +34,15 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-13 — Trusted channels are chosen by people, not seeded
+
+Which YouTube channels teach BacII well is a judgement Meh Rean should not
+invent, so `video_channels` starts empty and admins add channels they have
+checked. Trust only reorders within a match level (an exact match from an
+unknown channel still beats a related video from a trusted one). Language is
+detected from Khmer script in the title or description; students choose
+whether Khmer or English videos come first.
+
 ## 2026-10-13 — Video caching without a service key
 
 A shared database cache of YouTube results would have to be writable with a

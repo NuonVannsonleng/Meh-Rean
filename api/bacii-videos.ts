@@ -62,6 +62,7 @@ interface ExerciseReading {
 }
 
 interface Candidate {
+  channelId: string;
   id: string;
   title: string;
   channel: string;
@@ -212,6 +213,28 @@ async function curriculumChapters(): Promise<ChapterInfo[]> {
     return chapterCache?.chapters ?? [];
   }
 }
+
+let channelCache: { at: number; channels: { channelId: string; subjectKeys: string[] }[] } | null = null;
+
+/** Channels admins marked as trusted (public rows), kept ten minutes. */
+async function trustedChannels(): Promise<{ channelId: string; subjectKeys: string[] }[]> {
+  if (channelCache && Date.now() - channelCache.at < 600_000) return channelCache.channels;
+  try {
+    const response = await fetch(`${supabaseUrl()}/rest/v1/video_channels?select=channel_id,subject_keys`, {
+      headers: { apikey: supabaseKey() },
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!response.ok) throw new Error(`channels ${response.status}`);
+    const rows = (await response.json()) as { channel_id: string; subject_keys: string[] }[];
+    channelCache = { at: Date.now(), channels: rows.map((row) => ({ channelId: row.channel_id, subjectKeys: row.subject_keys ?? [] })) };
+    return channelCache.channels;
+  } catch (error) {
+    console.error(error);
+    return channelCache?.channels ?? [];
+  }
+}
+
+const KHMER = /[\u1780-\u17FF]/;
 
 /** The chapter list for the model, one line per chapter with its topics. */
 function chapterList(chapters: ChapterInfo[]): string {
@@ -495,12 +518,13 @@ async function searchYouTube(query: string, language: string): Promise<Candidate
   return (body.items ?? []).flatMap((item) => {
     const id = item.id?.videoId;
     const snippet = item.snippet as
-      | { title?: string; channelTitle?: string; description?: string; publishedAt?: string; thumbnails?: Record<string, { url?: string }> }
+      | { title?: string; channelId?: string; channelTitle?: string; description?: string; publishedAt?: string; thumbnails?: Record<string, { url?: string }> }
       | undefined;
     if (!id || !/^[\w-]{11}$/.test(id) || !snippet) return [];
     return [
       {
         id,
+        channelId: snippet.channelId ?? "",
         title: decode(snippet.title ?? ""),
         channel: decode(snippet.channelTitle ?? ""),
         description: decode(snippet.description ?? "").slice(0, 300),
@@ -683,6 +707,25 @@ export async function POST(request: Request): Promise<Response> {
     }
   }
 
+  // 4. Prefer Khmer and trusted channels within each match level (roadmap 4.3).
+  const trusted = await trustedChannels();
+  const isTrusted = (channelId: string) =>
+    trusted.some((channel) => channel.channelId === channelId && (!channel.subjectKeys.length || channel.subjectKeys.includes(reading.subject)));
+  const tier: Match[] = ["exact", "same-topic", "related"];
+  const labelled = videos.map((video, index) => ({
+    ...video,
+    language: KHMER.test(`${video.title} ${video.description}`) ? ("km" as const) : ("other" as const),
+    trusted: isTrusted(video.channelId),
+    index,
+  }));
+  labelled.sort(
+    (a, b) =>
+      tier.indexOf(a.match) - tier.indexOf(b.match) ||
+      Number(b.trusted) - Number(a.trusted) ||
+      Number(b.language === "km") - Number(a.language === "km") ||
+      a.index - b.index,
+  );
+
   return json(200, {
     exercise: {
       subject: reading.subject,
@@ -695,7 +738,7 @@ export async function POST(request: Request): Promise<Response> {
     },
     queries,
     searchUrl: youtubeSearchUrl(queries[0]),
-    videos: videos.slice(0, 10),
+    videos: labelled.slice(0, 10).map(({ index: _index, ...video }) => video),
   });
 }
 

@@ -1108,6 +1108,27 @@ $$;
 revoke execute on function public.youtube_units_today() from public, anon;
 grant execute on function public.youtube_units_today() to authenticated;
 
+-- Trusted YouTube channels for the video finder (roadmap 4.3), chosen by
+-- admins: their videos come first within each match level. Starts empty;
+-- Meh Rean does not presume which channels are good. Everyone may read the
+-- list (the video function reads it with the publishable key).
+create table if not exists public.video_channels (
+  channel_id text primary key check (channel_id ~ '^UC[A-Za-z0-9_-]{22}$'),
+  name text not null check (char_length(btrim(name)) between 1 and 100),
+  language text not null check (language in ('km', 'en')),
+  -- Subjects (ids from src/lib/subjects.ts) it is trusted for; empty = all.
+  subject_keys text[] not null default '{}' check (cardinality(subject_keys) <= 20),
+  note text not null default '' check (char_length(note) <= 300),
+  added_by uuid default auth.uid() references public.profiles on delete set null,
+  created_at timestamptz not null default now()
+);
+alter table public.video_channels enable row level security;
+drop policy if exists "channels are public" on public.video_channels;
+create policy "channels are public" on public.video_channels for select using (true);
+drop policy if exists "admins manage channels" on public.video_channels;
+create policy "admins manage channels" on public.video_channels for all to authenticated
+  using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()));
+
 -- ----------------------------------------------------------- Curriculum --
 
 -- BacII curriculum: version → track → subject → chapter → topic. The rows

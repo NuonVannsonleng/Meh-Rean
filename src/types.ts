@@ -520,6 +520,17 @@ export interface ExamStart {
   clockOffsetMs: number;
 }
 
+/** A YouTube channel admins trust for the video finder (roadmap 4.3). */
+export interface VideoChannel {
+  channelId: string;
+  name: string;
+  language: "km" | "en";
+  /** Subject ids it is trusted for; empty for all. */
+  subjectKeys: string[];
+  note: string;
+  createdAt: string;
+}
+
 /** How a student does in one chapter: every automatically marked answer. */
 export interface ChapterProgress {
   chapterId: string;

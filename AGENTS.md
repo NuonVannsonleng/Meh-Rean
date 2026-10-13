@@ -64,6 +64,7 @@ npm run test:daily-rules # daily question rules (no database)
 npm run test:study-plan  # study plan builder (no database)
 npm run test:study-plans # saved study plans; local Supabase
 npm run test:video-quota # YouTube quota log; local Supabase
+npm run test:video-channels # trusted channels; local Supabase
 npx supabase start       # local Supabase (Docker)
 ```
 

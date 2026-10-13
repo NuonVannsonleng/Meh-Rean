@@ -125,8 +125,14 @@ Khmer names. Note sharing with subject and level tags.
   are dropped. The Khmer search uses the curriculum's Khmer names, ranking
   compares against the chapter/topic, and pages that know the chapter pass
   it as a hint. Results link to practising that chapter. Video e2e 20/20.
-- [ ] **4.3 Prefer Khmer videos (S)** — configurable trusted Khmer channels,
+- [x] **4.3 Prefer Khmer videos (S)** — configurable trusted Khmer channels,
   English alternatives.
+  ✔ 2026-10-13: admins keep a list of trusted channels
+  (`/bacii/admin/channels`, table `video_channels`; starts empty). Within
+  each match level, trusted channels come first, then Khmer videos; results
+  are grouped "In Khmer" / "English and other languages", and students can
+  put English first (kept on their phone). `npm run test:video-channels` 5/5;
+  video e2e 21/21; admin UI 5/5 browser-only, 6/6 online.
 - [ ] **4.4 Jump to the right minute (M)** — only where transcripts are
   legally available (see blockers).
 - [ ] **4.5 Photo to solution (L)** — photo and camera, OCR for Maths and

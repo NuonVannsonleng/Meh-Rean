@@ -21,7 +21,8 @@
     "test:daily-rules": "node scripts/test-daily-rules.mjs",
     "test:study-plan": "node scripts/test-study-plan.mjs",
     "test:study-plans": "node scripts/test-study-plans.mjs",
-    "test:video-quota": "node scripts/test-video-quota.mjs"
+    "test:video-quota": "node scripts/test-video-quota.mjs",
+    "test:video-channels": "node scripts/test-video-channels.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.0",

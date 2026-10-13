@@ -18,6 +18,7 @@ import {
   type ExamAttempt,
   type Mistake,
   type StudyPlan,
+  type VideoChannel,
   type Question,
   type MessageAttachment,
   type MessageKind,
@@ -114,6 +115,8 @@ export interface DbState {
   /** Mock exam attempts and their answers (supabase: exam_attempts, exam_answers). */
   examAttempts?: (ExamAttempt & { userId: string })[];
   examAnswers?: (ExamAnswer & { attemptId: string })[];
+  /** Trusted video channels (supabase: video_channels). */
+  videoChannels?: VideoChannel[];
   /** One study plan per student (supabase: study_plans). */
   studyPlans?: (StudyPlan & { userId: string })[];
   /** Answers per chapter (supabase: chapter_progress). */

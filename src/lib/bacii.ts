@@ -29,6 +29,10 @@ export interface ExerciseVideo {
   match: VideoMatch;
   /** Why it fits this exercise, in a few words. */
   reason: string;
+  /** "km" when the title or description is in Khmer (absent in older saved lookups). */
+  language?: "km" | "other";
+  /** From a channel admins marked as trusted. */
+  trusted?: boolean;
 }
 
 export interface VideoLookup {

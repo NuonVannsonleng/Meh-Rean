@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState, type ClipboardEvent, type DragEvent, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { describedBy, FieldShell } from "../components/FormField";
-import { ArrowLeftIcon, CameraIcon, CloseIcon, ExternalLinkIcon, SearchIcon, TrashIcon, VideoIcon } from "../components/Icons";
+import { ArrowLeftIcon, CameraIcon, CheckIcon, CloseIcon, ExternalLinkIcon, SearchIcon, TrashIcon, VideoIcon } from "../components/Icons";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 import {
@@ -94,9 +94,33 @@ function Player({ video, onClose }: { video: ExerciseVideo; onClose: () => void 
   );
 }
 
+const ORDER_KEY = "meh-rean:video-language";
+
+function readOrder(): "km" | "other" {
+  try {
+    return localStorage.getItem(ORDER_KEY) === "other" ? "other" : "km";
+  } catch {
+    return "km";
+  }
+}
+
 function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => void }) {
   const [playing, setPlaying] = useState<ExerciseVideo | null>(null);
+  const [first, setFirst] = useState<"km" | "other">(readOrder);
   const { exercise, videos } = result;
+  // Khmer videos (or, if the student prefers, the others) first; each group keeps the server's order.
+  const groups = (["km", "other"] as const)
+    .map((language) => ({ language, items: videos.filter((video) => (video.language ?? "km") === language) }))
+    .filter((group) => group.items.length)
+    .sort((a, b) => Number(b.language === first) - Number(a.language === first));
+  const choose = (language: "km" | "other") => {
+    setFirst(language);
+    try {
+      localStorage.setItem(ORDER_KEY, language);
+    } catch {
+      // Not saved: still applies on this page.
+    }
+  };
   const playerRef = useRef<HTMLDivElement>(null);
 
   const play = (video: ExerciseVideo) => {
@@ -147,11 +171,30 @@ function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => 
           </h2>
           <span className="text-ink-500 text-xs">{copy.resultsCount(videos.length)}</span>
         </div>
+        {groups.length > 1 && (
+          <div role="group" aria-label={copy.order} className="mb-2 flex items-center gap-2 text-xs">
+            <span className="text-ink-500">{copy.order}:</span>
+            {(["km", "other"] as const).map((language) => (
+              <button
+                key={language}
+                type="button"
+                aria-pressed={first === language}
+                onClick={() => choose(language)}
+                className={`rounded-full border px-2.5 py-1 font-medium ${first === language ? "border-brand-600 bg-brand-600 text-white" : "border-line text-ink-700 hover:border-ink-400"}`}
+              >
+                {language === "km" ? copy.khmerFirst : copy.englishFirst}
+              </button>
+            ))}
+          </div>
+        )}
         {videos.length === 0 ? (
           <p className="card text-ink-700 p-4 text-sm">{copy.noVideos}</p>
         ) : (
+          groups.map((group) => (
+          <div key={group.language} className="mb-3">
+          {groups.length > 1 && <h3 className="text-ink-500 mb-1.5 text-xs font-semibold tracking-wide uppercase">{group.language === "km" ? copy.inKhmer : copy.englishAlternatives}</h3>}
           <ul className="card divide-line divide-y overflow-hidden">
-            {videos.map((video) => (
+            {group.items.map((video) => (
               <li key={video.id}>
                 <button
                   type="button"
@@ -175,13 +218,23 @@ function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => 
                       {copy.match[video.match]}
                     </span>
                     <span className="text-ink-900 line-clamp-2 block text-sm font-semibold">{video.title}</span>
-                    <span className="text-ink-500 block truncate text-xs">{video.channel}</span>
+                    <span className="text-ink-500 flex min-w-0 items-center gap-1.5 text-xs">
+                      <span className="truncate">{video.channel}</span>
+                      {video.trusted && (
+                        <span className="bg-brand-50 text-accent inline-flex shrink-0 items-center gap-0.5 rounded-full px-1.5 py-px text-[10px] font-semibold">
+                          <CheckIcon className="h-3 w-3" />
+                          {copy.trusted}
+                        </span>
+                      )}
+                    </span>
                     {video.reason && <span className="text-ink-700 mt-1 line-clamp-2 block text-xs">{video.reason}</span>}
                   </span>
                 </button>
               </li>
             ))}
           </ul>
+          </div>
+          ))
         )}
       </section>
 

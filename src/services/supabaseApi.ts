@@ -39,6 +39,7 @@ import {
   type Mistake,
   type StudyPlan,
   type StudyPlanInput,
+  type VideoChannel,
   type ExamAttemptDetail,
   type ExamPaper,
   type ExamPaperDetail,
@@ -1894,5 +1895,47 @@ export async function saveStudyPlan(input: StudyPlanInput): Promise<StudyPlan> {
 export async function deleteStudyPlan(): Promise<void> {
   const viewer = await requireViewer();
   const { error } = await supabase.from("study_plans").delete().eq("user_id", viewer);
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+}
+
+// ---- Trusted video channels ----
+
+interface VideoChannelRow {
+  channel_id: string;
+  name: string;
+  language: "km" | "en";
+  subject_keys: string[];
+  note: string;
+  created_at: string;
+}
+
+const toVideoChannel = (row: VideoChannelRow): VideoChannel => ({
+  channelId: row.channel_id,
+  name: row.name,
+  language: row.language,
+  subjectKeys: row.subject_keys ?? [],
+  note: row.note,
+  createdAt: row.created_at,
+});
+
+export async function getVideoChannels(): Promise<VideoChannel[]> {
+  const rows = unwrap(await supabase.from("video_channels").select("channel_id, name, language, subject_keys, note, created_at").order("name").returns<VideoChannelRow[]>());
+  return rows.map(toVideoChannel);
+}
+
+export async function saveVideoChannel(input: Omit<VideoChannel, "createdAt">): Promise<VideoChannel> {
+  await requireViewer();
+  const { data, error } = await supabase
+    .from("video_channels")
+    .upsert({ channel_id: input.channelId, name: input.name.trim(), language: input.language, subject_keys: input.subjectKeys, note: input.note })
+    .select("channel_id, name, language, subject_keys, note, created_at")
+    .single<VideoChannelRow>();
+  if (error) throw new ApiError(error.code === "42501" ? "FORBIDDEN" : "UNKNOWN", error.code === "42501" ? 403 : 400, error.message);
+  return toVideoChannel(data);
+}
+
+export async function deleteVideoChannel(channelId: string): Promise<void> {
+  await requireViewer();
+  const { error } = await supabase.from("video_channels").delete().eq("channel_id", channelId);
   if (error) throw new ApiError("UNKNOWN", 400, error.message);
 }

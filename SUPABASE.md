@@ -137,6 +137,7 @@ The rules live in the database, so they apply no matter who calls the API.
 | Chat photos, voice notes and files | only the two people in the conversation, through links that expire; unsending cuts access straight away | you upload into your own folder only, and can attach only your own uploads |
 | Message reactions | only the two people in the conversation | only your own reaction |
 | Uploaded files | everyone (public links) | you can only write and delete inside your own folder |
+| Trusted video channels | everyone | admins only |
 | Study plan | only you | only you (settings and size are checked) |
 | Chapter progress, daily questions and streak | only you | only the server, when your answers are marked |
 | Mistake notebook | only you | only through marking (mock exams, practice answers); you can remove your own entries |

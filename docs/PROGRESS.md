@@ -2,7 +2,8 @@
 
 ## Current
 
-**Phase 4 — Task 4.3: Prefer Khmer videos** (next up).
+**Phase 4 — Task 4.4: Jump to the right minute** (next up; limited by the
+transcript blocker below).
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; exam marking and
@@ -189,16 +190,28 @@ timing only in database functions, never in the browser.
   their chapter to the finder (`?chapter=`) as a hint. Results show
   "Practise chapter N: …" linking to `/bacii/practice`. Curriculum is still
   provisional, so this inherits its labels. Video e2e 20/20.
+- **2026-10-13 — 4.3 Prefer Khmer videos.** Table `video_channels` (channel
+  id `UC…`, name, language, subjects, note; everyone reads, admins write),
+  managed at `/bacii/admin/channels` (linked for admins on the BacII page).
+  The list starts empty: Meh Rean does not presume which channels are good.
+  The video function reads it (publishable key, 10-minute cache), marks each
+  video's language (Khmer script in the title or description) and whether
+  its channel is trusted for the exercise's subject, and orders by match,
+  then trusted, then Khmer. The page groups "In Khmer" and "English and other
+  languages" with a "Show first" switch saved on the phone; trusted videos
+  carry a badge. `npm run test:video-channels` 5/5; video e2e 21/21; admin
+  UI 5/5 browser-only and 6/6 online (students refused).
 
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
-| Production database | 1.1–4.1 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
+| Production database | 1.1–4.3 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. Grade bands: edit `src/data/grade-scale.json`. |
 | YouTube transcripts | 4.4, 4.6 | The Data API only gives captions to a video's owner; third-party timestamps and video quizzes need another lawful source or will be limited. |
 | Telegram bot | 5.5 | A bot token from @BotFather (free) and owner approval. |
 | Khmer interface wording | 5.4 | A Khmer speaker to review translations. |
-| Bundle size (711 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |
+| Trusted video channels | 4.3 useful | An admin (a teacher, ideally) to add Khmer channels they have checked at `/bacii/admin/channels`. |
+| Bundle size (714 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |

@@ -3,6 +3,7 @@ import { subjectLabel, subjectMembers } from "../lib/subjects";
 import { flattenCurriculum, type CurriculumSeed, type FlatCurriculum } from "../lib/curriculum";
 import { checkQuestionInput, isCorrect, MAX_QUESTION_IMAGE_BYTES, questionImageExtension } from "../lib/questions";
 import { afterRight, afterWrong } from "../lib/review";
+import { CHANNEL_ID_PATTERN } from "../lib/channels";
 import { addDays, cambodiaDay, streakOf, weakestChapter } from "../lib/daily";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
@@ -33,6 +34,7 @@ import {
   type Mistake,
   type StudyPlan,
   type StudyPlanInput,
+  type VideoChannel,
   type ExamAttemptDetail,
   type ExamPaper,
   type ExamPaperDetail,
@@ -1710,5 +1712,36 @@ export async function deleteStudyPlan(): Promise<void> {
   const db = await loadDb();
   const viewer = requireViewer(db);
   db.studyPlans = (db.studyPlans ?? []).filter((item) => item.userId !== viewer.id);
+  persist();
+}
+
+// ---- Trusted video channels ----
+// Mirrors video_channels: everyone reads, admins write.
+
+
+
+export async function getVideoChannels(): Promise<VideoChannel[]> {
+  const db = await loadDb();
+  return structuredClone(db.videoChannels ?? []).sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function saveVideoChannel(input: Omit<VideoChannel, "createdAt">): Promise<VideoChannel> {
+  const db = await loadDb();
+  requireAdmin(db);
+  if (!CHANNEL_ID_PATTERN.test(input.channelId) || !input.name.trim() || input.name.length > 100 || input.note.length > 300) {
+    throw new ApiError("UNKNOWN", 400, "check the channel details");
+  }
+  db.videoChannels ??= [];
+  const existing = db.videoChannels.find((item) => item.channelId === input.channelId);
+  const channel = { ...input, name: input.name.trim(), createdAt: existing?.createdAt ?? new Date().toISOString() };
+  db.videoChannels = [...db.videoChannels.filter((item) => item.channelId !== input.channelId), channel];
+  persist();
+  return structuredClone(channel);
+}
+
+export async function deleteVideoChannel(channelId: string): Promise<void> {
+  const db = await loadDb();
+  requireAdmin(db);
+  db.videoChannels = (db.videoChannels ?? []).filter((item) => item.channelId !== channelId);
   persist();
 }
