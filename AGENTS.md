@@ -56,6 +56,7 @@ npm run test:questions   # question schema rules and permissions; local Supabase
 npm run test:math        # LaTeX/Khmer text splitter
 npm run test:papers      # demo papers seed + paper rules; local Supabase
 npm run test:exams       # mock exam timing, marking, hidden answers; local Supabase
+npm run test:grades      # grade estimate bands and maths
 npx supabase start       # local Supabase (Docker)
 ```
 

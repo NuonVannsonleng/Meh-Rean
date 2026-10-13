@@ -11,6 +11,7 @@ import { formatDate } from "../lib/format";
 import { getCurriculumChapters, getCurriculumSubjects, getExamPaper, getMyExamAttempts } from "../services/api";
 import type { CurriculumChapter, CurriculumSubject, ExamAttempt, ExamPaperDetail, ExamPaperQuestion } from "../types";
 import { PaperOriginBadge } from "./BaciiPapers";
+import { gradeFor } from "../components/GradeEstimateCard";
 
 const copy = t.bacii.papers;
 
@@ -159,7 +160,14 @@ export default function BaciiPaper() {
                 >
                   <span className="text-ink-700">{t.bacii.exam.attemptLine(formatDate(attempt.startedAt), t.bacii.exam.statuses[attempt.status])}</span>
                   {attempt.score !== null && attempt.maxScore !== null && (
-                    <span className="text-ink-900 font-semibold tabular-nums">{t.bacii.exam.score(attempt.score, attempt.maxScore)}</span>
+                    <span className="text-ink-900 flex items-center gap-2 font-semibold tabular-nums">
+                      {t.bacii.exam.score(attempt.score, attempt.maxScore)}
+                      {gradeFor(attempt.score, attempt.maxScore) && (
+                        <span className="bg-brand-50 text-accent rounded px-1.5 text-xs" title={t.bacii.estimate.practiceLabel}>
+                          {gradeFor(attempt.score, attempt.maxScore)}
+                        </span>
+                      )}
+                    </span>
                   )}
                 </Link>
               </li>

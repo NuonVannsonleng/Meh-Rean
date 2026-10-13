@@ -781,7 +781,6 @@ export const en = {
       resultTitle: "Your result",
       score: (score: number, max: number) => `${score} / ${max}`,
       scoreLabel: "Marked automatically",
-      percent: (value: number) => `${value}%`,
       unmarked: (count: number) => `${plural(count, "worked problem", "worked problems")} to check yourself against the solution.`,
       practiceNote: (minutes: number) => `Practice time: ${minutes} minutes (not an official exam rule).`,
       officialNote: (minutes: number) => `Official time: ${minutes} minutes.`,
@@ -795,6 +794,20 @@ export const en = {
       tryAgain: "Try again",
       backToPaper: "Back to the paper",
       notFound: "This attempt could not be found.",
+    },
+    estimate: {
+      title: "Estimated grade",
+      titleKm: "និទ្ទេសប៉ាន់ស្មាន",
+      practiceLabel: "Practice estimate",
+      percentLabel: "of the marked points",
+      nextGrade: (points: number, grade: string) => `${plural(points, "more point", "more points")} for ${grade}.`,
+      topGrade: "The top grade on this scale.",
+      onlyMarked: (unmarked: number) =>
+        `Worked out from the automatically marked questions only; ${plural(unmarked, "worked problem is", "worked problems are")} not counted.`,
+      none: "No estimate: nothing on this paper is marked automatically.",
+      notOfficial: "Meh Rean's own practice bands, not the official BacII grading. Your real grade is decided by the exam board.",
+      howTitle: "How the estimate works",
+      band: (grade: string, min: number, max: number | null) => (max === null ? `${grade}: ${min}% and above` : `${grade}: ${min}% to under ${max}%`),
     },
     practice: {
       optionTitle: "Practice by chapter",

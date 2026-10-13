@@ -1,0 +1,14 @@
+{
+  "id": "meh-rean-practice-2026",
+  "verification": "provisional",
+  "source": null,
+  "note": "Meh Rean's own practice bands, evenly spaced. Not the official BacII grading: replace with the official bands, with their source, once confirmed.",
+  "bands": [
+    { "grade": "A", "minPercent": 90 },
+    { "grade": "B", "minPercent": 80 },
+    { "grade": "C", "minPercent": 70 },
+    { "grade": "D", "minPercent": 60 },
+    { "grade": "E", "minPercent": 50 },
+    { "grade": "F", "minPercent": 0 }
+  ]
+}

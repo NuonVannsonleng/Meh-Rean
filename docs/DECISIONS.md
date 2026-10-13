@@ -34,6 +34,17 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-13 — Grade estimates use labelled practice bands
+
+No official BacII grade boundaries were available to cite, so the bands in
+`src/data/grade-scale.json` are Meh Rean's own (A 90, B 80, C 70, D 60,
+E 50, F below), marked `provisional` with no source. The UI calls the result
+a practice estimate whenever the scale is not verified with a source. Only
+automatically marked points count; worked problems are named as left out.
+Percentages are floored to one decimal so a grade never sits next to a
+percent that looks like the band above. Estimating runs in the browser: it
+only interprets a score the database already computed.
+
 ## 2026-10-13 — Mock exams are timed and marked by the database
 
 The browser shows a clock but decides nothing. `start_exam` sets the

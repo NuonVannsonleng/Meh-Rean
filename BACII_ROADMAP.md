@@ -68,8 +68,12 @@ Khmer names. Note sharing with subject and level tags.
   database sets the deadline, refuses late answers, hides the paper's answer
   key from the student until hand-in and marks on hand-in or time-out.
   `npm run test:exams` 12/12; UI 8/8 in both backends; 320px checked.
-- [ ] **2.5 Grade estimate (S)** — configurable A–F bands: estimate, percent,
+- [x] **2.5 Grade estimate (S)** — configurable A–F bands: estimate, percent,
   points to the next grade. Never presented as an official result.
+  ✔ 2026-10-13: bands in `src/data/grade-scale.json` (provisional, evenly
+  spaced, labelled "practice estimate"); grade, percent of marked points and
+  points to the next grade on the result page, letter in "Your attempts".
+  `npm run test:grades` 12/12; UI 8/8 in both backends; 320px dark checked.
 
 ## Phase 3 — Bring students back daily
 

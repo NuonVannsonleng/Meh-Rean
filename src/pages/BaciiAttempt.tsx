@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import GradeEstimateCard from "../components/GradeEstimateCard";
 import { ArrowLeftIcon, CheckIcon, CloseIcon } from "../components/Icons";
 import LoadingState from "../components/LoadingState";
 import MathText from "../components/MathText";
 import SolutionSteps from "../components/SolutionSteps";
 import { t } from "../i18n/en";
+import { formatPercent } from "../lib/grades";
 import { getCurriculumChapters, getCurriculumSubjects, getExamAttempt, getExamPaper } from "../services/api";
 import type { CurriculumChapter, ExamAnswer, ExamAttemptDetail, ExamPaperDetail, ExamPaperQuestion } from "../types";
 
@@ -103,7 +105,6 @@ export default function BaciiAttempt() {
   const { attempt } = detail;
   const score = attempt.score ?? 0;
   const max = attempt.maxScore ?? 0;
-  const percent = max ? Math.round((score / max) * 100) : 0;
 
   return (
     <div className="container-page max-w-3xl py-6 sm:py-8">
@@ -128,7 +129,7 @@ export default function BaciiAttempt() {
             <p className="font-display text-ink-900 text-4xl font-bold tabular-nums">{copy.score(score, max)}</p>
             <p className="text-ink-500 text-xs">{copy.scoreLabel}</p>
           </div>
-          <p className="font-display text-accent text-2xl font-bold tabular-nums">{copy.percent(percent)}</p>
+          {max > 0 && <p className="font-display text-accent text-2xl font-bold tabular-nums">{formatPercent((score / max) * 100)}</p>}
         </div>
         {(attempt.unmarked ?? 0) > 0 && <p className="text-ink-700 mt-3 text-sm">{copy.unmarked(attempt.unmarked ?? 0)}</p>}
         <p className="text-ink-500 mt-3 text-xs">
@@ -140,6 +141,8 @@ export default function BaciiAttempt() {
           </Link>
         </div>
       </section>
+
+      <GradeEstimateCard score={score} max={max} unmarked={attempt.unmarked ?? 0} />
 
       <h2 className="font-display text-ink-900 mb-2 text-lg font-bold">{copy.review}</h2>
       <ol className="space-y-3">

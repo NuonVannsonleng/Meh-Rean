@@ -124,6 +124,9 @@ in `src/data/demo/*.json`, built by `src/lib/papers.ts`
 rules. Pages: `src/pages/BaciiExam.tsx` (intro, timer, navigator, autosave)
 and `src/pages/BaciiAttempt.tsx` (result and review).
 
+Grade estimate (2.5): `src/lib/grades.ts` + `src/data/grade-scale.json`,
+shown by `src/components/GradeEstimateCard.tsx`.
+
 ## Other parts
 
 - Subjects: `src/lib/subjects.ts` (15 main + ~130 specific, colours).

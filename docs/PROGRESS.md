@@ -2,8 +2,9 @@
 
 ## Current
 
-**Phase 2 — Task 2.5: Grade estimate** (next up). Bands are configurable
-and labelled as an estimate; no official bands are known yet.
+**Phase 3 — Task 3.1: Mistake notebook** (next up). Wrong answers from
+practice and mock exams saved with the correct answer, solution and chapter,
+to retry.
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; exam marking and
@@ -104,6 +105,17 @@ timing only in database functions, never in the browser.
   30 starts a day. Result page with score, percent, review and solutions;
   "Your attempts" on the paper page. `npm run test:exams` 12/12; UI 8/8
   online and browser-only; 320px checked.
+- **2026-10-13 — 2.5 Grade estimate.** `src/lib/grades.ts` (`estimateGrade`,
+  `checkGradeScale`, `formatPercent`) with the bands as data in
+  `src/data/grade-scale.json`: Meh Rean's own evenly spaced A–F practice
+  bands, `provisional` with no source, so every estimate says "Practice
+  estimate" and "not the official BacII grading". The result page shows the
+  grade, the percent of the marked points (one decimal, never rounded up),
+  points to the next grade, which questions are not counted, and the bands;
+  "Your attempts" shows the letter. Swapping in official bands later is a
+  data change (with `verification: "verified"` and a `source`, the practice
+  labels drop). `npm run test:grades` 12/12; UI 8/8 online and browser-only;
+  320px dark checked.
 
 ## Blockers and things that need a person
 
@@ -112,7 +124,7 @@ timing only in database functions, never in the browser.
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
 | Production database | 1.1–2.4 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
-| Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. |
+| Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. Grade bands: edit `src/data/grade-scale.json`. |
 | YouTube transcripts | 4.4, 4.6 | The Data API only gives captions to a video's owner; third-party timestamps and video quizzes need another lawful source or will be limited. |
 | Telegram bot | 5.5 | A bot token from @BotFather (free) and owner approval. |
 | Khmer interface wording | 5.4 | A Khmer speaker to review translations. |
