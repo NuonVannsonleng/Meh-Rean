@@ -59,7 +59,8 @@ reads `curriculum_chapters`/`curriculum_topics` (cached) and returns
 `exercise.chapter` / `exercise.topicId`; `?chapter=` hints come from
 `SolutionSteps`. Since 4.3: `video_channels` (admin page
 `src/pages/admin/AdminChannels.tsx`); each returned video has `language`
-and `trusted`.
+and `trusted`. Since 4.4: `parseVideoChapters` + `videoChapters()` (videos.list)
+give each video an optional `start` from its creator's chapter list.
 
 `/bacii/videos` → `src/lib/bacii.ts` → `POST /api/bacii-videos`
 (`api/bacii-videos.ts`):

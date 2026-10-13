@@ -2,8 +2,7 @@
 
 ## Current
 
-**Phase 4 — Task 4.4: Jump to the right minute** (next up; limited by the
-transcript blocker below).
+**Phase 4 — Task 4.5: Photo to solution** (next up).
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; exam marking and
@@ -201,6 +200,16 @@ timing only in database functions, never in the browser.
   languages" with a "Show first" switch saved on the phone; trusted videos
   carry a badge. `npm run test:video-channels` 5/5; video e2e 21/21; admin
   UI 5/5 browser-only and 6/6 online (students refused).
+- **2026-10-13 — 4.4 Jump to the right minute.** Captions are only
+  downloadable by a video's owner and scraping is against YouTube's terms, so
+  timing comes from chapter lists creators put in their own descriptions:
+  one `videos.list` call per lookup (1 unit; cached per video for 24 h),
+  parsed by `parseVideoChapters` (time-first or time-last lines, at least
+  two, impossible times skipped). The ranker sees each video's chapters and
+  may return `start_seconds`; the server keeps it only if it is one of the
+  listed times. The list shows "Starts at 2:15: … (the video's own
+  chapter)", the embedded player starts there (`start=`) and "Open on
+  YouTube" adds `t=`. `npm run test:video-chapters` 8/8; video e2e 22/22.
 
 ## Blockers and things that need a person
 
@@ -210,7 +219,7 @@ timing only in database functions, never in the browser.
 | Production database | 1.1–4.3 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. Grade bands: edit `src/data/grade-scale.json`. |
-| YouTube transcripts | 4.4, 4.6 | The Data API only gives captions to a video's owner; third-party timestamps and video quizzes need another lawful source or will be limited. |
+| YouTube transcripts | 4.6 (4.4 partly) | The Data API only gives captions to a video's owner. 4.4 uses creators' own description chapters instead; quizzes from a video's content (4.6) still need an authorised transcript (e.g. from channels that agree to share theirs). |
 | Telegram bot | 5.5 | A bot token from @BotFather (free) and owner approval. |
 | Khmer interface wording | 5.4 | A Khmer speaker to review translations. |
 | Trusted video channels | 4.3 useful | An admin (a teacher, ideally) to add Khmer channels they have checked at `/bacii/admin/channels`. |

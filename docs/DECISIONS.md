@@ -34,6 +34,16 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-13 — Timestamps only from creators' own chapter lists
+
+No captions or transcripts are fetched: the Data API's captions.download
+needs the owner's authorisation and scraping breaks YouTube's terms. The
+chapter times creators publish in a video's description are public metadata
+from the official API (`videos.list`, 1 unit for up to 50 videos), so those
+are parsed and offered to the ranker, which may only choose one of them. The
+1-unit calls are not added to the quota display (it counts the 100-unit
+searches that matter).
+
 ## 2026-10-13 — Trusted channels are chosen by people, not seeded
 
 Which YouTube channels teach BacII well is a judgement Meh Rean should not

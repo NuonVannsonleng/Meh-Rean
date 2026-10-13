@@ -7,6 +7,7 @@ import { t } from "../i18n/en";
 import {
   BACII_SUBJECTS,
   findExerciseVideos,
+  formatVideoTime,
   getVideoUsage,
   type VideoUsage,
   LookupError,
@@ -69,7 +70,7 @@ function Player({ video, onClose }: { video: ExerciseVideo; onClose: () => void 
     <section aria-label={copy.playing} className="card animate-pop overflow-hidden">
       <div className="aspect-video bg-black">
         <iframe
-          src={youtubeEmbedUrl(video.id)}
+          src={youtubeEmbedUrl(video.id, video.start?.seconds)}
           title={video.title}
           allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
           allowFullScreen
@@ -81,8 +82,14 @@ function Player({ video, onClose }: { video: ExerciseVideo; onClose: () => void 
         <div className="min-w-0 flex-1">
           <p className="text-ink-900 text-sm font-semibold">{video.title}</p>
           <p className="text-ink-500 text-xs">{video.channel}</p>
+          {video.start && <p className="text-accent mt-1 text-xs font-medium">{copy.startsAt(formatVideoTime(video.start.seconds), video.start.title)}</p>}
         </div>
-        <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noreferrer" className="btn-ghost h-9 px-3 text-xs">
+        <a
+          href={`https://www.youtube.com/watch?v=${video.id}${video.start ? `&t=${video.start.seconds}s` : ""}`}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-ghost h-9 px-3 text-xs"
+        >
           <ExternalLinkIcon className="h-3.5 w-3.5" />
           {copy.openOnYouTube}
         </a>
@@ -228,6 +235,9 @@ function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => 
                       )}
                     </span>
                     {video.reason && <span className="text-ink-700 mt-1 line-clamp-2 block text-xs">{video.reason}</span>}
+                    {video.start && (
+                      <span className="text-accent mt-1 block truncate text-xs font-semibold">{copy.startsAt(formatVideoTime(video.start.seconds), video.start.title)}</span>
+                    )}
                   </span>
                 </button>
               </li>

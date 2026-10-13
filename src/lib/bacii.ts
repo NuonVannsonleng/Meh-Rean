@@ -33,6 +33,8 @@ export interface ExerciseVideo {
   language?: "km" | "other";
   /** From a channel admins marked as trusted. */
   trusted?: boolean;
+  /** Where the exercise is worked, from the creator's own chapter list. */
+  start?: { seconds: number; title: string } | null;
 }
 
 export interface VideoLookup {
@@ -176,6 +178,15 @@ export function youtubeSearchUrl(query: string): string {
 }
 
 /** The player, from YouTube's privacy-enhanced domain (no cookies until play). */
-export function youtubeEmbedUrl(id: string): string {
-  return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`;
+export function youtubeEmbedUrl(id: string, startSeconds = 0): string {
+  const start = startSeconds > 0 ? `&start=${Math.floor(startSeconds)}` : "";
+  return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0${start}`;
+}
+
+/** "1:05:09" or "4:09". */
+export function formatVideoTime(seconds: number): string {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = String(Math.floor(seconds % 60)).padStart(2, "0");
+  return h ? `${h}:${String(m).padStart(2, "0")}:${s}` : `${m}:${s}`;
 }

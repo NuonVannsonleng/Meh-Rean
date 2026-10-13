@@ -1012,6 +1012,7 @@ export const en = {
       recentTitle: "Your recent lookups",
       chapterLink: (number: number, km: string) => `Practise chapter ${number}: ${km}`,
       trusted: "Trusted channel",
+      startsAt: (time: string, title: string) => `Starts at ${time}: ${title} (the video's own chapter)`,
       inKhmer: "In Khmer",
       englishAlternatives: "English and other languages",
       order: "Show first",

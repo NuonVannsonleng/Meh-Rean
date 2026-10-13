@@ -133,8 +133,14 @@ Khmer names. Note sharing with subject and level tags.
   are grouped "In Khmer" / "English and other languages", and students can
   put English first (kept on their phone). `npm run test:video-channels` 5/5;
   video e2e 21/21; admin UI 5/5 browser-only, 6/6 online.
-- [ ] **4.4 Jump to the right minute (M)** — only where transcripts are
+- [x] **4.4 Jump to the right minute (M)** — only where transcripts are
   legally available (see blockers).
+  ✔ 2026-10-13: from the one lawful public source — chapter times creators
+  write in their own descriptions (`videos.list`, 1 quota unit per lookup).
+  The ranker may pick only a listed time; the player and the YouTube link
+  start there, labelled "the video's own chapter". Videos without chapters
+  start at 0:00. Transcript-based timing stays blocked. `npm run
+  test:video-chapters` 8/8; video e2e 22/22.
 - [ ] **4.5 Photo to solution (L)** — photo and camera, OCR for Maths and
   Physics, match against existing questions first, let students correct OCR.
 - [ ] **4.6 Quiz from a video (M)** — five questions from an authorised

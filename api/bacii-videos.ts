@@ -467,7 +467,8 @@ For each candidate video, judge from its title, channel and description:
 - "same-topic": it teaches the method this exercise needs.
 - "related": same subject and nearby topic; might help.
 - "unrelated": does not help with this exercise.
-Give a short reason (under 15 words) a student would understand. Rank the most useful first.`;
+Give a short reason (under 15 words) a student would understand. Rank the most useful first.
+Some candidates list chapters the video's own creator wrote in its description (time in seconds and title). If one of those chapters is clearly where this exercise or method is worked through, give its seconds as start_seconds; otherwise null. Never give a time that is not listed.`;
 
 const RANK_TOOL = {
   name: "rank_videos",
@@ -483,8 +484,9 @@ const RANK_TOOL = {
             id: { type: "string" },
             match: { type: "string", enum: ["exact", "same-topic", "related", "unrelated"] },
             reason: { type: "string" },
+            start_seconds: { type: ["integer", "null"] },
           },
-          required: ["id", "match", "reason"],
+          required: ["id", "match", "reason", "start_seconds"],
         },
       },
     },
@@ -533,6 +535,70 @@ async function searchYouTube(query: string, language: string): Promise<Candidate
       },
     ];
   });
+}
+
+// --------------------------------------------------- Video chapters (4.4) --
+// Captions can only be downloaded by a video's owner, and scraping them is
+// against YouTube's terms. What is public and lawful: the chapter times a
+// creator writes in the description ("3:45 Exercise 2"), from videos.list
+// (1 quota unit for up to 50 videos).
+
+export interface VideoChapter {
+  seconds: number;
+  title: string;
+}
+
+const TIME = String.raw`((?:\d{1,2}:)?\d{1,2}:\d{2})`;
+const TIME_FIRST = new RegExp(String.raw`^\s*[\[(]?${TIME}[\])]?\s*(?:[-–—:|.)]\s*)?(.+?)\s*$`);
+const TIME_LAST = new RegExp(String.raw`^\s*(.+?)\s*[-–—:|]?\s*[\[(]?${TIME}[\])]?\s*$`);
+
+/** Chapter times from a description: at least two, in order, else none. */
+export function parseVideoChapters(description: string): VideoChapter[] {
+  const seen = new Set<number>();
+  const chapters: VideoChapter[] = [];
+  for (const line of description.split(/\r?\n/).slice(0, 200)) {
+    const first = TIME_FIRST.exec(line);
+    const last = first ? null : TIME_LAST.exec(line);
+    const time = first?.[1] ?? last?.[2];
+    const title = (first?.[2] ?? last?.[1] ?? "").replace(/^[-–—:|.\s]+|[-–—:|.\s]+$/g, "").slice(0, 100);
+    if (!time || !title) continue;
+    const parts = time.split(":").map(Number);
+    if (parts.slice(1).some((part) => part > 59)) continue;
+    const seconds = parts.reduce((total, part) => total * 60 + part, 0);
+    if (seen.has(seconds) || seconds > 6 * 3600) continue;
+    seen.add(seconds);
+    chapters.push({ seconds, title });
+  }
+  chapters.sort((a, b) => a.seconds - b.seconds);
+  return chapters.length >= 2 ? chapters.slice(0, 40) : [];
+}
+
+const chapterCacheById = new Map<string, { at: number; chapters: VideoChapter[] }>();
+
+/** Chapters for these videos (full descriptions from videos.list), cached per video. */
+async function videoChapters(ids: string[]): Promise<Map<string, VideoChapter[]>> {
+  const found = new Map<string, VideoChapter[]>();
+  const missing: string[] = [];
+  for (const id of ids) {
+    const hit = chapterCacheById.get(id);
+    if (hit && Date.now() - hit.at < 24 * 3_600_000) found.set(id, hit.chapters);
+    else missing.push(id);
+  }
+  if (missing.length) {
+    const base = (env("YOUTUBE_API_BASE") || "https://www.googleapis.com/youtube/v3").replace(/\/$/, "");
+    const params = new URLSearchParams({ part: "snippet", id: missing.slice(0, 50).join(","), key: env("YOUTUBE_API_KEY") });
+    const response = await fetch(`${base}/videos?${params}`, { signal: AbortSignal.timeout(6000) });
+    if (!response.ok) throw new Error(`YouTube videos ${response.status}`);
+    const body = (await response.json()) as { items?: { id?: string; snippet?: { description?: string } }[] };
+    for (const item of body.items ?? []) {
+      if (!item.id) continue;
+      const chapters = parseVideoChapters(item.snippet?.description ?? "");
+      chapterCacheById.set(item.id, { at: Date.now(), chapters });
+      found.set(item.id, chapters);
+    }
+    while (chapterCacheById.size > 2000) chapterCacheById.delete(chapterCacheById.keys().next().value!);
+  }
+  return found;
 }
 
 /**
@@ -669,12 +735,15 @@ export async function POST(request: Request): Promise<Response> {
     return fail(502, "UPSTREAM", "Could not search YouTube right now. Try again.", upstreamDetail(error));
   }
 
+  // Chapter times from the videos' own descriptions, when they have them.
+  const chaptersOf = candidates.length ? await videoChapters(candidates.map((video) => video.id)).catch((error) => (console.error(error), new Map<string, VideoChapter[]>())) : new Map<string, VideoChapter[]>();
+
   // 3. Rank them against the exercise; if that fails, keep YouTube's order.
-  let videos: (Candidate & { match: Match; reason: string })[] = candidates.map((video) => ({ ...video, match: "related", reason: "" }));
+  let videos: (Candidate & { match: Match; reason: string; start: VideoChapter | null })[] = candidates.map((video) => ({ ...video, match: "related", reason: "", start: null }));
   // Ranking is a bonus: skipped when reading the exercise used up the time.
   if (candidates.length && deadline - Date.now() > 10_000) {
     try {
-      const { ranked } = await askAI<{ ranked: { id: string; match: string; reason: string }[] }>(
+      const { ranked } = await askAI<{ ranked: { id: string; match: string; reason: string; start_seconds?: number | null }[] }>(
         RANK_SYSTEM,
         [
           {
@@ -688,7 +757,13 @@ export async function POST(request: Request): Promise<Response> {
                 text: reading.exercise_text,
                 bacii_paper: reading.bacii_year ? { year: reading.bacii_year, exercise: reading.exercise_number } : null,
               },
-              candidates: candidates.map(({ id, title, channel, description }) => ({ id, title, channel, description })),
+              candidates: candidates.map(({ id, title, channel, description }) => ({
+                id,
+                title,
+                channel,
+                description,
+                ...(chaptersOf.get(id)?.length ? { chapters: chaptersOf.get(id)!.map(({ seconds, title: name }) => ({ seconds, title: name })) } : {}),
+              })),
             }),
           },
         ],
@@ -700,7 +775,13 @@ export async function POST(request: Request): Promise<Response> {
       const order: Match[] = ["exact", "same-topic", "related"];
       videos = ranked
         .filter((entry) => byId.has(entry.id) && order.includes(entry.match as Match))
-        .map((entry) => ({ ...byId.get(entry.id)!, match: entry.match as Match, reason: String(entry.reason ?? "").slice(0, 160) }))
+        .map((entry) => ({
+          ...byId.get(entry.id)!,
+          match: entry.match as Match,
+          reason: String(entry.reason ?? "").slice(0, 160),
+          // Only a time the creator listed; the model cannot invent one.
+          start: chaptersOf.get(entry.id)?.find((chapter) => chapter.seconds === entry.start_seconds) ?? null,
+        }))
         .sort((a, b) => order.indexOf(a.match) - order.indexOf(b.match));
     } catch (error) {
       console.error(error);
