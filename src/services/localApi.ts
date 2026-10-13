@@ -3,6 +3,7 @@ import { subjectLabel, subjectMembers } from "../lib/subjects";
 import { flattenCurriculum, type CurriculumSeed, type FlatCurriculum } from "../lib/curriculum";
 import { checkQuestionInput, isCorrect, MAX_QUESTION_IMAGE_BYTES, questionImageExtension } from "../lib/questions";
 import { afterRight, afterWrong } from "../lib/review";
+import { addDays, cambodiaDay, streakOf, weakestChapter } from "../lib/daily";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
 import { buildDemoPapers, sortPapers, type DemoPaperSeed } from "../lib/papers";
@@ -25,6 +26,8 @@ import {
   type CurriculumChapter,
   type CurriculumSubject,
   type ExamAnswer,
+  type DailyQuestion,
+  type DailyStreak,
   type ExamAttempt,
   type Mistake,
   type ExamAttemptDetail,
@@ -1454,6 +1457,17 @@ function withReview(entry: NonNullable<DbState["mistakes"]>[number]) {
 /** As note_answer: wrong answers go in (review tomorrow); right ones fix and pass due reviews. */
 function noteAnswer(db: DbState, userId: string, questionId: string, right: boolean | null, answer: string, source: Mistake["source"], attemptId: string | null) {
   if (right === null) return;
+  const chapterId = db.questions.find((item) => item.id === questionId)?.chapterId;
+  if (chapterId) {
+    db.chapterProgress ??= [];
+    let progress = db.chapterProgress.find((item) => item.userId === userId && item.chapterId === chapterId);
+    if (!progress) {
+      progress = { userId, chapterId, answered: 0, correct: 0 };
+      db.chapterProgress.push(progress);
+    }
+    progress.answered += 1;
+    if (right) progress.correct += 1;
+  }
   db.mistakes ??= [];
   const now = new Date();
   const entry = db.mistakes.find((item) => item.userId === userId && item.questionId === questionId);
@@ -1482,6 +1496,8 @@ export async function recordPracticeAnswer(questionId: string, answer: string): 
   if (!question?.solution) return null;
   const right = isCorrect(question, question.solution, answer);
   noteAnswer(db, viewer.id, questionId, right, answer, "practice", null);
+  const daily = (db.dailyQuestions ?? []).find((item) => item.userId === viewer.id && item.day === cambodiaDay(new Date()) && item.questionId === questionId);
+  if (daily && !daily.answeredAt && right !== null) Object.assign(daily, { answeredAt: new Date().toISOString(), correct: right });
   persist();
   return right;
 }
@@ -1599,4 +1615,48 @@ export async function getMyExamAttempts(paperId?: string): Promise<ExamAttempt[]
       .sort((a, b) => b.startedAt.localeCompare(a.startedAt))
       .map(({ userId: _userId, ...attempt }) => attempt),
   );
+}
+
+// ---- Daily question and streak ----
+// Mirrors daily_question() and daily_streak() in supabase/schema.sql.
+
+export async function getDailyQuestion(): Promise<DailyQuestion | null> {
+  const db = await loadQuestions();
+  const viewer = requireViewer(db);
+  const today = cambodiaDay(new Date());
+  db.dailyQuestions ??= [];
+  let entry = db.dailyQuestions.find((item) => item.userId === viewer.id && item.day === today);
+  if (!entry) {
+    closeExpiredAttempts(db);
+    const running = new Set((db.examAttempts ?? []).filter((a) => a.userId === viewer.id && a.status === "in-progress").map((a) => a.paperId));
+    const onExam = new Set(loadPapers().filter((paper) => running.has(paper.id)).flatMap((paper) => paper.questions.map((item) => item.question.id)));
+    const candidates = db.questions.filter(
+      (question) =>
+        question.solution &&
+        (question.type === "multiple-choice" || (question.type === "numeric" && question.solution.numericAnswer !== null)) &&
+        !onExam.has(question.id),
+    );
+    const scores = (db.chapterProgress ?? []).filter((item) => item.userId === viewer.id);
+    const weakest = weakestChapter([...new Set(candidates.map((question) => question.chapterId))], scores);
+    if (!weakest) return null;
+    const recent = new Set(db.dailyQuestions.filter((item) => item.userId === viewer.id && item.day > addDays(today, -14)).map((item) => item.questionId));
+    const inChapter = candidates.filter((question) => question.chapterId === weakest.chapterId);
+    const fresh = inChapter.filter((question) => !recent.has(question.id));
+    const pool = fresh.length ? fresh : inChapter;
+    const picked = pool[Math.floor(Math.random() * pool.length)];
+    entry = { userId: viewer.id, day: today, questionId: picked.id, chapterId: weakest.chapterId, fromResults: weakest.fromResults, answeredAt: null, correct: null };
+    db.dailyQuestions.push(entry);
+    persist();
+  }
+  const question = hideRunningExamSolutions(db, db.questions).find((item) => item.id === entry.questionId);
+  if (!question) return null;
+  const { userId: _userId, questionId: _questionId, ...rest } = entry;
+  return structuredClone({ ...rest, question });
+}
+
+export async function getDailyStreak(): Promise<DailyStreak> {
+  const db = await loadQuestions();
+  const viewer = requireViewer(db);
+  const days = (db.dailyQuestions ?? []).filter((item) => item.userId === viewer.id && item.answeredAt).map((item) => item.day);
+  return streakOf(days, cambodiaDay(new Date()));
 }

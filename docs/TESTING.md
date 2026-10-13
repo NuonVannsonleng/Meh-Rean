@@ -14,6 +14,8 @@ npm run test:exams        # mock exam timing, marking, hidden answers (task 2.4)
 npm run test:grades       # grade estimate bands and maths (task 2.5)
 npm run test:mistakes     # mistake notebook: recording, fixing, reviews, privacy (tasks 3.1, 3.2)
 npm run test:review       # spaced-repetition rules, same intervals as the database (task 3.2)
+npm run test:daily        # daily question pick, weakest chapter, streaks, privacy (task 3.3)
+npm run test:daily-rules  # Cambodia day, weakest chapter and streak rules (task 3.3)
 ```
 
 The harnesses need a local Supabase for their database parts:
@@ -41,6 +43,9 @@ are not in the repository yet (see Architecture finding 4).
 | 2026-10-13 | `npm run test:grades` | 12 passed, 0 failed |
 | 2026-10-13 | `npm run test:mistakes` (local Supabase) | 9 passed, 0 failed |
 | 2026-10-13 | `npm run test:review` | 9 passed, 0 failed |
+| 2026-10-13 | `npm run test:daily` (local Supabase) | 8 passed, 0 failed |
+| 2026-10-13 | `npm run test:daily-rules` | 12 passed, 0 failed |
+| 2026-10-13 | Playwright: today's question (hub card, starter pick, answer, streak, reload, 320px), online / browser-only | 7/7, 7/7 |
 | 2026-10-13 | Playwright: mistake notebook (from an exam, retry right/wrong, due review, fixed view, practice reopens, remove, 320px), online / browser-only | 11/11, 11/11 |
 | 2026-10-13 | Playwright: mock exam (start, autosave, hidden answers, resume, hand in, grade estimate, time-out, 320px), online / browser-only | 8/8, 8/8 |
 | 2026-10-13 | `npm run test:curriculum` (local Supabase) | 11 passed, 0 failed |

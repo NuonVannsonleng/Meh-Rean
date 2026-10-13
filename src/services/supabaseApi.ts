@@ -32,6 +32,8 @@ import {
   type CurriculumChapter,
   type CurriculumSubject,
   type ExamAnswer,
+  type DailyQuestion,
+  type DailyStreak,
   type ExamAttempt,
   type Mistake,
   type ExamAttemptDetail,
@@ -1784,4 +1786,41 @@ export async function deleteMistake(questionId: string): Promise<void> {
   const viewer = await requireViewer();
   const { error } = await supabase.from("mistakes").delete().eq("user_id", viewer).eq("question_id", questionId);
   if (error) throw new ApiError("UNKNOWN", 400, error.message);
+}
+
+// ---- Daily question and streak ----
+
+interface DailyQuestionRow {
+  question_id: string;
+  day: string;
+  chapter_id: string;
+  from_results: boolean;
+  answered_at: string | null;
+  correct: boolean | null;
+}
+
+/** Today's question, picked once a day on the server (daily_question in schema.sql). */
+export async function getDailyQuestion(): Promise<DailyQuestion | null> {
+  await requireViewer();
+  const { data, error } = await supabase.rpc("daily_question");
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+  const row = (data as DailyQuestionRow[] | null)?.[0];
+  if (!row) return null;
+  const question = await getQuestion(row.question_id);
+  return {
+    day: row.day,
+    chapterId: row.chapter_id,
+    fromResults: row.from_results,
+    answeredAt: row.answered_at,
+    correct: row.correct,
+    question,
+  };
+}
+
+export async function getDailyStreak(): Promise<DailyStreak> {
+  await requireViewer();
+  const { data, error } = await supabase.rpc("daily_streak");
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+  const row = (data as { current_streak: number; best_streak: number; answered_today: boolean }[] | null)?.[0];
+  return { current: row?.current_streak ?? 0, best: row?.best_streak ?? 0, answeredToday: row?.answered_today ?? false };
 }

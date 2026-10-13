@@ -91,8 +91,14 @@ Khmer names. Note sharing with subject and level tags.
   when due → next review 3, 7, 14 days out, then learned. "Due today" view
   opens first when reviews are due. `npm run test:review` 9/9,
   `npm run test:mistakes` 9/9; UI 11/11 in both backends.
-- [ ] **3.3 Daily question and streak (S)** — one question from the weakest
+- [x] **3.3 Daily question and streak (S)** — one question from the weakest
   chapter; gentle streaks.
+  ✔ 2026-10-13: `/bacii/today` and a card on the BacII page. Picked once a
+  day (Cambodia time) on the server from the chapter with the lowest
+  smoothed accuracy (`chapter_progress`, kept for every marked answer);
+  answering, right or wrong, keeps the streak; friendly copy when it breaks.
+  `npm run test:daily` 8/8, `npm run test:daily-rules` 12/12; UI 7/7 in
+  both backends; 320px checked.
 - [ ] **3.4 Study plan generator (M)** — exam date, hours a day, weak
   chapters, target grade → weekly plan, editable.
 

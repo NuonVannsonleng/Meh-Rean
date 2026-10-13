@@ -137,6 +137,13 @@ Reviews (3.2): `review_stage`, `next_review_at`, set by `note_answer`
 (called by `mark_exam_attempt` and `record_practice_answer`); browser rules
 in `src/lib/review.ts`.
 
+## Daily question (roadmap 3.3)
+
+`chapter_progress` (per student and chapter, from `note_answer`) and
+`daily_questions`; functions `daily_question()` and `daily_streak()`. API:
+`getDailyQuestion`, `getDailyStreak`; browser rules in `src/lib/daily.ts`.
+Page `src/pages/BaciiToday.tsx`; streak card on `src/pages/Bacii.tsx`.
+
 ## Other parts
 
 - Subjects: `src/lib/subjects.ts` (15 main + ~130 specific, colours).

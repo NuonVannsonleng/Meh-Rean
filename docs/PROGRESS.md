@@ -2,8 +2,8 @@
 
 ## Current
 
-**Phase 3 — Task 3.3: Daily question and streak** (next up). One question a
-day from the weakest chapter; a gentle streak.
+**Phase 3 — Task 3.4: Study plan generator** (next up). Exam date, hours a
+day, weak chapters and target grade → an editable weekly plan.
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; exam marking and
@@ -137,16 +137,29 @@ timing only in database functions, never in the browser.
   "Fixed", opening on due reviews; each entry shows its next review or
   "Learned". `npm run test:review` 9/9, `npm run test:mistakes` 9/9; UI 11/11
   online and browser-only.
+- **2026-10-13 — 3.3 Daily question and streak.** Tables `chapter_progress`
+  (answered and right per student and chapter, updated by `note_answer` for
+  every marked practice or exam answer) and `daily_questions` (one per
+  student and Cambodia day). `daily_question()` picks once a day: only
+  automatically markable questions, never from a running mock exam, avoiding
+  the last 14 days' picks, from the chapter with the lowest
+  (right + 1) / (answered + 2) — untried chapters count as half right.
+  `record_practice_answer` completes today's question (first answer only);
+  `daily_streak()` gives the current and best run. Gentle by design: any
+  answer counts, no reminders, "Welcome back" instead of a broken-streak
+  warning. Same rules in `src/lib/daily.ts` for the browser-only store.
+  Page `/bacii/today`; card at the top of the BacII page. `npm run test:daily`
+  8/8, `npm run test:daily-rules` 12/12; UI 7/7 online and browser-only.
 
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
-| Production database | 1.1–3.2 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
+| Production database | 1.1–3.3 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. Grade bands: edit `src/data/grade-scale.json`. |
 | YouTube transcripts | 4.4, 4.6 | The Data API only gives captions to a video's owner; third-party timestamps and video quizzes need another lawful source or will be limited. |
 | Telegram bot | 5.5 | A bot token from @BotFather (free) and owner approval. |
 | Khmer interface wording | 5.4 | A Khmer speaker to review translations. |
-| Bundle size (701 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |
+| Bundle size (706 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |

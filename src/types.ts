@@ -518,6 +518,24 @@ export interface ExamStart {
   clockOffsetMs: number;
 }
 
+/** Today's question for a student (roadmap 3.3). */
+export interface DailyQuestion {
+  /** The day in Cambodia, "YYYY-MM-DD". */
+  day: string;
+  chapterId: string;
+  /** Picked as the weakest chapter from their results (false: no results yet). */
+  fromResults: boolean;
+  answeredAt: string | null;
+  correct: boolean | null;
+  question: Question;
+}
+
+export interface DailyStreak {
+  current: number;
+  best: number;
+  answeredToday: boolean;
+}
+
 /** A question the student got wrong, kept until they get it right (roadmap 3.1). */
 export interface Mistake {
   questionId: string;

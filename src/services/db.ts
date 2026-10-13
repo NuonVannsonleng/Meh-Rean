@@ -113,6 +113,10 @@ export interface DbState {
   /** Mock exam attempts and their answers (supabase: exam_attempts, exam_answers). */
   examAttempts?: (ExamAttempt & { userId: string })[];
   examAnswers?: (ExamAnswer & { attemptId: string })[];
+  /** Answers per chapter (supabase: chapter_progress). */
+  chapterProgress?: { userId: string; chapterId: string; answered: number; correct: number }[];
+  /** One question a day (supabase: daily_questions). */
+  dailyQuestions?: { userId: string; day: string; questionId: string; chapterId: string; fromResults: boolean; answeredAt: string | null; correct: boolean | null }[];
   /** Mistake notebook (supabase: mistakes). */
   mistakes?: (Omit<Mistake, "question"> & { userId: string })[];
 }

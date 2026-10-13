@@ -59,6 +59,8 @@ npm run test:exams       # mock exam timing, marking, hidden answers; local Supa
 npm run test:grades      # grade estimate bands and maths
 npm run test:mistakes    # mistake notebook and reviews; local Supabase
 npm run test:review      # spaced-repetition rules
+npm run test:daily       # daily question and streak; local Supabase
+npm run test:daily-rules # daily question rules (no database)
 npx supabase start       # local Supabase (Docker)
 ```
 

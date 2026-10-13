@@ -34,6 +34,17 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-13 — Daily question: weakest chapter by smoothed accuracy; gentle streak
+
+"Weakest chapter" is the lowest (right + 1) / (answered + 2) over the
+student's marked answers, kept per chapter in `chapter_progress` (also the
+base for later progress pages). Smoothing stops one lucky or unlucky answer
+from deciding, and makes an untried chapter count as half right, so known
+weaknesses come first. The pick happens once per day on the server and is
+stored, so reloading or a second device shows the same question. Days follow
+Asia/Phnom_Penh. The streak counts days answered, right or wrong — it rewards
+showing up; there are no notifications or loss warnings.
+
 ## 2026-10-13 — Spaced repetition: fixed steps, scheduled on the server
 
 A simple Leitner-style schedule rather than an adaptive algorithm (SM-2 and

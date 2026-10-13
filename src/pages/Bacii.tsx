@@ -1,8 +1,10 @@
-import { useEffect, type ComponentType } from "react";
+import { useEffect, useState, type ComponentType } from "react";
 import { Link } from "react-router-dom";
-import { BulbIcon, FileTextIcon, GraduationIcon, PenIcon, VideoIcon } from "../components/Icons";
+import { BulbIcon, CalendarIcon, FileTextIcon, GraduationIcon, PenIcon, VideoIcon } from "../components/Icons";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
+import { getDailyStreak } from "../services/api";
+import type { DailyStreak } from "../types";
 
 interface BaciiOption {
   to: string;
@@ -47,9 +49,21 @@ const OPTIONS: BaciiOption[] = [
 /** The BacII section: tools for Grade 12 students preparing for the national exam. */
 export default function Bacii() {
   const { user } = useAuth();
+  const [streak, setStreak] = useState<DailyStreak | null>(null);
   useEffect(() => {
     document.title = `${t.bacii.title} · ${t.common.appName}`;
   }, []);
+  useEffect(() => {
+    if (!user) return;
+    let active = true;
+    getDailyStreak()
+      .then((current) => active && setStreak(current))
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [user]);
+  const daily = t.bacii.daily;
 
   return (
     <div className="container-page max-w-4xl py-6 sm:py-10">
@@ -65,6 +79,20 @@ export default function Bacii() {
           <p className="text-ink-500 mt-1 text-sm sm:text-base">{t.bacii.tagline}</p>
         </div>
       </header>
+
+      <Link to="/bacii/today" className="card press hover:border-brand-500 mb-4 flex items-center gap-4 p-4 transition-colors sm:p-5">
+        <span className="bg-ribbon-50 text-ribbon-fg flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl">
+          {streak ? <span className="font-display text-xl leading-none font-bold tabular-nums">{streak.current}</span> : <CalendarIcon className="h-6 w-6" />}
+        </span>
+        <span className="min-w-0">
+          <span className="font-display text-ink-900 block text-lg font-bold">
+            {daily.title} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${daily.titleKm}`}</span>
+          </span>
+          <span className="text-ink-700 block text-sm">
+            {!user ? daily.hubSignIn : streak ? `${daily.streakDays(streak.current)} · ${streak.answeredToday ? daily.hubDone : daily.hubCta}` : daily.hubCta}
+          </span>
+        </span>
+      </Link>
 
       <nav aria-label={t.bacii.optionsLabel}>
         <ul className="grid gap-4 sm:grid-cols-2">

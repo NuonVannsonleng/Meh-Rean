@@ -80,6 +80,8 @@ export const {
   recordPracticeAnswer,
   getMistakes,
   deleteMistake,
+  getDailyQuestion,
+  getDailyStreak,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

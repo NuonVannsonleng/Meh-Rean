@@ -1748,6 +1748,42 @@ update public.mistakes set next_review_at = last_wrong_at + interval '1 day'
 where next_review_at is null and review_stage < 4;
 create index if not exists mistakes_due_idx on public.mistakes (user_id, next_review_at) where next_review_at is not null;
 
+-- How each student does per chapter: every automatically marked answer, in
+-- practice or a mock exam (roadmap 3.3; later the progress pages). Written
+-- only by note_answer.
+create table if not exists public.chapter_progress (
+  user_id uuid not null references public.profiles on delete cascade,
+  chapter_id text not null references public.curriculum_chapters on delete cascade,
+  answered integer not null default 0 check (answered >= 0),
+  correct integer not null default 0 check (correct between 0 and answered),
+  updated_at timestamptz not null default now(),
+  primary key (user_id, chapter_id)
+);
+alter table public.chapter_progress enable row level security;
+drop policy if exists "see own progress" on public.chapter_progress;
+create policy "see own progress" on public.chapter_progress for select to authenticated using (user_id = auth.uid());
+revoke insert, update, delete on public.chapter_progress from anon, authenticated;
+
+-- One question a day per student, from their weakest chapter (roadmap 3.3).
+-- Days follow Cambodia's clock (Asia/Phnom_Penh). Answering it, right or
+-- wrong, keeps the streak: it rewards showing up, not luck.
+create table if not exists public.daily_questions (
+  user_id uuid not null references public.profiles on delete cascade,
+  day date not null,
+  question_id uuid not null references public.questions on delete cascade,
+  chapter_id text not null references public.curriculum_chapters on delete cascade,
+  -- true when the chapter was picked from the student's results, false when
+  -- there were none yet.
+  from_results boolean not null default false,
+  answered_at timestamptz,
+  correct boolean,
+  primary key (user_id, day)
+);
+alter table public.daily_questions enable row level security;
+drop policy if exists "see own daily questions" on public.daily_questions;
+create policy "see own daily questions" on public.daily_questions for select to authenticated using (user_id = auth.uid());
+revoke insert, update, delete on public.daily_questions from anon, authenticated;
+
 alter table public.mistakes enable row level security;
 drop policy if exists "see own mistakes" on public.mistakes;
 create policy "see own mistakes" on public.mistakes for select to authenticated using (user_id = auth.uid());
@@ -1817,6 +1853,15 @@ begin
   if right_answer is null then
     return;
   end if;
+
+  insert into public.chapter_progress (user_id, chapter_id, answered, correct)
+  select who, q.chapter_id, 1, case when right_answer then 1 else 0 end
+  from public.questions q where q.id = note_answer.question
+  on conflict (user_id, chapter_id) do update set
+    answered = public.chapter_progress.answered + 1,
+    correct = public.chapter_progress.correct + excluded.correct,
+    updated_at = now();
+
   if not right_answer then
     insert into public.mistakes (user_id, question_id, last_answer, source, attempt_id, review_stage, next_review_at)
     values (who, question, coalesce(given, ''), from_source, attempt, 0, now() + make_interval(days => intervals[1]))
@@ -2064,8 +2109,95 @@ begin
   end if;
   right_answer := public.answer_matches(q.type, answer, q.correct_choice, q.numeric_answer, q.numeric_tolerance);
   perform public.note_answer(me, question, right_answer, answer, 'practice', null);
+  -- The first answer to today's question counts for the streak.
+  update public.daily_questions d set answered_at = now(), correct = right_answer
+  where d.user_id = me and d.day = (now() at time zone 'Asia/Phnom_Penh')::date
+    and d.question_id = record_practice_answer.question and d.answered_at is null;
   return right_answer;
 end;
 $$;
 revoke execute on function public.record_practice_answer(uuid, text) from public, anon;
 grant execute on function public.record_practice_answer(uuid, text) to authenticated;
+
+-- Today's question for the signed-in student, picked once a day and then
+-- kept. Weakest chapter: lowest (correct + 1) / (answered + 2) — a chapter
+-- never tried counts as half right, so a known weakness comes first. Only
+-- questions that can be marked automatically, not on a running mock exam,
+-- and not a daily question in the last 14 days when there is any other.
+create or replace function public.daily_question()
+returns table (question_id uuid, day date, chapter_id text, from_results boolean, answered_at timestamptz, correct boolean)
+language plpgsql
+security definer
+set search_path = ''
+as $$
+#variable_conflict use_column
+declare
+  me uuid := auth.uid();
+  today date := (now() at time zone 'Asia/Phnom_Penh')::date;
+begin
+  if me is null then
+    raise exception 'sign in for a daily question' using errcode = '42501';
+  end if;
+
+  if not exists (select 1 from public.daily_questions d where d.user_id = me and d.day = today) then
+    with candidates as (
+      select q.id, q.chapter_id,
+        exists (select 1 from public.daily_questions d where d.user_id = me and d.question_id = q.id and d.day > today - 14) as recent
+      from public.questions q
+      join public.question_solutions s on s.question_id = q.id
+      where (q.type = 'multiple-choice' or (q.type = 'numeric' and s.numeric_answer is not null))
+        and not exists (
+          select 1 from public.exam_attempts a
+          join public.exam_paper_questions epq on epq.paper_id = a.paper_id
+          where a.user_id = me and a.status = 'in-progress' and a.deadline_at > now() and epq.question_id = q.id
+        )
+    ),
+    weakest as (
+      select c.chapter_id, coalesce(p.answered, 0) > 0 as had_results
+      from (select distinct candidates.chapter_id from candidates) c
+      left join public.chapter_progress p on p.user_id = me and p.chapter_id = c.chapter_id
+      order by (coalesce(p.correct, 0) + 1)::numeric / (coalesce(p.answered, 0) + 2), coalesce(p.answered, 0) desc, random()
+      limit 1
+    )
+    insert into public.daily_questions (user_id, day, question_id, chapter_id, from_results)
+    select me, today, c.id, w.chapter_id, w.had_results
+    from candidates c
+    join weakest w on w.chapter_id = c.chapter_id
+    order by c.recent, random()
+    limit 1
+    on conflict (user_id, day) do nothing;
+  end if;
+
+  return query
+  select d.question_id, d.day, d.chapter_id, d.from_results, d.answered_at, d.correct
+  from public.daily_questions d where d.user_id = me and d.day = today;
+end;
+$$;
+revoke execute on function public.daily_question() from public, anon;
+grant execute on function public.daily_question() to authenticated;
+
+-- The streak: days in a row with today's question answered, counting back
+-- from today (or from yesterday while today's is still open), and the best.
+create or replace function public.daily_streak()
+returns table (current_streak integer, best_streak integer, answered_today boolean)
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  with days as (
+    select d.day from public.daily_questions d where d.user_id = auth.uid() and d.answered_at is not null
+  ),
+  runs as (
+    select min(day) as first_day, max(day) as last_day, count(*)::integer as length
+    from (select day, day - (row_number() over (order by day))::integer as run from days) numbered
+    group by run
+  ),
+  today as (select (now() at time zone 'Asia/Phnom_Penh')::date as day)
+  select
+    coalesce((select r.length from runs r, today t where r.last_day >= t.day - 1), 0),
+    coalesce((select max(r.length) from runs r), 0),
+    exists (select 1 from days, today t where days.day = t.day)
+$$;
+revoke execute on function public.daily_streak() from public, anon;
+grant execute on function public.daily_streak() to authenticated;
