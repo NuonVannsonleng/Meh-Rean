@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 2 — Task 2.2: Step-by-step solutions** (next up).
+**Phase 2 — Task 2.3: Chapter filter** (next up).
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; solutions held
@@ -73,6 +73,13 @@ back on the server before mock exams (2.4).
   subject, year filters) and `/bacii/papers/:id` (demo banner, questions
   with maths and choices, show answer). `npm run test:papers` 7/7; UI 5/5
   online and browser-only; 320px checked.
+- **2026-10-13 — 2.2 Step-by-step solutions.** `src/components/SolutionSteps.tsx`:
+  steps revealed one at a time ("Next step"), or all at once, then the final
+  answer; shows verification and origin, with a warning on unchecked AI
+  solutions. "Still stuck?" links to the video finder with the exercise and
+  subject prefilled (`/bacii/videos?text=…&subject=…`) and to a Khmer YouTube
+  search for the chapter (no API quota). Used on paper pages. UI 6/6 online
+  and browser-only.
 
 ## Blockers and things that need a person
 

@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState, type ClipboardEvent, type DragEvent, type FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { describedBy, FieldShell } from "../components/FormField";
 import { ArrowLeftIcon, CameraIcon, CloseIcon, ExternalLinkIcon, SearchIcon, TrashIcon, VideoIcon } from "../components/Icons";
 import { useAuth } from "../context/AuthContext";
@@ -221,8 +221,13 @@ export default function BaciiVideos() {
   const fileRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const [image, setImage] = useState<PreparedImage | null>(null);
-  const [text, setText] = useState("");
-  const [subject, setSubject] = useState<BaciiSubject | "">("");
+  // A question elsewhere in BacII can open this page with its text filled in.
+  const [params] = useSearchParams();
+  const [text, setText] = useState(() => (params.get("text") ?? "").slice(0, 4000));
+  const [subject, setSubject] = useState<BaciiSubject | "">(() => {
+    const given = params.get("subject") ?? "";
+    return BACII_SUBJECTS.some((item) => item.id === given) ? (given as BaciiSubject) : "";
+  });
   const [state, setState] = useState<State>({ kind: "idle" });
   const [inputError, setInputError] = useState<string | null>(null);
   const [dragging, setDragging] = useState(false);

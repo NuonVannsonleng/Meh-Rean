@@ -50,8 +50,12 @@ Khmer names. Note sharing with subject and level tags.
   (2023–2025, 12 original questions with worked solutions), labelled demo
   everywhere; official papers can only hold official questions of their
   year (`npm run test:papers` 7/7; UI 5/5 in both backends).
-- [ ] **2.2 Step-by-step solutions (L)** — reveal one step at a time, Khmer
+- [x] **2.2 Step-by-step solutions (L)** — reveal one step at a time, Khmer
   first, with maths and related videos.
+  ✔ 2026-10-13: `SolutionSteps` on paper pages: one step at a time (or all),
+  then the answer; status and origin shown, AI solutions warned; links to
+  the video finder (prefilled) and a Khmer YouTube search. Content is Khmer
+  first; interface labels turn Khmer with 5.4. UI 6/6 in both backends.
 - [ ] **2.3 Chapter filter (S)** — filter questions by subject, chapter, topic
   in the database.
 - [ ] **2.4 Mock exam mode (M)** — timer, navigation, auto-save, auto-submit,

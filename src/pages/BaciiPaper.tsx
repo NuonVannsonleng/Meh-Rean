@@ -4,7 +4,7 @@ import { ArrowLeftIcon } from "../components/Icons";
 import LoadingState from "../components/LoadingState";
 import MathText from "../components/MathText";
 import QuestionImage from "../components/QuestionImage";
-import VerificationBadge from "../components/VerificationBadge";
+import SolutionSteps from "../components/SolutionSteps";
 import { t } from "../i18n/en";
 import { getCurriculumChapters, getCurriculumSubjects, getExamPaper } from "../services/api";
 import type { CurriculumChapter, CurriculumSubject, ExamPaperDetail, ExamPaperQuestion } from "../types";
@@ -12,8 +12,15 @@ import { PaperOriginBadge } from "./BaciiPapers";
 
 const copy = t.bacii.papers;
 
-function PaperQuestion({ entry, chapter }: { entry: ExamPaperQuestion; chapter: CurriculumChapter | undefined }) {
-  const [open, setOpen] = useState(false);
+function PaperQuestion({
+  entry,
+  chapter,
+  subjectKey,
+}: {
+  entry: ExamPaperQuestion;
+  chapter: CurriculumChapter | undefined;
+  subjectKey: string;
+}) {
   const { question, position, points } = entry;
   const solution = question.solution;
   return (
@@ -43,22 +50,7 @@ function PaperQuestion({ entry, chapter }: { entry: ExamPaperQuestion; chapter: 
           ))}
         </ol>
       )}
-      {solution && (
-        <div className="mt-3">
-          <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} className="btn-secondary h-9 px-3 text-sm">
-            {open ? copy.hideAnswer : copy.showAnswer}
-          </button>
-          {open && (
-            <div className="bg-brand-50 animate-pop mt-2 rounded-md px-3 py-2">
-              <p className="text-ink-500 mb-1 flex items-center gap-2 text-[11px] font-semibold tracking-wide uppercase">
-                {copy.answer}
-                <VerificationBadge value={solution.verification} />
-              </p>
-              <MathText text={solution.answer} className="text-ink-900 text-sm" />
-            </div>
-          )}
-        </div>
-      )}
+      {solution && <SolutionSteps solution={solution} questionText={question.content} subjectKey={subjectKey} chapterKm={chapter?.nameKm ?? null} />}
     </li>
   );
 }
@@ -137,7 +129,12 @@ export default function BaciiPaper() {
       )}
       <ol className="space-y-3">
         {paper.questions.map((entry) => (
-          <PaperQuestion key={entry.question.id} entry={entry} chapter={chapterOf.get(entry.question.chapterId)} />
+          <PaperQuestion
+            key={entry.question.id}
+            entry={entry}
+            chapter={chapterOf.get(entry.question.chapterId)}
+            subjectKey={subject?.subjectKey ?? ""}
+          />
         ))}
       </ol>
       {paper.source && <p className="text-ink-500 mt-6 text-xs">{copy.source(paper.source)}</p>}

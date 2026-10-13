@@ -37,7 +37,7 @@ are not in the repository yet (see Architecture finding 4).
 | 2026-10-13 | `npm run test:questions` (local Supabase) | 21 passed, 0 failed |
 | 2026-10-13 | Playwright: admin question pages, online / browser-only | 10/10, 9/9 |
 | 2026-10-13 | `npm run test:papers` (local Supabase) | 7 passed, 0 failed |
-| 2026-10-13 | Playwright: past papers, online / browser-only | 5/5, 5/5 |
+| 2026-10-13 | Playwright: past papers + step-by-step solutions, online / browser-only | 6/6, 6/6 |
 | 2026-10-13 | `npm run test:math` | 17 passed, 0 failed |
 | 2026-10-13 | Playwright on `/dev/math` (320, 375 dark, 1280) | pass: font, KaTeX + MathML, no overflow, hostile input inert |
 | 2026-10-13 | `npm run test:accounts` (local Supabase) | 68 passed, 0 failed, 3 skipped (documented, not asserted) |
