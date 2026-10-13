@@ -99,8 +99,15 @@ Khmer names. Note sharing with subject and level tags.
   answering, right or wrong, keeps the streak; friendly copy when it breaks.
   `npm run test:daily` 8/8, `npm run test:daily-rules` 12/12; UI 7/7 in
   both backends; 320px checked.
-- [ ] **3.4 Study plan generator (M)** — exam date, hours a day, weak
+- [x] **3.4 Study plan generator (M)** — exam date, hours a day, weak
   chapters, target grade → weekly plan, editable.
+  ✔ 2026-10-13: `/bacii/plan`. The student enters the exam date (no date
+  is assumed), hours, days and target; weak chapters are suggested from
+  their results. Weekly plan: weak chapters first with double time, daily
+  notebook review, mock exams, revision weeks; rules in
+  `src/data/study-plan.json`. Every item can be ticked, resized, removed or
+  added; saved to `study_plans` (own rows only). `npm run test:study-plan`
+  19/19, `npm run test:study-plans` 6/6; UI 9/9 in both backends.
 
 ## Phase 4 — Upgrade the video scanner
 

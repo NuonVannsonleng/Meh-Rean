@@ -16,6 +16,8 @@ npm run test:mistakes     # mistake notebook: recording, fixing, reviews, privac
 npm run test:review       # spaced-repetition rules, same intervals as the database (task 3.2)
 npm run test:daily        # daily question pick, weakest chapter, streaks, privacy (task 3.3)
 npm run test:daily-rules  # Cambodia day, weakest chapter and streak rules (task 3.3)
+npm run test:study-plan   # plan builder rules (task 3.4)
+npm run test:study-plans  # saved plans: privacy and checks; local Supabase (task 3.4)
 ```
 
 The harnesses need a local Supabase for their database parts:
@@ -45,6 +47,9 @@ are not in the repository yet (see Architecture finding 4).
 | 2026-10-13 | `npm run test:review` | 9 passed, 0 failed |
 | 2026-10-13 | `npm run test:daily` (local Supabase) | 8 passed, 0 failed |
 | 2026-10-13 | `npm run test:daily-rules` | 12 passed, 0 failed |
+| 2026-10-13 | `npm run test:study-plan` | 19 passed, 0 failed |
+| 2026-10-13 | `npm run test:study-plans` (local Supabase) | 6 passed, 0 failed |
+| 2026-10-13 | Playwright: study plan (settings, past date refused, weak first, edit + autosave, reload, links, remake, 320px, delete), online / browser-only | 9/9, 9/9 |
 | 2026-10-13 | Playwright: today's question (hub card, starter pick, answer, streak, reload, 320px), online / browser-only | 7/7, 7/7 |
 | 2026-10-13 | Playwright: mistake notebook (from an exam, retry right/wrong, due review, fixed view, practice reopens, remove, 320px), online / browser-only | 11/11, 11/11 |
 | 2026-10-13 | Playwright: mock exam (start, autosave, hidden answers, resume, hand in, grade estimate, time-out, 320px), online / browser-only | 8/8, 8/8 |

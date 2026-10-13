@@ -34,6 +34,18 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-13 — Study plans are built in the browser and owned by the student
+
+Unlike scores, a study plan is the student's own notes: nothing is gained by
+forging one, and they must be free to change every item. So the plan is
+generated in the browser (`src/lib/studyPlan.ts`, rules in
+`src/data/study-plan.json`) and the student writes their own row in
+`study_plans` under RLS; the database checks only settings ranges, size, and
+that a newly chosen exam date is ahead. No BacII date is assumed or
+suggested: the student types the date announced by MoEYS. The weights (weak
+chapters ×2, other chapters by target grade) are Meh Rean rules of thumb and
+the page says the plan is a suggestion, not an official schedule.
+
 ## 2026-10-13 — Daily question: weakest chapter by smoothed accuracy; gentle streak
 
 "Weakest chapter" is the lowest (right + 1) / (answered + 2) over the

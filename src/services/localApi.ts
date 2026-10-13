@@ -26,10 +26,13 @@ import {
   type CurriculumChapter,
   type CurriculumSubject,
   type ExamAnswer,
+  type ChapterProgress,
   type DailyQuestion,
   type DailyStreak,
   type ExamAttempt,
   type Mistake,
+  type StudyPlan,
+  type StudyPlanInput,
   type ExamAttemptDetail,
   type ExamPaper,
   type ExamPaperDetail,
@@ -1659,4 +1662,53 @@ export async function getDailyStreak(): Promise<DailyStreak> {
   const viewer = requireViewer(db);
   const days = (db.dailyQuestions ?? []).filter((item) => item.userId === viewer.id && item.answeredAt).map((item) => item.day);
   return streakOf(days, cambodiaDay(new Date()));
+}
+
+// ---- Chapter progress and study plans ----
+// Mirrors chapter_progress, study_plans and guard_study_plan.
+
+export async function getChapterProgress(): Promise<ChapterProgress[]> {
+  const db = await loadQuestions();
+  const viewer = viewerId(db);
+  if (!viewer) return [];
+  return (db.chapterProgress ?? [])
+    .filter((item) => item.userId === viewer)
+    .map(({ chapterId, answered, correct }) => ({ chapterId, answered, correct }));
+}
+
+export async function getStudyPlan(): Promise<StudyPlan | null> {
+  const db = await loadDb();
+  const viewer = viewerId(db);
+  const plan = (db.studyPlans ?? []).find((item) => item.userId === viewer);
+  if (!plan) return null;
+  const { userId: _userId, ...rest } = plan;
+  return structuredClone(rest);
+}
+
+export async function saveStudyPlan(input: StudyPlanInput): Promise<StudyPlan> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  db.studyPlans ??= [];
+  const existing = db.studyPlans.find((item) => item.userId === viewer.id);
+  const today = cambodiaDay(new Date());
+  if (!existing || existing.examDate !== input.examDate) {
+    if (input.examDate <= today || input.examDate > addDays(today, 400)) throw new ApiError("UNKNOWN", 400, "the exam date must be within the next 400 days");
+  }
+  if (input.hoursPerDay < 0.5 || input.hoursPerDay > 12 || input.daysPerWeek < 1 || input.daysPerWeek > 7 || !/^[A-F]$/.test(input.targetGrade)) {
+    throw new ApiError("UNKNOWN", 400, "check the plan settings");
+  }
+  if (JSON.stringify(input.weeks).length > 200_000) throw new ApiError("UNKNOWN", 400, "this plan is too long");
+  const now = new Date().toISOString();
+  const plan = { ...structuredClone(input), userId: viewer.id, createdAt: existing?.createdAt ?? now, updatedAt: now };
+  db.studyPlans = [...db.studyPlans.filter((item) => item.userId !== viewer.id), plan];
+  persist();
+  const { userId: _userId, ...rest } = plan;
+  return rest;
+}
+
+export async function deleteStudyPlan(): Promise<void> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  db.studyPlans = (db.studyPlans ?? []).filter((item) => item.userId !== viewer.id);
+  persist();
 }

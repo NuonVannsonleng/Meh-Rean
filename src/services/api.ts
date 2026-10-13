@@ -82,6 +82,10 @@ export const {
   deleteMistake,
   getDailyQuestion,
   getDailyStreak,
+  getChapterProgress,
+  getStudyPlan,
+  saveStudyPlan,
+  deleteStudyPlan,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

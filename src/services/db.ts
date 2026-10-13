@@ -17,6 +17,7 @@ import {
   type ExamAnswer,
   type ExamAttempt,
   type Mistake,
+  type StudyPlan,
   type Question,
   type MessageAttachment,
   type MessageKind,
@@ -113,6 +114,8 @@ export interface DbState {
   /** Mock exam attempts and their answers (supabase: exam_attempts, exam_answers). */
   examAttempts?: (ExamAttempt & { userId: string })[];
   examAnswers?: (ExamAnswer & { attemptId: string })[];
+  /** One study plan per student (supabase: study_plans). */
+  studyPlans?: (StudyPlan & { userId: string })[];
   /** Answers per chapter (supabase: chapter_progress). */
   chapterProgress?: { userId: string; chapterId: string; answered: number; correct: number }[];
   /** One question a day (supabase: daily_questions). */

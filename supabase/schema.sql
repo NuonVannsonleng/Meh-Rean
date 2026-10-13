@@ -2201,3 +2201,53 @@ as $$
 $$;
 revoke execute on function public.daily_streak() from public, anon;
 grant execute on function public.daily_streak() to authenticated;
+
+-- ---------------------------------------------------------- Study plans --
+
+-- A student's own weekly plan (roadmap 3.4). It is built in the browser from
+-- their settings and results and is theirs to edit, so the student writes it;
+-- the database only checks its size and settings.
+create table if not exists public.study_plans (
+  user_id uuid primary key references public.profiles on delete cascade,
+  subject_id text not null references public.curriculum_subjects on delete cascade,
+  exam_date date not null,
+  hours_per_day numeric not null check (hours_per_day between 0.5 and 12),
+  days_per_week smallint not null check (days_per_week between 1 and 7),
+  target_grade text not null check (target_grade ~ '^[A-F]$'),
+  weak_chapter_ids text[] not null default '{}' check (cardinality(weak_chapter_ids) <= 50),
+  -- [{ start, studyDays, items: [{ id, kind, chapterId, hours, done }] }]
+  weeks jsonb not null check (jsonb_typeof(weeks) = 'array' and octet_length(weeks::text) <= 200000),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.study_plans enable row level security;
+drop policy if exists "own study plan" on public.study_plans;
+create policy "own study plan" on public.study_plans for all to authenticated
+  using (user_id = auth.uid()) with check (user_id = auth.uid());
+revoke all on public.study_plans from anon;
+grant select, insert, update, delete on public.study_plans to authenticated;
+
+-- Dates the server sets; an exam date must be ahead (it may pass later, and
+-- the plan can still be ticked off).
+create or replace function public.guard_study_plan()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+declare
+  today date := (now() at time zone 'Asia/Phnom_Penh')::date;
+begin
+  if tg_op = 'INSERT' or new.exam_date is distinct from old.exam_date then
+    if new.exam_date <= today or new.exam_date > today + 400 then
+      raise exception 'the exam date must be within the next 400 days' using errcode = '22023';
+    end if;
+  end if;
+  new.created_at := case when tg_op = 'INSERT' then now() else old.created_at end;
+  new.updated_at := now();
+  return new;
+end;
+$$;
+drop trigger if exists guard_study_plan on public.study_plans;
+create trigger guard_study_plan before insert or update on public.study_plans
+  for each row execute function public.guard_study_plan();

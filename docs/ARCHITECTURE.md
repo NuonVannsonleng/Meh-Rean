@@ -144,6 +144,13 @@ in `src/lib/review.ts`.
 `getDailyQuestion`, `getDailyStreak`; browser rules in `src/lib/daily.ts`.
 Page `src/pages/BaciiToday.tsx`; streak card on `src/pages/Bacii.tsx`.
 
+## Study plan (roadmap 3.4)
+
+Builder `src/lib/studyPlan.ts` + rules `src/data/study-plan.json`; table
+`study_plans` (student-owned, `guard_study_plan` trigger). API:
+`getChapterProgress`, `getStudyPlan`, `saveStudyPlan`, `deleteStudyPlan`.
+Page `src/pages/BaciiPlan.tsx`.
+
 ## Other parts
 
 - Subjects: `src/lib/subjects.ts` (15 main + ~130 specific, colours).

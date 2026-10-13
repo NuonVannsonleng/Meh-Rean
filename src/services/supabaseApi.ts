@@ -32,10 +32,13 @@ import {
   type CurriculumChapter,
   type CurriculumSubject,
   type ExamAnswer,
+  type ChapterProgress,
   type DailyQuestion,
   type DailyStreak,
   type ExamAttempt,
   type Mistake,
+  type StudyPlan,
+  type StudyPlanInput,
   type ExamAttemptDetail,
   type ExamPaper,
   type ExamPaperDetail,
@@ -1823,4 +1826,73 @@ export async function getDailyStreak(): Promise<DailyStreak> {
   if (error) throw new ApiError("UNKNOWN", 400, error.message);
   const row = (data as { current_streak: number; best_streak: number; answered_today: boolean }[] | null)?.[0];
   return { current: row?.current_streak ?? 0, best: row?.best_streak ?? 0, answeredToday: row?.answered_today ?? false };
+}
+
+// ---- Chapter progress and study plans ----
+
+export async function getChapterProgress(): Promise<ChapterProgress[]> {
+  const viewer = await viewerId();
+  if (!viewer) return [];
+  const rows = unwrap(
+    await supabase.from("chapter_progress").select("chapter_id, answered, correct").eq("user_id", viewer).returns<{ chapter_id: string; answered: number; correct: number }[]>(),
+  );
+  return rows.map((row) => ({ chapterId: row.chapter_id, answered: row.answered, correct: row.correct }));
+}
+
+interface StudyPlanRow {
+  subject_id: string;
+  exam_date: string;
+  hours_per_day: number | string;
+  days_per_week: number;
+  target_grade: string;
+  weak_chapter_ids: string[];
+  weeks: StudyPlan["weeks"];
+  created_at: string;
+  updated_at: string;
+}
+
+const toStudyPlan = (row: StudyPlanRow): StudyPlan => ({
+  subjectId: row.subject_id,
+  examDate: row.exam_date,
+  hoursPerDay: Number(row.hours_per_day),
+  daysPerWeek: row.days_per_week,
+  targetGrade: row.target_grade,
+  weakChapterIds: row.weak_chapter_ids,
+  weeks: row.weeks,
+  createdAt: row.created_at,
+  updatedAt: row.updated_at,
+});
+
+export async function getStudyPlan(): Promise<StudyPlan | null> {
+  const viewer = await viewerId();
+  if (!viewer) return null;
+  const { data, error } = await supabase.from("study_plans").select("*").eq("user_id", viewer).maybeSingle<StudyPlanRow>();
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+  return data ? toStudyPlan(data) : null;
+}
+
+export async function saveStudyPlan(input: StudyPlanInput): Promise<StudyPlan> {
+  const viewer = await requireViewer();
+  const { data, error } = await supabase
+    .from("study_plans")
+    .upsert({
+      user_id: viewer,
+      subject_id: input.subjectId,
+      exam_date: input.examDate,
+      hours_per_day: input.hoursPerDay,
+      days_per_week: input.daysPerWeek,
+      target_grade: input.targetGrade,
+      weak_chapter_ids: input.weakChapterIds,
+      weeks: input.weeks,
+    })
+    .select()
+    .single<StudyPlanRow>();
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+  return toStudyPlan(data);
+}
+
+export async function deleteStudyPlan(): Promise<void> {
+  const viewer = await requireViewer();
+  const { error } = await supabase.from("study_plans").delete().eq("user_id", viewer);
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
 }

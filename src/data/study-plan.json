@@ -1,0 +1,16 @@
+{
+  "note": "Meh Rean's own planning rules of thumb, not an official schedule. Hours are suggestions the student can change.",
+  "reviewMinutesPerStudyDay": 10,
+  "mockExamHours": 2,
+  "mockExamEveryLearningWeeks": 4,
+  "revisionWeeks": [
+    { "fromWeeks": 3, "weeks": 1 },
+    { "fromWeeks": 8, "weeks": 2 }
+  ],
+  "mockExamsPerRevisionWeek": 2,
+  "allRevisionUpToWeeks": 2,
+  "weakChapterWeight": 2,
+  "otherChapterWeightByTarget": { "A": 1.2, "B": 1, "C": 0.8, "D": 0.6, "E": 0.5, "F": 0.5 },
+  "thinHoursPerChapter": 2,
+  "maxWeeks": 52
+}

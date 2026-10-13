@@ -1,3 +1,5 @@
+import type { PlanWeek } from "./lib/studyPlan";
+
 export type ThemePreference = "light" | "dark" | "system";
 
 export type ReactionType = "like" | "love" | "insightful" | "thanks" | "wow";
@@ -517,6 +519,28 @@ export interface ExamStart {
   deadlineAt: string;
   clockOffsetMs: number;
 }
+
+/** How a student does in one chapter: every automatically marked answer. */
+export interface ChapterProgress {
+  chapterId: string;
+  answered: number;
+  correct: number;
+}
+
+/** A student's weekly study plan (roadmap 3.4). */
+export interface StudyPlan {
+  subjectId: string;
+  examDate: string;
+  hoursPerDay: number;
+  daysPerWeek: number;
+  targetGrade: string;
+  weakChapterIds: string[];
+  weeks: PlanWeek[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type StudyPlanInput = Omit<StudyPlan, "createdAt" | "updatedAt">;
 
 /** Today's question for a student (roadmap 3.3). */
 export interface DailyQuestion {

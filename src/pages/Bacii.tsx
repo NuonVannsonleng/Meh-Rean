@@ -1,6 +1,6 @@
 import { useEffect, useState, type ComponentType } from "react";
 import { Link } from "react-router-dom";
-import { BulbIcon, CalendarIcon, FileTextIcon, GraduationIcon, PenIcon, VideoIcon } from "../components/Icons";
+import { BulbIcon, CalendarIcon, FileTextIcon, GraduationIcon, PenIcon, TableIcon, VideoIcon } from "../components/Icons";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 import { getDailyStreak } from "../services/api";
@@ -36,6 +36,13 @@ const OPTIONS: BaciiOption[] = [
     titleKm: t.bacii.mistakes.optionTitleKm,
     description: t.bacii.mistakes.optionDescription,
     Icon: PenIcon,
+  },
+  {
+    to: "/bacii/plan",
+    title: t.bacii.plan.optionTitle,
+    titleKm: t.bacii.plan.optionTitleKm,
+    description: t.bacii.plan.optionDescription,
+    Icon: TableIcon,
   },
   {
     to: "/bacii/videos",
