@@ -126,6 +126,14 @@ function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => 
           {exercise.topicKm && <span className="text-ink-500 font-normal"> · {exercise.topicKm}</span>}
         </p>
         <p className="text-ink-700 mt-1 text-sm leading-relaxed">{exercise.summary}</p>
+        {exercise.chapter && (
+          <Link
+            to={`/bacii/practice?subject=${encodeURIComponent(exercise.chapter.subjectId)}&chapter=${encodeURIComponent(exercise.chapter.id)}`}
+            className="bg-brand-50 text-accent hover:bg-brand-100 mt-3 inline-flex max-w-full items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold"
+          >
+            <span className="truncate">{copy.chapterLink(exercise.chapter.number, exercise.chapter.nameKm)}</span>
+          </Link>
+        )}
       </section>
 
       <div ref={playerRef} className="scroll-mt-20">
@@ -294,7 +302,7 @@ export default function BaciiVideos() {
     setState({ kind: "searching" });
     scroll();
     try {
-      const result = await findExerciseVideos({ text: text.trim(), subject, image });
+      const result = await findExerciseVideos({ text: text.trim(), subject, image, chapterId: params.get("chapter") ?? undefined });
       setState({ kind: "done", result });
       if (user && key) {
         saveLookup(user.id, { key, label: text.trim().slice(0, 120), hasPhoto: Boolean(image), result });

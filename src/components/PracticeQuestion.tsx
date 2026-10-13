@@ -156,7 +156,7 @@ export default function PracticeQuestion({
       )}
 
       {question.solution && (
-        <SolutionSteps solution={question.solution} questionText={question.content} subjectKey={subjectKey} chapterKm={chapter?.nameKm ?? null} />
+        <SolutionSteps solution={question.solution} questionText={question.content} subjectKey={subjectKey} chapterKm={chapter?.nameKm ?? null} chapterId={chapter?.id} />
       )}
     </li>
   );

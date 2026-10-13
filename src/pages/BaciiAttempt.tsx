@@ -172,7 +172,7 @@ export default function BaciiAttempt() {
                   </div>
                 )}
               </dl>
-              {solution && <SolutionSteps solution={solution} questionText={entry.question.content} subjectKey={subjectKey} chapterKm={chapter?.nameKm ?? null} />}
+              {solution && <SolutionSteps solution={solution} questionText={entry.question.content} subjectKey={subjectKey} chapterKm={chapter?.nameKm ?? null} chapterId={chapter?.id} />}
             </li>
           );
         })}

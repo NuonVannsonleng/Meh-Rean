@@ -1010,6 +1010,7 @@ export const en = {
       savedResult: (date: string) => `You looked this up on ${date}. Shown from this phone, without using a lookup.`,
       searchAgain: "Search again",
       recentTitle: "Your recent lookups",
+      chapterLink: (number: number, km: string) => `Practise chapter ${number}: ${km}`,
       recentPhoto: "Photo of an exercise",
       signIn: "Sign in",
       signUp: "Create an account",

@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 4 — Task 4.2: Match videos by chapter** (next up).
+**Phase 4 — Task 4.3: Prefer Khmer videos** (next up).
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; exam marking and
@@ -179,6 +179,16 @@ timing only in database functions, never in the browser.
   `GET /api/bacii-videos` returns lookups left and units used, shown under
   "Find videos" with a warning past 90%. `npm run test:video-quota` 3/3;
   video e2e (mock Gemini + YouTube) 18/18.
+- **2026-10-13 — 4.2 Match videos by chapter.** `api/bacii-videos.ts` reads
+  Meh Rean's chapters and topics from the public curriculum tables (with the
+  publishable key; kept an hour per warm instance; not bundled, so admin
+  edits apply) and gives them to the model, which returns `chapter_id` /
+  `topic_id`. The server keeps only ids that exist and a topic only inside
+  its chapter. The Khmer search is told to use the curriculum's Khmer name;
+  ranking sees the chapter and topic. Practice, paper and result pages pass
+  their chapter to the finder (`?chapter=`) as a hint. Results show
+  "Practise chapter N: …" linking to `/bacii/practice`. Curriculum is still
+  provisional, so this inherits its labels. Video e2e 20/20.
 
 ## Blockers and things that need a person
 

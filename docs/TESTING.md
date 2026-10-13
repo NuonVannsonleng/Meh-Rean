@@ -51,7 +51,7 @@ are not in the repository yet (see Architecture finding 4).
 | 2026-10-13 | `npm run test:study-plan` | 19 passed, 0 failed |
 | 2026-10-13 | `npm run test:study-plans` (local Supabase) | 6 passed, 0 failed |
 | 2026-10-13 | `npm run test:video-quota` (local Supabase) | 3 passed, 0 failed |
-| 2026-10-13 | Playwright + API: video finder with mock Gemini and YouTube (incl. server cache, usage, saved lookups, limit, phone) | 18/18 |
+| 2026-10-13 | Playwright + API: video finder with mock Gemini and YouTube (incl. server cache, usage, saved lookups, chapter matching, limit, phone) — needs a freshly started dev server (cold search cache) | 20/20 |
 | 2026-10-13 | Playwright: study plan (settings, past date refused, weak first, edit + autosave, reload, links, remake, 320px, delete), online / browser-only | 9/9, 9/9 |
 | 2026-10-13 | Playwright: today's question (hub card, starter pick, answer, streak, reload, 320px), online / browser-only | 7/7, 7/7 |
 | 2026-10-13 | Playwright: mistake notebook (from an exam, retry right/wrong, due review, fixed view, practice reopens, remove, 320px), online / browser-only | 11/11, 11/11 |

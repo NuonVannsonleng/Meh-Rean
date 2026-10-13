@@ -39,6 +39,9 @@ export interface VideoLookup {
     summary: string;
     /** Set when the exercise is recognised as a BacII past-paper exercise. */
     paper: { year: number; exercise: string | null } | null;
+    /** Meh Rean's chapter for it, when it fits one (absent in older saved lookups). */
+    chapter?: { id: string; subjectId: string; number: number; nameEn: string; nameKm: string } | null;
+    topicId?: string | null;
   };
   queries: string[];
   searchUrl: string;
@@ -99,6 +102,8 @@ export async function findExerciseVideos(input: {
   text: string;
   subject: BaciiSubject | "";
   image: PreparedImage | null;
+  /** The chapter the student came from, as a hint. */
+  chapterId?: string;
 }): Promise<VideoLookup> {
   // Browser-only previews have no server to read the exercise.
   if (isLocalMode) throw new LookupError("NOT_CONFIGURED", "Video search needs the online version of Meh Rean.");
@@ -114,6 +119,7 @@ export async function findExerciseVideos(input: {
       body: JSON.stringify({
         text: input.text,
         subject: input.subject,
+        chapterId: input.chapterId || undefined,
         image: input.image ? { mediaType: input.image.mediaType, data: input.image.data } : null,
       }),
     });

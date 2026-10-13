@@ -118,8 +118,13 @@ Khmer names. Note sharing with subject and level tags.
   the same exercise again costs no lookup and no quota; lookups left and
   the share of the daily YouTube allowance shown (`youtube_search_log`,
   `GET /api/bacii-videos`). `npm run test:video-quota` 3/3; video e2e 18/18.
-- [ ] **4.2 Match videos by chapter (M)** — use exercise text, subject,
+- [x] **4.2 Match videos by chapter (M)** — use exercise text, subject,
   chapter, topic, language.
+  ✔ 2026-10-13: the model gets Meh Rean's chapters and topics (read from
+  the database, cached an hour) and places the exercise in one; unknown ids
+  are dropped. The Khmer search uses the curriculum's Khmer names, ranking
+  compares against the chapter/topic, and pages that know the chapter pass
+  it as a hint. Results link to practising that chapter. Video e2e 20/20.
 - [ ] **4.3 Prefer Khmer videos (S)** — configurable trusted Khmer channels,
   English alternatives.
 - [ ] **4.4 Jump to the right minute (M)** — only where transcripts are

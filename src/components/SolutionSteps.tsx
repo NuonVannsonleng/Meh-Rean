@@ -19,11 +19,14 @@ export default function SolutionSteps({
   questionText,
   subjectKey,
   chapterKm,
+  chapterId,
 }: {
   solution: QuestionSolution;
   questionText: string;
   subjectKey: string;
   chapterKm: string | null;
+  /** Passed to the video finder as a hint. */
+  chapterId?: string;
 }) {
   // How many steps are visible; steps.length + 1 means the answer is shown too.
   const [shown, setShown] = useState(0);
@@ -95,7 +98,7 @@ export default function SolutionSteps({
           <p className="text-ink-700 mb-2 text-xs font-semibold">{copy.videoHeading}</p>
           <div className="flex flex-wrap gap-2">
             <Link
-              to={`/bacii/videos?text=${encodeURIComponent(questionText.slice(0, 1500))}&subject=${encodeURIComponent(subjectKey)}`}
+              to={`/bacii/videos?text=${encodeURIComponent(questionText.slice(0, 1500))}&subject=${encodeURIComponent(subjectKey)}${chapterId ? `&chapter=${encodeURIComponent(chapterId)}` : ""}`}
               className="btn-secondary h-9 px-3 text-sm"
             >
               <VideoIcon className="h-4 w-4" />

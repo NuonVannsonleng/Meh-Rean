@@ -53,7 +53,7 @@ function PaperQuestion({
           ))}
         </ol>
       )}
-      {solution && <SolutionSteps solution={solution} questionText={question.content} subjectKey={subjectKey} chapterKm={chapter?.nameKm ?? null} />}
+      {solution && <SolutionSteps solution={solution} questionText={question.content} subjectKey={subjectKey} chapterKm={chapter?.nameKm ?? null} chapterId={chapter?.id} />}
     </li>
   );
 }

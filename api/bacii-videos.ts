@@ -56,6 +56,9 @@ interface ExerciseReading {
   bacii_year: number | null;
   exercise_number: string | null;
   search_queries: string[];
+  /** One of Meh Rean's curriculum ids, when the exercise fits one (roadmap 4.2). */
+  chapter_id: string | null;
+  topic_id: string | null;
 }
 
 interface Candidate {
@@ -154,6 +157,70 @@ async function youtubeUnitsToday(token: string): Promise<number | null> {
   });
   if (!response.ok) return null;
   return Number(await response.json());
+}
+
+// ----------------------------------------------------------- Curriculum --
+
+interface ChapterInfo {
+  id: string;
+  number: number;
+  nameEn: string;
+  nameKm: string;
+  subjectId: string;
+  subjectKey: string;
+  topics: { id: string; nameEn: string; nameKm: string }[];
+}
+
+let chapterCache: { at: number; chapters: ChapterInfo[] } | null = null;
+
+/**
+ * Meh Rean's chapters and topics (public rows, read with the publishable
+ * key), kept for an hour. Read from the database rather than bundled, so an
+ * admin's edits apply and the function carries no data files.
+ */
+async function curriculumChapters(): Promise<ChapterInfo[]> {
+  if (chapterCache && Date.now() - chapterCache.at < 3_600_000) return chapterCache.chapters;
+  try {
+    const select = "id,number,name_en,name_km,subject_id,curriculum_subjects(subject_key),curriculum_topics(id,name_en,name_km,sort)";
+    const response = await fetch(`${supabaseUrl()}/rest/v1/curriculum_chapters?select=${select}&order=subject_id,number`, {
+      headers: { apikey: supabaseKey() },
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!response.ok) throw new Error(`curriculum ${response.status}`);
+    const rows = (await response.json()) as {
+      id: string;
+      number: number;
+      name_en: string;
+      name_km: string;
+      subject_id: string;
+      curriculum_subjects: { subject_key: string } | null;
+      curriculum_topics: { id: string; name_en: string; name_km: string; sort: number }[];
+    }[];
+    const chapters = rows.map((row) => ({
+      id: row.id,
+      number: row.number,
+      nameEn: row.name_en,
+      nameKm: row.name_km,
+      subjectId: row.subject_id,
+      subjectKey: row.curriculum_subjects?.subject_key ?? "",
+      topics: [...(row.curriculum_topics ?? [])].sort((a, b) => a.sort - b.sort).map((topic) => ({ id: topic.id, nameEn: topic.name_en, nameKm: topic.name_km })),
+    }));
+    chapterCache = { at: Date.now(), chapters };
+    return chapters;
+  } catch (error) {
+    console.error(error);
+    return chapterCache?.chapters ?? [];
+  }
+}
+
+/** The chapter list for the model, one line per chapter with its topics. */
+function chapterList(chapters: ChapterInfo[]): string {
+  return chapters
+    .map((chapter) => {
+      const topics = chapter.topics.map((topic) => `${topic.id} = ${topic.nameEn} (${topic.nameKm})`).join("; ");
+      return `- ${chapter.id} = ${chapter.subjectKey} chapter ${chapter.number}: ${chapter.nameEn} (${chapter.nameKm})${topics ? ` — topics: ${topics}` : ""}`;
+    })
+    .join("\n");
 }
 
 // ------------------------------------------------------------- AI models --
@@ -346,6 +413,7 @@ A student is stuck on an exercise and wants a YouTube video that teaches it. Rea
 - exercise_text: a faithful transcription of the exercise, at most 600 characters, formulas in plain text.
 - bacii_year / exercise_number: only if the exercise clearly is from a BacII past paper (a header, a year, or a well-known exam exercise); otherwise null. Never guess.
 - search_queries: 2 YouTube searches, most specific first. The first in Khmer, worded the way Cambodian teachers title their videos (for example "កំណែវិញ្ញាសាបាក់ឌុប ២០២៣ គណិតវិទ្យា លំហាត់ទី២" for a past paper, or "របៀបដោះស្រាយ អាំងតេក្រាលដោយផ្នែក" for a topic). The second in English. Do not put the whole exercise in a query.
+- chapter_id / topic_id: if a list of Meh Rean chapters is given and the exercise clearly belongs to one, its id (and the topic's id, if one fits); otherwise null. When you set them, use that chapter's or topic's Khmer name in the Khmer search.
 If the input is not a school exercise at all, set is_exercise to false.`;
 
 const READ_TOOL = {
@@ -363,8 +431,10 @@ const READ_TOOL = {
       bacii_year: { type: ["integer", "null"] },
       exercise_number: { type: ["string", "null"] },
       search_queries: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 3 },
+      chapter_id: { type: ["string", "null"] },
+      topic_id: { type: ["string", "null"] },
     },
-    required: ["is_exercise", "subject", "topic_en", "topic_km", "summary", "exercise_text", "bacii_year", "exercise_number", "search_queries"],
+    required: ["is_exercise", "subject", "topic_en", "topic_km", "summary", "exercise_text", "bacii_year", "exercise_number", "search_queries", "chapter_id", "topic_id"],
   },
 };
 
@@ -469,6 +539,8 @@ const youtubeSearchUrl = (query: string) => `https://www.youtube.com/results?sea
 interface Body {
   text?: unknown;
   subject?: unknown;
+  /** The chapter the student was studying, when they came from one (a hint). */
+  chapterId?: unknown;
   image?: { mediaType?: unknown; data?: unknown } | null;
 }
 
@@ -527,7 +599,9 @@ export async function POST(request: Request): Promise<Response> {
     return fail(502, "UPSTREAM", "Could not check your daily lookups. Try again.", upstreamDetail(error));
   }
 
-  // 1. Read the exercise.
+  // 1. Read the exercise, placing it in Meh Rean's chapters when it fits one.
+  const chapters = await curriculumChapters();
+  const hinted = typeof body.chapterId === "string" ? chapters.find((chapter) => chapter.id === body.chapterId) : undefined;
   let reading: ExerciseReading;
   try {
     const content: ContentBlock[] = [];
@@ -536,8 +610,12 @@ export async function POST(request: Request): Promise<Response> {
       type: "text",
       text: [
         subject ? `The student says the subject is: ${subject}.` : "The student did not say which subject.",
+        hinted ? `The student was studying this chapter: ${hinted.id} (${hinted.nameEn} / ${hinted.nameKm}).` : "",
+        chapters.length ? `Meh Rean's Grade 12 chapters (a provisional outline):\n${chapterList(chapters)}` : "",
         text ? `The exercise, as the student typed it:\n${text}` : "The exercise is in the photo.",
-      ].join("\n\n"),
+      ]
+        .filter(Boolean)
+        .join("\n\n"),
     });
     // Leave time for the YouTube search after reading.
     reading = await askAI<ExerciseReading>(READ_SYSTEM, content, READ_TOOL, deadline - 8000, ai);
@@ -548,8 +626,11 @@ export async function POST(request: Request): Promise<Response> {
   if (!reading.is_exercise) {
     return fail(422, "NOT_AN_EXERCISE", "That does not look like an exercise. Try a clearer photo, or type it in.");
   }
+  // Only ids that exist, and a topic only inside its chapter.
+  const chapter = chapters.find((item) => item.id === reading.chapter_id) ?? null;
+  const topic = chapter?.topics.find((item) => item.id === reading.topic_id) ?? null;
   const queries = (reading.search_queries ?? []).map((query) => String(query).trim()).filter(Boolean).slice(0, 2);
-  if (!queries.length) queries.push(reading.topic_km || reading.topic_en);
+  if (!queries.length) queries.push(topic?.nameKm || chapter?.nameKm || reading.topic_km || reading.topic_en);
 
   // 2. Search YouTube: each search costs quota, so two at most, reused when cached.
   let candidates: Candidate[] = [];
@@ -578,6 +659,7 @@ export async function POST(request: Request): Promise<Response> {
               exercise: {
                 subject: reading.subject,
                 topic: `${reading.topic_en} / ${reading.topic_km}`,
+                curriculum: chapter ? { chapter: `${chapter.nameEn} / ${chapter.nameKm}`, topic: topic ? `${topic.nameEn} / ${topic.nameKm}` : null } : null,
                 summary: reading.summary,
                 text: reading.exercise_text,
                 bacii_paper: reading.bacii_year ? { year: reading.bacii_year, exercise: reading.exercise_number } : null,
@@ -608,6 +690,8 @@ export async function POST(request: Request): Promise<Response> {
       topicKm: reading.topic_km,
       summary: reading.summary,
       paper: reading.bacii_year ? { year: reading.bacii_year, exercise: reading.exercise_number } : null,
+      chapter: chapter ? { id: chapter.id, subjectId: chapter.subjectId, number: chapter.number, nameEn: chapter.nameEn, nameKm: chapter.nameKm } : null,
+      topicId: topic?.id ?? null,
     },
     queries,
     searchUrl: youtubeSearchUrl(queries[0]),
