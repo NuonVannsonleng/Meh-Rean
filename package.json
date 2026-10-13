@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "tsc -b --noEmit",
     "test:accounts": "node scripts/test-accounts.mjs",
-    "test:curriculum": "node scripts/test-curriculum.mjs"
+    "test:curriculum": "node scripts/test-curriculum.mjs",
+    "test:questions": "node scripts/test-questions.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.0",

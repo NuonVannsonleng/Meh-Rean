@@ -333,6 +333,80 @@ export interface CurriculumChapter {
   topics: CurriculumTopic[];
 }
 
+// ---- BacII questions ----
+
+/** multiple-choice and numeric are marked automatically; the others are not. */
+export type QuestionType = "multiple-choice" | "numeric" | "short-answer" | "open";
+export const QUESTION_TYPES: readonly QuestionType[] = ["multiple-choice", "numeric", "short-answer", "open"];
+
+/** Where a question comes from. Only official-past-paper claims to be from an exam. */
+export type QuestionOrigin = "official-past-paper" | "textbook" | "teacher" | "community" | "ai-generated" | "demo";
+export const QUESTION_ORIGINS: readonly QuestionOrigin[] = ["official-past-paper", "textbook", "teacher", "community", "ai-generated", "demo"];
+
+/** Where a solution comes from; separate from the question's origin. */
+export type SolutionOrigin = "official" | "textbook" | "teacher" | "community" | "ai-generated" | "demo";
+export const SOLUTION_ORIGINS: readonly SolutionOrigin[] = ["official", "textbook", "teacher", "community", "ai-generated", "demo"];
+
+export type ContentLanguage = "km" | "en" | "fr";
+
+export interface QuestionChoice {
+  /** Short id, e.g. "a". */
+  id: string;
+  /** Text with inline LaTeX. */
+  content: string;
+}
+
+export interface QuestionImage {
+  path: string;
+  url: string;
+  alt: string;
+}
+
+export interface SolutionStep {
+  content: string;
+}
+
+export interface QuestionSolution {
+  questionId: string;
+  answer: string;
+  /** Multiple choice: the right choice id. */
+  correctChoice: string | null;
+  /** Numeric: the answer and how far off still counts as right. */
+  numericAnswer: number | null;
+  numericTolerance: number | null;
+  steps: SolutionStep[];
+  origin: SolutionOrigin;
+  source: string;
+  verification: Verification;
+  verifiedAt: string | null;
+  updatedAt: string;
+}
+
+export interface Question {
+  id: string;
+  /** Curriculum ids; the subject always matches the chapter (enforced in the database). */
+  subjectId: string;
+  chapterId: string;
+  topicId: string | null;
+  /** Exam year, for past-paper questions. */
+  year: number | null;
+  type: QuestionType;
+  /** Khmer or English with inline LaTeX ($…$, $$…$$). */
+  content: string;
+  choices: QuestionChoice[];
+  images: QuestionImage[];
+  difficulty: number | null;
+  language: ContentLanguage;
+  origin: QuestionOrigin;
+  source: string;
+  verification: Verification;
+  verifiedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  /** null when no solution has been written yet, or when it is kept back. */
+  solution: QuestionSolution | null;
+}
+
 export type MediaFilter = "all" | "documents" | "images" | "videos";
 export type FeedSort = "latest" | "top" | "discussed";
 

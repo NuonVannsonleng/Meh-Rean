@@ -52,6 +52,7 @@ npm run lint             # type-check (tsc -b --noEmit)
 npm run build            # type-check and build
 npm run test:accounts    # auth, uploads, authorization; local Supabase only
 npm run test:curriculum  # curriculum seed checks; local Supabase for the DB part
+npm run test:questions   # question schema rules and permissions; local Supabase
 npx supabase start       # local Supabase (Docker)
 ```
 

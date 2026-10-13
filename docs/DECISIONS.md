@@ -2,6 +2,29 @@
 
 Short records of choices that shape the code. Newest first.
 
+## 2026-10-13 — Solutions in their own table, readable by everyone for now
+
+Answers and worked steps live in `question_solutions`, not on the question.
+For practice they are meant to be seen, so they are public today. Before mock
+exams (roadmap 2.4) they must be held back during an attempt — by a select
+policy tied to an exam session or by marking in a server function — never by
+hiding them in the browser. `isCorrect()` in `src/lib/questions.ts` is for
+practice feedback only; exam scores are computed on the server.
+
+## 2026-10-13 — The database guards question integrity
+
+Subject from chapter, topic in chapter, choice ids, https-only images, size
+limits, "verified needs a source", demo never verified, past papers need a
+year and source, creator and verifier from the session, edits to verified
+content send it back to review, no type change once a solution exists, no
+moving chapters or topics that have questions. All in triggers and checks in
+`schema.sql`, because the admin form (1.4) and any import script go through
+the same rules.
+
+Accepted from the security review: `public.stamp_verification()` can be
+called over the API. It only returns the caller's own id and the time, and
+the triggers need it callable by signed-in users, so it stays.
+
 ## 2026-10-13 — Curriculum lives in JSON, seeded into Postgres
 
 The curriculum is edited as nested, bilingual JSON in

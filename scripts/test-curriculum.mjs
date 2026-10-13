@@ -19,26 +19,11 @@
  */
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
-import { randomBytes } from "node:crypto";
-import { createClient } from "@supabase/supabase-js";
 import { flattenCurriculum } from "../src/lib/curriculum.ts";
+import { accounts, assert, localTarget, reporter, sql } from "./lib/local-supabase.mjs";
 
 const ROOT = new URL("../", import.meta.url);
-const DB_CONTAINER = "supabase_db_Meh_Rean";
-const results = [];
-const check = async (name, fn) => {
-  try {
-    const detail = await fn();
-    results.push(["✓", name, detail ?? ""]);
-  } catch (error) {
-    results.push(["✗", name, String(error?.message ?? error).split("\n").slice(0, 3).join(" | ")]);
-  }
-};
-const skip = (name, reason) => results.push(["○", name, reason]);
-const assert = (condition, message) => {
-  if (!condition) throw new Error(message);
-};
+const { check, skip, finish } = reporter();
 
 // ---------------------------------------------------------------- seed --
 
@@ -110,57 +95,13 @@ await check("supabase/seed/curriculum.sql is up to date with the JSON", async ()
 
 // ------------------------------------------------------------ database --
 
-function readEnv() {
-  if (process.env.SUPABASE_URL) return { url: process.env.SUPABASE_URL, key: process.env.SUPABASE_ANON_KEY };
-  const file = new URL(".env.test", ROOT);
-  if (!existsSync(file)) return null;
-  const env = Object.fromEntries(
-    readFileSync(file, "utf8")
-      .split(/\r?\n/)
-      .filter((line) => line.includes("=") && !line.trim().startsWith("#"))
-      .map((line) => [line.slice(0, line.indexOf("=")).trim(), line.slice(line.indexOf("=") + 1).trim()]),
-  );
-  return {
-    url: env.SUPABASE_URL ?? env.VITE_SUPABASE_URL,
-    key: env.SUPABASE_ANON_KEY ?? env.VITE_SUPABASE_ANON_KEY ?? env.VITE_SUPABASE_PUBLISHABLE_KEY,
-  };
-}
+const target = localTarget();
 
-const target = readEnv();
-let local = false;
-try {
-  local = Boolean(target?.url && target.key && ["127.0.0.1", "localhost"].includes(new URL(target.url).hostname));
-} catch {
-  local = false;
-}
-
-if (!local) {
+if (!target) {
   skip("database checks", "no local Supabase in SUPABASE_URL or .env.test (they never run against a hosted project)");
 } else {
-  const anon = createClient(target.url, target.key, { auth: { persistSession: false, autoRefreshToken: false } });
-  const run = randomBytes(4).toString("hex");
-  const password = `Pw-${run}-${randomBytes(6).toString("hex")}`;
-  const accounts = [];
-
-  async function account(label) {
-    const client = createClient(target.url, target.key, { auth: { persistSession: false, autoRefreshToken: false } });
-    const { data, error } = await client.auth.signUp({
-      email: `curriculum-${run}-${label}@example.invalid`,
-      password,
-      options: { data: { username: `cur${run}${label}`, display_name: `Curriculum ${label}` } },
-    });
-    if (error) throw error;
-    if (!data.session) throw new Error("sign-up needs email confirmation; turn it off for the local project");
-    accounts.push(client);
-    return { client, id: data.user.id };
-  }
-
-  const sql = (statement) =>
-    execFileSync("docker", ["exec", "-i", DB_CONTAINER, "psql", "-U", "postgres", "-d", "postgres", "-v", "ON_ERROR_STOP=1", "-tA", "-c", statement], {
-      encoding: "utf8",
-      // A refused statement is an expected result in one check; keep psql quiet.
-      stdio: ["ignore", "pipe", "pipe"],
-    }).trim();
+  const people = accounts(target, "curriculum");
+  const { anon, run } = people;
 
   await check("chapters load from the seed and can be queried by subject", async () => {
     const { data, error } = await anon
@@ -198,7 +139,7 @@ if (!local) {
 
   let student;
   await check("a student can read but cannot add, change or delete", async () => {
-    student = await account("s");
+    student = await people.create("s");
     const { data: rows } = await student.client.from("curriculum_chapters").select("id").eq("subject_id", MATH);
     assert(rows?.length, "student cannot read");
     const insert = await student.client
@@ -214,15 +155,19 @@ if (!local) {
   });
 
   await check("an admin can add, change and remove a topic", async () => {
-    const admin = await account("a");
-    sql(`update public.profiles set is_admin = true where id = '${admin.id}'`);
+    const admin = await people.create("a", { admin: true });
     const id = `${MATH}-integrals-test-${run}`;
-    const add = await admin.client.from("curriculum_topics").insert({ id, chapter_id: `${MATH}-integrals`, name_en: "Test topic", name_km: "ប្រធានបទសាកល្បង", sort: 99 }).select();
-    assert(!add.error && add.data.length === 1, `insert: ${add.error?.message}`);
-    const change = await admin.client.from("curriculum_topics").update({ name_en: "Test topic 2" }).eq("id", id).select();
-    assert(change.data?.[0]?.name_en === "Test topic 2", `update: ${change.error?.message}`);
-    const remove = await admin.client.from("curriculum_topics").delete().eq("id", id).select();
-    assert(remove.data?.length === 1, `delete: ${remove.error?.message}`);
+    try {
+      const add = await admin.client.from("curriculum_topics").insert({ id, chapter_id: `${MATH}-integrals`, name_en: "Test topic", name_km: "ប្រធានបទសាកល្បង", sort: 99 }).select();
+      assert(!add.error && add.data.length === 1, `insert: ${add.error?.message}`);
+      const change = await admin.client.from("curriculum_topics").update({ name_en: "Test topic 2" }).eq("id", id).select();
+      assert(change.data?.[0]?.name_en === "Test topic 2", `update: ${change.error?.message}`);
+      const remove = await admin.client.from("curriculum_topics").delete().eq("id", id).select();
+      assert(remove.data?.length === 1, `delete: ${remove.error?.message}`);
+    } finally {
+      // Never leave a test topic behind, even when a step above failed.
+      sql(`delete from public.curriculum_topics where id = '${id}'`);
+    }
   });
 
   await check("the database refuses 'verified' without a source", async () => {
@@ -235,15 +180,7 @@ if (!local) {
     assert(refused, "verified chapter with an empty source accepted");
   });
 
-  // Remove the test accounts (the same call the app's Delete account uses).
-  for (const client of accounts) await client.rpc("delete_own_account");
+  await people.cleanUp();
 }
 
-// -------------------------------------------------------------- report --
-
-for (const [mark, name, detail] of results) console.log(`${mark} ${name}${detail ? ` — ${detail}` : ""}`);
-const failed = results.filter(([mark]) => mark === "✗").length;
-const passed = results.filter(([mark]) => mark === "✓").length;
-const skipped = results.filter(([mark]) => mark === "○").length;
-console.log(`\nPassed ${passed}   Failed ${failed}   Skipped ${skipped}`);
-process.exit(failed ? 1 : 0);
+finish();

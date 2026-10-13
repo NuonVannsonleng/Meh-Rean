@@ -2,7 +2,14 @@
 
 ## Current
 
-**Phase 1 — Task 1.2: Design the question schema** (next up).
+**Phase 1 — Task 1.3: Render Khmer and maths together** (next up).
+
+Carry over from the 1.2 security review — the renderer must:
+render `content`, choices, answers and steps as text through KaTeX with
+`trust: false`, `throwOnError: false` and a `maxExpand` limit (no `\href`,
+`\url`, `\includegraphics`, `\htmlClass`); never use
+`dangerouslySetInnerHTML` on stored strings; allow only `https:` image
+sources, with `alt`; keep AI-derived content labelled with its origin.
 
 ## Done
 
@@ -15,6 +22,17 @@
   seed `supabase/seed/curriculum.sql`; `getCurriculumSubjects()` and
   `getCurriculumChapters()` in both backends. `npm run test:curriculum`:
   11/11.
+- **2026-10-13 — 1.2 Design the question schema.** Tables `questions` and
+  `question_solutions` (answer, steps, marking key, own origin and
+  verification). The database sets the subject from the chapter, checks
+  topics, choices, images (https only), sizes, past-paper year and source,
+  "no verified without a source", stamps creator and verifier from the
+  session, drops "verified" when content is edited, blocks type changes once
+  a solution exists, and blocks moving chapters or topics that have
+  questions. Admin-only writes. Types and mapper: `src/types.ts`,
+  `src/lib/questions.ts` (with `isCorrect`). `npm run test:questions`: 16/16.
+  Reviewed by `meh-rean-security`: no way for non-admins to write; 8 lower
+  findings, 7 fixed (see `docs/DECISIONS.md` for the one accepted).
 
 ## Blockers and things that need a person
 

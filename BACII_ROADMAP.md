@@ -22,10 +22,13 @@ Khmer names. Note sharing with subject and level tags.
   ✔ 2026-10-13: Grade 12 Science Mathematics, 10 chapters / 34 topics, all
   **provisional** until checked against the MoEYS textbook
   (`npm run test:curriculum` 11/11).
-- [ ] **1.2 Design the question schema (S)** — id, year, track, subject,
+- [x] **1.2 Design the question schema (S)** — id, year, track, subject,
   chapter, topic, type, content, solution steps, answer, difficulty, language,
   origin, source, verification, timestamps. *Done when the migration exists
   and is typed.*
+  ✔ 2026-10-13: `questions` + `question_solutions` with database-enforced
+  rules, types in `src/types.ts`, mapper and marking in `src/lib/questions.ts`
+  (`npm run test:questions` 16/16, security-reviewed).
 - [ ] **1.3 Render Khmer and maths together (S)** — KaTeX plus a Khmer font
   (Kantumruy Pro); Khmer paragraphs with inline LaTeX. *Done when mixed text
   renders correctly on a phone.*

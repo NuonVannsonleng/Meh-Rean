@@ -34,7 +34,8 @@ attachments JSON, `edited_at`), `comments`, `reactions`, `ratings`, `saves`,
 Chat: `conversations`, `conversation_members`, `messages`,
 `message_reactions`, plus a private `chat` bucket and Realtime channels.
 BacII: `bacii_video_lookups` (daily limit counter), curriculum tables
-(`curriculum_versions → tracks → subjects → chapters → topics`).
+(`curriculum_versions → tracks → subjects → chapters → topics`), and
+`questions` with one `question_solutions` row each (see below).
 
 Rules live in the database: RLS on every table, `public.is_admin()` for admin
 writes, triggers that pin ownership and dates (`guard_post_update`), and
@@ -76,6 +77,17 @@ checks it; the browser-only store reads it directly, and
 (idempotent upserts, never deletes). API: `getCurriculumSubjects()`,
 `getCurriculumChapters(subjectId)`. Ids are stable slugs, e.g.
 `kh-grade12-science-mathematics-integrals`.
+
+## Questions (roadmap 1.2)
+
+`questions` (chapter, optional topic, year, type, Khmer/English content with
+inline LaTeX, choices, images, difficulty, language, origin, source,
+verification) and `question_solutions` (answer, marking key, steps, its own
+origin and verification). Integrity rules are triggers and checks in
+`schema.sql` (`guard_question`, `guard_question_solution`,
+`guard_chapter_move`, `guard_topic_move`). Read: everyone; write: admins.
+App types in `src/types.ts`; row types, `toQuestion()` and `isCorrect()` in
+`src/lib/questions.ts`; select with `QUESTION_SELECT`.
 
 ## Other parts
 

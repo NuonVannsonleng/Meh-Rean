@@ -438,6 +438,13 @@ create policy "admins update any profile" on public.profiles for update
   using (public.is_admin(auth.uid()))
   with check (public.is_admin(auth.uid()));
 
+-- protect_profile_flags only runs on update, so creating a profile must not
+-- be able to set the flags either (the column-less version is defined above,
+-- before these columns exist on a fresh database).
+drop policy if exists "insert own profile" on public.profiles;
+create policy "insert own profile" on public.profiles for insert
+  with check (auth.uid() = id and not is_admin and not verified);
+
 -- ================================================================
 -- Follows
 -- ================================================================
@@ -1105,6 +1112,13 @@ create table if not exists public.curriculum_topics (
   verification text not null default 'provisional' check (verification in ('verified', 'provisional', 'needs-review'))
 );
 
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'curriculum_versions_verified_source') then
+    alter table public.curriculum_versions add constraint curriculum_versions_verified_source
+      check (verification <> 'verified' or char_length(btrim(source)) > 0);
+  end if;
+end $$;
+
 create index if not exists curriculum_tracks_version_idx on public.curriculum_tracks (version_id, sort);
 create index if not exists curriculum_subjects_track_idx on public.curriculum_subjects (track_id, sort);
 create index if not exists curriculum_subjects_key_idx on public.curriculum_subjects (subject_key);
@@ -1122,6 +1136,306 @@ begin
     execute format('drop policy if exists "admins edit curriculum" on public.%I', t);
     execute format(
       'create policy "admins edit curriculum" on public.%I for all to authenticated using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()))',
+      t
+    );
+  end loop;
+end $$;
+
+-- ------------------------------------------------------------ Questions --
+
+-- BacII practice and exam questions, filed under a curriculum chapter. The
+-- answer and worked steps live in question_solutions (one row per question),
+-- so they can be kept back during a mock exam later without moving data.
+-- Rules the app must not be trusted with are enforced here: the subject
+-- always matches the chapter, a topic belongs to its chapter, a
+-- multiple-choice answer is one of the choices, nothing is verified without
+-- a source, an official past paper has a year and a source, demo content is
+-- never verified, and only admins write.
+create table if not exists public.questions (
+  id uuid primary key default gen_random_uuid(),
+  -- Set from the chapter by guard_question(); never trusted from the client.
+  subject_id text not null references public.curriculum_subjects on delete restrict,
+  chapter_id text not null references public.curriculum_chapters on delete restrict,
+  topic_id text references public.curriculum_topics on delete set null,
+  year smallint check (year between 1990 and 2100),
+  type text not null check (type in ('multiple-choice', 'numeric', 'short-answer', 'open')),
+  -- Khmer or English text with inline LaTeX ($…$, $$…$$).
+  content text not null check (char_length(btrim(content)) between 1 and 20000),
+  -- [{ "id": "a", "content": "…" }], 2–8 of them for multiple choice.
+  choices jsonb not null default '[]'::jsonb,
+  -- [{ "path": "…", "url": "…", "alt": "…" }]
+  images jsonb not null default '[]'::jsonb,
+  difficulty smallint check (difficulty between 1 and 5),
+  language text not null default 'km' check (language in ('km', 'en', 'fr')),
+  origin text not null check (origin in ('official-past-paper', 'textbook', 'teacher', 'community', 'ai-generated', 'demo')),
+  source text not null default '' check (char_length(source) <= 500),
+  verification text not null default 'provisional' check (verification in ('verified', 'provisional', 'needs-review')),
+  verified_by uuid references public.profiles on delete set null,
+  verified_at timestamptz,
+  created_by uuid references public.profiles on delete set null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint questions_choices_shape check (
+    jsonb_typeof(choices) = 'array'
+    and (type <> 'multiple-choice' or jsonb_array_length(choices) between 2 and 8)
+    and (type = 'multiple-choice' or jsonb_array_length(choices) = 0)
+  ),
+  constraint questions_images_shape check (jsonb_typeof(images) = 'array' and jsonb_array_length(images) <= 6),
+  constraint questions_verified_source check (verification <> 'verified' or char_length(btrim(source)) > 0),
+  constraint questions_past_paper check (origin <> 'official-past-paper' or (year is not null and char_length(btrim(source)) > 0)),
+  constraint questions_demo_unverified check (origin <> 'demo' or verification <> 'verified')
+);
+
+create table if not exists public.question_solutions (
+  question_id uuid primary key references public.questions on delete cascade,
+  -- The final answer as shown to students (LaTeX allowed).
+  answer text not null check (char_length(btrim(answer)) between 1 and 5000),
+  -- For automatic marking: the right choice id, or a number and how close counts.
+  correct_choice text,
+  numeric_answer numeric,
+  numeric_tolerance numeric check (numeric_tolerance >= 0),
+  -- [{ "content": "…" }], shown one at a time.
+  steps jsonb not null default '[]'::jsonb check (jsonb_typeof(steps) = 'array' and jsonb_array_length(steps) <= 40),
+  -- A solution has its own origin: an AI-written one stays labelled even for an official question.
+  origin text not null check (origin in ('official', 'textbook', 'teacher', 'community', 'ai-generated', 'demo')),
+  source text not null default '' check (char_length(source) <= 500),
+  verification text not null default 'provisional' check (verification in ('verified', 'provisional', 'needs-review')),
+  verified_by uuid references public.profiles on delete set null,
+  verified_at timestamptz,
+  updated_at timestamptz not null default now(),
+  constraint question_solutions_verified_source check (verification <> 'verified' or char_length(btrim(source)) > 0),
+  constraint question_solutions_demo_unverified check (origin <> 'demo' or verification <> 'verified')
+);
+
+create index if not exists questions_subject_chapter_idx on public.questions (subject_id, chapter_id);
+create index if not exists questions_chapter_topic_idx on public.questions (chapter_id, topic_id);
+create index if not exists questions_year_idx on public.questions (subject_id, year);
+
+-- Who verified something and when come from the session, never the client.
+create or replace function public.stamp_verification(
+  old_verification text, new_verification text, old_by uuid, old_at timestamptz,
+  out by_user uuid, out at_time timestamptz)
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if new_verification = 'verified' and old_verification is distinct from 'verified' then
+    by_user := auth.uid();
+    at_time := now();
+  elsif new_verification = 'verified' then
+    by_user := old_by;
+    at_time := old_at;
+  else
+    by_user := null;
+    at_time := null;
+  end if;
+end;
+$$;
+
+create or replace function public.guard_question()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+declare
+  chapter_subject text;
+  choice jsonb;
+  image jsonb;
+  ids text[] := '{}';
+  stamp record;
+  key text;
+begin
+  select c.subject_id into chapter_subject from public.curriculum_chapters c where c.id = new.chapter_id;
+  if chapter_subject is null then
+    raise exception 'unknown chapter %', new.chapter_id using errcode = '23503';
+  end if;
+  new.subject_id := chapter_subject;
+
+  if new.topic_id is not null and not exists (
+    select 1 from public.curriculum_topics t where t.id = new.topic_id and t.chapter_id = new.chapter_id
+  ) then
+    raise exception 'topic % is not in chapter %', new.topic_id, new.chapter_id using errcode = '23514';
+  end if;
+
+  for choice in select * from jsonb_array_elements(new.choices) loop
+    if jsonb_typeof(choice) <> 'object'
+       or coalesce(choice->>'id', '') !~ '^[a-z0-9]{1,8}$'
+       or char_length(btrim(coalesce(choice->>'content', ''))) not between 1 and 2000
+       or (choice->>'id') = any (ids) then
+      raise exception 'each choice needs a unique short id and 1-2000 characters' using errcode = '23514';
+    end if;
+    ids := ids || (choice->>'id');
+  end loop;
+
+  -- Images are shown in <img>: https only, so no javascript: or data: URLs.
+  for image in select * from jsonb_array_elements(new.images) loop
+    if jsonb_typeof(image) <> 'object'
+       or coalesce(image->>'url', '') !~ '^https://[^\s"<>]+$'
+       or char_length(image->>'url') > 2000
+       or char_length(coalesce(image->>'path', '')) > 500
+       or char_length(coalesce(image->>'alt', '')) > 300 then
+      raise exception 'each image needs an https url and an alt text of at most 300 characters' using errcode = '23514';
+    end if;
+  end loop;
+
+  -- A solution already filed must still fit if the question changes.
+  if tg_op = 'UPDATE' then
+    select s.correct_choice into key from public.question_solutions s where s.question_id = new.id;
+    if found and new.type <> old.type then
+      raise exception 'delete the solution before changing the question type' using errcode = '23514';
+    end if;
+    if found and new.type = 'multiple-choice' and (key is null or not key = any (ids)) then
+      raise exception 'the solution''s answer is no longer one of the choices' using errcode = '23514';
+    end if;
+    -- A verified question that is edited has to be checked again.
+    if old.verification = 'verified' and new.verification = 'verified'
+       and (new.content, new.choices, new.images, new.type, new.year, new.chapter_id, new.topic_id, new.origin)
+           is distinct from
+           (old.content, old.choices, old.images, old.type, old.year, old.chapter_id, old.topic_id, old.origin) then
+      new.verification := 'needs-review';
+    end if;
+  end if;
+
+  if tg_op = 'INSERT' then
+    new.created_by := coalesce(auth.uid(), new.created_by);
+    new.created_at := now();
+  else
+    new.id := old.id;
+    new.created_by := old.created_by;
+    new.created_at := old.created_at;
+  end if;
+  new.updated_at := now();
+
+  if tg_op = 'INSERT' then
+    select * into stamp from public.stamp_verification(null, new.verification, null, null);
+  else
+    select * into stamp from public.stamp_verification(old.verification, new.verification, old.verified_by, old.verified_at);
+  end if;
+  new.verified_by := stamp.by_user;
+  new.verified_at := stamp.at_time;
+  return new;
+end;
+$$;
+
+drop trigger if exists questions_guard on public.questions;
+create trigger questions_guard before insert or update on public.questions
+  for each row execute function public.guard_question();
+
+create or replace function public.guard_question_solution()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+declare
+  q record;
+  step jsonb;
+  stamp record;
+begin
+  if tg_op = 'UPDATE' then
+    new.question_id := old.question_id;
+  end if;
+
+  select type, choices into q from public.questions where id = new.question_id;
+  if q.type = 'multiple-choice' then
+    if new.correct_choice is null or not exists (
+      select 1 from jsonb_array_elements(q.choices) c where c->>'id' = new.correct_choice
+    ) then
+      raise exception 'the answer must be one of the question''s choices' using errcode = '23514';
+    end if;
+    new.numeric_answer := null;
+    new.numeric_tolerance := null;
+  elsif q.type = 'numeric' then
+    if new.numeric_answer is null then
+      raise exception 'a numeric question needs numeric_answer' using errcode = '23514';
+    end if;
+    new.correct_choice := null;
+  else
+    new.correct_choice := null;
+    new.numeric_answer := null;
+    new.numeric_tolerance := null;
+  end if;
+
+  for step in select * from jsonb_array_elements(new.steps) loop
+    if jsonb_typeof(step) <> 'object' or char_length(btrim(coalesce(step->>'content', ''))) not between 1 and 5000 then
+      raise exception 'each solution step needs 1-5000 characters' using errcode = '23514';
+    end if;
+  end loop;
+
+  -- A verified solution that is edited has to be checked again.
+  if tg_op = 'UPDATE' and old.verification = 'verified' and new.verification = 'verified'
+     and (new.answer, new.correct_choice, new.numeric_answer, new.numeric_tolerance, new.steps, new.origin)
+         is distinct from
+         (old.answer, old.correct_choice, old.numeric_answer, old.numeric_tolerance, old.steps, old.origin) then
+    new.verification := 'needs-review';
+  end if;
+
+  new.updated_at := now();
+
+  if tg_op = 'INSERT' then
+    select * into stamp from public.stamp_verification(null, new.verification, null, null);
+  else
+    select * into stamp from public.stamp_verification(old.verification, new.verification, old.verified_by, old.verified_at);
+  end if;
+  new.verified_by := stamp.by_user;
+  new.verified_at := stamp.at_time;
+  return new;
+end;
+$$;
+
+drop trigger if exists question_solutions_guard on public.question_solutions;
+create trigger question_solutions_guard before insert or update on public.question_solutions
+  for each row execute function public.guard_question_solution();
+
+-- A chapter or topic with questions cannot move to another subject or
+-- chapter: the questions' subject_id and topic would silently stop matching.
+create or replace function public.guard_chapter_move()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if new.subject_id is distinct from old.subject_id
+     and exists (select 1 from public.questions q where q.chapter_id = old.id) then
+    raise exception 'chapter % has questions; move them first', old.id using errcode = '23514';
+  end if;
+  return new;
+end;
+$$;
+
+create or replace function public.guard_topic_move()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if new.chapter_id is distinct from old.chapter_id
+     and exists (select 1 from public.questions q where q.topic_id = old.id) then
+    raise exception 'topic % has questions; move them first', old.id using errcode = '23514';
+  end if;
+  return new;
+end;
+$$;
+
+drop function if exists public.guard_curriculum_move() cascade;
+
+drop trigger if exists curriculum_chapters_guard_move on public.curriculum_chapters;
+create trigger curriculum_chapters_guard_move before update on public.curriculum_chapters
+  for each row execute function public.guard_chapter_move();
+drop trigger if exists curriculum_topics_guard_move on public.curriculum_topics;
+create trigger curriculum_topics_guard_move before update on public.curriculum_topics
+  for each row execute function public.guard_topic_move();
+
+do $$
+declare
+  t text;
+begin
+  foreach t in array array['questions', 'question_solutions'] loop
+    execute format('alter table public.%I enable row level security', t);
+    execute format('drop policy if exists "questions are public" on public.%I', t);
+    execute format('create policy "questions are public" on public.%I for select using (true)', t);
+    execute format('drop policy if exists "admins edit questions" on public.%I', t);
+    execute format(
+      'create policy "admins edit questions" on public.%I for all to authenticated using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()))',
       t
     );
   end loop;
