@@ -387,6 +387,28 @@ create policy "update own attachments" on storage.objects for update to authenti
   using (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text)
   with check (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text);
 
+drop policy if exists "delete own attachments" on storage.objects;
+create policy "delete own attachments" on storage.objects for delete to authenticated
+  using (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- ================================================================
+-- Profiles: banners, verification badge and admin reviewers
+-- ================================================================
+
+alter table public.profiles add column if not exists banner_url text;
+alter table public.profiles add column if not exists verified boolean not null default false;
+alter table public.profiles add column if not exists is_admin boolean not null default false;
+
+create or replace function public.is_admin(uid uuid default auth.uid())
+returns boolean
+language sql
+security definer
+stable
+set search_path = ''
+as $$
+  select coalesce((select p.is_admin from public.profiles p where p.id = uid), false);
+$$;
+
 -- Question images (<uid>/questions/…) may only be raster images uploaded by
 -- admins. Restrictive, so it narrows the policies above without widening
 -- anything; other folders and buckets are unaffected.
@@ -409,28 +431,6 @@ create policy "question images stay images" on storage.objects as restrictive fo
     or (storage.foldername(name))[2] is distinct from 'questions'
     or (public.is_admin(auth.uid()) and name ~ '^[0-9a-f-]{36}/questions/[0-9a-f-]{36}\.(png|jpg|webp|gif)$')
   );
-
-drop policy if exists "delete own attachments" on storage.objects;
-create policy "delete own attachments" on storage.objects for delete to authenticated
-  using (bucket_id = 'attachments' and (storage.foldername(name))[1] = auth.uid()::text);
-
--- ================================================================
--- Profiles: banners, verification badge and admin reviewers
--- ================================================================
-
-alter table public.profiles add column if not exists banner_url text;
-alter table public.profiles add column if not exists verified boolean not null default false;
-alter table public.profiles add column if not exists is_admin boolean not null default false;
-
-create or replace function public.is_admin(uid uuid default auth.uid())
-returns boolean
-language sql
-security definer
-stable
-set search_path = ''
-as $$
-  select coalesce((select p.is_admin from public.profiles p where p.id = uid), false);
-$$;
 
 -- People may edit their own profile, but never grant themselves a badge
 create or replace function public.protect_profile_flags()
@@ -1189,28 +1189,6 @@ create policy "quizzes are public" on public.video_quizzes for select using (tru
 drop policy if exists "admins manage quizzes" on public.video_quizzes;
 create policy "admins manage quizzes" on public.video_quizzes for all to authenticated
   using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()));
-
--- Videos a student marked (roadmap 4.7): watched, understood, or needs
--- revision, with the chapter of the exercise they were looking at, so the
--- page can link them to that chapter's results and mistakes. The student's
--- own notes: they read and write only their own rows.
-create table if not exists public.video_progress (
-  user_id uuid not null default auth.uid() references public.profiles on delete cascade,
-  video_id text not null check (video_id ~ '^[A-Za-z0-9_-]{11}$'),
-  title text not null check (char_length(title) between 1 and 300),
-  channel text not null default '' check (char_length(channel) <= 200),
-  status text not null check (status in ('watched', 'understood', 'needs-revision')),
-  chapter_id text references public.curriculum_chapters on delete set null,
-  updated_at timestamptz not null default now(),
-  primary key (user_id, video_id)
-);
-create index if not exists video_progress_user_idx on public.video_progress (user_id, updated_at desc);
-alter table public.video_progress enable row level security;
-drop policy if exists "own video progress" on public.video_progress;
-create policy "own video progress" on public.video_progress for all to authenticated
-  using (user_id = auth.uid()) with check (user_id = auth.uid());
-revoke all on public.video_progress from anon;
-grant select, insert, update, delete on public.video_progress to authenticated;
 
 -- ----------------------------------------------------------- Curriculum --
 
@@ -2391,3 +2369,27 @@ $$;
 drop trigger if exists guard_study_plan on public.study_plans;
 create trigger guard_study_plan before insert or update on public.study_plans
   for each row execute function public.guard_study_plan();
+
+-- ------------------------------------------------------- Watched videos --
+
+-- Videos a student marked (roadmap 4.7): watched, understood, or needs
+-- revision, with the chapter of the exercise they were looking at, so the
+-- page can link them to that chapter's results and mistakes. The student's
+-- own notes: they read and write only their own rows.
+create table if not exists public.video_progress (
+  user_id uuid not null default auth.uid() references public.profiles on delete cascade,
+  video_id text not null check (video_id ~ '^[A-Za-z0-9_-]{11}$'),
+  title text not null check (char_length(title) between 1 and 300),
+  channel text not null default '' check (char_length(channel) <= 200),
+  status text not null check (status in ('watched', 'understood', 'needs-revision')),
+  chapter_id text references public.curriculum_chapters on delete set null,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, video_id)
+);
+create index if not exists video_progress_user_idx on public.video_progress (user_id, updated_at desc);
+alter table public.video_progress enable row level security;
+drop policy if exists "own video progress" on public.video_progress;
+create policy "own video progress" on public.video_progress for all to authenticated
+  using (user_id = auth.uid()) with check (user_id = auth.uid());
+revoke all on public.video_progress from anon;
+grant select, insert, update, delete on public.video_progress to authenticated;

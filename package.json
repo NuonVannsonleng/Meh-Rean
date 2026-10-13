@@ -26,7 +26,8 @@
     "test:video-chapters": "node scripts/test-video-chapters.mjs",
     "test:question-match": "node scripts/test-question-match.mjs",
     "test:video-quizzes": "node scripts/test-video-quizzes.mjs",
-    "test:video-progress": "node scripts/test-video-progress.mjs"
+    "test:video-progress": "node scripts/test-video-progress.mjs",
+    "build:setup-sql": "node scripts/build-setup-sql.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.0",

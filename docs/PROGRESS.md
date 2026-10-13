@@ -253,13 +253,25 @@ timing only in database functions, never in the browser.
   removed. The mistake notebook links to "Videos to revise". `npm run
   test:video-progress` 5/5; UI 5/5 online, 3/3 browser-only; notebook,
   quiz and video e2e regressions pass.
+- **2026-10-13 — "Nothing works" on the live site: diagnosed.** Deploys
+  are fine (all Vercel builds succeeded; the live bundle and `/api` are
+  current). The production database was never updated: a read-only check
+  with the publishable key found every BacII table and function missing.
+  Added `supabase/setup-all.sql` (schema + both seeds + API reload, from
+  `npm run build:setup-sql`) so it is one paste. Testing it like production
+  (pre-BacII schema, then the file) found two ordering bugs that would have
+  stopped the run: `video_progress` referenced the curriculum tables before
+  they were created, and the question-image storage policies used
+  `is_admin()` before it was defined. Both fixed; the file now runs cleanly
+  on an empty project, on the old schema, and a second time, and every
+  database suite passes on the upgraded database.
 
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
-| Production database | 1.1–4.7 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
+| Production database | everything since 1.1 | **Checked 2026-10-13: production has none of the BacII tables yet** — every BacII feature fails until the owner pastes `supabase/setup-all.sql` into the Supabase SQL editor and runs it (see SUPABASE.md §2). |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. Grade bands: edit `src/data/grade-scale.json`. |
 | YouTube transcripts | 4.6 content | The Data API only gives captions to a video's owner. 4.4 uses creators' description chapters; 4.6 quizzes need an admin with a transcript they may use (channels that agree to share theirs). |

@@ -24,6 +24,7 @@ npm run test:video-chapters # description chapter parsing (task 4.4)
 npm run test:question-match # matching an exercise to the question bank (task 4.5)
 npm run test:video-quizzes # video quizzes: admin-only writes, shape checks; local Supabase (task 4.6)
 npm run test:video-progress # watched-video marks: own rows, checks; local Supabase (task 4.7)
+npm run build:setup-sql   # regenerate supabase/setup-all.sql after changing schema or seeds
 ```
 
 The harnesses need a local Supabase for their database parts:
@@ -79,6 +80,12 @@ are not in the repository yet (see Architecture finding 4).
 | 2026-10-13 | `npm run test:math` | 17 passed, 0 failed |
 | 2026-10-13 | Playwright on `/dev/math` (320, 375 dark, 1280) | pass: font, KaTeX + MathML, no overflow, hostile input inert |
 | 2026-10-13 | `npm run test:accounts` (local Supabase) | 68 passed, 0 failed, 3 skipped (documented, not asserted) |
+
+Upgrade check (do this when the schema changes): `npx supabase db reset`,
+apply the previous production schema, then `supabase/setup-all.sql`, then
+the database suites. After a `db reset`, restart the stack (`npx supabase
+stop` / `start`) or uploads fail with 42P10: the reset leaves the storage
+tables and the local storage service out of step.
 
 Known flake: the first `test:accounts` run straight after `npx supabase start`
 has twice reported 1 failure that did not reproduce on the next run. When it
