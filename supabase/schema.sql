@@ -1737,6 +1737,17 @@ create table if not exists public.mistakes (
 );
 create index if not exists mistakes_user_idx on public.mistakes (user_id, last_wrong_at desc);
 
+-- Spaced repetition (roadmap 3.2): reviews 1, 3, 7 and 14 days apart. Stage
+-- counts reviews passed (0–4); next_review_at is null once all four are done.
+-- The intervals live in note_answer below and in src/lib/review.ts.
+alter table public.mistakes add column if not exists review_stage smallint not null default 0;
+alter table public.mistakes add column if not exists next_review_at timestamptz;
+alter table public.mistakes drop constraint if exists mistakes_review_stage_check;
+alter table public.mistakes add constraint mistakes_review_stage_check check (review_stage between 0 and 4);
+update public.mistakes set next_review_at = last_wrong_at + interval '1 day'
+where next_review_at is null and review_stage < 4;
+create index if not exists mistakes_due_idx on public.mistakes (user_id, next_review_at) where next_review_at is not null;
+
 alter table public.mistakes enable row level security;
 drop policy if exists "see own mistakes" on public.mistakes;
 create policy "see own mistakes" on public.mistakes for select to authenticated using (user_id = auth.uid());
@@ -1789,6 +1800,48 @@ begin
 end;
 $$;
 
+-- Updates a student's mistake notebook after a marked answer (internal).
+-- Wrong: in the notebook, first review tomorrow. Right: fixed; and if a review
+-- was due, it is passed and the next one is scheduled further out (3, 7, 14
+-- days), until all are done. Right answers before a review is due do not
+-- move it on: retrying straight after reading the solution proves little.
+create or replace function public.note_answer(who uuid, question uuid, right_answer boolean, given text, from_source text, attempt uuid)
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  intervals constant integer[] := array[1, 3, 7, 14];
+begin
+  if right_answer is null then
+    return;
+  end if;
+  if not right_answer then
+    insert into public.mistakes (user_id, question_id, last_answer, source, attempt_id, review_stage, next_review_at)
+    values (who, question, coalesce(given, ''), from_source, attempt, 0, now() + make_interval(days => intervals[1]))
+    on conflict (user_id, question_id) do update set
+      last_answer = excluded.last_answer,
+      source = excluded.source,
+      attempt_id = excluded.attempt_id,
+      times_wrong = public.mistakes.times_wrong + 1,
+      last_wrong_at = now(),
+      fixed_at = null,
+      review_stage = 0,
+      next_review_at = excluded.next_review_at;
+    return;
+  end if;
+
+  update public.mistakes m set
+    review_stage = m.review_stage + 1,
+    next_review_at = case when m.review_stage + 1 >= 4 then null else now() + make_interval(days => intervals[m.review_stage + 2]) end
+  where m.user_id = who and m.question_id = note_answer.question and m.next_review_at <= now();
+  update public.mistakes m set fixed_at = now()
+  where m.user_id = who and m.question_id = note_answer.question and m.fixed_at is null;
+end;
+$$;
+revoke execute on function public.note_answer(uuid, uuid, boolean, text, text, uuid) from public, anon, authenticated;
+
 -- Marks an attempt from the answer key and closes it. Internal: called by
 -- submit_exam and by the other functions when they find a deadline passed.
 create or replace function public.mark_exam_attempt(attempt uuid, final_status text)
@@ -1797,6 +1850,8 @@ language plpgsql
 security definer
 set search_path = ''
 as $$
+declare
+  answered record;
 begin
   -- Every question on the paper gets a row, so unanswered ones count as wrong.
   insert into public.exam_answers (attempt_id, question_id, answer)
@@ -1832,25 +1887,16 @@ begin
     return;
   end if;
 
-  -- Mistake notebook (roadmap 3.1): wrong or blank answers go in; right
-  -- answers mark an earlier mistake on the same question as fixed.
-  insert into public.mistakes (user_id, question_id, last_answer, source, attempt_id)
-  select a.user_id, ea.question_id, ea.answer, 'exam', a.id
-  from public.exam_answers ea
-  join public.exam_attempts a on a.id = ea.attempt_id
-  where ea.attempt_id = attempt and ea.is_correct = false
-  on conflict (user_id, question_id) do update set
-    last_answer = excluded.last_answer,
-    source = 'exam',
-    attempt_id = excluded.attempt_id,
-    times_wrong = public.mistakes.times_wrong + 1,
-    last_wrong_at = now(),
-    fixed_at = null;
-
-  update public.mistakes m set fixed_at = now()
-  from public.exam_answers ea, public.exam_attempts a
-  where ea.attempt_id = attempt and a.id = attempt and ea.is_correct
-    and m.user_id = a.user_id and m.question_id = ea.question_id and m.fixed_at is null;
+  -- Mistake notebook (roadmap 3.1, 3.2): wrong or blank answers go in;
+  -- right ones fix earlier mistakes and pass due reviews.
+  for answered in
+    select a.user_id, ea.question_id, ea.answer, ea.is_correct
+    from public.exam_answers ea
+    join public.exam_attempts a on a.id = ea.attempt_id
+    where ea.attempt_id = attempt
+  loop
+    perform public.note_answer(answered.user_id, answered.question_id, answered.is_correct, answered.answer, 'exam', attempt);
+  end loop;
 end;
 $$;
 revoke execute on function public.mark_exam_attempt(uuid, text) from public, anon, authenticated;
@@ -2017,21 +2063,7 @@ begin
     return null;
   end if;
   right_answer := public.answer_matches(q.type, answer, q.correct_choice, q.numeric_answer, q.numeric_tolerance);
-
-  if right_answer = false then
-    insert into public.mistakes (user_id, question_id, last_answer, source)
-    values (me, question, answer, 'practice')
-    on conflict (user_id, question_id) do update set
-      last_answer = excluded.last_answer,
-      source = 'practice',
-      attempt_id = null,
-      times_wrong = public.mistakes.times_wrong + 1,
-      last_wrong_at = now(),
-      fixed_at = null;
-  elsif right_answer then
-    update public.mistakes m set fixed_at = now()
-    where m.user_id = me and m.question_id = question and m.fixed_at is null;
-  end if;
+  perform public.note_answer(me, question, right_answer, answer, 'practice', null);
   return right_answer;
 end;
 $$;

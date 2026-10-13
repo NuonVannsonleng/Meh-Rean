@@ -133,6 +133,9 @@ shown by `src/components/GradeEstimateCard.tsx`.
 `record_practice_answer`. API: `recordPracticeAnswer`, `getMistakes`,
 `deleteMistake`. `PracticeQuestion` records answers for signed-in students
 (`onChecked`, `note` props); page `src/pages/BaciiMistakes.tsx`.
+Reviews (3.2): `review_stage`, `next_review_at`, set by `note_answer`
+(called by `mark_exam_attempt` and `record_practice_answer`); browser rules
+in `src/lib/review.ts`.
 
 ## Other parts
 

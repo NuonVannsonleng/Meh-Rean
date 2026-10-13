@@ -2,6 +2,7 @@ import { MAX_MESSAGE_LENGTH } from "../lib/chat";
 import { subjectLabel, subjectMembers } from "../lib/subjects";
 import { flattenCurriculum, type CurriculumSeed, type FlatCurriculum } from "../lib/curriculum";
 import { checkQuestionInput, isCorrect, MAX_QUESTION_IMAGE_BYTES, questionImageExtension } from "../lib/questions";
+import { afterRight, afterWrong } from "../lib/review";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
 import { buildDemoPapers, sortPapers, type DemoPaperSeed } from "../lib/papers";
@@ -1434,28 +1435,38 @@ function markAttempt(db: DbState, attempt: ExamAttempt & { userId: string }, sta
     unmarked,
   });
   for (const answer of db.examAnswers.filter((item) => item.attemptId === attempt.id)) {
-    if (answer.isCorrect === false) noteMistake(db, attempt.userId, answer.questionId, answer.answer, "exam", attempt.id);
-    if (answer.isCorrect === true) noteFixed(db, attempt.userId, answer.questionId);
+    noteAnswer(db, attempt.userId, answer.questionId, answer.isCorrect, answer.answer, "exam", attempt.id);
   }
 }
 
 // ---- Mistake notebook ----
 // Mirrors the mistakes table, mark_exam_attempt and record_practice_answer.
 
-function noteMistake(db: DbState, userId: string, questionId: string, answer: string, source: Mistake["source"], attemptId: string | null) {
-  db.mistakes ??= [];
-  const now = new Date().toISOString();
-  const entry = db.mistakes.find((item) => item.userId === userId && item.questionId === questionId);
-  if (entry) {
-    Object.assign(entry, { lastAnswer: answer, source, attemptId, timesWrong: entry.timesWrong + 1, lastWrongAt: now, fixedAt: null });
-  } else {
-    db.mistakes.push({ userId, questionId, lastAnswer: answer, source, attemptId, timesWrong: 1, firstWrongAt: now, lastWrongAt: now, fixedAt: null });
+/** Entries saved before reviews existed (3.1) get their first review, as the schema update does. */
+function withReview(entry: NonNullable<DbState["mistakes"]>[number]) {
+  if (entry.reviewStage === undefined) {
+    entry.reviewStage = 0;
+    entry.nextReviewAt = new Date(Date.parse(entry.lastWrongAt) + 86_400_000).toISOString();
   }
+  return entry;
 }
 
-function noteFixed(db: DbState, userId: string, questionId: string) {
-  const entry = (db.mistakes ?? []).find((item) => item.userId === userId && item.questionId === questionId);
-  if (entry && !entry.fixedAt) entry.fixedAt = new Date().toISOString();
+/** As note_answer: wrong answers go in (review tomorrow); right ones fix and pass due reviews. */
+function noteAnswer(db: DbState, userId: string, questionId: string, right: boolean | null, answer: string, source: Mistake["source"], attemptId: string | null) {
+  if (right === null) return;
+  db.mistakes ??= [];
+  const now = new Date();
+  const entry = db.mistakes.find((item) => item.userId === userId && item.questionId === questionId);
+  if (right) {
+    if (entry) Object.assign(entry, afterRight(withReview(entry), now));
+    return;
+  }
+  const reset = afterWrong(now);
+  if (entry) {
+    Object.assign(entry, reset, { lastAnswer: answer, source, attemptId, timesWrong: entry.timesWrong + 1, lastWrongAt: now.toISOString() });
+  } else {
+    db.mistakes.push({ userId, questionId, lastAnswer: answer, source, attemptId, timesWrong: 1, firstWrongAt: now.toISOString(), lastWrongAt: now.toISOString(), ...reset });
+  }
 }
 
 /** Marks a practice answer and keeps the notebook up to date; null when it cannot be marked. */
@@ -1470,8 +1481,7 @@ export async function recordPracticeAnswer(questionId: string, answer: string): 
   const question = db.questions.find((item) => item.id === questionId);
   if (!question?.solution) return null;
   const right = isCorrect(question, question.solution, answer);
-  if (right === false) noteMistake(db, viewer.id, questionId, answer, "practice", null);
-  if (right === true) noteFixed(db, viewer.id, questionId);
+  noteAnswer(db, viewer.id, questionId, right, answer, "practice", null);
   persist();
   return right;
 }
@@ -1485,6 +1495,7 @@ export async function getMistakes(): Promise<Mistake[]> {
     (db.mistakes ?? [])
       .filter((entry) => entry.userId === viewer && questions.has(entry.questionId))
       .sort((a, b) => b.lastWrongAt.localeCompare(a.lastWrongAt))
+      .map((entry) => withReview(entry))
       .map(({ userId: _userId, ...entry }) => ({ ...entry, question: questions.get(entry.questionId)! })),
   );
 }

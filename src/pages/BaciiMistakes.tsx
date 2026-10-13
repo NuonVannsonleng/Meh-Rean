@@ -8,6 +8,7 @@ import LoadingState from "../components/LoadingState";
 import PracticeQuestion from "../components/PracticeQuestion";
 import { t } from "../i18n/en";
 import { formatDate } from "../lib/format";
+import { afterRight, afterWrong, isDue, isLearned, REVIEW_INTERVAL_DAYS, REVIEW_STAGES } from "../lib/review";
 import { deleteMistake, getCurriculumChapters, getCurriculumSubjects, getMistakes } from "../services/api";
 import type { CurriculumChapter, CurriculumSubject, Mistake } from "../types";
 
@@ -18,18 +19,26 @@ const chip = (active: boolean) =>
     active ? "border-brand-600 bg-brand-600 text-white" : "border-line bg-surface text-ink-700 hover:border-ink-400"
   }`;
 
-/** BacII → Mistake notebook: questions answered wrong, to retry until right (roadmap 3.1). */
+type View = "due" | "open" | "fixed";
+
+const inView = (m: Mistake, view: View, now: Date) => (view === "due" ? isDue(m, now) : view === "open" ? !m.fixedAt : Boolean(m.fixedAt));
+
+/** BacII → Mistake notebook: questions answered wrong, retried until right and reviewed on a schedule (roadmap 3.1, 3.2). */
 export default function BaciiMistakes() {
   const [params, setParams] = useSearchParams();
-  const view = params.get("view") === "fixed" ? "fixed" : "open";
   const chapterId = params.get("chapter") ?? "";
   const [mistakes, setMistakes] = useState<Mistake[] | null>(null);
   const [subjects, setSubjects] = useState<CurriculumSubject[]>([]);
   const [chapters, setChapters] = useState<CurriculumChapter[]>([]);
   const [failed, setFailed] = useState(false);
   const [reload, setReload] = useState(0);
-  // Fixed while on this page: stays in place (marked fixed) rather than vanishing mid-read.
-  const [fixedHere, setFixedHere] = useState<Set<string>>(() => new Set());
+  // Opens on today's reviews when there are any; chosen once, so it does not jump as they are done.
+  const [firstView, setFirstView] = useState<View | null>(null);
+  const asked = params.get("view");
+  const view: View = asked === "due" || asked === "open" || asked === "fixed" ? asked : (firstView ?? "open");
+  // Answered on this page: stays in the list it was in rather than vanishing mid-read.
+  const [answeredHere, setAnsweredHere] = useState<Map<string, View>>(() => new Map());
+  const [now] = useState(() => new Date());
 
   useEffect(() => {
     document.title = `${copy.title} · ${t.bacii.title} · ${t.common.appName}`;
@@ -40,7 +49,11 @@ export default function BaciiMistakes() {
     let active = true;
     setFailed(false);
     getMistakes()
-      .then((list) => active && setMistakes(list))
+      .then((list) => {
+        if (!active) return;
+        setMistakes(list);
+        setFirstView((current) => current ?? (list.some((m) => isDue(m, new Date())) ? "due" : "open"));
+      })
       .catch(() => active && setFailed(true));
     return () => {
       active = false;
@@ -61,9 +74,9 @@ export default function BaciiMistakes() {
   }, [subjectIds]);
 
   const chapterOf = useMemo(() => new Map(chapters.map((chapter) => [chapter.id, chapter])), [chapters]);
-  const inView = (m: Mistake) => (view === "open" ? !m.fixedAt || fixedHere.has(m.questionId) : Boolean(m.fixedAt) && !fixedHere.has(m.questionId));
-  const listed = (mistakes ?? []).filter(inView);
+  const listed = (mistakes ?? []).filter((m) => (answeredHere.has(m.questionId) ? answeredHere.get(m.questionId) === view : inView(m, view, now)));
   const shown = listed.filter((m) => !chapterId || m.question.chapterId === chapterId);
+  const dueCount = (mistakes ?? []).filter((m) => inView(m, "due", new Date())).length;
   const openCount = (mistakes ?? []).filter((m) => !m.fixedAt).length;
   const fixedCount = (mistakes ?? []).length - openCount;
   const chapterCounts = useMemo(() => {
@@ -73,7 +86,8 @@ export default function BaciiMistakes() {
   }, [listed]);
   const usedChapters = chapters.filter((chapter) => chapterCounts.has(chapter.id));
 
-  const set = (values: Record<string, string>) =>
+  const set = (values: Record<string, string>) => {
+    if ("view" in values) setAnsweredHere(new Map());
     setParams(
       (current) => {
         const next = new URLSearchParams(current);
@@ -85,25 +99,21 @@ export default function BaciiMistakes() {
       },
       { replace: true },
     );
+  };
 
+  // The server has already recorded the answer; mirror its rules so the page shows it without reloading.
   const checked = (questionId: string, correct: boolean, answer: string) => {
-    const now = new Date().toISOString();
+    const at = new Date();
     setMistakes((list) =>
       (list ?? []).map((m) =>
         m.questionId !== questionId
           ? m
           : correct
-            ? { ...m, fixedAt: m.fixedAt ?? now }
-            : { ...m, fixedAt: null, lastAnswer: answer, timesWrong: m.timesWrong + 1, lastWrongAt: now, source: "practice" as const },
+            ? { ...m, ...afterRight(m, at) }
+            : { ...m, ...afterWrong(at), lastAnswer: answer, timesWrong: m.timesWrong + 1, lastWrongAt: at.toISOString(), source: "practice" as const },
       ),
     );
-    setFixedHere((current) => {
-      const next = new Set(current);
-      // Only keep in place the ones that were open when the page showed them.
-      if (correct && view === "open") next.add(questionId);
-      if (!correct) next.delete(questionId);
-      return next;
-    });
+    setAnsweredHere((current) => (current.has(questionId) ? current : new Map(current).set(questionId, view)));
   };
 
   const remove = async (questionId: string) => {
@@ -129,8 +139,13 @@ export default function BaciiMistakes() {
         </p>
       </header>
 
+      <p className="text-ink-500 mb-3 text-xs">{copy.reviewHint(REVIEW_INTERVAL_DAYS.join(", "))}</p>
+
       <div role="group" aria-label={copy.views} className="chip-row mb-2">
-        <button type="button" aria-pressed={view === "open"} onClick={() => set({ view: "", chapter: "" })} className={chip(view === "open")}>
+        <button type="button" aria-pressed={view === "due"} onClick={() => set({ view: "due", chapter: "" })} className={chip(view === "due")}>
+          {copy.dueToday(dueCount)}
+        </button>
+        <button type="button" aria-pressed={view === "open"} onClick={() => set({ view: "open", chapter: "" })} className={chip(view === "open")}>
           {copy.toFix(openCount)}
         </button>
         <button type="button" aria-pressed={view === "fixed"} onClick={() => set({ view: "fixed", chapter: "" })} className={chip(view === "fixed")}>
@@ -158,10 +173,10 @@ export default function BaciiMistakes() {
         ) : shown.length === 0 ? (
           <EmptyState
             icon={<PenIcon className="h-6 w-6" />}
-            title={view === "open" ? copy.emptyTitle : copy.emptyFixedTitle}
-            body={view === "open" ? copy.emptyBody : copy.emptyFixedBody}
+            title={view === "due" ? copy.emptyDueTitle : view === "open" ? copy.emptyTitle : copy.emptyFixedTitle}
+            body={view === "due" ? copy.emptyDueBody : view === "open" ? copy.emptyBody : copy.emptyFixedBody}
             action={
-              view === "open" ? (
+              view !== "fixed" ? (
                 <Link to="/bacii/practice" className="btn-primary">
                   {copy.practiseLink}
                 </Link>
@@ -202,11 +217,18 @@ export default function BaciiMistakes() {
                         {m.fixedAt ? (
                           <span className="text-accent inline-flex items-center gap-1 font-semibold">
                             <CheckIcon className="h-3.5 w-3.5" />
-                            {fixedHere.has(m.questionId) ? copy.fixedNow : copy.fixedOn(formatDate(m.fixedAt))}
+                            {Date.parse(m.fixedAt) >= now.getTime() ? copy.fixedNow : copy.fixedOn(formatDate(m.fixedAt))}
                           </span>
                         ) : (
                           `${copy.timesWrong(m.timesWrong)} · ${m.source === "exam" ? copy.fromExam : copy.fromPractice} · ${copy.when(formatDate(m.lastWrongAt))}`
                         )}
+                      </p>
+                      <p className={`mt-0.5 text-xs ${isDue(m, new Date()) ? "text-ribbon-fg font-semibold" : "text-ink-500"}`}>
+                        {isLearned(m)
+                          ? copy.learned(REVIEW_STAGES)
+                          : isDue(m, new Date())
+                            ? copy.reviewDue(m.reviewStage + 1, REVIEW_STAGES)
+                            : m.nextReviewAt && copy.nextReview(formatDate(m.nextReviewAt), m.reviewStage + 1, REVIEW_STAGES)}
                       </p>
                     </div>
                   }

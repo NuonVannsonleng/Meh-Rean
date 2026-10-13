@@ -34,6 +34,17 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-13 — Spaced repetition: fixed steps, scheduled on the server
+
+A simple Leitner-style schedule rather than an adaptive algorithm (SM-2 and
+similar): reviews 1, 3, 7 and 14 days apart, as the roadmap asks. A wrong
+answer starts again from tomorrow; a right answer passes a review only when
+one is due, because retrying straight after reading the solution shows
+little. After the fourth review the question counts as learned. The schedule
+is set in `note_answer` (server clock, not the browser); the browser-only
+store and the page use the same rules from `src/lib/review.ts`, and
+`npm run test:review` fails if the two lists of intervals differ.
+
 ## 2026-10-13 — The mistake notebook is written by the server
 
 Mistakes come from marking, so they are recorded where marking happens:

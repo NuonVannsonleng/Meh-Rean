@@ -103,6 +103,29 @@ await check("handing in: wrong and blank answers go in, right ones fix earlier m
   assert((await entry(q1)).times_wrong === 1, "counted twice");
 });
 
+await check("reviews: tomorrow after a mistake; due reviews passed push it out 3, 7, 14 days, then done", async () => {
+  const days = (row) => (row.next_review_at ? Math.round((Date.parse(row.next_review_at) - Date.now()) / 86_400_000) : null);
+  await record(q1, "1");
+  let row = await entry(q1);
+  assert(row.review_stage === 0 && days(row) === 1, `after a mistake: stage ${row.review_stage}, ${days(row)} days`);
+  await record(q1, "120");
+  row = await entry(q1);
+  assert(row.fixed_at && row.review_stage === 0 && days(row) === 1, "an early right answer passed a review");
+  const waits = [];
+  for (let review = 0; review < 4; review += 1) {
+    sql(`update public.mistakes set next_review_at = now() - interval '1 minute' where user_id = '${student.id}' and question_id = '${q1}'`);
+    await record(q1, "120");
+    row = await entry(q1);
+    waits.push(days(row));
+  }
+  assert(JSON.stringify(waits) === "[3,7,14,null]" && row.review_stage === 4, `waits ${JSON.stringify(waits)}, stage ${row.review_stage}`);
+  await record(q1, "5");
+  row = await entry(q1);
+  assert(row.review_stage === 0 && days(row) === 1 && !row.fixed_at, "a wrong answer did not start the reviews again");
+  const direct = await me.from("mistakes").update({ review_stage: 4, next_review_at: null }).eq("question_id", q1).select();
+  assert(direct.error || !direct.data?.length, "review schedule written directly");
+});
+
 await check("a student can remove their own entry", async () => {
   const { error } = await me.from("mistakes").delete().eq("question_id", q2);
   assert(!error && !(await entry(q2)), "not removed");

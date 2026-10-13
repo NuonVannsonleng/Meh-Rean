@@ -84,8 +84,13 @@ Khmer names. Note sharing with subject and level tags.
   the server from mock exams (wrong and blank answers) and practice
   (`record_practice_answer`); a right answer marks it fixed.
   `npm run test:mistakes` 8/8; UI 9/9 in both backends; 320px checked.
-- [ ] **3.2 Spaced repetition (M)** — reviews after 1, 3, 7, 14 days, adapting
+- [x] **3.2 Spaced repetition (M)** — reviews after 1, 3, 7, 14 days, adapting
   to results.
+  ✔ 2026-10-13: every notebook entry has a review stage and a due date,
+  set on the server (`note_answer`): wrong → review tomorrow; a right answer
+  when due → next review 3, 7, 14 days out, then learned. "Due today" view
+  opens first when reviews are due. `npm run test:review` 9/9,
+  `npm run test:mistakes` 9/9; UI 11/11 in both backends.
 - [ ] **3.3 Daily question and streak (S)** — one question from the weakest
   chapter; gentle streaks.
 - [ ] **3.4 Study plan generator (M)** — exam date, hours a day, weak

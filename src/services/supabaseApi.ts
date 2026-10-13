@@ -1738,6 +1738,8 @@ interface MistakeRow {
   first_wrong_at: string;
   last_wrong_at: string;
   fixed_at: string | null;
+  review_stage: number;
+  next_review_at: string | null;
   question: QuestionRowWithSolution | null;
 }
 
@@ -1772,6 +1774,8 @@ export async function getMistakes(): Promise<Mistake[]> {
       firstWrongAt: row.first_wrong_at,
       lastWrongAt: row.last_wrong_at,
       fixedAt: row.fixed_at,
+      reviewStage: row.review_stage,
+      nextReviewAt: row.next_review_at,
       question: toQuestion(row.question!, questionImageUrl),
     }));
 }

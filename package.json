@@ -15,7 +15,8 @@
     "test:papers": "node scripts/test-papers.mjs",
     "test:exams": "node scripts/test-exams.mjs",
     "test:grades": "node scripts/test-grades.mjs",
-    "test:mistakes": "node scripts/test-mistakes.mjs"
+    "test:mistakes": "node scripts/test-mistakes.mjs",
+    "test:review": "node scripts/test-review.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.0",

@@ -530,6 +530,10 @@ export interface Mistake {
   lastWrongAt: string;
   /** When they answered it right; null while it still needs fixing. */
   fixedAt: string | null;
+  /** Spaced-repetition reviews passed, 0–4 (roadmap 3.2). */
+  reviewStage: number;
+  /** When the next review is due; null once all reviews are done. */
+  nextReviewAt: string | null;
   question: Question;
 }
 
