@@ -56,8 +56,11 @@ Khmer names. Note sharing with subject and level tags.
   then the answer; status and origin shown, AI solutions warned; links to
   the video finder (prefilled) and a Khmer YouTube search. Content is Khmer
   first; interface labels turn Khmer with 5.4. UI 6/6 in both backends.
-- [ ] **2.3 Chapter filter (S)** — filter questions by subject, chapter, topic
+- [x] **2.3 Chapter filter (S)** — filter questions by subject, chapter, topic
   in the database.
+  ✔ 2026-10-13: `/bacii/practice` (subject, chapter and topic chips with
+  counts; database filtering) with practice answering and step-by-step
+  solutions; `npm run test:papers` 8/8, UI 5/5 in both backends.
 - [ ] **2.4 Mock exam mode (M)** — timer, navigation, auto-save, auto-submit,
   scoring of objective questions on the server, results and review.
   Durations come from data; unverified ones are labelled practice settings.

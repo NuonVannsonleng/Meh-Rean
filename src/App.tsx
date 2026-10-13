@@ -14,6 +14,7 @@ const Bacii = lazy(() => import("./pages/Bacii"));
 const BaciiVideos = lazy(() => import("./pages/BaciiVideos"));
 const BaciiPapers = lazy(() => import("./pages/BaciiPapers"));
 const BaciiPaper = lazy(() => import("./pages/BaciiPaper"));
+const BaciiPractice = lazy(() => import("./pages/BaciiPractice"));
 const CreatePost = lazy(() => import("./pages/CreatePost"));
 const LogoCredits = lazy(() => import("./pages/LogoCredits"));
 const Login = lazy(() => import("./pages/Login"));
@@ -95,6 +96,7 @@ export default function App() {
             <Route path="/bacii/videos" element={<BaciiVideos />} />
             <Route path="/bacii/papers" element={<BaciiPapers />} />
             <Route path="/bacii/papers/:id" element={<BaciiPaper />} />
+            <Route path="/bacii/practice" element={<BaciiPractice />} />
             <Route path="/bacii/admin/questions" element={adminPage(<AdminQuestions />)} />
             <Route path="/bacii/admin/questions/new" element={adminPage(<QuestionEditor key="new" />)} />
             <Route path="/bacii/admin/questions/:id" element={adminPage(<QuestionEditor />)} />

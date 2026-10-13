@@ -1,6 +1,6 @@
 import { useEffect, type ComponentType } from "react";
 import { Link } from "react-router-dom";
-import { FileTextIcon, GraduationIcon, VideoIcon } from "../components/Icons";
+import { BulbIcon, FileTextIcon, GraduationIcon, VideoIcon } from "../components/Icons";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 
@@ -14,6 +14,13 @@ interface BaciiOption {
 
 /** Everything in the BacII section; a new tool is one more entry here. */
 const OPTIONS: BaciiOption[] = [
+  {
+    to: "/bacii/practice",
+    title: t.bacii.practice.optionTitle,
+    titleKm: t.bacii.practice.optionTitleKm,
+    description: t.bacii.practice.optionDescription,
+    Icon: BulbIcon,
+  },
   {
     to: "/bacii/papers",
     title: t.bacii.papers.optionTitle,

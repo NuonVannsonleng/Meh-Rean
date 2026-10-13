@@ -77,6 +77,21 @@ await check("anyone can browse the demo papers by subject and year, questions in
   assert(byYear.data.some((row) => row.id === demo.find((p) => p.year === 2024).id), "year filter");
 });
 
+await check("questions filter by subject, chapter and topic in the database (task 2.3)", async () => {
+  const demoQuestions = demo.flatMap((p) => p.questions.map((entry) => entry.question));
+  const ids = (rows) => rows.map((row) => row.id).sort().join();
+  const expect = (filter) => ids(demoQuestions.filter(filter));
+  const bySubject = await anon.from("questions").select("id").eq("subject_id", MATH).eq("origin", "demo");
+  assert(ids(bySubject.data) === expect(() => true), "subject filter");
+  const chapter = `${MATH}-integrals`;
+  const byChapter = await anon.from("questions").select("id").eq("chapter_id", chapter).eq("origin", "demo");
+  assert(ids(byChapter.data) === expect((q) => q.chapterId === chapter), "chapter filter");
+  const topic = `${chapter}-area`;
+  const byTopic = await anon.from("questions").select("id").eq("topic_id", topic).eq("origin", "demo");
+  assert(ids(byTopic.data) === expect((q) => q.topicId === topic) && byTopic.data.length === 1, "topic filter");
+  return `${bySubject.data.length} / ${byChapter.data.length} / ${byTopic.data.length}`;
+});
+
 async function paper(row) {
   const { data, error } = await db.from("exam_papers").insert({ subject_id: MATH, year: 2023, title_en: `Test ${run}`, title_km: "សាកល្បង", ...row }).select().single();
   if (error) throw new Error(`${error.code}: ${error.message}`);

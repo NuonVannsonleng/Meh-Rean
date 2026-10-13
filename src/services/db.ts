@@ -105,6 +105,8 @@ export interface DbState {
   messages: MessageRecord[];
   /** BacII questions, each with its solution (supabase: questions + question_solutions). */
   questions: Question[];
+  /** Demo questions already copied in once, so a deleted one is not added back. */
+  seededDemoQuestions?: string[];
 }
 
 const DB_KEY = "meh-rean:db:v3";

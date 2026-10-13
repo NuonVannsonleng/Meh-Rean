@@ -1192,6 +1192,30 @@ export async function getCurriculumChapters(subjectId: string): Promise<Curricul
 
 // ---- BacII questions ----
 
+/**
+ * The question store, with the demo paper questions copied in once (as
+ * supabase/seed/demo-papers.sql does online), so practice and the admin list
+ * see them and an admin can edit or delete them like any other question.
+ */
+async function loadQuestions(): Promise<DbState> {
+  const db = await loadDb();
+  const seeded = new Set(db.seededDemoQuestions ?? []);
+  const missing = loadPapers()
+    .flatMap((paper) => paper.questions.map((entry) => entry.question))
+    .filter((question) => !seeded.has(question.id));
+  if (missing.length) {
+    const present = new Set(db.questions.map((question) => question.id));
+    db.questions.push(...structuredClone(missing.filter((question) => !present.has(question.id))));
+    db.seededDemoQuestions = [...seeded, ...missing.map((question) => question.id)];
+    try {
+      persist();
+    } catch {
+      // Storage full: the demo questions still show for this visit.
+    }
+  }
+  return db;
+}
+
 function requireAdmin(db: DbState): UserRecord {
   const viewer = requireViewer(db);
   if (!viewer.isAdmin) throw new ApiError("FORBIDDEN", 403);
@@ -1199,7 +1223,7 @@ function requireAdmin(db: DbState): UserRecord {
 }
 
 export async function getQuestions(filter: QuestionFilter = {}): Promise<Question[]> {
-  const db = await loadDb();
+  const db = await loadQuestions();
   return structuredClone(
     db.questions
       .filter((question) => !filter.subjectId || question.subjectId === filter.subjectId)
@@ -1210,7 +1234,7 @@ export async function getQuestions(filter: QuestionFilter = {}): Promise<Questio
 }
 
 export async function getQuestion(id: string): Promise<Question> {
-  const db = await loadDb();
+  const db = await loadQuestions();
   const question = db.questions.find((item) => item.id === id);
   if (!question) throw new ApiError("NOT_FOUND", 404);
   return structuredClone(question);
@@ -1222,7 +1246,7 @@ export async function getQuestion(id: string): Promise<Question> {
  */
 export async function saveQuestion(input: QuestionInput, id: string | null): Promise<Question> {
   await delay(150);
-  const db = await loadDb();
+  const db = await loadQuestions();
   requireAdmin(db);
   const { chapters } = loadCurriculum();
   const problems = checkQuestionInput(input, chapters);
@@ -1294,7 +1318,7 @@ export async function saveQuestion(input: QuestionInput, id: string | null): Pro
 }
 
 export async function deleteQuestion(id: string): Promise<void> {
-  const db = await loadDb();
+  const db = await loadQuestions();
   requireAdmin(db);
   const question = db.questions.find((item) => item.id === id);
   if (!question) throw new ApiError("NOT_FOUND", 404);
@@ -1340,5 +1364,11 @@ export async function getExamPapers(filter: PaperFilter = {}): Promise<ExamPaper
 export async function getExamPaper(id: string): Promise<ExamPaperDetail> {
   const paper = loadPapers().find((item) => item.id === id);
   if (!paper) throw new ApiError("NOT_FOUND", 404);
-  return structuredClone(paper);
+  // Questions as they are now in the store: edited by an admin, or gone.
+  const db = await loadQuestions();
+  const current = new Map(db.questions.map((question) => [question.id, question]));
+  const questions = paper.questions
+    .filter((entry) => current.has(entry.question.id))
+    .map((entry) => ({ ...entry, question: current.get(entry.question.id)! }));
+  return structuredClone({ ...paper, questions, questionCount: questions.length });
 }

@@ -2,7 +2,8 @@
 
 ## Current
 
-**Phase 2 — Task 2.3: Chapter filter** (next up).
+**Phase 2 — Task 2.4: Mock exam mode** (next up). Needs: solutions held
+back during an attempt and marking on the server (see DECISIONS).
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; solutions held
@@ -80,6 +81,14 @@ back on the server before mock exams (2.4).
   subject prefilled (`/bacii/videos?text=…&subject=…`) and to a Khmer YouTube
   search for the chapter (no API quota). Used on paper pages. UI 6/6 online
   and browser-only.
+- **2026-10-13 — 2.3 Chapter filter.** `/bacii/practice`: subject, chapter
+  and topic chips with question counts; questions filtered in the database
+  (`getQuestions` with `subject_id` / `chapter_id` / `topic_id`); each
+  question can be answered for instant practice feedback (multiple choice
+  and numbers, `isCorrect`), with the step-by-step solution. The browser-only
+  store now copies the demo questions in once, so practice and the admin
+  list see them there too (a deleted one stays deleted). `npm run test:papers`
+  8/8 (filter check added); UI 5/5 online and browser-only; 320px checked.
 
 ## Blockers and things that need a person
 
