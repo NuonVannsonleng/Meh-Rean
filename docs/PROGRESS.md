@@ -54,6 +54,12 @@ back on the server before mock exams (2.4).
   browser-only; 320px phone layout. Security review: no critical or high
   issues; both low findings fixed. Also fixed: the six-tab bottom bar wrapped
   "Messages" at 320px.
+- **2026-10-13 — Performance: pages load on demand.** Every page but the
+  home page is now its own file, downloaded when first opened. Main file
+  836 kB → 669 kB (245 kB → 199 kB gzip, −19%). KaTeX (262 kB) and the admin
+  pages were already separate. Still in the main file: React, Supabase's
+  library and both data backends (the browser-only demo store and its sample
+  data); splitting those needs `api.ts` to load its backend asynchronously.
 
 ## Blockers and things that need a person
 

@@ -5,18 +5,21 @@ import RequireAdmin from "./components/RequireAdmin";
 import RequireAuth from "./components/RequireAuth";
 import LoadingState from "./components/LoadingState";
 import { t } from "./i18n/en";
-import Bacii from "./pages/Bacii";
-import BaciiVideos from "./pages/BaciiVideos";
-import CreatePost from "./pages/CreatePost";
 import Home from "./pages/Home";
-import LogoCredits from "./pages/LogoCredits";
-import Login from "./pages/Login";
-import Messages from "./pages/Messages";
 import NotFound from "./pages/NotFound";
-import PostDetail from "./pages/PostDetail";
-import Profile from "./pages/Profile";
-import Settings from "./pages/Settings";
-import Signup from "./pages/Signup";
+
+// The home page ships in the main file; every other page is downloaded when
+// it is first opened, so a phone on mobile data starts with less.
+const Bacii = lazy(() => import("./pages/Bacii"));
+const BaciiVideos = lazy(() => import("./pages/BaciiVideos"));
+const CreatePost = lazy(() => import("./pages/CreatePost"));
+const LogoCredits = lazy(() => import("./pages/LogoCredits"));
+const Login = lazy(() => import("./pages/Login"));
+const Messages = lazy(() => import("./pages/Messages"));
+const PostDetail = lazy(() => import("./pages/PostDetail"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Settings = lazy(() => import("./pages/Settings"));
+const Signup = lazy(() => import("./pages/Signup"));
 
 /** Admin pages: downloaded only by the admins who open them. */
 const AdminQuestions = lazy(() => import("./pages/admin/AdminQuestions"));
@@ -72,70 +75,78 @@ export default function App() {
               : "pb-[calc(5rem+env(safe-area-inset-bottom))] sm:pb-0"
         }`}
       >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/post/:id" element={<PostDetail />} />
-          <Route path="/u/:username" element={<Profile />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/credits/logos" element={<LogoCredits />} />
-          <Route path="/bacii" element={<Bacii />} />
-          <Route path="/bacii/videos" element={<BaciiVideos />} />
-          <Route path="/bacii/admin/questions" element={adminPage(<AdminQuestions />)} />
-          <Route path="/bacii/admin/questions/new" element={adminPage(<QuestionEditor key="new" />)} />
-          <Route path="/bacii/admin/questions/:id" element={adminPage(<QuestionEditor />)} />
-          <Route
-            path="/post/:id/edit"
-            element={
-              <RequireAuth>
-                <CreatePost />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/create"
-            element={
-              <RequireAuth>
-                <CreatePost />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/messages"
-            element={
-              <RequireAuth>
-                <Messages />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/messages/:username"
-            element={
-              <RequireAuth>
-                <Messages />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <RequireAuth>
-                <Settings />
-              </RequireAuth>
-            }
-          />
-          {MathPreview && (
+        <Suspense
+          fallback={
+            <div className="container-page max-w-3xl py-8">
+              <LoadingState count={2} variant="block" />
+            </div>
+          }
+        >
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/post/:id" element={<PostDetail />} />
+            <Route path="/u/:username" element={<Profile />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/credits/logos" element={<LogoCredits />} />
+            <Route path="/bacii" element={<Bacii />} />
+            <Route path="/bacii/videos" element={<BaciiVideos />} />
+            <Route path="/bacii/admin/questions" element={adminPage(<AdminQuestions />)} />
+            <Route path="/bacii/admin/questions/new" element={adminPage(<QuestionEditor key="new" />)} />
+            <Route path="/bacii/admin/questions/:id" element={adminPage(<QuestionEditor />)} />
             <Route
-              path="/dev/math"
+              path="/post/:id/edit"
               element={
-                <Suspense fallback={null}>
-                  <MathPreview />
-                </Suspense>
+                <RequireAuth>
+                  <CreatePost />
+                </RequireAuth>
               }
             />
-          )}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            <Route
+              path="/create"
+              element={
+                <RequireAuth>
+                  <CreatePost />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/messages"
+              element={
+                <RequireAuth>
+                  <Messages />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/messages/:username"
+              element={
+                <RequireAuth>
+                  <Messages />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <RequireAuth>
+                  <Settings />
+                </RequireAuth>
+              }
+            />
+            {MathPreview && (
+              <Route
+                path="/dev/math"
+                element={
+                  <Suspense fallback={null}>
+                    <MathPreview />
+                  </Suspense>
+                }
+              />
+            )}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </main>
 
       <footer className={`border-line bg-surface mt-12 hidden border-t ${fullHeight ? "" : "sm:block"}`}>

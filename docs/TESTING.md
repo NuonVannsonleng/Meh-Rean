@@ -41,3 +41,9 @@ are not in the repository yet (see Architecture finding 4).
 Known flake: the first `test:accounts` run straight after `npx supabase start`
 has twice reported 1 failure that did not reproduce on the next run. When it
 happens, keep the output and rerun; investigate if it reproduces.
+
+Known flake: the New note picker run ("tapping University opens the
+university search" right after picking a high school) has failed
+intermittently three times since 2026-10-08 and passed on every rerun. Not
+yet traced; suspect timing between the high-school dialog closing and the
+next level tap.

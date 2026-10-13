@@ -117,9 +117,9 @@ database rules for messages in the form and for the browser-only store.
 
 ## Findings
 
-1. **One 811 kB JavaScript bundle (237 kB gzip)**, no code splitting. Heavy
-   for cheap phones on mobile data; BacII features (KaTeX, exams) will grow
-   it. Split by route before Phase 2 (`meh-rean-performance`).
+1. ~~One 811 kB JavaScript bundle~~ Pages now load on demand (main file
+   669 kB / 199 kB gzip on 2026-10-13). Next step: load only the data
+   backend in use (both are bundled today).
 2. **No Khmer interface yet**: all UI copy is English in `en.ts`; Khmer only
    for subjects and BacII labels. Roadmap 5.4.
 3. **No unit-test runner**; logic tests are Node scripts. Adding Vitest (free,
