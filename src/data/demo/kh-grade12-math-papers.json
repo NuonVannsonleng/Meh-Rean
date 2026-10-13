@@ -1,0 +1,276 @@
+{
+  "comment": "DEMO practice content written for Meh Rean. These are NOT official BacII papers or questions. Years are placeholders so the past paper bank can be browsed by year. Replace with real, verified papers when they are available and may be published.",
+  "source": "Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.",
+  "papers": [
+    {
+      "id": "6d1f0a00-0000-4000-8000-000000002023",
+      "subjectId": "kh-grade12-science-mathematics",
+      "year": 2023,
+      "titleEn": "Demo practice paper A (not the real 2023 exam)",
+      "titleKm": "វិញ្ញាសាសាកល្បង A (មិនមែនវិញ្ញាសាពិតឆ្នាំ២០២៣)",
+      "questions": [
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002301",
+          "points": 10,
+          "chapterId": "kh-grade12-science-mathematics-limits-continuity",
+          "topicId": "kh-grade12-science-mathematics-limits-continuity-limits",
+          "type": "multiple-choice",
+          "difficulty": 1,
+          "content": "គណនាលីមីត $$\\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}$$",
+          "choices": [
+            { "id": "a", "content": "$0$" },
+            { "id": "b", "content": "$2$" },
+            { "id": "c", "content": "$4$" },
+            { "id": "d", "content": "លីមីតនេះមិនមាន" }
+          ],
+          "solution": {
+            "answer": "$4$",
+            "correctChoice": "c",
+            "steps": [
+              "នៅ $x = 2$ យើងទទួលបានរាងមិនកំណត់ $\\frac{0}{0}$។",
+              "ដាក់ជាផលគុណកត្តា៖ $x^2 - 4 = (x - 2)(x + 2)$ ដូចនេះ $\\frac{x^2 - 4}{x - 2} = x + 2$ ចំពោះ $x \\neq 2$។",
+              "$\\lim_{x \\to 2} (x + 2) = 4$"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002302",
+          "points": 10,
+          "chapterId": "kh-grade12-science-mathematics-derivatives",
+          "topicId": "kh-grade12-science-mathematics-derivatives-rules",
+          "type": "numeric",
+          "difficulty": 1,
+          "content": "គេឲ្យអនុគមន៍ $f(x) = x^3 - 3x^2 + 2$។ គណនា $f'(2)$។",
+          "solution": {
+            "answer": "$f'(2) = 0$",
+            "numericAnswer": 0,
+            "numericTolerance": 0,
+            "steps": [
+              "$f'(x) = 3x^2 - 6x$",
+              "$f'(2) = 3 \\cdot 4 - 6 \\cdot 2 = 12 - 12 = 0$"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002303",
+          "points": 10,
+          "chapterId": "kh-grade12-science-mathematics-integrals",
+          "topicId": "kh-grade12-science-mathematics-integrals-by-parts",
+          "type": "multiple-choice",
+          "difficulty": 2,
+          "content": "គណនាអាំងតេក្រាល $$I = \\int_0^1 x e^x \\, dx$$",
+          "choices": [
+            { "id": "a", "content": "$e$" },
+            { "id": "b", "content": "$1$" },
+            { "id": "c", "content": "$e - 1$" },
+            { "id": "d", "content": "$2e - 1$" }
+          ],
+          "solution": {
+            "answer": "$I = 1$",
+            "correctChoice": "b",
+            "steps": [
+              "ប្រើអាំងតេក្រាលដោយផ្នែក៖ ដាក់ $u = x$ និង $dv = e^x \\, dx$ នោះ $du = dx$ និង $v = e^x$។",
+              "$I = \\left[x e^x\\right]_0^1 - \\int_0^1 e^x \\, dx = e - \\left[e^x\\right]_0^1$",
+              "$I = e - (e - 1) = 1$"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002304",
+          "points": 20,
+          "chapterId": "kh-grade12-science-mathematics-complex-numbers",
+          "topicId": "kh-grade12-science-mathematics-complex-numbers-algebraic-form",
+          "type": "open",
+          "difficulty": 2,
+          "content": "គេឲ្យចំនួនកុំផ្លិច $z_1 = 2 + 3i$ និង $z_2 = 1 - i$។ គណនា $z_1 z_2$ និង $\\dfrac{z_1}{z_2}$ ជាទម្រង់ពីជគណិត។",
+          "solution": {
+            "answer": "$z_1 z_2 = 5 + i$ និង $\\dfrac{z_1}{z_2} = -\\dfrac{1}{2} + \\dfrac{5}{2}i$",
+            "steps": [
+              "$z_1 z_2 = (2 + 3i)(1 - i) = 2 - 2i + 3i - 3i^2 = 2 + i + 3 = 5 + i$",
+              "គុណភាគយក និងភាគបែងនឹងកុំផ្លិចឆ្លាស់ $1 + i$៖ $\\dfrac{z_1}{z_2} = \\dfrac{(2 + 3i)(1 + i)}{(1 - i)(1 + i)}$",
+              "$= \\dfrac{2 + 2i + 3i + 3i^2}{2} = \\dfrac{-1 + 5i}{2} = -\\dfrac{1}{2} + \\dfrac{5}{2}i$"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "6d1f0a00-0000-4000-8000-000000002024",
+      "subjectId": "kh-grade12-science-mathematics",
+      "year": 2024,
+      "titleEn": "Demo practice paper B (not the real 2024 exam)",
+      "titleKm": "វិញ្ញាសាសាកល្បង B (មិនមែនវិញ្ញាសាពិតឆ្នាំ២០២៤)",
+      "questions": [
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002401",
+          "points": 10,
+          "chapterId": "kh-grade12-science-mathematics-probability",
+          "topicId": "kh-grade12-science-mathematics-probability-counting",
+          "type": "numeric",
+          "difficulty": 1,
+          "content": "ក្នុងក្រុមមួយមានសិស្ស $10$ នាក់។ តើមានរបៀបប៉ុន្មាន ក្នុងការជ្រើសរើសសិស្ស $3$ នាក់ (មិនគិតលំដាប់)?",
+          "solution": {
+            "answer": "$120$ របៀប",
+            "numericAnswer": 120,
+            "numericTolerance": 0,
+            "steps": [
+              "ចំនួនបន្សំ $3$ ក្នុងចំណោម $10$៖ $C_{10}^{3} = \\dfrac{10!}{3! \\, 7!}$",
+              "$= \\dfrac{10 \\cdot 9 \\cdot 8}{3 \\cdot 2 \\cdot 1} = 120$"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002402",
+          "points": 10,
+          "chapterId": "kh-grade12-science-mathematics-exponential-logarithm",
+          "topicId": "kh-grade12-science-mathematics-exponential-logarithm-equations",
+          "type": "multiple-choice",
+          "difficulty": 2,
+          "content": "ដោះស្រាយសមីការ $$e^{2x} - 3e^{x} + 2 = 0$$",
+          "choices": [
+            { "id": "a", "content": "$x = 0$ ឬ $x = \\ln 2$" },
+            { "id": "b", "content": "$x = 1$ ឬ $x = 2$" },
+            { "id": "c", "content": "$x = \\ln 3$" },
+            { "id": "d", "content": "សមីការគ្មានឫស" }
+          ],
+          "solution": {
+            "answer": "$x = 0$ ឬ $x = \\ln 2$",
+            "correctChoice": "a",
+            "steps": [
+              "ដាក់ $t = e^x$ ដែល $t > 0$៖ សមីការក្លាយជា $t^2 - 3t + 2 = 0$។",
+              "$(t - 1)(t - 2) = 0$ ដូចនេះ $t = 1$ ឬ $t = 2$ (ទាំងពីរវិជ្ជមាន)។",
+              "$e^x = 1 \\Rightarrow x = 0$ និង $e^x = 2 \\Rightarrow x = \\ln 2$"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002403",
+          "points": 10,
+          "chapterId": "kh-grade12-science-mathematics-differential-equations",
+          "topicId": "kh-grade12-science-mathematics-differential-equations-first-order",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $y' = 2y$ ដែល $y(0) = 3$ រួចគណនា $y(\\ln 2)$។",
+          "solution": {
+            "answer": "$y(\\ln 2) = 12$",
+            "numericAnswer": 12,
+            "numericTolerance": 0,
+            "steps": [
+              "ចម្លើយទូទៅនៃ $y' = 2y$ គឺ $y = C e^{2x}$។",
+              "$y(0) = C = 3$ ដូចនេះ $y = 3e^{2x}$។",
+              "$y(\\ln 2) = 3e^{2\\ln 2} = 3 \\cdot 2^2 = 12$"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002404",
+          "points": 20,
+          "chapterId": "kh-grade12-science-mathematics-function-study",
+          "topicId": "kh-grade12-science-mathematics-function-study-extrema",
+          "type": "open",
+          "difficulty": 2,
+          "content": "គេឲ្យអនុគមន៍ $f(x) = x^3 - 3x$ កំណត់លើ $\\mathbb{R}$។ សិក្សាអថេរភាពនៃ $f$ ហើយរកតម្លៃអតិបរមាធៀប និងអប្បបរមាធៀប។",
+          "solution": {
+            "answer": "អតិបរមាធៀប $f(-1) = 2$ និងអប្បបរមាធៀប $f(1) = -2$",
+            "steps": [
+              "$f'(x) = 3x^2 - 3 = 3(x - 1)(x + 1)$",
+              "$f'(x) > 0$ លើ $(-\\infty, -1)$ និង $(1, +\\infty)$៖ $f$ កើន។ $f'(x) < 0$ លើ $(-1, 1)$៖ $f$ ចុះ។",
+              "នៅ $x = -1$៖ $f(-1) = -1 + 3 = 2$ (អតិបរមាធៀប)។ នៅ $x = 1$៖ $f(1) = 1 - 3 = -2$ (អប្បបរមាធៀប)។"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "6d1f0a00-0000-4000-8000-000000002025",
+      "subjectId": "kh-grade12-science-mathematics",
+      "year": 2025,
+      "titleEn": "Demo practice paper C (not the real 2025 exam)",
+      "titleKm": "វិញ្ញាសាសាកល្បង C (មិនមែនវិញ្ញាសាពិតឆ្នាំ២០២៥)",
+      "questions": [
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002501",
+          "points": 10,
+          "chapterId": "kh-grade12-science-mathematics-conics",
+          "topicId": "kh-grade12-science-mathematics-conics-ellipse",
+          "type": "multiple-choice",
+          "difficulty": 2,
+          "content": "រកកំណុំ (foci) នៃអេលីប $$\\frac{x^2}{25} + \\frac{y^2}{9} = 1$$",
+          "choices": [
+            { "id": "a", "content": "$(\\pm 3, 0)$" },
+            { "id": "b", "content": "$(\\pm 4, 0)$" },
+            { "id": "c", "content": "$(0, \\pm 4)$" },
+            { "id": "d", "content": "$(\\pm 5, 0)$" }
+          ],
+          "solution": {
+            "answer": "$(\\pm 4, 0)$",
+            "correctChoice": "b",
+            "steps": [
+              "$a^2 = 25$ និង $b^2 = 9$ ដែល $a > b$ ដូចនេះអ័ក្សធំស្ថិតលើអ័ក្ស $Ox$។",
+              "$c^2 = a^2 - b^2 = 25 - 9 = 16$ ដូចនេះ $c = 4$។",
+              "កំណុំគឺ $F(4, 0)$ និង $F'(-4, 0)$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002502",
+          "points": 10,
+          "chapterId": "kh-grade12-science-mathematics-integrals",
+          "topicId": "kh-grade12-science-mathematics-integrals-area",
+          "type": "numeric",
+          "difficulty": 1,
+          "content": "គណនាក្រឡាផ្ទៃនៃផ្ទៃដែលខណ្ឌដោយខ្សែកោង $y = x^2$ អ័ក្សអាប់ស៊ីស និងបន្ទាត់ $x = 3$។",
+          "solution": {
+            "answer": "$9$ ឯកតាផ្ទៃ",
+            "numericAnswer": 9,
+            "numericTolerance": 0,
+            "steps": [
+              "$S = \\int_0^3 x^2 \\, dx$",
+              "$= \\left[\\dfrac{x^3}{3}\\right]_0^3 = \\dfrac{27}{3} = 9$"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002503",
+          "points": 10,
+          "chapterId": "kh-grade12-science-mathematics-vectors-space",
+          "topicId": "kh-grade12-science-mathematics-vectors-space-dot-product",
+          "type": "multiple-choice",
+          "difficulty": 1,
+          "content": "គេឲ្យវ៉ិចទ័រ $\\vec{u} = (1, 2, -1)$ និង $\\vec{v} = (3, -1, 1)$។ គណនាផលគុណស្កាលែ $\\vec{u} \\cdot \\vec{v}$។",
+          "choices": [
+            { "id": "a", "content": "$0$" },
+            { "id": "b", "content": "$2$" },
+            { "id": "c", "content": "$-2$" },
+            { "id": "d", "content": "$4$" }
+          ],
+          "solution": {
+            "answer": "$\\vec{u} \\cdot \\vec{v} = 0$ (វ៉ិចទ័រទាំងពីរកែងគ្នា)",
+            "correctChoice": "a",
+            "steps": [
+              "$\\vec{u} \\cdot \\vec{v} = 1 \\cdot 3 + 2 \\cdot (-1) + (-1) \\cdot 1$",
+              "$= 3 - 2 - 1 = 0$ ដូចនេះ $\\vec{u} \\perp \\vec{v}$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002504",
+          "points": 20,
+          "chapterId": "kh-grade12-science-mathematics-complex-numbers",
+          "topicId": "kh-grade12-science-mathematics-complex-numbers-de-moivre",
+          "type": "open",
+          "difficulty": 3,
+          "content": "គេឲ្យ $z = 1 + i$។ សរសេរ $z$ ជាទម្រង់ត្រីកោណមាត្រ រួចគណនា $z^{8}$។",
+          "solution": {
+            "answer": "$z = \\sqrt{2}\\left(\\cos\\dfrac{\\pi}{4} + i\\sin\\dfrac{\\pi}{4}\\right)$ និង $z^8 = 16$",
+            "steps": [
+              "$|z| = \\sqrt{1^2 + 1^2} = \\sqrt{2}$ និងអាគុយម៉ង់ $\\theta = \\dfrac{\\pi}{4}$។",
+              "$z = \\sqrt{2}\\left(\\cos\\dfrac{\\pi}{4} + i\\sin\\dfrac{\\pi}{4}\\right)$",
+              "តាមរូបមន្តដឺម័រ៖ $z^8 = (\\sqrt{2})^8 \\left(\\cos 2\\pi + i\\sin 2\\pi\\right) = 16 \\cdot 1 = 16$"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

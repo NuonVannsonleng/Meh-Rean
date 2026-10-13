@@ -11,7 +11,8 @@
     "test:accounts": "node scripts/test-accounts.mjs",
     "test:curriculum": "node scripts/test-curriculum.mjs",
     "test:questions": "node scripts/test-questions.mjs",
-    "test:math": "node scripts/test-math-text.mjs"
+    "test:math": "node scripts/test-math-text.mjs",
+    "test:papers": "node scripts/test-papers.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.0",

@@ -40,6 +40,9 @@ It is safe to run again later if you change something.
    new query, paste it all, **Run**. It loads the BacII curriculum (Grade 12
    chapters and topics). It is also safe to run again; rerun it whenever the
    curriculum changes.
+6. Then [`supabase/seed/demo-papers.sql`](supabase/seed/demo-papers.sql) the same
+   way: three demo practice papers for the BacII past paper bank, clearly
+   marked as demo (not official exams).
 
 ## 3. Copy your keys
 
@@ -173,6 +176,7 @@ npx supabase start                       # first run downloads a few GB
 # apply the schema to the local database
 docker exec -i supabase_db_Meh_Rean psql -U postgres -d postgres -f - < supabase/schema.sql
 docker exec -i supabase_db_Meh_Rean psql -U postgres -d postgres -f - < supabase/seed/curriculum.sql
+docker exec -i supabase_db_Meh_Rean psql -U postgres -d postgres -f - < supabase/seed/demo-papers.sql
 ```
 
 `supabase start` prints a local **API URL** and **anon key**; put those in

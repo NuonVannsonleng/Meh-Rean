@@ -31,6 +31,10 @@ import {
   type UpdatePostInput,
   type CurriculumChapter,
   type CurriculumSubject,
+  type ExamPaper,
+  type ExamPaperDetail,
+  type PaperFilter,
+  type PaperOrigin,
   type Question,
   type QuestionFilter,
   type QuestionImage,
@@ -1551,4 +1555,70 @@ export async function uploadQuestionImage(file: File): Promise<Omit<QuestionImag
   const upload = await supabase.storage.from(ATTACHMENTS_BUCKET).upload(path, file, { contentType: file.type, upsert: false });
   if (upload.error) fail(upload.error);
   return { path, url: questionImageUrl(path) };
+}
+
+// ---- BacII exam papers ----
+
+interface ExamPaperRow {
+  id: string;
+  subject_id: string;
+  year: number;
+  title_en: string;
+  title_km: string;
+  duration_minutes: number | null;
+  duration_source: string;
+  origin: PaperOrigin;
+  source: string;
+  verification: Verification;
+  subject?: { track: { key: string } | null } | null;
+  entries: { position?: number; points: number | string | null; question?: QuestionRowWithSolution | null }[];
+}
+
+function toExamPaper(row: ExamPaperRow): ExamPaper {
+  const points = (row.entries ?? []).map((entry) => (entry.points === null ? null : Number(entry.points)));
+  return {
+    id: row.id,
+    subjectId: row.subject_id,
+    year: row.year,
+    titleEn: row.title_en,
+    titleKm: row.title_km,
+    durationMinutes: row.duration_minutes,
+    durationSource: row.duration_source,
+    origin: row.origin,
+    source: row.source,
+    verification: row.verification,
+    questionCount: points.length,
+    totalPoints: points.length && points.every((value) => value !== null) ? points.reduce<number>((sum, value) => sum + (value ?? 0), 0) : null,
+  };
+}
+
+export async function getExamPapers(filter: PaperFilter = {}): Promise<ExamPaper[]> {
+  let builder = supabase
+    .from("exam_papers")
+    .select("*, subject:curriculum_subjects(track:curriculum_tracks(key)), entries:exam_paper_questions(points)")
+    .order("year", { ascending: false })
+    .order("title_en");
+  if (filter.subjectId) builder = builder.eq("subject_id", filter.subjectId);
+  if (filter.year) builder = builder.eq("year", filter.year);
+  const rows = unwrap(await builder.returns<ExamPaperRow[]>());
+  return rows.filter((row) => !filter.trackKey || row.subject?.track?.key === filter.trackKey).map(toExamPaper);
+}
+
+export async function getExamPaper(id: string): Promise<ExamPaperDetail> {
+  const { data, error } = await supabase
+    .from("exam_papers")
+    .select("*, entries:exam_paper_questions(position, points, question:questions(*, solution:question_solutions(*)))")
+    .eq("id", id)
+    .maybeSingle<ExamPaperRow>();
+  if (error) failQuestion(error);
+  if (!data) throw new ApiError("NOT_FOUND", 404);
+  const questions = [...(data.entries ?? [])]
+    .filter((entry) => entry.question)
+    .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+    .map((entry) => ({
+      position: entry.position ?? 0,
+      points: entry.points === null ? null : Number(entry.points),
+      question: toQuestion(entry.question!, questionImageUrl),
+    }));
+  return { ...toExamPaper(data), questions };
 }

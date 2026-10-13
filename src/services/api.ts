@@ -70,6 +70,8 @@ export const {
   saveQuestion,
   deleteQuestion,
   uploadQuestionImage,
+  getExamPapers,
+  getExamPaper,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

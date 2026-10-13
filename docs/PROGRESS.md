@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 2 — Task 2.1: Past paper bank** (next up). Phase 1 is complete.
+**Phase 2 — Task 2.2: Step-by-step solutions** (next up).
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; solutions held
@@ -60,13 +60,26 @@ back on the server before mock exams (2.4).
   pages were already separate. Still in the main file: React, Supabase's
   library and both data backends (the browser-only demo store and its sample
   data); splitting those needs `api.ts` to load its backend asynchronously.
+- **2026-10-13 — 2.1 Past paper bank.** Tables `exam_papers` and
+  `exam_paper_questions` (order, points; duration only trusted with a
+  source). Rules: official papers need a source and hold only official
+  past-paper questions of their year; demo papers are never verified;
+  questions match the paper's subject; subject, year and origin cannot
+  change under existing questions. Three demo papers for Science Maths
+  (2023–2025 placeholders, 12 original questions written for Meh Rean with
+  worked solutions), from `src/data/demo/` via
+  `scripts/build-demo-seed.mjs` → `supabase/seed/demo-papers.sql`; the
+  browser-only demo reads the same JSON. Pages `/bacii/papers` (track,
+  subject, year filters) and `/bacii/papers/:id` (demo banner, questions
+  with maths and choices, show answer). `npm run test:papers` 7/7; UI 5/5
+  online and browser-only; 320px checked.
 
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
-| Production database | 1.1–1.4 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, in the Supabase SQL editor. |
+| Production database | 1.1–2.1 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. |
 | YouTube transcripts | 4.4, 4.6 | The Data API only gives captions to a video's owner; third-party timestamps and video quizzes need another lawful source or will be limited. |

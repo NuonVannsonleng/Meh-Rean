@@ -106,6 +106,15 @@ in both backends. Online, `saveQuestion` calls the `save_question` database
 function; `checkQuestionInput()` in `src/lib/questions.ts` mirrors the
 database rules for messages in the form and for the browser-only store.
 
+## Past papers (roadmap 2.1)
+
+`exam_papers` + `exam_paper_questions` (position, points). Demo papers live
+in `src/data/demo/*.json`, built by `src/lib/papers.ts`
+(`buildDemoPapers`) for the browser-only store and by
+`scripts/build-demo-seed.mjs` into `supabase/seed/demo-papers.sql`. API:
+`getExamPapers(filter)`, `getExamPaper(id)`. Pages: `src/pages/BaciiPapers.tsx`,
+`src/pages/BaciiPaper.tsx`.
+
 ## Other parts
 
 - Subjects: `src/lib/subjects.ts` (15 main + ~130 specific, colours).

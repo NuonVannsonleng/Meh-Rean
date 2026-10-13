@@ -44,8 +44,12 @@ Khmer names. Note sharing with subject and level tags.
 
 ## Phase 2 — Ship the MVP
 
-- [ ] **2.1 Past paper bank (L)** — browse by year, track, subject; start with
+- [x] **2.1 Past paper bank (L)** — browse by year, track, subject; start with
   three placeholder years of Science Maths, clearly marked as demo content.
+  ✔ 2026-10-13: `/bacii/papers` and `/bacii/papers/:id`; three demo papers
+  (2023–2025, 12 original questions with worked solutions), labelled demo
+  everywhere; official papers can only hold official questions of their
+  year (`npm run test:papers` 7/7; UI 5/5 in both backends).
 - [ ] **2.2 Step-by-step solutions (L)** — reveal one step at a time, Khmer
   first, with maths and related videos.
 - [ ] **2.3 Chapter filter (S)** — filter questions by subject, chapter, topic

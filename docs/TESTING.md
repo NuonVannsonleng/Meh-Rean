@@ -9,6 +9,7 @@ npm run test:accounts     # auth, uploads, authorization, chat, roles
 npm run test:curriculum   # curriculum seed + database checks (task 1.1)
 npm run test:questions    # question schema rules and permissions (task 1.2)
 npm run test:math         # LaTeX/Khmer text splitter (task 1.3), no database
+npm run test:papers       # demo papers seed + paper rules (task 2.1)
 ```
 
 The harnesses need a local Supabase for their database parts:
@@ -17,6 +18,7 @@ The harnesses need a local Supabase for their database parts:
 npx supabase start        # Docker must be running
 docker exec -i supabase_db_Meh_Rean psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -f - < supabase/schema.sql
 docker exec -i supabase_db_Meh_Rean psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -f - < supabase/seed/curriculum.sql
+docker exec -i supabase_db_Meh_Rean psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -f - < supabase/seed/demo-papers.sql
 ```
 
 and a `.env.test` pointing at it (see `docs/ENVIRONMENT.md`). They refuse to
@@ -34,6 +36,8 @@ are not in the repository yet (see Architecture finding 4).
 | 2026-10-13 | `npm run test:curriculum` (local Supabase) | 11 passed, 0 failed |
 | 2026-10-13 | `npm run test:questions` (local Supabase) | 21 passed, 0 failed |
 | 2026-10-13 | Playwright: admin question pages, online / browser-only | 10/10, 9/9 |
+| 2026-10-13 | `npm run test:papers` (local Supabase) | 7 passed, 0 failed |
+| 2026-10-13 | Playwright: past papers, online / browser-only | 5/5, 5/5 |
 | 2026-10-13 | `npm run test:math` | 17 passed, 0 failed |
 | 2026-10-13 | Playwright on `/dev/math` (320, 375 dark, 1280) | pass: font, KaTeX + MathML, no overflow, hostile input inert |
 | 2026-10-13 | `npm run test:accounts` (local Supabase) | 68 passed, 0 failed, 3 skipped (documented, not asserted) |

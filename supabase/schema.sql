@@ -1566,3 +1566,105 @@ $$;
 
 revoke execute on function public.save_question(uuid, jsonb, jsonb) from public, anon;
 grant execute on function public.save_question(uuid, jsonb, jsonb) to authenticated;
+
+-- --------------------------------------------------------- Exam papers --
+
+-- Past (and practice) exam papers: an ordered set of questions for one
+-- subject and year (roadmap 2.1). An official paper may only contain official
+-- past-paper questions from its own year and needs a source; a demo paper is
+-- never verified, so practice content can never pass as a real BacII paper.
+-- duration_minutes is only trusted when duration_source says where it comes
+-- from; otherwise the app labels it a practice setting (roadmap 2.4).
+create table if not exists public.exam_papers (
+  id uuid primary key default gen_random_uuid(),
+  subject_id text not null references public.curriculum_subjects on delete restrict,
+  year smallint not null check (year between 1990 and 2100),
+  title_en text not null check (char_length(btrim(title_en)) between 1 and 200),
+  title_km text not null check (char_length(btrim(title_km)) between 1 and 200),
+  duration_minutes smallint check (duration_minutes between 5 and 600),
+  duration_source text not null default '' check (char_length(duration_source) <= 500),
+  origin text not null check (origin in ('official', 'demo')),
+  source text not null default '' check (char_length(source) <= 500),
+  verification text not null default 'provisional' check (verification in ('verified', 'provisional', 'needs-review')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint exam_papers_official_source check (origin <> 'official' or char_length(btrim(source)) > 0),
+  constraint exam_papers_verified_source check (verification <> 'verified' or char_length(btrim(source)) > 0),
+  constraint exam_papers_demo_unverified check (origin <> 'demo' or verification <> 'verified')
+);
+
+create table if not exists public.exam_paper_questions (
+  paper_id uuid not null references public.exam_papers on delete cascade,
+  question_id uuid not null references public.questions on delete restrict,
+  position smallint not null check (position > 0),
+  points numeric check (points > 0 and points <= 100),
+  primary key (paper_id, question_id),
+  constraint exam_paper_questions_position unique (paper_id, position) deferrable initially deferred
+);
+
+create index if not exists exam_papers_subject_year_idx on public.exam_papers (subject_id, year desc);
+create index if not exists exam_paper_questions_question_idx on public.exam_paper_questions (question_id);
+
+create or replace function public.guard_exam_paper_question()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+declare
+  paper record;
+  q record;
+begin
+  select p.subject_id, p.year, p.origin into paper from public.exam_papers p where p.id = new.paper_id;
+  select x.subject_id, x.year, x.origin into q from public.questions x where x.id = new.question_id;
+  if q.subject_id is distinct from paper.subject_id then
+    raise exception 'the question is not from this paper''s subject' using errcode = '23514';
+  end if;
+  if paper.origin = 'official' and (q.origin <> 'official-past-paper' or q.year is distinct from paper.year) then
+    raise exception 'an official paper only holds official past-paper questions from its year' using errcode = '23514';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists exam_paper_questions_guard on public.exam_paper_questions;
+create trigger exam_paper_questions_guard before insert or update on public.exam_paper_questions
+  for each row execute function public.guard_exam_paper_question();
+
+-- A paper cannot quietly become official, or change subject or year, while it
+-- holds questions that would not belong there.
+create or replace function public.guard_exam_paper()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  new.id := old.id;
+  new.created_at := old.created_at;
+  new.updated_at := now();
+  if (new.subject_id, new.year, new.origin) is distinct from (old.subject_id, old.year, old.origin)
+     and exists (select 1 from public.exam_paper_questions epq where epq.paper_id = old.id) then
+    raise exception 'remove the paper''s questions before changing its subject, year or origin' using errcode = '23514';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists exam_papers_guard on public.exam_papers;
+create trigger exam_papers_guard before update on public.exam_papers
+  for each row execute function public.guard_exam_paper();
+
+do $$
+declare
+  t text;
+begin
+  foreach t in array array['exam_papers', 'exam_paper_questions'] loop
+    execute format('alter table public.%I enable row level security', t);
+    execute format('drop policy if exists "papers are public" on public.%I', t);
+    execute format('create policy "papers are public" on public.%I for select using (true)', t);
+    execute format('drop policy if exists "admins edit papers" on public.%I', t);
+    execute format(
+      'create policy "admins edit papers" on public.%I for all to authenticated using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()))',
+      t
+    );
+  end loop;
+end $$;

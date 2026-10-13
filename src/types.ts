@@ -439,6 +439,43 @@ export interface QuestionFilter {
   topicId?: string;
 }
 
+// ---- BacII exam papers ----
+
+/** official: a real past paper (with a source); demo: practice content written for Meh Rean. */
+export type PaperOrigin = "official" | "demo";
+
+export interface ExamPaper {
+  id: string;
+  subjectId: string;
+  year: number;
+  titleEn: string;
+  titleKm: string;
+  /** Only an exam rule when durationSource says where it comes from. */
+  durationMinutes: number | null;
+  durationSource: string;
+  origin: PaperOrigin;
+  source: string;
+  verification: Verification;
+  questionCount: number;
+  totalPoints: number | null;
+}
+
+export interface ExamPaperQuestion {
+  position: number;
+  points: number | null;
+  question: Question;
+}
+
+export interface ExamPaperDetail extends ExamPaper {
+  questions: ExamPaperQuestion[];
+}
+
+export interface PaperFilter {
+  subjectId?: string;
+  trackKey?: string;
+  year?: number;
+}
+
 export type MediaFilter = "all" | "documents" | "images" | "videos";
 export type FeedSort = "latest" | "top" | "discussed";
 

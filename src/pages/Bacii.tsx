@@ -15,6 +15,13 @@ interface BaciiOption {
 /** Everything in the BacII section; a new tool is one more entry here. */
 const OPTIONS: BaciiOption[] = [
   {
+    to: "/bacii/papers",
+    title: t.bacii.papers.optionTitle,
+    titleKm: t.bacii.papers.optionTitleKm,
+    description: t.bacii.papers.optionDescription,
+    Icon: FileTextIcon,
+  },
+  {
     to: "/bacii/videos",
     title: t.bacii.videos.optionTitle,
     titleKm: t.bacii.videos.optionTitleKm,

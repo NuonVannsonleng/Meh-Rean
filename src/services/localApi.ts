@@ -3,6 +3,8 @@ import { subjectLabel, subjectMembers } from "../lib/subjects";
 import { flattenCurriculum, type CurriculumSeed, type FlatCurriculum } from "../lib/curriculum";
 import { checkQuestionInput, MAX_QUESTION_IMAGE_BYTES, questionImageExtension } from "../lib/questions";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
+import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
+import { buildDemoPapers, sortPapers, type DemoPaperSeed } from "../lib/papers";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -21,6 +23,9 @@ import {
   type UpdatePostInput,
   type CurriculumChapter,
   type CurriculumSubject,
+  type ExamPaper,
+  type ExamPaperDetail,
+  type PaperFilter,
   type Question,
   type QuestionFilter,
   type QuestionImage,
@@ -1311,4 +1316,29 @@ export async function uploadQuestionImage(file: File): Promise<Omit<QuestionImag
     throw new ApiError("STORAGE_FULL", 507);
   }
   return { path: id, url: `${LOCAL_FILE_PREFIX}${id}` };
+}
+
+// ---- BacII exam papers ----
+
+let papers: ExamPaperDetail[] | null = null;
+
+/** The demo practice papers; the same ones supabase/seed/demo-papers.sql loads. */
+function loadPapers(): ExamPaperDetail[] {
+  papers ??= buildDemoPapers(khGrade12MathPapers as unknown as DemoPaperSeed, loadCurriculum().chapters);
+  return papers;
+}
+
+export async function getExamPapers(filter: PaperFilter = {}): Promise<ExamPaper[]> {
+  const trackOf = new Map(loadCurriculum().subjects.map((subject) => [subject.id, subject.trackKey]));
+  const matching = loadPapers()
+    .filter((paper) => !filter.subjectId || paper.subjectId === filter.subjectId)
+    .filter((paper) => !filter.year || paper.year === filter.year)
+    .filter((paper) => !filter.trackKey || trackOf.get(paper.subjectId) === filter.trackKey);
+  return structuredClone(sortPapers(matching).map(({ questions: _questions, ...paper }) => paper));
+}
+
+export async function getExamPaper(id: string): Promise<ExamPaperDetail> {
+  const paper = loadPapers().find((item) => item.id === id);
+  if (!paper) throw new ApiError("NOT_FOUND", 404);
+  return structuredClone(paper);
 }
