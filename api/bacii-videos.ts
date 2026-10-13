@@ -25,6 +25,12 @@
  *
  * GET /api/bacii-videos tells a signed-in student how many lookups they have
  * left today and how much of the shared YouTube quota is used (roadmap 4.1).
+ *
+ * The same endpoint also serves "Photo to solution" (roadmap 4.5), sharing
+ * the AI set-up and the daily allowance: { task: "read" } transcribes a photo
+ * (LaTeX for formulas) for the student to check, and { task: "solve" } writes
+ * an AI worked solution, always shown as unchecked. One file, so Vercel has
+ * no shared modules to bundle.
  */
 
 // --------------------------------------------------------------- types --
@@ -624,9 +630,150 @@ async function cachedSearch(query: string, language: string): Promise<{ videos: 
 
 const youtubeSearchUrl = (query: string) => `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
 
+// ----------------------------------------------------- Photo to solution --
+
+const TRANSCRIBE_SYSTEM = `You read photos of exercises for Cambodian Grade 12 (BacII) students, mostly Mathematics and Physics, often handwritten or printed in Khmer.
+Transcribe the exercise exactly as written, so the student can check it before it is solved:
+- text: the whole exercise in its own language (Khmer stays Khmer). Every formula in LaTeX between $...$ (inline) or $$...$$ (on its own line). Keep numbering such as 1), a), b) and line breaks. Physics units as written. At most 3000 characters. Do not solve it and do not add anything.
+- unclear: short notes on anything you could not read for sure (an empty list if none).
+- subject: the BacII subject.
+- chapter_id / topic_id: if a list of Meh Rean chapters is given and the exercise clearly belongs to one, its id (and the topic's, if one fits); otherwise null.
+If the photo is not a school exercise, set is_exercise to false and text to "".`;
+
+const TRANSCRIBE_TOOL = {
+  name: "transcribe_exercise",
+  description: "Report the exercise exactly as written in the photo.",
+  input_schema: {
+    type: "object",
+    properties: {
+      is_exercise: { type: "boolean" },
+      transcript: { type: "string" },
+      unclear: { type: "array", items: { type: "string" }, maxItems: 10 },
+      subject: { type: "string", enum: [...SUBJECTS] },
+      chapter_id: { type: ["string", "null"] },
+      topic_id: { type: ["string", "null"] },
+    },
+    required: ["is_exercise", "transcript", "unclear", "subject", "chapter_id", "topic_id"],
+  },
+};
+
+const SOLVE_SYSTEM = `You write worked solutions for Cambodian Grade 12 (BacII) students, the way a careful teacher writes on the board.
+- steps: 2 to 12 short steps, one idea each, every formula in LaTeX between $...$. Write in the exercise's language: Khmer if the exercise is in Khmer, otherwise English.
+- answer: the final answer or answers, short.
+- confidence: "high" when you are sure, "medium", or "low" (for example when the exercise looks incomplete or ambiguous).
+- caveats: what the student should double-check, or "" if nothing.
+Never invent missing data: if the exercise cannot be solved as given, say so in caveats, give your best partial working, and set confidence to "low".`;
+
+const SOLVE_TOOL = {
+  name: "solve_exercise",
+  description: "Give a step-by-step worked solution.",
+  input_schema: {
+    type: "object",
+    properties: {
+      steps: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 12 },
+      answer: { type: "string" },
+      confidence: { type: "string", enum: ["high", "medium", "low"] },
+      caveats: { type: "string" },
+    },
+    required: ["steps", "answer", "confidence", "caveats"],
+  },
+};
+
+const clip = (value: unknown, max: number) => String(value ?? "").slice(0, max);
+
+async function readPhoto(
+  image: { mediaType: string; data: string },
+  subject: string,
+  chapters: ChapterInfo[],
+  hinted: ChapterInfo | undefined,
+  deadline: number,
+  ai: AIState,
+): Promise<Response> {
+  let reading: { is_exercise: boolean; transcript: string; unclear: string[]; subject: string; chapter_id: string | null; topic_id: string | null };
+  try {
+    reading = await askAI(
+      TRANSCRIBE_SYSTEM,
+      [
+        { type: "image", source: { type: "base64", media_type: image.mediaType, data: image.data } },
+        {
+          type: "text",
+          text: [
+            subject ? `The student says the subject is: ${subject}.` : "",
+            hinted ? `The student was studying this chapter: ${hinted.id} (${hinted.nameEn} / ${hinted.nameKm}).` : "",
+            chapters.length ? `Meh Rean's Grade 12 chapters (a provisional outline):\n${chapterList(chapters)}` : "",
+            "Transcribe the exercise in the photo.",
+          ]
+            .filter(Boolean)
+            .join("\n\n"),
+        },
+      ],
+      TRANSCRIBE_TOOL,
+      deadline,
+      ai,
+    );
+  } catch (error) {
+    console.error(error);
+    return fail(502, "UPSTREAM", "Could not read the photo right now. Try again.", upstreamDetail(error));
+  }
+  if (!reading.is_exercise || !String(reading.transcript ?? "").trim()) {
+    return fail(422, "NOT_AN_EXERCISE", "That does not look like an exercise. Try a clearer photo, or type it in.");
+  }
+  const chapter = chapters.find((item) => item.id === reading.chapter_id) ?? null;
+  const topic = chapter?.topics.find((item) => item.id === reading.topic_id) ?? null;
+  return json(200, {
+    transcript: {
+      text: clip(reading.transcript, 3000),
+      unclear: (Array.isArray(reading.unclear) ? reading.unclear : []).slice(0, 10).map((note) => clip(note, 200)),
+      subject: (SUBJECTS as readonly string[]).includes(reading.subject) ? reading.subject : "other",
+      chapter: chapter ? { id: chapter.id, subjectId: chapter.subjectId, number: chapter.number, nameEn: chapter.nameEn, nameKm: chapter.nameKm } : null,
+      topicId: topic?.id ?? null,
+    },
+  });
+}
+
+async function solveExercise(text: string, subject: string, chapter: ChapterInfo | undefined, deadline: number, ai: AIState): Promise<Response> {
+  let solved: { steps: string[]; answer: string; confidence: string; caveats: string };
+  try {
+    solved = await askAI(
+      SOLVE_SYSTEM,
+      [
+        {
+          type: "text",
+          text: [
+            subject ? `Subject: ${subject}.` : "",
+            chapter ? `Chapter: ${chapter.nameEn} (${chapter.nameKm}).` : "",
+            `The exercise, as the student checked it:\n${text}`,
+          ]
+            .filter(Boolean)
+            .join("\n\n"),
+        },
+      ],
+      SOLVE_TOOL,
+      deadline,
+      ai,
+    );
+  } catch (error) {
+    console.error(error);
+    return fail(502, "UPSTREAM", "Could not write a solution right now. Try again.", upstreamDetail(error));
+  }
+  const steps = (Array.isArray(solved.steps) ? solved.steps : []).map((step) => clip(step, 1500)).filter((step) => step.trim()).slice(0, 12);
+  if (!steps.length) return fail(502, "UPSTREAM", "Could not write a solution right now. Try again.");
+  return json(200, {
+    solution: {
+      steps,
+      answer: clip(solved.answer, 600),
+      confidence: ["high", "medium", "low"].includes(solved.confidence) ? solved.confidence : "low",
+      caveats: clip(solved.caveats, 600),
+      provider: env("ANTHROPIC_API_KEY") ? "Claude" : "Gemini",
+    },
+  });
+}
+
 // -------------------------------------------------------------- handler --
 
 interface Body {
+  /** "videos" (default), "read" or "solve". */
+  task?: unknown;
   text?: unknown;
   subject?: unknown;
   /** The chapter the student was studying, when they came from one (a hint). */
@@ -643,7 +790,6 @@ export async function POST(request: Request): Promise<Response> {
   // Names only, never values: tells the site owner which setting to add.
   const missing = [
     !env("ANTHROPIC_API_KEY") && !env("GEMINI_API_KEY") && "GEMINI_API_KEY",
-    !env("YOUTUBE_API_KEY") && "YOUTUBE_API_KEY",
     !supabaseUrl() && "VITE_SUPABASE_URL",
     !supabaseKey() && "VITE_SUPABASE_PUBLISHABLE_KEY",
   ].filter(Boolean);
@@ -663,6 +809,10 @@ export async function POST(request: Request): Promise<Response> {
     return fail(400, "BAD_REQUEST", "The request was not valid JSON.");
   }
 
+  const task = body.task === "read" || body.task === "solve" ? body.task : "videos";
+  if (task === "videos" && !env("YOUTUBE_API_KEY")) {
+    return json(503, { error: { code: "NOT_CONFIGURED", message: "Video search is not set up on this server yet.", missing: ["YOUTUBE_API_KEY"] } });
+  }
   const text = typeof body.text === "string" ? body.text.trim().slice(0, MAX_TEXT) : "";
   const subject = typeof body.subject === "string" && (SUBJECTS as readonly string[]).includes(body.subject) ? body.subject : "";
   let image: { mediaType: string; data: string } | null = null;
@@ -675,6 +825,8 @@ export async function POST(request: Request): Promise<Response> {
     image = { mediaType, data };
   }
   if (!text && !image) return fail(400, "EMPTY", "Add a photo of the exercise or type it in.");
+  if (task === "read" && !image) return fail(400, "EMPTY", "Add a photo of the exercise to read.");
+  if (task === "solve" && !text) return fail(400, "EMPTY", "Type or check the exercise first.");
 
   const userId = await userFromToken(token);
   if (!userId) return fail(401, "UNAUTHORIZED", "Your session has expired. Sign in again.");
@@ -692,6 +844,8 @@ export async function POST(request: Request): Promise<Response> {
   // 1. Read the exercise, placing it in Meh Rean's chapters when it fits one.
   const chapters = await curriculumChapters();
   const hinted = typeof body.chapterId === "string" ? chapters.find((chapter) => chapter.id === body.chapterId) : undefined;
+  if (task === "read") return readPhoto(image!, subject, chapters, hinted, deadline, ai);
+  if (task === "solve") return solveExercise(text, subject, hinted, deadline, ai);
   let reading: ExerciseReading;
   try {
     const content: ContentBlock[] = [];

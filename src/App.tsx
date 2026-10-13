@@ -20,6 +20,7 @@ const BaciiAttempt = lazy(() => import("./pages/BaciiAttempt"));
 const BaciiMistakes = lazy(() => import("./pages/BaciiMistakes"));
 const BaciiToday = lazy(() => import("./pages/BaciiToday"));
 const BaciiPlan = lazy(() => import("./pages/BaciiPlan"));
+const BaciiSolve = lazy(() => import("./pages/BaciiSolve"));
 const CreatePost = lazy(() => import("./pages/CreatePost"));
 const LogoCredits = lazy(() => import("./pages/LogoCredits"));
 const Login = lazy(() => import("./pages/Login"));
@@ -119,6 +120,7 @@ export default function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/bacii/solve" element={<BaciiSolve />} />
             <Route
               path="/bacii/plan"
               element={

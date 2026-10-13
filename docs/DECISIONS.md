@@ -34,6 +34,18 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-13 — Photo to solution: the student checks the reading; the bank comes first
+
+OCR of handwritten Khmer and maths will make mistakes, so the transcript is
+always shown for the student to correct (with a rendered preview) before
+anything uses it. Solutions written for Meh Rean's question bank are offered
+before any AI one, since they are written for students and can be checked;
+matching is plain trigram similarity in the browser, which needs no server
+and works for Khmer and LaTeX alike. AI solutions are a last resort, cost a
+daily lookup, and are always labelled as unchecked AI output (AGENTS rule
+6). The read and solve tasks live in `api/bacii-videos.ts` rather than a new
+function, so Vercel has no shared modules to bundle.
+
 ## 2026-10-13 — Timestamps only from creators' own chapter lists
 
 No captions or transcripts are fetched: the Data API's captions.download

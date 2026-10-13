@@ -2,7 +2,8 @@
 
 ## Current
 
-**Phase 4 — Task 4.5: Photo to solution** (next up).
+**Phase 4 — Task 4.6: Quiz from a video** (next up; needs authorised
+transcripts — see blockers).
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; exam marking and
@@ -210,6 +211,25 @@ timing only in database functions, never in the browser.
   listed times. The list shows "Starts at 2:15: … (the video's own
   chapter)", the embedded player starts there (`start=`) and "Open on
   YouTube" adds `t=`. `npm run test:video-chapters` 8/8; video e2e 22/22.
+- **2026-10-13 — 4.5 Photo to solution.** Page `/bacii/solve` (BacII hub
+  entry). The video function gained two tasks sharing its AI set-up and the
+  daily allowance (one lookup each): `read` (a photo → faithful transcript
+  with LaTeX, Khmer kept, `unclear` notes, subject and chapter) and `solve`
+  (checked text → 2–12 steps, answer, confidence, caveats). The student edits
+  the transcript with a live `MathText` preview. Matching against the
+  question bank happens in the browser (`src/lib/questionMatch.ts`: LaTeX
+  reduced to symbols, character-trigram Dice similarity, ≥ 0.5, small
+  same-chapter lift), so it also works typed, signed out and browser-only;
+  matches show as practice cards with their step-by-step solutions. When
+  nothing matches (or it is not the same), the student can ask for an AI
+  solution — always badged "AI-generated (provider) · not checked" with a
+  warning — find videos (text and chapter passed on) or practise the
+  chapter. Checks: `npm run test:question-match` 8/8 (every demo question
+  found when retyped, nothing for unrelated text); UI 8/8 online with mock
+  Gemini (misread "1O" still matched, corrected text sent to the solver,
+  KaTeX rendered), 4/4 browser-only; video e2e still 22/22. Not yet tried
+  with real photos and the live Gemini key. Matching downloads the bank
+  (≤ 500 questions); a server-side search will be needed when it grows.
 
 ## Blockers and things that need a person
 
@@ -222,5 +242,6 @@ timing only in database functions, never in the browser.
 | YouTube transcripts | 4.6 (4.4 partly) | The Data API only gives captions to a video's owner. 4.4 uses creators' own description chapters instead; quizzes from a video's content (4.6) still need an authorised transcript (e.g. from channels that agree to share theirs). |
 | Telegram bot | 5.5 | A bot token from @BotFather (free) and owner approval. |
 | Khmer interface wording | 5.4 | A Khmer speaker to review translations. |
+| Real-photo reading | 4.5 quality | Try "Photo to solution" on the live site with real handwritten and printed exercises; tune the prompt from what goes wrong. |
 | Trusted video channels | 4.3 useful | An admin (a teacher, ideally) to add Khmer channels they have checked at `/bacii/admin/channels`. |
-| Bundle size (714 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |
+| Bundle size (717 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |

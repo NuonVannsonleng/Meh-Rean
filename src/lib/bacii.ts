@@ -103,52 +103,87 @@ export async function prepareImage(file: File): Promise<PreparedImage> {
   return { mediaType: "image/jpeg", data: dataUrl.slice(dataUrl.indexOf(",") + 1), previewUrl: dataUrl };
 }
 
-/** Asks the server to read the exercise and find videos that teach it. */
-export async function findExerciseVideos(input: {
-  text: string;
-  subject: BaciiSubject | "";
-  image: PreparedImage | null;
-  /** The chapter the student came from, as a hint. */
-  chapterId?: string;
-}): Promise<VideoLookup> {
+/** One request to api/bacii-videos, with its errors turned into LookupErrors. */
+async function postExercise<T>(payload: Record<string, unknown>): Promise<T> {
   // Browser-only previews have no server to read the exercise.
-  if (isLocalMode) throw new LookupError("NOT_CONFIGURED", "Video search needs the online version of Meh Rean.");
+  if (isLocalMode) throw new LookupError("NOT_CONFIGURED", "This needs the online version of Meh Rean.");
   const { data } = await supabase.auth.getSession();
   const token = data.session?.access_token;
-  if (!token) throw new LookupError("UNAUTHORIZED", "Sign in to search for videos.");
+  if (!token) throw new LookupError("UNAUTHORIZED", "Sign in first.");
 
   let response: Response;
   try {
     response = await fetch("/api/bacii-videos", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({
-        text: input.text,
-        subject: input.subject,
-        chapterId: input.chapterId || undefined,
-        image: input.image ? { mediaType: input.image.mediaType, data: input.image.data } : null,
-      }),
+      body: JSON.stringify(payload),
     });
   } catch {
     throw new LookupError("OFFLINE", "Could not reach Meh Rean. Check your connection.");
   }
-  const body = (await response.json().catch(() => null)) as
-    | (VideoLookup & { error?: undefined })
-    | { error?: { code: LookupErrorCode; message: string; detail?: string } }
-    | null;
+  const body = (await response.json().catch(() => null)) as (T & { error?: undefined }) | { error?: { code: LookupErrorCode; message: string; detail?: string } } | null;
   if (!response.ok || !body || body.error) {
     const error = body?.error;
-    // A missing function (404) is a server that has not been set up yet.
     if (error) throw new LookupError(error.code, error.message, error.detail ?? null);
     // No answer of ours: a missing function (404), or the host stopping a slow one (504).
-    if (response.status === 404) throw new LookupError("NOT_CONFIGURED", "Video search isn't available here yet.", "HTTP 404");
+    if (response.status === 404) throw new LookupError("NOT_CONFIGURED", "This isn't available here yet.", "HTTP 404");
     throw new LookupError(
       "UPSTREAM",
       response.status === 504 ? "That took too long. Please try again." : "Something went wrong. Try again.",
       `HTTP ${response.status}`,
     );
   }
-  return body as VideoLookup;
+  return body as T;
+}
+
+const imagePayload = (image: PreparedImage | null) => (image ? { mediaType: image.mediaType, data: image.data } : null);
+
+/** Asks the server to read the exercise and find videos that teach it. */
+export function findExerciseVideos(input: {
+  text: string;
+  subject: BaciiSubject | "";
+  image: PreparedImage | null;
+  /** The chapter the student came from, as a hint. */
+  chapterId?: string;
+}): Promise<VideoLookup> {
+  return postExercise<VideoLookup>({
+    text: input.text,
+    subject: input.subject,
+    chapterId: input.chapterId || undefined,
+    image: imagePayload(input.image),
+  });
+}
+
+/** What the reader made of a photo, for the student to check (roadmap 4.5). */
+export interface ExerciseTranscript {
+  /** The exercise, formulas in LaTeX between $…$. */
+  text: string;
+  /** Parts the reader was not sure about. */
+  unclear: string[];
+  subject: string;
+  chapter: { id: string; subjectId: string; number: number; nameEn: string; nameKm: string } | null;
+  topicId: string | null;
+}
+
+/** An AI worked solution: always shown as unchecked. */
+export interface AISolution {
+  steps: string[];
+  answer: string;
+  confidence: "high" | "medium" | "low";
+  caveats: string;
+  provider: string;
+}
+
+/** Reads a photographed exercise; counts as one of the day's lookups. */
+export async function readExercisePhoto(image: PreparedImage, subject: BaciiSubject | ""): Promise<ExerciseTranscript> {
+  const body = await postExercise<{ transcript: ExerciseTranscript }>({ task: "read", subject, image: imagePayload(image) });
+  return body.transcript;
+}
+
+/** Asks the AI for a worked solution of the (checked) exercise text; counts as a lookup. */
+export async function solveWithAI(text: string, subject: BaciiSubject | "", chapterId?: string): Promise<AISolution> {
+  const body = await postExercise<{ solution: AISolution }>({ task: "solve", text, subject, chapterId: chapterId || undefined });
+  return body.solution;
 }
 
 export interface VideoUsage {

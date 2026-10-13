@@ -23,7 +23,8 @@
     "test:study-plans": "node scripts/test-study-plans.mjs",
     "test:video-quota": "node scripts/test-video-quota.mjs",
     "test:video-channels": "node scripts/test-video-channels.mjs",
-    "test:video-chapters": "node scripts/test-video-chapters.mjs"
+    "test:video-chapters": "node scripts/test-video-chapters.mjs",
+    "test:question-match": "node scripts/test-question-match.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.0",

@@ -62,6 +62,12 @@ reads `curriculum_chapters`/`curriculum_topics` (cached) and returns
 and `trusted`. Since 4.4: `parseVideoChapters` + `videoChapters()` (videos.list)
 give each video an optional `start` from its creator's chapter list.
 
+## Photo to solution (roadmap 4.5)
+
+`POST /api/bacii-videos` with `task: "read"` or `"solve"`; client helpers
+`readExercisePhoto` / `solveWithAI` in `src/lib/bacii.ts`; matching in
+`src/lib/questionMatch.ts`; page `src/pages/BaciiSolve.tsx`.
+
 `/bacii/videos` → `src/lib/bacii.ts` → `POST /api/bacii-videos`
 (`api/bacii-videos.ts`):
 

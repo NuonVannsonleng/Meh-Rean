@@ -141,8 +141,15 @@ Khmer names. Note sharing with subject and level tags.
   start there, labelled "the video's own chapter". Videos without chapters
   start at 0:00. Transcript-based timing stays blocked. `npm run
   test:video-chapters` 8/8; video e2e 22/22.
-- [ ] **4.5 Photo to solution (L)** — photo and camera, OCR for Maths and
+- [x] **4.5 Photo to solution (L)** — photo and camera, OCR for Maths and
   Physics, match against existing questions first, let students correct OCR.
+  ✔ 2026-10-13: `/bacii/solve`. Camera/photo → the AI transcribes (LaTeX,
+  Khmer kept, unclear parts listed) → the student corrects it with a live
+  preview → Meh Rean's questions are matched first (trigram similarity,
+  works typed and offline) with their solutions → otherwise an AI worked
+  solution labelled "AI-generated · not checked", videos, or chapter
+  practice. `npm run test:question-match` 8/8; UI 8/8 online (mock AI),
+  4/4 browser-only. Real-photo reading quality still to be tried live.
 - [ ] **4.6 Quiz from a video (M)** — five questions from an authorised
   transcript, labelled as generated.
 - [ ] **4.7 Track watched videos (S)** — watched / understood / needs
