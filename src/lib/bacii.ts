@@ -1,4 +1,5 @@
 import { isLocalMode } from "../services/api";
+import type { VideoQuizQuestion } from "../types";
 import { supabase } from "../services/supabase/client";
 
 /** BacII exam subjects, by their id in src/lib/subjects.ts, with the Khmer name. */
@@ -178,6 +179,12 @@ export interface AISolution {
 export async function readExercisePhoto(image: PreparedImage, subject: BaciiSubject | ""): Promise<ExerciseTranscript> {
   const body = await postExercise<{ transcript: ExerciseTranscript }>({ task: "read", subject, image: imagePayload(image) });
   return body.transcript;
+}
+
+/** Admins: draft quiz questions from a transcript they may use (not stored by the server). */
+export async function draftVideoQuiz(transcript: string, language: "km" | "en", title: string): Promise<VideoQuizQuestion[]> {
+  const body = await postExercise<{ questions: VideoQuizQuestion[] }>({ task: "quiz", transcript, language, title });
+  return body.questions;
 }
 
 /** Asks the AI for a worked solution of the (checked) exercise text; counts as a lookup. */

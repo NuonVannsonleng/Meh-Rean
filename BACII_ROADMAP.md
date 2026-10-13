@@ -150,8 +150,15 @@ Khmer names. Note sharing with subject and level tags.
   solution labelled "AI-generated · not checked", videos, or chapter
   practice. `npm run test:question-match` 8/8; UI 8/8 online (mock AI),
   4/4 browser-only. Real-photo reading quality still to be tried live.
-- [ ] **4.6 Quiz from a video (M)** — five questions from an authorised
+- [x] **4.6 Quiz from a video (M)** — five questions from an authorised
   transcript, labelled as generated.
+  ✔ 2026-10-13: admins paste a transcript they may use (with a required
+  permission note), AI drafts 5 questions (invalid ones dropped), the admin
+  edits and ticks "checked"; only the questions are stored
+  (`video_quizzes`), never the transcript. Students see a "Quiz" badge and
+  take it under the player, labelled by origin and permission. Admins can
+  also write quizzes by hand (works browser-only). `npm run
+  test:video-quizzes` 4/4; UI 8/8 online, 6/6 browser-only.
 - [ ] **4.7 Track watched videos (S)** — watched / understood / needs
   revision, linked to question history and mistakes.
 

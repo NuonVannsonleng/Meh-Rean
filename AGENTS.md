@@ -67,6 +67,7 @@ npm run test:video-quota # YouTube quota log; local Supabase
 npm run test:video-channels # trusted channels; local Supabase
 npm run test:video-chapters # video description chapters parser
 npm run test:question-match # exercise-to-question matching
+npm run test:video-quizzes # video quizzes; local Supabase
 npx supabase start       # local Supabase (Docker)
 ```
 

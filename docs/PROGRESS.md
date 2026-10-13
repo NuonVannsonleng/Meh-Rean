@@ -2,8 +2,7 @@
 
 ## Current
 
-**Phase 4 — Task 4.6: Quiz from a video** (next up; needs authorised
-transcripts — see blockers).
+**Phase 4 — Task 4.7: Track watched videos** (next up).
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; exam marking and
@@ -230,18 +229,31 @@ timing only in database functions, never in the browser.
   KaTeX rendered), 4/4 browser-only; video e2e still 22/22. Not yet tried
   with real photos and the live Gemini key. Matching downloads the bank
   (≤ 500 questions); a server-side search will be needed when it grows.
+- **2026-10-13 — 4.6 Quiz from a video.** No transcripts are fetched. An
+  admin pastes one they have the right to use (the channel shared it, or it
+  is their own video) and must say who allowed it; the video function's
+  admin-only `quiz` task (checked with `is_admin`) asks the AI for 5
+  multiple-choice questions grounded in it and returns them without storing
+  anything; malformed ones are dropped. The admin edits every question,
+  ticks "I have read and checked", and saves to `video_quizzes` (public
+  read, admin write; `valid_video_quiz()` checks shape in the database).
+  Admins can also write quizzes by hand. Students: a "Quiz" badge on result
+  videos and the quiz under the player, labelled "Written by Meh Rean",
+  "Drafted by AI, checked by Meh Rean" or "Drafted by AI, not checked yet",
+  with the permission note. `npm run test:video-quizzes` 4/4; UI 8/8 online
+  (mock AI; student cannot draft), 6/6 browser-only; video e2e 22/22.
 
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
-| Production database | 1.1–4.3 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
+| Production database | 1.1–4.6 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. Grade bands: edit `src/data/grade-scale.json`. |
-| YouTube transcripts | 4.6 (4.4 partly) | The Data API only gives captions to a video's owner. 4.4 uses creators' own description chapters instead; quizzes from a video's content (4.6) still need an authorised transcript (e.g. from channels that agree to share theirs). |
+| YouTube transcripts | 4.6 content | The Data API only gives captions to a video's owner. 4.4 uses creators' description chapters; 4.6 quizzes need an admin with a transcript they may use (channels that agree to share theirs). |
 | Telegram bot | 5.5 | A bot token from @BotFather (free) and owner approval. |
 | Khmer interface wording | 5.4 | A Khmer speaker to review translations. |
 | Real-photo reading | 4.5 quality | Try "Photo to solution" on the live site with real handwritten and printed exercises; tune the prompt from what goes wrong. |
 | Trusted video channels | 4.3 useful | An admin (a teacher, ideally) to add Khmer channels they have checked at `/bacii/admin/channels`. |
-| Bundle size (717 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |
+| Bundle size (722 kB main file) | Phase 2+ on cheap phones | Pages already load on demand; next: load the data backend asynchronously in `api.ts`. |

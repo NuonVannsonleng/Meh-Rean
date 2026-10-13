@@ -4,6 +4,7 @@ import { flattenCurriculum, type CurriculumSeed, type FlatCurriculum } from "../
 import { checkQuestionInput, isCorrect, MAX_QUESTION_IMAGE_BYTES, questionImageExtension } from "../lib/questions";
 import { afterRight, afterWrong } from "../lib/review";
 import { CHANNEL_ID_PATTERN } from "../lib/channels";
+import { isValidVideoQuiz } from "../lib/videoQuiz";
 import { addDays, cambodiaDay, streakOf, weakestChapter } from "../lib/daily";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
@@ -35,6 +36,8 @@ import {
   type StudyPlan,
   type StudyPlanInput,
   type VideoChannel,
+  type VideoQuiz,
+  type VideoQuizInput,
   type ExamAttemptDetail,
   type ExamPaper,
   type ExamPaperDetail,
@@ -1743,5 +1746,31 @@ export async function deleteVideoChannel(channelId: string): Promise<void> {
   const db = await loadDb();
   requireAdmin(db);
   db.videoChannels = (db.videoChannels ?? []).filter((item) => item.channelId !== channelId);
+  persist();
+}
+
+// ---- Video quizzes ----
+// Mirrors video_quizzes: everyone reads, admins write, same shape checks.
+
+export async function getVideoQuizzes(videoIds?: string[]): Promise<VideoQuiz[]> {
+  const db = await loadDb();
+  const all = db.videoQuizzes ?? [];
+  return structuredClone(videoIds ? all.filter((quiz) => videoIds.includes(quiz.videoId)) : all).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+}
+
+export async function saveVideoQuiz(input: VideoQuizInput): Promise<VideoQuiz> {
+  const db = await loadDb();
+  requireAdmin(db);
+  if (!isValidVideoQuiz(input)) throw new ApiError("UNKNOWN", 400, "check the quiz");
+  const quiz = { ...structuredClone(input), updatedAt: new Date().toISOString() };
+  db.videoQuizzes = [...(db.videoQuizzes ?? []).filter((item) => item.videoId !== input.videoId), quiz];
+  persist();
+  return structuredClone(quiz);
+}
+
+export async function deleteVideoQuiz(videoId: string): Promise<void> {
+  const db = await loadDb();
+  requireAdmin(db);
+  db.videoQuizzes = (db.videoQuizzes ?? []).filter((item) => item.videoId !== videoId);
   persist();
 }

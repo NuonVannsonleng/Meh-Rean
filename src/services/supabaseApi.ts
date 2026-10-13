@@ -40,6 +40,8 @@ import {
   type StudyPlan,
   type StudyPlanInput,
   type VideoChannel,
+  type VideoQuiz,
+  type VideoQuizInput,
   type ExamAttemptDetail,
   type ExamPaper,
   type ExamPaperDetail,
@@ -1937,5 +1939,62 @@ export async function saveVideoChannel(input: Omit<VideoChannel, "createdAt">): 
 export async function deleteVideoChannel(channelId: string): Promise<void> {
   await requireViewer();
   const { error } = await supabase.from("video_channels").delete().eq("channel_id", channelId);
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+}
+
+// ---- Video quizzes ----
+
+interface VideoQuizRow {
+  video_id: string;
+  title: string;
+  language: "km" | "en";
+  questions: VideoQuiz["questions"];
+  source: string;
+  ai_generated: boolean;
+  reviewed: boolean;
+  updated_at: string;
+}
+
+const QUIZ_COLUMNS = "video_id, title, language, questions, source, ai_generated, reviewed, updated_at";
+const toVideoQuiz = (row: VideoQuizRow): VideoQuiz => ({
+  videoId: row.video_id,
+  title: row.title,
+  language: row.language,
+  questions: row.questions,
+  source: row.source,
+  aiGenerated: row.ai_generated,
+  reviewed: row.reviewed,
+  updatedAt: row.updated_at,
+});
+
+export async function getVideoQuizzes(videoIds?: string[]): Promise<VideoQuiz[]> {
+  let builder = supabase.from("video_quizzes").select(QUIZ_COLUMNS).order("updated_at", { ascending: false }).limit(200);
+  if (videoIds) builder = builder.in("video_id", videoIds.length ? videoIds : ["-"]);
+  return unwrap(await builder.returns<VideoQuizRow[]>()).map(toVideoQuiz);
+}
+
+export async function saveVideoQuiz(input: VideoQuizInput): Promise<VideoQuiz> {
+  await requireViewer();
+  const { data, error } = await supabase
+    .from("video_quizzes")
+    .upsert({
+      video_id: input.videoId,
+      title: input.title.trim(),
+      language: input.language,
+      questions: input.questions,
+      source: input.source.trim(),
+      ai_generated: input.aiGenerated,
+      reviewed: input.reviewed,
+      updated_at: new Date().toISOString(),
+    })
+    .select(QUIZ_COLUMNS)
+    .single<VideoQuizRow>();
+  if (error) throw new ApiError(error.code === "42501" ? "FORBIDDEN" : "UNKNOWN", error.code === "42501" ? 403 : 400, error.message);
+  return toVideoQuiz(data);
+}
+
+export async function deleteVideoQuiz(videoId: string): Promise<void> {
+  await requireViewer();
+  const { error } = await supabase.from("video_quizzes").delete().eq("video_id", videoId);
   if (error) throw new ApiError("UNKNOWN", 400, error.message);
 }

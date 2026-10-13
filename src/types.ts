@@ -520,6 +520,30 @@ export interface ExamStart {
   clockOffsetMs: number;
 }
 
+/** One multiple-choice question of a video quiz (roadmap 4.6). */
+export interface VideoQuizQuestion {
+  prompt: string;
+  choices: string[];
+  /** Index of the right choice. */
+  answer: number;
+  explanation: string;
+}
+
+export interface VideoQuiz {
+  videoId: string;
+  title: string;
+  language: "km" | "en";
+  questions: VideoQuizQuestion[];
+  /** Who allowed the transcript to be used. */
+  source: string;
+  aiGenerated: boolean;
+  /** An admin read and corrected the questions. */
+  reviewed: boolean;
+  updatedAt: string;
+}
+
+export type VideoQuizInput = Omit<VideoQuiz, "updatedAt">;
+
 /** A YouTube channel admins trust for the video finder (roadmap 4.3). */
 export interface VideoChannel {
   channelId: string;

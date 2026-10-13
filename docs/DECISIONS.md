@@ -34,6 +34,16 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-13 — Video quizzes: admin-supplied transcripts, never stored
+
+"An authorised transcript" can only come from a person who has the right to
+use it, so quiz making is an admin task with a required permission note that
+students see. The transcript goes to the AI once to draft questions and is
+not stored (no copyright copy kept, nothing to leak). AI drafts are never
+published unchecked by default: the admin edits them and the quiz shows
+whether it was checked. The draft task sits in `api/bacii-videos.ts`, guarded
+by `is_admin` with the caller's own token.
+
 ## 2026-10-13 — Photo to solution: the student checks the reading; the bank comes first
 
 OCR of handwritten Khmer and maths will make mistakes, so the transcript is

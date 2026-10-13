@@ -68,6 +68,13 @@ give each video an optional `start` from its creator's chapter list.
 `readExercisePhoto` / `solveWithAI` in `src/lib/bacii.ts`; matching in
 `src/lib/questionMatch.ts`; page `src/pages/BaciiSolve.tsx`.
 
+## Video quizzes (roadmap 4.6)
+
+`video_quizzes` (+ `valid_video_quiz()`); `task: "quiz"` in the video
+function (admins); API `getVideoQuizzes`, `saveVideoQuiz`, `deleteVideoQuiz`;
+admin page `src/pages/admin/AdminQuizzes.tsx`; student panel
+`src/components/VideoQuizPanel.tsx`; shared checks `src/lib/videoQuiz.ts`.
+
 `/bacii/videos` → `src/lib/bacii.ts` → `POST /api/bacii-videos`
 (`api/bacii-videos.ts`):
 

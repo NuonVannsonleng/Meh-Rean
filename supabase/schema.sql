@@ -1129,6 +1129,67 @@ drop policy if exists "admins manage channels" on public.video_channels;
 create policy "admins manage channels" on public.video_channels for all to authenticated
   using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()));
 
+-- Quizzes on videos (roadmap 4.6). Made by admins from a transcript they
+-- may use (the channel shared it, or it is the admin's own video): the AI
+-- drafts questions, the admin checks and edits them. Only the questions are
+-- stored, never the transcript. Everyone reads; admins write.
+create or replace function public.valid_video_quiz(questions jsonb)
+returns boolean
+language plpgsql
+immutable
+set search_path = ''
+as $$
+declare
+  item jsonb;
+  choices integer;
+begin
+  if jsonb_typeof(questions) <> 'array' or jsonb_array_length(questions) not between 1 and 10 then
+    return false;
+  end if;
+  for item in select value from jsonb_array_elements(questions) loop
+    if jsonb_typeof(item->'prompt') <> 'string' or char_length(btrim(item->>'prompt')) not between 1 and 600 then
+      return false;
+    end if;
+    if jsonb_typeof(item->'choices') <> 'array' then
+      return false;
+    end if;
+    choices := jsonb_array_length(item->'choices');
+    if choices not between 2 and 5
+      or exists (select 1 from jsonb_array_elements(item->'choices') c where jsonb_typeof(c.value) <> 'string' or char_length(btrim(c.value #>> '{}')) not between 1 and 300) then
+      return false;
+    end if;
+    if jsonb_typeof(item->'answer') <> 'number' or (item->>'answer')::numeric not in (0, 1, 2, 3, 4) or (item->>'answer')::integer >= choices then
+      return false;
+    end if;
+    if item ? 'explanation' and (jsonb_typeof(item->'explanation') <> 'string' or char_length(item->>'explanation') > 800) then
+      return false;
+    end if;
+  end loop;
+  return true;
+end;
+$$;
+
+create table if not exists public.video_quizzes (
+  video_id text primary key check (video_id ~ '^[A-Za-z0-9_-]{11}$'),
+  title text not null check (char_length(btrim(title)) between 1 and 200),
+  language text not null check (language in ('km', 'en')),
+  -- [{ prompt, choices: [..], answer: index, explanation }]
+  questions jsonb not null check (public.valid_video_quiz(questions)),
+  -- Who allowed the transcript to be used, so the quiz can be traced.
+  source text not null check (char_length(btrim(source)) between 3 and 300),
+  ai_generated boolean not null default false,
+  -- An admin read and corrected the questions.
+  reviewed boolean not null default false,
+  created_by uuid default auth.uid() references public.profiles on delete set null,
+  updated_at timestamptz not null default now()
+);
+alter table public.video_quizzes enable row level security;
+drop policy if exists "quizzes are public" on public.video_quizzes;
+create policy "quizzes are public" on public.video_quizzes for select using (true);
+drop policy if exists "admins manage quizzes" on public.video_quizzes;
+create policy "admins manage quizzes" on public.video_quizzes for all to authenticated
+  using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()));
+
 -- ----------------------------------------------------------- Curriculum --
 
 -- BacII curriculum: version → track → subject → chapter → topic. The rows

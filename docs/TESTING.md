@@ -22,6 +22,7 @@ npm run test:video-quota  # YouTube quota log rules; local Supabase (task 4.1)
 npm run test:video-channels # trusted channels: admin-only writes, checks; local Supabase (task 4.3)
 npm run test:video-chapters # description chapter parsing (task 4.4)
 npm run test:question-match # matching an exercise to the question bank (task 4.5)
+npm run test:video-quizzes # video quizzes: admin-only writes, shape checks; local Supabase (task 4.6)
 ```
 
 The harnesses need a local Supabase for their database parts:
@@ -57,6 +58,8 @@ are not in the repository yet (see Architecture finding 4).
 | 2026-10-13 | `npm run test:video-channels` (local Supabase) | 5 passed, 0 failed |
 | 2026-10-13 | `npm run test:video-chapters` | 8 passed, 0 failed |
 | 2026-10-13 | `npm run test:question-match` | 8 passed, 0 failed |
+| 2026-10-13 | `npm run test:video-quizzes` (local Supabase) | 4 passed, 0 failed |
+| 2026-10-13 | Playwright: video quizzes (admin drafts with mock AI, student takes it), online / browser-only (by hand) | 8/8, 6/6 |
 | 2026-10-13 | Playwright: photo to solution, online with mock Gemini / browser-only | 8/8, 4/4 |
 | 2026-10-13 | Playwright: trusted channels admin page, browser-only / online | 5/5, 6/6 |
 | 2026-10-13 | Playwright + API: video finder with mock Gemini and YouTube (incl. server cache, usage, saved lookups, chapter matching, Khmer grouping and trusted channels, chapter start times, limit, phone) — needs a freshly started dev server (cold caches) | 22/22 |

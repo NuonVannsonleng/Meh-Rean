@@ -89,6 +89,9 @@ export const {
   getVideoChannels,
   saveVideoChannel,
   deleteVideoChannel,
+  getVideoQuizzes,
+  saveVideoQuiz,
+  deleteVideoQuiz,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

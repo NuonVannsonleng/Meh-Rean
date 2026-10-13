@@ -2,7 +2,10 @@ import { useEffect, useId, useRef, useState, type ClipboardEvent, type DragEvent
 import { Link, useSearchParams } from "react-router-dom";
 import { describedBy, FieldShell } from "../components/FormField";
 import { ArrowLeftIcon, CameraIcon, CheckIcon, CloseIcon, ExternalLinkIcon, SearchIcon, TrashIcon, VideoIcon } from "../components/Icons";
+import VideoQuizPanel from "../components/VideoQuizPanel";
 import { useAuth } from "../context/AuthContext";
+import { getVideoQuizzes } from "../services/api";
+import type { VideoQuiz } from "../types";
 import { t } from "../i18n/en";
 import {
   BACII_SUBJECTS,
@@ -65,7 +68,7 @@ function SearchingStatus() {
   );
 }
 
-function Player({ video, onClose }: { video: ExerciseVideo; onClose: () => void }) {
+function Player({ video, quiz, onClose }: { video: ExerciseVideo; quiz: VideoQuiz | undefined; onClose: () => void }) {
   return (
     <section aria-label={copy.playing} className="card animate-pop overflow-hidden">
       <div className="aspect-video bg-black">
@@ -97,6 +100,7 @@ function Player({ video, onClose }: { video: ExerciseVideo; onClose: () => void 
           <CloseIcon className="h-4 w-4" />
         </button>
       </div>
+      {quiz && <VideoQuizPanel key={quiz.videoId} quiz={quiz} />}
     </section>
   );
 }
@@ -115,6 +119,19 @@ function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => 
   const [playing, setPlaying] = useState<ExerciseVideo | null>(null);
   const [first, setFirst] = useState<"km" | "other">(readOrder);
   const { exercise, videos } = result;
+  // Quizzes admins made for any of these videos (roadmap 4.6).
+  const [quizzes, setQuizzes] = useState<Map<string, VideoQuiz>>(() => new Map());
+  const ids = videos.map((video) => video.id).join(",");
+  useEffect(() => {
+    if (!ids) return;
+    let active = true;
+    getVideoQuizzes(ids.split(","))
+      .then((list) => active && setQuizzes(new Map(list.map((quiz) => [quiz.videoId, quiz]))))
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [ids]);
   // Khmer videos (or, if the student prefers, the others) first; each group keeps the server's order.
   const groups = (["km", "other"] as const)
     .map((language) => ({ language, items: videos.filter((video) => (video.language ?? "km") === language) }))
@@ -168,7 +185,7 @@ function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => 
       </section>
 
       <div ref={playerRef} className="scroll-mt-20">
-        {playing && <Player video={playing} onClose={() => setPlaying(null)} />}
+        {playing && <Player video={playing} quiz={quizzes.get(playing.id)} onClose={() => setPlaying(null)} />}
       </div>
 
       <section aria-labelledby="videos-heading">
@@ -227,6 +244,9 @@ function Results({ result, onAnother }: { result: VideoLookup; onAnother: () => 
                     <span className="text-ink-900 line-clamp-2 block text-sm font-semibold">{video.title}</span>
                     <span className="text-ink-500 flex min-w-0 items-center gap-1.5 text-xs">
                       <span className="truncate">{video.channel}</span>
+                      {quizzes.has(video.id) && (
+                        <span className="bg-ribbon-50 text-ribbon-fg shrink-0 rounded-full px-1.5 py-px text-[10px] font-semibold">{copy.quiz.badge}</span>
+                      )}
                       {video.trusted && (
                         <span className="bg-brand-50 text-accent inline-flex shrink-0 items-center gap-0.5 rounded-full px-1.5 py-px text-[10px] font-semibold">
                           <CheckIcon className="h-3 w-3" />

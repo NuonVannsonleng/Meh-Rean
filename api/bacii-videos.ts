@@ -31,6 +31,10 @@
  * (LaTeX for formulas) for the student to check, and { task: "solve" } writes
  * an AI worked solution, always shown as unchecked. One file, so Vercel has
  * no shared modules to bundle.
+ *
+ * { task: "quiz" } (admins only, roadmap 4.6) drafts multiple-choice questions
+ * from a transcript the admin may use; the admin reviews them before saving.
+ * The transcript is not stored.
  */
 
 // --------------------------------------------------------------- types --
@@ -769,10 +773,90 @@ async function solveExercise(text: string, subject: string, chapter: ChapterInfo
   });
 }
 
+// ------------------------------------------------------- Video quizzes --
+
+const MAX_TRANSCRIPT = 30_000;
+
+const QUIZ_SYSTEM = `You write short comprehension quizzes for Cambodian Grade 12 (BacII) students who have just watched a teaching video.
+Use only what the transcript says: every question must be answerable from it, and the right answer must be clearly supported by it. Do not add outside facts.
+- Write 5 multiple-choice questions in the requested language, from the most important ideas and worked steps, not trivia.
+- choices: 4 short options, exactly one right; wrong options should be plausible mistakes a student might make.
+- answer: the index (0-3) of the right option.
+- explanation: one or two sentences on why, pointing to what the video says.
+Formulas in LaTeX between $...$.`;
+
+const QUIZ_TOOL = {
+  name: "make_quiz",
+  description: "Write the quiz questions.",
+  input_schema: {
+    type: "object",
+    properties: {
+      questions: {
+        type: "array",
+        minItems: 1,
+        maxItems: 5,
+        items: {
+          type: "object",
+          properties: {
+            prompt: { type: "string" },
+            choices: { type: "array", items: { type: "string" }, minItems: 4, maxItems: 4 },
+            answer: { type: "integer" },
+            explanation: { type: "string" },
+          },
+          required: ["prompt", "choices", "answer", "explanation"],
+        },
+      },
+    },
+    required: ["questions"],
+  },
+};
+
+async function isAdmin(token: string): Promise<boolean> {
+  const response = await fetch(`${supabaseUrl()}/rest/v1/rpc/is_admin`, {
+    method: "POST",
+    headers: { apikey: supabaseKey(), Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    body: "{}",
+  });
+  return response.ok && (await response.json()) === true;
+}
+
+/** Drafts quiz questions from a transcript, for an admin to review. Nothing is stored here. */
+async function draftQuiz(token: string, body: Body & { transcript?: unknown; language?: unknown; title?: unknown }): Promise<Response> {
+  if (!(await isAdmin(token))) return fail(403, "FORBIDDEN", "Only admins can make video quizzes.");
+  const transcript = typeof body.transcript === "string" ? body.transcript.trim().slice(0, MAX_TRANSCRIPT) : "";
+  if (transcript.length < 200) return fail(400, "EMPTY", "Paste the video's transcript (at least a few sentences).");
+  const language = body.language === "en" ? "English" : "Khmer";
+  const title = typeof body.title === "string" ? body.title.slice(0, 200) : "";
+  let drafted: { questions: { prompt: string; choices: string[]; answer: number; explanation: string }[] };
+  try {
+    drafted = await askAI(
+      QUIZ_SYSTEM,
+      [{ type: "text", text: `Language for the quiz: ${language}.\nVideo title: ${title || "(not given)"}\n\nTranscript:\n${transcript}` }],
+      QUIZ_TOOL,
+      Date.now() + TIME_BUDGET_MS,
+      { model: null },
+    );
+  } catch (error) {
+    console.error(error);
+    return fail(502, "UPSTREAM", "Could not draft the quiz right now. Try again.", upstreamDetail(error));
+  }
+  const questions = (Array.isArray(drafted.questions) ? drafted.questions : [])
+    .map((item) => ({
+      prompt: clip(item.prompt, 600).trim(),
+      choices: (Array.isArray(item.choices) ? item.choices : []).map((choice) => clip(choice, 300).trim()).filter(Boolean).slice(0, 5),
+      answer: Number.isInteger(item.answer) ? item.answer : 0,
+      explanation: clip(item.explanation, 800).trim(),
+    }))
+    .filter((item) => item.prompt && item.choices.length >= 2 && item.answer >= 0 && item.answer < item.choices.length)
+    .slice(0, 5);
+  if (!questions.length) return fail(502, "UPSTREAM", "The draft had no usable questions. Try again.");
+  return json(200, { questions });
+}
+
 // -------------------------------------------------------------- handler --
 
 interface Body {
-  /** "videos" (default), "read" or "solve". */
+  /** "videos" (default), "read", "solve" or "quiz". */
   task?: unknown;
   text?: unknown;
   subject?: unknown;
@@ -809,7 +893,8 @@ export async function POST(request: Request): Promise<Response> {
     return fail(400, "BAD_REQUEST", "The request was not valid JSON.");
   }
 
-  const task = body.task === "read" || body.task === "solve" ? body.task : "videos";
+  const task = body.task === "read" || body.task === "solve" || body.task === "quiz" ? body.task : "videos";
+  if (task === "quiz") return draftQuiz(token, body);
   if (task === "videos" && !env("YOUTUBE_API_KEY")) {
     return json(503, { error: { code: "NOT_CONFIGURED", message: "Video search is not set up on this server yet.", missing: ["YOUTUBE_API_KEY"] } });
   }
