@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import RequireAuth from "./components/RequireAuth";
@@ -15,6 +15,9 @@ import PostDetail from "./pages/PostDetail";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Signup from "./pages/Signup";
+
+/** Development-only tools; the condition is false in production builds, so they are left out. */
+const MathPreview = import.meta.env.DEV ? lazy(() => import("./pages/dev/MathPreview")) : null;
 
 export default function App() {
   const { pathname } = useLocation();
@@ -98,6 +101,16 @@ export default function App() {
               </RequireAuth>
             }
           />
+          {MathPreview && (
+            <Route
+              path="/dev/math"
+              element={
+                <Suspense fallback={null}>
+                  <MathPreview />
+                </Suspense>
+              }
+            />
+          )}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

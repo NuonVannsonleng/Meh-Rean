@@ -367,6 +367,11 @@
   top: calc(var(--rule-gap, 2rem) * 0.40625 - 0.365em);
 }
 
+/* Display maths in question text: a little air, not KaTeX's full 1em. */
+.math-text .katex-display {
+  margin: 0.4em 0;
+}
+
 /* The same for big headings, which take two rules per line. */
 @utility on-rule-2 {
   line-height: calc(var(--rule-gap, 2rem) * 2) !important;

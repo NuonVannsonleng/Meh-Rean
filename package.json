@@ -10,10 +10,12 @@
     "lint": "tsc -b --noEmit",
     "test:accounts": "node scripts/test-accounts.mjs",
     "test:curriculum": "node scripts/test-curriculum.mjs",
-    "test:questions": "node scripts/test-questions.mjs"
+    "test:questions": "node scripts/test-questions.mjs",
+    "test:math": "node scripts/test-math-text.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.0",
+    "katex": "^0.19.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.1"

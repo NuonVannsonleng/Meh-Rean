@@ -2,6 +2,20 @@
 
 Short records of choices that shape the code. Newest first.
 
+## 2026-10-13 — Maths with KaTeX, loaded on demand; Khmer stays Noto Sans Khmer
+
+KaTeX renders LaTeX in question text (`MathText`). It is imported only when
+a text actually contains maths, so pages without maths do not download it
+(about 280 kB of script plus fonts); until it arrives the formula shows as
+written. Settings for untrusted text: `trust: false` (no `\href`, `\url`,
+`\includegraphics`, HTML commands), `throwOnError: false`, `maxExpand`
+and `maxSize` limits. Only KaTeX's output is set as HTML.
+
+The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
+(Google Fonts, Khmer subset only downloaded when a page has Khmer), which
+renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
+to download on phones and no change to the look.
+
 ## 2026-10-13 — Solutions in their own table, readable by everyone for now
 
 Answers and worked steps live in `question_solutions`, not on the question.

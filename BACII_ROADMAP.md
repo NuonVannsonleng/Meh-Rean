@@ -29,9 +29,12 @@ Khmer names. Note sharing with subject and level tags.
   ✔ 2026-10-13: `questions` + `question_solutions` with database-enforced
   rules, types in `src/types.ts`, mapper and marking in `src/lib/questions.ts`
   (`npm run test:questions` 16/16, security-reviewed).
-- [ ] **1.3 Render Khmer and maths together (S)** — KaTeX plus a Khmer font
+- [x] **1.3 Render Khmer and maths together (S)** — KaTeX plus a Khmer font
   (Kantumruy Pro); Khmer paragraphs with inline LaTeX. *Done when mixed text
   renders correctly on a phone.*
+  ✔ 2026-10-13: `MathText` component (KaTeX loaded on demand, `trust: false`)
+  with the Khmer font already in the app (Noto Sans Khmer); checked at 320px,
+  375px dark and desktop, including hostile input (`npm run test:math` 17/17).
 - [ ] **1.4 Content entry (M)** — admin-only form to add and edit questions
   (text, LaTeX, images, track, subject, chapter, steps, answer, source,
   verification). *Done when an admin can add and edit without code.*

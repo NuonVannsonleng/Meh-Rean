@@ -89,6 +89,14 @@ origin and verification). Integrity rules are triggers and checks in
 App types in `src/types.ts`; row types, `toQuestion()` and `isCorrect()` in
 `src/lib/questions.ts`; select with `QUESTION_SELECT`.
 
+## Rendering question text (roadmap 1.3)
+
+`src/components/MathText.tsx` shows stored text (Khmer or English with
+LaTeX). `src/lib/mathText.ts` splits it into text and maths; text is
+rendered as React text, maths through KaTeX (`trust: false`), which is
+loaded with its CSS only when needed. `/dev/math` (development builds only)
+shows samples, including hostile ones.
+
 ## Other parts
 
 - Subjects: `src/lib/subjects.ts` (15 main + ~130 specific, colours).

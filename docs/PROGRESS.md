@@ -2,14 +2,12 @@
 
 ## Current
 
-**Phase 1 — Task 1.3: Render Khmer and maths together** (next up).
+**Phase 1 — Task 1.4: Content entry (admin question form)** (next up).
 
-Carry over from the 1.2 security review — the renderer must:
-render `content`, choices, answers and steps as text through KaTeX with
-`trust: false`, `throwOnError: false` and a `maxExpand` limit (no `\href`,
-`\url`, `\includegraphics`, `\htmlClass`); never use
-`dangerouslySetInnerHTML` on stored strings; allow only `https:` image
-sources, with `alt`; keep AI-derived content labelled with its origin.
+Rules carried from the 1.2 security review, now built into `MathText`
+(1.3): stored text goes through KaTeX with `trust: false`; never through
+`dangerouslySetInnerHTML`. Still to honour in 1.4 and later: only `https:`
+image sources with `alt`; AI-derived content labelled with its origin.
 
 ## Done
 
@@ -33,6 +31,15 @@ sources, with `alt`; keep AI-derived content labelled with its origin.
   `src/lib/questions.ts` (with `isCorrect`). `npm run test:questions`: 16/16.
   Reviewed by `meh-rean-security`: no way for non-admins to write; 8 lower
   findings, 7 fixed (see `docs/DECISIONS.md` for the one accepted).
+- **2026-10-13 — 1.3 Render Khmer and maths together.** `src/components/MathText.tsx`
+  renders Khmer or English text with `$…$`, `$$…$$`, `\(…\)`, `\[…\]`;
+  KaTeX 0.19 downloads only on pages with maths (`trust: false`, limits,
+  theme error colour), wide formulas scroll in their own box, Khmer gets
+  `lang="km"` and a taller line height. Splitter `src/lib/mathText.ts`
+  (`npm run test:math` 17/17). Browser check of the dev page `/dev/math`
+  (development builds only) at 320px, 375px dark and desktop: Noto Sans
+  Khmer loaded, 19 formulas with MathML, no page overflow, hostile input
+  creates no links, images or scripts, and no alerts.
 
 ## Blockers and things that need a person
 
