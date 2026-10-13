@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 4 — Task 4.1** (next up; see BACII_ROADMAP.md). Phase 3 is done.
+**Phase 4 — Task 4.2: Match videos by chapter** (next up).
 
 Rules to keep: stored text only through `MathText`; question images only by
 storage path; AI-derived content labelled with its origin; exam marking and
@@ -165,13 +165,27 @@ timing only in database functions, never in the browser.
   page is hidden or left. `npm run test:study-plan` 19/19,
   `npm run test:study-plans` 6/6; UI 9/9 online and browser-only; 320px
   checked.
+- **2026-10-13 — 4.1 Video search: cache and quota.** The video finder
+  already used the official YouTube Data API. Now: a warm server instance
+  reuses identical searches for 24 hours (`BACII_SEARCH_CACHE_HOURS`); it is
+  in memory and written only by the server, so students cannot plant
+  results (a shared database cache would need a server-only key — not added).
+  Each student's last 10 lookups are kept on their phone for 7 days (photos
+  only as a SHA-256 fingerprint): the same exercise shows the earlier result
+  without spending a lookup or quota, with "Search again" and a "Your recent
+  lookups" list. Quota: every real YouTube call is logged in
+  `youtube_search_log` (with the student's session, 1–2 per row, no
+  backdating); `youtube_units_today()` totals units since midnight Pacific;
+  `GET /api/bacii-videos` returns lookups left and units used, shown under
+  "Find videos" with a warning past 90%. `npm run test:video-quota` 3/3;
+  video e2e (mock Gemini + YouTube) 18/18.
 
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
-| Production database | 1.1–3.4 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
+| Production database | 1.1–4.1 live | Owner runs `supabase/schema.sql`, then `supabase/seed/curriculum.sql`, then `supabase/seed/demo-papers.sql`, in the Supabase SQL editor. |
 | Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. Grade bands: edit `src/data/grade-scale.json`. |
 | YouTube transcripts | 4.4, 4.6 | The Data API only gives captions to a video's owner; third-party timestamps and video quizzes need another lawful source or will be limited. |

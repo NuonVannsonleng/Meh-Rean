@@ -13,6 +13,8 @@
  *   BACII_GEMINI_MODEL   optional, default gemini-2.5-flash
  *   BACII_AI_MODEL       optional Claude model, default claude-opus-5-5
  *   BACII_DAILY_LIMIT    optional, lookups per student per day, default 20
+ *   YOUTUBE_DAILY_QUOTA  optional, the project's YouTube units a day, default 10000
+ *   BACII_SEARCH_CACHE_HOURS optional, how long a YouTube search is reused, default 24
  *   VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY (or _ANON_KEY), which
  *   the app already has: used to check who is asking and to count lookups.
  *
@@ -20,6 +22,9 @@
  * cannot be spent by anyone on the internet. Lookups are counted in
  * public.bacii_video_lookups (supabase/schema.sql) with the student's own
  * session, under row level security: no service key is needed.
+ *
+ * GET /api/bacii-videos tells a signed-in student how many lookups they have
+ * left today and how much of the shared YouTube quota is used (roadmap 4.1).
  */
 
 // --------------------------------------------------------------- types --
@@ -104,16 +109,22 @@ async function userFromToken(token: string): Promise<string | null> {
  * Counts this lookup against the student's daily limit. Returns "ok",
  * "limit" when it is used up, or "setup" when the table is missing.
  */
-async function takeLookup(token: string, limit: number): Promise<"ok" | "limit" | "setup"> {
-  const headers = { apikey: supabaseKey(), Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
+/** The student's lookups in the last 24 hours, or null when the table is missing. */
+async function countLookups(token: string): Promise<number | null> {
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   const count = await fetch(
     `${supabaseUrl()}/rest/v1/bacii_video_lookups?select=id&created_at=gte.${encodeURIComponent(since)}`,
-    { method: "HEAD", headers: { ...headers, Prefer: "count=exact" } },
+    { method: "HEAD", headers: { apikey: supabaseKey(), Authorization: `Bearer ${token}`, Prefer: "count=exact" } },
   );
-  if (count.status === 404) return "setup";
+  if (count.status === 404) return null;
   if (!count.ok) throw new Error(`lookup count failed: ${count.status}`);
-  const used = Number(count.headers.get("content-range")?.split("/")[1] ?? "0");
+  return Number(count.headers.get("content-range")?.split("/")[1] ?? "0");
+}
+
+async function takeLookup(token: string, limit: number): Promise<"ok" | "limit" | "setup"> {
+  const headers = { apikey: supabaseKey(), Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
+  const used = await countLookups(token);
+  if (used === null) return "setup";
   if (used >= limit) return "limit";
   const insert = await fetch(`${supabaseUrl()}/rest/v1/bacii_video_lookups`, {
     method: "POST",
@@ -123,6 +134,26 @@ async function takeLookup(token: string, limit: number): Promise<"ok" | "limit" 
   if (insert.status === 404) return "setup";
   if (!insert.ok) throw new Error(`lookup insert failed: ${insert.status}`);
   return "ok";
+}
+
+/** Records YouTube searches for the quota count; a failure here never fails a lookup. */
+async function logSearches(token: string, searches: number): Promise<void> {
+  const response = await fetch(`${supabaseUrl()}/rest/v1/youtube_search_log`, {
+    method: "POST",
+    headers: { apikey: supabaseKey(), Authorization: `Bearer ${token}`, "Content-Type": "application/json", Prefer: "return=minimal" },
+    body: JSON.stringify({ searches }),
+  });
+  if (!response.ok) throw new Error(`search log failed: ${response.status}`);
+}
+
+async function youtubeUnitsToday(token: string): Promise<number | null> {
+  const response = await fetch(`${supabaseUrl()}/rest/v1/rpc/youtube_units_today`, {
+    method: "POST",
+    headers: { apikey: supabaseKey(), Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    body: "{}",
+  });
+  if (!response.ok) return null;
+  return Number(await response.json());
 }
 
 // ------------------------------------------------------------- AI models --
@@ -410,6 +441,27 @@ async function searchYouTube(query: string, language: string): Promise<Candidate
   });
 }
 
+/**
+ * Searches already made, kept while this server instance stays warm. The
+ * same exercise (or the same topic from different students) then costs no
+ * quota. Only this server writes it, so students cannot plant results.
+ */
+const searchCache = new Map<string, { at: number; videos: Candidate[] }>();
+const SEARCH_CACHE_MAX = 300;
+
+async function cachedSearch(query: string, language: string): Promise<{ videos: Candidate[]; fromCache: boolean }> {
+  const key = `${language}|${query.toLowerCase().replace(/\s+/g, " ").trim()}`;
+  const ttl = (Number(env("BACII_SEARCH_CACHE_HOURS")) || 24) * 3_600_000;
+  const hit = searchCache.get(key);
+  if (hit && Date.now() - hit.at < ttl) return { videos: hit.videos, fromCache: true };
+  const videos = await searchYouTube(query, language);
+  searchCache.delete(key);
+  searchCache.set(key, { at: Date.now(), videos });
+  // Maps keep insertion order: drop the oldest.
+  while (searchCache.size > SEARCH_CACHE_MAX) searchCache.delete(searchCache.keys().next().value!);
+  return { videos, fromCache: false };
+}
+
 const youtubeSearchUrl = (query: string) => `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
 
 // -------------------------------------------------------------- handler --
@@ -499,12 +551,14 @@ export async function POST(request: Request): Promise<Response> {
   const queries = (reading.search_queries ?? []).map((query) => String(query).trim()).filter(Boolean).slice(0, 2);
   if (!queries.length) queries.push(reading.topic_km || reading.topic_en);
 
-  // 2. Search YouTube: each search costs quota, so two at most.
+  // 2. Search YouTube: each search costs quota, so two at most, reused when cached.
   let candidates: Candidate[] = [];
   try {
-    const results = await Promise.all(queries.map((query, index) => searchYouTube(query, index === 0 ? "km" : "en")));
+    const results = await Promise.all(queries.map((query, index) => cachedSearch(query, index === 0 ? "km" : "en")));
+    const searches = results.filter((result) => !result.fromCache).length;
+    if (searches) await logSearches(token, searches).catch((error) => console.error(error));
     const seen = new Set<string>();
-    candidates = results.flat().filter((video) => !seen.has(video.id) && seen.add(video.id));
+    candidates = results.flatMap((result) => result.videos).filter((video) => !seen.has(video.id) && seen.add(video.id));
   } catch (error) {
     console.error(error);
     return fail(502, "UPSTREAM", "Could not search YouTube right now. Try again.", upstreamDetail(error));
@@ -559,4 +613,22 @@ export async function POST(request: Request): Promise<Response> {
     searchUrl: youtubeSearchUrl(queries[0]),
     videos: videos.slice(0, 10),
   });
+}
+
+/** How many lookups the student has left today, and how much YouTube quota is used. */
+export async function GET(request: Request): Promise<Response> {
+  if (!supabaseUrl() || !supabaseKey()) return fail(503, "NOT_CONFIGURED", "Video search is not set up on this server yet.");
+  const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? "";
+  if (!token || !(await userFromToken(token))) return fail(401, "UNAUTHORIZED", "Sign in to search for videos.");
+  try {
+    const [used, units] = await Promise.all([countLookups(token), youtubeUnitsToday(token)]);
+    if (used === null) return fail(503, "NOT_CONFIGURED", "Video search needs the latest supabase/schema.sql.");
+    return json(200, {
+      lookups: { used, limit: Number(env("BACII_DAILY_LIMIT")) || 20 },
+      youtube: units === null ? null : { unitsUsed: units, unitsLimit: Number(env("YOUTUBE_DAILY_QUOTA")) || 10_000 },
+    });
+  } catch (error) {
+    console.error(error);
+    return fail(502, "UPSTREAM", "Could not check your lookups. Try again.", upstreamDetail(error));
+  }
 }

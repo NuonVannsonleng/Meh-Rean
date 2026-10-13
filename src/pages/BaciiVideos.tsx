@@ -7,6 +7,8 @@ import { t } from "../i18n/en";
 import {
   BACII_SUBJECTS,
   findExerciseVideos,
+  getVideoUsage,
+  type VideoUsage,
   LookupError,
   prepareImage,
   youtubeEmbedUrl,
@@ -17,13 +19,15 @@ import {
   type VideoLookup,
 } from "../lib/bacii";
 import { subjectColor, subjectLabel } from "../lib/subjects";
+import { findLookup, lookupKey, recentLookups, saveLookup, type SavedLookup } from "../lib/videoCache";
+import { formatDate } from "../lib/format";
 
 const copy = t.bacii.videos;
 
 type State =
   | { kind: "idle" }
   | { kind: "searching" }
-  | { kind: "done"; result: VideoLookup }
+  | { kind: "done"; result: VideoLookup; savedAt?: string }
   | { kind: "error"; error: LookupError };
 
 const MATCH_STYLE: Record<ExerciseVideo["match"], string> = {
@@ -231,10 +235,22 @@ export default function BaciiVideos() {
   const [state, setState] = useState<State>({ kind: "idle" });
   const [inputError, setInputError] = useState<string | null>(null);
   const [dragging, setDragging] = useState(false);
+  const [usage, setUsage] = useState<VideoUsage | null>(null);
+  const [recent, setRecent] = useState<SavedLookup[]>([]);
 
   useEffect(() => {
     document.title = `${copy.title} · ${t.bacii.title} · ${t.common.appName}`;
   }, []);
+
+  // Lookups left and quota, and this phone's recent lookups, for a signed-in student.
+  const refreshUsage = () => {
+    getVideoUsage().then(setUsage).catch(() => setUsage(null));
+  };
+  useEffect(() => {
+    if (!user) return;
+    refreshUsage();
+    setRecent(recentLookups(user.id));
+  }, [user]);
 
   const addFile = async (file: File | undefined) => {
     if (!file || !file.type.startsWith("image/")) return;
@@ -260,21 +276,44 @@ export default function BaciiVideos() {
     void addFile(event.dataTransfer.files[0]);
   };
 
-  const submit = async (event: FormEvent) => {
-    event.preventDefault();
+  const search = async (fresh: boolean) => {
     if (!image && !text.trim()) {
       setInputError(copy.needInput);
       return;
     }
     setInputError(null);
+    const scroll = () => requestAnimationFrame(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    const key = user ? await lookupKey({ text, subject, image }).catch(() => null) : null;
+    // The same exercise again: show the earlier result, free.
+    const earlier = !fresh && user && key ? findLookup(user.id, key) : null;
+    if (earlier) {
+      setState({ kind: "done", result: earlier.result, savedAt: earlier.savedAt });
+      scroll();
+      return;
+    }
     setState({ kind: "searching" });
-    requestAnimationFrame(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    scroll();
     try {
       const result = await findExerciseVideos({ text: text.trim(), subject, image });
       setState({ kind: "done", result });
+      if (user && key) {
+        saveLookup(user.id, { key, label: text.trim().slice(0, 120), hasPhoto: Boolean(image), result });
+        setRecent(recentLookups(user.id));
+      }
     } catch (error) {
       setState({ kind: "error", error: error instanceof LookupError ? error : new LookupError("UPSTREAM", String(error)) });
     }
+    refreshUsage();
+  };
+
+  const submit = (event: FormEvent) => {
+    event.preventDefault();
+    void search(false);
+  };
+
+  const openSaved = (entry: SavedLookup) => {
+    setState({ kind: "done", result: entry.result, savedAt: entry.savedAt });
+    requestAnimationFrame(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
   };
 
   const reset = () => {
@@ -409,10 +448,23 @@ export default function BaciiVideos() {
         )}
 
         {user ? (
-          <button type="submit" disabled={searching} className="btn-primary w-full sm:w-auto sm:min-w-44">
-            <SearchIcon className="h-4 w-4" />
-            {searching ? copy.searching[0] : copy.submit}
-          </button>
+          <div>
+            <button type="submit" disabled={searching} className="btn-primary w-full sm:w-auto sm:min-w-44">
+              <SearchIcon className="h-4 w-4" />
+              {searching ? copy.searching[0] : copy.submit}
+            </button>
+            {usage && (
+              <div className="text-ink-500 mt-2 space-y-0.5 text-xs" data-testid="video-usage">
+                <p>{copy.lookupsLeft(Math.max(0, usage.lookups.limit - usage.lookups.used), usage.lookups.limit)}</p>
+                {usage.youtube && (
+                  <p>{copy.quotaUsed(Math.min(100, Math.round((usage.youtube.unitsUsed / usage.youtube.unitsLimit) * 100)))}</p>
+                )}
+                {usage.youtube && usage.youtube.unitsUsed >= usage.youtube.unitsLimit * 0.9 && (
+                  <p className="text-ribbon-fg font-medium">{copy.quotaHigh}</p>
+                )}
+              </div>
+            )}
+          </div>
         ) : (
           <div className="bg-brand-50 flex flex-col gap-3 rounded-md p-4 sm:flex-row sm:items-center">
             <p className="text-ink-900 flex-1 text-sm font-medium">{copy.signInPrompt}</p>
@@ -428,8 +480,34 @@ export default function BaciiVideos() {
         )}
       </form>
 
+      {state.kind === "idle" && recent.length > 0 && (
+        <section className="mt-6" aria-labelledby="recent-lookups">
+          <h2 id="recent-lookups" className="text-ink-900 mb-2 text-sm font-bold">
+            {copy.recentTitle}
+          </h2>
+          <ul className="card divide-line divide-y">
+            {recent.slice(0, 5).map((entry) => (
+              <li key={entry.key}>
+                <button type="button" onClick={() => openSaved(entry)} className="hover:bg-surface-hover flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm">
+                  <span className="text-ink-900 min-w-0 flex-1 truncate">{entry.label || copy.recentPhoto}</span>
+                  <span className="text-ink-500 shrink-0 text-xs">{formatDate(entry.savedAt)}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <div ref={resultsRef} className="mt-6 scroll-mt-20" aria-live="polite">
         {state.kind === "searching" && <SearchingStatus />}
+        {state.kind === "done" && state.savedAt && (
+          <div className="bg-surface-muted text-ink-700 mb-4 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-md px-4 py-3 text-sm">
+            <p className="min-w-0 flex-1">{copy.savedResult(formatDate(state.savedAt))}</p>
+            <button type="button" onClick={() => void search(true)} className="btn-secondary h-9 px-3 text-sm">
+              {copy.searchAgain}
+            </button>
+          </div>
+        )}
         {state.kind === "done" && <Results result={state.result} onAnother={reset} />}
         {state.kind === "error" &&
           (state.error.code === "NOT_CONFIGURED" ? (

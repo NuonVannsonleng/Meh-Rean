@@ -34,6 +34,16 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-13 — Video caching without a service key
+
+A shared database cache of YouTube results would have to be writable with a
+student's session (there is no server-only key, by design), letting anyone
+plant fake titles for others. So the shared cache is in the server's memory
+(reused while a Vercel instance is warm), and each student's own recent
+lookups are cached in their browser. The quota count does use the database:
+students can only add their own rows of 1–2 searches, so the worst misuse is
+making the display look busier, never hiding real use.
+
 ## 2026-10-13 — Study plans are built in the browser and owned by the student
 
 Unlike scores, a study plan is the student's own notes: nothing is gained by

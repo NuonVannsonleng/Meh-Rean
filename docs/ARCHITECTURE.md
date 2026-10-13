@@ -52,6 +52,10 @@ account (`meh-rean:account`) to avoid a signed-out flash on reload.
 
 ## BacII video finder (existing)
 
+Since 4.1: in-memory search cache in `api/bacii-videos.ts`, `GET` for usage,
+`youtube_search_log` + `youtube_units_today()`, and per-student recent
+lookups in the browser (`src/lib/videoCache.ts`).
+
 `/bacii/videos` → `src/lib/bacii.ts` → `POST /api/bacii-videos`
 (`api/bacii-videos.ts`):
 

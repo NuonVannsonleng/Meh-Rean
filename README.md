@@ -89,6 +89,8 @@ Environment Variables, then redeploy:
 | `ANTHROPIC_API_KEY` (optional) | Use Claude instead of Gemini; when set, it is used |
 | `BACII_GEMINI_MODEL` (optional) | Defaults to `gemini-2.5-flash` |
 | `BACII_DAILY_LIMIT` (optional) | Lookups per student per day, default 20 |
+| `YOUTUBE_DAILY_QUOTA` (optional) | Your YouTube API units a day, for the quota display; default 10000 |
+| `BACII_SEARCH_CACHE_HOURS` (optional) | How long a YouTube search is reused, default 24 |
 
 Re-run [`supabase/schema.sql`](supabase/schema.sql) as well: it adds the table
 that counts each student's lookups. Only signed-in students can use it. Each

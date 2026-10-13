@@ -111,8 +111,13 @@ Khmer names. Note sharing with subject and level tags.
 
 ## Phase 4 — Upgrade the video scanner
 
-- [ ] **4.1 YouTube Data API (S)** — *already uses the official API, no
+- [x] **4.1 YouTube Data API (S)** — *already uses the official API, no
   scraping.* Remaining: cache results and show quota use.
+  ✔ 2026-10-13: searches reused by the server while warm (24 h, written
+  only by the server); each student's recent lookups kept on their phone, so
+  the same exercise again costs no lookup and no quota; lookups left and
+  the share of the daily YouTube allowance shown (`youtube_search_log`,
+  `GET /api/bacii-videos`). `npm run test:video-quota` 3/3; video e2e 18/18.
 - [ ] **4.2 Match videos by chapter (M)** — use exercise text, subject,
   chapter, topic, language.
 - [ ] **4.3 Prefer Khmer videos (S)** — configurable trusted Khmer channels,

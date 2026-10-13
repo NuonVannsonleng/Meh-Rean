@@ -139,6 +139,27 @@ export async function findExerciseVideos(input: {
   return body as VideoLookup;
 }
 
+export interface VideoUsage {
+  lookups: { used: number; limit: number };
+  /** The shared YouTube allowance; null when it cannot be counted. */
+  youtube: { unitsUsed: number; unitsLimit: number } | null;
+}
+
+/** Lookups left today and YouTube quota used; null when unknown (offline, browser-only, not set up). */
+export async function getVideoUsage(): Promise<VideoUsage | null> {
+  if (isLocalMode) return null;
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  if (!token) return null;
+  try {
+    const response = await fetch("/api/bacii-videos", { headers: { Authorization: `Bearer ${token}` } });
+    if (!response.ok) return null;
+    return (await response.json()) as VideoUsage;
+  } catch {
+    return null;
+  }
+}
+
 /** A YouTube search anyone can open, with no server or key involved. */
 export function youtubeSearchUrl(query: string): string {
   return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;

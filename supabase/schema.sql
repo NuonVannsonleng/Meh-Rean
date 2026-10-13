@@ -1072,6 +1072,42 @@ drop policy if exists "add own lookups" on public.bacii_video_lookups;
 create policy "add own lookups" on public.bacii_video_lookups for insert to authenticated
   with check (user_id = auth.uid() and created_at > now() - interval '1 minute');
 
+-- YouTube searches made by the video finder (roadmap 4.1), to show how much
+-- of the project's daily YouTube quota is used. Each search.list call costs
+-- 100 units; the quota resets at midnight Pacific time. Rows are added with
+-- the student's own session by api/bacii-videos.ts, like lookups above.
+create table if not exists public.youtube_search_log (
+  id bigint generated always as identity primary key,
+  user_id uuid not null default auth.uid() references public.profiles on delete cascade,
+  searches smallint not null check (searches between 1 and 2),
+  created_at timestamptz not null default now()
+);
+create index if not exists youtube_search_log_time on public.youtube_search_log (created_at desc);
+alter table public.youtube_search_log enable row level security;
+revoke all on public.youtube_search_log from anon;
+revoke update, delete, truncate on public.youtube_search_log from authenticated;
+grant select, insert on public.youtube_search_log to authenticated;
+drop policy if exists "see own searches" on public.youtube_search_log;
+create policy "see own searches" on public.youtube_search_log for select to authenticated using (user_id = auth.uid());
+drop policy if exists "add own searches" on public.youtube_search_log;
+create policy "add own searches" on public.youtube_search_log for insert to authenticated
+  with check (user_id = auth.uid() and created_at > now() - interval '1 minute');
+
+-- Units of YouTube quota used since midnight Pacific time, by everyone.
+create or replace function public.youtube_units_today()
+returns integer
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select coalesce(sum(l.searches), 0)::integer * 100
+  from public.youtube_search_log l
+  where l.created_at >= (date_trunc('day', now() at time zone 'America/Los_Angeles') at time zone 'America/Los_Angeles')
+$$;
+revoke execute on function public.youtube_units_today() from public, anon;
+grant execute on function public.youtube_units_today() to authenticated;
+
 -- ----------------------------------------------------------- Curriculum --
 
 -- BacII curriculum: version → track → subject → chapter → topic. The rows
