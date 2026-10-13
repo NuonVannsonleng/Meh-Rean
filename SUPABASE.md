@@ -36,6 +36,11 @@ reactions, ratings, saves), the security rules, the search helpers, and the
 
 It is safe to run again later if you change something.
 
+5. Then do the same with [`supabase/seed/curriculum.sql`](supabase/seed/curriculum.sql):
+   new query, paste it all, **Run**. It loads the BacII curriculum (Grade 12
+   chapters and topics). It is also safe to run again; rerun it whenever the
+   curriculum changes.
+
 ## 3. Copy your keys
 
 1. Open **Project Settings → API keys**.
@@ -167,6 +172,7 @@ for trying changes without touching real data:
 npx supabase start                       # first run downloads a few GB
 # apply the schema to the local database
 docker exec -i supabase_db_Meh_Rean psql -U postgres -d postgres -f - < supabase/schema.sql
+docker exec -i supabase_db_Meh_Rean psql -U postgres -d postgres -f - < supabase/seed/curriculum.sql
 ```
 
 `supabase start` prints a local **API URL** and **anon key**; put those in

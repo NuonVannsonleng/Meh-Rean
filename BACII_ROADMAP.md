@@ -1,0 +1,126 @@
+# BacII roadmap
+
+Meh Rean's plan for Cambodian Grade 12 (BacII) students, alongside the global
+note sharing it already does. A box is ticked only when the task's main
+workflow works from the UI through the data layer and its checks pass
+(see `docs/TESTING.md`). Progress and blockers: `docs/PROGRESS.md`.
+
+Size: S small, M medium, L large. Pilot subject: Science-track Mathematics,
+then Physics. Chapter tagging is the base for everything after Phase 1.
+
+**Already in the app before this roadmap:** the BacII section (`/bacii`) and
+its first tool, *Find a video for an exercise* (`/bacii/videos`): photo or text
+→ AI reads it → official YouTube Data API search → AI ranking. Subjects with
+Khmer names. Note sharing with subject and level tags.
+
+## Phase 1 — Lay the foundation
+
+- [x] **1.1 Map the BacII curriculum (M)** — seed Track → Subject → Chapter →
+  Topic, starting with Grade 12 Science-track Mathematics, with source and
+  verification status per entry. *Done when chapters load from the seed and
+  can be queried by subject.*
+  ✔ 2026-10-13: Grade 12 Science Mathematics, 10 chapters / 34 topics, all
+  **provisional** until checked against the MoEYS textbook
+  (`npm run test:curriculum` 11/11).
+- [ ] **1.2 Design the question schema (S)** — id, year, track, subject,
+  chapter, topic, type, content, solution steps, answer, difficulty, language,
+  origin, source, verification, timestamps. *Done when the migration exists
+  and is typed.*
+- [ ] **1.3 Render Khmer and maths together (S)** — KaTeX plus a Khmer font
+  (Kantumruy Pro); Khmer paragraphs with inline LaTeX. *Done when mixed text
+  renders correctly on a phone.*
+- [ ] **1.4 Content entry (M)** — admin-only form to add and edit questions
+  (text, LaTeX, images, track, subject, chapter, steps, answer, source,
+  verification). *Done when an admin can add and edit without code.*
+
+## Phase 2 — Ship the MVP
+
+- [ ] **2.1 Past paper bank (L)** — browse by year, track, subject; start with
+  three placeholder years of Science Maths, clearly marked as demo content.
+- [ ] **2.2 Step-by-step solutions (L)** — reveal one step at a time, Khmer
+  first, with maths and related videos.
+- [ ] **2.3 Chapter filter (S)** — filter questions by subject, chapter, topic
+  in the database.
+- [ ] **2.4 Mock exam mode (M)** — timer, navigation, auto-save, auto-submit,
+  scoring of objective questions on the server, results and review.
+  Durations come from data; unverified ones are labelled practice settings.
+- [ ] **2.5 Grade estimate (S)** — configurable A–F bands: estimate, percent,
+  points to the next grade. Never presented as an official result.
+
+## Phase 3 — Bring students back daily
+
+- [ ] **3.1 Mistake notebook (M)** — wrong answers saved automatically with
+  answer, correct answer, explanation and chapter; retry them.
+- [ ] **3.2 Spaced repetition (M)** — reviews after 1, 3, 7, 14 days, adapting
+  to results.
+- [ ] **3.3 Daily question and streak (S)** — one question from the weakest
+  chapter; gentle streaks.
+- [ ] **3.4 Study plan generator (M)** — exam date, hours a day, weak
+  chapters, target grade → weekly plan, editable.
+
+## Phase 4 — Upgrade the video scanner
+
+- [ ] **4.1 YouTube Data API (S)** — *already uses the official API, no
+  scraping.* Remaining: cache results and show quota use.
+- [ ] **4.2 Match videos by chapter (M)** — use exercise text, subject,
+  chapter, topic, language.
+- [ ] **4.3 Prefer Khmer videos (S)** — configurable trusted Khmer channels,
+  English alternatives.
+- [ ] **4.4 Jump to the right minute (M)** — only where transcripts are
+  legally available (see blockers).
+- [ ] **4.5 Photo to solution (L)** — photo and camera, OCR for Maths and
+  Physics, match against existing questions first, let students correct OCR.
+- [ ] **4.6 Quiz from a video (M)** — five questions from an authorised
+  transcript, labelled as generated.
+- [ ] **4.7 Track watched videos (S)** — watched / understood / needs
+  revision, linked to question history and mistakes.
+
+## Phase 5 — Make it work on any phone
+
+- [ ] **5.1 Progressive Web App (M)** — manifest exists; add a service
+  worker, app-shell caching, install prompt.
+- [ ] **5.2 Offline papers (M)** — save authorised papers and solutions.
+- [ ] **5.3 Low-data mode (S)** — compressed images, fewer downloads, lazy
+  loading, data-use hints on videos.
+- [ ] **5.4 Khmer-first interface (M)** — strings into locale files, Khmer
+  and English, optional Khmer numerals.
+- [ ] **5.5 Telegram bot (M)** — daily question, countdown, reminders;
+  opt-in and secure linking.
+
+## Phase 6 — Subject tools
+
+- [ ] **6.1 Formula sheets (M)** — searchable; Maths, then Physics.
+- [ ] **6.2 Khmer literature essay trainer (L)** — themes, outlines,
+  practice, structure feedback, teacher-reviewed examples.
+- [ ] **6.3 History and Geography flashcards (M)** — plus a history timeline.
+- [ ] **6.4 English drills (M)** — reading and grammar, aligned to the
+  verified curriculum.
+- [ ] **6.5 Biology and Chemistry diagrams (M)** — labelling quizzes, starting
+  with a cell.
+
+## Phase 7 — Grow the community
+
+- [ ] **7.1 Discussion per question (M)** — with reporting and moderation.
+- [ ] **7.2 Verified answer badges (S)** — admins approve verifiers; only they
+  mark solutions reviewed.
+- [ ] **7.3 Study rooms (L)** — small rooms with a shared Pomodoro timer.
+- [ ] **7.4 Leaderboards (M)** — optional, weekly, by school and province,
+  privacy-safe names.
+- [ ] **7.5 BacII tags on notes (S)** — link notes to Grade 12 subjects and
+  chapters.
+
+## Phase 8 — Exam day and after
+
+- [ ] **8.1 Exam-day checklist (S)** — admin-editable, from verified official
+  information.
+- [ ] **8.2 Official results link (S)** — admin-configurable link to MoEYS.
+- [ ] **8.3 Scholarship and university guide (M)** — with sources and
+  verification dates.
+- [ ] **8.4 Major and career quiz (M)** — suggestions, never definitive advice.
+
+## Later (needs approval before starting)
+
+AI tutor and hint-only mode, AI summaries and flashcards, semantic search,
+personalised recommendations; Pomodoro, focus mode, bookmarks, PDF notes;
+custom mock exams and analytics; course-level organisation, translation,
+copyright reporting; badges and challenges.

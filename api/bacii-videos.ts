@@ -10,7 +10,7 @@
  *   GEMINI_API_KEY       Google Gemini, from aistudio.google.com (has a free tier)
  *   ANTHROPIC_API_KEY    or Claude, from console.anthropic.com; used when set
  *   YOUTUBE_API_KEY      required, YouTube Data API v3 key from Google Cloud
- *   BACII_GEMINI_MODEL   optional, default gemini-flash-latest
+ *   BACII_GEMINI_MODEL   optional, default gemini-2.5-flash
  *   BACII_AI_MODEL       optional Claude model, default claude-opus-5-5
  *   BACII_DAILY_LIMIT    optional, lookups per student per day, default 20
  *   VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY (or _ANON_KEY), which

@@ -1,0 +1,102 @@
+# Architecture
+
+Audit of Meh Rean as of October 2026, before the BacII roadmap
+(`BACII_ROADMAP.md`) starts in earnest.
+
+## Stack
+
+| Layer | What | Where |
+| --- | --- | --- |
+| UI | React 19, React Router 7, TypeScript (strict), Tailwind CSS v4 | `src/` |
+| Build | Vite 7 | `vite.config.ts` (also serves `api/` in dev) |
+| Data | Supabase: Postgres + row level security, Auth, Storage, Realtime | `supabase/schema.sql` |
+| Server | Vercel Functions (secrets live here) | `api/` |
+| Hosting | Vercel, SPA rewrite in `vercel.json` | |
+
+No unit-test framework is installed; checks are Node scripts and Playwright
+runs (see `docs/TESTING.md`).
+
+## Two backends, one API
+
+`src/services/api.ts` exports every data function. It uses
+`supabaseApi.ts` when `VITE_SUPABASE_URL` and the publishable key are set, and
+`localApi.ts` (a browser-only demo store in localStorage + IndexedDB, seeded
+from `src/data/mock.ts`) otherwise. Both modules export the same functions
+with the same types; `api.ts` fails to type-check if they drift. New features
+add to both, or say plainly that they need the online version (as the BacII
+video finder does).
+
+## Data model (Postgres)
+
+Social: `profiles`, `posts` (notes; subject, level, school, tags,
+attachments JSON, `edited_at`), `comments`, `reactions`, `ratings`, `saves`,
+`follows`, `verification_requests`.
+Chat: `conversations`, `conversation_members`, `messages`,
+`message_reactions`, plus a private `chat` bucket and Realtime channels.
+BacII: `bacii_video_lookups` (daily limit counter), curriculum tables
+(`curriculum_versions → tracks → subjects → chapters → topics`).
+
+Rules live in the database: RLS on every table, `public.is_admin()` for admin
+writes, triggers that pin ownership and dates (`guard_post_update`), and
+SECURITY DEFINER functions for multi-step actions. Storage: public
+`attachments` bucket for note files (type-downgraded by `safeContentType`),
+private `chat` bucket with signed URLs.
+
+## Authentication
+
+Supabase Auth (email + password). Profiles are created by the
+`handle_new_user` trigger from sign-up metadata. Admins are `profiles.is_admin`
+(set in the database, never by the client). The browser remembers the signed-in
+account (`meh-rean:account`) to avoid a signed-out flash on reload.
+
+## BacII video finder (existing)
+
+`/bacii/videos` → `src/lib/bacii.ts` → `POST /api/bacii-videos`
+(`api/bacii-videos.ts`):
+
+1. Checks the Supabase session and a per-student daily limit
+   (`bacii_video_lookups`, RLS: own rows, no delete).
+2. An AI model reads the photo or text (Gemini by default — free tier — or
+   Claude when `ANTHROPIC_API_KEY` is set) and returns subject, topic, BacII
+   year and exercise when recognisable, and search queries (Khmer + English).
+3. Searches the official **YouTube Data API v3** (no scraping), two queries.
+4. The model ranks results: same exercise, same topic, related.
+
+Resilience: model fallbacks (2.5-flash → 2.5-flash-lite → -latest aliases),
+retries on 503, a 50 s budget inside Vercel's 60 s limit, schema fallback.
+Not yet: result caching, quota monitoring, Khmer channel preference,
+transcripts.
+
+## Curriculum (roadmap 1.1)
+
+Source of truth: `src/data/curriculum/*.json` (nested, bilingual, each entry
+with `verification` and `source`). `src/lib/curriculum.ts` flattens and
+checks it; the browser-only store reads it directly, and
+`scripts/build-curriculum-seed.mjs` writes `supabase/seed/curriculum.sql`
+(idempotent upserts, never deletes). API: `getCurriculumSubjects()`,
+`getCurriculumChapters(subjectId)`. Ids are stable slugs, e.g.
+`kh-grade12-science-mathematics-integrals`.
+
+## Other parts
+
+- Subjects: `src/lib/subjects.ts` (15 main + ~130 specific, colours).
+- Schools: `public/data/schools/<country>.json` and
+  `public/data/institutions.json`, built by `scripts/build-*.mjs` from
+  Wikidata, OpenStreetMap and the Hipo list; logos from Wikimedia Commons
+  and hand-checked official sites (`public/logos/official.json`).
+- Copy: `src/i18n/en.ts` (English, with Khmer inline for subjects and BacII).
+
+## Findings
+
+1. **One 811 kB JavaScript bundle (237 kB gzip)**, no code splitting. Heavy
+   for cheap phones on mobile data; BacII features (KaTeX, exams) will grow
+   it. Split by route before Phase 2 (`meh-rean-performance`).
+2. **No Khmer interface yet**: all UI copy is English in `en.ts`; Khmer only
+   for subjects and BacII labels. Roadmap 5.4.
+3. **No unit-test runner**; logic tests are Node scripts. Adding Vitest (free,
+   dev-only) would help Phases 2–3 (scoring, spaced repetition).
+4. **Test scripts for the UI live outside the repo** (Playwright runs from a
+   scratch folder). Committing a small e2e suite is worth doing.
+5. The video finder works but has no cache: each lookup costs 200 of
+   YouTube's 10,000 daily quota units.
+6. A manifest exists, but no service worker (roadmap 5.1).

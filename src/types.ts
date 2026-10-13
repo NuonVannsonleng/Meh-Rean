@@ -290,6 +290,49 @@ export interface ConversationChannel {
 /** Square for avatars, wide for profile banners. */
 export type ProfileImageKind = "avatar" | "banner";
 
+// ---- BacII curriculum ----
+
+/** How far a curriculum entry (or question) has been checked. */
+export type Verification = "verified" | "provisional" | "needs-review";
+
+export const VERIFICATIONS: readonly Verification[] = ["verified", "provisional", "needs-review"];
+
+/** A subject as taught in one track, e.g. Grade 12 Science-track Mathematics. */
+export interface CurriculumSubject {
+  id: string;
+  trackId: string;
+  trackKey: string;
+  trackNameEn: string;
+  trackNameKm: string;
+  grade: number;
+  /** The app-wide subject this belongs to (src/lib/subjects.ts). */
+  subjectKey: SubjectId;
+  nameEn: string;
+  nameKm: string;
+  sort: number;
+}
+
+export interface CurriculumTopic {
+  id: string;
+  chapterId: string;
+  nameEn: string;
+  nameKm: string;
+  sort: number;
+  verification: Verification;
+}
+
+export interface CurriculumChapter {
+  id: string;
+  subjectId: string;
+  number: number;
+  nameEn: string;
+  nameKm: string;
+  verification: Verification;
+  /** Where the entry comes from; required before it can be verified. */
+  source: string;
+  topics: CurriculumTopic[];
+}
+
 export type MediaFilter = "all" | "documents" | "images" | "videos";
 export type FeedSort = "latest" | "top" | "discussed";
 

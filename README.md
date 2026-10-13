@@ -87,7 +87,7 @@ Environment Variables, then redeploy:
 | `GEMINI_API_KEY` | [aistudio.google.com](https://aistudio.google.com) → Get API key (free tier) |
 | `YOUTUBE_API_KEY` | Google Cloud console → enable **YouTube Data API v3** → Credentials → API key |
 | `ANTHROPIC_API_KEY` (optional) | Use Claude instead of Gemini; when set, it is used |
-| `BACII_GEMINI_MODEL` (optional) | Defaults to `gemini-flash-latest` |
+| `BACII_GEMINI_MODEL` (optional) | Defaults to `gemini-2.5-flash` |
 | `BACII_DAILY_LIMIT` (optional) | Lookups per student per day, default 20 |
 
 Re-run [`supabase/schema.sql`](supabase/schema.sql) as well: it adds the table
@@ -107,6 +107,18 @@ searches instead. For `npm run dev`, put the two keys in `.env.local`
 ## Architecture
 
 Every data access goes through `src/services/api.ts`. The in-browser store lives in `src/services/db.ts` and `src/services/files.ts`. Pages never touch storage directly, so a real backend only needs to replace the function bodies in `api.ts`. All UI text is in `src/i18n/en.ts`, ready for more languages such as Khmer.
+
+## BacII roadmap and project docs
+
+- [`BACII_ROADMAP.md`](BACII_ROADMAP.md): the eight-phase plan, with what is done.
+- [`docs/PROGRESS.md`](docs/PROGRESS.md): current task and blockers.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), [`docs/DECISIONS.md`](docs/DECISIONS.md),
+  [`docs/TESTING.md`](docs/TESTING.md), [`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md).
+- [`AGENTS.md`](AGENTS.md) and `.claude/agents/`: rules and specialists for AI coding agents.
+
+The BacII curriculum is edited in `src/data/curriculum/*.json`; run
+`node scripts/build-curriculum-seed.mjs` to regenerate
+`supabase/seed/curriculum.sql`, and `npm run test:curriculum` to check it.
 
 ## Roadmap
 

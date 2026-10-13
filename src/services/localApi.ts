@@ -1,5 +1,7 @@
 import { MAX_MESSAGE_LENGTH } from "../lib/chat";
 import { subjectLabel, subjectMembers } from "../lib/subjects";
+import { flattenCurriculum, type CurriculumSeed, type FlatCurriculum } from "../lib/curriculum";
+import khGrade12 from "../data/curriculum/kh-grade12.json";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -16,6 +18,8 @@ import {
   type FeedQuery,
   type NewPostInput,
   type UpdatePostInput,
+  type CurriculumChapter,
+  type CurriculumSubject,
   type Post,
   type PostView,
   type ProfileView,
@@ -1155,4 +1159,23 @@ export async function getAttachmentUrl(attachment: Attachment): Promise<string> 
   const url = URL.createObjectURL(blob);
   objectUrls.set(id, url);
   return url;
+}
+
+// ---- BacII curriculum ----
+
+let curriculum: FlatCurriculum | null = null;
+
+/** The curriculum seed itself: the same rows supabase/seed/curriculum.sql loads. */
+function loadCurriculum(): FlatCurriculum {
+  curriculum ??= flattenCurriculum(khGrade12 as CurriculumSeed);
+  return curriculum;
+}
+
+export async function getCurriculumSubjects(): Promise<CurriculumSubject[]> {
+  return structuredClone(loadCurriculum().subjects);
+}
+
+/** A subject's chapters in order, each with its topics. */
+export async function getCurriculumChapters(subjectId: string): Promise<CurriculumChapter[]> {
+  return structuredClone(loadCurriculum().chapters.filter((chapter) => chapter.subjectId === subjectId));
 }

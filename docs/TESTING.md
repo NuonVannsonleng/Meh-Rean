@@ -1,0 +1,37 @@
+# Testing
+
+## Commands
+
+```bash
+npm run lint              # type-check everything (app, api/, vite config)
+npm run build             # type-check and build
+npm run test:accounts     # auth, uploads, authorization, chat, roles
+npm run test:curriculum   # curriculum seed + database checks (task 1.1)
+```
+
+The two harnesses need a local Supabase for their database parts:
+
+```bash
+npx supabase start        # Docker must be running
+docker exec -i supabase_db_Meh_Rean psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -f - < supabase/schema.sql
+docker exec -i supabase_db_Meh_Rean psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -f - < supabase/seed/curriculum.sql
+```
+
+and a `.env.test` pointing at it (see `docs/ENVIRONMENT.md`). They refuse to
+write to a hosted project.
+
+UI flows are checked with Playwright (Chromium) against `npm run dev` in two
+modes: browser-only (no Supabase variables) and local Supabase. Those scripts
+are not in the repository yet (see Architecture finding 4).
+
+## Latest results
+
+| Date | Check | Result |
+| --- | --- | --- |
+| 2026-10-13 | `npm run lint`, `npm run build` | pass |
+| 2026-10-13 | `npm run test:curriculum` (local Supabase) | 11 passed, 0 failed |
+| 2026-10-13 | `npm run test:accounts` (local Supabase) | 68 passed, 0 failed, 3 skipped (documented, not asserted) |
+
+Known flake: the first `test:accounts` run straight after `npx supabase start`
+has twice reported 1 failure that did not reproduce on the next run. When it
+happens, keep the output and rerun; investigate if it reproduces.

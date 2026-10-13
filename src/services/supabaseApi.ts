@@ -20,6 +20,9 @@ import {
   type FeedQuery,
   type NewPostInput,
   type UpdatePostInput,
+  type CurriculumChapter,
+  type CurriculumSubject,
+  type Verification,
   type PostView,
   type ProfileView,
   type PublicUser,
@@ -1400,4 +1403,83 @@ export function subscribeToAuth(callback: (user: User | null) => void): () => vo
 /** Uploads are already public URLs, so nothing has to be resolved. */
 export async function getAttachmentUrl(attachment: Attachment): Promise<string> {
   return attachment.url;
+}
+
+// ---- BacII curriculum ----
+
+interface CurriculumSubjectRow {
+  id: string;
+  track_id: string;
+  subject_key: string;
+  name_en: string;
+  name_km: string;
+  sort: number;
+  track: { key: string; name_en: string; name_km: string; sort: number; version: { grade: number } | null } | null;
+}
+
+interface CurriculumChapterRow {
+  id: string;
+  subject_id: string;
+  number: number;
+  name_en: string;
+  name_km: string;
+  verification: Verification;
+  source: string;
+  topics: { id: string; chapter_id: string; name_en: string; name_km: string; sort: number; verification: Verification }[];
+}
+
+export async function getCurriculumSubjects(): Promise<CurriculumSubject[]> {
+  const rows = unwrap(
+    await supabase
+      .from("curriculum_subjects")
+      .select("id, track_id, subject_key, name_en, name_km, sort, track:curriculum_tracks(key, name_en, name_km, sort, version:curriculum_versions(grade))")
+      .returns<CurriculumSubjectRow[]>(),
+  );
+  return rows
+    .map((row) => ({
+      id: row.id,
+      trackId: row.track_id,
+      trackKey: row.track?.key ?? "",
+      trackNameEn: row.track?.name_en ?? "",
+      trackNameKm: row.track?.name_km ?? "",
+      grade: row.track?.version?.grade ?? 0,
+      subjectKey: row.subject_key,
+      nameEn: row.name_en,
+      nameKm: row.name_km,
+      sort: row.sort,
+      trackSort: row.track?.sort ?? 0,
+    }))
+    .sort((a, b) => a.trackSort - b.trackSort || a.sort - b.sort)
+    .map(({ trackSort: _trackSort, ...subject }) => subject);
+}
+
+/** A subject's chapters in order, each with its topics. */
+export async function getCurriculumChapters(subjectId: string): Promise<CurriculumChapter[]> {
+  const rows = unwrap(
+    await supabase
+      .from("curriculum_chapters")
+      .select("id, subject_id, number, name_en, name_km, verification, source, topics:curriculum_topics(id, chapter_id, name_en, name_km, sort, verification)")
+      .eq("subject_id", subjectId)
+      .order("number")
+      .returns<CurriculumChapterRow[]>(),
+  );
+  return rows.map((row) => ({
+    id: row.id,
+    subjectId: row.subject_id,
+    number: row.number,
+    nameEn: row.name_en,
+    nameKm: row.name_km,
+    verification: row.verification,
+    source: row.source,
+    topics: [...(row.topics ?? [])]
+      .sort((a, b) => a.sort - b.sort)
+      .map((topic) => ({
+        id: topic.id,
+        chapterId: topic.chapter_id,
+        nameEn: topic.name_en,
+        nameKm: topic.name_km,
+        sort: topic.sort,
+        verification: topic.verification,
+      })),
+  }));
 }

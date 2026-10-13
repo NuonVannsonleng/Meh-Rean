@@ -1,0 +1,132 @@
+{
+  "version": {
+    "id": "kh-grade12",
+    "titleEn": "Cambodia Grade 12 (BacII)",
+    "titleKm": "ថ្នាក់ទី១២ (បាក់ឌុប)",
+    "country": "KH",
+    "grade": 12,
+    "verification": "provisional",
+    "source": "Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.",
+    "notes": "Every chapter and topic below needs checking by a Grade 12 teacher or against the official MoEYS textbook before it is marked verified. Khmer terms need the same review."
+  },
+  "tracks": [
+    {
+      "key": "science",
+      "nameEn": "Science track",
+      "nameKm": "ថ្នាក់វិទ្យាសាស្ត្រពិត",
+      "subjects": [
+        {
+          "subjectKey": "mathematics",
+          "nameEn": "Mathematics",
+          "nameKm": "គណិតវិទ្យា",
+          "chapters": [
+            {
+              "slug": "limits-continuity",
+              "nameEn": "Limits and continuity",
+              "nameKm": "លីមីត និងភាពជាប់",
+              "topics": [
+                { "slug": "limits", "nameEn": "Limits of functions", "nameKm": "លីមីតនៃអនុគមន៍" },
+                { "slug": "indeterminate-forms", "nameEn": "Indeterminate forms", "nameKm": "រាងមិនកំណត់" },
+                { "slug": "continuity", "nameEn": "Continuity", "nameKm": "ភាពជាប់នៃអនុគមន៍" },
+                { "slug": "asymptotes", "nameEn": "Asymptotes", "nameKm": "អាស៊ីមតូត" }
+              ]
+            },
+            {
+              "slug": "derivatives",
+              "nameEn": "Derivatives",
+              "nameKm": "ដេរីវេ",
+              "topics": [
+                { "slug": "rules", "nameEn": "Rules of differentiation", "nameKm": "រូបមន្តដេរីវេ" },
+                { "slug": "composite", "nameEn": "Derivative of a composite function", "nameKm": "ដេរីវេនៃអនុគមន៍បណ្ណាក់" },
+                { "slug": "tangent", "nameEn": "Tangent line", "nameKm": "បន្ទាត់ប៉ះ" }
+              ]
+            },
+            {
+              "slug": "function-study",
+              "nameEn": "Study of functions and graphs",
+              "nameKm": "សិក្សាអថេរភាព និងសង់ក្រាបនៃអនុគមន៍",
+              "topics": [
+                { "slug": "monotonicity", "nameEn": "Increasing and decreasing", "nameKm": "អថេរភាពនៃអនុគមន៍" },
+                { "slug": "extrema", "nameEn": "Maxima and minima", "nameKm": "បរមា" },
+                { "slug": "inflection", "nameEn": "Concavity and inflection points", "nameKm": "ចំណុចរបត់" },
+                { "slug": "graphs", "nameEn": "Sketching graphs", "nameKm": "សង់ក្រាប" }
+              ]
+            },
+            {
+              "slug": "exponential-logarithm",
+              "nameEn": "Exponential and logarithmic functions",
+              "nameKm": "អនុគមន៍អិចស្ប៉ូណង់ស្យែល និងអនុគមន៍លោការីត",
+              "topics": [
+                { "slug": "properties", "nameEn": "Properties", "nameKm": "លក្ខណៈ" },
+                { "slug": "equations", "nameEn": "Equations and inequalities", "nameKm": "សមីការ និងវិសមីការ" }
+              ]
+            },
+            {
+              "slug": "integrals",
+              "nameEn": "Integrals",
+              "nameKm": "អាំងតេក្រាល",
+              "topics": [
+                { "slug": "antiderivatives", "nameEn": "Antiderivatives", "nameKm": "ព្រីមីទីវ" },
+                { "slug": "definite", "nameEn": "Definite integrals", "nameKm": "អាំងតេក្រាលកំណត់" },
+                { "slug": "by-parts", "nameEn": "Integration by parts", "nameKm": "អាំងតេក្រាលដោយផ្នែក" },
+                { "slug": "area", "nameEn": "Area under a curve", "nameKm": "ក្រឡាផ្ទៃ" },
+                { "slug": "volume", "nameEn": "Volume of revolution", "nameKm": "មាឌសូលីដបរិវត្តន៍" }
+              ]
+            },
+            {
+              "slug": "differential-equations",
+              "nameEn": "Differential equations",
+              "nameKm": "សមីការឌីផេរ៉ង់ស្យែល",
+              "topics": [
+                { "slug": "first-order", "nameEn": "First-order linear", "nameKm": "សមីការលំដាប់ទី១" },
+                { "slug": "second-order", "nameEn": "Second order with constant coefficients", "nameKm": "សមីការលំដាប់ទី២ មេគុណថេរ" }
+              ]
+            },
+            {
+              "slug": "complex-numbers",
+              "nameEn": "Complex numbers",
+              "nameKm": "ចំនួនកុំផ្លិច",
+              "topics": [
+                { "slug": "algebraic-form", "nameEn": "Algebraic form", "nameKm": "ទម្រង់ពីជគណិត" },
+                { "slug": "trigonometric-form", "nameEn": "Trigonometric form", "nameKm": "ទម្រង់ត្រីកោណមាត្រ" },
+                { "slug": "de-moivre", "nameEn": "De Moivre's formula and nth roots", "nameKm": "រូបមន្តដឺម័រ និងឫសទី n" },
+                { "slug": "equations", "nameEn": "Equations in complex numbers", "nameKm": "សមីការក្នុងសំណុំចំនួនកុំផ្លិច" }
+              ]
+            },
+            {
+              "slug": "probability",
+              "nameEn": "Probability",
+              "nameKm": "ប្រូបាប",
+              "topics": [
+                { "slug": "counting", "nameEn": "Permutations and combinations", "nameKm": "ចម្លាស់ និងបន្សំ" },
+                { "slug": "events", "nameEn": "Probability of events", "nameKm": "ប្រូបាបនៃព្រឹត្តិការណ៍" },
+                { "slug": "conditional", "nameEn": "Conditional probability", "nameKm": "ប្រូបាបមានលក្ខខណ្ឌ" },
+                { "slug": "random-variables", "nameEn": "Random variables", "nameKm": "អថេរចៃដន្យ" }
+              ]
+            },
+            {
+              "slug": "conics",
+              "nameEn": "Conics",
+              "nameKm": "កោនិក",
+              "topics": [
+                { "slug": "parabola", "nameEn": "Parabola", "nameKm": "ប៉ារ៉ាបូល" },
+                { "slug": "ellipse", "nameEn": "Ellipse", "nameKm": "អេលីប" },
+                { "slug": "hyperbola", "nameEn": "Hyperbola", "nameKm": "អ៊ីពែបូល" }
+              ]
+            },
+            {
+              "slug": "vectors-space",
+              "nameEn": "Vectors and geometry in space",
+              "nameKm": "វ៉ិចទ័រ និងធរណីមាត្រក្នុងលំហ",
+              "topics": [
+                { "slug": "dot-product", "nameEn": "Dot product", "nameKm": "ផលគុណស្កាលែ" },
+                { "slug": "cross-product", "nameEn": "Cross product", "nameKm": "ផលគុណវ៉ិចទ័រ" },
+                { "slug": "lines-planes", "nameEn": "Lines and planes", "nameKm": "បន្ទាត់ និងប្លង់ក្នុងលំហ" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -63,6 +63,8 @@ export const {
   markConversationRead,
   getUnreadCount,
   subscribeToChat,
+  getCurriculumSubjects,
+  getCurriculumChapters,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

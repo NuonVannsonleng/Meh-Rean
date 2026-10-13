@@ -1041,3 +1041,88 @@ create policy "see own lookups" on public.bacii_video_lookups for select to auth
 drop policy if exists "add own lookups" on public.bacii_video_lookups;
 create policy "add own lookups" on public.bacii_video_lookups for insert to authenticated
   with check (user_id = auth.uid() and created_at > now() - interval '1 minute');
+
+-- ----------------------------------------------------------- Curriculum --
+
+-- BacII curriculum: version → track → subject → chapter → topic. The rows
+-- come from src/data/curriculum/*.json via scripts/build-curriculum-seed.mjs
+-- (supabase/seed/curriculum.sql). Everyone may read them; only admins may
+-- change them. verification says how far an entry has been checked: nothing
+-- is 'verified' without its own source.
+create table if not exists public.curriculum_versions (
+  id text primary key,
+  title_en text not null,
+  title_km text not null,
+  country text not null check (country ~ '^[A-Z]{2}$'),
+  grade smallint not null check (grade between 1 and 13),
+  verification text not null default 'provisional' check (verification in ('verified', 'provisional', 'needs-review')),
+  source text not null default '',
+  notes text,
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.curriculum_tracks (
+  id text primary key,
+  version_id text not null references public.curriculum_versions on delete cascade,
+  key text not null,
+  name_en text not null,
+  name_km text not null,
+  sort smallint not null default 0,
+  unique (version_id, key)
+);
+
+create table if not exists public.curriculum_subjects (
+  id text primary key,
+  track_id text not null references public.curriculum_tracks on delete cascade,
+  -- The app-wide subject id (src/lib/subjects.ts), e.g. 'mathematics'.
+  subject_key text not null,
+  name_en text not null,
+  name_km text not null,
+  sort smallint not null default 0,
+  unique (track_id, subject_key)
+);
+
+create table if not exists public.curriculum_chapters (
+  id text primary key,
+  subject_id text not null references public.curriculum_subjects on delete cascade,
+  number smallint not null check (number > 0),
+  name_en text not null,
+  name_km text not null,
+  verification text not null default 'provisional' check (verification in ('verified', 'provisional', 'needs-review')),
+  source text not null default '',
+  updated_at timestamptz not null default now(),
+  -- Deferred, so a re-seed may renumber chapters in one go.
+  constraint curriculum_chapters_number_unique unique (subject_id, number) deferrable initially deferred,
+  constraint curriculum_chapters_verified_source check (verification <> 'verified' or char_length(btrim(source)) > 0)
+);
+
+create table if not exists public.curriculum_topics (
+  id text primary key,
+  chapter_id text not null references public.curriculum_chapters on delete cascade,
+  name_en text not null,
+  name_km text not null,
+  sort smallint not null default 0,
+  verification text not null default 'provisional' check (verification in ('verified', 'provisional', 'needs-review'))
+);
+
+create index if not exists curriculum_tracks_version_idx on public.curriculum_tracks (version_id, sort);
+create index if not exists curriculum_subjects_track_idx on public.curriculum_subjects (track_id, sort);
+create index if not exists curriculum_subjects_key_idx on public.curriculum_subjects (subject_key);
+create index if not exists curriculum_chapters_subject_idx on public.curriculum_chapters (subject_id, number);
+create index if not exists curriculum_topics_chapter_idx on public.curriculum_topics (chapter_id, sort);
+
+do $$
+declare
+  t text;
+begin
+  foreach t in array array['curriculum_versions', 'curriculum_tracks', 'curriculum_subjects', 'curriculum_chapters', 'curriculum_topics'] loop
+    execute format('alter table public.%I enable row level security', t);
+    execute format('drop policy if exists "curriculum is public" on public.%I', t);
+    execute format('create policy "curriculum is public" on public.%I for select using (true)', t);
+    execute format('drop policy if exists "admins edit curriculum" on public.%I', t);
+    execute format(
+      'create policy "admins edit curriculum" on public.%I for all to authenticated using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()))',
+      t
+    );
+  end loop;
+end $$;
