@@ -54,14 +54,17 @@ function Welcome() {
         aria-hidden="true"
         className="bg-logo-ribbon animate-ribbon absolute top-0 right-6 h-14 w-5 [clip-path:polygon(0_0,100%_0,100%_100%,50%_80%,0_100%)] sm:right-10 sm:h-16 sm:w-6"
       />
-      <div className="flex items-center gap-4 pr-10">
-        <Avatar user={user} size="lg" />
+      {/* Written on the rules: the avatar spans two, each line of text sits on one. */}
+      <div className="flex items-start gap-4 pr-10">
+        <div className="flex h-16 shrink-0 items-center">
+          <Avatar user={user} size="lg" />
+        </div>
         <div className="min-w-0">
-          <h1 className="text-ink-900 text-xl sm:text-2xl">{t.home.hello(greeting(), first)}</h1>
-          <p className="text-ink-500 text-sm">{t.home.prompt}</p>
+          <h1 className="on-rule text-ink-900 truncate text-xl sm:text-2xl">{t.home.hello(greeting(), first)}</h1>
+          <p className="on-rule text-ink-500 truncate text-sm">{t.home.prompt}</p>
         </div>
       </div>
-      <div className="mt-5 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap">
+      <div className="mt-8 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap">
         {actions.map(({ to, Icon, label, tone }) => (
           <Link
             key={to}
@@ -93,10 +96,12 @@ function Intro() {
         className="bg-logo-ribbon animate-ribbon absolute top-0 right-6 h-16 w-6 [clip-path:polygon(0_0,100%_0,100%_100%,50%_80%,0_100%)] sm:right-12 sm:h-24 sm:w-8"
       />
       <div className="max-w-2xl pr-8">
-        <LogoMark animated className="mb-4 h-14 w-14" />
-        <h1 className="text-ink-900 text-3xl leading-tight sm:text-5xl">{t.feed.title}</h1>
-        <p className="text-ink-700 mt-3 text-base sm:text-lg">{t.feed.subtitle}</p>
-        <div className="mt-6 flex flex-wrap gap-2">
+        <div className="flex h-16 items-center">
+          <LogoMark animated className="h-14 w-14" />
+        </div>
+        <h1 className="on-rule sm:on-rule-2 text-ink-900 text-3xl sm:text-5xl">{t.feed.title}</h1>
+        <p className="on-rule text-ink-700 text-base sm:text-lg">{t.feed.subtitle}</p>
+        <div className="mt-8 flex flex-wrap gap-2">
           <Link to="/signup" className="btn-primary h-11 px-5">
             {t.home.join}
           </Link>

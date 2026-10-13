@@ -339,13 +339,39 @@
   animation: ribbon-drop 560ms var(--ease-spring) both;
 }
 
-/* Lined notebook paper, echoing the page rules in the logo */
+/*
+ * Lined notebook paper, echoing the page rules in the logo. The rules are
+ * counted from the top of the content (not the card's edge), so text set with
+ * on-rule below sits on them the way writing does in a notebook.
+ */
 @utility ruled-paper {
-  background-image: repeating-linear-gradient(
+  --rule-gap: 2rem;
+  background-image: linear-gradient(
     to bottom,
-    transparent 0 31px,
-    color-mix(in oklch, var(--color-rule) 40%, transparent) 31px 32px
+    transparent calc(100% - 1px),
+    color-mix(in oklch, var(--color-rule) 40%, transparent) calc(100% - 1px)
   );
+  background-size: 100% var(--rule-gap);
+  background-origin: content-box;
+}
+
+/*
+ * A line of text written on the paper's rules: one rule per line (wrapped
+ * lines too), with the baseline just above the rule. The nudge depends on the
+ * font size (em), so headings and small print both land on the line.
+ */
+@utility on-rule {
+  /* Wins over the line height that text-sm, text-2xl… set with the font size. */
+  line-height: var(--rule-gap, 2rem) !important;
+  position: relative;
+  top: calc(var(--rule-gap, 2rem) * 0.40625 - 0.365em);
+}
+
+/* The same for big headings, which take two rules per line. */
+@utility on-rule-2 {
+  line-height: calc(var(--rule-gap, 2rem) * 2) !important;
+  position: relative;
+  top: calc(var(--rule-gap, 2rem) * 0.90625 - 0.365em);
 }
 
 /* Logo: books slide onto the stack, then the bookmark drops in */
