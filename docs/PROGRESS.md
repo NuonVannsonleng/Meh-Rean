@@ -265,6 +265,26 @@ timing only in database functions, never in the browser.
   `is_admin()` before it was defined. Both fixed; the file now runs cleanly
   on an empty project, on the old schema, and a second time, and every
   database suite passes on the upgraded database.
+- **2026-10-15 — Live quiz (owner's request, outside the roadmap).**
+  Kahoot-style: any signed-in user writes a quiz (`/live/quizzes/new`: 1–50
+  questions, 2–4 answers, 5–120 s each), hosts it (`/live/host/:id`, a
+  6-digit code and join link), and others join on their phones (`/live`,
+  `/live/play/:id`). Everyone sees the same question and countdown on the
+  server's clock (offset measured per phone); answers after the deadline
+  (plus 1 s grace) are refused; a right answer scores 1000 − 500 × (time
+  taken ÷ time allowed), added at the reveal. The host's screen reveals by
+  itself when time is up or everyone has answered, then shows answer counts
+  and the leaderboard; players see right/wrong, points and rank; podium at
+  the end. Tables `live_quizzes` (owner only), `live_games` (host only; the
+  questions with answers), `live_game_state` (what players see; answer
+  hidden until the reveal), `live_players`, `live_answers` (players cannot
+  read whether they were right before the reveal: column grants); all writes
+  through `create_live_game`, `join_live_game`, `live_next`, `live_answer`,
+  `live_reveal`, `live_finish`. Live updates over Realtime (members only via
+  `is_live_member()`), with a 5-second poll as a fallback. Browser-only
+  mode can write quizzes; games need the online version and say so.
+  `npm run test:live` 10/10; UI 8/8 online (host + two phones), 1/1
+  browser-only; 320–375 px checked.
 
 ## Blockers and things that need a person
 

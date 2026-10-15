@@ -95,6 +95,18 @@ export const {
   getVideoProgress,
   setVideoProgress,
   deleteVideoProgress,
+  getLiveQuizzes,
+  getLiveQuiz,
+  saveLiveQuiz,
+  deleteLiveQuiz,
+  startLiveGame,
+  joinLiveGame,
+  getLiveGame,
+  liveNext,
+  liveReveal,
+  liveFinish,
+  answerLive,
+  subscribeLiveGame,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

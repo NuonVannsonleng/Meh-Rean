@@ -143,6 +143,8 @@ The rules live in the database, so they apply no matter who calls the API.
 | Uploaded files | everyone (public links) | you can only write and delete inside your own folder |
 | Trusted video channels | everyone | admins only |
 | Video quizzes | everyone | admins only (shape checked; transcripts never stored) |
+| Live quizzes you wrote (with answers) | only you | only you |
+| A live game | its host and players (players never see answers before the reveal) | only through the game functions: the database keeps the time and the score |
 | Watched-video marks | only you | only you |
 | Study plan | only you | only you (settings and size are checked) |
 | Chapter progress, daily questions and streak | only you | only the server, when your answers are marked |

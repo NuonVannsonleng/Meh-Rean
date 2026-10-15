@@ -520,6 +520,65 @@ export interface ExamStart {
   clockOffsetMs: number;
 }
 
+/** One question of a live quiz, with its answer (only its owner sees this). */
+export interface LiveQuestion {
+  prompt: string;
+  choices: string[];
+  /** Index of the right choice. */
+  answer: number;
+  /** Time to answer, 5–120 seconds. */
+  seconds: number;
+}
+
+export interface LiveQuiz {
+  id: string;
+  title: string;
+  questions: LiveQuestion[];
+  updatedAt: string;
+}
+
+export type LiveGameStatus = "lobby" | "question" | "reveal" | "finished";
+
+/** What every player in a game sees: the current question without its answer until the reveal. */
+export interface LiveGameState {
+  gameId: string;
+  title: string;
+  code: string;
+  hostId: string;
+  status: LiveGameStatus;
+  questionIndex: number;
+  questionCount: number;
+  prompt: string | null;
+  choices: string[] | null;
+  seconds: number | null;
+  startedAt: string | null;
+  deadlineAt: string | null;
+  answered: number;
+  correctChoice: number | null;
+  choiceCounts: number[] | null;
+}
+
+export interface LivePlayer {
+  userId: string;
+  nickname: string;
+  score: number;
+  correctCount: number;
+  /** Points from the question just revealed. */
+  lastPoints: number;
+}
+
+export interface LiveGameView {
+  state: LiveGameState;
+  players: LivePlayer[];
+  isHost: boolean;
+  /** This player's choice for the current question, if they answered. */
+  myChoice: number | null;
+  /** Server time minus this phone's time, so countdowns agree. */
+  clockOffsetMs: number;
+}
+
+export type LiveAnswerResult = "saved" | "late" | "already" | "closed";
+
 export type VideoStatus = "watched" | "understood" | "needs-revision";
 
 /** A video a student marked (roadmap 4.7). */

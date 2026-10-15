@@ -24,6 +24,7 @@ npm run test:video-chapters # description chapter parsing (task 4.4)
 npm run test:question-match # matching an exercise to the question bank (task 4.5)
 npm run test:video-quizzes # video quizzes: admin-only writes, shape checks; local Supabase (task 4.6)
 npm run test:video-progress # watched-video marks: own rows, checks; local Supabase (task 4.7)
+npm run test:live         # live quiz: codes, joining, server timing and scoring, privacy; local Supabase
 npm run build:setup-sql   # regenerate supabase/setup-all.sql after changing schema or seeds
 ```
 
@@ -62,6 +63,8 @@ are not in the repository yet (see Architecture finding 4).
 | 2026-10-13 | `npm run test:question-match` | 8 passed, 0 failed |
 | 2026-10-13 | `npm run test:video-quizzes` (local Supabase) | 4 passed, 0 failed |
 | 2026-10-13 | `npm run test:video-progress` (local Supabase) | 5 passed, 0 failed |
+| 2026-10-15 | `npm run test:live` (local Supabase) | 10 passed, 0 failed |
+| 2026-10-15 | Playwright: live quiz, host + two phones over Realtime / browser-only | 8/8, 1/1 |
 | 2026-10-13 | Playwright: watched videos (mark, kept, My videos, change, remove, 320px), online / browser-only | 5/5, 3/3 |
 | 2026-10-13 | Playwright: video quizzes (admin drafts with mock AI, student takes it), online / browser-only (by hand) | 8/8, 6/6 |
 | 2026-10-13 | Playwright: photo to solution, online with mock Gemini / browser-only | 8/8, 4/4 |

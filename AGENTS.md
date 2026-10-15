@@ -69,6 +69,7 @@ npm run test:video-chapters # video description chapters parser
 npm run test:question-match # exercise-to-question matching
 npm run test:video-quizzes # video quizzes; local Supabase
 npm run test:video-progress # watched-video marks; local Supabase
+npm run test:live        # live quiz games; local Supabase
 npx supabase start       # local Supabase (Docker)
 npm run build:setup-sql  # regenerate supabase/setup-all.sql (schema + seeds) after DB changes
 ```

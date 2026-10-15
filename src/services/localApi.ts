@@ -5,6 +5,7 @@ import { checkQuestionInput, isCorrect, MAX_QUESTION_IMAGE_BYTES, questionImageE
 import { afterRight, afterWrong } from "../lib/review";
 import { CHANNEL_ID_PATTERN } from "../lib/channels";
 import { isValidVideoQuiz, VIDEO_ID_PATTERN } from "../lib/videoQuiz";
+import { isValidLiveQuiz } from "../lib/liveQuiz";
 import { addDays, cambodiaDay, streakOf, weakestChapter } from "../lib/daily";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
@@ -32,6 +33,10 @@ import {
   type DailyQuestion,
   type DailyStreak,
   type ExamAttempt,
+  type LiveAnswerResult,
+  type LiveGameView,
+  type LiveQuestion,
+  type LiveQuiz,
   type Mistake,
   type StudyPlan,
   type StudyPlanInput,
@@ -1804,4 +1809,76 @@ export async function deleteVideoProgress(videoId: string): Promise<void> {
   const viewer = requireViewer(db);
   db.videoProgress = (db.videoProgress ?? []).filter((entry) => !(entry.userId === viewer.id && entry.videoId === videoId));
   persist();
+}
+
+// ---- Live quizzes ----
+// Quizzes can be written in the browser-only demo; playing a live game needs
+// other phones, so it needs the online version.
+
+const LIVE_ONLINE_ONLY = "Live games need the online version of Meh Rean: other players join from their own phones.";
+
+export async function getLiveQuizzes(): Promise<LiveQuiz[]> {
+  const db = await loadDb();
+  const viewer = viewerId(db);
+  return structuredClone((db.liveQuizzes ?? []).filter((quiz) => quiz.ownerId === viewer))
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+    .map(({ ownerId: _ownerId, ...quiz }) => quiz);
+}
+
+export async function getLiveQuiz(id: string): Promise<LiveQuiz> {
+  const quiz = (await getLiveQuizzes()).find((item) => item.id === id);
+  if (!quiz) throw new ApiError("NOT_FOUND", 404);
+  return quiz;
+}
+
+export async function saveLiveQuiz(input: { title: string; questions: LiveQuestion[] }, id: string | null): Promise<LiveQuiz> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  if (!isValidLiveQuiz(input.title, input.questions)) throw new ApiError("UNKNOWN", 400, "check the quiz");
+  db.liveQuizzes ??= [];
+  if (id && !db.liveQuizzes.some((quiz) => quiz.id === id && quiz.ownerId === viewer.id)) throw new ApiError("NOT_FOUND", 404);
+  const quiz = { id: id ?? createId("lq"), ownerId: viewer.id, title: input.title.trim(), questions: structuredClone(input.questions), updatedAt: new Date().toISOString() };
+  db.liveQuizzes = [...db.liveQuizzes.filter((item) => item.id !== quiz.id), quiz];
+  persist();
+  const { ownerId: _ownerId, ...rest } = quiz;
+  return rest;
+}
+
+export async function deleteLiveQuiz(id: string): Promise<void> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  db.liveQuizzes = (db.liveQuizzes ?? []).filter((quiz) => !(quiz.id === id && quiz.ownerId === viewer.id));
+  persist();
+}
+
+export async function startLiveGame(_quizId: string): Promise<{ gameId: string; code: string }> {
+  throw new ApiError("UNKNOWN", 400, LIVE_ONLINE_ONLY);
+}
+
+export async function joinLiveGame(_code: string, _nickname: string): Promise<string> {
+  throw new ApiError("UNKNOWN", 400, LIVE_ONLINE_ONLY);
+}
+
+export async function getLiveGame(_gameId: string): Promise<LiveGameView> {
+  throw new ApiError("NOT_FOUND", 404, LIVE_ONLINE_ONLY);
+}
+
+export async function liveNext(_gameId: string): Promise<string> {
+  throw new ApiError("UNKNOWN", 400, LIVE_ONLINE_ONLY);
+}
+
+export async function liveReveal(_gameId: string): Promise<void> {
+  throw new ApiError("UNKNOWN", 400, LIVE_ONLINE_ONLY);
+}
+
+export async function liveFinish(_gameId: string): Promise<void> {
+  throw new ApiError("UNKNOWN", 400, LIVE_ONLINE_ONLY);
+}
+
+export async function answerLive(_gameId: string, _choice: number): Promise<LiveAnswerResult> {
+  throw new ApiError("UNKNOWN", 400, LIVE_ONLINE_ONLY);
+}
+
+export function subscribeLiveGame(_gameId: string, _onChange: () => void): () => void {
+  return () => {};
 }

@@ -75,6 +75,17 @@ function (admins); API `getVideoQuizzes`, `saveVideoQuiz`, `deleteVideoQuiz`;
 admin page `src/pages/admin/AdminQuizzes.tsx`; student panel
 `src/components/VideoQuizPanel.tsx`; shared checks `src/lib/videoQuiz.ts`.
 
+## Live quiz
+
+Tables `live_quizzes`, `live_games`, `live_game_state`, `live_players`,
+`live_answers` and functions `create_live_game`, `join_live_game`,
+`live_next`, `live_answer`, `live_reveal`, `live_finish`, `live_clock`.
+API: `getLiveQuizzes`, `saveLiveQuiz`, `startLiveGame`, `joinLiveGame`,
+`getLiveGame`, `liveNext`, `liveReveal`, `liveFinish`, `answerLive`,
+`subscribeLiveGame` (Realtime). Pages in `src/pages/live/` (hub, editor,
+host, play), shared parts in `src/components/live/LiveParts.tsx`, rules in
+`src/lib/liveQuiz.ts`.
+
 ## Watched videos (roadmap 4.7)
 
 `video_progress` (student-owned); API `getVideoProgress`,

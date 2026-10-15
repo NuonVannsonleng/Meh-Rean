@@ -2393,3 +2393,422 @@ create policy "own video progress" on public.video_progress for all to authentic
   using (user_id = auth.uid()) with check (user_id = auth.uid());
 revoke all on public.video_progress from anon;
 grant select, insert, update, delete on public.video_progress to authenticated;
+
+-- ------------------------------------------------------------ Live quiz --
+
+-- Live quizzes, Kahoot-style: anyone signed in writes a quiz, hosts a game,
+-- and players join with a 6-digit code. Everyone sees the same question
+-- with the same countdown. Timing and scoring happen here, on the server
+-- clock: answers after the deadline are refused, and a right answer scores
+-- 500-1000 points, more for answering sooner.
+
+-- [{ prompt, choices: [2-4 strings], answer: index, seconds: 5-120 }], 1-50 of them.
+create or replace function public.valid_live_questions(questions jsonb)
+returns boolean
+language plpgsql
+immutable
+set search_path = ''
+as $$
+declare
+  item jsonb;
+  choices integer;
+begin
+  if jsonb_typeof(questions) <> 'array' or jsonb_array_length(questions) not between 1 and 50 then
+    return false;
+  end if;
+  for item in select value from jsonb_array_elements(questions) loop
+    if jsonb_typeof(item->'prompt') <> 'string' or char_length(btrim(item->>'prompt')) not between 1 and 500 then
+      return false;
+    end if;
+    if jsonb_typeof(item->'choices') <> 'array' then
+      return false;
+    end if;
+    choices := jsonb_array_length(item->'choices');
+    if choices not between 2 and 4
+      or exists (select 1 from jsonb_array_elements(item->'choices') c where jsonb_typeof(c.value) <> 'string' or char_length(btrim(c.value #>> '{}')) not between 1 and 200) then
+      return false;
+    end if;
+    if jsonb_typeof(item->'answer') <> 'number' or (item->>'answer')::numeric not in (0, 1, 2, 3) or (item->>'answer')::integer >= choices then
+      return false;
+    end if;
+    if jsonb_typeof(item->'seconds') <> 'number' or (item->>'seconds')::numeric <> floor((item->>'seconds')::numeric) or (item->>'seconds')::integer not between 5 and 120 then
+      return false;
+    end if;
+  end loop;
+  return true;
+end;
+$$;
+
+-- A quiz holds its answers, so only its owner can read it.
+create table if not exists public.live_quizzes (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null default auth.uid() references public.profiles on delete cascade,
+  title text not null check (char_length(btrim(title)) between 1 and 120),
+  questions jsonb not null check (public.valid_live_questions(questions)),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists live_quizzes_owner_idx on public.live_quizzes (owner_id, updated_at desc);
+alter table public.live_quizzes enable row level security;
+drop policy if exists "own live quizzes" on public.live_quizzes;
+create policy "own live quizzes" on public.live_quizzes for all to authenticated
+  using (owner_id = auth.uid()) with check (owner_id = auth.uid());
+revoke all on public.live_quizzes from anon;
+grant select, insert, update, delete on public.live_quizzes to authenticated;
+
+-- A game: the quiz's questions copied when it starts (so editing the quiz
+-- cannot change a running game). Only the host reads this row.
+create table if not exists public.live_games (
+  id uuid primary key default gen_random_uuid(),
+  quiz_id uuid references public.live_quizzes on delete set null,
+  host_id uuid not null references public.profiles on delete cascade,
+  code text not null check (code ~ '^[0-9]{6}$'),
+  questions jsonb not null,
+  status text not null default 'lobby' check (status in ('lobby', 'question', 'reveal', 'finished')),
+  current_index integer not null default -1,
+  created_at timestamptz not null default now(),
+  finished_at timestamptz
+);
+create unique index if not exists live_games_open_code on public.live_games (code) where status <> 'finished';
+create index if not exists live_games_host_idx on public.live_games (host_id, created_at desc);
+alter table public.live_games enable row level security;
+drop policy if exists "hosts see own games" on public.live_games;
+create policy "hosts see own games" on public.live_games for select to authenticated using (host_id = auth.uid());
+revoke insert, update, delete on public.live_games from anon, authenticated;
+
+create table if not exists public.live_players (
+  game_id uuid not null references public.live_games on delete cascade,
+  user_id uuid not null references public.profiles on delete cascade,
+  nickname text not null check (char_length(btrim(nickname)) between 1 and 24),
+  score integer not null default 0,
+  correct_count integer not null default 0,
+  -- Points from the question just revealed, for "+850" on the player's screen.
+  last_points integer not null default 0,
+  joined_at timestamptz not null default now(),
+  primary key (game_id, user_id)
+);
+
+-- What everyone in the game sees: the current question without its answer
+-- until it is revealed. Changes stream to phones over Realtime.
+create table if not exists public.live_game_state (
+  game_id uuid primary key references public.live_games on delete cascade,
+  title text not null,
+  code text not null,
+  host_id uuid not null,
+  status text not null,
+  question_index integer not null default -1,
+  question_count integer not null,
+  prompt text,
+  choices jsonb,
+  seconds integer,
+  started_at timestamptz,
+  deadline_at timestamptz,
+  answered integer not null default 0,
+  correct_choice integer,
+  choice_counts jsonb,
+  updated_at timestamptz not null default now()
+);
+
+-- Each player's answer. Players may read their own choice, not whether it was
+-- right (column grants below): that waits for the reveal.
+create table if not exists public.live_answers (
+  game_id uuid not null references public.live_games on delete cascade,
+  question_index integer not null,
+  user_id uuid not null references public.profiles on delete cascade,
+  choice integer not null,
+  answered_at timestamptz not null default now(),
+  correct boolean not null,
+  points integer not null,
+  primary key (game_id, question_index, user_id)
+);
+
+-- Host or player of this game. Security definer so policies on live_players
+-- can use it without looking at themselves.
+create or replace function public.is_live_member(game uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (select 1 from public.live_games g where g.id = game and g.host_id = auth.uid())
+    or exists (select 1 from public.live_players p where p.game_id = game and p.user_id = auth.uid());
+$$;
+revoke execute on function public.is_live_member(uuid) from public, anon;
+grant execute on function public.is_live_member(uuid) to authenticated;
+
+alter table public.live_players enable row level security;
+drop policy if exists "game members see players" on public.live_players;
+create policy "game members see players" on public.live_players for select to authenticated using (public.is_live_member(game_id));
+revoke insert, update, delete on public.live_players from anon, authenticated;
+
+alter table public.live_game_state enable row level security;
+drop policy if exists "game members see the game" on public.live_game_state;
+create policy "game members see the game" on public.live_game_state for select to authenticated using (public.is_live_member(game_id));
+revoke insert, update, delete on public.live_game_state from anon, authenticated;
+
+alter table public.live_answers enable row level security;
+drop policy if exists "own live answers" on public.live_answers;
+create policy "own live answers" on public.live_answers for select to authenticated using (user_id = auth.uid());
+revoke all on public.live_answers from anon, authenticated;
+grant select (game_id, question_index, user_id, choice, answered_at) on public.live_answers to authenticated;
+
+-- Phones follow the game live.
+do $$
+declare
+  t text;
+begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime') then
+    foreach t in array array['live_game_state', 'live_players'] loop
+      if not exists (
+        select 1 from pg_publication_tables
+        where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = t
+      ) then
+        execute format('alter publication supabase_realtime add table public.%I', t);
+      end if;
+    end loop;
+  end if;
+end $$;
+
+-- The server's clock, so every phone counts down to the same moment.
+create or replace function public.live_clock()
+returns timestamptz
+language sql
+stable
+set search_path = ''
+as $$ select now() $$;
+grant execute on function public.live_clock() to authenticated;
+
+-- Starts a game from one of the caller's quizzes; their older unfinished
+-- games end. Returns the game and its join code.
+create or replace function public.create_live_game(quiz uuid)
+returns table (game_id uuid, code text)
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  me uuid := auth.uid();
+  q record;
+  new_code text;
+  new_id uuid;
+begin
+  if me is null then
+    raise exception 'sign in to host a game' using errcode = '42501';
+  end if;
+  select lq.title, lq.questions into q from public.live_quizzes lq where lq.id = quiz and lq.owner_id = me;
+  if not found then
+    raise exception 'quiz not found' using errcode = 'P0002';
+  end if;
+  update public.live_games g set status = 'finished', finished_at = now() where g.host_id = me and g.status <> 'finished';
+  update public.live_game_state s set status = 'finished', updated_at = now()
+  where s.host_id = me and s.status <> 'finished';
+
+  loop
+    new_code := lpad(floor(random() * 1000000)::integer::text, 6, '0');
+    exit when not exists (select 1 from public.live_games g where g.code = new_code and g.status <> 'finished');
+  end loop;
+
+  insert into public.live_games (quiz_id, host_id, code, questions)
+  values (quiz, me, new_code, q.questions)
+  returning id into new_id;
+  insert into public.live_game_state (game_id, title, code, host_id, status, question_count)
+  values (new_id, q.title, new_code, me, 'lobby', jsonb_array_length(q.questions));
+  return query select new_id, new_code;
+end;
+$$;
+revoke execute on function public.create_live_game(uuid) from public, anon;
+grant execute on function public.create_live_game(uuid) to authenticated;
+
+-- Joins an open game by its code (or renames, when already in it).
+create or replace function public.join_live_game(join_code text, nickname text)
+returns uuid
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  me uuid := auth.uid();
+  game record;
+  name text := btrim(coalesce(nickname, ''));
+begin
+  if me is null then
+    raise exception 'sign in to join a game' using errcode = '42501';
+  end if;
+  if char_length(name) not between 1 and 24 then
+    raise exception 'choose a name of 1 to 24 characters' using errcode = '22023';
+  end if;
+  select g.id, g.host_id into game from public.live_games g where g.code = btrim(join_code) and g.status <> 'finished';
+  if not found then
+    raise exception 'no open game has that code' using errcode = 'P0002';
+  end if;
+  if game.host_id = me then
+    raise exception 'you are hosting this game' using errcode = '22023';
+  end if;
+  if (select count(*) from public.live_players p where p.game_id = game.id) >= 200
+    and not exists (select 1 from public.live_players p where p.game_id = game.id and p.user_id = me) then
+    raise exception 'this game is full' using errcode = '54000';
+  end if;
+  insert into public.live_players (game_id, user_id, nickname) values (game.id, me, name)
+  on conflict (game_id, user_id) do update set nickname = excluded.nickname;
+  return game.id;
+end;
+$$;
+revoke execute on function public.join_live_game(text, text) from public, anon;
+grant execute on function public.join_live_game(text, text) to authenticated;
+
+-- Host: show the next question (from the lobby or after a reveal), or finish.
+create or replace function public.live_next(game uuid)
+returns text
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  g record;
+  item jsonb;
+  next_index integer;
+  secs integer;
+begin
+  select * into g from public.live_games lg where lg.id = game and lg.host_id = auth.uid() for update;
+  if not found then
+    raise exception 'game not found' using errcode = 'P0002';
+  end if;
+  if g.status not in ('lobby', 'reveal') then
+    raise exception 'reveal this question first' using errcode = '22023';
+  end if;
+  next_index := g.current_index + 1;
+  if next_index >= jsonb_array_length(g.questions) then
+    update public.live_games set status = 'finished', finished_at = now() where id = game;
+    update public.live_game_state set status = 'finished', updated_at = now() where game_id = game;
+    return 'finished';
+  end if;
+  item := g.questions -> next_index;
+  secs := (item->>'seconds')::integer;
+  update public.live_games set status = 'question', current_index = next_index where id = game;
+  update public.live_game_state set
+    status = 'question',
+    question_index = next_index,
+    prompt = item->>'prompt',
+    choices = item->'choices',
+    seconds = secs,
+    started_at = now(),
+    deadline_at = now() + make_interval(secs => secs),
+    answered = 0,
+    correct_choice = null,
+    choice_counts = null,
+    updated_at = now()
+  where game_id = game;
+  return 'question';
+end;
+$$;
+revoke execute on function public.live_next(uuid) from public, anon;
+grant execute on function public.live_next(uuid) to authenticated;
+
+-- Player: answer the current question. Returns 'saved', 'late', 'already'
+-- or 'closed'. Scored now on the server clock, counted at the reveal.
+create or replace function public.live_answer(game uuid, choice integer)
+returns text
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  me uuid := auth.uid();
+  s record;
+  right_choice integer;
+  elapsed numeric;
+  earned integer;
+begin
+  if not exists (select 1 from public.live_players p where p.game_id = game and p.user_id = me) then
+    raise exception 'join the game first' using errcode = '42501';
+  end if;
+  select st.status, st.question_index, st.started_at, st.deadline_at, st.seconds, jsonb_array_length(st.choices) as choice_count
+  into s from public.live_game_state st where st.game_id = game;
+  if not found or s.status <> 'question' then
+    return 'closed';
+  end if;
+  -- A second's grace for the trip from the phone.
+  if now() > s.deadline_at + interval '1 second' then
+    return 'late';
+  end if;
+  if choice is null or choice < 0 or choice >= s.choice_count then
+    raise exception 'not one of the choices' using errcode = '22023';
+  end if;
+  select (lg.questions -> s.question_index ->> 'answer')::integer into right_choice from public.live_games lg where lg.id = game;
+  elapsed := least(greatest(extract(epoch from now() - s.started_at), 0), s.seconds);
+  earned := case when choice = right_choice then round(1000 - 500 * elapsed / s.seconds)::integer else 0 end;
+  insert into public.live_answers (game_id, question_index, user_id, choice, correct, points)
+  values (game, s.question_index, me, choice, choice = right_choice, earned)
+  on conflict do nothing;
+  if not found then
+    return 'already';
+  end if;
+  update public.live_game_state set answered = answered + 1, updated_at = now() where game_id = game;
+  return 'saved';
+end;
+$$;
+revoke execute on function public.live_answer(uuid, integer) from public, anon;
+grant execute on function public.live_answer(uuid, integer) to authenticated;
+
+-- Host: end the question, show the answer and how many chose each option,
+-- and add the points to the scores.
+create or replace function public.live_reveal(game uuid)
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  g record;
+  right_choice integer;
+  counts jsonb;
+begin
+  select * into g from public.live_games lg where lg.id = game and lg.host_id = auth.uid() for update;
+  if not found then
+    raise exception 'game not found' using errcode = 'P0002';
+  end if;
+  if g.status <> 'question' then
+    return;
+  end if;
+  right_choice := (g.questions -> g.current_index ->> 'answer')::integer;
+  select coalesce(jsonb_agg(coalesce(c.n, 0) order by i), '[]'::jsonb) into counts
+  from generate_series(0, jsonb_array_length(g.questions -> g.current_index -> 'choices') - 1) i
+  left join (
+    select a.choice, count(*)::integer n from public.live_answers a
+    where a.game_id = game and a.question_index = g.current_index group by a.choice
+  ) c on c.choice = i;
+
+  update public.live_players p set
+    score = p.score + coalesce(a.points, 0),
+    correct_count = p.correct_count + case when a.correct then 1 else 0 end,
+    last_points = coalesce(a.points, 0)
+  from public.live_players p2
+  left join public.live_answers a on a.game_id = p2.game_id and a.user_id = p2.user_id and a.question_index = g.current_index
+  where p.game_id = game and p2.game_id = p.game_id and p2.user_id = p.user_id;
+
+  update public.live_games set status = 'reveal' where id = game;
+  update public.live_game_state set status = 'reveal', correct_choice = right_choice, choice_counts = counts, updated_at = now()
+  where game_id = game;
+end;
+$$;
+revoke execute on function public.live_reveal(uuid) from public, anon;
+grant execute on function public.live_reveal(uuid) to authenticated;
+
+-- Host: end the game now.
+create or replace function public.live_finish(game uuid)
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if not exists (select 1 from public.live_games lg where lg.id = game and lg.host_id = auth.uid()) then
+    raise exception 'game not found' using errcode = 'P0002';
+  end if;
+  update public.live_games set status = 'finished', finished_at = coalesce(finished_at, now()) where id = game;
+  update public.live_game_state set status = 'finished', updated_at = now() where game_id = game;
+end;
+$$;
+revoke execute on function public.live_finish(uuid) from public, anon;
+grant execute on function public.live_finish(uuid) to authenticated;

@@ -36,6 +36,12 @@ import {
   type DailyQuestion,
   type DailyStreak,
   type ExamAttempt,
+  type LiveAnswerResult,
+  type LiveGameState,
+  type LiveGameView,
+  type LivePlayer,
+  type LiveQuestion,
+  type LiveQuiz,
   type Mistake,
   type StudyPlan,
   type StudyPlanInput,
@@ -2053,4 +2059,187 @@ export async function deleteVideoProgress(videoId: string): Promise<void> {
   const viewer = await requireViewer();
   const { error } = await supabase.from("video_progress").delete().eq("user_id", viewer).eq("video_id", videoId);
   if (error) throw new ApiError("UNKNOWN", 400, error.message);
+}
+
+// ---- Live quizzes ----
+
+interface LiveQuizRow {
+  id: string;
+  title: string;
+  questions: LiveQuestion[];
+  updated_at: string;
+}
+
+interface LiveGameStateRow {
+  game_id: string;
+  title: string;
+  code: string;
+  host_id: string;
+  status: LiveGameState["status"];
+  question_index: number;
+  question_count: number;
+  prompt: string | null;
+  choices: string[] | null;
+  seconds: number | null;
+  started_at: string | null;
+  deadline_at: string | null;
+  answered: number;
+  correct_choice: number | null;
+  choice_counts: number[] | null;
+}
+
+interface LivePlayerRow {
+  user_id: string;
+  nickname: string;
+  score: number;
+  correct_count: number;
+  last_points: number;
+}
+
+const toLiveQuiz = (row: LiveQuizRow): LiveQuiz => ({ id: row.id, title: row.title, questions: row.questions, updatedAt: row.updated_at });
+
+/** Turns a database error into a message a player can act on. */
+function failLive(error: { message: string; code?: string }): never {
+  const status = error.code === "42501" ? 403 : error.code === "P0002" ? 404 : 400;
+  throw new ApiError(status === 403 ? "FORBIDDEN" : status === 404 ? "NOT_FOUND" : "UNKNOWN", status, error.message);
+}
+
+export async function getLiveQuizzes(): Promise<LiveQuiz[]> {
+  const viewer = await viewerId();
+  if (!viewer) return [];
+  const rows = unwrap(
+    await supabase.from("live_quizzes").select("id, title, questions, updated_at").eq("owner_id", viewer).order("updated_at", { ascending: false }).limit(200).returns<LiveQuizRow[]>(),
+  );
+  return rows.map(toLiveQuiz);
+}
+
+export async function getLiveQuiz(id: string): Promise<LiveQuiz> {
+  const { data, error } = await supabase.from("live_quizzes").select("id, title, questions, updated_at").eq("id", id).maybeSingle<LiveQuizRow>();
+  if (error) failLive(error);
+  if (!data) throw new ApiError("NOT_FOUND", 404);
+  return toLiveQuiz(data);
+}
+
+export async function saveLiveQuiz(input: { title: string; questions: LiveQuestion[] }, id: string | null): Promise<LiveQuiz> {
+  await requireViewer();
+  const values = { title: input.title.trim(), questions: input.questions, updated_at: new Date().toISOString() };
+  const query = id ? supabase.from("live_quizzes").update(values).eq("id", id) : supabase.from("live_quizzes").insert(values);
+  const { data, error } = await query.select("id, title, questions, updated_at").single<LiveQuizRow>();
+  if (error) failLive(error);
+  return toLiveQuiz(data);
+}
+
+export async function deleteLiveQuiz(id: string): Promise<void> {
+  await requireViewer();
+  const { error } = await supabase.from("live_quizzes").delete().eq("id", id);
+  if (error) failLive(error);
+}
+
+export async function startLiveGame(quizId: string): Promise<{ gameId: string; code: string }> {
+  await requireViewer();
+  const { data, error } = await supabase.rpc("create_live_game", { quiz: quizId });
+  if (error) failLive(error);
+  const row = (data as { game_id: string; code: string }[])[0];
+  return { gameId: row.game_id, code: row.code };
+}
+
+export async function joinLiveGame(code: string, nickname: string): Promise<string> {
+  await requireViewer();
+  const { data, error } = await supabase.rpc("join_live_game", { join_code: code.trim(), nickname: nickname.trim() });
+  if (error) failLive(error);
+  return data as string;
+}
+
+/** Server time minus this phone's, measured once per page and kept. */
+let liveClock: { offsetMs: number; at: number } | null = null;
+async function liveClockOffset(): Promise<number> {
+  if (liveClock && Date.now() - liveClock.at < 60_000) return liveClock.offsetMs;
+  const sent = Date.now();
+  const { data, error } = await supabase.rpc("live_clock");
+  const received = Date.now();
+  if (error || !data) return liveClock?.offsetMs ?? 0;
+  liveClock = { offsetMs: Date.parse(data as string) - (sent + received) / 2, at: received };
+  return liveClock.offsetMs;
+}
+
+export async function getLiveGame(gameId: string): Promise<LiveGameView> {
+  const viewer = await requireViewer();
+  const [stateResult, playersResult, offset] = await Promise.all([
+    supabase.from("live_game_state").select("*").eq("game_id", gameId).maybeSingle<LiveGameStateRow>(),
+    supabase.from("live_players").select("user_id, nickname, score, correct_count, last_points").eq("game_id", gameId).returns<LivePlayerRow[]>(),
+    liveClockOffset(),
+  ]);
+  if (stateResult.error) failLive(stateResult.error);
+  const row = stateResult.data;
+  if (!row) throw new ApiError("NOT_FOUND", 404, "This game was not found, or you have not joined it.");
+  let myChoice: number | null = null;
+  if (row.status !== "lobby" && row.host_id !== viewer) {
+    const mine = await supabase
+      .from("live_answers")
+      .select("choice")
+      .eq("game_id", gameId)
+      .eq("question_index", row.question_index)
+      .eq("user_id", viewer)
+      .maybeSingle<{ choice: number }>();
+    myChoice = mine.data?.choice ?? null;
+  }
+  return {
+    state: {
+      gameId: row.game_id,
+      title: row.title,
+      code: row.code,
+      hostId: row.host_id,
+      status: row.status,
+      questionIndex: row.question_index,
+      questionCount: row.question_count,
+      prompt: row.prompt,
+      choices: row.choices,
+      seconds: row.seconds,
+      startedAt: row.started_at,
+      deadlineAt: row.deadline_at,
+      answered: row.answered,
+      correctChoice: row.correct_choice,
+      choiceCounts: row.choice_counts,
+    },
+    players: (playersResult.data ?? []).map(
+      (player): LivePlayer => ({ userId: player.user_id, nickname: player.nickname, score: player.score, correctCount: player.correct_count, lastPoints: player.last_points }),
+    ),
+    isHost: row.host_id === viewer,
+    myChoice,
+    clockOffsetMs: offset,
+  };
+}
+
+export async function liveNext(gameId: string): Promise<string> {
+  const { data, error } = await supabase.rpc("live_next", { game: gameId });
+  if (error) failLive(error);
+  return data as string;
+}
+
+export async function liveReveal(gameId: string): Promise<void> {
+  const { error } = await supabase.rpc("live_reveal", { game: gameId });
+  if (error) failLive(error);
+}
+
+export async function liveFinish(gameId: string): Promise<void> {
+  const { error } = await supabase.rpc("live_finish", { game: gameId });
+  if (error) failLive(error);
+}
+
+export async function answerLive(gameId: string, choice: number): Promise<LiveAnswerResult> {
+  const { data, error } = await supabase.rpc("live_answer", { game: gameId, choice });
+  if (error) failLive(error);
+  return data as LiveAnswerResult;
+}
+
+/** Calls onChange whenever the game or its players change (Realtime; members only, by row level security). */
+export function subscribeLiveGame(gameId: string, onChange: () => void): () => void {
+  const channel = supabase
+    .channel(`live-${gameId}-${crypto.randomUUID()}`)
+    .on("postgres_changes", { event: "*", schema: "public", table: "live_game_state", filter: `game_id=eq.${gameId}` }, () => onChange())
+    .on("postgres_changes", { event: "*", schema: "public", table: "live_players", filter: `game_id=eq.${gameId}` }, () => onChange())
+    .subscribe();
+  return () => {
+    void supabase.removeChannel(channel);
+  };
 }

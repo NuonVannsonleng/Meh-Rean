@@ -34,6 +34,19 @@ The roadmap suggested Kantumruy Pro. The app already ships Noto Sans Khmer
 renders Khmer and sits well beside KaTeX, so it stays: no second Khmer font
 to download on phones and no change to the look.
 
+## 2026-10-15 — Live quiz: the database keeps the clock and the score
+
+Players' phones are not trusted with time or answers. The quiz (with answers)
+is readable only by its owner; a running game copies the questions into a
+host-only row, and players see a separate state row that gets the right
+answer only at the reveal. `live_answer` checks the deadline against the
+server clock and scores immediately; points join the scores at the reveal,
+and players cannot read whether they were right until then (column-level
+grants). Phones show a countdown corrected by a measured server-clock
+offset. Realtime pushes changes; a slow poll covers flaky connections.
+Anyone signed in may host (the owner's choice); a host keeps one open game
+at a time, and games cap at 200 players.
+
 ## 2026-10-13 — Video quizzes: admin-supplied transcripts, never stored
 
 "An authorised transcript" can only come from a person who has the right to

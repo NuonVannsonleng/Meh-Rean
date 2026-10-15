@@ -22,6 +22,10 @@ const BaciiToday = lazy(() => import("./pages/BaciiToday"));
 const BaciiPlan = lazy(() => import("./pages/BaciiPlan"));
 const BaciiSolve = lazy(() => import("./pages/BaciiSolve"));
 const BaciiMyVideos = lazy(() => import("./pages/BaciiMyVideos"));
+const LiveHub = lazy(() => import("./pages/live/LiveHub"));
+const LiveQuizEditor = lazy(() => import("./pages/live/LiveQuizEditor"));
+const LiveHost = lazy(() => import("./pages/live/LiveHost"));
+const LivePlay = lazy(() => import("./pages/live/LivePlay"));
 const CreatePost = lazy(() => import("./pages/CreatePost"));
 const LogoCredits = lazy(() => import("./pages/LogoCredits"));
 const Login = lazy(() => import("./pages/Login"));
@@ -123,6 +127,11 @@ export default function App() {
               }
             />
             <Route path="/bacii/solve" element={<BaciiSolve />} />
+            <Route path="/live" element={<RequireAuth><LiveHub /></RequireAuth>} />
+            <Route path="/live/quizzes/new" element={<RequireAuth><LiveQuizEditor key="new" /></RequireAuth>} />
+            <Route path="/live/quizzes/:id" element={<RequireAuth><LiveQuizEditor /></RequireAuth>} />
+            <Route path="/live/host/:id" element={<RequireAuth><LiveHost /></RequireAuth>} />
+            <Route path="/live/play/:id" element={<RequireAuth><LivePlay /></RequireAuth>} />
             <Route
               path="/bacii/my-videos"
               element={
