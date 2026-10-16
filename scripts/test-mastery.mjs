@@ -10,7 +10,7 @@
 
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { describeMastery, emptyMastery, masteryEvidence, masteryFromEvents, masteryLabel, masteryStep, updateMastery } from "../src/lib/mastery.ts";
+import { describeMastery, emptyMastery, masteryEvidence, masteryFromEvents, masteryHistory, masteryLabel, masteryStep, updateMastery } from "../src/lib/mastery.ts";
 import { accounts, assert, localTarget, reporter, sql } from "./lib/local-supabase.mjs";
 
 const { check, skip, finish } = reporter();
@@ -141,6 +141,29 @@ await check("deterministic: input order and duplicated events do not change the 
   assert(a.score === expected && a.version === rules.version, `${a.score} vs ${expected}`);
 });
 
+await check("known sequences give known estimates (worked by hand from the rules; catches accidental changes)", async () => {
+  const seq = (items) => items.map(([correct, difficulty = null]) => answer(Boolean(correct), difficulty));
+  const cases = [
+    ["right ×4", seq([[1], [1], [1], [1]]), "75,83,88,90"],
+    ["wrong ×4", seq([[0], [0], [0], [0]]), "25,17,13,10"],
+    ["alternating", seq([[1], [0], [1], [0]]), "75,50,63,50"],
+    ["wrong then right, hard", seq([[0, 5], [1, 5], [1, 5], [1, 5]]), "33,62,74,81"],
+    ["easy right ×3, then hard wrong", seq([[1, 1], [1, 1], [1, 1], [0, 5]]), "68,75,79,68"],
+  ];
+  for (const [name, answers, expected] of cases) {
+    const got = masteryHistory(answers, rules).map((step) => step.score).join();
+    assert(got === expected, `${name}: ${got}, expected ${expected}`);
+  }
+});
+
+await check("history: one step per answer, ending at the estimate", async () => {
+  const answers = [answer(true, 4, "2026-10-01T01:00:00Z"), answer(false, 2, "2026-10-02T01:00:00Z"), answer(true, null, "2026-10-03T01:00:00Z")];
+  const history = masteryHistory(answers, rules);
+  assert(history.length === 3 && history.map((step) => step.at).join() === answers.map((item) => item.at).join(), "steps");
+  assert(history.at(-1).score === Math.round(run(answers).score), "last step is not the estimate");
+  assert(masteryHistory([], rules).length === 0, "history without answers");
+});
+
 const target = localTarget();
 if (!target) {
   skip("database checks", "no local Supabase in SUPABASE_URL or .env.test (never run against a hosted project)");
@@ -211,6 +234,14 @@ await check("exam answers count and carry the question's difficulty", async () =
   assert(event.data.difficulty === byId.get("2302").difficulty, JSON.stringify(event.data));
   const rows = await matchesApp();
   assert(rows.some((row) => row.topic_id === byId.get("2302").topicId), "no estimate for the exam answer");
+});
+
+await check("notebook reviews count; an answer with no topic gives no estimate", async () => {
+  const before = (await stored()).length;
+  sql(`select public.record_learning_event('${me.id}', 'mistake_reviewed', 'question', '${byId.get("2501").id}', '{"correct": false, "source": "practice"}'::jsonb, 'review:test-${randomUUID()}')`);
+  sql(`insert into public.learning_events (user_id, event_type, resource_type, resource_id, data, idempotency_key) values ('${me.id}', 'question_attempted', 'question', 'no-topic', '{"correct": true}'::jsonb, 'notopic:${randomUUID()}')`);
+  const rows = await matchesApp();
+  assert(rows.length === before + 1 && rows.some((row) => row.topic_id === byId.get("2501").topicId && row.correct === 0), `${rows.length} estimates`);
 });
 
 await check("students only read their own estimates and cannot write any", async () => {

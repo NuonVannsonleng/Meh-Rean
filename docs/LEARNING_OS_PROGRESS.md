@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 3 — 3.4 Deterministic tests (remaining cases) and 3.5 mastery labels in the UI** (next up).
+**Phase 3 — 3.5 Mastery labels in the UI** (next up).
 
 ## Done
 
@@ -195,6 +195,16 @@
   12/12, mistakes 9/9, daily 8/8; accounts 68/68 (one earlier run had one
   failure that did not repeat in two reruns: flaky, noted); lint.
   Production needs `setup-all.sql` run again for this.
+
+- **2026-10-17 — 3.4 Deterministic tests.** Agents: learning intelligence,
+  tester. `masteryHistory()` (the estimate after each answer, for "how it
+  changed"). New checks: five answer sequences with estimates worked by
+  hand from the rules (any change to the numbers or the update fails them),
+  history steps end at the estimate, notebook reviews count in the database,
+  an answer with no topic gives no estimate. Case list now: no evidence,
+  first attempt, right, wrong, bounds, difficulty, recency, repeats and
+  repeated requests, duplicates and order, labels, confidence, history,
+  stored = app, privacy, version change. `npm run test:mastery` 20/20.
 
 ## Report format (per task)
 

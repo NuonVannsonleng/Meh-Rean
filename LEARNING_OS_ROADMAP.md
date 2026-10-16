@@ -102,8 +102,10 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   estimate. Students read only their own and cannot write any.
   `getTopicMastery()` in both backends. `npm run test:mastery` 17/17
   (stored scores equal the app's to 1e-9).
-- [ ] Deterministic tests (first attempt, right, wrong, repeats, no evidence,
+- [x] 3.4 Deterministic tests (first attempt, right, wrong, repeats, no evidence,
   difficulty, duplicates, history).
+  ✔ 2026-10-17: `masteryHistory()`; hand-worked sequences pinned; reviews
+  and topic-less answers in the database. `npm run test:mastery` 20/20.
 - [ ] Mastery components ("Needs foundation" … "Consistently strong", unknown state).
 
 ## Phase 4 — Recommendation engine

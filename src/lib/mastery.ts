@@ -136,6 +136,17 @@ export function masteryEvidence(events: LearningEvent[]): Map<string, MasteryAns
   return byTopic;
 }
 
+/** The estimate after each answer on one topic, oldest first: what the student sees as "how it changed". */
+export function masteryHistory(answers: MasteryAnswer[], rules: MasteryRules): { at: string; correct: boolean; score: number }[] {
+  const steps: { at: string; correct: boolean; score: number }[] = [];
+  answers.reduce((state, answer) => {
+    const next = updateMastery(state, answer, rules);
+    steps.push({ at: answer.at, correct: answer.correct, score: Math.round(next.score) });
+    return next;
+  }, emptyMastery(rules));
+  return steps;
+}
+
 /** Every topic the student has evidence on, sorted by topic id. */
 export function masteryFromEvents(events: LearningEvent[], rules: MasteryRules, now = new Date()): TopicMastery[] {
   return [...masteryEvidence(events)]
