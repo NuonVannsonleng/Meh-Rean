@@ -2065,7 +2065,21 @@ begin
     where ea.attempt_id = attempt
   loop
     perform public.note_answer(answered.user_id, answered.question_id, answered.is_correct, answered.answer, 'exam', attempt);
+    if answered.is_correct is not null then
+      perform public.record_learning_event(
+        answered.user_id, 'question_attempted', 'question', answered.question_id::text,
+        jsonb_build_object('correct', answered.is_correct, 'source', 'exam'),
+        'exam:' || attempt || ':' || answered.question_id
+      );
+    end if;
   end loop;
+
+  perform public.record_learning_event(
+    a.user_id, 'mock_exam_completed', 'exam_paper', a.paper_id::text,
+    jsonb_build_object('status', a.status, 'score', a.score, 'max_score', a.max_score, 'unmarked', a.unmarked, 'timing', a.timing),
+    'exam:' || attempt
+  )
+  from public.exam_attempts a where a.id = attempt;
 end;
 $$;
 revoke execute on function public.mark_exam_attempt(uuid, text) from public, anon, authenticated;
@@ -2198,7 +2212,10 @@ grant execute on function public.submit_exam(uuid) to authenticated;
 -- right. Returns null for questions that cannot be marked automatically.
 -- Refused for a question on the student's running mock exam, so it cannot
 -- be used to test answers mid-exam.
-create or replace function public.record_practice_answer(question uuid, answer text)
+-- `request` (Learning OS 1.3) makes a retry harmless: the same request id
+-- returns the first result without marking or counting anything again.
+drop function if exists public.record_practice_answer(uuid, text);
+create or replace function public.record_practice_answer(question uuid, answer text, request uuid default null)
 returns boolean
 language plpgsql
 security definer
@@ -2208,6 +2225,11 @@ declare
   me uuid := auth.uid();
   q record;
   right_answer boolean;
+  event_key text := 'practice:' || coalesce(request, gen_random_uuid());
+  claimed bigint;
+  earlier jsonb;
+  in_notebook boolean;
+  is_daily boolean;
 begin
   if me is null then
     raise exception 'sign in to keep a mistake notebook' using errcode = '42501';
@@ -2224,24 +2246,43 @@ begin
     raise exception 'finish your mock exam first' using errcode = '42501';
   end if;
 
-  select qq.type, s.correct_choice, s.numeric_answer, s.numeric_tolerance into q
+  select qq.type, qq.chapter_id, qq.topic_id, qq.difficulty, s.correct_choice, s.numeric_answer, s.numeric_tolerance into q
   from public.questions qq
   join public.question_solutions s on s.question_id = qq.id
   where qq.id = question;
   if not found then
     return null;
   end if;
+
+  -- Claim the request first: a retry, even a simultaneous one, finds it and stops here.
+  claimed := public.record_learning_event(me, 'question_attempted', 'question', question::text, '{}'::jsonb, event_key);
+  if claimed is null then
+    select e.data into earlier from public.learning_events e where e.user_id = me and e.idempotency_key = event_key;
+    return (earlier ->> 'correct')::boolean;
+  end if;
+
+  in_notebook := exists (select 1 from public.mistakes m where m.user_id = me and m.question_id = record_practice_answer.question);
+  is_daily := exists (
+    select 1 from public.daily_questions d
+    where d.user_id = me and d.day = (now() at time zone 'Asia/Phnom_Penh')::date
+      and d.question_id = record_practice_answer.question and d.answered_at is null
+  );
   right_answer := public.answer_matches(q.type, answer, q.correct_choice, q.numeric_answer, q.numeric_tolerance);
   perform public.note_answer(me, question, right_answer, answer, 'practice', null);
   -- The first answer to today's question counts for the streak.
   update public.daily_questions d set answered_at = now(), correct = right_answer
   where d.user_id = me and d.day = (now() at time zone 'Asia/Phnom_Penh')::date
     and d.question_id = record_practice_answer.question and d.answered_at is null;
+
+  update public.learning_events e set
+    event_type = case when in_notebook then 'mistake_reviewed' else 'question_attempted' end,
+    data = jsonb_build_object('correct', right_answer, 'source', case when is_daily then 'daily' else 'practice' end, 'difficulty', q.difficulty)
+  where e.id = claimed;
   return right_answer;
 end;
 $$;
-revoke execute on function public.record_practice_answer(uuid, text) from public, anon;
-grant execute on function public.record_practice_answer(uuid, text) to authenticated;
+revoke execute on function public.record_practice_answer(uuid, text, uuid) from public, anon;
+grant execute on function public.record_practice_answer(uuid, text, uuid) to authenticated;
 
 -- Today's question for the signed-in student, picked once a day and then
 -- kept. Weakest chapter: lowest (correct + 1) / (answered + 2) — a chapter
@@ -2939,6 +2980,119 @@ create policy "unlink own notes or as admin" on public.resource_topics for delet
   or (resource_type = 'note' and exists (select 1 from public.posts p where p.id::text = resource_id and p.author_id = auth.uid()))
 );
 revoke update on public.resource_topics from anon, authenticated;
+
+-- ------------------------------------------------- Learning OS: activity --
+
+-- What each student did (Learning OS 1.3), written only by the database
+-- from the actions it already checks: marked answers, mock exams, video
+-- marks and ticked study-plan items. One event per action: the idempotency
+-- key stops a retry counting twice. Self-reported actions say so in `data`
+-- and are never evidence of mastery.
+create table if not exists public.learning_events (
+  id bigint generated always as identity primary key,
+  user_id uuid not null references public.profiles on delete cascade,
+  event_type text not null check (event_type in (
+    'question_attempted', 'mistake_reviewed', 'mock_exam_completed',
+    'video_watched', 'video_marked_understood', 'video_marked_revise', 'study_task_completed'
+  )),
+  resource_type text check (resource_type in ('question', 'exam_paper', 'video', 'study_plan')),
+  resource_id text,
+  topic_id text references public.curriculum_topics on delete set null,
+  chapter_id text references public.curriculum_chapters on delete set null,
+  data jsonb not null default '{}'::jsonb check (octet_length(data::text) <= 4000),
+  idempotency_key text not null check (char_length(idempotency_key) <= 200),
+  schema_version smallint not null default 1,
+  created_at timestamptz not null default now(),
+  unique (user_id, idempotency_key)
+);
+create index if not exists learning_events_user_time on public.learning_events (user_id, created_at desc);
+create index if not exists learning_events_user_topic on public.learning_events (user_id, topic_id) where topic_id is not null;
+alter table public.learning_events enable row level security;
+drop policy if exists "see own learning events" on public.learning_events;
+create policy "see own learning events" on public.learning_events for select to authenticated using (user_id = auth.uid());
+revoke insert, update, delete on public.learning_events from anon, authenticated;
+
+-- Records one event; returns its id, or null when the key was already used.
+-- Questions get their topic and chapter from the question itself.
+create or replace function public.record_learning_event(who uuid, kind text, res_type text, res_id text, payload jsonb, idem text)
+returns bigint
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  topic text;
+  chapter text;
+  new_id bigint;
+begin
+  if res_type = 'question' then
+    select q.topic_id, q.chapter_id into topic, chapter from public.questions q where q.id::text = res_id;
+  end if;
+  insert into public.learning_events (user_id, event_type, resource_type, resource_id, topic_id, chapter_id, data, idempotency_key)
+  values (who, kind, res_type, res_id, topic, chapter, coalesce(payload, '{}'::jsonb), idem)
+  on conflict (user_id, idempotency_key) do nothing
+  returning id into new_id;
+  return new_id;
+end;
+$$;
+revoke execute on function public.record_learning_event(uuid, text, text, text, jsonb, text) from public, anon, authenticated;
+
+-- Video marks (self-reported): one event per video, mark and day.
+create or replace function public.learning_event_from_video()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if tg_op = 'UPDATE' and new.status = old.status then
+    return new;
+  end if;
+  perform public.record_learning_event(
+    new.user_id,
+    case new.status when 'understood' then 'video_marked_understood' when 'needs-revision' then 'video_marked_revise' else 'video_watched' end,
+    'video', new.video_id,
+    jsonb_build_object('self_reported', true, 'chapter_id', new.chapter_id),
+    'video:' || new.video_id || ':' || new.status || ':' || (now() at time zone 'utc')::date
+  );
+  return new;
+end;
+$$;
+drop trigger if exists learning_event_from_video on public.video_progress;
+create trigger learning_event_from_video after insert or update on public.video_progress
+  for each row execute function public.learning_event_from_video();
+
+-- Study-plan items ticked off (self-reported): one event per item of a plan.
+create or replace function public.learning_event_from_plan()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  item record;
+begin
+  for item in
+    select i.value ->> 'id' as item_id, i.value ->> 'kind' as kind, i.value ->> 'chapterId' as chapter_id, w.value ->> 'start' as week
+    from jsonb_array_elements(new.weeks) w, jsonb_array_elements(w.value -> 'items') i
+    where (i.value ->> 'done')::boolean is true
+      and (tg_op = 'INSERT' or not exists (
+        select 1 from jsonb_array_elements(old.weeks) ow, jsonb_array_elements(ow.value -> 'items') oi
+        where oi.value ->> 'id' = i.value ->> 'id' and (oi.value ->> 'done')::boolean is true
+      ))
+  loop
+    perform public.record_learning_event(
+      new.user_id, 'study_task_completed', 'study_plan', new.user_id::text,
+      jsonb_build_object('self_reported', true, 'kind', item.kind, 'chapter_id', item.chapter_id, 'week', item.week),
+      'plan:' || extract(epoch from new.created_at)::bigint || ':' || coalesce(item.item_id, '?')
+    );
+  end loop;
+  return new;
+end;
+$$;
+drop trigger if exists learning_event_from_plan on public.study_plans;
+create trigger learning_event_from_plan after insert or update on public.study_plans
+  for each row execute function public.learning_event_from_plan();
 
 -- ===== supabase/seed/curriculum.sql =====
 -- Generated by scripts/build-curriculum-seed.mjs from src/data/curriculum/.

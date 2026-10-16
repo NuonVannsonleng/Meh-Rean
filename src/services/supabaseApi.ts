@@ -43,6 +43,7 @@ import {
   type LiveQuestion,
   type LiveQuiz,
   type ConceptLink,
+  type LearningEvent,
   type ResourceTopic,
   type ResourceTopicInput,
   type Mistake,
@@ -1762,9 +1763,10 @@ interface MistakeRow {
 }
 
 /** Marked by record_practice_answer, which also keeps the notebook; null when it cannot be marked. */
-export async function recordPracticeAnswer(questionId: string, answer: string): Promise<boolean | null> {
+export async function recordPracticeAnswer(questionId: string, answer: string, requestId?: string): Promise<boolean | null> {
   await requireViewer();
-  const { data, error } = await supabase.rpc("record_practice_answer", { question: questionId, answer });
+  // The request id makes a retry harmless: the database returns the first result.
+  const { data, error } = await supabase.rpc("record_practice_answer", { question: questionId, answer, request: requestId ?? crypto.randomUUID() });
   if (error) throw new ApiError(error.code === "42501" ? "FORBIDDEN" : "UNKNOWN", error.code === "42501" ? 403 : 400, error.message);
   return data as boolean | null;
 }
@@ -2301,4 +2303,30 @@ export async function unlinkResourceTopic(id: string): Promise<void> {
   await requireViewer();
   const { error } = await supabase.from("resource_topics").delete().eq("id", id);
   if (error) throw new ApiError("UNKNOWN", 400, error.message);
+}
+
+// ---- Learning activity (Learning OS 1.3) ----
+
+export async function getLearningEvents(limit = 50): Promise<LearningEvent[]> {
+  const viewer = await viewerId();
+  if (!viewer) return [];
+  const rows = unwrap(
+    await supabase
+      .from("learning_events")
+      .select("id, event_type, resource_type, resource_id, topic_id, chapter_id, data, created_at")
+      .eq("user_id", viewer)
+      .order("created_at", { ascending: false })
+      .limit(Math.min(200, limit))
+      .returns<{ id: number; event_type: LearningEvent["eventType"]; resource_type: LearningEvent["resourceType"]; resource_id: string | null; topic_id: string | null; chapter_id: string | null; data: Record<string, unknown>; created_at: string }[]>(),
+  );
+  return rows.map((row) => ({
+    id: String(row.id),
+    eventType: row.event_type,
+    resourceType: row.resource_type,
+    resourceId: row.resource_id,
+    topicId: row.topic_id,
+    chapterId: row.chapter_id,
+    data: row.data,
+    createdAt: row.created_at,
+  }));
 }

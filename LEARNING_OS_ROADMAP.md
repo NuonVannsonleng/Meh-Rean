@@ -41,9 +41,13 @@ plan is documented. ✔ 2026-10-16: see the architecture audit.
   ✔ 2026-10-16: authors link their own notes (topic box on the note page),
   admins link notes and checked YouTube videos (`/bacii/admin/topic-videos`).
   `npm run test:resource-topics` 3/3; UI 3/3 in both backends; 320px.
-- [ ] 1.3 Learning events: `learning_events`, written by the database from
+- [x] 1.3 Learning events: `learning_events`, written by the database from
   existing flows (practice answers, mock exams, notebook reviews, daily
   question, video marks), idempotent.
+  ✔ 2026-10-16: one event per action with topic and chapter; practice
+  answers carry a request id so a retry counts nothing twice; video marks
+  and plan ticks are self-reported. `npm run test:learning-events` 6/6;
+  11 UI regressions pass; browser-only events checked.
 - [ ] 1.4 Student learning profile (`learning_profiles`): track, subjects,
   target grade, exam date, language, session length — reusing the study
   plan's settings, separate from inferred indicators.

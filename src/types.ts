@@ -297,6 +297,28 @@ export type ProfileImageKind = "avatar" | "banner";
 /** How far a curriculum entry (or question) has been checked. */
 export type Verification = "verified" | "provisional" | "needs-review";
 
+export type LearningEventType =
+  | "question_attempted"
+  | "mistake_reviewed"
+  | "mock_exam_completed"
+  | "video_watched"
+  | "video_marked_understood"
+  | "video_marked_revise"
+  | "study_task_completed";
+
+/** One thing a student did (Learning OS 1.3), recorded by the database. */
+export interface LearningEvent {
+  id: string;
+  eventType: LearningEventType;
+  resourceType: "question" | "exam_paper" | "video" | "study_plan" | null;
+  resourceId: string | null;
+  topicId: string | null;
+  chapterId: string | null;
+  /** e.g. { correct, source } for answers; { self_reported: true } for marks and ticks. */
+  data: Record<string, unknown>;
+  createdAt: string;
+}
+
 /** A video or note linked to a topic (Learning OS 1.2). */
 export interface ResourceTopic {
   id: string;

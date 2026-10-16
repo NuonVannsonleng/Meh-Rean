@@ -111,6 +111,7 @@ export const {
   getResourceTopics,
   linkResourceTopic,
   unlinkResourceTopic,
+  getLearningEvents,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

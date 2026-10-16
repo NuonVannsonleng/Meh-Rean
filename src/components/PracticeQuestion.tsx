@@ -52,7 +52,7 @@ export default function PracticeQuestion({
     setResult(isCorrect(question, question.solution, given) ? "correct" : "incorrect");
     setRecorded(null);
     if (!user) return;
-    recordPracticeAnswer(question.id, given)
+    recordPracticeAnswer(question.id, given, crypto.randomUUID())
       .then((correct) => {
         if (correct === null) return;
         setResult(correct ? "correct" : "incorrect");

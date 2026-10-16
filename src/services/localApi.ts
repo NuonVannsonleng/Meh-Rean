@@ -40,6 +40,8 @@ import {
   type LiveQuestion,
   type LiveQuiz,
   type ConceptLink,
+  type LearningEvent,
+  type LearningEventType,
   type ResourceTopic,
   type ResourceTopicInput,
   type Mistake,
@@ -1458,7 +1460,31 @@ function markAttempt(db: DbState, attempt: ExamAttempt & { userId: string }, sta
   });
   for (const answer of db.examAnswers.filter((item) => item.attemptId === attempt.id)) {
     noteAnswer(db, attempt.userId, answer.questionId, answer.isCorrect, answer.answer, "exam", attempt.id);
+    if (answer.isCorrect !== null) {
+      logEvent(db, attempt.userId, "question_attempted", "question", answer.questionId, { correct: answer.isCorrect, source: "exam" }, `exam:${attempt.id}:${answer.questionId}`);
+    }
   }
+  logEvent(db, attempt.userId, "mock_exam_completed", "exam_paper", attempt.paperId, { status, score, max_score: maxScore, unmarked, timing: attempt.timing }, `exam:${attempt.id}`);
+}
+
+/** As record_learning_event: one event per key; questions carry their topic and chapter. */
+function logEvent(db: DbState, userId: string, eventType: LearningEventType, resourceType: LearningEvent["resourceType"], resourceId: string, data: Record<string, unknown>, idempotencyKey: string): boolean {
+  db.learningEvents ??= [];
+  if (db.learningEvents.some((event) => event.userId === userId && event.idempotencyKey === idempotencyKey)) return false;
+  const question = resourceType === "question" ? db.questions.find((item) => item.id === resourceId) : undefined;
+  db.learningEvents.push({
+    id: createId("ev"),
+    userId,
+    eventType,
+    resourceType,
+    resourceId,
+    topicId: question?.topicId ?? null,
+    chapterId: question?.chapterId ?? null,
+    data,
+    idempotencyKey,
+    createdAt: new Date().toISOString(),
+  });
+  return true;
 }
 
 // ---- Mistake notebook ----
@@ -1503,9 +1529,13 @@ function noteAnswer(db: DbState, userId: string, questionId: string, right: bool
 }
 
 /** Marks a practice answer and keeps the notebook up to date; null when it cannot be marked. */
-export async function recordPracticeAnswer(questionId: string, answer: string): Promise<boolean | null> {
+export async function recordPracticeAnswer(questionId: string, answer: string, requestId?: string): Promise<boolean | null> {
   const db = await loadQuestions();
   const viewer = requireViewer(db);
+  // As the database: a retried request returns its first result and counts nothing again.
+  const key = `practice:${requestId ?? createId("rq")}`;
+  const earlier = (db.learningEvents ?? []).find((event) => event.userId === viewer.id && event.idempotencyKey === key);
+  if (earlier) return typeof earlier.data.correct === "boolean" ? earlier.data.correct : null;
   if (!answer.trim() || answer.length > 5000) throw new ApiError("UNKNOWN", 400, "give an answer (up to 5000 characters)");
   closeExpiredAttempts(db);
   const running = new Set((db.examAttempts ?? []).filter((a) => a.userId === viewer.id && a.status === "in-progress").map((a) => a.paperId));
@@ -1514,9 +1544,13 @@ export async function recordPracticeAnswer(questionId: string, answer: string): 
   const question = db.questions.find((item) => item.id === questionId);
   if (!question?.solution) return null;
   const right = isCorrect(question, question.solution, answer);
-  noteAnswer(db, viewer.id, questionId, right, answer, "practice", null);
+  if (right === null) return null;
+  const inNotebook = (db.mistakes ?? []).some((item) => item.userId === viewer.id && item.questionId === questionId);
   const daily = (db.dailyQuestions ?? []).find((item) => item.userId === viewer.id && item.day === cambodiaDay(new Date()) && item.questionId === questionId);
-  if (daily && !daily.answeredAt && right !== null) Object.assign(daily, { answeredAt: new Date().toISOString(), correct: right });
+  const isDaily = Boolean(daily && !daily.answeredAt);
+  noteAnswer(db, viewer.id, questionId, right, answer, "practice", null);
+  if (daily && !daily.answeredAt) Object.assign(daily, { answeredAt: new Date().toISOString(), correct: right });
+  logEvent(db, viewer.id, inNotebook ? "mistake_reviewed" : "question_attempted", "question", questionId, { correct: right, source: isDaily ? "daily" : "practice", difficulty: question.difficulty }, key);
   persist();
   return right;
 }
@@ -1716,6 +1750,13 @@ export async function saveStudyPlan(input: StudyPlanInput): Promise<StudyPlan> {
   if (JSON.stringify(input.weeks).length > 200_000) throw new ApiError("UNKNOWN", 400, "this plan is too long");
   const now = new Date().toISOString();
   const plan = { ...structuredClone(input), userId: viewer.id, createdAt: existing?.createdAt ?? now, updatedAt: now };
+  const wasDone = new Set((existing?.weeks ?? []).flatMap((week) => week.items.filter((item) => item.done).map((item) => item.id)));
+  for (const week of plan.weeks) {
+    for (const item of week.items) {
+      if (!item.done || (existing && existing.createdAt === plan.createdAt && wasDone.has(item.id))) continue;
+      logEvent(db, viewer.id, "study_task_completed", "study_plan", viewer.id, { self_reported: true, kind: item.kind, chapter_id: item.chapterId, week: week.start }, `plan:${Math.floor(Date.parse(plan.createdAt) / 1000)}:${item.id}`);
+    }
+  }
   db.studyPlans = [...db.studyPlans.filter((item) => item.userId !== viewer.id), plan];
   persist();
   const { userId: _userId, ...rest } = plan;
@@ -1802,6 +1843,11 @@ export async function setVideoProgress(input: Omit<VideoProgress, "updatedAt">):
   const db = await loadDb();
   const viewer = requireViewer(db);
   if (!VIDEO_ID_PATTERN.test(input.videoId) || !input.title.trim()) throw new ApiError("UNKNOWN", 400, "check the video");
+  const before = (db.videoProgress ?? []).find((entry) => entry.userId === viewer.id && entry.videoId === input.videoId);
+  if (before?.status !== input.status) {
+    const kind: LearningEventType = input.status === "understood" ? "video_marked_understood" : input.status === "needs-revision" ? "video_marked_revise" : "video_watched";
+    logEvent(db, viewer.id, kind, "video", input.videoId, { self_reported: true, chapter_id: input.chapterId }, `video:${input.videoId}:${input.status}:${new Date().toISOString().slice(0, 10)}`);
+  }
   const item = { ...input, title: input.title.slice(0, 300), channel: input.channel.slice(0, 200), userId: viewer.id, updatedAt: new Date().toISOString() };
   db.videoProgress = [...(db.videoProgress ?? []).filter((entry) => !(entry.userId === viewer.id && entry.videoId === input.videoId)), item];
   persist();
@@ -1939,4 +1985,15 @@ export async function unlinkResourceTopic(id: string): Promise<void> {
   if (!viewer.isAdmin && !(post && post.authorId === viewer.id)) throw new ApiError("FORBIDDEN", 403);
   db.resourceTopics = (db.resourceTopics ?? []).filter((item) => item.id !== id);
   persist();
+}
+
+/** The student's own activity, newest first (Learning OS 1.3). */
+export async function getLearningEvents(limit = 50): Promise<LearningEvent[]> {
+  const db = await loadDb();
+  const viewer = viewerId(db);
+  if (!viewer) return [];
+  return structuredClone((db.learningEvents ?? []).filter((event) => event.userId === viewer))
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .slice(0, limit)
+    .map(({ userId: _userId, idempotencyKey: _key, ...event }) => event);
 }

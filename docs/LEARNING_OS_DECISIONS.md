@@ -16,6 +16,14 @@ and documentation. Duplicating them as `learning-os-*` would split
 instructions. Only the orchestrator, learning-intelligence and
 knowledge-graph roles were added.
 
+## 2026-10-16 — Practice answers carry a request id
+
+A phone on a weak connection may send the same answer twice. The practice
+function now takes an optional request id and claims it as the event's
+idempotency key before marking: the duplicate returns the first result and
+changes nothing (mistake count, review stage, chapter results, events).
+Older clients that send no id still work; each call is then its own answer.
+
 ## 2026-10-16 — The database writes learning events
 
 Events come from the functions that already mark answers (`note_answer()`

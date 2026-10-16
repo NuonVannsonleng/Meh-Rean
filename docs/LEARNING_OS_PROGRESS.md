@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 1 — 1.3 Learning events** (next up).
+**Phase 1 — 1.4 Student learning profile** (next up).
 
 ## Done
 
@@ -43,6 +43,24 @@
   note owner's header buttons overflowed by 3 px at 320 px. Tests:
   `npm run test:resource-topics` 3/3; UI 3/3 browser-only and online;
   edit-note regression 5/5.
+
+- **2026-10-16 — 1.3 Learning events.** Agents: backend, database,
+  learning intelligence (event shape), security, tester. Table
+  `learning_events` (type, resource, topic, chapter, small `data`,
+  idempotency key unique per student, schema version; own read only; no
+  client writes). Internal `record_learning_event()` (not callable by
+  users). Writers: `record_practice_answer` (now with an optional `request`
+  id: it claims the key first, so a retry or a simultaneous duplicate
+  returns the first result and adds no mistake, score or event; type
+  `mistake_reviewed` when the question was in the notebook, `source` daily
+  or practice), `mark_exam_attempt` (an event per marked answer and
+  `mock_exam_completed`), triggers on `video_progress` and `study_plans`
+  (self-reported). Browser-only store mirrors all of it; `getLearningEvents()`
+  in both backends; practice cards send a request id. Tests:
+  `npm run test:learning-events` 6/6; mistakes, exams, daily, study plans,
+  video progress, accounts, questions suites pass; 11 UI regressions pass in
+  both backends; browser-only event recording checked. Not covered:
+  "chapter practice completed" needs practice sessions (Phase 5).
 
 ## Report format (per task)
 

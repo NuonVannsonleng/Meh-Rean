@@ -30,6 +30,7 @@
     "test:live": "node scripts/test-live.mjs",
     "test:concept-links": "node scripts/test-concept-links.mjs",
     "test:resource-topics": "node scripts/test-resource-topics.mjs",
+    "test:learning-events": "node scripts/test-learning-events.mjs",
     "build:links-seed": "node scripts/build-links-seed.mjs",
     "build:setup-sql": "node scripts/build-setup-sql.mjs"
   },
