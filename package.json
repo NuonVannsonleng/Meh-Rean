@@ -28,6 +28,8 @@
     "test:video-quizzes": "node scripts/test-video-quizzes.mjs",
     "test:video-progress": "node scripts/test-video-progress.mjs",
     "test:live": "node scripts/test-live.mjs",
+    "test:concept-links": "node scripts/test-concept-links.mjs",
+    "build:links-seed": "node scripts/build-links-seed.mjs",
     "build:setup-sql": "node scripts/build-setup-sql.mjs"
   },
   "dependencies": {

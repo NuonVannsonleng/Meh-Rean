@@ -107,6 +107,7 @@ export const {
   liveFinish,
   answerLive,
   subscribeLiveGame,
+  getConceptLinks,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

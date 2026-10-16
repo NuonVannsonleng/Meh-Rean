@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 1 — 1.1 Concept links** (next up).
+**Phase 1 — 1.2 Link videos and notes to topics** (next up).
 
 ## Done
 
@@ -17,6 +17,19 @@
   Approach: topics as concepts, relational graph, events written by the
   database from `note_answer()`, incremental mastery, recommendations
   computed on request. Blockers listed in the architecture doc.
+
+- **2026-10-16 — 1.1 Concept links.** Agents: knowledge graph (design),
+  curriculum (links labelled provisional), tester. Table `concept_links`
+  (from → to, prerequisite or related, verification, source; public read,
+  admin write); trigger `guard_concept_link` refuses prerequisite cycles
+  (recursive check), self links, unordered related pairs and "verified"
+  without a source. Draft links in `src/data/curriculum-links/kh-grade12-math.json`
+  → `supabase/seed/concept-links.sql` (`npm run build:links-seed`; insert
+  missing only, so admin edits survive) → included in `setup-all.sql`.
+  `src/lib/conceptGraph.ts`: expand, validate, cycle finder, prerequisite
+  traversal. Tests: `npm run test:concept-links` 6/6 (file sound; traversal;
+  public read; admin-only writes; cycle, self link, related order and
+  unsourced verified refused). Blocker: links need a teacher's check.
 
 ## Report format (per task)
 

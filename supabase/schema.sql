@@ -2812,3 +2812,64 @@ end;
 $$;
 revoke execute on function public.live_finish(uuid) from public, anon;
 grant execute on function public.live_finish(uuid) to authenticated;
+
+-- ---------------------------------------------------- Learning OS: graph --
+
+-- The knowledge graph (Learning OS 1.1). Topics are the concepts; links say
+-- which topic is needed before another (prerequisite) or that two belong
+-- together (related). Links from src/data/curriculum-links/ are provisional
+-- until a teacher checks them. Everyone reads; admins write.
+create table if not exists public.concept_links (
+  id uuid primary key default gen_random_uuid(),
+  -- For a prerequisite: the topic needed first.
+  from_topic text not null references public.curriculum_topics on delete cascade,
+  to_topic text not null references public.curriculum_topics on delete cascade,
+  kind text not null check (kind in ('prerequisite', 'related')),
+  verification text not null default 'provisional' check (verification in ('verified', 'provisional', 'needs-review')),
+  source text not null default '',
+  created_by uuid default auth.uid() references public.profiles on delete set null,
+  created_at timestamptz not null default now(),
+  unique (from_topic, to_topic, kind),
+  check (from_topic <> to_topic),
+  -- One row per related pair, whichever way it is written.
+  check (kind <> 'related' or from_topic < to_topic)
+);
+create index if not exists concept_links_to_idx on public.concept_links (to_topic, kind);
+
+-- Refuses a prerequisite that would make a topic (indirectly) its own
+-- prerequisite, and "verified" without a source.
+create or replace function public.guard_concept_link()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if new.verification = 'verified' and char_length(btrim(new.source)) = 0 then
+    raise exception 'a verified link needs a source' using errcode = '23514';
+  end if;
+  if new.kind = 'prerequisite' and exists (
+    with recursive after(topic, depth) as (
+      select l.to_topic, 1 from public.concept_links l
+      where l.kind = 'prerequisite' and l.from_topic = new.to_topic and l.id <> new.id
+      union
+      select l.to_topic, a.depth + 1 from public.concept_links l
+      join after a on l.from_topic = a.topic
+      where l.kind = 'prerequisite' and l.id <> new.id and a.depth < 200
+    )
+    select 1 from after where topic = new.from_topic
+  ) then
+    raise exception 'that link would make a topic its own prerequisite' using errcode = '23514';
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists guard_concept_link on public.concept_links;
+create trigger guard_concept_link before insert or update on public.concept_links
+  for each row execute function public.guard_concept_link();
+
+alter table public.concept_links enable row level security;
+drop policy if exists "links are public" on public.concept_links;
+create policy "links are public" on public.concept_links for select using (true);
+drop policy if exists "admins manage links" on public.concept_links;
+create policy "admins manage links" on public.concept_links for all to authenticated
+  using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()));

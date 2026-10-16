@@ -9,6 +9,8 @@ import { isValidLiveQuiz } from "../lib/liveQuiz";
 import { addDays, cambodiaDay, streakOf, weakestChapter } from "../lib/daily";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
+import khGrade12MathLinks from "../data/curriculum-links/kh-grade12-math.json";
+import { expandLinks, type LinkSeed } from "../lib/conceptGraph";
 import { buildDemoPapers, sortPapers, type DemoPaperSeed } from "../lib/papers";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
@@ -37,6 +39,7 @@ import {
   type LiveGameView,
   type LiveQuestion,
   type LiveQuiz,
+  type ConceptLink,
   type Mistake,
   type StudyPlan,
   type StudyPlanInput,
@@ -1881,4 +1884,17 @@ export async function answerLive(_gameId: string, _choice: number): Promise<Live
 
 export function subscribeLiveGame(_gameId: string, _onChange: () => void): () => void {
   return () => {};
+}
+
+// ---- Knowledge graph (Learning OS) ----
+// The browser-only store reads the same links file the database seed is built from.
+
+export async function getConceptLinks(): Promise<ConceptLink[]> {
+  const seed = khGrade12MathLinks as LinkSeed;
+  return expandLinks(seed).map((link) => ({
+    id: `${link.kind}:${link.fromTopic}>${link.toTopic}`,
+    ...link,
+    verification: seed.verification,
+    source: seed.source,
+  }));
 }

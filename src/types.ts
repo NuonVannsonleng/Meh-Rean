@@ -297,6 +297,17 @@ export type ProfileImageKind = "avatar" | "banner";
 /** How far a curriculum entry (or question) has been checked. */
 export type Verification = "verified" | "provisional" | "needs-review";
 
+/** A link in the knowledge graph (Learning OS 1.1): topics are the concepts. */
+export interface ConceptLink {
+  id: string;
+  /** For a prerequisite: the topic needed first. */
+  fromTopic: string;
+  toTopic: string;
+  kind: "prerequisite" | "related";
+  verification: Verification;
+  source: string;
+}
+
 export const VERIFICATIONS: readonly Verification[] = ["verified", "provisional", "needs-review"];
 
 /** A subject as taught in one track, e.g. Grade 12 Science-track Mathematics. */

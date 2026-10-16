@@ -70,6 +70,8 @@ npm run test:question-match # exercise-to-question matching
 npm run test:video-quizzes # video quizzes; local Supabase
 npm run test:video-progress # watched-video marks; local Supabase
 npm run test:live        # live quiz games; local Supabase
+npm run test:concept-links # knowledge-graph links: file and database rules
+npm run build:links-seed # regenerate supabase/seed/concept-links.sql from src/data/curriculum-links/
 npx supabase start       # local Supabase (Docker)
 npm run build:setup-sql  # regenerate supabase/setup-all.sql (schema + seeds) after DB changes
 ```

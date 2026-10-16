@@ -30,8 +30,12 @@ plan is documented. ✔ 2026-10-16: see the architecture audit.
 
 ## Phase 1 — Learning data foundation
 
-- [ ] 1.1 Concept links: prerequisite and related links between topics
+- [x] 1.1 Concept links: prerequisite and related links between topics
   (`concept_links`), provisional, admin-managed.
+  ✔ 2026-10-16: 36 draft links (32 prerequisite, 4 related) from
+  `src/data/curriculum-links/`, seeded as provisional; database refuses
+  cycles, self links and unsourced "verified"; `getConceptLinks()` in both
+  backends. `npm run test:concept-links` 6/6. (Admin editing UI: Phase 2.)
 - [ ] 1.2 Link videos and notes to topics (`resource_topics`); questions
   already carry `topic_id`.
 - [ ] 1.3 Learning events: `learning_events`, written by the database from

@@ -42,6 +42,7 @@ import {
   type LivePlayer,
   type LiveQuestion,
   type LiveQuiz,
+  type ConceptLink,
   type Mistake,
   type StudyPlan,
   type StudyPlanInput,
@@ -2242,4 +2243,17 @@ export function subscribeLiveGame(gameId: string, onChange: () => void): () => v
   return () => {
     void supabase.removeChannel(channel);
   };
+}
+
+// ---- Knowledge graph (Learning OS) ----
+
+export async function getConceptLinks(): Promise<ConceptLink[]> {
+  const rows = unwrap(
+    await supabase
+      .from("concept_links")
+      .select("id, from_topic, to_topic, kind, verification, source")
+      .limit(2000)
+      .returns<{ id: string; from_topic: string; to_topic: string; kind: ConceptLink["kind"]; verification: ConceptLink["verification"]; source: string }[]>(),
+  );
+  return rows.map((row) => ({ id: row.id, fromTopic: row.from_topic, toTopic: row.to_topic, kind: row.kind, verification: row.verification, source: row.source }));
 }
