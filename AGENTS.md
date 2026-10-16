@@ -79,8 +79,30 @@ Tests that write data refuse to run against anything but a local Supabase
 
 ## Agents
 
-Specialists live in `.claude/agents/` (`meh-rean-*`). The lead session (or
-`meh-rean-project-manager`) plans and owns commits and pushes; specialists
-report back with: what changed, files, decisions, checks run and their
-results, open issues. Parallelise research and reviews, not edits to the same
-files.
+Specialists live in `.claude/agents/` (`meh-rean-*`, `learning-os-*`). The
+lead session plans and owns commits and pushes (one push per finished task);
+specialists report back with: what changed, files, decisions, checks run and
+their results, open issues. Parallelise research and reviews, not edits to
+the same files.
+
+### AI Learning OS ([LEARNING_OS_ROADMAP.md](LEARNING_OS_ROADMAP.md))
+
+The Learning OS reuses the existing specialists; only three roles are new.
+
+| Role | Agent |
+| --- | --- |
+| Orchestrator | `learning-os-orchestrator` (BacII roadmap: `meh-rean-project-manager`) |
+| Architect | `meh-rean-architect` |
+| Frontend | `meh-rean-frontend` |
+| Backend | `meh-rean-backend` |
+| Database | `meh-rean-database` |
+| Learning intelligence (mastery, recommendations, adaptive practice) | `learning-os-intelligence` |
+| Knowledge graph | `learning-os-knowledge-graph` |
+| AI integration | `meh-rean-ai-engineer` |
+| QA | `meh-rean-tester` |
+| Debugging | `meh-rean-debugger` |
+| Security and privacy | `meh-rean-security` |
+| UI/UX | `meh-rean-designer` |
+| Performance | `meh-rean-performance` |
+| Curriculum and content | `meh-rean-curriculum` |
+| Documentation | `meh-rean-documentation` |

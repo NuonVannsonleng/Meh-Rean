@@ -1,0 +1,109 @@
+# Meh Rean AI Learning OS — roadmap
+
+System 1 of 6: connect the existing learning features into one system that
+knows what each student has practised, estimates what they find hard, and
+suggests what to study next — with reasons, and never claiming certainty.
+
+Rules: [AGENTS.md](AGENTS.md). Architecture and audit:
+[docs/LEARNING_OS_ARCHITECTURE.md](docs/LEARNING_OS_ARCHITECTURE.md).
+Progress: [docs/LEARNING_OS_PROGRESS.md](docs/LEARNING_OS_PROGRESS.md).
+A box is ticked only with verification evidence recorded in the progress notes.
+
+Concepts are the curriculum **topics** (34 for Grade 12 Science Mathematics,
+all `provisional`); a finer concept layer waits for checked content (see
+decisions). Existing features are reused, not rebuilt.
+
+## Phase 0 — Repository audit and agent setup
+
+- [x] Inspect the existing application.
+- [x] Read existing documentation.
+- [x] Identify reusable BacII features.
+- [x] Inspect database and authentication.
+- [x] Inspect existing tests.
+- [x] Create or update AI subagents.
+- [x] Create architecture documentation.
+- [x] Identify technical blockers.
+- [x] Confirm the implementation approach.
+
+**Done when:** the existing system is understood, agents are configured and the
+plan is documented. ✔ 2026-10-16: see the architecture audit.
+
+## Phase 1 — Learning data foundation
+
+- [ ] 1.1 Concept links: prerequisite and related links between topics
+  (`concept_links`), provisional, admin-managed.
+- [ ] 1.2 Link videos and notes to topics (`resource_topics`); questions
+  already carry `topic_id`.
+- [ ] 1.3 Learning events: `learning_events`, written by the database from
+  existing flows (practice answers, mock exams, notebook reviews, daily
+  question, video marks), idempotent.
+- [ ] 1.4 Student learning profile (`learning_profiles`): track, subjects,
+  target grade, exam date, language, session length — reusing the study
+  plan's settings, separate from inferred indicators.
+- [ ] 1.5 Authorization and privacy checks across the new tables.
+
+**Done when:** existing activity is recorded and linked to topics without
+breaking any existing feature.
+
+## Phase 2 — Knowledge graph
+
+- [ ] Relationship queries and prerequisite traversal (depth-limited, cycle-safe).
+- [ ] Concept detail API: prerequisites, questions, videos, notes, the student's estimate.
+- [ ] Concept map (interactive) and a list view for low-end phones.
+- [ ] Relationship integrity tests; curriculum review of the links.
+
+## Phase 3 — Mastery engine
+
+- [ ] Mastery algorithm (bounded update; difficulty, recency, evidence count,
+  confidence), configurable in a data file.
+- [ ] Update from practice answers, mock exams and notebook reviews.
+- [ ] Store estimates (`topic_mastery`) with algorithm version.
+- [ ] Deterministic tests (first attempt, right, wrong, repeats, no evidence,
+  difficulty, duplicates, history).
+- [ ] Mastery components ("Needs foundation" … "Consistently strong", unknown state).
+
+## Phase 4 — Recommendation engine
+
+- [ ] Ranking rules and configurable weights.
+- [ ] Weak topics, missing prerequisites, review urgency (existing reviews).
+- [ ] Recommend existing questions, videos and notes; exclude unavailable ones.
+- [ ] Reasons in English and Khmer; no repeats without reason.
+- [ ] API and quality tests.
+
+## Phase 5 — Adaptive practice
+
+- [ ] Question selection for a target topic; gradual difficulty change; no repeats.
+- [ ] Modes: recommended, weak topic, prerequisite review, quick five, mixed, exam prep.
+- [ ] Answers marked on the server, mastery updated, results screen.
+- [ ] End-to-end tests.
+
+## Phase 6 — Learning journey
+
+- [ ] Journey API and view: done, in progress, next, prerequisites, reviews, milestones.
+- [ ] Never locks content; mobile view; tests.
+
+## Phase 7 — Smart revision and learning memory
+
+- [ ] Unified revision queue (mistake reviews; flashcards — see blocker).
+- [ ] Priorities (overdue, repeated mistakes, weak topics, prerequisites, exam date); postpone.
+- [ ] Learning history view and deletion controls.
+
+## Phase 8 — AI study companion
+
+- [ ] Context from the student's own data only; explanations of recommendations,
+  progress summaries, session plans; deterministic fallback; usage limits; tests.
+
+## Phase 9 — Exam readiness and analytics
+
+- [ ] Coverage, mastery trends, mock exam trends, consistency; readiness with
+  insufficient-data states; weekly summary; calculation tests.
+
+## Phase 10 — Unified dashboard
+
+- [ ] Personalised home: today's focus, recommendations, mastery, revision,
+  journey preview, quick actions; Khmer and English; empty and loading states.
+
+## Phase 11 — Security, performance and release readiness
+
+- [ ] Full test suite, data-isolation audit, slow-network and phone tests,
+  AI cost review, deployment checklist, known limitations.
