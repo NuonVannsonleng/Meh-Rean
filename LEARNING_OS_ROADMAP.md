@@ -94,8 +94,14 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   confidence), configurable in a data file.
   ✔ 2026-10-16: `src/lib/mastery.ts` with `src/data/learning/mastery-rules.json`
   (version 1). `npm run test:mastery` 11/11.
-- [ ] Update from practice answers, mock exams and notebook reviews.
-- [ ] Store estimates (`topic_mastery`) with algorithm version.
+- [x] 3.2 Update from practice answers, mock exams and notebook reviews.
+- [x] 3.3 Store estimates (`topic_mastery`) with algorithm version.
+  ✔ 2026-10-16: the database recomputes a topic's estimate whenever a marked
+  answer event lands (`refresh_topic_mastery`), with the rules from
+  `mastery_rules` (seeded from the JSON); a new version refreshes every
+  estimate. Students read only their own and cannot write any.
+  `getTopicMastery()` in both backends. `npm run test:mastery` 17/17
+  (stored scores equal the app's to 1e-9).
 - [ ] Deterministic tests (first attempt, right, wrong, repeats, no evidence,
   difficulty, duplicates, history).
 - [ ] Mastery components ("Needs foundation" … "Consistently strong", unknown state).

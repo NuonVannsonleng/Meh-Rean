@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 3 — 3.2 Mastery from practice, exams and reviews; 3.3 stored estimates** (next up).
+**Phase 3 — 3.4 Deterministic tests (remaining cases) and 3.5 mastery labels in the UI** (next up).
 
 ## Done
 
@@ -169,6 +169,32 @@
   last answer; labels with "unknown". Nothing stored or shown yet (3.2–3.5).
   Tests: `npm run test:mastery` 11/11 (first attempt, right, wrong, bounds,
   difficulty, recency, labels, confidence, duplicates, order); lint.
+
+- **2026-10-16 — Production database updated (owner's request).** Ran the
+  tested `supabase/setup-all.sql` from d017313 in the Supabase SQL editor
+  (content checked against the commit first). Read-only check afterwards:
+  34 topics, 40 topic links, 12 demo questions, 3 papers, 11/11 new tables,
+  0 tables without row level security; the one account is an admin. The
+  live topic map loads from it.
+
+- **2026-10-16 — 3.2, 3.3 Stored mastery estimates.** Agents: database
+  (tables, trigger), learning intelligence (parity), security (write
+  paths), tester. Tables `mastery_rules` (versioned, seeded from
+  `mastery-rules.json` by `npm run build:mastery-seed`; one active) and
+  `topic_mastery` (score, evidence, right, last answer, version; select own
+  only, no client writes). `refresh_topic_mastery(user, topic)` replays the
+  topic's evidence with the same rules as `src/lib/mastery.ts`; a trigger
+  runs it on each marked answer event (insert, or practice's fill-in
+  update); `refresh_all_topic_mastery()` backfills after a version change
+  and for older answers (the seed runs it). Exam answer events now carry
+  the question's difficulty (database and browser-only store).
+  `getTopicMastery()` in both backends: stored state + confidence/label
+  for today. Tests: `npm run test:mastery` 17/17 (rules match, practice,
+  retry and repeated request, exam difficulty, privacy and no writes, new
+  version and back); learning events 9/9, privacy 7/7, profile 6/6, exams
+  12/12, mistakes 9/9, daily 8/8; accounts 68/68 (one earlier run had one
+  failure that did not repeat in two reruns: flaky, noted); lint.
+  Production needs `setup-all.sql` run again for this.
 
 ## Report format (per task)
 

@@ -144,6 +144,8 @@ The rules live in the database, so they apply no matter who calls the API.
 | Topic links (prerequisites, related) | everyone | admins only |
 | Your learning profile (preferences) | only you | only you |
 | Your learning activity (answers, exams, marks, ticks) | only you | only the database, from your actions |
+| Your topic mastery estimates | only you | only the database, from your marked answers |
+| Mastery rules (the estimate's numbers) | everyone | nobody from the app; set by `supabase/seed/mastery-rules.sql` |
 | Videos and notes linked to topics | everyone | a note's author (own notes) or admins; videos admins only |
 | Trusted video channels | everyone | admins only |
 | Video quizzes | everyone | admins only (shape checked; transcripts never stored) |

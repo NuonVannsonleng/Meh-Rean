@@ -122,7 +122,8 @@ export function masteryEvidence(events: LearningEvent[]): Map<string, MasteryAns
   const unique = new Map(events.map((event) => [event.id, event]));
   const answers = [...unique.values()]
     .filter((event) => event.topicId && (event.eventType === "question_attempted" || event.eventType === "mistake_reviewed") && typeof event.data.correct === "boolean")
-    .sort((a, b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id));
+    // Ties (one exam marks many answers at once) go by id, numerically as the database does.
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id, "en", { numeric: true }));
   const seen = new Set<string>();
   const byTopic = new Map<string, MasteryAnswer[]>();
   for (const event of answers) {

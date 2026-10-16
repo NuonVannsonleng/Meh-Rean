@@ -52,6 +52,9 @@ Code: `src/lib/mastery.ts`. Numbers: `src/data/learning/mastery-rules.json`
 - **Confidence (0–1):** `n/(n+5) × 0.5^(days since last answer / 30)`.
   Below 0.34 is low, below 0.67 medium, otherwise high. Time lowers
   confidence, never the score.
+- **Stored (3.3):** `topic_mastery` keeps score, evidence, right answers,
+  last answer and rule version; `refresh_topic_mastery()` in
+  `supabase/schema.sql` mirrors the update above.
 - **Labels:** 0–24 Needs foundation · 25–49 Developing · 50–74 Practising ·
   75–89 Strong · 90–100 Consistently strong (needs at least 6 answers) —
   product labels, not standards.

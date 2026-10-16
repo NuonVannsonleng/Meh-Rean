@@ -1,16 +1,19 @@
 #!/usr/bin/env node
 /**
- * Unit checks for the mastery estimate (Learning OS 3.1): src/lib/mastery.ts
- * with src/data/learning/mastery-rules.json. No database.
+ * Checks for the mastery estimate (Learning OS 3.1–3.3): src/lib/mastery.ts
+ * with src/data/learning/mastery-rules.json (unit), and with a local Supabase
+ * the stored estimates in topic_mastery match it and only the database
+ * writes them.
  *
  *   npm run test:mastery
  */
 
+import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { describeMastery, emptyMastery, masteryFromEvents, masteryLabel, masteryStep, updateMastery } from "../src/lib/mastery.ts";
-import { assert, reporter } from "./lib/local-supabase.mjs";
+import { describeMastery, emptyMastery, masteryEvidence, masteryFromEvents, masteryLabel, masteryStep, updateMastery } from "../src/lib/mastery.ts";
+import { accounts, assert, localTarget, reporter, sql } from "./lib/local-supabase.mjs";
 
-const { check, finish } = reporter();
+const { check, skip, finish } = reporter();
 const rules = JSON.parse(readFileSync(new URL("../src/data/learning/mastery-rules.json", import.meta.url), "utf8"));
 const NOW = new Date("2026-10-16T05:00:00Z");
 const run = (answers) => answers.reduce((state, answer) => updateMastery(state, answer, rules), emptyMastery(rules));
@@ -138,4 +141,108 @@ await check("deterministic: input order and duplicated events do not change the 
   assert(a.score === expected && a.version === rules.version, `${a.score} vs ${expected}`);
 });
 
+const target = localTarget();
+if (!target) {
+  skip("database checks", "no local Supabase in SUPABASE_URL or .env.test (never run against a hosted project)");
+  finish();
+}
+const demo = JSON.parse(readFileSync(new URL("../src/data/demo/kh-grade12-math-papers.json", import.meta.url), "utf8"));
+const byId = new Map(demo.papers.flatMap((paper) => paper.questions).map((question) => [question.id.slice(-4), question]));
+const counting = byId.get("2401"); // numeric, answer 120
+const equation = byId.get("2403"); // numeric, answer 12
+if (sql(`select count(*) from public.questions where id = '${counting.id}'`) !== "1" || sql("select count(*) from public.mastery_rules where active") !== "1") {
+  skip("database checks", "run supabase/setup-all.sql first (demo papers and mastery rules)");
+  finish();
+}
+
+const people = accounts(target, "mastery");
+const { anon } = people;
+const me = await people.create("s");
+const other = await people.create("o");
+const practise = (question, text, request = randomUUID()) => me.client.rpc("record_practice_answer", { question: question.id, answer: text, request });
+const stored = async (client = me.client) => (await client.from("topic_mastery").select("*").order("topic_id")).data ?? [];
+const asEvents = (rows) => rows.map((row) => ({ id: String(row.id), eventType: row.event_type, resourceType: row.resource_type, resourceId: row.resource_id, topicId: row.topic_id, chapterId: row.chapter_id, data: row.data, createdAt: row.created_at }));
+const matchesApp = async () => {
+  const events = asEvents((await me.client.from("learning_events").select("*")).data ?? []);
+  const expected = masteryFromEvents(events, rules, NOW);
+  const rows = await stored();
+  assert(rows.length === expected.length, `${rows.length} stored, ${expected.length} expected`);
+  for (const row of rows) {
+    const app = expected.find((item) => item.topicId === row.topic_id);
+    const mine = describeMastery(row.topic_id, { score: Number(row.score), evidence: row.evidence, correct: row.correct, lastAt: row.last_at }, rules, NOW);
+    assert(app && mine.score === app.score && row.evidence === app.evidence && row.correct === app.correct && row.version === rules.version, `${row.topic_id}: stored ${row.score}/${row.evidence}, app ${app?.score}/${app?.evidence}`);
+    const raw = run(masteryEvidence(events).get(row.topic_id)).score;
+    assert(Math.abs(Number(row.score) - raw) < 1e-9, `${row.topic_id}: stored ${row.score}, app ${raw}`);
+  }
+  return rows;
+};
+
+await check("the database has the rules file as its active version", async () => {
+  // jsonb keeps its own key order, so compare with keys sorted.
+  const canonical = (value) => (Array.isArray(value) ? value.map(canonical) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map((key) => [key, canonical(value[key])])) : value);
+  const row = JSON.parse(sql("select rules::text from public.mastery_rules where active"));
+  assert(JSON.stringify(canonical(row)) === JSON.stringify(canonical(rules)), "the database rules differ from mastery-rules.json (run npm run build:mastery-seed and setup-all.sql)");
+});
+
+await check("practice answers update the stored estimate, as the app works it out", async () => {
+  assert((await stored()).length === 0, "an estimate before any answer");
+  await practise(counting, "120");
+  await practise(equation, "11");
+  const rows = await matchesApp();
+  assert(rows.length === 2, `${rows.length} topics`);
+  const first = rows.find((row) => row.topic_id === counting.topicId);
+  // Right on an easy question (difficulty 1): step 0.5 × (1 − 0.15 × 2) = 0.35.
+  assert(Math.abs(Number(first.score) - 67.5) < 1e-9, `easy right answer gave ${first.score}`);
+});
+
+await check("a retry the same day and a repeated request change nothing", async () => {
+  const before = JSON.stringify((await stored()).map((row) => [row.topic_id, row.score, row.evidence]));
+  const request = randomUUID();
+  await practise(equation, "12", request);
+  await practise(equation, "12", request);
+  await practise(counting, "1");
+  assert(JSON.stringify((await stored()).map((row) => [row.topic_id, row.score, row.evidence])) === before, "the estimate moved");
+  await matchesApp();
+});
+
+await check("exam answers count and carry the question's difficulty", async () => {
+  sql(`select public.record_learning_event('${me.id}', 'question_attempted', 'question', '${byId.get("2302").id}', '{"correct": true, "source": "exam"}'::jsonb, 'exam:test-${randomUUID()}')`);
+  const event = (await me.client.from("learning_events").select("data").eq("resource_id", byId.get("2302").id).single()).data;
+  assert(event.data.difficulty === byId.get("2302").difficulty, JSON.stringify(event.data));
+  const rows = await matchesApp();
+  assert(rows.some((row) => row.topic_id === byId.get("2302").topicId), "no estimate for the exam answer");
+});
+
+await check("students only read their own estimates and cannot write any", async () => {
+  assert((await stored(anon)).length === 0, "a visitor read estimates");
+  assert((await stored(other.client)).length === 0, "another student read them");
+  const row = { user_id: me.id, topic_id: counting.topicId, score: 100, evidence: 9, correct: 9, last_at: new Date().toISOString(), version: rules.version };
+  assert((await me.client.from("topic_mastery").insert({ ...row, topic_id: byId.get("2501").topicId })).error, "a student inserted an estimate");
+  await me.client.from("topic_mastery").update({ score: 100 }).eq("topic_id", counting.topicId);
+  await me.client.from("topic_mastery").delete().eq("topic_id", counting.topicId);
+  const after = (await stored()).find((item) => item.topic_id === counting.topicId);
+  assert(after && Number(after.score) === 67.5, `a student changed their estimate (${after?.score})`);
+  assert((await me.client.rpc("refresh_topic_mastery", { who: me.id, topic: counting.topicId })).error, "a student called the refresh");
+  await me.client.from("mastery_rules").update({ active: false }).eq("version", rules.version);
+  assert(sql(`select active from public.mastery_rules where version = ${rules.version}`) === "t", "a student changed the rules");
+});
+
+await check("a new rules version brings every estimate up to date, and back", async () => {
+  const bumped = { ...rules, version: 9999, stepMin: 0.2 };
+  try {
+    sql(`insert into public.mastery_rules (version, rules) values (9999, '${JSON.stringify(bumped)}'::jsonb)`);
+    sql("update public.mastery_rules set active = false where active");
+    sql("update public.mastery_rules set active = true where version = 9999");
+    assert(Number(sql("select public.refresh_all_topic_mastery()")) >= 3, "nothing refreshed");
+    assert((await stored()).every((row) => row.version === 9999), "estimates kept the old version");
+  } finally {
+    sql("update public.mastery_rules set active = false where active");
+    sql(`update public.mastery_rules set active = true where version = ${rules.version}`);
+    sql("delete from public.mastery_rules where version = 9999");
+    sql("select public.refresh_all_topic_mastery()");
+  }
+  await matchesApp();
+});
+
+await people.cleanUp();
 finish();

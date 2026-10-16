@@ -46,3 +46,14 @@ change: re-running `supabase/setup-all.sql` adds new links, updates the
 source and removes links dropped from the file. A link an admin added
 (empty source) or checked (any other status or source) is left alone, so a
 teacher's review is never undone by a deploy.
+
+## 2026-10-16 — Mastery is computed by the database, replayed per topic
+
+Estimates are stored by the database, never sent by the browser (AGENTS
+rule 4). Each marked answer replays that student's evidence on that topic
+from the start rather than applying one step, so late or out-of-order
+events and rule changes cannot leave a drifting value; a topic has at most
+a few hundred answers, so this stays cheap. The SQL and `src/lib/mastery.ts`
+implement the same rules and a test holds them equal; the numbers come
+from one JSON file through the seed. Confidence and labels depend on
+today's date and are worked out when read.

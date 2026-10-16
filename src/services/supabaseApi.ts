@@ -13,6 +13,8 @@ import {
 import { suggestedProfile } from "../lib/learningDefaults";
 import type { TopicResult } from "../lib/learningProfile";
 import type { ConceptLinkInput } from "../lib/conceptGraph";
+import { describeMastery, type MasteryRules, type TopicMastery } from "../lib/mastery";
+import masteryRules from "../data/learning/mastery-rules.json";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -2409,6 +2411,19 @@ export async function getTopicResults(): Promise<TopicResult[]> {
     answered: row.answered,
     correct: row.correct,
     lastAt: row.last_at,
+  }));
+}
+
+/** The student's stored estimates (Learning OS 3.3); confidence and labels are worked out for today. */
+export async function getTopicMastery(): Promise<TopicMastery[]> {
+  const viewer = await viewerId();
+  if (!viewer) return [];
+  const { data, error } = await supabase.from("topic_mastery").select("topic_id, score, evidence, correct, last_at, version").eq("user_id", viewer).order("topic_id");
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+  const rules = masteryRules as MasteryRules;
+  return ((data ?? []) as { topic_id: string; score: number; evidence: number; correct: number; last_at: string; version: number }[]).map((row) => ({
+    ...describeMastery(row.topic_id, { score: Number(row.score), evidence: row.evidence, correct: row.correct, lastAt: row.last_at }, rules),
+    version: row.version,
   }));
 }
 

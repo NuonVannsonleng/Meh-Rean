@@ -11,6 +11,8 @@ import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
 import khGrade12MathLinks from "../data/curriculum-links/kh-grade12-math.json";
 import { expandLinks, findPrerequisiteCycle, type ConceptLinkInput, type LinkSeed } from "../lib/conceptGraph";
+import { masteryFromEvents, type MasteryRules, type TopicMastery } from "../lib/mastery";
+import masteryRules from "../data/learning/mastery-rules.json";
 import { suggestedProfile } from "../lib/learningDefaults";
 import { topicResultsFromEvents, type TopicResult } from "../lib/learningProfile";
 import { buildDemoPapers, sortPapers, type DemoPaperSeed } from "../lib/papers";
@@ -1476,6 +1478,8 @@ function logEvent(db: DbState, userId: string, eventType: LearningEventType, res
   db.learningEvents ??= [];
   if (db.learningEvents.some((event) => event.userId === userId && event.idempotencyKey === idempotencyKey)) return false;
   const question = resourceType === "question" ? db.questions.find((item) => item.id === resourceId) : undefined;
+  // Mastery weighs a marked answer by the question's difficulty (Learning OS 3.2).
+  if (question?.difficulty != null && "correct" in data && !("difficulty" in data)) data = { ...data, difficulty: question.difficulty };
   db.learningEvents.push({
     id: createId("ev"),
     userId,
@@ -2079,4 +2083,9 @@ export async function saveLearningProfile(input: LearningProfileInput): Promise<
 /** The student's answers per topic (first attempt per question per day), as my_topic_results(). */
 export async function getTopicResults(): Promise<TopicResult[]> {
   return topicResultsFromEvents(await getLearningEvents(100_000));
+}
+
+/** As topic_mastery: worked out from the student's own events. */
+export async function getTopicMastery(): Promise<TopicMastery[]> {
+  return masteryFromEvents(await getLearningEvents(100_000), masteryRules as MasteryRules);
 }

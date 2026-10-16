@@ -70,7 +70,7 @@ npm run test:question-match # exercise-to-question matching
 npm run test:video-quizzes # video quizzes; local Supabase
 npm run test:video-progress # watched-video marks; local Supabase
 npm run test:live        # live quiz games; local Supabase
-npm run test:mastery     # mastery estimate rules (no database)
+npm run test:mastery     # mastery rules; stored estimates with local Supabase
 npm run test:concept-links # knowledge-graph links: file and database rules
 npm run test:resource-topics # videos and notes linked to topics; local Supabase
 npm run test:learning-events # learning activity events; local Supabase
@@ -79,6 +79,7 @@ npm run test:learning-privacy # cross-student data isolation across all private 
 npm run test:knowledge-graph # graph queries and per-topic results
 npm run build:links-seed # regenerate supabase/seed/concept-links.sql from src/data/curriculum-links/
 npx supabase start       # local Supabase (Docker)
+npm run build:mastery-seed # after editing src/data/learning/mastery-rules.json
 npm run build:setup-sql  # regenerate supabase/setup-all.sql (schema + seeds) after DB changes
 ```
 
