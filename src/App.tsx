@@ -40,6 +40,7 @@ const AdminQuestions = lazy(() => import("./pages/admin/AdminQuestions"));
 const QuestionEditor = lazy(() => import("./pages/admin/QuestionEditor"));
 const AdminChannels = lazy(() => import("./pages/admin/AdminChannels"));
 const AdminQuizzes = lazy(() => import("./pages/admin/AdminQuizzes"));
+const AdminTopicVideos = lazy(() => import("./pages/admin/AdminTopicVideos"));
 
 const adminPage = (page: ReactNode) => (
   <RequireAdmin>
@@ -167,6 +168,7 @@ export default function App() {
             <Route path="/bacii/admin/questions" element={adminPage(<AdminQuestions />)} />
             <Route path="/bacii/admin/channels" element={adminPage(<AdminChannels />)} />
             <Route path="/bacii/admin/quizzes" element={adminPage(<AdminQuizzes />)} />
+            <Route path="/bacii/admin/topic-videos" element={adminPage(<AdminTopicVideos />)} />
             <Route path="/bacii/admin/questions/new" element={adminPage(<QuestionEditor key="new" />)} />
             <Route path="/bacii/admin/questions/:id" element={adminPage(<QuestionEditor />)} />
             <Route

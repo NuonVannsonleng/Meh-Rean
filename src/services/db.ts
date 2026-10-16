@@ -18,6 +18,7 @@ import {
   type ExamAttempt,
   type LiveQuiz,
   type Mistake,
+  type ResourceTopic,
   type StudyPlan,
   type VideoChannel,
   type VideoProgress,
@@ -118,6 +119,8 @@ export interface DbState {
   /** Mock exam attempts and their answers (supabase: exam_attempts, exam_answers). */
   examAttempts?: (ExamAttempt & { userId: string })[];
   examAnswers?: (ExamAnswer & { attemptId: string })[];
+  /** Videos and notes linked to topics (supabase: resource_topics). */
+  resourceTopics?: (ResourceTopic & { addedBy: string })[];
   /** Live quizzes students wrote (supabase: live_quizzes). Games need the online version. */
   liveQuizzes?: (LiveQuiz & { ownerId: string })[];
   /** Videos students marked (supabase: video_progress). */

@@ -40,6 +40,8 @@ import {
   type LiveQuestion,
   type LiveQuiz,
   type ConceptLink,
+  type ResourceTopic,
+  type ResourceTopicInput,
   type Mistake,
   type StudyPlan,
   type StudyPlanInput,
@@ -1897,4 +1899,44 @@ export async function getConceptLinks(): Promise<ConceptLink[]> {
     verification: seed.verification,
     source: seed.source,
   }));
+}
+
+type ResourceFilter = { resourceType?: ResourceTopic["resourceType"]; resourceId?: string; topicId?: string };
+
+/** Mirrors resource_topics: everyone reads; authors link their own notes, admins anything. */
+export async function getResourceTopics(filter: ResourceFilter = {}): Promise<ResourceTopic[]> {
+  const db = await loadDb();
+  return structuredClone(
+    (db.resourceTopics ?? [])
+      .filter((item) => (!filter.resourceType || item.resourceType === filter.resourceType) && (!filter.resourceId || item.resourceId === filter.resourceId) && (!filter.topicId || item.topicId === filter.topicId))
+      .map(({ addedBy: _addedBy, ...item }) => item),
+  );
+}
+
+export async function linkResourceTopic(input: ResourceTopicInput): Promise<ResourceTopic> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  const post = input.resourceType === "note" ? db.posts.find((item) => item.id === input.resourceId) : undefined;
+  if (input.resourceType === "note" && !post) throw new ApiError("NOT_FOUND", 404, "that note does not exist");
+  if (!viewer.isAdmin && !(post && post.authorId === viewer.id)) throw new ApiError("FORBIDDEN", 403);
+  if (input.resourceType === "video" && (!VIDEO_ID_PATTERN.test(input.resourceId) || !input.title.trim())) throw new ApiError("UNKNOWN", 400, "check the video");
+  db.resourceTopics ??= [];
+  const existing = db.resourceTopics.find((item) => item.resourceType === input.resourceType && item.resourceId === input.resourceId && item.topicId === input.topicId);
+  if (existing) throw new ApiError("UNKNOWN", 409, "already linked");
+  const link = { ...input, title: input.title.slice(0, 200), id: createId("rt"), createdAt: new Date().toISOString(), addedBy: viewer.id };
+  db.resourceTopics.push(link);
+  persist();
+  const { addedBy: _addedBy, ...rest } = link;
+  return rest;
+}
+
+export async function unlinkResourceTopic(id: string): Promise<void> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  const link = (db.resourceTopics ?? []).find((item) => item.id === id);
+  if (!link) return;
+  const post = link.resourceType === "note" ? db.posts.find((item) => item.id === link.resourceId) : undefined;
+  if (!viewer.isAdmin && !(post && post.authorId === viewer.id)) throw new ApiError("FORBIDDEN", 403);
+  db.resourceTopics = (db.resourceTopics ?? []).filter((item) => item.id !== id);
+  persist();
 }

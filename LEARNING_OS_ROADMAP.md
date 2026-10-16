@@ -36,8 +36,11 @@ plan is documented. ✔ 2026-10-16: see the architecture audit.
   `src/data/curriculum-links/`, seeded as provisional; database refuses
   cycles, self links and unsourced "verified"; `getConceptLinks()` in both
   backends. `npm run test:concept-links` 6/6. (Admin editing UI: Phase 2.)
-- [ ] 1.2 Link videos and notes to topics (`resource_topics`); questions
+- [x] 1.2 Link videos and notes to topics (`resource_topics`); questions
   already carry `topic_id`.
+  ✔ 2026-10-16: authors link their own notes (topic box on the note page),
+  admins link notes and checked YouTube videos (`/bacii/admin/topic-videos`).
+  `npm run test:resource-topics` 3/3; UI 3/3 in both backends; 320px.
 - [ ] 1.3 Learning events: `learning_events`, written by the database from
   existing flows (practice answers, mock exams, notebook reviews, daily
   question, video marks), idempotent.

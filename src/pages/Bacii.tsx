@@ -167,6 +167,20 @@ export default function Bacii() {
       )}
       {user?.isAdmin && (
         <Link
+          to="/bacii/admin/topic-videos"
+          className="card press hover:border-brand-500 mt-3 flex items-center gap-3 p-4 transition-colors"
+        >
+          <span className="bg-surface-hover text-ink-700 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
+            <VideoIcon className="h-5 w-5" />
+          </span>
+          <span>
+            <span className="text-ink-900 block text-sm font-semibold">{t.admin.manageTopicVideos}</span>
+            <span className="text-ink-500 block text-xs">{t.admin.manageTopicVideosHint}</span>
+          </span>
+        </Link>
+      )}
+      {user?.isAdmin && (
+        <Link
           to="/bacii/admin/quizzes"
           className="card press hover:border-brand-500 mt-3 flex items-center gap-3 p-4 transition-colors"
         >

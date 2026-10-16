@@ -43,6 +43,8 @@ import {
   type LiveQuestion,
   type LiveQuiz,
   type ConceptLink,
+  type ResourceTopic,
+  type ResourceTopicInput,
   type Mistake,
   type StudyPlan,
   type StudyPlanInput,
@@ -2256,4 +2258,47 @@ export async function getConceptLinks(): Promise<ConceptLink[]> {
       .returns<{ id: string; from_topic: string; to_topic: string; kind: ConceptLink["kind"]; verification: ConceptLink["verification"]; source: string }[]>(),
   );
   return rows.map((row) => ({ id: row.id, fromTopic: row.from_topic, toTopic: row.to_topic, kind: row.kind, verification: row.verification, source: row.source }));
+}
+
+interface ResourceTopicRow {
+  id: string;
+  resource_type: ResourceTopic["resourceType"];
+  resource_id: string;
+  topic_id: string;
+  title: string;
+  created_at: string;
+}
+
+const toResourceTopic = (row: ResourceTopicRow): ResourceTopic => ({
+  id: row.id,
+  resourceType: row.resource_type,
+  resourceId: row.resource_id,
+  topicId: row.topic_id,
+  title: row.title,
+  createdAt: row.created_at,
+});
+
+export async function getResourceTopics(filter: { resourceType?: ResourceTopic["resourceType"]; resourceId?: string; topicId?: string } = {}): Promise<ResourceTopic[]> {
+  let builder = supabase.from("resource_topics").select("id, resource_type, resource_id, topic_id, title, created_at").order("created_at").limit(1000);
+  if (filter.resourceType) builder = builder.eq("resource_type", filter.resourceType);
+  if (filter.resourceId) builder = builder.eq("resource_id", filter.resourceId);
+  if (filter.topicId) builder = builder.eq("topic_id", filter.topicId);
+  return unwrap(await builder.returns<ResourceTopicRow[]>()).map(toResourceTopic);
+}
+
+export async function linkResourceTopic(input: ResourceTopicInput): Promise<ResourceTopic> {
+  await requireViewer();
+  const { data, error } = await supabase
+    .from("resource_topics")
+    .insert({ resource_type: input.resourceType, resource_id: input.resourceId, topic_id: input.topicId, title: input.title.slice(0, 200) })
+    .select("id, resource_type, resource_id, topic_id, title, created_at")
+    .single<ResourceTopicRow>();
+  if (error) throw new ApiError(error.code === "42501" ? "FORBIDDEN" : "UNKNOWN", error.code === "42501" ? 403 : error.code === "23505" ? 409 : 400, error.code === "23505" ? "already linked" : error.message);
+  return toResourceTopic(data);
+}
+
+export async function unlinkResourceTopic(id: string): Promise<void> {
+  await requireViewer();
+  const { error } = await supabase.from("resource_topics").delete().eq("id", id);
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
 }

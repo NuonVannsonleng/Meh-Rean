@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 1 — 1.2 Link videos and notes to topics** (next up).
+**Phase 1 — 1.3 Learning events** (next up).
 
 ## Done
 
@@ -30,6 +30,19 @@
   traversal. Tests: `npm run test:concept-links` 6/6 (file sound; traversal;
   public read; admin-only writes; cycle, self link, related order and
   unsourced verified refused). Blocker: links need a teacher's check.
+
+- **2026-10-16 — 1.2 Videos and notes linked to topics.** Agents: knowledge
+  graph, frontend, security (rules), tester. Table `resource_topics`
+  (video or note → topic, title; public read; insert/delete by the note's
+  author or an admin; videos admin-only; no in-place edits) with
+  `guard_resource_topic` (YouTube id format and title for videos, note must
+  exist, `added_by` from the session). API `getResourceTopics`,
+  `linkResourceTopic`, `unlinkResourceTopic` in both backends. UI: "BacII
+  topics" box on the note page (chips open practice for that topic; author
+  or admin add/remove), admin page "Videos by topic". Fixed on the way: the
+  note owner's header buttons overflowed by 3 px at 320 px. Tests:
+  `npm run test:resource-topics` 3/3; UI 3/3 browser-only and online;
+  edit-note regression 5/5.
 
 ## Report format (per task)
 

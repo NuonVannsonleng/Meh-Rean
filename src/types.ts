@@ -297,6 +297,19 @@ export type ProfileImageKind = "avatar" | "banner";
 /** How far a curriculum entry (or question) has been checked. */
 export type Verification = "verified" | "provisional" | "needs-review";
 
+/** A video or note linked to a topic (Learning OS 1.2). */
+export interface ResourceTopic {
+  id: string;
+  resourceType: "video" | "note";
+  /** YouTube video id, or a note's post id. */
+  resourceId: string;
+  topicId: string;
+  title: string;
+  createdAt: string;
+}
+
+export type ResourceTopicInput = Omit<ResourceTopic, "id" | "createdAt">;
+
 /** A link in the knowledge graph (Learning OS 1.1): topics are the concepts. */
 export interface ConceptLink {
   id: string;

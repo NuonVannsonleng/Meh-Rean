@@ -7,3 +7,5 @@ are added per task and listed here with their latest results.
 | --- | --- | --- |
 | 2026-10-16 | Phase 0 (documentation only; no code changed) | — |
 | 2026-10-16 | `npm run test:concept-links` (unit + local Supabase) | 6 passed, 0 failed |
+| 2026-10-16 | `npm run test:resource-topics` (local Supabase) | 3 passed, 0 failed |
+| 2026-10-16 | Playwright: note topics + videos by topic, browser-only / online | 3/3, 3/3 |

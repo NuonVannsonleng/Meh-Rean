@@ -25,6 +25,7 @@ import {
 } from "../components/Icons";
 import InstitutionLogo from "../components/InstitutionLogo";
 import LoadingState from "../components/LoadingState";
+import NoteTopics from "../components/NoteTopics";
 import { AttachmentIcon, Lightbox } from "../components/PostAttachments";
 import { RatingInput } from "../components/RatingStars";
 import HelpfulButton from "../components/HelpfulButton";
@@ -516,7 +517,7 @@ export default function PostDetail() {
                 </span>
               </span>
             </Link>
-            <div className="flex shrink-0 items-center gap-2">
+            <div className="flex min-w-0 flex-wrap items-center gap-2">
               <HelpfulButton post={post} onChange={update} />
               <button
                 type="button"
@@ -611,7 +612,10 @@ export default function PostDetail() {
           )}
         </div>
 
-        <About post={post} onChange={update} />
+        <div className="space-y-4">
+          <About post={post} onChange={update} />
+          <NoteTopics postId={post.id} title={post.title} canEdit={isOwner || Boolean(user?.isAdmin)} />
+        </div>
       </div>
 
       {zoom !== null && images.length > 0 && (

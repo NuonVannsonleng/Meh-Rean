@@ -2873,3 +2873,63 @@ create policy "links are public" on public.concept_links for select using (true)
 drop policy if exists "admins manage links" on public.concept_links;
 create policy "admins manage links" on public.concept_links for all to authenticated
   using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()));
+
+-- Videos and notes linked to topics (Learning OS 1.2); questions carry their
+-- own topic_id. A note's author links their own note; admins link any note
+-- or a YouTube video. Everyone reads, so recommendations can use the links.
+create table if not exists public.resource_topics (
+  id uuid primary key default gen_random_uuid(),
+  resource_type text not null check (resource_type in ('video', 'note')),
+  -- A YouTube video id, or a post id for a note.
+  resource_id text not null,
+  topic_id text not null references public.curriculum_topics on delete cascade,
+  -- Shown in lists without another lookup (the video's title; for notes the post's title is used).
+  title text not null default '' check (char_length(title) <= 200),
+  added_by uuid default auth.uid() references public.profiles on delete set null,
+  created_at timestamptz not null default now(),
+  unique (resource_type, resource_id, topic_id)
+);
+create index if not exists resource_topics_topic_idx on public.resource_topics (topic_id, resource_type);
+create index if not exists resource_topics_resource_idx on public.resource_topics (resource_type, resource_id);
+
+create or replace function public.guard_resource_topic()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if new.resource_type = 'video' then
+    if new.resource_id !~ '^[A-Za-z0-9_-]{11}$' then
+      raise exception 'not a YouTube video id' using errcode = '23514';
+    end if;
+    if char_length(btrim(new.title)) = 0 then
+      raise exception 'give the video a title' using errcode = '23514';
+    end if;
+  else
+    if new.resource_id !~ '^[0-9a-f-]{36}$' or not exists (select 1 from public.posts p where p.id::text = new.resource_id) then
+      raise exception 'that note does not exist' using errcode = '23503';
+    end if;
+  end if;
+  new.added_by := auth.uid();
+  new.created_at := now();
+  return new;
+end;
+$$;
+drop trigger if exists guard_resource_topic on public.resource_topics;
+create trigger guard_resource_topic before insert on public.resource_topics
+  for each row execute function public.guard_resource_topic();
+
+alter table public.resource_topics enable row level security;
+drop policy if exists "resource links are public" on public.resource_topics;
+create policy "resource links are public" on public.resource_topics for select using (true);
+drop policy if exists "link own notes or as admin" on public.resource_topics;
+create policy "link own notes or as admin" on public.resource_topics for insert to authenticated with check (
+  public.is_admin(auth.uid())
+  or (resource_type = 'note' and exists (select 1 from public.posts p where p.id::text = resource_id and p.author_id = auth.uid()))
+);
+drop policy if exists "unlink own notes or as admin" on public.resource_topics;
+create policy "unlink own notes or as admin" on public.resource_topics for delete to authenticated using (
+  public.is_admin(auth.uid())
+  or (resource_type = 'note' and exists (select 1 from public.posts p where p.id::text = resource_id and p.author_id = auth.uid()))
+);
+revoke update on public.resource_topics from anon, authenticated;

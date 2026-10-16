@@ -141,6 +141,8 @@ The rules live in the database, so they apply no matter who calls the API.
 | Chat photos, voice notes and files | only the two people in the conversation, through links that expire; unsending cuts access straight away | you upload into your own folder only, and can attach only your own uploads |
 | Message reactions | only the two people in the conversation | only your own reaction |
 | Uploaded files | everyone (public links) | you can only write and delete inside your own folder |
+| Topic links (prerequisites, related) | everyone | admins only |
+| Videos and notes linked to topics | everyone | a note's author (own notes) or admins; videos admins only |
 | Trusted video channels | everyone | admins only |
 | Video quizzes | everyone | admins only (shape checked; transcripts never stored) |
 | Live quizzes you wrote (with answers) | only you | only you |
