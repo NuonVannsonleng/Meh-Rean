@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "note": "Mastery estimate rules (Learning OS 3.1). Product rules of thumb, not a validated measure of ability. Changing a number here means bumping version.",
+  "prior": 50,
+  "stepMin": 0.1,
+  "stepMax": 0.6,
+  "defaultDifficulty": 3,
+  "difficultyWeight": 0.15,
+  "confidenceEvidence": 5,
+  "confidenceHalfLifeDays": 30,
+  "confidenceLevels": { "medium": 0.34, "high": 0.67 },
+  "labels": [
+    { "id": "needs-foundation", "from": 0 },
+    { "id": "developing", "from": 25 },
+    { "id": "practising", "from": 50 },
+    { "id": "strong", "from": 75 },
+    { "id": "consistently-strong", "from": 90, "minEvidence": 6 }
+  ]
+}

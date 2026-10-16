@@ -90,8 +90,10 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
 
 ## Phase 3 — Mastery engine
 
-- [ ] Mastery algorithm (bounded update; difficulty, recency, evidence count,
+- [x] 3.1 Mastery algorithm (bounded update; difficulty, recency, evidence count,
   confidence), configurable in a data file.
+  ✔ 2026-10-16: `src/lib/mastery.ts` with `src/data/learning/mastery-rules.json`
+  (version 1). `npm run test:mastery` 11/11.
 - [ ] Update from practice answers, mock exams and notebook reviews.
 - [ ] Store estimates (`topic_mastery`) with algorithm version.
 - [ ] Deterministic tests (first attempt, right, wrong, repeats, no evidence,

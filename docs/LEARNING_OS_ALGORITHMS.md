@@ -29,19 +29,32 @@ labelled as estimates; none is a validated measure of ability.
 - Topic results: only the first attempt at each question per Cambodia day
   counts (SQL `my_topic_results()`, TS `topicResultsFromEvents()`).
 
-## Mastery (Phase 3 — draft, to be finalised with tests)
+## Mastery (3.1)
 
-- Unknown until the first marked answer on a topic.
-- Only the first attempt at a question per day counts as evidence, so
-  retrying a question until it is right does not inflate the estimate.
-- Score 0–100, updated per marked answer: `score += k × (target − score)`,
-  target 100 when right, 0 when wrong; `k` shrinks as evidence grows (one
-  answer cannot swing it far) and depends on difficulty (a right answer to a
-  hard question, or a wrong one to an easy question, moves it more).
-- Evidence count and confidence stored; confidence falls with time since the
-  last practice. Videos and notes are never evidence.
-- Labels: 0–24 Needs foundation · 25–49 Developing · 50–74 Practising ·
-  75–89 Strong · 90–100 Consistently strong — product labels, not standards.
+Code: `src/lib/mastery.ts`. Numbers: `src/data/learning/mastery-rules.json`
+(version 1; a change to a number bumps the version). Tests: `npm run test:mastery`.
+
+- **Evidence:** marked answers from practice, the daily question, mock exams
+  and notebook reviews. Only the first attempt at a question per Cambodia day
+  counts, so retrying until right does not inflate it. Videos, notes and
+  self-reported marks are never evidence. Duplicate events count once;
+  answers are applied oldest first.
+- **Unknown** until the first answer (no score shown).
+- **Update:** `score += step × (target − score)`, from a prior of 50; target
+  100 when right, 0 when wrong.
+  - `step = max(0.1, 1/(n+2))` where n is earlier evidence: the first answer
+    gives 75 or 25, then it behaves like a smoothed share right, and the 0.1
+    floor keeps recent answers counting (recency).
+  - Difficulty (1–5, missing = 3): `step × (1 + 0.15 × s)`, where s is
+    `difficulty − 3` for a right answer and `3 − difficulty` for a wrong
+    one, so a hard right answer or an easy wrong one moves it more. Capped
+    at 0.6.
+- **Confidence (0–1):** `n/(n+5) × 0.5^(days since last answer / 30)`.
+  Below 0.34 is low, below 0.67 medium, otherwise high. Time lowers
+  confidence, never the score.
+- **Labels:** 0–24 Needs foundation · 25–49 Developing · 50–74 Practising ·
+  75–89 Strong · 90–100 Consistently strong (needs at least 6 answers) —
+  product labels, not standards.
 
 ## Recommendations (Phase 4 — to be designed)
 

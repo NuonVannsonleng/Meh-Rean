@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 3 — 3.1 Mastery algorithm** (next up).
+**Phase 3 — 3.2 Mastery from practice, exams and reviews; 3.3 stored estimates** (next up).
 
 ## Done
 
@@ -158,6 +158,17 @@
   map 4/4, topic 4/4 in both backends; all DB suites green; lint, build.
   Blocker: the review's Khmer term notes need a Grade 12 teacher (see the
   architecture doc's blockers); none were changed.
+
+- **2026-10-16 — 3.1 Mastery algorithm.** Agents: learning intelligence
+  (design, tests), curriculum (labels are product labels). Pure functions in
+  `src/lib/mastery.ts`; every number in `src/data/learning/mastery-rules.json`
+  with a version. Score 0–100 per topic, bounded step towards 100 (right) or
+  0 (wrong), step 1/(n+2) within 0.1–0.6 and weighted by difficulty; first
+  attempt per question per Cambodia day; reviews and exams count, videos and
+  self-reported marks do not; confidence from evidence and time since the
+  last answer; labels with "unknown". Nothing stored or shown yet (3.2–3.5).
+  Tests: `npm run test:mastery` 11/11 (first attempt, right, wrong, bounds,
+  difficulty, recency, labels, confidence, duplicates, order); lint.
 
 ## Report format (per task)
 
