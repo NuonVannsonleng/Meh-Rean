@@ -11,6 +11,7 @@ import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
 import khGrade12MathLinks from "../data/curriculum-links/kh-grade12-math.json";
 import { expandLinks, type LinkSeed } from "../lib/conceptGraph";
+import { suggestedProfile } from "../lib/learningDefaults";
 import { buildDemoPapers, sortPapers, type DemoPaperSeed } from "../lib/papers";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
@@ -41,6 +42,8 @@ import {
   type LiveQuiz,
   type ConceptLink,
   type LearningEvent,
+  type LearningProfile,
+  type LearningProfileInput,
   type LearningEventType,
   type ResourceTopic,
   type ResourceTopicInput,
@@ -1996,4 +1999,35 @@ export async function getLearningEvents(limit = 50): Promise<LearningEvent[]> {
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .slice(0, limit)
     .map(({ userId: _userId, idempotencyKey: _key, ...event }) => event);
+}
+
+// ---- Learning profile (Learning OS 1.4) ----
+
+export async function getLearningProfile(): Promise<LearningProfile> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  const saved = (db.learningProfiles ?? []).find((item) => item.userId === viewer.id);
+  if (saved) {
+    const { userId: _userId, ...profile } = saved;
+    return structuredClone(profile);
+  }
+  return suggestedProfile(await getStudyPlan(), await getCurriculumSubjects());
+}
+
+export async function saveLearningProfile(input: LearningProfileInput): Promise<LearningProfile> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  const existing = (db.learningProfiles ?? []).find((item) => item.userId === viewer.id);
+  const today = cambodiaDay(new Date());
+  if (input.examDate && input.examDate !== existing?.examDate && (input.examDate <= today || input.examDate > addDays(today, 400))) {
+    throw new ApiError("UNKNOWN", 400, "the exam date must be within the next 400 days");
+  }
+  if (input.sessionMinutes < 10 || input.sessionMinutes > 240 || (input.daysPerWeek !== null && (input.daysPerWeek < 1 || input.daysPerWeek > 7)) || (input.targetGrade && !/^[A-F]$/.test(input.targetGrade))) {
+    throw new ApiError("UNKNOWN", 400, "check your settings");
+  }
+  const profile = { ...structuredClone(input), userId: viewer.id, updatedAt: new Date().toISOString() };
+  db.learningProfiles = [...(db.learningProfiles ?? []).filter((item) => item.userId !== viewer.id), profile];
+  persist();
+  const { userId: _userId, ...rest } = profile;
+  return rest;
 }

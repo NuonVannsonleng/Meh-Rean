@@ -142,6 +142,7 @@ The rules live in the database, so they apply no matter who calls the API.
 | Message reactions | only the two people in the conversation | only your own reaction |
 | Uploaded files | everyone (public links) | you can only write and delete inside your own folder |
 | Topic links (prerequisites, related) | everyone | admins only |
+| Your learning profile (preferences) | only you | only you |
 | Your learning activity (answers, exams, marks, ticks) | only you | only the database, from your actions |
 | Videos and notes linked to topics | everyone | a note's author (own notes) or admins; videos admins only |
 | Trusted video channels | everyone | admins only |

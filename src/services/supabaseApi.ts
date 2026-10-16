@@ -10,6 +10,7 @@ import {
   type QuestionRow,
   type QuestionSolutionRow,
 } from "../lib/questions";
+import { suggestedProfile } from "../lib/learningDefaults";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -44,6 +45,8 @@ import {
   type LiveQuiz,
   type ConceptLink,
   type LearningEvent,
+  type LearningProfile,
+  type LearningProfileInput,
   type ResourceTopic,
   type ResourceTopicInput,
   type Mistake,
@@ -2329,4 +2332,58 @@ export async function getLearningEvents(limit = 50): Promise<LearningEvent[]> {
     data: row.data,
     createdAt: row.created_at,
   }));
+}
+
+// ---- Learning profile (Learning OS 1.4) ----
+
+interface LearningProfileRow {
+  track_id: string | null;
+  subject_ids: string[];
+  target_grade: string | null;
+  exam_date: string | null;
+  preferred_language: "km" | "en";
+  session_minutes: number;
+  days_per_week: number | null;
+  updated_at: string;
+}
+
+const LEARNING_PROFILE_COLUMNS = "track_id, subject_ids, target_grade, exam_date, preferred_language, session_minutes, days_per_week, updated_at";
+const toLearningProfile = (row: LearningProfileRow): LearningProfile => ({
+  trackId: row.track_id,
+  subjectIds: row.subject_ids ?? [],
+  targetGrade: row.target_grade,
+  examDate: row.exam_date,
+  preferredLanguage: row.preferred_language,
+  sessionMinutes: row.session_minutes,
+  daysPerWeek: row.days_per_week,
+  updatedAt: row.updated_at,
+});
+
+export async function getLearningProfile(): Promise<LearningProfile> {
+  const viewer = await requireViewer();
+  const { data, error } = await supabase.from("learning_profiles").select(LEARNING_PROFILE_COLUMNS).eq("user_id", viewer).maybeSingle<LearningProfileRow>();
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+  if (data) return toLearningProfile(data);
+  const [plan, subjects] = await Promise.all([getStudyPlan().catch(() => null), getCurriculumSubjects().catch(() => [])]);
+  return suggestedProfile(plan, subjects);
+}
+
+export async function saveLearningProfile(input: LearningProfileInput): Promise<LearningProfile> {
+  const viewer = await requireViewer();
+  const { data, error } = await supabase
+    .from("learning_profiles")
+    .upsert({
+      user_id: viewer,
+      track_id: input.trackId,
+      subject_ids: input.subjectIds,
+      target_grade: input.targetGrade,
+      exam_date: input.examDate,
+      preferred_language: input.preferredLanguage,
+      session_minutes: input.sessionMinutes,
+      days_per_week: input.daysPerWeek,
+    })
+    .select(LEARNING_PROFILE_COLUMNS)
+    .single<LearningProfileRow>();
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+  return toLearningProfile(data);
 }

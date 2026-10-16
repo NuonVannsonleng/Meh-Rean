@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 1 — 1.4 Student learning profile** (next up).
+**Phase 1 — 1.5 Authorization and privacy review** (next up).
 
 ## Done
 
@@ -61,6 +61,21 @@
   video progress, accounts, questions suites pass; 11 UI regressions pass in
   both backends; browser-only event recording checked. Not covered:
   "chapter practice completed" needs practice sessions (Phase 5).
+
+- **2026-10-16 — 1.4 Student learning profile.** Agents: backend,
+  database, learning intelligence (indicator rules), designer, tester.
+  Table `learning_profiles` (track, subjects, target grade, exam date,
+  language, session minutes, days a week; own row only; trigger checks the
+  exam date (within 400 days when changed) and subjects, sets
+  `updated_at`). Nothing inferred is stored there: `src/lib/learningProfile.ts`
+  computes chapter indicators (≥ 3 answers; smoothed rate ≥ 0.75 "going
+  well", ≤ 0.5 "worth more practice") and a 7-day activity summary from the
+  student's own events (self-reported ones are not answers).
+  `src/lib/learningDefaults.ts` suggests settings from the study plan and
+  the curriculum until the student saves. API `getLearningProfile`,
+  `saveLearningProfile` in both backends. Page `/learning/profile`.
+  Tests: `npm run test:learning-profile` 6/6 (rules + privacy + checks);
+  UI 4/4 browser-only and online; 320px.
 
 ## Report format (per task)
 

@@ -10,4 +10,6 @@ are added per task and listed here with their latest results.
 | 2026-10-16 | `npm run test:resource-topics` (local Supabase) | 3 passed, 0 failed |
 | 2026-10-16 | Playwright: note topics + videos by topic, browser-only / online | 3/3, 3/3 |
 | 2026-10-16 | `npm run test:learning-events` (local Supabase) | 6 passed, 0 failed |
+| 2026-10-16 | `npm run test:learning-profile` (unit + local Supabase) | 6 passed, 0 failed |
+| 2026-10-16 | Playwright: learning profile, browser-only / online | 4/4, 4/4 |
 | 2026-10-16 | UI regressions after events (practice, mistakes, exam, daily, plan both backends; watched browser-only) | all pass |

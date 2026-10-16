@@ -3087,3 +3087,48 @@ $$;
 drop trigger if exists learning_event_from_plan on public.study_plans;
 create trigger learning_event_from_plan after insert or update on public.study_plans
   for each row execute function public.learning_event_from_plan();
+
+-- A student's learning preferences (Learning OS 1.4): what they chose, kept
+-- apart from what Meh Rean infers from their answers (computed, never
+-- stored here). Their own row only.
+create table if not exists public.learning_profiles (
+  user_id uuid primary key default auth.uid() references public.profiles on delete cascade,
+  track_id text references public.curriculum_tracks on delete set null,
+  subject_ids text[] not null default '{}' check (cardinality(subject_ids) <= 20),
+  target_grade text check (target_grade is null or target_grade ~ '^[A-F]$'),
+  exam_date date,
+  preferred_language text not null default 'km' check (preferred_language in ('km', 'en')),
+  session_minutes smallint not null default 30 check (session_minutes between 10 and 240),
+  days_per_week smallint check (days_per_week is null or days_per_week between 1 and 7),
+  updated_at timestamptz not null default now()
+);
+
+create or replace function public.guard_learning_profile()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+declare
+  today date := (now() at time zone 'Asia/Phnom_Penh')::date;
+begin
+  if new.exam_date is not null and (tg_op = 'INSERT' or new.exam_date is distinct from old.exam_date)
+    and (new.exam_date <= today or new.exam_date > today + 400) then
+    raise exception 'the exam date must be within the next 400 days' using errcode = '22023';
+  end if;
+  if exists (select 1 from unnest(new.subject_ids) s where not exists (select 1 from public.curriculum_subjects cs where cs.id = s)) then
+    raise exception 'unknown subject' using errcode = '23503';
+  end if;
+  new.updated_at := now();
+  return new;
+end;
+$$;
+drop trigger if exists guard_learning_profile on public.learning_profiles;
+create trigger guard_learning_profile before insert or update on public.learning_profiles
+  for each row execute function public.guard_learning_profile();
+
+alter table public.learning_profiles enable row level security;
+drop policy if exists "own learning profile" on public.learning_profiles;
+create policy "own learning profile" on public.learning_profiles for all to authenticated
+  using (user_id = auth.uid()) with check (user_id = auth.uid());
+revoke all on public.learning_profiles from anon;
+grant select, insert, update, delete on public.learning_profiles to authenticated;

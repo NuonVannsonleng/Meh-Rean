@@ -17,6 +17,7 @@ import {
   type ExamAnswer,
   type ExamAttempt,
   type LearningEvent,
+  type LearningProfile,
   type LiveQuiz,
   type Mistake,
   type ResourceTopic,
@@ -120,6 +121,8 @@ export interface DbState {
   /** Mock exam attempts and their answers (supabase: exam_attempts, exam_answers). */
   examAttempts?: (ExamAttempt & { userId: string })[];
   examAnswers?: (ExamAnswer & { attemptId: string })[];
+  /** Learning preferences (supabase: learning_profiles). */
+  learningProfiles?: (LearningProfile & { userId: string })[];
   /** What each student did (supabase: learning_events). */
   learningEvents?: (LearningEvent & { userId: string; idempotencyKey: string })[];
   /** Videos and notes linked to topics (supabase: resource_topics). */

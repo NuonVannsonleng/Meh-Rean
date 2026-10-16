@@ -98,6 +98,11 @@ export default function Bacii() {
             {t.bacii.title} <span className="text-ink-500 font-normal">· {t.bacii.titleKm}</span>
           </h1>
           <p className="text-ink-500 mt-1 text-sm sm:text-base">{t.bacii.tagline}</p>
+          {user && (
+            <Link to="/learning/profile" className="text-accent mt-2 inline-block text-sm font-semibold hover:underline">
+              {t.learning.profileLink}
+            </Link>
+          )}
         </div>
       </header>
 

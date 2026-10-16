@@ -297,6 +297,21 @@ export type ProfileImageKind = "avatar" | "banner";
 /** How far a curriculum entry (or question) has been checked. */
 export type Verification = "verified" | "provisional" | "needs-review";
 
+/** What a student chose about how they learn (Learning OS 1.4). Inferred indicators live elsewhere. */
+export interface LearningProfile {
+  trackId: string | null;
+  subjectIds: string[];
+  targetGrade: string | null;
+  examDate: string | null;
+  preferredLanguage: "km" | "en";
+  sessionMinutes: number;
+  daysPerWeek: number | null;
+  /** Null until the student saves it: the values shown are then suggestions from what Meh Rean already knows. */
+  updatedAt: string | null;
+}
+
+export type LearningProfileInput = Omit<LearningProfile, "updatedAt">;
+
 export type LearningEventType =
   | "question_attempted"
   | "mistake_reviewed"

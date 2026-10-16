@@ -9,6 +9,16 @@ labelled as estimates; none is a validated measure of ability.
 - Reviews: 1, 3, 7, 14 days; wrong → tomorrow; right when due → next interval.
 - Study plan weights: weak chapters × 2, others by target grade.
 
+## Learning profile indicators (1.4)
+
+- A chapter is described only after **3** marked answers in it.
+- Smoothed share right = (right + 1) / (answered + 2). **≥ 0.75**: "going
+  well"; **≤ 0.5**: "worth more practice"; ties sorted by more evidence.
+- Activity: the last 7 days of the student's own answer events (practice,
+  reviews, exams); self-reported marks and ticks are not answers.
+- Rules in `PROFILE_RULES` (`src/lib/learningProfile.ts`), tested by
+  `npm run test:learning-profile`.
+
 ## Mastery (Phase 3 — draft, to be finalised with tests)
 
 - Unknown until the first marked answer on a topic.

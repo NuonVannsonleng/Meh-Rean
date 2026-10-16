@@ -48,9 +48,13 @@ plan is documented. ✔ 2026-10-16: see the architecture audit.
   answers carry a request id so a retry counts nothing twice; video marks
   and plan ticks are self-reported. `npm run test:learning-events` 6/6;
   11 UI regressions pass; browser-only events checked.
-- [ ] 1.4 Student learning profile (`learning_profiles`): track, subjects,
+- [x] 1.4 Student learning profile (`learning_profiles`): track, subjects,
   target grade, exam date, language, session length — reusing the study
   plan's settings, separate from inferred indicators.
+  ✔ 2026-10-16: `/learning/profile` (linked from the BacII page):
+  settings pre-filled from the study plan and curriculum; "what your answers
+  suggest" (≥ 3 answers per chapter, labelled estimates); last 7 days.
+  `npm run test:learning-profile` 6/6; UI 4/4 in both backends; 320px.
 - [ ] 1.5 Authorization and privacy checks across the new tables.
 
 **Done when:** existing activity is recorded and linked to topics without
