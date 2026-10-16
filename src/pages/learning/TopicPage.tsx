@@ -74,8 +74,8 @@ export default function TopicPage() {
     return (
       <div className="container-page max-w-3xl py-16 text-center">
         <p className="text-ink-700">{copy.notFound}</p>
-        <Link to="/bacii" className="btn-secondary mt-4">
-          {t.bacii.title}
+        <Link to="/learning/map" className="btn-secondary mt-4">
+          {copy.toMap}
         </Link>
       </div>
     );
@@ -110,9 +110,9 @@ export default function TopicPage() {
 
   return (
     <div className="container-page max-w-3xl py-6 sm:py-8">
-      <Link to="/bacii" className="text-ink-500 hover:text-ink-900 mb-4 inline-flex items-center gap-1.5 text-sm font-medium">
+      <Link to="/learning/map" className="text-ink-500 hover:text-ink-900 mb-4 inline-flex items-center gap-1.5 text-sm font-medium">
         <ArrowLeftIcon className="h-4 w-4" />
-        {t.bacii.title}
+        {copy.toMap}
       </Link>
       <header className="mb-5">
         <p className="text-accent text-xs font-semibold tracking-wide uppercase">{copy.chapter(chapter.number, chapter.nameEn)}</p>

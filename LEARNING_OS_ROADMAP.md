@@ -75,7 +75,11 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   ✔ 2026-10-16: `/learning/topics/:id` (open to visitors; results when
   signed in); linked from practice ("About this topic") and note topic
   chips. UI 4/4 in both backends; 320px.
-- [ ] 2.3 Concept map (interactive) and a list view for low-end phones.
+- [x] 2.3 Concept map (interactive) and a list view for low-end phones.
+  ✔ 2026-10-16: `/learning/map` (linked from BacII): layered SVG map
+  coloured by the student's status, tap or Enter highlights a topic's chain;
+  list view by chapter (default on phones, remembered). `npm run
+  test:knowledge-graph` 8/8 (layout); UI 4/4 in both backends; 320px.
 - [ ] 2.4 Link management for admins; relationship integrity; curriculum review of the links.
 
 ## Phase 3 — Mastery engine

@@ -158,3 +158,37 @@ export function missingPrerequisites(
     return status === "unknown" || status === "work-on" ? [{ ...item, status }] : [];
   });
 }
+
+export interface MapNode {
+  topicId: string;
+  x: number;
+  y: number;
+}
+
+export const MAP_SIZES = { nodeWidth: 168, nodeHeight: 48, columnGap: 56, rowGap: 12, padding: 8 } as const;
+
+/**
+ * Positions for the concept map: one column per prerequisite level, topics in
+ * study order down each column, so every prerequisite arrow points right.
+ */
+export function mapLayout(topicIds: string[], links: ConceptLinkInput[], sizes = MAP_SIZES): { nodes: MapNode[]; width: number; height: number } {
+  const level = prerequisiteLevels(topicIds, links);
+  const rows = new Map<number, number>();
+  const nodes = studyOrder(topicIds, links).map((topicId) => {
+    const column = level.get(topicId) ?? 0;
+    const row = rows.get(column) ?? 0;
+    rows.set(column, row + 1);
+    return {
+      topicId,
+      x: sizes.padding + column * (sizes.nodeWidth + sizes.columnGap),
+      y: sizes.padding + row * (sizes.nodeHeight + sizes.rowGap),
+    };
+  });
+  const columns = Math.max(0, ...level.values()) + 1;
+  const tallest = Math.max(1, ...rows.values());
+  return {
+    nodes,
+    width: sizes.padding * 2 + columns * sizes.nodeWidth + (columns - 1) * sizes.columnGap,
+    height: sizes.padding * 2 + tallest * sizes.nodeHeight + (tallest - 1) * sizes.rowGap,
+  };
+}

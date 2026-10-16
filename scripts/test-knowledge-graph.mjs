@@ -10,7 +10,7 @@
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { flattenCurriculum } from "../src/lib/curriculum.ts";
-import { dependentsOf, expandLinks, missingPrerequisites, prerequisiteLevels, relatedTo, studyOrder } from "../src/lib/conceptGraph.ts";
+import { dependentsOf, expandLinks, MAP_SIZES, mapLayout, missingPrerequisites, prerequisiteLevels, relatedTo, studyOrder } from "../src/lib/conceptGraph.ts";
 import { topicResultsFromEvents, topicStatus } from "../src/lib/learningProfile.ts";
 import { accounts, assert, localTarget, reporter, sql } from "./lib/local-supabase.mjs";
 
@@ -47,6 +47,18 @@ await check("levels: starting points are 0, each topic is after all its prerequi
   const bad = links.filter((link) => link.kind === "prerequisite" && level.get(link.fromTopic) >= level.get(link.toTopic));
   assert(!bad.length, `levels out of step: ${bad.length}`);
   return `deepest level ${Math.max(...level.values())}`;
+});
+
+await check("map layout: every topic placed once, no overlaps, every prerequisite arrow points right", async () => {
+  const { nodes, width, height } = mapLayout(topicIds, links);
+  assert(nodes.length === topicIds.length && new Set(nodes.map((n) => n.topicId)).size === topicIds.length, "topics lost or repeated");
+  const at = new Map(nodes.map((n) => [n.topicId, n]));
+  const overlaps = nodes.filter((a, i) => nodes.some((b, j) => j > i && Math.abs(a.x - b.x) < MAP_SIZES.nodeWidth && Math.abs(a.y - b.y) < MAP_SIZES.nodeHeight));
+  assert(!overlaps.length, `${overlaps.length} overlapping nodes`);
+  const left = links.filter((l) => l.kind === "prerequisite" && at.get(l.fromTopic).x >= at.get(l.toTopic).x);
+  assert(!left.length, `${left.length} arrows point left`);
+  assert(nodes.every((n) => n.x + MAP_SIZES.nodeWidth <= width && n.y + MAP_SIZES.nodeHeight <= height), "a node is outside the drawing");
+  return `${width}×${height}`;
 });
 
 await check("missing prerequisites: the ones not shown yet, nearest first", async () => {

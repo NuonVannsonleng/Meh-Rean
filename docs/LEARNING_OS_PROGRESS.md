@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 2 — 2.3 Concept map** (next up).
+**Phase 2 — 2.4 Link management and curriculum review** (next up).
 
 ## Done
 
@@ -126,6 +126,19 @@
   open the topic page. Fixed while testing: a 150 px overflow at 320 px
   (grid without explicit shrinkable columns). Tests: UI 4/4 browser-only
   and online; topic-link UI 3/3 ×2; practice 5/5.
+
+- **2026-10-16 — 2.3 Concept map.** Agents: frontend, designer, knowledge
+  graph, performance (SVG, no library), tester. `mapLayout()` places topics
+  in columns by prerequisite level and rows by study order (tested: no
+  overlaps, every arrow points right). `/learning/map`: inline SVG with
+  curved "needed before" arrows and dashed "related" lines; nodes coloured
+  by status (signed in), focusable, tap/Enter selects and highlights the
+  prerequisite chain and next steps, with a card to open the topic; list
+  view by chapter with each topic's direct needs and status — the default
+  under 768 px and the accessible alternative; choice remembered. Links
+  from the BacII page; the topic page now returns to the map. Tests:
+  `npm run test:knowledge-graph` 8/8; UI 4/4 browser-only and online;
+  topic page 4/4.
 
 ## Report format (per task)
 
