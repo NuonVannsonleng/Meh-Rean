@@ -1,44 +1,208 @@
 {
   "subjectId": "kh-grade12-science-mathematics",
   "verification": "provisional",
-  "source": "Draft by Meh Rean from common mathematical dependencies; not yet checked by a Grade 12 teacher.",
+  "source": "Draft by Meh Rean from common mathematical dependencies, revised 2026-10-16 after a curriculum review; not yet checked by a Grade 12 teacher.",
   "note": "\"from\" is needed before \"to\" (prerequisite), or the two are related. Ids are topic ids without the subject prefix.",
   "links": [
-    { "from": "limits-continuity-limits", "to": "limits-continuity-indeterminate-forms", "kind": "prerequisite" },
-    { "from": "limits-continuity-limits", "to": "limits-continuity-continuity", "kind": "prerequisite" },
-    { "from": "limits-continuity-limits", "to": "limits-continuity-asymptotes", "kind": "prerequisite" },
-    { "from": "limits-continuity-limits", "to": "derivatives-rules", "kind": "prerequisite" },
-    { "from": "derivatives-rules", "to": "derivatives-composite", "kind": "prerequisite" },
-    { "from": "derivatives-rules", "to": "derivatives-tangent", "kind": "prerequisite" },
-    { "from": "derivatives-rules", "to": "function-study-monotonicity", "kind": "prerequisite" },
-    { "from": "function-study-monotonicity", "to": "function-study-extrema", "kind": "prerequisite" },
-    { "from": "derivatives-composite", "to": "function-study-inflection", "kind": "prerequisite" },
-    { "from": "function-study-extrema", "to": "function-study-graphs", "kind": "prerequisite" },
-    { "from": "function-study-inflection", "to": "function-study-graphs", "kind": "prerequisite" },
-    { "from": "limits-continuity-asymptotes", "to": "function-study-graphs", "kind": "prerequisite" },
-    { "from": "exponential-logarithm-properties", "to": "exponential-logarithm-equations", "kind": "prerequisite" },
-    { "from": "derivatives-rules", "to": "integrals-antiderivatives", "kind": "prerequisite" },
-    { "from": "integrals-antiderivatives", "to": "integrals-definite", "kind": "prerequisite" },
-    { "from": "integrals-definite", "to": "integrals-by-parts", "kind": "prerequisite" },
-    { "from": "integrals-definite", "to": "integrals-area", "kind": "prerequisite" },
-    { "from": "integrals-area", "to": "integrals-volume", "kind": "prerequisite" },
-    { "from": "integrals-antiderivatives", "to": "differential-equations-first-order", "kind": "prerequisite" },
-    { "from": "exponential-logarithm-properties", "to": "differential-equations-first-order", "kind": "prerequisite" },
-    { "from": "differential-equations-first-order", "to": "differential-equations-second-order", "kind": "prerequisite" },
-    { "from": "complex-numbers-algebraic-form", "to": "differential-equations-second-order", "kind": "prerequisite" },
-    { "from": "complex-numbers-algebraic-form", "to": "complex-numbers-trigonometric-form", "kind": "prerequisite" },
-    { "from": "complex-numbers-trigonometric-form", "to": "complex-numbers-de-moivre", "kind": "prerequisite" },
-    { "from": "complex-numbers-algebraic-form", "to": "complex-numbers-equations", "kind": "prerequisite" },
-    { "from": "complex-numbers-de-moivre", "to": "complex-numbers-equations", "kind": "prerequisite" },
-    { "from": "probability-counting", "to": "probability-events", "kind": "prerequisite" },
-    { "from": "probability-events", "to": "probability-conditional", "kind": "prerequisite" },
-    { "from": "probability-events", "to": "probability-random-variables", "kind": "prerequisite" },
-    { "from": "vectors-space-dot-product", "to": "vectors-space-cross-product", "kind": "prerequisite" },
-    { "from": "vectors-space-dot-product", "to": "vectors-space-lines-planes", "kind": "prerequisite" },
-    { "from": "vectors-space-cross-product", "to": "vectors-space-lines-planes", "kind": "prerequisite" },
-    { "from": "conics-ellipse", "to": "conics-hyperbola", "kind": "related" },
-    { "from": "conics-ellipse", "to": "conics-parabola", "kind": "related" },
-    { "from": "conics-hyperbola", "to": "conics-parabola", "kind": "related" },
-    { "from": "derivatives-tangent", "to": "function-study-graphs", "kind": "related" }
+    {
+      "from": "limits-continuity-limits",
+      "to": "limits-continuity-indeterminate-forms",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "limits-continuity-limits",
+      "to": "limits-continuity-continuity",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "limits-continuity-limits",
+      "to": "limits-continuity-asymptotes",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "limits-continuity-limits",
+      "to": "derivatives-rules",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "limits-continuity-continuity",
+      "to": "derivatives-rules",
+      "kind": "related"
+    },
+    {
+      "from": "derivatives-rules",
+      "to": "derivatives-composite",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "derivatives-rules",
+      "to": "derivatives-tangent",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "derivatives-rules",
+      "to": "function-study-monotonicity",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "function-study-monotonicity",
+      "to": "function-study-extrema",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "function-study-monotonicity",
+      "to": "function-study-inflection",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "function-study-extrema",
+      "to": "function-study-graphs",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "function-study-inflection",
+      "to": "function-study-graphs",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "limits-continuity-asymptotes",
+      "to": "function-study-graphs",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "exponential-logarithm-properties",
+      "to": "exponential-logarithm-equations",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "exponential-logarithm-properties",
+      "to": "derivatives-rules",
+      "kind": "related"
+    },
+    {
+      "from": "exponential-logarithm-properties",
+      "to": "limits-continuity-indeterminate-forms",
+      "kind": "related"
+    },
+    {
+      "from": "derivatives-rules",
+      "to": "integrals-antiderivatives",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "derivatives-composite",
+      "to": "integrals-antiderivatives",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "integrals-antiderivatives",
+      "to": "integrals-definite",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "integrals-antiderivatives",
+      "to": "integrals-by-parts",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "integrals-definite",
+      "to": "integrals-area",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "integrals-definite",
+      "to": "integrals-volume",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "integrals-area",
+      "to": "integrals-volume",
+      "kind": "related"
+    },
+    {
+      "from": "integrals-antiderivatives",
+      "to": "differential-equations-first-order",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "exponential-logarithm-properties",
+      "to": "differential-equations-first-order",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "differential-equations-first-order",
+      "to": "differential-equations-second-order",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "complex-numbers-algebraic-form",
+      "to": "differential-equations-second-order",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "complex-numbers-algebraic-form",
+      "to": "complex-numbers-trigonometric-form",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "complex-numbers-trigonometric-form",
+      "to": "complex-numbers-de-moivre",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "complex-numbers-algebraic-form",
+      "to": "complex-numbers-equations",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "complex-numbers-de-moivre",
+      "to": "complex-numbers-equations",
+      "kind": "related"
+    },
+    {
+      "from": "probability-counting",
+      "to": "probability-events",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "probability-events",
+      "to": "probability-conditional",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "probability-events",
+      "to": "probability-random-variables",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "vectors-space-dot-product",
+      "to": "vectors-space-cross-product",
+      "kind": "related"
+    },
+    {
+      "from": "vectors-space-dot-product",
+      "to": "vectors-space-lines-planes",
+      "kind": "prerequisite"
+    },
+    {
+      "from": "vectors-space-cross-product",
+      "to": "vectors-space-lines-planes",
+      "kind": "related"
+    },
+    {
+      "from": "conics-ellipse",
+      "to": "conics-hyperbola",
+      "kind": "related"
+    },
+    {
+      "from": "conics-ellipse",
+      "to": "conics-parabola",
+      "kind": "related"
+    },
+    {
+      "from": "conics-hyperbola",
+      "to": "conics-parabola",
+      "kind": "related"
+    }
   ]
 }

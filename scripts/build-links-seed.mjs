@@ -2,8 +2,8 @@
 /**
  * Writes supabase/seed/concept-links.sql from src/data/curriculum-links/*.json
  * (Learning OS 1.1). Run after editing a links file, then rebuild
- * supabase/setup-all.sql. The SQL inserts missing links only, so a link an
- * admin edited or checked keeps its changes.
+ * supabase/setup-all.sql. Untouched draft links follow the file (added,
+ * reworded or removed); a link an admin added or checked keeps its changes.
  *
  *   node scripts/build-links-seed.mjs
  */
@@ -26,7 +26,16 @@ for (const file of files) {
     `-- ${file}`,
     "insert into public.concept_links (from_topic, to_topic, kind, verification, source, created_by) values",
     links.map((link) => `  (${text(link.fromTopic)}, ${text(link.toTopic)}, ${text(link.kind)}, ${text(seed.verification)}, ${text(seed.source)}, null)`).join(",\n"),
-    "on conflict (from_topic, to_topic, kind) do nothing;",
+    // Untouched draft links (still provisional, still the draft's wording) follow
+    // the file; anything an admin has checked or added stays as it is.
+    "on conflict (from_topic, to_topic, kind) do update set source = excluded.source",
+    "  where public.concept_links.verification = 'provisional' and public.concept_links.source like 'Draft by Meh Rean%';",
+    "delete from public.concept_links l",
+    "where l.verification = 'provisional' and l.source like 'Draft by Meh Rean%'",
+    `  and l.from_topic like ${text(`${seed.subjectId}-%`)}`,
+    "  and (l.from_topic, l.to_topic, l.kind) not in (",
+    links.map((link) => `    (${text(link.fromTopic)}, ${text(link.toTopic)}, ${text(link.kind)})`).join(",\n"),
+    "  );",
     "",
   );
 }

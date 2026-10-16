@@ -71,6 +71,7 @@ Layer 6  Experience     dashboard, concept map, journey, adaptive practice, comp
 | --- | --- | --- |
 | Production database not updated | Every BacII and Learning OS feature fails on the live site | Owner runs `supabase/setup-all.sql` (SUPABASE.md §2) |
 | 12 demo questions, 1 subject | Mastery and adaptive practice have little to work with; results are demos | Real, checked questions (admin editor) |
-| Curriculum and prerequisites are provisional | Concept map and prerequisite suggestions must be labelled provisional | A Grade 12 teacher to check (`meh-rean-curriculum`) |
+| Curriculum and prerequisites are provisional | Concept map and prerequisite suggestions must be labelled provisional | A Grade 12 teacher to check (`meh-rean-curriculum`); admins can now check links at `/bacii/admin/topic-links` |
+| Khmer topic names not checked | Review flagged: "លក្ខណៈ" is vague; "សមីការលំដាប់ទី១" may need "លីនេអ៊ែរ"; "ចំណុចរបត់", "ព្រីមីទីវ" and "ផលគុណស្កាលែ" spellings to confirm | A Grade 12 teacher; not changed without one |
 | No flashcards | Phase 7 integrates only the notebook until flashcards exist | Owner decision: build flashcards (new feature) or skip |
 | Notes not linked to the curriculum | Notes can only be recommended once linked | 1.2 lets authors/admins link notes to topics |

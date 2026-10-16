@@ -6,6 +6,7 @@
  *   npm run test:concept-links
  */
 
+import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { flattenCurriculum } from "../src/lib/curriculum.ts";
 import { expandLinks, findPrerequisiteCycle, linkProblems, prerequisitesOf } from "../src/lib/conceptGraph.ts";
@@ -37,7 +38,7 @@ await check("cycle detection finds a loop", async () => {
 
 await check("prerequisites of integration by parts go back to limits, nearest first", async () => {
   const chain = prerequisitesOf(T("integrals-by-parts"), links).map((item) => `${item.distance}:${item.topicId.replace(T(""), "")}`);
-  assert(chain[0] === "1:integrals-definite" && chain.includes("3:derivatives-rules") && chain.at(-1) === "4:limits-continuity-limits", chain.join(", "));
+  assert(chain[0] === "1:integrals-antiderivatives" && chain.includes("2:derivatives-rules") && chain.at(-1) === "3:limits-continuity-limits", chain.join(", "));
   assert(prerequisitesOf(T("limits-continuity-limits"), links).length === 0, "the first topic has prerequisites");
 });
 
@@ -81,6 +82,26 @@ await check("the database refuses cycles, self links, unordered related pairs an
     { from_topic: T("limits-continuity-limits"), to_topic: T("derivatives-rules"), kind: "prerequisite" },
   ];
   for (const row of bad) assert((await admin.client.from("concept_links").insert(row)).error, `accepted ${JSON.stringify(row)}`);
+});
+
+await check("running the seed again follows the file for untouched drafts and keeps admins' work", async () => {
+  const seedSql = readFileSync(new URL("../supabase/seed/concept-links.sql", import.meta.url), "utf8");
+  const runSeed = () => execFileSync("docker", ["exec", "-i", "supabase_db_Meh_Rean", "psql", "-U", "postgres", "-d", "postgres", "-v", "ON_ERROR_STOP=1", "-q"], { input: seedSql, stdio: ["pipe", "ignore", "pipe"] });
+  const checked = { from: T("limits-continuity-limits"), to: T("derivatives-rules") };
+  const key = (from, to) => `from_topic = '${from}' and to_topic = '${to}'`;
+  sql(`update public.concept_links set verification = 'verified', source = 'Test teacher' where ${key(checked.from, checked.to)} and kind = 'prerequisite'`);
+  sql(`insert into public.concept_links (from_topic, to_topic, kind, source) values ('${T("conics-parabola")}', '${T("probability-events")}', 'prerequisite', '')`);
+  sql(`insert into public.concept_links (from_topic, to_topic, kind, source) values ('${T("conics-hyperbola")}', '${T("probability-events")}', 'prerequisite', 'Draft by Meh Rean, an older draft')`);
+  try {
+    runSeed();
+    assert(sql(`select verification || ':' || source from public.concept_links where ${key(checked.from, checked.to)}`) === "verified:Test teacher", "a checked link was reset");
+    assert(sql(`select count(*) from public.concept_links where ${key(T("conics-parabola"), T("probability-events"))}`) === "1", "an admin's link was removed");
+    assert(sql(`select count(*) from public.concept_links where ${key(T("conics-hyperbola"), T("probability-events"))}`) === "0", "a dropped draft link stayed");
+    assert(sql(`select count(*) from public.concept_links where source = '${seed.source.replace(/'/g, "''")}'`) === String(links.length - 1), "draft links missing");
+  } finally {
+    sql(`update public.concept_links set verification = 'provisional', source = '${seed.source.replace(/'/g, "''")}' where ${key(checked.from, checked.to)} and kind = 'prerequisite'`);
+    sql(`delete from public.concept_links where to_topic = '${T("probability-events")}' and from_topic in ('${T("conics-parabola")}', '${T("conics-hyperbola")}')`);
+  }
 });
 
 await people.cleanUp();

@@ -80,7 +80,13 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   coloured by the student's status, tap or Enter highlights a topic's chain;
   list view by chapter (default on phones, remembered). `npm run
   test:knowledge-graph` 8/8 (layout); UI 4/4 in both backends; 320px.
-- [ ] 2.4 Link management for admins; relationship integrity; curriculum review of the links.
+- [x] 2.4 Link management for admins; relationship integrity; curriculum review of the links.
+  ✔ 2026-10-16: BacII → Admin → Topic links (`/bacii/admin/topic-links`):
+  add (loops, self links and duplicates refused, in both backends), check
+  (verified needs a source), remove. Curriculum review: 40 links (30
+  prerequisite), still provisional. Re-running the seed updates untouched
+  draft links and keeps admins' work. `npm run test:concept-links` 7/7;
+  UI 4/4 in both backends; 320px.
 
 ## Phase 3 — Mastery engine
 

@@ -57,7 +57,7 @@
               "nameEn": "Exponential and logarithmic functions",
               "nameKm": "អនុគមន៍អិចស្ប៉ូណង់ស្យែល និងអនុគមន៍លោការីត",
               "topics": [
-                { "slug": "properties", "nameEn": "Properties", "nameKm": "លក្ខណៈ" },
+                { "slug": "properties", "nameEn": "Properties of exponentials and logarithms", "nameKm": "លក្ខណៈ" },
                 { "slug": "equations", "nameEn": "Equations and inequalities", "nameKm": "សមីការ និងវិសមីការ" }
               ]
             },

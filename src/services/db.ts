@@ -16,6 +16,7 @@ import {
   type Comment,
   type ExamAnswer,
   type ExamAttempt,
+  type ConceptLink,
   type LearningEvent,
   type LearningProfile,
   type LiveQuiz,
@@ -125,6 +126,8 @@ export interface DbState {
   learningProfiles?: (LearningProfile & { userId: string })[];
   /** What each student did (supabase: learning_events). */
   learningEvents?: (LearningEvent & { userId: string; idempotencyKey: string })[];
+  /** Topic links once an admin has edited them here (supabase: concept_links); until then the links file. */
+  conceptLinks?: ConceptLink[];
   /** Videos and notes linked to topics (supabase: resource_topics). */
   resourceTopics?: (ResourceTopic & { addedBy: string })[];
   /** Live quizzes students wrote (supabase: live_quizzes). Games need the online version. */

@@ -12,6 +12,7 @@ import {
 } from "../lib/questions";
 import { suggestedProfile } from "../lib/learningDefaults";
 import type { TopicResult } from "../lib/learningProfile";
+import type { ConceptLinkInput } from "../lib/conceptGraph";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -2409,4 +2410,50 @@ export async function getTopicResults(): Promise<TopicResult[]> {
     correct: row.correct,
     lastAt: row.last_at,
   }));
+}
+
+// ---- Topic links, admin (Learning OS 2.4) ----
+
+type ConceptLinkRow = { id: string; from_topic: string; to_topic: string; kind: ConceptLink["kind"]; verification: ConceptLink["verification"]; source: string };
+const toConceptLink = (row: ConceptLinkRow): ConceptLink => ({
+  id: row.id,
+  fromTopic: row.from_topic,
+  toTopic: row.to_topic,
+  kind: row.kind,
+  verification: row.verification,
+  source: row.source,
+});
+const failLink = (error: { message: string; code?: string }): never => {
+  throw new ApiError(error.code === "42501" ? "FORBIDDEN" : "UNKNOWN", error.code === "42501" ? 403 : error.code === "23505" ? 409 : 400, error.code === "23505" ? "that link already exists" : error.message);
+};
+
+export async function saveConceptLink(input: ConceptLinkInput): Promise<ConceptLink> {
+  await requireViewer();
+  // The database keeps one row per related pair, in alphabetical order.
+  const ordered = input.kind === "related" && input.toTopic < input.fromTopic ? { ...input, fromTopic: input.toTopic, toTopic: input.fromTopic } : input;
+  const { data, error } = await supabase
+    .from("concept_links")
+    .insert({ from_topic: ordered.fromTopic, to_topic: ordered.toTopic, kind: ordered.kind })
+    .select("id, from_topic, to_topic, kind, verification, source")
+    .single<ConceptLinkRow>();
+  if (error) failLink(error);
+  return toConceptLink(data!);
+}
+
+export async function updateConceptLink(id: string, changes: Pick<ConceptLink, "verification" | "source">): Promise<ConceptLink> {
+  await requireViewer();
+  const { data, error } = await supabase
+    .from("concept_links")
+    .update({ verification: changes.verification, source: changes.source.trim() })
+    .eq("id", id)
+    .select("id, from_topic, to_topic, kind, verification, source")
+    .single<ConceptLinkRow>();
+  if (error) failLink(error);
+  return toConceptLink(data!);
+}
+
+export async function deleteConceptLink(id: string): Promise<void> {
+  await requireViewer();
+  const { error } = await supabase.from("concept_links").delete().eq("id", id);
+  if (error) failLink(error);
 }

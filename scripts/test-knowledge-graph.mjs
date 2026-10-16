@@ -29,7 +29,7 @@ await check("dependents: limits open up most of the course, nearest first", asyn
 
 await check("related links work in both directions", async () => {
   assert(relatedTo(T("conics-parabola"), links).map(short).join() === "conics-ellipse,conics-hyperbola", relatedTo(T("conics-parabola"), links).map(short).join());
-  assert(relatedTo(T("function-study-graphs"), links).map(short).join() === "derivatives-tangent", "tangent ↔ graphs missing");
+  assert(relatedTo(T("derivatives-rules"), links).map(short).join() === "exponential-logarithm-properties,limits-continuity-continuity", relatedTo(T("derivatives-rules"), links).map(short).join());
 });
 
 await check("study order keeps every prerequisite first and otherwise the curriculum's order", async () => {

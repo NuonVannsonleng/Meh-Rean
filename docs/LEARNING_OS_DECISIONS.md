@@ -38,3 +38,11 @@ Events come from the functions that already mark answers (`note_answer()`
 and friends), with idempotency keys, so a browser cannot invent activity
 and a retry cannot count twice. Self-reported actions are recorded as such
 and are not mastery evidence.
+
+## 2026-10-16 — The links seed follows the file only for untouched drafts
+
+A link that is still provisional with the draft's source is the seed's to
+change: re-running `supabase/setup-all.sql` adds new links, updates the
+source and removes links dropped from the file. A link an admin added
+(empty source) or checked (any other status or source) is left alone, so a
+teacher's review is never undone by a deploy.

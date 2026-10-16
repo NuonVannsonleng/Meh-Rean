@@ -40,7 +40,7 @@ insert into public.curriculum_topics (id, chapter_id, name_en, name_km, sort, ve
   ('kh-grade12-science-mathematics-function-study-extrema', 'kh-grade12-science-mathematics-function-study', 'Maxima and minima', 'បរមា', 2, 'provisional'),
   ('kh-grade12-science-mathematics-function-study-inflection', 'kh-grade12-science-mathematics-function-study', 'Concavity and inflection points', 'ចំណុចរបត់', 3, 'provisional'),
   ('kh-grade12-science-mathematics-function-study-graphs', 'kh-grade12-science-mathematics-function-study', 'Sketching graphs', 'សង់ក្រាប', 4, 'provisional'),
-  ('kh-grade12-science-mathematics-exponential-logarithm-properties', 'kh-grade12-science-mathematics-exponential-logarithm', 'Properties', 'លក្ខណៈ', 1, 'provisional'),
+  ('kh-grade12-science-mathematics-exponential-logarithm-properties', 'kh-grade12-science-mathematics-exponential-logarithm', 'Properties of exponentials and logarithms', 'លក្ខណៈ', 1, 'provisional'),
   ('kh-grade12-science-mathematics-exponential-logarithm-equations', 'kh-grade12-science-mathematics-exponential-logarithm', 'Equations and inequalities', 'សមីការ និងវិសមីការ', 2, 'provisional'),
   ('kh-grade12-science-mathematics-integrals-antiderivatives', 'kh-grade12-science-mathematics-integrals', 'Antiderivatives', 'ព្រីមីទីវ', 1, 'provisional'),
   ('kh-grade12-science-mathematics-integrals-definite', 'kh-grade12-science-mathematics-integrals', 'Definite integrals', 'អាំងតេក្រាលកំណត់', 2, 'provisional'),

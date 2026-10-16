@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 2 — 2.4 Link management and curriculum review** (next up).
+**Phase 3 — 3.1 Mastery algorithm** (next up).
 
 ## Done
 
@@ -139,6 +139,25 @@
   from the BacII page; the topic page now returns to the map. Tests:
   `npm run test:knowledge-graph` 8/8; UI 4/4 browser-only and online;
   topic page 4/4.
+
+- **2026-10-16 — 2.4 Link management and curriculum review.** Agents:
+  knowledge graph, curriculum (review), frontend, tester. Admin page
+  `/bacii/admin/topic-links` (linked from the BacII admin tools): add a
+  prerequisite or related link (the database and the browser-only store
+  both refuse loops, self links and duplicates), check a link (status and
+  source; "verified" needs a source), remove. In browser-only mode, admin
+  edits replace the seeded list. Curriculum review of the draft: 7 links
+  dropped or turned into "related" (e.g. dot product is not needed for the
+  cross product; integration by parts needs antiderivatives, not definite
+  integrals), 11 added; 40 links, 30 prerequisite, still provisional.
+  Topic "Properties" renamed "Properties of exponentials and logarithms"
+  (English only). The links seed now follows the file for untouched draft
+  links (adds, updates the source, removes dropped ones) and never touches
+  links an admin added or checked. Tests: `npm run test:concept-links` 7/7
+  (new: seed rerun keeps admins' work), knowledge graph 8/8; UI links 4/4,
+  map 4/4, topic 4/4 in both backends; all DB suites green; lint, build.
+  Blocker: the review's Khmer term notes need a Grade 12 teacher (see the
+  architecture doc's blockers); none were changed.
 
 ## Report format (per task)
 

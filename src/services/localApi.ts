@@ -10,7 +10,7 @@ import { addDays, cambodiaDay, streakOf, weakestChapter } from "../lib/daily";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
 import khGrade12MathLinks from "../data/curriculum-links/kh-grade12-math.json";
-import { expandLinks, type LinkSeed } from "../lib/conceptGraph";
+import { expandLinks, findPrerequisiteCycle, type ConceptLinkInput, type LinkSeed } from "../lib/conceptGraph";
 import { suggestedProfile } from "../lib/learningDefaults";
 import { topicResultsFromEvents, type TopicResult } from "../lib/learningProfile";
 import { buildDemoPapers, sortPapers, type DemoPaperSeed } from "../lib/papers";
@@ -1941,7 +1941,7 @@ export function subscribeLiveGame(_gameId: string, _onChange: () => void): () =>
 // ---- Knowledge graph (Learning OS) ----
 // The browser-only store reads the same links file the database seed is built from.
 
-export async function getConceptLinks(): Promise<ConceptLink[]> {
+function seededLinks(): ConceptLink[] {
   const seed = khGrade12MathLinks as LinkSeed;
   return expandLinks(seed).map((link) => ({
     id: `${link.kind}:${link.fromTopic}>${link.toTopic}`,
@@ -1949,6 +1949,46 @@ export async function getConceptLinks(): Promise<ConceptLink[]> {
     verification: seed.verification,
     source: seed.source,
   }));
+}
+
+export async function getConceptLinks(): Promise<ConceptLink[]> {
+  const db = await loadDb();
+  return structuredClone(db.conceptLinks ?? seededLinks());
+}
+
+/** As guard_concept_link: no self links, no duplicates, no prerequisite cycles; related pairs in one order. */
+export async function saveConceptLink(input: ConceptLinkInput): Promise<ConceptLink> {
+  const db = await loadDb();
+  requireAdmin(db);
+  const links = db.conceptLinks ?? seededLinks();
+  const ordered = input.kind === "related" && input.toTopic < input.fromTopic ? { ...input, fromTopic: input.toTopic, toTopic: input.fromTopic } : input;
+  if (ordered.fromTopic === ordered.toTopic) throw new ApiError("UNKNOWN", 400, "a topic cannot link to itself");
+  if (links.some((link) => link.kind === ordered.kind && link.fromTopic === ordered.fromTopic && link.toTopic === ordered.toTopic)) throw new ApiError("UNKNOWN", 409, "that link already exists");
+  if (ordered.kind === "prerequisite" && findPrerequisiteCycle([...links, ordered])) throw new ApiError("UNKNOWN", 400, "that link would make a topic its own prerequisite");
+  const link: ConceptLink = { id: createId("cl"), ...ordered, verification: "provisional", source: "" };
+  db.conceptLinks = [...links, link];
+  persist();
+  return structuredClone(link);
+}
+
+export async function updateConceptLink(id: string, changes: Pick<ConceptLink, "verification" | "source">): Promise<ConceptLink> {
+  const db = await loadDb();
+  requireAdmin(db);
+  const links = db.conceptLinks ?? seededLinks();
+  const link = links.find((item) => item.id === id);
+  if (!link) throw new ApiError("NOT_FOUND", 404);
+  if (changes.verification === "verified" && !changes.source.trim()) throw new ApiError("UNKNOWN", 400, "a verified link needs a source");
+  Object.assign(link, { verification: changes.verification, source: changes.source.trim() });
+  db.conceptLinks = links;
+  persist();
+  return structuredClone(link);
+}
+
+export async function deleteConceptLink(id: string): Promise<void> {
+  const db = await loadDb();
+  requireAdmin(db);
+  db.conceptLinks = (db.conceptLinks ?? seededLinks()).filter((link) => link.id !== id);
+  persist();
 }
 
 type ResourceFilter = { resourceType?: ResourceTopic["resourceType"]; resourceId?: string; topicId?: string };
