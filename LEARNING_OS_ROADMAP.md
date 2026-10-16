@@ -71,7 +71,10 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   missing prerequisites (`src/lib/conceptGraph.ts`); per-topic results
   counting the first attempt per question per day (`my_topic_results()` and
   `topicResultsFromEvents()`). `npm run test:knowledge-graph` 7/7.
-- [ ] 2.2 Topic page: prerequisites, what it opens up, questions, videos, notes, the student's results.
+- [x] 2.2 Topic page: prerequisites, what it opens up, questions, videos, notes, the student's results.
+  ✔ 2026-10-16: `/learning/topics/:id` (open to visitors; results when
+  signed in); linked from practice ("About this topic") and note topic
+  chips. UI 4/4 in both backends; 320px.
 - [ ] 2.3 Concept map (interactive) and a list view for low-end phones.
 - [ ] 2.4 Link management for admins; relationship integrity; curriculum review of the links.
 

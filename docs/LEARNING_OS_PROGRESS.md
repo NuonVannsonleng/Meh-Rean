@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 2 — 2.2 Topic page** (next up).
+**Phase 2 — 2.3 Concept map** (next up).
 
 ## Done
 
@@ -114,6 +114,18 @@
   `getTopicResults()` in both backends. Tests: `npm run test:knowledge-graph`
   7/7 (on the real links file; SQL and TypeScript rules agree on retries;
   privacy).
+
+- **2026-10-16 — 2.2 Topic page.** Agents: frontend, designer, knowledge
+  graph, tester. `/learning/topics/:topicId`: chapter and topic (Khmer
+  first, English), provisional label; "You and this topic" (status badge
+  from first-try results, "an estimate, not a grade", direct prerequisites
+  worth checking first, Practise with the topic filter, Find a video
+  prefilled); needed before (all depths, "n steps back"), opens up,
+  related; checked videos and linked notes. Shared `TopicStatusBadge`.
+  Practice shows "About this topic" when a topic is chosen; note topic chips
+  open the topic page. Fixed while testing: a 150 px overflow at 320 px
+  (grid without explicit shrinkable columns). Tests: UI 4/4 browser-only
+  and online; topic-link UI 3/3 ×2; practice 5/5.
 
 ## Report format (per task)
 

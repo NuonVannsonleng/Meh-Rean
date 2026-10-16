@@ -65,7 +65,7 @@ export default function NoteTopics({ postId, title, canEdit }: { postId: string;
             return (
               <li key={link.id} className="bg-brand-50 text-accent inline-flex max-w-full items-center gap-1 rounded-full py-0.5 pr-1 pl-2.5 text-xs font-semibold">
                 <Link
-                  to={found ? `/bacii/practice?subject=${encodeURIComponent(found.chapter.subjectId)}&chapter=${encodeURIComponent(found.chapter.id)}&topic=${encodeURIComponent(link.topicId)}` : "/bacii/practice"}
+                  to={`/learning/topics/${encodeURIComponent(link.topicId)}`}
                   className="truncate hover:underline"
                 >
                   {found ? `${found.chapter.number}. ${found.topic.nameKm}` : link.topicId}

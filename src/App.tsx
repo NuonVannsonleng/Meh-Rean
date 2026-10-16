@@ -24,6 +24,7 @@ const BaciiSolve = lazy(() => import("./pages/BaciiSolve"));
 const BaciiMyVideos = lazy(() => import("./pages/BaciiMyVideos"));
 const LiveHub = lazy(() => import("./pages/live/LiveHub"));
 const LearningProfilePage = lazy(() => import("./pages/LearningProfilePage"));
+const TopicPage = lazy(() => import("./pages/learning/TopicPage"));
 const LiveQuizEditor = lazy(() => import("./pages/live/LiveQuizEditor"));
 const LiveHost = lazy(() => import("./pages/live/LiveHost"));
 const LivePlay = lazy(() => import("./pages/live/LivePlay"));
@@ -131,6 +132,7 @@ export default function App() {
             <Route path="/bacii/solve" element={<BaciiSolve />} />
             <Route path="/live" element={<RequireAuth><LiveHub /></RequireAuth>} />
             <Route path="/learning/profile" element={<RequireAuth><LearningProfilePage /></RequireAuth>} />
+            <Route path="/learning/topics/:topicId" element={<TopicPage />} />
             <Route path="/live/quizzes/new" element={<RequireAuth><LiveQuizEditor key="new" /></RequireAuth>} />
             <Route path="/live/quizzes/:id" element={<RequireAuth><LiveQuizEditor /></RequireAuth>} />
             <Route path="/live/host/:id" element={<RequireAuth><LiveHost /></RequireAuth>} />

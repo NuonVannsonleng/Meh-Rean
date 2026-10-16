@@ -146,6 +146,11 @@ export default function BaciiPractice() {
         </div>
       )}
 
+      {topicId && (
+        <Link to={`/learning/topics/${encodeURIComponent(topicId)}`} className="text-accent mt-2 inline-block text-sm font-semibold hover:underline">
+          {copy.aboutTopic}
+        </Link>
+      )}
       <p className="text-ink-500 mt-3 mb-4 text-xs">{copy.demoNote}</p>
 
       {failed ? (
