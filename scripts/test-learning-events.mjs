@@ -47,6 +47,13 @@ await check("a practice answer is one event, with its topic and chapter; a retry
   assert(mistake.data.times_wrong === 1, `the retry counted a second mistake (${mistake.data.times_wrong})`);
 });
 
+await check("a request id reused for another question marks that question, not the first one's result", async () => {
+  const request = randomUUID();
+  await answer(q3.id, "11", request);
+  const other = await answer(q1.id, "120", request);
+  assert(other.data === true, `got ${other.data}`);
+});
+
 await check("answering a question already in the notebook is a review", async () => {
   await answer(q3.id, "12", randomUUID());
   const last = (await events()).at(-1);
@@ -96,6 +103,27 @@ await check("video marks and ticked plan items are recorded as self-reported", a
   await me.client.from("study_plans").upsert(plan(true));
   const ticks = (await events()).filter((event) => event.event_type === "study_task_completed");
   assert(ticks.length === 1 && ticks[0].data.self_reported === true, `${ticks.length} plan events`);
+});
+
+await check("odd plan JSON never fails a save; ticks are capped per save; chapter ids are checked", async () => {
+  const exam_date = sql("select ((now() at time zone 'Asia/Phnom_Penh')::date + 70)::text");
+  const base = { user_id: me.id, subject_id: "kh-grade12-science-mathematics", exam_date, hours_per_day: 2, days_per_week: 5, target_grade: "C", weak_chapter_ids: [] };
+  const odd = await me.client.from("study_plans").upsert({ ...base, weeks: [{ start: "x", items: "not a list" }, { start: "y", items: [{ id: "q", done: "maybe", chapterId: "made-up" }, { id: "r", done: true, chapterId: "made-up" }] }] });
+  assert(!odd.error, odd.error?.message);
+  const r = (await events()).filter((event) => event.event_type === "study_task_completed" && event.idempotency_key.endsWith(":r"));
+  assert(r.length === 1 && r[0].data.chapter_id === null, JSON.stringify(r[0]?.data));
+  const many = Array.from({ length: 150 }, (_, n) => ({ id: `m${n}`, kind: "chapter", chapterId: null, hours: 1, done: true }));
+  const before = (await events()).length;
+  await me.client.from("study_plans").upsert({ ...base, weeks: [{ start: "2026-10-12", studyDays: 5, items: many }] });
+  const added = (await events()).length - before;
+  assert(added <= 100, `${added} events from one save`);
+});
+
+await check("practice is capped at 500 answers a day", async () => {
+  sql(`insert into public.learning_events (user_id, event_type, idempotency_key, data) select '${me.id}', 'question_attempted', 'filler:' || g, '{"source":"practice"}' from generate_series(1, 500) g`);
+  const refused = await answer(q2.id, "a", randomUUID());
+  assert(refused.error?.code === "54000", `got ${refused.data ?? refused.error?.message}`);
+  sql(`delete from public.learning_events where user_id = '${me.id}' and idempotency_key like 'filler:%'`);
 });
 
 await check("events are private and only the database writes them", async () => {

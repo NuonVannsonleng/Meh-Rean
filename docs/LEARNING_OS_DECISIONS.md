@@ -16,6 +16,14 @@ and documentation. Duplicating them as `learning-os-*` would split
 instructions. Only the orchestrator, learning-intelligence and
 knowledge-graph roles were added.
 
+## 2026-10-16 — Limits that protect students from floods (security review)
+
+Self-reported events ≤ 200 a day, practice answers ≤ 500 a day, live-game
+joins ≤ 30 per 10 minutes, ≤ 50 live quizzes, ≤ 5 topics per note. These
+are well above normal use and stop one account (or a script) filling the
+free-tier database or burying a student's own history. Live quiz players
+see a per-game id, never each other's accounts, because many are minors.
+
 ## 2026-10-16 — Practice answers carry a request id
 
 A phone on a weak connection may send the same answer twice. The practice

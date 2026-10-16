@@ -22,6 +22,8 @@ labelled as estimates; none is a validated measure of ability.
 ## Mastery (Phase 3 — draft, to be finalised with tests)
 
 - Unknown until the first marked answer on a topic.
+- Only the first attempt at a question per day counts as evidence, so
+  retrying a question until it is right does not inflate the estimate.
 - Score 0–100, updated per marked answer: `score += k × (target − score)`,
   target 100 when right, 0 when wrong; `k` shrinks as evidence grows (one
   answer cannot swing it far) and depends on difficulty (a right answer to a

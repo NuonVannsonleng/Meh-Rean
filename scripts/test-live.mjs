@@ -57,7 +57,8 @@ await check("only the owner starts a game; it gets a 6-digit code", async () => 
 });
 
 await check("joining: by code, with a name; not the host, not a wrong code", async () => {
-  assert((await ana.client.rpc("join_live_game", { join_code: "000000x", nickname: "Ana" })).error, "joined with a bad code");
+  const wrong = await ana.client.rpc("join_live_game", { join_code: "000000x", nickname: "Ana" });
+  assert(!wrong.error && wrong.data === null, "a bad code did not come back empty");
   assert((await host.client.rpc("join_live_game", { join_code: game.code, nickname: "Host" })).error, "the host joined as a player");
   assert((await ana.client.rpc("join_live_game", { join_code: game.code, nickname: " " })).error, "joined without a name");
   assert((await anon.rpc("join_live_game", { join_code: game.code, nickname: "Anon" })).error, "a visitor joined");
@@ -140,7 +141,35 @@ await check("the last next finishes the game; its code can no longer be joined",
   assert(data === "finished", data);
   const state = await ana.client.from("live_game_state").select("status").eq("game_id", game.game_id).single();
   assert(state.data.status === "finished", state.data.status);
-  assert((await outsider.client.rpc("join_live_game", { join_code: game.code, nickname: "Late" })).error, "joined a finished game");
+  assert((await outsider.client.rpc("join_live_game", { join_code: game.code, nickname: "Late" })).data === null, "joined a finished game");
+});
+
+await check("players see names and scores, never account ids; each finds their own row", async () => {
+  const fresh = (await host.client.rpc("create_live_game", { quiz: quizId })).data[0];
+  await ana.client.rpc("join_live_game", { join_code: fresh.code, nickname: "Ana" });
+  await bo.client.rpc("join_live_game", { join_code: fresh.code, nickname: "Bo" });
+  const ids = await ana.client.from("live_players").select("user_id").eq("game_id", fresh.game_id);
+  assert(ids.error, "a player can read account ids");
+  const rows = await ana.client.from("live_players").select("player_id, nickname").eq("game_id", fresh.game_id);
+  assert(rows.data?.length === 2, `${rows.data?.length} players`);
+  const mine = await ana.client.rpc("live_my_player", { game: fresh.game_id });
+  assert(rows.data.find((row) => row.player_id === mine.data)?.nickname === "Ana", "own row not found by player id");
+  const state = await host.client.from("live_game_state").select("player_count").eq("game_id", fresh.game_id).single();
+  assert(state.data.player_count === 2, `player_count ${state.data.player_count}`);
+  await host.client.rpc("live_finish", { game: fresh.game_id });
+});
+
+await check("guessing codes is slowed down; old lobbies close", async () => {
+  let refused = null;
+  for (let n = 0; n < 32 && !refused; n += 1) {
+    const result = await outsider.client.rpc("join_live_game", { join_code: String(100000 + n), nickname: "Guess" });
+    if (result.error) refused = n;
+  }
+  assert(refused !== null && refused >= 25, `throttle at attempt ${refused}`);
+  const old = (await host.client.rpc("create_live_game", { quiz: quizId })).data[0];
+  sql(`update public.live_games set created_at = now() - interval '7 hours' where id = '${old.game_id}'`);
+  const late = await bo.client.rpc("join_live_game", { join_code: old.code, nickname: "Bo" });
+  assert(!late.error && late.data === null, "joined a lobby older than 6 hours");
 });
 
 await check("starting a new game ends the host's unfinished one", async () => {

@@ -32,6 +32,7 @@
     "test:resource-topics": "node scripts/test-resource-topics.mjs",
     "test:learning-events": "node scripts/test-learning-events.mjs",
     "test:learning-profile": "node scripts/test-learning-profile.mjs",
+    "test:learning-privacy": "node scripts/test-learning-privacy.mjs",
     "build:links-seed": "node scripts/build-links-seed.mjs",
     "build:setup-sql": "node scripts/build-setup-sql.mjs"
   },

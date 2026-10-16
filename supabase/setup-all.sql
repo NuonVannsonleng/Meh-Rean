@@ -2225,7 +2225,7 @@ declare
   me uuid := auth.uid();
   q record;
   right_answer boolean;
-  event_key text := 'practice:' || coalesce(request, gen_random_uuid());
+  event_key text := 'practice:' || coalesce(request, gen_random_uuid()) || ':' || question;
   claimed bigint;
   earlier jsonb;
   in_notebook boolean;
@@ -2254,7 +2254,20 @@ begin
     return null;
   end if;
 
-  -- Claim the request first: a retry, even a simultaneous one, finds it and stops here.
+  -- A retry of an earlier request returns its result, even past the daily limit.
+  select e.data into earlier from public.learning_events e where e.user_id = me and e.idempotency_key = event_key;
+  if found then
+    return (earlier ->> 'correct')::boolean;
+  end if;
+  if (
+    select count(*) from public.learning_events e
+    where e.user_id = me and e.created_at > now() - interval '1 day'
+      and e.event_type in ('question_attempted', 'mistake_reviewed') and coalesce(e.data ->> 'source', 'practice') <> 'exam'
+  ) >= 500 then
+    raise exception 'that is a lot of practice for one day: take a break and come back tomorrow' using errcode = '54000';
+  end if;
+
+  -- Claim the request first: a simultaneous duplicate finds it and stops here.
   claimed := public.record_learning_event(me, 'question_attempted', 'question', question::text, '{}'::jsonb, event_key);
   if claimed is null then
     select e.data into earlier from public.learning_events e where e.user_id = me and e.idempotency_key = event_key;
@@ -2606,7 +2619,7 @@ declare
   t text;
 begin
   if exists (select 1 from pg_publication where pubname = 'supabase_realtime') then
-    foreach t in array array['live_game_state', 'live_players'] loop
+    foreach t in array array['live_game_state'] loop
       if not exists (
         select 1 from pg_publication_tables
         where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = t
@@ -2639,6 +2652,7 @@ declare
   q record;
   new_code text;
   new_id uuid;
+  tries integer := 0;
 begin
   if me is null then
     raise exception 'sign in to host a game' using errcode = '42501';
@@ -2647,6 +2661,8 @@ begin
   if not found then
     raise exception 'quiz not found' using errcode = 'P0002';
   end if;
+  -- Keep nicknames and scores no longer than needed.
+  delete from public.live_games g where g.finished_at < now() - interval '30 days';
   update public.live_games g set status = 'finished', finished_at = now() where g.host_id = me and g.status <> 'finished';
   update public.live_game_state s set status = 'finished', updated_at = now()
   where s.host_id = me and s.status <> 'finished';
@@ -2654,6 +2670,10 @@ begin
   loop
     new_code := lpad(floor(random() * 1000000)::integer::text, 6, '0');
     exit when not exists (select 1 from public.live_games g where g.code = new_code and g.status <> 'finished');
+    tries := tries + 1;
+    if tries > 50 then
+      raise exception 'could not find a free game code; try again' using errcode = '54000';
+    end if;
   end loop;
 
   insert into public.live_games (quiz_id, host_id, code, questions)
@@ -2668,6 +2688,17 @@ revoke execute on function public.create_live_game(uuid) from public, anon;
 grant execute on function public.create_live_game(uuid) to authenticated;
 
 -- Joins an open game by its code (or renames, when already in it).
+-- Join attempts, to slow down guessing codes (30 per 10 minutes). Nobody reads them.
+create table if not exists public.live_join_attempts (
+  user_id uuid not null references public.profiles on delete cascade,
+  at timestamptz not null default now()
+);
+create index if not exists live_join_attempts_user on public.live_join_attempts (user_id, at desc);
+alter table public.live_join_attempts enable row level security;
+revoke all on public.live_join_attempts from anon, authenticated;
+
+-- Returns null (rather than an error) for a code with no open game, so the
+-- attempt is still counted. Lobbies close after 6 hours.
 create or replace function public.join_live_game(join_code text, nickname text)
 returns uuid
 language plpgsql
@@ -2685,9 +2716,21 @@ begin
   if char_length(name) not between 1 and 24 then
     raise exception 'choose a name of 1 to 24 characters' using errcode = '22023';
   end if;
+  if (select count(*) from public.live_join_attempts a where a.user_id = me and a.at > now() - interval '10 minutes') >= 30 then
+    raise exception 'too many tries: wait a few minutes and check the code' using errcode = '54000';
+  end if;
+  delete from public.live_join_attempts a where a.user_id = me and a.at < now() - interval '1 day';
+  insert into public.live_join_attempts (user_id) values (me);
+
+  update public.live_games g set status = 'finished', finished_at = now()
+  where g.code = btrim(join_code) and g.status <> 'finished' and g.created_at < now() - interval '6 hours';
+  update public.live_game_state st set status = 'finished', updated_at = now()
+  from public.live_games g
+  where st.game_id = g.id and g.code = btrim(join_code) and g.status = 'finished' and st.status <> 'finished';
+
   select g.id, g.host_id into game from public.live_games g where g.code = btrim(join_code) and g.status <> 'finished';
   if not found then
-    raise exception 'no open game has that code' using errcode = 'P0002';
+    return null;
   end if;
   if game.host_id = me then
     raise exception 'you are hosting this game' using errcode = '22023';
@@ -2698,6 +2741,11 @@ begin
   end if;
   insert into public.live_players (game_id, user_id, nickname) values (game.id, me, name)
   on conflict (game_id, user_id) do update set nickname = excluded.nickname;
+  -- The state row is what phones follow live; this tells the host someone joined.
+  update public.live_game_state st set
+    player_count = (select count(*) from public.live_players p where p.game_id = game.id),
+    updated_at = now()
+  where st.game_id = game.id;
   return game.id;
 end;
 $$;
@@ -3138,6 +3186,204 @@ create policy "own learning profile" on public.learning_profiles for all to auth
   using (user_id = auth.uid()) with check (user_id = auth.uid());
 revoke all on public.learning_profiles from anon;
 grant select, insert, update, delete on public.learning_profiles to authenticated;
+
+-- ------------------------------------------- Security review fixes (1.5) --
+
+-- Live quiz: players see each other's names and scores, never account ids.
+alter table public.live_players add column if not exists player_id uuid not null default gen_random_uuid();
+alter table public.live_game_state add column if not exists player_count integer not null default 0;
+revoke select on public.live_players from anon, authenticated;
+grant select (game_id, player_id, nickname, score, correct_count, last_points, joined_at) on public.live_players to authenticated;
+do $$ begin
+  if exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'live_players') then
+    alter publication supabase_realtime drop table public.live_players;
+  end if;
+end $$;
+
+-- The caller's own player id in a game, to find their row on the leaderboard.
+create or replace function public.live_my_player(game uuid)
+returns uuid
+language sql
+stable
+security definer
+set search_path = ''
+as $$ select p.player_id from public.live_players p where p.game_id = game and p.user_id = auth.uid() $$;
+revoke execute on function public.live_my_player(uuid) from public, anon;
+grant execute on function public.live_my_player(uuid) to authenticated;
+
+-- At most 50 live quizzes per person.
+create or replace function public.guard_live_quiz_count()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if (select count(*) from public.live_quizzes q where q.owner_id = new.owner_id) >= 50 then
+    raise exception 'you have 50 quizzes: delete one to make another' using errcode = '54000';
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists guard_live_quiz_count on public.live_quizzes;
+create trigger guard_live_quiz_count before insert on public.live_quizzes
+  for each row execute function public.guard_live_quiz_count();
+
+-- Learning events: read-only for students in every sense; at most 200
+-- self-reported events (video marks, plan ticks) per student per day.
+revoke all on public.learning_events from anon, authenticated;
+grant select on public.learning_events to authenticated;
+
+create or replace function public.record_learning_event(who uuid, kind text, res_type text, res_id text, payload jsonb, idem text)
+returns bigint
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  topic text;
+  chapter text;
+  new_id bigint;
+begin
+  if coalesce(payload ->> 'self_reported', '') = 'true' and (
+    select count(*) from public.learning_events e
+    where e.user_id = who and e.created_at > now() - interval '1 day' and e.data ->> 'self_reported' = 'true'
+  ) >= 200 then
+    return null;
+  end if;
+  if res_type = 'question' then
+    select q.topic_id, q.chapter_id into topic, chapter from public.questions q where q.id::text = res_id;
+  end if;
+  insert into public.learning_events (user_id, event_type, resource_type, resource_id, topic_id, chapter_id, data, idempotency_key)
+  values (who, kind, res_type, res_id, topic, chapter, coalesce(payload, '{}'::jsonb), idem)
+  on conflict (user_id, idempotency_key) do nothing
+  returning id into new_id;
+  return new_id;
+end;
+$$;
+revoke execute on function public.record_learning_event(uuid, text, text, text, jsonb, text) from public, anon, authenticated;
+
+-- Plan ticks: one pass over at most 60 weeks and 100 newly ticked items per
+-- save; odd values are skipped, never fail the save; chapter ids are checked.
+create or replace function public.learning_event_from_plan()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  old_done text[] := '{}';
+  item record;
+begin
+  if jsonb_typeof(new.weeks) <> 'array' then
+    return new;
+  end if;
+  if tg_op = 'UPDATE' and jsonb_typeof(old.weeks) = 'array' then
+    select coalesce(array_agg(left(oi.value ->> 'id', 60)), '{}') into old_done
+    from (select value from jsonb_array_elements(old.weeks) limit 60) ow,
+      jsonb_array_elements(case when jsonb_typeof(ow.value -> 'items') = 'array' then ow.value -> 'items' else '[]'::jsonb end) oi
+    where oi.value ->> 'done' = 'true';
+  end if;
+  for item in
+    select left(i.value ->> 'id', 60) as item_id, left(i.value ->> 'kind', 20) as kind, i.value ->> 'chapterId' as chapter_id, left(w.value ->> 'start', 10) as week
+    from (select value from jsonb_array_elements(new.weeks) limit 60) w,
+      jsonb_array_elements(case when jsonb_typeof(w.value -> 'items') = 'array' then w.value -> 'items' else '[]'::jsonb end) i
+    where i.value ->> 'done' = 'true' and i.value ->> 'id' is not null and not (left(i.value ->> 'id', 60) = any(old_done))
+    limit 100
+  loop
+    perform public.record_learning_event(
+      new.user_id, 'study_task_completed', 'study_plan', new.user_id::text,
+      jsonb_build_object(
+        'self_reported', true,
+        'kind', item.kind,
+        'chapter_id', (select c.id from public.curriculum_chapters c where c.id = item.chapter_id),
+        'week', item.week
+      ),
+      'plan:' || extract(epoch from new.created_at)::bigint || ':' || item.item_id
+    );
+  end loop;
+  return new;
+end;
+$$;
+revoke execute on function public.learning_event_from_plan() from public, anon, authenticated;
+revoke execute on function public.learning_event_from_video() from public, anon, authenticated;
+
+-- Topic links: a lock so two admins cannot create a prerequisite cycle at once.
+create or replace function public.guard_concept_link()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  perform pg_advisory_xact_lock(hashtext('public.concept_links'));
+  if new.verification = 'verified' and char_length(btrim(new.source)) = 0 then
+    raise exception 'a verified link needs a source' using errcode = '23514';
+  end if;
+  if new.kind = 'prerequisite' and exists (
+    with recursive after(topic, depth) as (
+      select l.to_topic, 1 from public.concept_links l
+      where l.kind = 'prerequisite' and l.from_topic = new.to_topic and l.id <> new.id
+      union
+      select l.to_topic, a.depth + 1 from public.concept_links l
+      join after a on l.from_topic = a.topic
+      where l.kind = 'prerequisite' and l.id <> new.id and a.depth < 200
+    )
+    select 1 from after where topic = new.from_topic
+  ) then
+    raise exception 'that link would make a topic its own prerequisite' using errcode = '23514';
+  end if;
+  return new;
+end;
+$$;
+
+-- Note links: at most 5 topics per note, no free text, authors remove only
+-- what they added, and links go when the note goes.
+create or replace function public.guard_resource_topic()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if new.resource_type = 'video' then
+    if new.resource_id !~ '^[A-Za-z0-9_-]{11}$' then
+      raise exception 'not a YouTube video id' using errcode = '23514';
+    end if;
+    if char_length(btrim(new.title)) = 0 then
+      raise exception 'give the video a title' using errcode = '23514';
+    end if;
+  else
+    if new.resource_id !~ '^[0-9a-f-]{36}$' or not exists (select 1 from public.posts p where p.id::text = new.resource_id) then
+      raise exception 'that note does not exist' using errcode = '23503';
+    end if;
+    if (select count(*) from public.resource_topics r where r.resource_type = 'note' and r.resource_id = new.resource_id) >= 5 then
+      raise exception 'a note can be linked to at most 5 topics' using errcode = '54000';
+    end if;
+    new.title := '';
+  end if;
+  new.added_by := auth.uid();
+  new.created_at := now();
+  return new;
+end;
+$$;
+drop policy if exists "unlink own notes or as admin" on public.resource_topics;
+create policy "unlink own notes or as admin" on public.resource_topics for delete to authenticated using (
+  public.is_admin(auth.uid())
+  or (resource_type = 'note' and added_by = auth.uid() and exists (select 1 from public.posts p where p.id::text = resource_id and p.author_id = auth.uid()))
+);
+create or replace function public.drop_note_topic_links()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  delete from public.resource_topics r where r.resource_type = 'note' and r.resource_id = old.id::text;
+  return old;
+end;
+$$;
+revoke execute on function public.drop_note_topic_links() from public, anon, authenticated;
+drop trigger if exists drop_note_topic_links on public.posts;
+create trigger drop_note_topic_links after delete on public.posts
+  for each row execute function public.drop_note_topic_links();
 
 -- ===== supabase/seed/curriculum.sql =====
 -- Generated by scripts/build-curriculum-seed.mjs from src/data/curriculum/.

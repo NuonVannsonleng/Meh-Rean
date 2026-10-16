@@ -89,8 +89,8 @@ export function Leaderboard({ players, highlight, limit = 10 }: { players: LiveP
       <ol className="space-y-1.5">
         {ranked.map((player, index) => (
           <li
-            key={player.userId}
-            className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm ${player.userId === highlight ? "bg-brand-50 text-ink-900 font-semibold" : "text-ink-700"}`}
+            key={player.playerId}
+            className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm ${player.playerId === highlight ? "bg-brand-50 text-ink-900 font-semibold" : "text-ink-700"}`}
           >
             <span className="text-ink-500 w-6 font-bold tabular-nums">{index + 1}</span>
             <span className="min-w-0 flex-1 truncate">{player.nickname}</span>

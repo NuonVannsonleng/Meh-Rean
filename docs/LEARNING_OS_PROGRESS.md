@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 1 — 1.5 Authorization and privacy review** (next up).
+**Phase 2 — Knowledge graph: relationship queries, concept detail, concept map** (next up). Phase 1 is done.
 
 ## Done
 
@@ -76,6 +76,32 @@
   `saveLearningProfile` in both backends. Page `/learning/profile`.
   Tests: `npm run test:learning-profile` 6/6 (rules + privacy + checks);
   UI 4/4 browser-only and online; 320px.
+
+- **2026-10-16 — 1.5 Authorization and privacy.** Agents: security
+  (review), database, backend, frontend, tester. Review found no critical
+  or high issues; fixed every finding:
+  - (M) Plan trigger could flood events: now one pass over ≤ 60 weeks and
+    ≤ 100 newly ticked items per save, odd values skipped (never fail the
+    save), chapter ids checked; ≤ 200 self-reported events per student per day.
+  - (M) Practice repeats: retry key bound to the question
+    (`practice:<request>:<question>`), ≤ 500 practice answers a day (54000);
+    mastery (Phase 3) will count the first attempt per question per day.
+  - (M) Live quiz account ids: players read a per-game `player_id`, not
+    `user_id` (column grants; `live_my_player()`); `live_players` no longer
+    streamed (state carries `player_count`); join attempts throttled
+    (30 / 10 min; unknown codes return nothing instead of an error so they
+    count); lobbies close after 6 h; finished games deleted after 30 days;
+    ≤ 50 quizzes per person; code search bounded; UI says names and
+    questions are visible to the game.
+  - (L) Note links: ≤ 5 topics per note, no free text, authors remove only
+    their own links, links deleted with the note. `learning_events`: all
+    privileges revoked except select; trigger functions not executable;
+    concept-link edits serialised with an advisory lock.
+  New `npm run test:learning-privacy` 7/7; added checks in `test:live`
+  (12), `test:learning-events` (9), `test:resource-topics` (4). Full
+  suite (25) passes on a database upgraded from the pre-BacII schema with
+  `setup-all.sql`; UI: live quiz 8/8, topic links 3/3 ×2, practice 5/5,
+  profile 4/4.
 
 ## Report format (per task)
 

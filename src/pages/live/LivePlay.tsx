@@ -3,7 +3,6 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { CHOICE_STYLES, Countdown, Leaderboard, QuestionText, RevealedChoices, useNow } from "../../components/live/LiveParts";
 import LoadingState from "../../components/LoadingState";
 import MathText from "../../components/MathText";
-import { useAuth } from "../../context/AuthContext";
 import { t } from "../../i18n/en";
 import { rankPlayers, remainingMs } from "../../lib/liveQuiz";
 import { answerLive } from "../../services/api";
@@ -15,7 +14,6 @@ const copy = t.bacii.live;
 /** A player's phone: wait in the lobby, answer against the clock, see how it went. */
 export default function LivePlay() {
   const { id = "" } = useParams();
-  const { user } = useAuth();
   const { game, missing, refresh } = useLiveGame(id);
   // This phone's answer to the current question, before the server echoes it back.
   const [picked, setPicked] = useState<{ index: number; choice: number; result: LiveAnswerResult | "sending" } | null>(null);
@@ -47,9 +45,9 @@ export default function LivePlay() {
   }
 
   const { state } = game;
-  const me = game.players.find((player) => player.userId === user?.id);
+  const me = game.players.find((player) => player.playerId === game.myPlayerId);
   const ranked = rankPlayers(game.players);
-  const rank = ranked.findIndex((player) => player.userId === user?.id) + 1;
+  const rank = ranked.findIndex((player) => player.playerId === game.myPlayerId) + 1;
   const mine = picked?.index === state.questionIndex ? picked : null;
   const myChoice = game.myChoice ?? (mine && mine.result !== "late" ? mine.choice : null);
   const timeLeft = remainingMs(state.deadlineAt, game.clockOffsetMs, now);
@@ -149,7 +147,7 @@ export default function LivePlay() {
             {rank > 0 && <p className="text-accent mt-2 text-xl font-bold">{copy.youFinished(rank)}</p>}
             {me && <p className="text-ink-700 mt-1 text-sm">{copy.score(me.score)}</p>}
           </div>
-          <Leaderboard players={game.players} highlight={user?.id} />
+          <Leaderboard players={game.players} highlight={game.myPlayerId ?? undefined} />
           <Link to="/live" className="btn-secondary">
             {copy.playAgain}
           </Link>

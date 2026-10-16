@@ -47,6 +47,21 @@ await check("everyone reads links; only the author or an admin removes them", as
   assert(!(await author.client.from("resource_topics").delete().eq("id", noteLink)).error, "the author could not remove it");
 });
 
+await check("at most 5 topics per note; authors cannot remove an admin's link; links go with the note", async () => {
+  const topics = ["limits-continuity-limits", "derivatives-rules", "integrals-definite", "integrals-area", "probability-events", "conics-parabola"].map((t) => `kh-grade12-science-mathematics-${t}`);
+  const added = [];
+  for (const topic_id of topics.slice(0, 4)) added.push((await author.client.from("resource_topics").insert({ ...note, topic_id, title: "ignored" }).select("id, title").single()).data);
+  assert(added.every((row) => row && row.title === ""), "a note link kept free text");
+  const byAdmin = await admin.client.from("resource_topics").insert({ ...note, topic_id: topics[4] }).select("id").single();
+  assert(!byAdmin.error, byAdmin.error?.message);
+  assert((await author.client.from("resource_topics").insert({ ...note, topic_id: topics[5] })).error, "a sixth topic was accepted");
+  const removed = await author.client.from("resource_topics").delete().eq("id", byAdmin.data.id).select();
+  assert(!removed.data?.length, "the author removed an admin's link");
+  await author.client.from("posts").delete().eq("id", noteId);
+  const left = await anon.from("resource_topics").select("id").eq("resource_id", noteId);
+  assert(!left.data?.length, `${left.data?.length} links left after the note was deleted`);
+});
+
 await check("videos: admins only, with a real-looking id and a title", async () => {
   const video = { resource_type: "video", resource_id: "abcdefghijk", topic_id: topic, title: "Integration by parts, step by step" };
   assert((await author.client.from("resource_topics").insert(video)).error, "a student linked a video");

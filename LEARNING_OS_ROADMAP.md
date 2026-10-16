@@ -55,10 +55,14 @@ plan is documented. ✔ 2026-10-16: see the architecture audit.
   settings pre-filled from the study plan and curriculum; "what your answers
   suggest" (≥ 3 answers per chapter, labelled estimates); last 7 days.
   `npm run test:learning-profile` 6/6; UI 4/4 in both backends; 320px.
-- [ ] 1.5 Authorization and privacy checks across the new tables.
+- [x] 1.5 Authorization and privacy checks across the new tables.
+  ✔ 2026-10-16: security review (no critical/high); all medium and low
+  findings fixed; `npm run test:learning-privacy` 7/7 (another student, an
+  admin and a visitor cannot read or change a student's data in 10 tables).
 
 **Done when:** existing activity is recorded and linked to topics without
-breaking any existing feature.
+breaking any existing feature. ✔ 2026-10-16: all 25 suites pass on a
+database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
 
 ## Phase 2 — Knowledge graph
 

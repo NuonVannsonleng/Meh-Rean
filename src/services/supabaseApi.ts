@@ -2092,12 +2092,13 @@ interface LiveGameStateRow {
   started_at: string | null;
   deadline_at: string | null;
   answered: number;
+  player_count: number;
   correct_choice: number | null;
   choice_counts: number[] | null;
 }
 
 interface LivePlayerRow {
-  user_id: string;
+  player_id: string;
   nickname: string;
   score: number;
   correct_count: number;
@@ -2155,6 +2156,7 @@ export async function joinLiveGame(code: string, nickname: string): Promise<stri
   await requireViewer();
   const { data, error } = await supabase.rpc("join_live_game", { join_code: code.trim(), nickname: nickname.trim() });
   if (error) failLive(error);
+  if (!data) throw new ApiError("NOT_FOUND", 404, "No open game has that code.");
   return data as string;
 }
 
@@ -2172,10 +2174,11 @@ async function liveClockOffset(): Promise<number> {
 
 export async function getLiveGame(gameId: string): Promise<LiveGameView> {
   const viewer = await requireViewer();
-  const [stateResult, playersResult, offset] = await Promise.all([
+  const [stateResult, playersResult, offset, mine] = await Promise.all([
     supabase.from("live_game_state").select("*").eq("game_id", gameId).maybeSingle<LiveGameStateRow>(),
-    supabase.from("live_players").select("user_id, nickname, score, correct_count, last_points").eq("game_id", gameId).returns<LivePlayerRow[]>(),
+    supabase.from("live_players").select("player_id, nickname, score, correct_count, last_points").eq("game_id", gameId).returns<LivePlayerRow[]>(),
     liveClockOffset(),
+    supabase.rpc("live_my_player", { game: gameId }),
   ]);
   if (stateResult.error) failLive(stateResult.error);
   const row = stateResult.data;
@@ -2206,13 +2209,15 @@ export async function getLiveGame(gameId: string): Promise<LiveGameView> {
       startedAt: row.started_at,
       deadlineAt: row.deadline_at,
       answered: row.answered,
+      playerCount: row.player_count,
       correctChoice: row.correct_choice,
       choiceCounts: row.choice_counts,
     },
     players: (playersResult.data ?? []).map(
-      (player): LivePlayer => ({ userId: player.user_id, nickname: player.nickname, score: player.score, correctCount: player.correct_count, lastPoints: player.last_points }),
+      (player): LivePlayer => ({ playerId: player.player_id, nickname: player.nickname, score: player.score, correctCount: player.correct_count, lastPoints: player.last_points }),
     ),
     isHost: row.host_id === viewer,
+    myPlayerId: (mine.data as string | null) ?? null,
     myChoice,
     clockOffsetMs: offset,
   };
@@ -2240,12 +2245,15 @@ export async function answerLive(gameId: string, choice: number): Promise<LiveAn
   return data as LiveAnswerResult;
 }
 
-/** Calls onChange whenever the game or its players change (Realtime; members only, by row level security). */
+/**
+ * Calls onChange whenever the game changes (Realtime; members only, by row
+ * level security). Joins and scores also touch the state row, so the player
+ * table itself is not streamed (it holds account ids).
+ */
 export function subscribeLiveGame(gameId: string, onChange: () => void): () => void {
   const channel = supabase
     .channel(`live-${gameId}-${crypto.randomUUID()}`)
     .on("postgres_changes", { event: "*", schema: "public", table: "live_game_state", filter: `game_id=eq.${gameId}` }, () => onChange())
-    .on("postgres_changes", { event: "*", schema: "public", table: "live_players", filter: `game_id=eq.${gameId}` }, () => onChange())
     .subscribe();
   return () => {
     void supabase.removeChannel(channel);

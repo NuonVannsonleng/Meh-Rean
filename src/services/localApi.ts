@@ -1972,7 +1972,10 @@ export async function linkResourceTopic(input: ResourceTopicInput): Promise<Reso
   db.resourceTopics ??= [];
   const existing = db.resourceTopics.find((item) => item.resourceType === input.resourceType && item.resourceId === input.resourceId && item.topicId === input.topicId);
   if (existing) throw new ApiError("UNKNOWN", 409, "already linked");
-  const link = { ...input, title: input.title.slice(0, 200), id: createId("rt"), createdAt: new Date().toISOString(), addedBy: viewer.id };
+  if (input.resourceType === "note" && db.resourceTopics.filter((item) => item.resourceType === "note" && item.resourceId === input.resourceId).length >= 5) {
+    throw new ApiError("UNKNOWN", 400, "a note can be linked to at most 5 topics");
+  }
+  const link = { ...input, title: input.resourceType === "note" ? "" : input.title.slice(0, 200), id: createId("rt"), createdAt: new Date().toISOString(), addedBy: viewer.id };
   db.resourceTopics.push(link);
   persist();
   const { addedBy: _addedBy, ...rest } = link;
@@ -1985,7 +1988,7 @@ export async function unlinkResourceTopic(id: string): Promise<void> {
   const link = (db.resourceTopics ?? []).find((item) => item.id === id);
   if (!link) return;
   const post = link.resourceType === "note" ? db.posts.find((item) => item.id === link.resourceId) : undefined;
-  if (!viewer.isAdmin && !(post && post.authorId === viewer.id)) throw new ApiError("FORBIDDEN", 403);
+  if (!viewer.isAdmin && !(post && post.authorId === viewer.id && link.addedBy === viewer.id)) throw new ApiError("FORBIDDEN", 403);
   db.resourceTopics = (db.resourceTopics ?? []).filter((item) => item.id !== id);
   persist();
 }

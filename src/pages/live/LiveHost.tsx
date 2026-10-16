@@ -106,7 +106,7 @@ export default function LiveHost() {
           {game.players.length > 0 && (
             <ul className="mt-3 flex flex-wrap justify-center gap-2">
               {game.players.map((player) => (
-                <li key={player.userId} className="bg-brand-50 text-accent rounded-full px-3 py-1 text-sm font-semibold">
+                <li key={player.playerId} className="bg-brand-50 text-accent rounded-full px-3 py-1 text-sm font-semibold">
                   {player.nickname}
                 </li>
               ))}
@@ -169,7 +169,7 @@ export default function LiveHost() {
               {rankPlayers(game.players)
                 .slice(0, 3)
                 .map((player, index) => (
-                  <li key={player.userId} className={`card p-4 text-center ${index === 0 ? "border-brand-500" : ""}`}>
+                  <li key={player.playerId} className={`card p-4 text-center ${index === 0 ? "border-brand-500" : ""}`}>
                     <p className="text-3xl" aria-hidden>
                       {["🥇", "🥈", "🥉"][index]}
                     </p>

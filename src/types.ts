@@ -615,12 +615,14 @@ export interface LiveGameState {
   startedAt: string | null;
   deadlineAt: string | null;
   answered: number;
+  playerCount: number;
   correctChoice: number | null;
   choiceCounts: number[] | null;
 }
 
 export interface LivePlayer {
-  userId: string;
+  /** A per-game id: players never see each other's account ids. */
+  playerId: string;
   nickname: string;
   score: number;
   correctCount: number;
@@ -632,6 +634,8 @@ export interface LiveGameView {
   state: LiveGameState;
   players: LivePlayer[];
   isHost: boolean;
+  /** This person's player id in the game (null for the host). */
+  myPlayerId: string | null;
   /** This player's choice for the current question, if they answered. */
   myChoice: number | null;
   /** Server time minus this phone's time, so countdowns agree. */
