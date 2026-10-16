@@ -3378,3 +3378,31 @@ revoke execute on function public.drop_note_topic_links() from public, anon, aut
 drop trigger if exists drop_note_topic_links on public.posts;
 create trigger drop_note_topic_links after delete on public.posts
   for each row execute function public.drop_note_topic_links();
+
+-- The caller's answers per topic (Learning OS 2.1): only the first attempt at
+-- each question per Cambodia day counts. Same rule as topicResultsFromEvents()
+-- in src/lib/learningProfile.ts. Security invoker: row level security keeps
+-- it to the caller's own events.
+create or replace function public.my_topic_results()
+returns table (topic_id text, answered integer, correct integer, last_at timestamptz)
+language sql
+stable
+security invoker
+set search_path = ''
+as $$
+  with firsts as (
+    select distinct on (e.resource_id, (e.created_at at time zone 'Asia/Phnom_Penh')::date)
+      e.topic_id, (e.data ->> 'correct')::boolean as right_answer, e.created_at
+    from public.learning_events e
+    where e.user_id = auth.uid()
+      and e.topic_id is not null
+      and e.event_type in ('question_attempted', 'mistake_reviewed')
+      and e.data ->> 'correct' in ('true', 'false')
+    order by e.resource_id, (e.created_at at time zone 'Asia/Phnom_Penh')::date, e.created_at
+  )
+  select f.topic_id, count(*)::integer, (count(*) filter (where f.right_answer))::integer, max(f.created_at)
+  from firsts f
+  group by f.topic_id
+$$;
+revoke execute on function public.my_topic_results() from public, anon;
+grant execute on function public.my_topic_results() to authenticated;

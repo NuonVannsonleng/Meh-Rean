@@ -88,3 +88,73 @@ export function prerequisitesOf(topicId: string, links: ConceptLinkInput[], dept
   }
   return [...found].map(([id, distance]) => ({ topicId: id, distance })).sort((a, b) => a.distance - b.distance || a.topicId.localeCompare(b.topicId));
 }
+
+/** Topics that need this one, nearest first, at most `depth` steps on. */
+export function dependentsOf(topicId: string, links: ConceptLinkInput[], depth = 10): { topicId: string; distance: number }[] {
+  const reversed = links.map((link) => ({ ...link, fromTopic: link.toTopic, toTopic: link.fromTopic }));
+  return prerequisitesOf(topicId, reversed, depth);
+}
+
+/** Topics linked as "related", in either direction. */
+export function relatedTo(topicId: string, links: ConceptLinkInput[]): string[] {
+  return links
+    .filter((link) => link.kind === "related" && (link.fromTopic === topicId || link.toTopic === topicId))
+    .map((link) => (link.fromTopic === topicId ? link.toTopic : link.fromTopic))
+    .sort();
+}
+
+/**
+ * The topics in an order that respects prerequisites, otherwise keeping the
+ * curriculum's own order (`topicIds` is given in curriculum order).
+ */
+export function studyOrder(topicIds: string[], links: ConceptLinkInput[]): string[] {
+  const position = new Map(topicIds.map((id, index) => [id, index]));
+  const needs = new Map(topicIds.map((id) => [id, 0]));
+  const next = new Map<string, string[]>();
+  for (const link of links) {
+    if (link.kind !== "prerequisite" || !position.has(link.fromTopic) || !position.has(link.toTopic)) continue;
+    needs.set(link.toTopic, (needs.get(link.toTopic) ?? 0) + 1);
+    next.set(link.fromTopic, [...(next.get(link.fromTopic) ?? []), link.toTopic]);
+  }
+  const ready = topicIds.filter((id) => needs.get(id) === 0);
+  const order: string[] = [];
+  while (ready.length) {
+    ready.sort((a, b) => position.get(a)! - position.get(b)!);
+    const id = ready.shift()!;
+    order.push(id);
+    for (const to of next.get(id) ?? []) {
+      needs.set(to, needs.get(to)! - 1);
+      if (needs.get(to) === 0) ready.push(to);
+    }
+  }
+  // A cycle (never stored, but be safe): keep the rest in curriculum order.
+  return [...order, ...topicIds.filter((id) => !order.includes(id))];
+}
+
+/** How many prerequisite steps lead to each topic (0 for a starting point): the map's columns. */
+export function prerequisiteLevels(topicIds: string[], links: ConceptLinkInput[]): Map<string, number> {
+  const level = new Map(topicIds.map((id) => [id, 0]));
+  for (const id of studyOrder(topicIds, links)) {
+    for (const link of links) {
+      if (link.kind === "prerequisite" && link.fromTopic === id && level.has(link.toTopic)) {
+        level.set(link.toTopic, Math.max(level.get(link.toTopic)!, level.get(id)! + 1));
+      }
+    }
+  }
+  return level;
+}
+
+/**
+ * Prerequisites (at any depth) the student has not shown yet: with too
+ * little evidence, or worth more practice. Nearest first.
+ */
+export function missingPrerequisites(
+  topicId: string,
+  links: ConceptLinkInput[],
+  statusOf: (topicId: string) => "unknown" | "work-on" | "practising" | "going-well",
+): { topicId: string; distance: number; status: "unknown" | "work-on" }[] {
+  return prerequisitesOf(topicId, links).flatMap((item) => {
+    const status = statusOf(item.topicId);
+    return status === "unknown" || status === "work-on" ? [{ ...item, status }] : [];
+  });
+}

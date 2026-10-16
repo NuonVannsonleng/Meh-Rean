@@ -12,6 +12,7 @@ import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
 import khGrade12MathLinks from "../data/curriculum-links/kh-grade12-math.json";
 import { expandLinks, type LinkSeed } from "../lib/conceptGraph";
 import { suggestedProfile } from "../lib/learningDefaults";
+import { topicResultsFromEvents, type TopicResult } from "../lib/learningProfile";
 import { buildDemoPapers, sortPapers, type DemoPaperSeed } from "../lib/papers";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
@@ -2033,4 +2034,9 @@ export async function saveLearningProfile(input: LearningProfileInput): Promise<
   persist();
   const { userId: _userId, ...rest } = profile;
   return rest;
+}
+
+/** The student's answers per topic (first attempt per question per day), as my_topic_results(). */
+export async function getTopicResults(): Promise<TopicResult[]> {
+  return topicResultsFromEvents(await getLearningEvents(100_000));
 }

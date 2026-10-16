@@ -19,6 +19,16 @@ labelled as estimates; none is a validated measure of ability.
 - Rules in `PROFILE_RULES` (`src/lib/learningProfile.ts`), tested by
   `npm run test:learning-profile`.
 
+## Knowledge graph (2.1)
+
+- Prerequisites and dependents: breadth-first, nearest first, at most 10 steps.
+- Study order: topological (Kahn) with ties broken by curriculum order.
+- Map level: longest chain of prerequisites before a topic.
+- Missing prerequisites: those whose status is unknown (< 3 answers) or
+  "worth more practice".
+- Topic results: only the first attempt at each question per Cambodia day
+  counts (SQL `my_topic_results()`, TS `topicResultsFromEvents()`).
+
 ## Mastery (Phase 3 — draft, to be finalised with tests)
 
 - Unknown until the first marked answer on a topic.

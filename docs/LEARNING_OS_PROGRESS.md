@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 2 — Knowledge graph: relationship queries, concept detail, concept map** (next up). Phase 1 is done.
+**Phase 2 — 2.2 Topic page** (next up).
 
 ## Done
 
@@ -102,6 +102,18 @@
   suite (25) passes on a database upgraded from the pre-BacII schema with
   `setup-all.sql`; UI: live quiz 8/8, topic links 3/3 ×2, practice 5/5,
   profile 4/4.
+
+- **2026-10-16 — 2.1 Graph queries.** Agents: knowledge graph, learning
+  intelligence, tester. `src/lib/conceptGraph.ts` gains `dependentsOf`,
+  `relatedTo`, `studyOrder` (prerequisites first, otherwise curriculum
+  order; cycle-safe), `prerequisiteLevels` (map columns), and
+  `missingPrerequisites`. Per-topic evidence: `my_topic_results()`
+  (security invoker over the caller's events) and the same rule in
+  `topicResultsFromEvents()` — first attempt at a question per Cambodia day
+  only; `topicStatus()` reuses the profile thresholds (≥ 3 answers). API
+  `getTopicResults()` in both backends. Tests: `npm run test:knowledge-graph`
+  7/7 (on the real links file; SQL and TypeScript rules agree on retries;
+  privacy).
 
 ## Report format (per task)
 

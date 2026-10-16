@@ -14,4 +14,5 @@ are added per task and listed here with their latest results.
 | 2026-10-16 | Playwright: learning profile, browser-only / online | 4/4, 4/4 |
 | 2026-10-16 | `npm run test:learning-privacy` (local Supabase) | 7 passed, 0 failed |
 | 2026-10-16 | Full suite (25 scripts) on a database upgraded from the pre-BacII schema via `setup-all.sql` | all pass |
+| 2026-10-16 | `npm run test:knowledge-graph` (unit + local Supabase) | 7 passed, 0 failed |
 | 2026-10-16 | UI regressions after events (practice, mistakes, exam, daily, plan both backends; watched browser-only) | all pass |

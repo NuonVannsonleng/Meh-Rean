@@ -66,10 +66,14 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
 
 ## Phase 2 — Knowledge graph
 
-- [ ] Relationship queries and prerequisite traversal (depth-limited, cycle-safe).
-- [ ] Concept detail API: prerequisites, questions, videos, notes, the student's estimate.
-- [ ] Concept map (interactive) and a list view for low-end phones.
-- [ ] Relationship integrity tests; curriculum review of the links.
+- [x] 2.1 Relationship queries and prerequisite traversal (depth-limited, cycle-safe).
+  ✔ 2026-10-16: prerequisites, dependents, related, study order, levels,
+  missing prerequisites (`src/lib/conceptGraph.ts`); per-topic results
+  counting the first attempt per question per day (`my_topic_results()` and
+  `topicResultsFromEvents()`). `npm run test:knowledge-graph` 7/7.
+- [ ] 2.2 Topic page: prerequisites, what it opens up, questions, videos, notes, the student's results.
+- [ ] 2.3 Concept map (interactive) and a list view for low-end phones.
+- [ ] 2.4 Link management for admins; relationship integrity; curriculum review of the links.
 
 ## Phase 3 — Mastery engine
 

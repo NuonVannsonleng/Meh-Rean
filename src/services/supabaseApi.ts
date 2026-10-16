@@ -11,6 +11,7 @@ import {
   type QuestionSolutionRow,
 } from "../lib/questions";
 import { suggestedProfile } from "../lib/learningDefaults";
+import type { TopicResult } from "../lib/learningProfile";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -2394,4 +2395,18 @@ export async function saveLearningProfile(input: LearningProfileInput): Promise<
     .single<LearningProfileRow>();
   if (error) throw new ApiError("UNKNOWN", 400, error.message);
   return toLearningProfile(data);
+}
+
+/** The student's answers per topic: only the first attempt at a question per day counts. */
+export async function getTopicResults(): Promise<TopicResult[]> {
+  const viewer = await viewerId();
+  if (!viewer) return [];
+  const { data, error } = await supabase.rpc("my_topic_results");
+  if (error) throw new ApiError("UNKNOWN", 400, error.message);
+  return ((data ?? []) as { topic_id: string; answered: number; correct: number; last_at: string | null }[]).map((row) => ({
+    topicId: row.topic_id,
+    answered: row.answered,
+    correct: row.correct,
+    lastAt: row.last_at,
+  }));
 }

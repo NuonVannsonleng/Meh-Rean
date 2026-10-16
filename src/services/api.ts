@@ -114,6 +114,7 @@ export const {
   getLearningEvents,
   getLearningProfile,
   saveLearningProfile,
+  getTopicResults,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

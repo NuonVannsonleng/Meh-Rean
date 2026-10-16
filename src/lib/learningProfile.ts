@@ -58,3 +58,46 @@ export function activitySummary(events: LearningEvent[], now = new Date()): Acti
     lastActiveAt: latest,
   };
 }
+
+export interface TopicResult {
+  topicId: string;
+  answered: number;
+  correct: number;
+  lastAt: string | null;
+}
+
+export type TopicStatus = "unknown" | "work-on" | "practising" | "going-well";
+
+/** A topic's status from the student's answers, with the same thresholds as chapters. */
+export function topicStatus(result: Pick<TopicResult, "answered" | "correct"> | undefined, rules = PROFILE_RULES): TopicStatus {
+  if (!result || result.answered < rules.minAnswers) return "unknown";
+  const rate = (result.correct + 1) / (result.answered + 2);
+  return rate >= rules.strengthAt ? "going-well" : rate <= rules.workOnAt ? "work-on" : "practising";
+}
+
+/**
+ * Answers per topic from the student's events, counting only the first
+ * attempt at each question per day (Cambodia time), so retrying a question
+ * until it is right does not inflate the result. Same rule as
+ * my_topic_results() in supabase/schema.sql.
+ */
+export function topicResultsFromEvents(events: LearningEvent[]): TopicResult[] {
+  const firsts = new Map<string, LearningEvent>();
+  const day = (iso: string) => new Date(Date.parse(iso) + 7 * 3_600_000).toISOString().slice(0, 10);
+  const answers = events
+    .filter((event) => event.topicId && (event.eventType === "question_attempted" || event.eventType === "mistake_reviewed") && typeof event.data.correct === "boolean")
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+  for (const event of answers) {
+    const key = `${event.resourceId}|${day(event.createdAt)}`;
+    if (!firsts.has(key)) firsts.set(key, event);
+  }
+  const byTopic = new Map<string, TopicResult>();
+  for (const event of firsts.values()) {
+    const result = byTopic.get(event.topicId!) ?? { topicId: event.topicId!, answered: 0, correct: 0, lastAt: null };
+    result.answered += 1;
+    if (event.data.correct === true) result.correct += 1;
+    if (!result.lastAt || event.createdAt > result.lastAt) result.lastAt = event.createdAt;
+    byTopic.set(event.topicId!, result);
+  }
+  return [...byTopic.values()].sort((a, b) => a.topicId.localeCompare(b.topicId));
+}
