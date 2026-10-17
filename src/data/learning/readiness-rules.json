@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "note": "Exam readiness and analytics (Learning OS 9.1). Product rules of thumb from the student's own practice — not a prediction of a BacII result. Changing a number here means bumping version.",
+  "minAnswers": 20,
+  "minLabelledTopics": 3,
+  "minExams": 2,
+  "trendThreshold": 3,
+  "trendDays": [7, 28],
+  "weights": { "coverage": 0.4, "mastery": 0.4, "exams": 0.2 },
+  "levels": [
+    { "id": "early", "from": 0 },
+    { "id": "building", "from": 35 },
+    { "id": "on-track", "from": 60 },
+    { "id": "strong", "from": 80 }
+  ],
+  "consistencyDays": 28,
+  "goodWeekDays": 3
+}

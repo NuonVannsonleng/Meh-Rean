@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 9 — 9.1 Exam readiness and analytics** (next up).
+**Phase 10 — 10.1 Unified dashboard** (next up).
 
 ## Done
 
@@ -457,6 +457,29 @@
   Read-only check: `companion_requests` present with row level security,
   students cannot delete from it, the Phase 7 functions present, 0 tables
   without row level security.
+
+- **2026-10-17 — 9.1 Exam readiness and analytics.** Agents: learning
+  intelligence (calculations), curriculum (no claims about the official
+  exam), designer, frontend, tester. `buildReadiness()`: coverage (topics
+  practised and with an estimate, per chapter); the average estimate now
+  and as it stood 7 and 28 days ago (answers replayed up to then; needs 3
+  labelled topics, change of 3+ points is up/down); mock exams (marked ones
+  only; latest against the average of up to three before; needs 2);
+  consistency (active days in 28, weeks with 3+ days); readiness from 20
+  answers: 0.4 × share of topics with an estimate + 0.4 × average estimate
+  + 0.2 × latest mock exam, missing parts sharing their weight, banded Early
+  days / Building up (35) / On track (60) / Strong (80); this week against
+  last week. Page `/learning/readiness` ("Exam readiness" on BacII): level
+  and score with its parts and days to the exam, coverage bars by chapter,
+  estimates over time, mock exam bars and trend, consistency, this week
+  with last week beside it. It says it is Meh Rean's estimate from the
+  student's own practice, not a prediction of a BacII result or grade, and
+  that demo questions make it a rough guide. Tests: `npm run
+  test:readiness` 7/7 (no data, coverage, trends replayed, exam trend and
+  unfinished exams, consistency, readiness threshold and shared weights,
+  weeks); Playwright 3/3 browser-only and online (not enough data
+  everywhere; 24 answers give a level, parts, coverage, a 7-day trend, this
+  week's 12 answers; 320px); lint. Limit: trends use the latest 1000 events.
 
 ## Report format (per task)
 

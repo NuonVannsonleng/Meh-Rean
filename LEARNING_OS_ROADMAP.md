@@ -207,8 +207,13 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
 
 ## Phase 9 — Exam readiness and analytics
 
-- [ ] Coverage, mastery trends, mock exam trends, consistency; readiness with
+- [x] 9.1 Coverage, mastery trends, mock exam trends, consistency; readiness with
   insufficient-data states; weekly summary; calculation tests.
+  ✔ 2026-10-17: `buildReadiness()` (`src/lib/readiness.ts`, rules in
+  `readiness-rules.json`) and `/learning/readiness`; a level, never a
+  predicted result; each part says when there is not enough data. `npm run
+  test:readiness` 7/7; Playwright 3/3 in both backends; 320px. No database
+  change.
 
 ## Phase 10 — Unified dashboard
 

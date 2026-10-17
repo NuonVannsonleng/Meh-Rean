@@ -145,3 +145,20 @@ Code: `src/lib/companion.ts`, `src/lib/companionText.ts`. Numbers:
 - Summary facts: topics practised and done (Strong+), last 7 days'
   answers, share right and active days, the 3 weakest labelled topics and 3
   strongest, reviews due, days to the exam.
+
+## Exam readiness (9.1)
+
+Code: `src/lib/readiness.ts`. Numbers: `src/data/learning/readiness-rules.json`
+(version 1). Tests: `npm run test:readiness`. A product estimate from the
+student's own practice — never a prediction of a BacII result or grade.
+
+- Readiness (from 20 answers): 0.4 × % of topics with an estimate + 0.4 ×
+  average estimate of those topics (needs 3) + 0.2 × latest marked mock
+  exam %; a part without data drops out and the others share its weight.
+  Levels: Early days < 35 ≤ Building up < 60 ≤ On track < 80 ≤ Strong.
+- Estimate trend: the average estimate now against the average when the
+  answers up to 7 and 28 days ago are replayed; ±3 points or more is up or
+  down, else about the same; not enough data below 3 labelled topics.
+- Mock exam trend: latest % against the average of up to three before it;
+  from 2 marked exams.
+- Consistency: active days in the last 28; weeks (of 4) with 3+ active days.
