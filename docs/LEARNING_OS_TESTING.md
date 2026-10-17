@@ -25,6 +25,7 @@ are added per task and listed here with their latest results.
 | 2026-10-17 | `npm run test:recommend` (incl. 300 random students) | 15 passed, 0 failed |
 | 2026-10-17 | Playwright: Study next (visitor, Khmer reasons, due review first, Not now, English, 320px), browser-only / online | 7/7, 7/7 |
 | 2026-10-17 | `npm run test:adaptive` (selection, difficulty, modes) | 13 passed, 0 failed |
+| 2026-10-17 | Final regression after 11.2–11.6: all 35 `npm run test:*` suites (local Supabase); Playwright home, Study next, practice, topic, map, topic links, mastery, journey, revision, flashcards, history, readiness, companion, papers, exam, mistakes, daily, plan — browser-only and online; AI companion with mock Gemini; rich chat | all pass (e.g. accounts 68/68, chat 16/16, practice 9/9 ×2) |
 | 2026-10-17 | `npm run test:revision` with flashcards | 7 passed, 0 failed |
 | 2026-10-17 | Playwright: revision with a flashcard / My learning / flashcards, browser-only / online | 6/6, 5/5, 7/7 ×2 |
 | 2026-10-17 | `npm run test:flashcards` (unit + local Supabase) | 7 passed, 0 failed |

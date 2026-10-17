@@ -1478,7 +1478,25 @@ interface CurriculumChapterRow {
   topics: { id: string; chapter_id: string; name_en: string; name_km: string; sort: number; verification: Verification }[];
 }
 
-export async function getCurriculumSubjects(): Promise<CurriculumSubject[]> {
+// The curriculum changes only through the SQL seed, never from the app: keep it
+// for ten minutes so each page does not ask again (slow networks).
+const CURRICULUM_TTL_MS = 10 * 60_000;
+const curriculumCache = new Map<string, { at: number; value: Promise<unknown> }>();
+function cachedCurriculum<T>(key: string, load: () => Promise<T>): Promise<T> {
+  const hit = curriculumCache.get(key);
+  if (hit && Date.now() - hit.at < CURRICULUM_TTL_MS) return (hit.value as Promise<T>).then((value) => structuredClone(value));
+  const value = load();
+  curriculumCache.set(key, { at: Date.now(), value });
+  // A failed load is not kept.
+  value.catch(() => curriculumCache.delete(key));
+  return value.then((result) => structuredClone(result));
+}
+
+export function getCurriculumSubjects(): Promise<CurriculumSubject[]> {
+  return cachedCurriculum("subjects", loadCurriculumSubjects);
+}
+
+async function loadCurriculumSubjects(): Promise<CurriculumSubject[]> {
   const rows = unwrap(
     await supabase
       .from("curriculum_subjects")
@@ -1504,7 +1522,11 @@ export async function getCurriculumSubjects(): Promise<CurriculumSubject[]> {
 }
 
 /** A subject's chapters in order, each with its topics. */
-export async function getCurriculumChapters(subjectId: string): Promise<CurriculumChapter[]> {
+export function getCurriculumChapters(subjectId: string): Promise<CurriculumChapter[]> {
+  return cachedCurriculum(`chapters:${subjectId}`, () => loadCurriculumChapters(subjectId));
+}
+
+async function loadCurriculumChapters(subjectId: string): Promise<CurriculumChapter[]> {
   const rows = unwrap(
     await supabase
       .from("curriculum_chapters")

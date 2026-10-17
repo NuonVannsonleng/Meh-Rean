@@ -19,7 +19,8 @@
 - **Brand theme from the logo:** book-cover green, bookmark teal, cream notebook pages, in light, dark and system modes with no flash on load.
 - **Custom reaction icons** (Like, Love, Insightful, Helpful, Wow) with a burst animation, plus bookmark-drop, star-pop, staggered feed and page transitions. All motion respects reduced-motion settings.
 - **Works on every screen:** tested from 320px phones through landscape phones and tablets up to 1920px desktops. Phones get a bottom tab bar and bottom sheets; wide screens get a three-column layout. Safe areas for notched phones, 44px tap targets, and no iOS zoom on input focus.
-- **BacII (Grade 12):** a section for students preparing for Cambodia's national exam. Its first option, *Find a video for an exercise*, reads a photo or typed exercise with AI and finds YouTube lessons that teach it, with videos of the very same exercise first.
+- **BacII (Grade 12):** a section for students preparing for Cambodia's national exam: practice by chapter with worked solutions, past papers and timed mock exams with a grade estimate, a mistake notebook with spaced reviews, today's question and streak, a study plan, photo to solution, a live quiz game with a join code, and *Find a video for an exercise* (AI reads a photo or typed exercise and finds YouTube lessons, the same exercise first).
+- **Learning OS (BacII):** *My learning* brings it together — topic mastery estimates from the student's own answers, *Study next* suggestions with reasons in Khmer or English, adaptive practice in six modes, a topic map and topic pages, a learning journey that never locks content, a revision queue (notebook and flashcards), exam readiness, a study companion (rules first, optional AI, labelled), and a learning history the student can delete. Demo practice questions are labelled as such; curriculum links are provisional until a teacher checks them.
 - **Installable:** add it to your home screen on iOS or Android and it opens full-screen like an app, using the Meh Rean icon.
 
 ## Tech stack
@@ -117,6 +118,9 @@ Every data access goes through `src/services/api.ts`. The in-browser store lives
 - [`docs/PROGRESS.md`](docs/PROGRESS.md): current task and blockers.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), [`docs/DECISIONS.md`](docs/DECISIONS.md),
   [`docs/TESTING.md`](docs/TESTING.md), [`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md).
+- [`LEARNING_OS_ROADMAP.md`](LEARNING_OS_ROADMAP.md) and
+  [`docs/LEARNING_OS_RELEASE.md`](docs/LEARNING_OS_RELEASE.md): the Learning OS plan, deployment
+  checklist, AI cost review and known limitations.
 - [`AGENTS.md`](AGENTS.md) and `.claude/agents/`: rules and specialists for AI coding agents.
 
 The BacII curriculum is edited in `src/data/curriculum/*.json`; run

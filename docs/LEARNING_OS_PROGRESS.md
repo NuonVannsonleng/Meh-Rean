@@ -621,6 +621,13 @@
   marked question, visitors cannot call `send_message` (students can),
   flashcards present, 0 tables without row level security.
 
+- **2026-10-17 — 11.6 Curriculum cached; README.** The Supabase backend
+  keeps subjects and chapters for 10 minutes (the app never writes them;
+  failed loads are not kept; callers get copies), so moving between pages
+  does not fetch the curriculum again; My learning's first view 16 → 15
+  calls. README lists the BacII tools and the Learning OS and links the
+  release notes.
+
 ## Report format (per task)
 
 Phase · Task · Agents involved · Summary · Files · Database changes · Tests
