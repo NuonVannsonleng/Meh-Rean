@@ -2,7 +2,7 @@
 
 ## Current
 
-**All phases done**, flashcards included (7.5, 2026-10-17). Open: owner decisions in docs/LEARNING_OS_RELEASE.md.
+**All phases done** (2026-10-17), with flashcards, hardening, a smaller bundle, Continue learning on Home and demo set D. Open: a native Khmer check (docs/LEARNING_OS_RELEASE.md).
 
 ## Done
 
@@ -615,6 +615,11 @@
   learning, revision, readiness, companion, mistakes, daily and map pass in
   both backends. The Khmer wording of the questions is Meh Rean's own, like
   sets A–C.
+
+- **2026-10-17 — Production database updated to f9de1c0.** Same method.
+  Read-only check: 37 demo questions in 4 demo papers, all 34 topics with a
+  marked question, visitors cannot call `send_message` (students can),
+  flashcards present, 0 tables without row level security.
 
 ## Report format (per task)
 

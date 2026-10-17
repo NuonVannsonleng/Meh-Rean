@@ -29,7 +29,7 @@ except the AI companion, which needs the server and says so.
 
 1. **Database.** Run the latest `supabase/setup-all.sql` in the Supabase SQL
    editor (safe to run again; never deletes users, posts or messages). It was
-   run on production at 414d2da on 2026-10-17 (flashcards). After any later schema change, run it again. Then run the read-only
+   run on production at f9de1c0 on 2026-10-17 (flashcards, hardening, demo set D). After any later schema change, run it again. Then run the read-only
    check below.
 2. **Vercel environment** (Project → Settings → Environment Variables; never
    in code or chat):
