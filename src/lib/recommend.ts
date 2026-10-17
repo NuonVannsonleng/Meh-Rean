@@ -1,4 +1,4 @@
-// What to study next (Learning OS 4.1, 4.2): candidates from the student's
+// What to study next (Learning OS 4.1–4.3): candidates from the student's
 // due reviews, weak topics, weak prerequisites and the study order, scored by
 // the weights in src/data/learning/recommendation-rules.json. Deterministic;
 // every recommendation carries the reasons it was chosen.
@@ -37,6 +37,26 @@ export interface Recommendation {
   score: number;
   /** The main reason first. */
   reasons: RecommendationReason[];
+}
+
+/** What is there to learn a topic with: practice questions, checked videos, linked notes. */
+export interface TopicResources {
+  questions: number;
+  videos: { id: string; title: string }[];
+  notes: { id: string; title: string }[];
+}
+
+export type RecommendationAction =
+  | { type: "review"; due: number }
+  | { type: "practise"; questions: number }
+  | { type: "video"; id: string; title: string }
+  | { type: "note"; id: string; title: string };
+
+export interface RecommendationWithAction extends Recommendation {
+  /** The main thing to do. */
+  action: RecommendationAction;
+  /** A video and a note to go with it, when there are any. */
+  also: RecommendationAction[];
 }
 
 export interface RecommendationInput {
@@ -142,16 +162,42 @@ export function rankCandidates(input: RecommendationInput, rules: Recommendation
     .sort((a, b) => b.score - a.score || order.get(a.topicId)! - order.get(b.topicId)!);
 }
 
-/** The top recommendations: at most `limit`, and at most `maxPerChapter` from one chapter so the list stays varied. */
-export function recommend(input: RecommendationInput, rules: RecommendationRules): Recommendation[] {
+/**
+ * What to do for one recommendation (4.3): due reviews first, then practice
+ * questions, else a checked video, else a linked note; null when the topic
+ * has nothing to learn it with yet, so it is left out.
+ */
+export function actionFor(item: Recommendation, resources: TopicResources | undefined): { action: RecommendationAction; also: RecommendationAction[] } | null {
+  const due = item.reasons.find((reason) => reason.code === "reviews-due");
+  const video = resources?.videos[0];
+  const note = resources?.notes[0];
+  const options: RecommendationAction[] = [
+    ...(due && due.code === "reviews-due" ? [{ type: "review" as const, due: due.count }] : []),
+    ...(resources && resources.questions > 0 ? [{ type: "practise" as const, questions: resources.questions }] : []),
+    ...(video ? [{ type: "video" as const, ...video }] : []),
+    ...(note ? [{ type: "note" as const, ...note }] : []),
+  ];
+  if (!options.length) return null;
+  const [action, ...rest] = options;
+  return { action, also: rest.filter((option) => option.type === "video" || option.type === "note") };
+}
+
+/**
+ * The top recommendations with something to do for each: at most `limit`, at
+ * most `maxPerChapter` from one chapter so the list stays varied. Topics with
+ * nothing to learn them with are skipped and do not take a place.
+ */
+export function recommend(input: RecommendationInput & { resources: Record<string, TopicResources> }, rules: RecommendationRules): RecommendationWithAction[] {
   const chapterOf = new Map(input.topics.map((topic) => [topic.id, topic.chapterId]));
   const perChapter = new Map<string, number>();
-  const picked: Recommendation[] = [];
+  const picked: RecommendationWithAction[] = [];
   for (const item of rankCandidates(input, rules)) {
     const chapter = chapterOf.get(item.topicId)!;
     if ((perChapter.get(chapter) ?? 0) >= rules.maxPerChapter) continue;
+    const todo = actionFor(item, input.resources[item.topicId]);
+    if (!todo) continue;
     perChapter.set(chapter, (perChapter.get(chapter) ?? 0) + 1);
-    picked.push(item);
+    picked.push({ ...item, ...todo });
     if (picked.length >= rules.limit) break;
   }
   return picked;

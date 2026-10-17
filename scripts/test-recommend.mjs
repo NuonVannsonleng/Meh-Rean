@@ -35,7 +35,8 @@ const m = (topic, score, { evidence = 5, lastAt = daysAgo(1) } = {}) => ({
   label: evidence < 3 ? "unknown" : [...LABELS].reverse().find(([, from]) => score >= from)[0],
   version: 2,
 });
-const input = (extra = {}) => ({ topics, links, mastery: [], reviews: [], examDate: null, labelAfter: 3, now: NOW, ...extra });
+const everywhere = Object.fromEntries(topics.map((topic) => [topic.id, { questions: 1, videos: [], notes: [] }]));
+const input = (extra = {}) => ({ topics, links, mastery: [], reviews: [], examDate: null, labelAfter: 3, now: NOW, resources: everywhere, ...extra });
 const find = (list, topic) => list.find((item) => item.topicId === T(topic));
 
 await check("the rules file has a version, a limit and a weight for every kind", async () => {
@@ -130,6 +131,34 @@ await check("each topic once, with all its reasons; deterministic whatever the i
 await check("unknown topics are ignored; the list never exceeds the limit", async () => {
   const list = recommend(input({ mastery: [{ ...m("conics-ellipse", 10), topicId: "nope" }], reviews: [{ topicId: "nope", nextReviewAt: daysAgo(3) }, { topicId: null, nextReviewAt: daysAgo(3) }] }), rules);
   assert(!list.some((item) => item.topicId === "nope") && list.length <= rules.limit, JSON.stringify(list.map((i) => i.topicId)));
+});
+
+await check("each recommendation says what to do: reviews, else practice, else a video, else a note", async () => {
+  const resources = {
+    ...everywhere,
+    [T("limits-continuity-limits")]: { questions: 2, videos: [{ id: "abc123def45", title: "Limits" }], notes: [{ id: "n1", title: "Limit notes" }] },
+    [T("limits-continuity-indeterminate-forms")]: { questions: 0, videos: [{ id: "zzz123def45", title: "Forms" }], notes: [] },
+    [T("derivatives-rules")]: { questions: 0, videos: [], notes: [{ id: "n2", title: "Rules" }] },
+  };
+  const mastery = [m("limits-continuity-limits", 80), m("limits-continuity-indeterminate-forms", 20), m("derivatives-rules", 20)];
+  const list = recommend(input({ mastery, resources, reviews: [{ topicId: T("limits-continuity-limits"), nextReviewAt: daysAgo(2) }] }), rules);
+  const limits = find(list, "limits-continuity-limits");
+  assert(limits.action.type === "review" && limits.action.due === 1, JSON.stringify(limits.action));
+  assert(limits.also.map((a) => a.type).join() === "video,note", JSON.stringify(limits.also));
+  assert(find(list, "limits-continuity-indeterminate-forms").action.type === "video", "no video action");
+  assert(find(list, "derivatives-rules").action.type === "note", "no note action");
+});
+
+await check("a topic with nothing to learn it with is left out, and does not take a place", async () => {
+  const empty = { questions: 0, videos: [], notes: [] };
+  const resources = { ...everywhere, [T("limits-continuity-limits")]: empty, [T("probability-counting")]: empty };
+  const list = recommend(input({ resources }), rules);
+  assert(!find(list, "limits-continuity-limits") && !find(list, "probability-counting"), list.map((i) => short(i.topicId)).join());
+  assert(list.length === rules.limit, `${list.length} recommendations`);
+  // Reviews need no other resource.
+  const reviewOnly = recommend(input({ resources: { ...resources }, reviews: [{ topicId: T("limits-continuity-limits"), nextReviewAt: daysAgo(1) }] }), rules);
+  assert(find(reviewOnly, "limits-continuity-limits")?.action.type === "review", "a due review was left out");
+  assert(recommend(input({ resources: {} }), rules).length === 0, "recommended with nothing at all");
 });
 
 finish();

@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 4 — 4.3 Resources for each recommendation** (next up).
+**Phase 4 — 4.4 Reasons in English and Khmer** (next up).
 
 ## Done
 
@@ -247,6 +247,15 @@
   chapter, 5 in all. Nothing shown yet. Fixed while testing: a weak topic
   with due reviews was rested after practice. `npm run test:recommend`
   10/10; lint.
+
+- **2026-10-17 — 4.3 Resources.** Agents: learning intelligence, knowledge
+  graph (resource links). Each recommendation gets one action — the
+  notebook when reviews are due, else practice (with the topic's question
+  count), else a checked video, else a linked note — and up to one video
+  and one note alongside. Only what exists is offered: questions in the
+  bank, videos an admin linked, notes still linked (deleting a note removes
+  its links). A topic with nothing is skipped before the list is cut, so it
+  never takes a place. `npm run test:recommend` 12/12; lint.
 
 ## Report format (per task)
 

@@ -123,7 +123,11 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   days, next in study order; exam boost; rest after practising today; one
   per topic with every reason; at most 2 per chapter. `npm run
   test:recommend` 10/10.
-- [ ] Recommend existing questions, videos and notes; exclude unavailable ones.
+- [x] 4.3 Recommend existing questions, videos and notes; exclude unavailable ones.
+  ✔ 2026-10-17: `actionFor()`: due reviews, else practice questions, else a
+  checked video, else a linked note, with a video and a note alongside;
+  topics with nothing are skipped without taking a place. `npm run
+  test:recommend` 12/12.
 - [ ] Reasons in English and Khmer; no repeats without reason.
 - [ ] API and quality tests.
 
