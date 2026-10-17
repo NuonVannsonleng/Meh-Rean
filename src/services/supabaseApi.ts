@@ -2349,7 +2349,7 @@ export async function getLearningEvents(limit = 50): Promise<LearningEvent[]> {
       .select("id, event_type, resource_type, resource_id, topic_id, chapter_id, data, created_at")
       .eq("user_id", viewer)
       .order("created_at", { ascending: false })
-      .limit(Math.min(200, limit))
+      .limit(Math.min(1000, limit))
       .returns<{ id: number; event_type: LearningEvent["eventType"]; resource_type: LearningEvent["resourceType"]; resource_id: string | null; topic_id: string | null; chapter_id: string | null; data: Record<string, unknown>; created_at: string }[]>(),
   );
   return rows.map((row) => ({
@@ -2362,6 +2362,14 @@ export async function getLearningEvents(limit = 50): Promise<LearningEvent[]> {
     data: row.data,
     createdAt: row.created_at,
   }));
+}
+
+/** Deletes some (by id) or all of the student's learning events; estimates are worked out again (Learning OS 7.3). */
+export async function deleteLearningEvents(ids?: string[]): Promise<number> {
+  await requireViewer();
+  const { data, error } = await supabase.rpc("delete_my_learning_events", ids ? { ids } : {});
+  if (error) throw new ApiError(error.code === "42501" ? "FORBIDDEN" : "UNKNOWN", error.code === "42501" ? 403 : 400, error.message);
+  return data as number;
 }
 
 // ---- Learning profile (Learning OS 1.4) ----

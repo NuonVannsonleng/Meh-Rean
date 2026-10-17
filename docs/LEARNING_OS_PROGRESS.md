@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 7 — 7.3 Learning history and deletion controls** (next up).
+**Phase 8 — 8.1 AI study companion** (next up).
 
 ## Done
 
@@ -376,6 +376,31 @@
   and online (empty, order with reasons, postpone kept and set by the
   database, a right answer clears it, 320px); mistakes 9/9, review 9/9,
   privacy 7/7, accounts 68/68; lint. Production needs setup-all.sql again.
+
+- **2026-10-17 — 7.3 Learning history and deletion.** Agents: database,
+  security (own rows only, no table writes), frontend, tester. Page
+  `/learning/history` (from the learning profile): every recorded event,
+  grouped by Cambodia day, with what it was (practice answer, today's
+  question, mock exam answer or result, notebook review, video marks, plan
+  tasks), its topic and result; older entries in steps of 200 up to 1000.
+  Delete one entry, or "Delete all my learning history" (confirmed). The
+  database function `delete_my_learning_events(ids)` deletes only the
+  caller's events (at most 1000 ids at a time), works the touched topics'
+  estimates out again and, for everything, removes every estimate; the
+  table itself still cannot be written by students. Kept on purpose and
+  said on the page: mistake notebook, mock exams, study plans, video marks.
+  Fixed while here: online, `getLearningEvents()` capped at 200, so the
+  topic page's history (and recent-answer checks in practice) could start
+  part-way for busy students; now up to 1000, as asked. Security note:
+  deleting events also lowers the daily practice count, which the 500 a
+  day limit uses; a student can only affect their own data, so accepted.
+  Tests: `npm run test:learning-history` 4/4 (no direct deletes, one entry
+  and its estimate, other student's ids, visitor, 1001 ids, delete all keeps
+  the notebook and other students' data); Playwright 5/5 browser-only and
+  online (link, empty, entries with topic and result, delete one + reload +
+  topic page, delete all, notebook kept, 320px); learning events 9/9,
+  privacy 7/7, mastery 20/20, revision 6/6, mastery UI 5/5; lint.
+  Production needs setup-all.sql again.
 
 ## Report format (per task)
 

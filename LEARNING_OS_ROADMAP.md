@@ -179,7 +179,12 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   `postponeReview()` in both backends. `npm run test:revision` 6/6;
   Playwright 5/5 in both backends; 320px. Flashcards still need the
   owner's decision; the queue has a `source` field ready for them.
-- [ ] Learning history view and deletion controls.
+- [x] 7.3 Learning history view and deletion controls.
+  ✔ 2026-10-17: `/learning/history` (by day, newest first, up to 1000);
+  delete one entry or everything through `delete_my_learning_events()`,
+  which works the estimates out again; the notebook, exams, plans and video
+  marks are kept. `npm run test:learning-history` 4/4; Playwright 5/5 in
+  both backends; 320px.
 
 ## Phase 8 — AI study companion
 

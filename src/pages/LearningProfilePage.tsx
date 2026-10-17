@@ -282,6 +282,9 @@ export default function LearningProfilePage() {
           </dl>
         )}
         {activity.lastActiveAt && <p className="text-ink-500 mt-2 text-xs">{copy.lastActive(formatDate(activity.lastActiveAt))}</p>}
+        <Link to="/learning/history" className="text-accent mt-2 inline-block text-sm font-semibold hover:underline">
+          {t.learning.history.link}
+        </Link>
       </section>
     </div>
   );

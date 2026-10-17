@@ -2071,6 +2071,17 @@ export async function getLearningEvents(limit = 50): Promise<LearningEvent[]> {
     .map(({ userId: _userId, idempotencyKey: _key, ...event }) => event);
 }
 
+/** As delete_my_learning_events: the student's own events only; estimates here are worked out from events anyway. */
+export async function deleteLearningEvents(ids?: string[]): Promise<number> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  const wanted = ids ? new Set(ids) : null;
+  const before = (db.learningEvents ?? []).length;
+  db.learningEvents = (db.learningEvents ?? []).filter((event) => event.userId !== viewer.id || (wanted !== null && !wanted.has(event.id)));
+  persist();
+  return before - db.learningEvents.length;
+}
+
 // ---- Learning profile (Learning OS 1.4) ----
 
 export async function getLearningProfile(): Promise<LearningProfile> {

@@ -143,7 +143,7 @@ The rules live in the database, so they apply no matter who calls the API.
 | Uploaded files | everyone (public links) | you can only write and delete inside your own folder |
 | Topic links (prerequisites, related) | everyone | admins only |
 | Your learning profile (preferences) | only you | only you |
-| Your learning activity (answers, exams, marks, ticks) | only you | only the database, from your actions |
+| Your learning activity (answers, exams, marks, ticks) | only you | only the database, from your actions; you can delete your own, some or all, through `delete_my_learning_events` |
 | Your topic mastery estimates | only you | only the database, from your marked answers |
 | Putting off a review (notebook) | only you | you, through `postpone_review` only: 1, 3 or 7 days, at most 5 times; the database sets the date |
 | Mastery rules (the estimate's numbers) | everyone | nobody from the app; set by `supabase/seed/mastery-rules.sql` |
