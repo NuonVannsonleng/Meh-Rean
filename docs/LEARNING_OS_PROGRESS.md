@@ -402,6 +402,13 @@
   privacy 7/7, mastery 20/20, revision 6/6, mastery UI 5/5; lint.
   Production needs setup-all.sql again.
 
+- **2026-10-17 — Production database updated to 25a33b3.** Same method
+  (file checked against the commit, run in the SQL editor). Read-only
+  check: `postpone_review` and `delete_my_learning_events` present,
+  `mistakes.postponed` added, mastery rules version 2 active, 40 topic
+  links, 0 tables without row level security, students cannot delete
+  learning events directly.
+
 ## Report format (per task)
 
 Phase · Task · Agents involved · Summary · Files · Database changes · Tests
