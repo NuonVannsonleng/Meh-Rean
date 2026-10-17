@@ -453,6 +453,11 @@
   the existing Gemini key and free tier; no new provider. Production needs
   setup-all.sql again (table) and, optionally, `BACII_COMPANION_LIMIT`.
 
+- **2026-10-17 — Production database updated to 1db7a97.** Same method.
+  Read-only check: `companion_requests` present with row level security,
+  students cannot delete from it, the Phase 7 functions present, 0 tables
+  without row level security.
+
 ## Report format (per task)
 
 Phase · Task · Agents involved · Summary · Files · Database changes · Tests
