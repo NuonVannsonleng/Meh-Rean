@@ -80,11 +80,10 @@ select
   checked against fixed lists. No name, email, account id or typed text is
   sent to the model (checked by a test). Output is shown as plain text,
   labelled AI-generated and unchecked; plans are kept only when sound.
-- **Low finding (not changed):** some older functions (messaging, account
-  deletion) can be called by visitors at the database level; each scopes its
-  work to `auth.uid()`, so a visitor gets nothing (covered by
-  `npm run test:accounts`). Revoking `execute` from `anon` on the messaging
-  functions would be extra defence in depth.
+- **Hardened (11.2):** the messaging and account functions can no longer be
+  called by visitors at all (they already scoped their work to `auth.uid()`).
+  What visitors can still call: policy helpers, search, the sign-up username
+  check, the live quiz clock and two validation helpers.
 - **Accepted:** deleting your own history also lowers the count the 500
   answers-a-day limit uses; it affects only the student's own data.
 
@@ -153,4 +152,3 @@ usage grows before any paid plan is considered (owner approval needed).
 1. Make My learning the home page for students.
 2. A native Khmer speaker (ideally a teacher) to check the Khmer wording and
    the provisional curriculum and topic links.
-3. Optional: revoke visitor `execute` on the messaging functions.

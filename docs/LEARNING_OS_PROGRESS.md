@@ -568,6 +568,17 @@
   the event type check allows `flashcard_reviewed`, 0 tables without row
   level security.
 
+- **2026-10-17 — 11.2 Hardening** (owner: "finish all"). Visitors lose
+  `execute` on `delete_own_account`, `edit_message`, `mark_conversation_read`,
+  `my_conversations`, `react_to_message`, `send_message`,
+  `unread_message_count` and `unsend_message` (signed-in users keep it). Tests:
+  `npm run test:accounts` 68/68; Playwright rich chat 16/16 (text, photo,
+  file, sticker, voice, typing, reaction, reply, edit, unsend, inbox,
+  320px); signed-out pages (Home, BacII, map, messages, papers, a topic) load
+  with no errors. The older `chat-e2e.mjs` script fails at a click that
+  predates the chat redesign (not affected by this change; superseded by
+  `chat-rich-e2e.mjs`).
+
 ## Report format (per task)
 
 Phase · Task · Agents involved · Summary · Files · Database changes · Tests

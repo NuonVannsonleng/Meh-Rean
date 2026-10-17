@@ -3800,3 +3800,26 @@ end;
 $$;
 revoke execute on function public.review_flashcard(uuid, boolean) from public, anon;
 grant execute on function public.review_flashcard(uuid, boolean) to authenticated;
+
+-- ================================================================
+-- Hardening (Learning OS 11.2)
+-- ================================================================
+
+-- Messaging and account functions are for signed-in users only. Each already
+-- scopes its work to auth.uid(); visitors now cannot call them at all.
+revoke execute on function public.delete_own_account() from public, anon;
+revoke execute on function public.edit_message(uuid, text) from public, anon;
+revoke execute on function public.mark_conversation_read(uuid) from public, anon;
+revoke execute on function public.my_conversations() from public, anon;
+revoke execute on function public.react_to_message(uuid, text) from public, anon;
+revoke execute on function public.send_message(uuid, text, text, jsonb, text, uuid) from public, anon;
+revoke execute on function public.unread_message_count() from public, anon;
+revoke execute on function public.unsend_message(uuid) from public, anon;
+grant execute on function public.delete_own_account() to authenticated;
+grant execute on function public.edit_message(uuid, text) to authenticated;
+grant execute on function public.mark_conversation_read(uuid) to authenticated;
+grant execute on function public.my_conversations() to authenticated;
+grant execute on function public.react_to_message(uuid, text) to authenticated;
+grant execute on function public.send_message(uuid, text, text, jsonb, text, uuid) to authenticated;
+grant execute on function public.unread_message_count() to authenticated;
+grant execute on function public.unsend_message(uuid) to authenticated;
