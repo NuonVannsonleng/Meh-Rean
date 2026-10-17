@@ -60,7 +60,23 @@ Code: `src/lib/mastery.ts`. Numbers: `src/data/learning/mastery-rules.json`
   75–89 Strong · 90–100 Consistently strong (needs at least 6 answers) —
   product labels, not standards.
 
-## Recommendations (Phase 4 — to be designed)
+## Recommendations (4.1, 4.2)
 
-Candidates scored by weakness, prerequisite readiness, review urgency,
-exam proximity and time available; each with a reason.
+Code: `src/lib/recommend.ts`. Numbers: `src/data/learning/recommendation-rules.json`
+(version 1). Tests: `npm run test:recommend`. Score = weight of the kind ×
+strength (0–1, reviews up to 1.5):
+
+| Kind | Weight | Strength |
+| --- | --- | --- |
+| Due reviews | 3 | `min(1, due/3) + 0.5 × min(1, days overdue/7)` |
+| Weak prerequisite of a weak topic | 2.5 | `(1 − topic score/100) × (0.5 + 0.5 × prerequisite weakness)`; no estimate counts as 0.5 |
+| Weak topic ("Needs foundation", "Developing") | 2 | `(1 − score/100) × (0.5 + 0.5 × share of its prerequisites in place)` |
+| Too few answers for an estimate | 1.5 | `answers / 3` |
+| Not practised for 14+ days (labelled) | 1 | `min(1, days/28)` |
+| New, prerequisites in place, in study order | 1 | `1/(1 + position)` |
+
+- Exam within 60 days: reviews, prerequisites and weak topics × `1 + 0.5 ×
+  (1 − days/60)`, with the reason.
+- Practised today (Cambodia day) and no reviews due: × 0.5.
+- One recommendation per topic (strongest kind, all reasons); ties in
+  curriculum order; at most 2 per chapter and 5 in all.

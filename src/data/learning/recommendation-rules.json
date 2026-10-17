@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "note": "What to study next (Learning OS 4.1). Product rules of thumb, not advice from a teacher. Changing a number here means bumping version.",
+  "limit": 5,
+  "maxPerChapter": 2,
+  "weights": {
+    "review": 3,
+    "prerequisite": 2.5,
+    "weak": 2,
+    "continue": 1.5,
+    "refresh": 1,
+    "next": 1
+  },
+  "reviewsForFullUrgency": 3,
+  "overdueDaysForFullUrgency": 7,
+  "refreshAfterDays": 14,
+  "examSoonDays": 60,
+  "examBoost": 0.5,
+  "practisedTodayFactor": 0.5
+}

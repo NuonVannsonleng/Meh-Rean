@@ -35,6 +35,7 @@
     "test:learning-privacy": "node scripts/test-learning-privacy.mjs",
     "test:knowledge-graph": "node scripts/test-knowledge-graph.mjs",
     "test:mastery": "node scripts/test-mastery.mjs",
+    "test:recommend": "node scripts/test-recommend.mjs",
     "build:links-seed": "node scripts/build-links-seed.mjs",
     "build:mastery-seed": "node scripts/build-mastery-seed.mjs",
     "build:setup-sql": "node scripts/build-setup-sql.mjs"

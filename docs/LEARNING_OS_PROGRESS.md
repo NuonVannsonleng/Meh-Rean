@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 4 — 4.1 Recommendation ranking rules** (next up).
+**Phase 4 — 4.3 Resources for each recommendation** (next up).
 
 ## Done
 
@@ -231,6 +231,22 @@
   check: mastery rules version 2 active, mastery trigger present, 40 topic
   links, 0 tables without row level security, students cannot insert
   estimates; no answers on production yet, so 0 estimates.
+
+- **2026-10-17 — 4.1, 4.2 Ranking and signals.** Agents: learning
+  intelligence (rules, tests), knowledge graph (prerequisites, study order).
+  Pure functions `rankCandidates()` and `recommend()`; numbers in
+  `recommendation-rules.json`. Candidates: due notebook reviews (urgency
+  from how many and how overdue), weak topics ("Needs foundation",
+  "Developing"; held back a little when their own prerequisites need work),
+  those prerequisites ("needed for …"), topics with too few answers for an
+  estimate, labelled topics not practised for 14+ days, and new topics in
+  study order whose prerequisites are in place. An exam within 60 days
+  boosts reviews, weak topics and prerequisites and says so. A topic
+  practised today is halved unless reviews are due. One entry per topic
+  (strongest kind, all reasons); ties in curriculum order; at most 2 per
+  chapter, 5 in all. Nothing shown yet. Fixed while testing: a weak topic
+  with due reviews was rested after practice. `npm run test:recommend`
+  10/10; lint.
 
 ## Report format (per task)
 

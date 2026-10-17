@@ -115,8 +115,14 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
 
 ## Phase 4 — Recommendation engine
 
-- [ ] Ranking rules and configurable weights.
-- [ ] Weak topics, missing prerequisites, review urgency (existing reviews).
+- [x] 4.1 Ranking rules and configurable weights.
+- [x] 4.2 Weak topics, missing prerequisites, review urgency (existing reviews).
+  ✔ 2026-10-17: `src/lib/recommend.ts` with
+  `src/data/learning/recommendation-rules.json` (version 1): due reviews,
+  weak topics, their weak prerequisites, too-few-answers, refresh after 14
+  days, next in study order; exam boost; rest after practising today; one
+  per topic with every reason; at most 2 per chapter. `npm run
+  test:recommend` 10/10.
 - [ ] Recommend existing questions, videos and notes; exclude unavailable ones.
 - [ ] Reasons in English and Khmer; no repeats without reason.
 - [ ] API and quality tests.
