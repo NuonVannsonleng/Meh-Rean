@@ -71,7 +71,7 @@ npm run test:video-quizzes # video quizzes; local Supabase
 npm run test:video-progress # watched-video marks; local Supabase
 npm run test:live        # live quiz games; local Supabase
 npm run test:mastery     # mastery rules; stored estimates with local Supabase
-npm run test:recommend   # what to study next: ranking rules (no database)
+npm run test:recommend   # what to study next: ranking, actions, reasons, 300 random students (no database)
 npm run test:concept-links # knowledge-graph links: file and database rules
 npm run test:resource-topics # videos and notes linked to topics; local Supabase
 npm run test:learning-events # learning activity events; local Supabase

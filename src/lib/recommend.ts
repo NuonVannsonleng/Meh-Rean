@@ -19,6 +19,8 @@ export interface RecommendationRules {
   examSoonDays: number;
   examBoost: number;
   practisedTodayFactor: number;
+  /** How long "Not now" sets a suggestion aside. */
+  snoozeDays: number;
 }
 
 export type RecommendationReason =

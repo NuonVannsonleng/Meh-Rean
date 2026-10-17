@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "note": "What to study next (Learning OS 4.1). Product rules of thumb, not advice from a teacher. Changing a number here means bumping version.",
   "limit": 5,
   "maxPerChapter": 2,
@@ -16,5 +16,6 @@
   "refreshAfterDays": 14,
   "examSoonDays": 60,
   "examBoost": 0.5,
-  "practisedTodayFactor": 0.5
+  "practisedTodayFactor": 0.5,
+  "snoozeDays": 3
 }

@@ -1283,6 +1283,14 @@ export async function getQuestions(filter: QuestionFilter = {}): Promise<Questio
   );
 }
 
+/** Questions per topic in a subject, without loading them (Learning OS 4.5). */
+export async function getTopicQuestionCounts(subjectId: string): Promise<Record<string, number>> {
+  const db = await loadQuestions();
+  const counts: Record<string, number> = {};
+  for (const question of db.questions) if (question.subjectId === subjectId && question.topicId) counts[question.topicId] = (counts[question.topicId] ?? 0) + 1;
+  return counts;
+}
+
 export async function getQuestion(id: string): Promise<Question> {
   const db = await loadQuestions();
   const question = db.questions.find((item) => item.id === id);

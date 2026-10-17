@@ -1,6 +1,7 @@
 import { useEffect, useState, type ComponentType } from "react";
 import { Link } from "react-router-dom";
 import { BulbIcon, CalendarIcon, CameraIcon, FileTextIcon, GraduationIcon, PenIcon, StarIcon, TableIcon, VideoIcon } from "../components/Icons";
+import StudyNext from "../components/StudyNext";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 import { getDailyStreak } from "../services/api";
@@ -124,6 +125,12 @@ export default function Bacii() {
           </span>
         </span>
       </Link>
+
+      {user ? (
+        <StudyNext userId={user.id} />
+      ) : (
+        <p className="text-ink-500 mb-4 text-sm">{t.learning.next.signIn}</p>
+      )}
 
       <nav aria-label={t.bacii.optionsLabel}>
         <ul className="grid gap-4 sm:grid-cols-2">

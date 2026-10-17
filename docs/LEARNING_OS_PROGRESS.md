@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 4 — 4.5 Recommendations API, "Study next" and quality tests** (next up).
+**Phase 5 — 5.1 Adaptive question selection** (next up).
 
 ## Done
 
@@ -268,6 +268,30 @@
   at once; time passing alone does not. Tests: `npm run test:recommend`
   14/14 (both languages for every reason, wording, set-aside rules); lint.
   Blocker: the Khmer sentences are Meh Rean's own and need a native check.
+
+- **2026-10-17 — 4.5 API, "Study next", quality tests.** Agents: backend,
+  frontend, designer, performance (one light count query instead of whole
+  questions), tester. `getRecommendations()` reads the profile (subjects,
+  exam date, language), curriculum, links, mastery, notebook, question
+  counts and linked resources through api.ts, so it works in both backends
+  with no new tables; nothing is stored. New `getTopicQuestionCounts()` in
+  both backends (topic ids only). BacII page: "Study next · រៀនអ្វីបន្ទាប់"
+  under today's question — up to 5 suggestions, each with the Khmer and
+  English topic name, its reasons in the student's chosen language, one
+  main action (review / practise / video / note) and any video or note,
+  "Not now" (this device, 3 days, `snoozeDays` in the rules, now version 2)
+  and "Show them again"; signed-out visitors are asked to sign in; the card
+  says these are rule-based suggestions, not a teacher's advice. Fixed while
+  testing: online, a set-aside suggestion stayed until the reload finished
+  (now hidden at once). Tests: `npm run test:recommend` 15/15, including a
+  seeded run of 300 random students checking every list (limit, chapters,
+  no duplicates, sorted, a valid action and reason, "next" only after its
+  prerequisites, set-aside respected, deterministic, every kind seen); UI
+  7/7 browser-only and online (visitor, starting point in Khmer, a due
+  review first with the notebook link, Not now kept after reload and shown
+  again, English reasons, topic link, 320px); mastery UI 5/5, topic page
+  4/4; mastery 20/20, knowledge graph 8/8, profile 6/6, questions 21/21;
+  lint, build. No database change: production needs nothing new.
 
 ## Report format (per task)
 

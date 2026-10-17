@@ -9,7 +9,8 @@
 
 import { readFileSync } from "node:fs";
 import { flattenCurriculum } from "../src/lib/curriculum.ts";
-import { expandLinks } from "../src/lib/conceptGraph.ts";
+import { expandLinks, prerequisitesOf } from "../src/lib/conceptGraph.ts";
+import { needsWork } from "../src/lib/mastery.ts";
 import { rankCandidates, reasonSignature, recommend } from "../src/lib/recommend.ts";
 import { reasonText } from "../src/lib/recommendText.ts";
 import { assert, reporter } from "./lib/local-supabase.mjs";
@@ -41,7 +42,7 @@ const input = (extra = {}) => ({ topics, links, mastery: [], reviews: [], examDa
 const find = (list, topic) => list.find((item) => item.topicId === T(topic));
 
 await check("the rules file has a version, a limit and a weight for every kind", async () => {
-  assert(Number.isInteger(rules.version) && rules.limit > 0 && rules.maxPerChapter > 0, "version, limit");
+  assert(Number.isInteger(rules.version) && rules.limit > 0 && rules.maxPerChapter > 0 && rules.snoozeDays > 0, "version, limit, snooze");
   for (const kind of ["review", "prerequisite", "weak", "continue", "refresh", "next"]) assert(rules.weights[kind] > 0, `weight ${kind}`);
 });
 
@@ -201,6 +202,49 @@ await check("'Not now' sets a suggestion aside until it expires or its reason ch
   const refresh = rankCandidates(input({ mastery: [m("conics-parabola", 80, { lastAt: daysAgo(20) })] }), rules);
   const refreshLater = rankCandidates(input({ mastery: [m("conics-parabola", 80, { lastAt: daysAgo(25) })] }), rules);
   assert(reasonSignature(find(refresh, "conics-parabola")) === reasonSignature(find(refreshLater, "conics-parabola")), "time alone changed the signature");
+});
+
+await check("quality: 300 random students — every list keeps the rules", async () => {
+  // A small seeded generator so a failure can be reproduced.
+  let seed = 20261017;
+  const random = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+  const pick = (list) => list[Math.floor(random() * list.length)];
+  const problems = [];
+  const kinds = new Set();
+  for (let student = 0; student < 300; student++) {
+    const mastery = topics.filter(() => random() < 0.4).map((topic) => m(short(topic.id), Math.floor(random() * 101), { evidence: Math.floor(random() * 10), lastAt: daysAgo(Math.floor(random() * 40)) }));
+    const reviews = Array.from({ length: Math.floor(random() * 6) }, () => ({ topicId: pick(topics).id, nextReviewAt: daysAgo(Math.floor(random() * 20) - 5) }));
+    const resources = Object.fromEntries(topics.map((topic) => [topic.id, { questions: random() < 0.6 ? 1 + Math.floor(random() * 4) : 0, videos: random() < 0.2 ? [{ id: "vid12345678", title: "v" }] : [], notes: random() < 0.1 ? [{ id: "n", title: "n" }] : [] }]));
+    const examDate = random() < 0.5 ? new Date(NOW.getTime() + Math.floor(random() * 200 - 20) * 86_400_000).toISOString().slice(0, 10) : null;
+    const base = input({ mastery, reviews, resources, examDate });
+    const first = recommend(base, rules);
+    const snoozed = first.length && random() < 0.5 ? [{ topicId: first[0].topicId, signature: reasonSignature(first[0]), until: daysAgo(-2) }] : [];
+    const list = snoozed.length ? recommend({ ...base, snoozed }, rules) : first;
+    const fail = (why) => problems.push(`student ${student}: ${why}`);
+    if (JSON.stringify(recommend({ ...base, snoozed }, rules)) !== JSON.stringify(list)) fail("not deterministic");
+    if (list.length > rules.limit) fail("too many");
+    if (new Set(list.map((item) => item.topicId)).size !== list.length) fail("a topic twice");
+    const chapters = list.map((item) => topics.find((topic) => topic.id === item.topicId).chapterId);
+    if (chapters.some((c) => chapters.filter((x) => x === c).length > rules.maxPerChapter)) fail("too many from one chapter");
+    list.forEach((item, index) => {
+      if (!(item.score > 0 && Number.isFinite(item.score))) fail(`score ${item.score}`);
+      if (index && item.score > list[index - 1].score) fail("not sorted");
+      if (!item.reasons.length) fail("no reason");
+      const res = resources[item.topicId];
+      const due = reviews.filter((r) => r.topicId === item.topicId && Date.parse(r.nextReviewAt) <= NOW.getTime()).length;
+      const a = item.action;
+      if (a.type === "review" ? a.due !== due || !due : a.type === "practise" ? a.questions !== res.questions || !res.questions : a.type === "video" ? !res.videos.length : !res.notes.length) fail(`bad action ${a.type}`);
+      if (item.kind === "next") {
+        const known = new Map(mastery.map((x) => [x.topicId, x]));
+        if (known.get(item.topicId)?.evidence) fail("'next' for a topic already practised");
+        if (prerequisitesOf(item.topicId, links).some((p) => p.distance === 1 && needsWork(known.get(p.topicId)?.label ?? "unknown"))) fail("'next' before its prerequisites");
+      }
+      if (snoozed.some((sn) => sn.topicId === item.topicId && sn.signature === reasonSignature(item))) fail("a set-aside suggestion came back unchanged");
+    });
+    for (const item of list) kinds.add(item.kind);
+  }
+  assert(!problems.length, `${problems.length} problems; first: ${problems.slice(0, 3).join(" | ")}`);
+  assert(kinds.size === Object.keys(rules.weights).length, `only these kinds came up: ${[...kinds]}`);
 });
 
 finish();

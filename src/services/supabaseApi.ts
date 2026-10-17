@@ -1553,6 +1553,14 @@ export async function getQuestions(filter: QuestionFilter = {}): Promise<Questio
   return unwrap(await builder.returns<QuestionRowWithSolution[]>()).map((row) => toQuestion(row, questionImageUrl));
 }
 
+/** Questions per topic in a subject, reading only their topics (Learning OS 4.5). */
+export async function getTopicQuestionCounts(subjectId: string): Promise<Record<string, number>> {
+  const rows = unwrap(await supabase.from("questions").select("topic_id").eq("subject_id", subjectId).not("topic_id", "is", null).limit(5000).returns<{ topic_id: string }[]>());
+  const counts: Record<string, number> = {};
+  for (const row of rows) counts[row.topic_id] = (counts[row.topic_id] ?? 0) + 1;
+  return counts;
+}
+
 export async function getQuestion(id: string): Promise<Question> {
   const { data, error } = await supabase.from("questions").select(QUESTION_SELECT).eq("id", id).maybeSingle<QuestionRowWithSolution>();
   if (error) failQuestion(error);

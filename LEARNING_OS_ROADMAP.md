@@ -133,7 +133,12 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   checked by a native speaker); "Not now" sets a suggestion aside for 3
   days unless its reason changes (`reasonSignature()`). `npm run
   test:recommend` 14/14.
-- [ ] API and quality tests.
+- [x] 4.5 API and quality tests.
+  ✔ 2026-10-17: `getRecommendations()` (`src/services/recommendations.ts`,
+  both backends through api.ts; light `getTopicQuestionCounts()`); "Study
+  next" on the BacII page in the student's language with "Not now".
+  `npm run test:recommend` 15/15 (incl. 300 random students); UI 7/7 in
+  both backends; 320px.
 
 ## Phase 5 — Adaptive practice
 
