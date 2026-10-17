@@ -171,8 +171,14 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
 
 ## Phase 7 — Smart revision and learning memory
 
-- [ ] Unified revision queue (mistake reviews; flashcards — see blocker).
-- [ ] Priorities (overdue, repeated mistakes, weak topics, prerequisites, exam date); postpone.
+- [x] 7.1 Unified revision queue (mistake reviews; flashcards — see blocker).
+- [x] 7.2 Priorities (overdue, repeated mistakes, weak topics, prerequisites, exam date); postpone.
+  ✔ 2026-10-17: `buildRevisionQueue()` (`src/lib/revision.ts`, rules in
+  `revision-rules.json`) and `/learning/revision`; `postpone_review()` in
+  the database (1/3/7 days, at most 5 times, date set by the server) and
+  `postponeReview()` in both backends. `npm run test:revision` 6/6;
+  Playwright 5/5 in both backends; 320px. Flashcards still need the
+  owner's decision; the queue has a `source` field ready for them.
 - [ ] Learning history view and deletion controls.
 
 ## Phase 8 — AI study companion

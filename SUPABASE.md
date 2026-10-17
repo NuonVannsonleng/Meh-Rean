@@ -145,6 +145,7 @@ The rules live in the database, so they apply no matter who calls the API.
 | Your learning profile (preferences) | only you | only you |
 | Your learning activity (answers, exams, marks, ticks) | only you | only the database, from your actions |
 | Your topic mastery estimates | only you | only the database, from your marked answers |
+| Putting off a review (notebook) | only you | you, through `postpone_review` only: 1, 3 or 7 days, at most 5 times; the database sets the date |
 | Mastery rules (the estimate's numbers) | everyone | nobody from the app; set by `supabase/seed/mastery-rules.sql` |
 | Videos and notes linked to topics | everyone | a note's author (own notes) or admins; videos admins only |
 | Trusted video channels | everyone | admins only |

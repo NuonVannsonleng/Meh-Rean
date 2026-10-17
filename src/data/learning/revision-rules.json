@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "note": "Revision queue (Learning OS 7.1, 7.2). Product rules of thumb. Changing a number here means bumping version.",
+  "weights": {
+    "due": 1,
+    "overdue": 2,
+    "repeated": 1.5,
+    "weakTopic": 1.5,
+    "prerequisite": 1
+  },
+  "overdueDaysForFull": 7,
+  "repeatsForFull": 3,
+  "examSoonDays": 60,
+  "examBoost": 0.5,
+  "upcomingDays": 7,
+  "postponeDays": [1, 3, 7],
+  "maxPostpones": 5
+}

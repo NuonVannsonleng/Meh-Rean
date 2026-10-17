@@ -120,6 +120,7 @@ export const {
   deleteConceptLink,
   getTopicMastery,
   getTopicQuestionCounts,
+  postponeReview,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

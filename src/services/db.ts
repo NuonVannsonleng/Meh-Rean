@@ -145,7 +145,7 @@ export interface DbState {
   /** One question a day (supabase: daily_questions). */
   dailyQuestions?: { userId: string; day: string; questionId: string; chapterId: string; fromResults: boolean; answeredAt: string | null; correct: boolean | null }[];
   /** Mistake notebook (supabase: mistakes). */
-  mistakes?: (Omit<Mistake, "question"> & { userId: string })[];
+  mistakes?: (Omit<Mistake, "question" | "postponed"> & { userId: string; postponed?: number })[];
 }
 
 const DB_KEY = "meh-rean:db:v3";

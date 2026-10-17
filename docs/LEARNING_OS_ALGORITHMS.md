@@ -115,3 +115,17 @@ Code: `src/lib/journey.ts`. Numbers: `src/data/learning/journey-rules.json`
 - Milestones: first answer; 1, 5, 10, 20 topics practised; 1, 5, 10
   strong; every topic of a chapter practised; no reviews waiting (once there
   has been a mistake). Worked out each time.
+
+## Revision queue (7.1, 7.2)
+
+Code: `src/lib/revision.ts`. Numbers: `src/data/learning/revision-rules.json`
+(version 1). Tests: `npm run test:revision`.
+
+- Due: notebook entries whose review date has passed. Priority = 1 + 2 ×
+  min(1, days overdue/7) + 1.5 × min(1, (times wrong − 1)/2) + 1.5 ×
+  weakness of its topic when "Needs foundation"/"Developing" + 1 when its
+  topic is a direct prerequisite of such a topic; × (1 + 0.5 × (1 −
+  days/60)) when the exam is within 60 days. Ties: earlier due, then id.
+- Coming up: due within 7 days, by date.
+- Postpone (database `postpone_review`): 1, 3 or 7 days from the later of
+  now and the due date; at most 5 times per entry.

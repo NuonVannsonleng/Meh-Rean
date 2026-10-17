@@ -1774,6 +1774,7 @@ interface MistakeRow {
   fixed_at: string | null;
   review_stage: number;
   next_review_at: string | null;
+  postponed?: number;
   question: QuestionRowWithSolution | null;
 }
 
@@ -1811,8 +1812,17 @@ export async function getMistakes(): Promise<Mistake[]> {
       fixedAt: row.fixed_at,
       reviewStage: row.review_stage,
       nextReviewAt: row.next_review_at,
+      postponed: row.postponed ?? 0,
       question: toQuestion(row.question!, questionImageUrl),
     }));
+}
+
+/** Puts off a due review by 1, 3 or 7 days (Learning OS 7.2); the database sets the date. */
+export async function postponeReview(questionId: string, days: 1 | 3 | 7): Promise<string> {
+  await requireViewer();
+  const { data, error } = await supabase.rpc("postpone_review", { question: questionId, days });
+  if (error) throw new ApiError(error.code === "42501" ? "FORBIDDEN" : error.code === "P0002" ? "NOT_FOUND" : "UNKNOWN", error.code === "P0002" ? 404 : 400, error.message);
+  return data as string;
 }
 
 export async function deleteMistake(questionId: string): Promise<void> {

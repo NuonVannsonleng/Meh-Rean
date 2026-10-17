@@ -1274,6 +1274,32 @@ export const en = {
       historyStep: (index: number, correct: boolean, score: number) => `Answer ${index}: ${correct ? "right" : "wrong"}, estimate ${score}`,
       note: "An estimate from your own marked answers, not a grade or an official result. Confidence falls when you have not practised for a while.",
     },
+    revision: {
+      title: "Revision",
+      // Khmer wording by Meh Rean; to be checked by a native speaker (see blockers).
+      titleKm: "រំលឹកមេរៀន",
+      intro: "Every review that is due, most useful first. Answer to review it; put it off a little if today is not the day.",
+      link: "Revision",
+      dueTitle: (count: number) => (count === 1 ? "1 review due" : `${count} reviews due`),
+      noneDue: "Nothing due right now. Well done.",
+      upcomingTitle: "Coming up this week",
+      upcomingNone: "Nothing else this week.",
+      dueOn: (date: string) => `Due ${date}`,
+      reasons: {
+        overdue: (days: number) => (days === 1 ? "1 day overdue" : `${days} days overdue`),
+        repeated: (times: number) => `Answered wrong ${times} times`,
+        weakTopic: (label: string) => `Topic: ${label}`,
+        neededFor: (topic: string) => `Needed for ${topic}`,
+        examSoon: (days: number) => `Exam in ${days} days`,
+      },
+      postpone: "Not today:",
+      postponeBy: (days: number) => (days === 1 ? "Tomorrow" : `In ${days} days`),
+      postponeLabel: (days: number, question: number) => `Put review ${question} off by ${days} ${days === 1 ? "day" : "days"}`,
+      postponed: (date: string) => `Put off until ${date}.`,
+      postponeLimit: "Put off 5 times already: give it a try.",
+      flashcardsNote: "Reviews come from your mistake notebook. Flashcards are not part of Meh Rean yet.",
+      notebook: "Open the mistake notebook",
+    },
     journey: {
       title: "My learning journey",
       // Khmer wording by Meh Rean; to be checked by a native speaker (see blockers).

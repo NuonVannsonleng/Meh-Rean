@@ -1581,8 +1581,22 @@ export async function getMistakes(): Promise<Mistake[]> {
       .filter((entry) => entry.userId === viewer && questions.has(entry.questionId))
       .sort((a, b) => b.lastWrongAt.localeCompare(a.lastWrongAt))
       .map((entry) => withReview(entry))
-      .map(({ userId: _userId, ...entry }) => ({ ...entry, question: questions.get(entry.questionId)! })),
+      .map(({ userId: _userId, ...entry }) => ({ ...entry, postponed: entry.postponed ?? 0, question: questions.get(entry.questionId)! })),
   );
+}
+
+/** As postpone_review: 1, 3 or 7 days from the later of now and the due date, at most 5 times. */
+export async function postponeReview(questionId: string, days: 1 | 3 | 7): Promise<string> {
+  const db = await loadQuestions();
+  const viewer = requireViewer(db);
+  if (![1, 3, 7].includes(days)) throw new ApiError("UNKNOWN", 400, "postpone by 1, 3 or 7 days");
+  const entry = (db.mistakes ?? []).find((item) => item.userId === viewer.id && item.questionId === questionId);
+  if (!entry || !entry.nextReviewAt) throw new ApiError("NOT_FOUND", 404, "there is no review to postpone");
+  if ((entry.postponed ?? 0) >= 5) throw new ApiError("UNKNOWN", 400, "this review has been put off 5 times: give it a try");
+  entry.nextReviewAt = new Date(Math.max(Date.parse(entry.nextReviewAt), Date.now()) + days * 86_400_000).toISOString();
+  entry.postponed = (entry.postponed ?? 0) + 1;
+  persist();
+  return entry.nextReviewAt;
 }
 
 export async function deleteMistake(questionId: string): Promise<void> {

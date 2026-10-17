@@ -748,6 +748,8 @@ export interface Mistake {
   reviewStage: number;
   /** When the next review is due; null once all reviews are done. */
   nextReviewAt: string | null;
+  /** Times the student put a review off (at most 5, Learning OS 7.2). */
+  postponed: number;
   question: Question;
 }
 

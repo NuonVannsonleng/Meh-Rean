@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 7 — 7.1 Unified revision queue** (next up).
+**Phase 7 — 7.3 Learning history and deletion controls** (next up).
 
 ## Done
 
@@ -355,6 +355,27 @@
   topics with both links, a "later" topic opens practice, done + review +
   milestones after practice, 320px); Study next 7/7; lint. No database
   change.
+
+- **2026-10-17 — 7.1, 7.2 Revision queue and postpone.** Agents: learning
+  intelligence (priorities), database (postpone function), security (date
+  and ownership on the server), frontend, tester. `buildRevisionQueue()`:
+  every due notebook review, priority = 1 + overdue (×2, full at 7 days) +
+  repeated mistakes (×1.5, full at 3) + weak topic (×1.5 × weakness) +
+  prerequisite of a weak topic (+1), × exam boost within 60 days; each with
+  its reasons; reviews due in the next 7 days listed as coming up. Page
+  `/learning/revision` ("Revision" on the BacII page): due reviews in that
+  order, answered in place (the existing marking does the review), reason
+  chips, "Not today: Tomorrow / In 3 days / In 7 days", and the week ahead.
+  Database: `mistakes.postponed` (0–5) and `postpone_review(question,
+  days)` — only your own entry, only 1/3/7 days, from the later of now and
+  the due date, refused after 5; students still cannot update the table.
+  Same rules in the browser-only store. Flashcards: not built (owner
+  decision pending); the page says reviews come from the notebook. Tests:
+  `npm run test:revision` 6/6 (order, reasons, exam, limit; postpone rules,
+  ownership, visitor, direct update refused); Playwright 5/5 browser-only
+  and online (empty, order with reasons, postpone kept and set by the
+  database, a right answer clears it, 320px); mistakes 9/9, review 9/9,
+  privacy 7/7, accounts 68/68; lint. Production needs setup-all.sql again.
 
 ## Report format (per task)
 
