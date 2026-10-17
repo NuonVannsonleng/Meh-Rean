@@ -25,6 +25,8 @@ are added per task and listed here with their latest results.
 | 2026-10-17 | `npm run test:recommend` (incl. 300 random students) | 15 passed, 0 failed |
 | 2026-10-17 | Playwright: Study next (visitor, Khmer reasons, due review first, Not now, English, 320px), browser-only / online | 7/7, 7/7 |
 | 2026-10-17 | `npm run test:adaptive` (selection, difficulty, modes) | 13 passed, 0 failed |
+| 2026-10-17 | Playwright: My learning dashboard (sign-in, empty states, quick actions, review focus, 320px), browser-only / online | 5/5, 5/5 |
+| 2026-10-17 | Learning UI tests after the navigation change (journey, practice, revision, readiness, companion, Study next), browser-only / online | 33/33, 33/33 |
 | 2026-10-17 | `npm run test:readiness` | 7 passed, 0 failed |
 | 2026-10-17 | Playwright: exam readiness (no data; level, parts, coverage, trend, week; 320px), browser-only / online | 3/3, 3/3 |
 | 2026-10-17 | Playwright: AI companion with mock Gemini (label, prompt facts, no identifying data, plan kept/dropped, daily limit, 320px), online / browser-only | 6/6, 2/2 |

@@ -100,34 +100,14 @@ export default function Bacii() {
           </h1>
           <p className="text-ink-500 mt-1 text-sm sm:text-base">{t.bacii.tagline}</p>
           <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+            {user && (
+              <Link to="/learning" className="text-accent text-sm font-semibold hover:underline">
+                {t.learning.home.link}
+              </Link>
+            )}
             <Link to="/learning/map" className="text-accent text-sm font-semibold hover:underline">
               {t.learning.map.title}
             </Link>
-            {user && (
-              <Link to="/learning/readiness" className="text-accent text-sm font-semibold hover:underline">
-                {t.learning.readiness.link}
-              </Link>
-            )}
-            {user && (
-              <Link to="/learning/companion" className="text-accent text-sm font-semibold hover:underline">
-                {t.learning.companion.link}
-              </Link>
-            )}
-            {user && (
-              <Link to="/learning/revision" className="text-accent text-sm font-semibold hover:underline">
-                {t.learning.revision.link}
-              </Link>
-            )}
-            {user && (
-              <Link to="/learning/journey" className="text-accent text-sm font-semibold hover:underline">
-                {t.learning.journey.link}
-              </Link>
-            )}
-            {user && (
-              <Link to="/learning/practice" className="text-accent text-sm font-semibold hover:underline">
-                {t.learning.practice.link}
-              </Link>
-            )}
             {user && (
               <Link to="/learning/profile" className="text-accent text-sm font-semibold hover:underline">
                 {t.learning.profileLink}

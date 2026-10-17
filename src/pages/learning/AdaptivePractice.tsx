@@ -221,9 +221,9 @@ export default function AdaptivePractice() {
   }, []);
   return (
     <div className="container-page max-w-3xl py-6 sm:py-8">
-      <Link to={mode ? "/learning/practice" : "/bacii"} className="text-ink-500 hover:text-ink-900 mb-4 inline-flex items-center gap-1.5 text-sm font-medium">
+      <Link to={mode ? "/learning/practice" : "/learning"} className="text-ink-500 hover:text-ink-900 mb-4 inline-flex items-center gap-1.5 text-sm font-medium">
         <ArrowLeftIcon className="h-4 w-4" />
-        {mode ? copy.chooseMode : t.bacii.title}
+        {mode ? copy.chooseMode : t.learning.home.title}
       </Link>
       <h1 className="text-ink-900 text-2xl sm:text-3xl">
         {mode ? copy.modes[mode].name : copy.title} <span className="text-ink-500 text-base font-normal" lang="km">{`· ${copy.titleKm}`}</span>

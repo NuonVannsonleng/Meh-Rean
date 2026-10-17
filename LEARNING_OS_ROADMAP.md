@@ -217,8 +217,14 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
 
 ## Phase 10 — Unified dashboard
 
-- [ ] Personalised home: today's focus, recommendations, mastery, revision,
+- [x] 10.1 Personalised home: today's focus, recommendations, mastery, revision,
   journey preview, quick actions; Khmer and English; empty and loading states.
+  ✔ 2026-10-17: `/learning` ("My learning", from the BacII page, whose
+  header is now three links): today's focus, Study next, topics by label,
+  revision, journey, readiness, quick actions; the learning pages go back
+  to it. Playwright 5/5 in both backends; the learning UI tests 33/33 ×2
+  after the navigation change; 320px. The site's main Home feed is
+  unchanged (owner decision whether My learning becomes students' home).
 
 ## Phase 11 — Security, performance and release readiness
 

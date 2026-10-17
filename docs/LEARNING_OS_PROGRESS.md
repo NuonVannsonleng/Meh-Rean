@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 10 — 10.1 Unified dashboard** (next up).
+**Phase 11 — 11.1 Security, performance and release readiness** (next up).
 
 ## Done
 
@@ -480,6 +480,25 @@
   weeks); Playwright 3/3 browser-only and online (not enough data
   everywhere; 24 answers give a level, parts, coverage, a 7-day trend, this
   week's 12 answers; 320px); lint. Limit: trends use the latest 1000 events.
+
+- **2026-10-17 — 10.1 My learning dashboard.** Agents: designer (one
+  place instead of eight header links), frontend, tester. Page `/learning`:
+  today's focus (due reviews first, else the top Study next topic with its
+  reason, else free practice; one Go button) with today's question and
+  streak; Study next (top 3, main reason in the student's language);
+  topics by mastery label; revision (due now, coming this week); journey
+  (done of total, next up); readiness level; quick actions (adaptive
+  practice, companion, topic map, notebook, mock exams, history). Every
+  card has an empty state and the page a loading state; English with Khmer
+  beside the titles, reasons and topic names in the chosen language. The
+  BacII header now shows My learning, Topic map and My learning profile;
+  journey, revision, readiness, companion and the practice picker go back
+  to My learning. Tests: Playwright 5/5 browser-only and online (sign-in;
+  new student focus, link and every empty state; quick-action targets; a
+  due review becomes the focus and Go opens revision; 320px); journey 5/5,
+  practice 9/9, revision 5/5, readiness 3/3, companion 4/4, Study next 7/7,
+  each in both backends; lint. No database change. Open: whether My
+  learning should replace the Home feed for students (owner decision).
 
 ## Report format (per task)
 
