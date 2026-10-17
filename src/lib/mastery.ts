@@ -21,6 +21,8 @@ export interface MasteryRules {
   /** Days without practice after which confidence halves. */
   confidenceHalfLifeDays: number;
   confidenceLevels: { medium: number; high: number };
+  /** Answers before a topic gets a label: one or two answers say too little. */
+  labelAfter: number;
   labels: { id: MasteryLabel; from: number; minEvidence?: number }[];
 }
 
@@ -58,6 +60,9 @@ export interface TopicMastery {
 
 export const emptyMastery = (rules: MasteryRules): MasteryState => ({ score: rules.prior, evidence: 0, correct: 0, lastAt: null });
 
+/** Labels worth practising before moving on: also what a missing prerequisite is. */
+export const needsWork = (label: MasteryLabel) => label === "unknown" || label === "needs-foundation" || label === "developing";
+
 /** The step size for the next answer: 1/(n+2) (a smoothed share right) within the bounds, then weighted by difficulty. */
 export function masteryStep(state: MasteryState, answer: MasteryAnswer, rules: MasteryRules): number {
   const base = Math.max(rules.stepMin, 1 / (state.evidence + 2));
@@ -85,7 +90,7 @@ export function masteryConfidence(state: Pick<MasteryState, "evidence" | "lastAt
 }
 
 export function masteryLabel(score: number | null, evidence: number, rules: MasteryRules): MasteryLabel {
-  if (score === null || !evidence) return "unknown";
+  if (score === null || evidence < Math.max(1, rules.labelAfter)) return "unknown";
   let label: MasteryLabel = "unknown";
   for (const band of [...rules.labels].sort((a, b) => a.from - b.from)) {
     if (score >= band.from && evidence >= (band.minEvidence ?? 0)) label = band.id;

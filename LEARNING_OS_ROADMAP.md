@@ -106,7 +106,12 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   difficulty, duplicates, history).
   ✔ 2026-10-17: `masteryHistory()`; hand-worked sequences pinned; reviews
   and topic-less answers in the database. `npm run test:mastery` 20/20.
-- [ ] Mastery components ("Needs foundation" … "Consistently strong", unknown state).
+- [x] 3.5 Mastery components ("Needs foundation" … "Consistently strong", unknown state).
+  ✔ 2026-10-17: `MasteryBadge` and `MasteryMeter` (label, score bar,
+  confidence, answers, last practised, history). Topic page, map, topic
+  chips and "Worth checking first" use the mastery labels (one vocabulary);
+  learning profile lists "Your topics", weakest first. Rules version 2: no
+  label before 3 answers. UI 5/5 in both backends; 320px.
 
 ## Phase 4 — Recommendation engine
 

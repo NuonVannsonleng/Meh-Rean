@@ -2,22 +2,24 @@ import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeftIcon } from "../../components/Icons";
 import LoadingState from "../../components/LoadingState";
-import TopicStatusBadge from "../../components/TopicStatusBadge";
+import MasteryBadge, { MASTERY_LABELS } from "../../components/MasteryBadge";
 import { useAuth } from "../../context/AuthContext";
 import { useCurriculum } from "../../hooks/useCurriculum";
 import { t } from "../../i18n/en";
 import { dependentsOf, MAP_SIZES, mapLayout, prerequisitesOf } from "../../lib/conceptGraph";
-import { topicStatus, type TopicStatus } from "../../lib/learningProfile";
-import { getConceptLinks, getTopicResults } from "../../services/api";
+import type { MasteryLabel } from "../../lib/mastery";
+import { getConceptLinks, getTopicMastery } from "../../services/api";
 import type { ConceptLink, CurriculumChapter, CurriculumTopic } from "../../types";
 
 const copy = t.learning.map;
 const VIEW_KEY = "meh-rean:concept-map-view";
-const NODE_STYLE: Record<TopicStatus, { box: string; text: string }> = {
+const NODE_STYLE: Record<MasteryLabel, { box: string; text: string }> = {
   unknown: { box: "fill-surface stroke-line", text: "fill-ink-900" },
-  "work-on": { box: "fill-ribbon-50 stroke-ribbon-fg", text: "fill-ink-900" },
+  "needs-foundation": { box: "fill-ribbon-100 stroke-ribbon-fg", text: "fill-ink-900" },
+  developing: { box: "fill-ribbon-50 stroke-ribbon-500", text: "fill-ink-900" },
   practising: { box: "fill-brand-50 stroke-brand-500", text: "fill-ink-900" },
-  "going-well": { box: "fill-brand-600 stroke-brand-600", text: "fill-white" },
+  strong: { box: "fill-brand-100 stroke-brand-600", text: "fill-ink-900" },
+  "consistently-strong": { box: "fill-brand-600 stroke-brand-600", text: "fill-white" },
 };
 
 function initialView(): "map" | "list" {
@@ -37,7 +39,7 @@ export default function ConceptMapPage() {
   const { user } = useAuth();
   const { subjects, chapters, loaded } = useCurriculum();
   const [links, setLinks] = useState<ConceptLink[]>([]);
-  const [statuses, setStatuses] = useState<Map<string, TopicStatus>>(() => new Map());
+  const [statuses, setStatuses] = useState<Map<string, MasteryLabel>>(() => new Map());
   const [view, setView] = useState<"map" | "list">(initialView);
   const [selected, setSelected] = useState<string | null>(null);
   const [subjectId, setSubjectId] = useState("");
@@ -48,8 +50,8 @@ export default function ConceptMapPage() {
   }, []);
   useEffect(() => {
     if (!user) return;
-    getTopicResults()
-      .then((results) => setStatuses(new Map(results.map((result) => [result.topicId, topicStatus(result)]))))
+    getTopicMastery()
+      .then((list) => setStatuses(new Map(list.map((item) => [item.topicId, item.label]))))
       .catch(() => {});
   }, [user]);
 
@@ -130,8 +132,8 @@ export default function ConceptMapPage() {
       </div>
 
       <div className="mb-3 flex flex-wrap gap-2" aria-label={copy.legend}>
-        {(["unknown", "work-on", "practising", "going-well"] as const).map((status) => (
-          <TopicStatusBadge key={status} status={status} />
+        {MASTERY_LABELS.map((label) => (
+          <MasteryBadge key={label} label={label} />
         ))}
         {!user && <span className="text-ink-500 text-xs">{copy.signInForStatus}</span>}
       </div>
@@ -195,7 +197,7 @@ export default function ConceptMapPage() {
                     role="button"
                     tabIndex={0}
                     aria-pressed={selected === node.topicId}
-                    aria-label={`${info.chapter.number}. ${info.topic.nameEn} — ${t.learning.status[statusOf(node.topicId)]}`}
+                    aria-label={`${info.chapter.number}. ${info.topic.nameEn} — ${t.learning.mastery.labels[statusOf(node.topicId)]}`}
                     onClick={() => setSelected(selected === node.topicId ? null : node.topicId)}
                     onKeyDown={onKey}
                     className={`cursor-pointer outline-none ${dim ? "opacity-30" : ""}`}
@@ -247,7 +249,7 @@ export default function ConceptMapPage() {
                             {before.length > 0 && ` · ${copy.needs(before.map((item) => topicIndex.get(item.topicId)?.topic.nameEn ?? item.topicId).join(", "))}`}
                           </span>
                         </span>
-                        <TopicStatusBadge status={statusOf(topic.id)} />
+                        <MasteryBadge label={statusOf(topic.id)} />
                       </Link>
                     </li>
                   );

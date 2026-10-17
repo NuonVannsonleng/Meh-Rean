@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 3 — 3.5 Mastery labels in the UI** (next up).
+**Phase 4 — 4.1 Recommendation ranking rules** (next up).
 
 ## Done
 
@@ -205,6 +205,26 @@
   first attempt, right, wrong, bounds, difficulty, recency, repeats and
   repeated requests, duplicates and order, labels, confidence, history,
   stored = app, privacy, version change. `npm run test:mastery` 20/20.
+
+- **2026-10-17 — 3.5 Mastery in the UI.** Agents: frontend, designer
+  (one vocabulary, colours from the theme tokens, phone layout), learning
+  intelligence (labelling rule), tester. `MasteryBadge` (six labels incl.
+  "Not enough answers yet") and `MasteryMeter`: label, "63 / 100", a bar
+  (faded at low confidence), confidence, answers and right, last practised,
+  and the last 12 steps of how the estimate changed (bars with screen-reader
+  text). Topic page "You and this topic" uses it; the map's colours, legend
+  and node names, the topic chips and "Worth checking first" use the
+  mastery labels instead of the four older statuses (removed:
+  `TopicStatusBadge`, its copy). Learning profile: "Your topics", weakest
+  first, each opening its topic. Every place says it is an estimate from
+  the student's own answers, not a grade or an official result. Rules
+  version 2 adds `labelAfter: 3` (one or two answers give no label);
+  re-running the seed moved stored estimates to version 2. History is drawn
+  from the student's events and hidden if there are too many to read whole.
+  `missingPrerequisites()` now takes the "needs work" rule. Tests: new UI
+  test 5/5 browser-only and online (label, score, meter, confidence, exact
+  history, profile list, map legend, 320px); topic page 4/4 and map 4/4
+  ×2; `npm run test:mastery` 20/20, knowledge graph 8/8; lint, build.
 
 ## Report format (per task)
 

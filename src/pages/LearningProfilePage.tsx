@@ -3,13 +3,15 @@ import { Link } from "react-router-dom";
 import ErrorState from "../components/ErrorState";
 import { ArrowLeftIcon } from "../components/Icons";
 import LoadingState from "../components/LoadingState";
+import MasteryBadge from "../components/MasteryBadge";
 import gradeScale from "../data/grade-scale.json";
 import { useCurriculum } from "../hooks/useCurriculum";
 import { t } from "../i18n/en";
 import { addDays, cambodiaDay } from "../lib/daily";
 import { formatDate } from "../lib/format";
 import { activitySummary, chapterIndicators, type ChapterIndicator } from "../lib/learningProfile";
-import { getChapterProgress, getLearningEvents, getLearningProfile, saveLearningProfile } from "../services/api";
+import type { TopicMastery } from "../lib/mastery";
+import { getChapterProgress, getLearningEvents, getLearningProfile, getTopicMastery, saveLearningProfile } from "../services/api";
 import type { ChapterProgress, LearningEvent, LearningProfile } from "../types";
 
 const copy = t.learning.profile;
@@ -22,6 +24,7 @@ export default function LearningProfilePage() {
   const [profile, setProfile] = useState<LearningProfile | null>(null);
   const [progress, setProgress] = useState<ChapterProgress[]>([]);
   const [events, setEvents] = useState<LearningEvent[]>([]);
+  const [mastery, setMastery] = useState<TopicMastery[]>([]);
   const [failed, setFailed] = useState(false);
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<{ kind: "saved" | "error"; text: string } | null>(null);
@@ -33,12 +36,16 @@ export default function LearningProfilePage() {
       .catch(() => setFailed(true));
     getChapterProgress().then(setProgress).catch(() => {});
     getLearningEvents(200).then(setEvents).catch(() => {});
+    getTopicMastery().then(setMastery).catch(() => {});
   }, []);
 
   const tracks = useMemo(() => [...new Map(subjects.map((subject) => [subject.trackId, subject])).values()], [subjects]);
   const chapterOf = useMemo(() => new Map(chapters.map((chapter) => [chapter.id, chapter])), [chapters]);
   const indicators = chapterIndicators(progress);
   const activity = activitySummary(events);
+  const topicOf = useMemo(() => new Map(chapters.flatMap((chapter) => chapter.topics.map((topic) => [topic.id, { topic, chapter }] as const))), [chapters]);
+  // Weakest first; topics still without a label go last, most answered first.
+  const topics = [...mastery].sort((a, b) => Number(a.label === "unknown") - Number(b.label === "unknown") || (a.score ?? 0) - (b.score ?? 0) || b.evidence - a.evidence);
   const today = cambodiaDay(new Date());
 
   if (failed) {
@@ -220,6 +227,37 @@ export default function LearningProfilePage() {
             {indicatorList(indicators.workOn, copy.noneYet)}
           </div>
         </div>
+      </section>
+
+      <section className="card mb-5 p-4 sm:p-5" aria-labelledby="profile-topics">
+        <h2 id="profile-topics" className="font-display text-ink-900 text-lg font-bold">
+          {copy.topicsTitle}
+        </h2>
+        <p className="text-ink-500 mb-3 text-xs">{copy.topicsNote}</p>
+        {topics.length ? (
+          <ul className="divide-line divide-y">
+            {topics.map((item) => {
+              const found = topicOf.get(item.topicId);
+              return (
+                <li key={item.topicId}>
+                  <Link to={`/learning/topics/${encodeURIComponent(item.topicId)}`} className="flex items-center gap-3 py-2 hover:underline">
+                    <span className="min-w-0 flex-1">
+                      <span className="text-ink-900 block truncate text-sm font-medium" lang="km">
+                        {found?.topic.nameKm ?? item.topicId}
+                      </span>
+                      <span className="text-ink-500 block truncate text-xs">{found ? `${found.chapter.number}. ${found.topic.nameEn}` : ""}</span>
+                    </span>
+                    {item.label !== "unknown" && item.score !== null && <span className="text-ink-700 text-xs tabular-nums">{t.learning.mastery.score(item.score)}</span>}
+                    <MasteryBadge label={item.label} />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <p className="text-ink-500 text-sm">{copy.noTopics}</p>
+        )}
+        <p className="text-ink-500 mt-2 text-xs">{t.learning.mastery.note}</p>
       </section>
 
       <section className="card p-4 sm:p-5" aria-labelledby="profile-activity">

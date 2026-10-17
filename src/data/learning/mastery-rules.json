@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "note": "Mastery estimate rules (Learning OS 3.1). Product rules of thumb, not a validated measure of ability. Changing a number here means bumping version.",
   "prior": 50,
   "stepMin": 0.1,
@@ -9,6 +9,7 @@
   "confidenceEvidence": 5,
   "confidenceHalfLifeDays": 30,
   "confidenceLevels": { "medium": 0.34, "high": 0.67 },
+  "labelAfter": 3,
   "labels": [
     { "id": "needs-foundation", "from": 0 },
     { "id": "developing", "from": 25 },

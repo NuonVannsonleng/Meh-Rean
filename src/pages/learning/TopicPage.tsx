@@ -2,22 +2,28 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeftIcon, ExternalLinkIcon, FileTextIcon } from "../../components/Icons";
 import LoadingState from "../../components/LoadingState";
-import TopicStatusBadge from "../../components/TopicStatusBadge";
+import MasteryBadge from "../../components/MasteryBadge";
+import MasteryMeter from "../../components/MasteryMeter";
+import masteryRules from "../../data/learning/mastery-rules.json";
 import { useCurriculum } from "../../hooks/useCurriculum";
 import { t } from "../../i18n/en";
 import { dependentsOf, missingPrerequisites, prerequisitesOf, relatedTo } from "../../lib/conceptGraph";
-import { topicStatus, type TopicResult } from "../../lib/learningProfile";
-import { getConceptLinks, getPost, getQuestions, getResourceTopics, getTopicResults } from "../../services/api";
-import type { ConceptLink, CurriculumChapter, CurriculumTopic, ResourceTopic } from "../../types";
+import { masteryEvidence, masteryHistory, needsWork, type MasteryRules, type TopicMastery } from "../../lib/mastery";
+import { getConceptLinks, getLearningEvents, getPost, getQuestions, getResourceTopics, getTopicMastery } from "../../services/api";
+import type { ConceptLink, CurriculumChapter, CurriculumTopic, LearningEvent, ResourceTopic } from "../../types";
 
 const copy = t.learning.topic;
+const rules = masteryRules as MasteryRules;
+/** Events read for the history; with more than this the history would start part-way, so it is not shown. */
+const HISTORY_EVENTS = 1000;
 
 /** One topic of the knowledge graph (Learning OS 2.2): what comes before and after, and where to learn it. */
 export default function TopicPage() {
   const { topicId = "" } = useParams();
   const { chapters, loaded } = useCurriculum();
   const [links, setLinks] = useState<ConceptLink[]>([]);
-  const [results, setResults] = useState<TopicResult[]>([]);
+  const [mastery, setMastery] = useState<TopicMastery[]>([]);
+  const [events, setEvents] = useState<LearningEvent[]>([]);
   const [questionCount, setQuestionCount] = useState<number | null>(null);
   const [resources, setResources] = useState<ResourceTopic[]>([]);
   const [notes, setNotes] = useState<{ id: string; title: string }[]>([]);
@@ -25,7 +31,8 @@ export default function TopicPage() {
   useEffect(() => {
     let active = true;
     getConceptLinks().then((list) => active && setLinks(list)).catch(() => {});
-    getTopicResults().then((list) => active && setResults(list)).catch(() => {});
+    getTopicMastery().then((list) => active && setMastery(list)).catch(() => {});
+    getLearningEvents(HISTORY_EVENTS).then((list) => active && setEvents(list)).catch(() => {});
     getQuestions({ topicId })
       .then((list) => active && setQuestionCount(list.length))
       .catch(() => active && setQuestionCount(0));
@@ -55,8 +62,9 @@ export default function TopicPage() {
     for (const chapter of chapters) for (const topic of chapter.topics) map.set(topic.id, { topic, chapter });
     return map;
   }, [chapters]);
-  const resultOf = useMemo(() => new Map(results.map((result) => [result.topicId, result])), [results]);
-  const statusOf = (id: string) => topicStatus(resultOf.get(id));
+  const masteryOf = useMemo(() => new Map(mastery.map((item) => [item.topicId, item])), [mastery]);
+  const labelOf = (id: string) => masteryOf.get(id)?.label ?? "unknown";
+  const history = useMemo(() => (events.length >= HISTORY_EVENTS ? [] : masteryHistory(masteryEvidence(events).get(topicId) ?? [], rules)), [events, topicId]);
 
   const here = topicIndex.get(topicId);
   useEffect(() => {
@@ -82,13 +90,11 @@ export default function TopicPage() {
   }
 
   const { topic, chapter } = here;
-  const result = resultOf.get(topicId);
-  const status = statusOf(topicId);
   const before = prerequisitesOf(topicId, links);
   const after = dependentsOf(topicId, links).filter((item) => item.distance === 1);
   const related = relatedTo(topicId, links);
   // Direct prerequisites only: further back would crowd a new student's page.
-  const missing = missingPrerequisites(topicId, links, statusOf).filter((item) => item.distance === 1);
+  const missing = missingPrerequisites(topicId, links, labelOf, needsWork).filter((item) => item.distance === 1);
   const videos = resources.filter((item) => item.resourceType === "video");
   const practiceLink = `/bacii/practice?subject=${encodeURIComponent(chapter.subjectId)}&chapter=${encodeURIComponent(chapter.id)}&topic=${encodeURIComponent(topicId)}`;
   const provisional = links.some((link) => link.verification !== "verified");
@@ -102,7 +108,7 @@ export default function TopicPage() {
             <span className="text-ink-900 block truncate font-medium">{found ? found.topic.nameKm : id}</span>
             <span className="text-ink-500 block truncate text-xs">{found ? `${found.chapter.number}. ${found.topic.nameEn}${extra ? ` · ${extra}` : ""}` : extra}</span>
           </span>
-          <TopicStatusBadge status={statusOf(id)} />
+          <MasteryBadge label={labelOf(id)} />
         </Link>
       </li>
     );
@@ -124,14 +130,11 @@ export default function TopicPage() {
       </header>
 
       <section className="card mb-4 p-4 sm:p-5" aria-labelledby="topic-you">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 id="topic-you" className="font-display text-ink-900 text-lg font-bold">
-            {copy.youHere}
-          </h2>
-          <TopicStatusBadge status={status} />
-        </div>
-        <p className="text-ink-700 mt-1 text-sm">{result ? copy.results(result.correct, result.answered) : copy.noResults}</p>
-        <p className="text-ink-500 mt-1 text-xs">{copy.estimateNote}</p>
+        <h2 id="topic-you" className="font-display text-ink-900 mb-2 text-lg font-bold">
+          {copy.youHere}
+        </h2>
+        {masteryOf.get(topicId) ? <MasteryMeter mastery={masteryOf.get(topicId)} history={history} labelAfter={rules.labelAfter} /> : <p className="text-ink-700 text-sm">{copy.noResults}</p>}
+        <p className="text-ink-500 mt-2 text-xs">{t.learning.mastery.note}</p>
         {missing.length > 0 && (
           <div className="bg-surface-muted mt-3 rounded-md px-3 py-2 text-sm">
             <p className="text-ink-900 font-medium">{copy.checkFirst}</p>
@@ -141,7 +144,7 @@ export default function TopicPage() {
                   <Link to={`/learning/topics/${encodeURIComponent(item.topicId)}`} className="hover:underline">
                     {topicIndex.get(item.topicId) ? `${topicIndex.get(item.topicId)!.chapter.number}. ${topicIndex.get(item.topicId)!.topic.nameKm} · ${topicIndex.get(item.topicId)!.topic.nameEn}` : item.topicId}
                   </Link>{" "}
-                  <span className="text-ink-500 text-xs">({t.learning.status[item.status]})</span>
+                  <span className="text-ink-500 text-xs">({t.learning.mastery.labels[item.status]})</span>
                 </li>
               ))}
             </ul>

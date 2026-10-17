@@ -3915,10 +3915,10 @@ commit;
 -- Do not edit by hand. Run after supabase/schema.sql; safe to run again.
 
 begin;
-insert into public.mastery_rules (version, rules) values (1, '{"version":1,"note":"Mastery estimate rules (Learning OS 3.1). Product rules of thumb, not a validated measure of ability. Changing a number here means bumping version.","prior":50,"stepMin":0.1,"stepMax":0.6,"defaultDifficulty":3,"difficultyWeight":0.15,"confidenceEvidence":5,"confidenceHalfLifeDays":30,"confidenceLevels":{"medium":0.34,"high":0.67},"labels":[{"id":"needs-foundation","from":0},{"id":"developing","from":25},{"id":"practising","from":50},{"id":"strong","from":75},{"id":"consistently-strong","from":90,"minEvidence":6}]}'::jsonb)
+insert into public.mastery_rules (version, rules) values (2, '{"version":2,"note":"Mastery estimate rules (Learning OS 3.1). Product rules of thumb, not a validated measure of ability. Changing a number here means bumping version.","prior":50,"stepMin":0.1,"stepMax":0.6,"defaultDifficulty":3,"difficultyWeight":0.15,"confidenceEvidence":5,"confidenceHalfLifeDays":30,"confidenceLevels":{"medium":0.34,"high":0.67},"labelAfter":3,"labels":[{"id":"needs-foundation","from":0},{"id":"developing","from":25},{"id":"practising","from":50},{"id":"strong","from":75},{"id":"consistently-strong","from":90,"minEvidence":6}]}'::jsonb)
 on conflict (version) do update set rules = excluded.rules;
-update public.mastery_rules set active = false where active and version <> 1;
-update public.mastery_rules set active = true where version = 1 and not active;
+update public.mastery_rules set active = false where active and version <> 2;
+update public.mastery_rules set active = true where version = 2 and not active;
 select public.refresh_all_topic_mastery();
 commit;
 

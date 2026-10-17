@@ -148,14 +148,15 @@ export function prerequisiteLevels(topicIds: string[], links: ConceptLinkInput[]
  * Prerequisites (at any depth) the student has not shown yet: with too
  * little evidence, or worth more practice. Nearest first.
  */
-export function missingPrerequisites(
+export function missingPrerequisites<S extends string>(
   topicId: string,
   links: ConceptLinkInput[],
-  statusOf: (topicId: string) => "unknown" | "work-on" | "practising" | "going-well",
-): { topicId: string; distance: number; status: "unknown" | "work-on" }[] {
+  statusOf: (topicId: string) => S,
+  isMissing: (status: S) => boolean = (status) => status === "unknown" || status === "work-on",
+): { topicId: string; distance: number; status: S }[] {
   return prerequisitesOf(topicId, links).flatMap((item) => {
     const status = statusOf(item.topicId);
-    return status === "unknown" || status === "work-on" ? [{ ...item, status }] : [];
+    return isMissing(status) ? [{ ...item, status }] : [];
   });
 }
 

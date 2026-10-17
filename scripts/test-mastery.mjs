@@ -31,7 +31,7 @@ const event = (topicId, question, correct, createdAt, extra = {}) => ({
 });
 
 await check("the rules file is complete and its labels rise from 0", async () => {
-  for (const key of ["version", "prior", "stepMin", "stepMax", "defaultDifficulty", "difficultyWeight", "confidenceEvidence", "confidenceHalfLifeDays"]) assert(typeof rules[key] === "number", `missing ${key}`);
+  for (const key of ["version", "prior", "stepMin", "stepMax", "defaultDifficulty", "difficultyWeight", "confidenceEvidence", "confidenceHalfLifeDays", "labelAfter"]) assert(typeof rules[key] === "number", `missing ${key}`);
   const from = rules.labels.map((band) => band.from);
   assert(from[0] === 0 && from.every((value, index) => !index || value > from[index - 1]), `bands ${from}`);
   assert(rules.stepMin > 0 && rules.stepMax < 1 && rules.stepMin < rules.stepMax, "step bounds");
@@ -89,10 +89,11 @@ await check("recency: a late run of wrong answers outweighs old right ones", asy
   assert(oldRight.correct === 8 && oldRight.evidence === 12, "counts");
 });
 
-await check("labels: bands by score; 'consistently strong' needs 6 answers", async () => {
+await check("labels: none before 3 answers; bands by score; 'consistently strong' needs 6 answers", async () => {
   assert(masteryLabel(10, 3, rules) === "needs-foundation" && masteryLabel(30, 3, rules) === "developing" && masteryLabel(60, 3, rules) === "practising", "low bands");
   assert(masteryLabel(80, 3, rules) === "strong" && masteryLabel(95, 3, rules) === "strong" && masteryLabel(95, 6, rules) === "consistently-strong", "top bands");
   assert(masteryLabel(null, 0, rules) === "unknown", "no evidence");
+  assert(masteryLabel(10, 2, rules) === "unknown" && masteryLabel(95, 2, rules) === "unknown", "labelled after 2 answers");
   const five = describeMastery("t", run(Array(5).fill(answer(true))), rules, NOW);
   const six = describeMastery("t", run(Array(6).fill(answer(true))), rules, NOW);
   assert(five.label === "strong" && six.label === "consistently-strong", `${five.score}/${five.label}, ${six.score}/${six.label}`);
