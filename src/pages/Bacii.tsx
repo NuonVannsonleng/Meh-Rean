@@ -104,6 +104,11 @@ export default function Bacii() {
               {t.learning.map.title}
             </Link>
             {user && (
+              <Link to="/learning/journey" className="text-accent text-sm font-semibold hover:underline">
+                {t.learning.journey.link}
+              </Link>
+            )}
+            {user && (
               <Link to="/learning/practice" className="text-accent text-sm font-semibold hover:underline">
                 {t.learning.practice.link}
               </Link>

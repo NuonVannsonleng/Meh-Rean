@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "note": "Learning journey (Learning OS 6.1). Product milestones, not official targets. Changing a number here means bumping version.",
+  "doneLabels": ["strong", "consistently-strong"],
+  "nextCount": 3,
+  "topicMilestones": [1, 5, 10, 20],
+  "strongMilestones": [1, 5, 10]
+}

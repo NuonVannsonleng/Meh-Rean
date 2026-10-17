@@ -101,3 +101,17 @@ Code: `src/lib/adaptive.ts`. Numbers: `src/data/learning/adaptive-rules.json`
   (nearest first), mixed 10 (chapters in turn), exam 15 (all topics weakest
   first, difficulty +1). With spreading, the next pick prefers topics asked
   less this session.
+
+## Learning journey (6.1)
+
+Code: `src/lib/journey.ts`. Numbers: `src/data/learning/journey-rules.json`
+(version 1). Tests: `npm run test:journey`.
+
+- Done: label Strong or Consistently strong. Next up: the first 3 of the
+  Study next ranking that are not done. In progress: any answer. Ready: no
+  answers, direct prerequisites in place. Builds on earlier topics: a direct
+  prerequisite not yet labelled, Needs foundation or Developing — shown,
+  never enforced.
+- Milestones: first answer; 1, 5, 10, 20 topics practised; 1, 5, 10
+  strong; every topic of a chapter practised; no reviews waiting (once there
+  has been a mistake). Worked out each time.

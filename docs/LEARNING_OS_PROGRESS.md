@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 6 — 6.1 Learning journey** (next up).
+**Phase 7 — 7.1 Unified revision queue** (next up).
 
 ## Done
 
@@ -334,6 +334,27 @@
   practise again, quick five stops at five, Study next link, 320px); Study
   next 7/7, mastery UI 5/5; lint. Blocker: the page's Khmer title is Meh
   Rean's own wording.
+
+- **2026-10-17 — 6.1, 6.2 Learning journey.** Agents: learning
+  intelligence, knowledge graph, frontend, designer (mobile layout), tester.
+  `buildJourney()` puts every topic in one state — done (Strong or
+  better), next up (top 3 of the Study next ranking), in progress
+  (practised), ready to start, or "builds on earlier topics" (a direct
+  prerequisite needs work) — with its due reviews and the prerequisites it
+  builds on; milestones (first answer, 1/5/10/20 topics practised, 1/5/10
+  strong, each chapter practised, no reviews waiting) are worked out each
+  time, never stored. Page `/learning/journey` (signed in; "My journey" on
+  the BacII page): summary bar and counts, reviews due with Review now,
+  Next up, milestones (reached ones plus the next target of each kind;
+  chapters once started), and every chapter (open when something is going
+  on) listing all its topics. Nothing is locked: every topic links to its
+  page and to practice in every state, and the page says so. Fixed while
+  testing: 20 milestones crowded a new student's page; long topic names were
+  squeezed beside the chips on phones. Tests: `npm run test:journey` 6/6;
+  Playwright 5/5 browser-only and online (sign-in, new student, all 34
+  topics with both links, a "later" topic opens practice, done + review +
+  milestones after practice, 320px); Study next 7/7; lint. No database
+  change.
 
 ## Report format (per task)
 

@@ -37,6 +37,7 @@
     "test:mastery": "node scripts/test-mastery.mjs",
     "test:recommend": "node scripts/test-recommend.mjs",
     "test:adaptive": "node scripts/test-adaptive.mjs",
+    "test:journey": "node scripts/test-journey.mjs",
     "build:links-seed": "node scripts/build-links-seed.mjs",
     "build:mastery-seed": "node scripts/build-mastery-seed.mjs",
     "build:setup-sql": "node scripts/build-setup-sql.mjs"

@@ -161,8 +161,13 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
 
 ## Phase 6 — Learning journey
 
-- [ ] Journey API and view: done, in progress, next, prerequisites, reviews, milestones.
-- [ ] Never locks content; mobile view; tests.
+- [x] 6.1 Journey API and view: done, in progress, next, prerequisites, reviews, milestones.
+- [x] 6.2 Never locks content; mobile view; tests.
+  ✔ 2026-10-17: `buildJourney()` (`src/lib/journey.ts`, rules in
+  `journey-rules.json`) and `/learning/journey`: summary bar, reviews due,
+  next up, milestones, chapters with every topic's state; every topic links
+  to its page and practice whatever its state. `npm run test:journey` 6/6;
+  Playwright 5/5 in both backends; 320px.
 
 ## Phase 7 — Smart revision and learning memory
 
