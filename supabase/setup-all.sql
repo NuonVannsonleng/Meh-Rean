@@ -3909,6 +3909,311 @@ begin;
 -- kh-grade12-math-papers.json
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002022', 'kh-grade12-science-mathematics', 2022, 'Demo practice set D (not the real 2022 exam)', 'សំណុំលំហាត់សាកល្បង D (មិនមែនវិញ្ញាសាពិតឆ្នាំ២០២២)', null, '', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source, verification = excluded.verification;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002201', 'kh-grade12-science-mathematics-limits-continuity', 'kh-grade12-science-mathematics-limits-continuity-indeterminate-forms', 2022, 'numeric', 'គណនាលីមីត $\lim_{x \to 0} \dfrac{\sin 3x}{x}$។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002201', '$3$', null, 3, 0, '[{"content":"ជារាងមិនកំណត់ $\\frac{0}{0}$។"},{"content":"$\\dfrac{\\sin 3x}{x} = 3 \\cdot \\dfrac{\\sin 3x}{3x}$ ហើយ $\\lim_{u \\to 0} \\dfrac{\\sin u}{u} = 1$។"},{"content":"ដូចនេះ លីមីតស្មើ $3$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002201', 1, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002202', 'kh-grade12-science-mathematics-limits-continuity', 'kh-grade12-science-mathematics-limits-continuity-continuity', 2022, 'numeric', 'គេឲ្យ $f(x) = \dfrac{x^2 - 1}{x - 1}$ ចំពោះ $x \neq 1$ និង $f(1) = a$។ រកតម្លៃ $a$ ដើម្បីឲ្យ $f$ ជាប់ត្រង់ $x = 1$។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002202', '$a = 2$', null, 2, 0, '[{"content":"$\\dfrac{x^2 - 1}{x - 1} = x + 1$ ចំពោះ $x \\neq 1$។"},{"content":"$\\lim_{x \\to 1} f(x) = 2$។"},{"content":"$f$ ជាប់ត្រង់ $1$ លុះត្រាតែ $a = 2$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002202', 2, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002203', 'kh-grade12-science-mathematics-limits-continuity', 'kh-grade12-science-mathematics-limits-continuity-asymptotes', 2022, 'numeric', 'ក្រាបនៃ $y = \dfrac{2x + 1}{x - 3}$ មានអាស៊ីមតូតដេក $y = k$។ រកតម្លៃ $k$។', '[]'::jsonb, '[]'::jsonb, 1, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002203', '$k = 2$', null, 2, 0, '[{"content":"$\\lim_{x \\to \\pm\\infty} \\dfrac{2x + 1}{x - 3} = \\dfrac{2}{1} = 2$។"},{"content":"អាស៊ីមតូតដេក៖ $y = 2$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002203', 3, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002204', 'kh-grade12-science-mathematics-derivatives', 'kh-grade12-science-mathematics-derivatives-composite', 2022, 'numeric', 'គេឲ្យ $f(x) = (2x + 1)^3$។ គណនា $f''(0)$។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002204', '$f''(0) = 6$', null, 6, 0, '[{"content":"$f''(x) = 3(2x + 1)^2 \\cdot 2 = 6(2x + 1)^2$។"},{"content":"$f''(0) = 6$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002204', 4, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002205', 'kh-grade12-science-mathematics-derivatives', 'kh-grade12-science-mathematics-derivatives-tangent', 2022, 'numeric', 'បន្ទាត់ប៉ះនឹងក្រាប $y = x^2$ ត្រង់ចំណុចដែលមាន $x = 1$ សរសេរជា $y = mx + b$។ រកតម្លៃ $b$។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002205', '$b = -1$', null, -1, 0, '[{"content":"$y'' = 2x$ ដូចនេះ $m = 2$ ត្រង់ $x = 1$ ហើយចំណុចប៉ះគឺ $(1, 1)$។"},{"content":"$y = 2(x - 1) + 1 = 2x - 1$ ដូចនេះ $b = -1$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002205', 5, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002206', 'kh-grade12-science-mathematics-function-study', 'kh-grade12-science-mathematics-function-study-monotonicity', 2022, 'multiple-choice', 'អនុគមន៍ $f(x) = x^3 - 3x$ ចុះលើចន្លោះណា?', '[{"id":"a","content":"$(-1, 1)$"},{"id":"b","content":"$(-\\infty, -1)$"},{"id":"c","content":"$(1, +\\infty)$"},{"id":"d","content":"$\\mathbb{R}$ ទាំងមូល"}]'::jsonb, '[]'::jsonb, 1, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002206', '$(-1, 1)$', 'a', null, null, '[{"content":"$f''(x) = 3x^2 - 3 = 3(x - 1)(x + 1)$។"},{"content":"$f''(x) < 0$ ចំពោះ $-1 < x < 1$ ដូចនេះ $f$ ចុះលើ $(-1, 1)$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002206', 6, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002207', 'kh-grade12-science-mathematics-function-study', 'kh-grade12-science-mathematics-function-study-extrema', 2022, 'numeric', 'រកតម្លៃអប្បបរមានៃអនុគមន៍ $f(x) = x^2 - 4x + 5$។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002207', 'តម្លៃអប្បបរមា $1$ ត្រង់ $x = 2$', null, 1, 0, '[{"content":"$f''(x) = 2x - 4 = 0$ នាំឲ្យ $x = 2$ ហើយ $f''''(x) = 2 > 0$។"},{"content":"$f(2) = 4 - 8 + 5 = 1$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002207', 7, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002208', 'kh-grade12-science-mathematics-function-study', 'kh-grade12-science-mathematics-function-study-inflection', 2022, 'numeric', 'ក្រាបនៃ $f(x) = x^3 - 6x^2 + 1$ មានចំណុចរបត់មួយ។ រកអាប់ស៊ីស $x$ នៃចំណុចនោះ។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002208', '$x = 2$', null, 2, 0, '[{"content":"$f''''(x) = 6x - 12$។"},{"content":"$f''''(x) = 0$ នាំឲ្យ $x = 2$ ហើយ $f''''$ ប្តូរសញ្ញាត្រង់ $2$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002208', 8, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002209', 'kh-grade12-science-mathematics-function-study', 'kh-grade12-science-mathematics-function-study-graphs', 2022, 'multiple-choice', 'អនុគមន៍ណាមានអាស៊ីមតូតឈរ $x = 2$ និងអាស៊ីមតូតដេក $y = 1$?', '[{"id":"a","content":"$y = \\dfrac{x + 1}{x - 2}$"},{"id":"b","content":"$y = \\dfrac{x - 2}{x + 1}$"},{"id":"c","content":"$y = \\dfrac{1}{x - 2}$"},{"id":"d","content":"$y = \\dfrac{2x}{x - 1}$"}]'::jsonb, '[]'::jsonb, 3, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002209', '$y = \dfrac{x + 1}{x - 2}$', 'a', null, null, '[{"content":"ភាគបែងសូន្យត្រង់ $x = 2$ (ភាគយក $3 \\neq 0$) ៖ អាស៊ីមតូតឈរ $x = 2$។"},{"content":"$\\lim_{x \\to \\pm\\infty} \\dfrac{x + 1}{x - 2} = 1$ ៖ អាស៊ីមតូតដេក $y = 1$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002209', 9, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002210', 'kh-grade12-science-mathematics-exponential-logarithm', 'kh-grade12-science-mathematics-exponential-logarithm-properties', 2022, 'numeric', 'គណនា $\ln\left(e^{3}\right) + \log_2 8$។', '[]'::jsonb, '[]'::jsonb, 1, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002210', '$6$', null, 6, 0, '[{"content":"$\\ln(e^3) = 3$ និង $\\log_2 8 = \\log_2 2^3 = 3$។"},{"content":"ផលបូក $= 6$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002210', 10, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002211', 'kh-grade12-science-mathematics-integrals', 'kh-grade12-science-mathematics-integrals-antiderivatives', 2022, 'numeric', '$F$ ជាព្រីមីទីវមួយនៃ $f(x) = 3x^2$ ដែល $F(0) = 2$។ គណនា $F(1)$។', '[]'::jsonb, '[]'::jsonb, 1, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002211', '$F(1) = 3$', null, 3, 0, '[{"content":"$F(x) = x^3 + C$ ហើយ $F(0) = 2$ នាំឲ្យ $C = 2$។"},{"content":"$F(1) = 1 + 2 = 3$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002211', 11, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002212', 'kh-grade12-science-mathematics-integrals', 'kh-grade12-science-mathematics-integrals-definite', 2022, 'numeric', 'គណនា $\displaystyle\int_{0}^{2} (3x^2 + 1)\,dx$។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002212', '$10$', null, 10, 0, '[{"content":"ព្រីមីទីវ៖ $x^3 + x$។"},{"content":"$\\left[x^3 + x\\right]_0^2 = 8 + 2 = 10$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002212', 12, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002213', 'kh-grade12-science-mathematics-integrals', 'kh-grade12-science-mathematics-integrals-volume', 2022, 'multiple-choice', 'តំបន់ខណ្ឌដោយ $y = \sqrt{x}$, អ័ក្ស $Ox$ និង $x = 4$ វិលជុំវិញអ័ក្ស $Ox$។ រកមាឌសូលីដ។', '[{"id":"a","content":"$8\\pi$"},{"id":"b","content":"$16\\pi$"},{"id":"c","content":"$4\\pi$"},{"id":"d","content":"$\\dfrac{32\\pi}{3}$"}]'::jsonb, '[]'::jsonb, 3, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002213', '$V = 8\pi$', 'a', null, null, '[{"content":"$V = \\pi \\displaystyle\\int_0^4 (\\sqrt{x})^2\\,dx = \\pi \\int_0^4 x\\,dx$។"},{"content":"$= \\pi \\left[\\dfrac{x^2}{2}\\right]_0^4 = 8\\pi$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002213', 13, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002214', 'kh-grade12-science-mathematics-differential-equations', 'kh-grade12-science-mathematics-differential-equations-second-order', 2022, 'multiple-choice', 'ចម្លើយទូទៅនៃសមីការ $y'''' + y = 0$ គឺ៖', '[{"id":"a","content":"$y = A\\cos x + B\\sin x$"},{"id":"b","content":"$y = Ae^{x} + Be^{-x}$"},{"id":"c","content":"$y = (A + Bx)e^{x}$"},{"id":"d","content":"$y = A\\cos 2x + B\\sin 2x$"}]'::jsonb, '[]'::jsonb, 3, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002214', '$y = A\cos x + B\sin x$', 'a', null, null, '[{"content":"សមីការសម្គាល់៖ $r^2 + 1 = 0$ នាំឲ្យ $r = \\pm i$។"},{"content":"ដូចនេះ $y = A\\cos x + B\\sin x$ ($A, B$ ចំនួនពិត)។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002214', 14, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002215', 'kh-grade12-science-mathematics-complex-numbers', 'kh-grade12-science-mathematics-complex-numbers-algebraic-form', 2022, 'numeric', 'គេឲ្យ $z = (2 + i)(1 - i)$។ រកផ្នែកពិតនៃ $z$។', '[]'::jsonb, '[]'::jsonb, 1, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002215', '$\operatorname{Re}(z) = 3$ ($z = 3 - i$)', null, 3, 0, '[{"content":"$z = 2 - 2i + i - i^2 = 2 - i + 1 = 3 - i$។"},{"content":"ផ្នែកពិត $= 3$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002215', 15, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002216', 'kh-grade12-science-mathematics-complex-numbers', 'kh-grade12-science-mathematics-complex-numbers-trigonometric-form', 2022, 'numeric', 'រកម៉ូឌុលនៃ $z = 1 + i\sqrt{3}$។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002216', '$|z| = 2$', null, 2, 0, '[{"content":"$|z| = \\sqrt{1^2 + (\\sqrt{3})^2} = \\sqrt{4} = 2$។"},{"content":"ទម្រង់ត្រីកោណមាត្រ៖ $z = 2\\left(\\cos\\dfrac{\\pi}{3} + i\\sin\\dfrac{\\pi}{3}\\right)$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002216', 16, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002217', 'kh-grade12-science-mathematics-complex-numbers', 'kh-grade12-science-mathematics-complex-numbers-de-moivre', 2022, 'numeric', 'គណនា $(1 + i)^8$ (ជាចំនួនពិត)។', '[]'::jsonb, '[]'::jsonb, 3, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002217', '$16$', null, 16, 0, '[{"content":"$1 + i = \\sqrt{2}\\left(\\cos\\dfrac{\\pi}{4} + i\\sin\\dfrac{\\pi}{4}\\right)$។"},{"content":"តាមរូបមន្តដឺម័រ៖ $(1 + i)^8 = (\\sqrt{2})^8(\\cos 2\\pi + i\\sin 2\\pi) = 16$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002217', 17, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002218', 'kh-grade12-science-mathematics-complex-numbers', 'kh-grade12-science-mathematics-complex-numbers-equations', 2022, 'multiple-choice', 'ចម្លើយនៃសមីការ $z^2 + 4 = 0$ ក្នុងសំណុំចំនួនកុំផ្លិច គឺ៖', '[{"id":"a","content":"$z = \\pm 2i$"},{"id":"b","content":"$z = \\pm 2$"},{"id":"c","content":"$z = \\pm 4i$"},{"id":"d","content":"$z = 2 \\pm i$"}]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002218', '$z = 2i$ ឬ $z = -2i$', 'a', null, null, '[{"content":"$z^2 = -4 = (2i)^2$។"},{"content":"ដូចនេះ $z = 2i$ ឬ $z = -2i$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002218', 18, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002219', 'kh-grade12-science-mathematics-probability', 'kh-grade12-science-mathematics-probability-events', 2022, 'multiple-choice', 'គេបោះគ្រាប់ឡុកឡាក់ស្មើពីរ។ រកប្រូបាបដែលផលបូកលេខស្មើ $7$។', '[{"id":"a","content":"$\\dfrac{1}{6}$"},{"id":"b","content":"$\\dfrac{7}{36}$"},{"id":"c","content":"$\\dfrac{1}{12}$"},{"id":"d","content":"$\\dfrac{5}{36}$"}]'::jsonb, '[]'::jsonb, 1, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002219', '$P = \dfrac{6}{36} = \dfrac{1}{6}$', 'a', null, null, '[{"content":"លទ្ធផលអាចមាន $6 \\times 6 = 36$ ស្មើគ្នា។"},{"content":"ផលបូក $7$៖ $(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)$ គឺ $6$ ករណី។"},{"content":"$P = \\dfrac{6}{36} = \\dfrac{1}{6}$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002219', 19, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002220', 'kh-grade12-science-mathematics-probability', 'kh-grade12-science-mathematics-probability-conditional', 2022, 'numeric', 'គេឲ្យ $P(A) = 0.5$ និង $P(A \cap B) = 0.2$។ គណនា $P(B \mid A)$។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002220', '$P(B \mid A) = 0.4$', null, 0.4, 0.001, '[{"content":"$P(B \\mid A) = \\dfrac{P(A \\cap B)}{P(A)} = \\dfrac{0.2}{0.5} = 0.4$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002220', 20, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002221', 'kh-grade12-science-mathematics-probability', 'kh-grade12-science-mathematics-probability-random-variables', 2022, 'numeric', 'អថេរចៃដន្យ $X$ យកតម្លៃ $0, 1, 2$ ដោយប្រូបាប $0.2, 0.5, 0.3$ រៀងគ្នា។ គណនាសង្ឃឹមគណិត $E(X)$។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002221', '$E(X) = 1.1$', null, 1.1, 0.001, '[{"content":"$E(X) = 0 \\times 0.2 + 1 \\times 0.5 + 2 \\times 0.3$។"},{"content":"$= 0 + 0.5 + 0.6 = 1.1$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002221', 21, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002222', 'kh-grade12-science-mathematics-conics', 'kh-grade12-science-mathematics-conics-parabola', 2022, 'numeric', 'ប៉ារ៉ាបូល $y^2 = 8x$ មានកំណុំ $F(c, 0)$។ រកតម្លៃ $c$។', '[]'::jsonb, '[]'::jsonb, 1, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002222', '$c = 2$ ($F(2, 0)$)', null, 2, 0, '[{"content":"ប៉ារ៉ាបូល $y^2 = 4px$ មានកំណុំ $(p, 0)$។"},{"content":"$4p = 8$ នាំឲ្យ $p = 2$ ដូចនេះ $F(2, 0)$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002222', 22, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002223', 'kh-grade12-science-mathematics-conics', 'kh-grade12-science-mathematics-conics-hyperbola', 2022, 'multiple-choice', 'អាស៊ីមតូតនៃអ៊ីពែបូល $\dfrac{x^2}{9} - \dfrac{y^2}{16} = 1$ គឺ៖', '[{"id":"a","content":"$y = \\pm \\dfrac{4}{3}x$"},{"id":"b","content":"$y = \\pm \\dfrac{3}{4}x$"},{"id":"c","content":"$y = \\pm \\dfrac{16}{9}x$"},{"id":"d","content":"$y = \\pm \\dfrac{9}{16}x$"}]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002223', '$y = \pm \dfrac{4}{3}x$', 'a', null, null, '[{"content":"អ៊ីពែបូល $\\dfrac{x^2}{a^2} - \\dfrac{y^2}{b^2} = 1$ មានអាស៊ីមតូត $y = \\pm \\dfrac{b}{a}x$។"},{"content":"$a = 3, b = 4$ ដូចនេះ $y = \\pm \\dfrac{4}{3}x$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002223', 23, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002224', 'kh-grade12-science-mathematics-vectors-space', 'kh-grade12-science-mathematics-vectors-space-cross-product', 2022, 'numeric', 'គេឲ្យ $\vec{u} = (2, 0, 0)$ និង $\vec{v} = (0, 3, 0)$។ គណនាក្រឡាផ្ទៃប្រលេឡូក្រាមសង់លើ $\vec{u}$ និង $\vec{v}$ ពោលគឺ $\|\vec{u} \times \vec{v}\|$។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002224', '$6$', null, 6, 0, '[{"content":"$\\vec{u} \\times \\vec{v} = (0 \\cdot 0 - 0 \\cdot 3,\\ 0 \\cdot 0 - 2 \\cdot 0,\\ 2 \\cdot 3 - 0 \\cdot 0) = (0, 0, 6)$។"},{"content":"$\\|\\vec{u} \\times \\vec{v}\\| = 6$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002224', 24, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002225', 'kh-grade12-science-mathematics-vectors-space', 'kh-grade12-science-mathematics-vectors-space-lines-planes', 2022, 'numeric', 'គណនាចម្ងាយពីចំណុច $A(1, 2, 2)$ ទៅប្លង់ $(P): x + 2y + 2z = 0$។', '[]'::jsonb, '[]'::jsonb, 2, 'km', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (id) do update set chapter_id = excluded.chapter_id, topic_id = excluded.topic_id, year = excluded.year, content = excluded.content,
+  choices = excluded.choices, difficulty = excluded.difficulty, language = excluded.language, source = excluded.source;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('6d1f0a00-0000-4000-8000-000000002225', '$d = 3$', null, 3, 0, '[{"content":"$d = \\dfrac{|1 + 2 \\cdot 2 + 2 \\cdot 2|}{\\sqrt{1^2 + 2^2 + 2^2}} = \\dfrac{9}{3}$។"},{"content":"$d = 3$។"}]'::jsonb, 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
+on conflict (question_id) do update set answer = excluded.answer, correct_choice = excluded.correct_choice, numeric_answer = excluded.numeric_answer,
+  numeric_tolerance = excluded.numeric_tolerance, steps = excluded.steps, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('6d1f0a00-0000-4000-8000-000000002022', '6d1f0a00-0000-4000-8000-000000002225', 25, 4)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('6d1f0a00-0000-4000-8000-000000002023', 'kh-grade12-science-mathematics', 2023, 'Demo practice paper A (not the real 2023 exam)', 'វិញ្ញាសាសាកល្បង A (មិនមែនវិញ្ញាសាពិតឆ្នាំ២០២៣)', null, '', 'demo', 'Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.', 'provisional')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
   duration_source = excluded.duration_source, source = excluded.source, verification = excluded.verification;

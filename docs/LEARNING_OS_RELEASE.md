@@ -130,8 +130,10 @@ usage grows before any paid plan is considered (owner approval needed).
 
 ## Known limitations
 
-- **Content.** 12 demo questions (9 automatically marked) — adaptive practice,
-  readiness and estimates are thin until real, checked questions are added.
+- **Content.** 37 demo questions written for Meh Rean (34 automatically
+  marked: at least one on every topic; demo set D added in 11.5, answers
+  checked by computation) — still demo content, not official BacII
+  questions; real, checked questions make practice and estimates meaningful.
   The curriculum outline and the 40 topic links are provisional.
 - **Khmer wording** written by Meh Rean (not checked): topic names flagged in
   the curriculum review, Study next reasons, page titles (My learning,

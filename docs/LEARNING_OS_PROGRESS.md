@@ -599,6 +599,23 @@
   learning test extended: 7/7 browser-only and online (no card before
   practice; card after one answer opens My learning).
 
+- **2026-10-17 — 11.5 Demo practice set D** (owner: "finish all"). Agents:
+  curriculum (demo only, never presented as official), tester. 25 new demo
+  questions, one automatically marked question (18 numeric, 7 multiple
+  choice) for every topic that had none, difficulty 1–3, 4
+  points each, as "Demo practice set D (not the real 2022 exam)" with the
+  same demo labels and source as A–C. Every answer was checked by
+  computation (limits near the point, finite-difference derivatives,
+  numeric integrals, complex arithmetic, exact probabilities) and every
+  formula (198) rendered with KaTeX without error before writing. Now 37
+  demo questions, 34 markable, covering all 34 topics. Tests: papers 8/8,
+  questions 21/21, exams 12/12, daily 8/8, mistakes 9/9, curriculum 11/11,
+  events 9/9, privacy 8/8, mastery 20/20, knowledge graph 8/8; Playwright
+  practice, papers (4 demo papers), exam, topic, Study next, journey, My
+  learning, revision, readiness, companion, mistakes, daily and map pass in
+  both backends. The Khmer wording of the questions is Meh Rean's own, like
+  sets A–C.
+
 ## Report format (per task)
 
 Phase · Task · Agents involved · Summary · Files · Database changes · Tests

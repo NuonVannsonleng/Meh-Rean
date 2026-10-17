@@ -3,6 +3,586 @@
   "source": "Written for Meh Rean as demo practice content. Not an official MoEYS BacII paper.",
   "papers": [
     {
+      "id": "6d1f0a00-0000-4000-8000-000000002022",
+      "subjectId": "kh-grade12-science-mathematics",
+      "year": 2022,
+      "titleEn": "Demo practice set D (not the real 2022 exam)",
+      "titleKm": "សំណុំលំហាត់សាកល្បង D (មិនមែនវិញ្ញាសាពិតឆ្នាំ២០២២)",
+      "questions": [
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002201",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-limits-continuity",
+          "topicId": "kh-grade12-science-mathematics-limits-continuity-indeterminate-forms",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "គណនាលីមីត $\\lim_{x \\to 0} \\dfrac{\\sin 3x}{x}$។",
+          "solution": {
+            "answer": "$3$",
+            "numericAnswer": 3,
+            "numericTolerance": 0,
+            "steps": [
+              "ជារាងមិនកំណត់ $\\frac{0}{0}$។",
+              "$\\dfrac{\\sin 3x}{x} = 3 \\cdot \\dfrac{\\sin 3x}{3x}$ ហើយ $\\lim_{u \\to 0} \\dfrac{\\sin u}{u} = 1$។",
+              "ដូចនេះ លីមីតស្មើ $3$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002202",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-limits-continuity",
+          "topicId": "kh-grade12-science-mathematics-limits-continuity-continuity",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "គេឲ្យ $f(x) = \\dfrac{x^2 - 1}{x - 1}$ ចំពោះ $x \\neq 1$ និង $f(1) = a$។ រកតម្លៃ $a$ ដើម្បីឲ្យ $f$ ជាប់ត្រង់ $x = 1$។",
+          "solution": {
+            "answer": "$a = 2$",
+            "numericAnswer": 2,
+            "numericTolerance": 0,
+            "steps": [
+              "$\\dfrac{x^2 - 1}{x - 1} = x + 1$ ចំពោះ $x \\neq 1$។",
+              "$\\lim_{x \\to 1} f(x) = 2$។",
+              "$f$ ជាប់ត្រង់ $1$ លុះត្រាតែ $a = 2$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002203",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-limits-continuity",
+          "topicId": "kh-grade12-science-mathematics-limits-continuity-asymptotes",
+          "type": "numeric",
+          "difficulty": 1,
+          "content": "ក្រាបនៃ $y = \\dfrac{2x + 1}{x - 3}$ មានអាស៊ីមតូតដេក $y = k$។ រកតម្លៃ $k$។",
+          "solution": {
+            "answer": "$k = 2$",
+            "numericAnswer": 2,
+            "numericTolerance": 0,
+            "steps": [
+              "$\\lim_{x \\to \\pm\\infty} \\dfrac{2x + 1}{x - 3} = \\dfrac{2}{1} = 2$។",
+              "អាស៊ីមតូតដេក៖ $y = 2$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002204",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-derivatives",
+          "topicId": "kh-grade12-science-mathematics-derivatives-composite",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "គេឲ្យ $f(x) = (2x + 1)^3$។ គណនា $f'(0)$។",
+          "solution": {
+            "answer": "$f'(0) = 6$",
+            "numericAnswer": 6,
+            "numericTolerance": 0,
+            "steps": [
+              "$f'(x) = 3(2x + 1)^2 \\cdot 2 = 6(2x + 1)^2$។",
+              "$f'(0) = 6$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002205",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-derivatives",
+          "topicId": "kh-grade12-science-mathematics-derivatives-tangent",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "បន្ទាត់ប៉ះនឹងក្រាប $y = x^2$ ត្រង់ចំណុចដែលមាន $x = 1$ សរសេរជា $y = mx + b$។ រកតម្លៃ $b$។",
+          "solution": {
+            "answer": "$b = -1$",
+            "numericAnswer": -1,
+            "numericTolerance": 0,
+            "steps": [
+              "$y' = 2x$ ដូចនេះ $m = 2$ ត្រង់ $x = 1$ ហើយចំណុចប៉ះគឺ $(1, 1)$។",
+              "$y = 2(x - 1) + 1 = 2x - 1$ ដូចនេះ $b = -1$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002206",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-function-study",
+          "topicId": "kh-grade12-science-mathematics-function-study-monotonicity",
+          "type": "multiple-choice",
+          "difficulty": 1,
+          "content": "អនុគមន៍ $f(x) = x^3 - 3x$ ចុះលើចន្លោះណា?",
+          "choices": [
+            {
+              "id": "a",
+              "content": "$(-1, 1)$"
+            },
+            {
+              "id": "b",
+              "content": "$(-\\infty, -1)$"
+            },
+            {
+              "id": "c",
+              "content": "$(1, +\\infty)$"
+            },
+            {
+              "id": "d",
+              "content": "$\\mathbb{R}$ ទាំងមូល"
+            }
+          ],
+          "solution": {
+            "answer": "$(-1, 1)$",
+            "correctChoice": "a",
+            "steps": [
+              "$f'(x) = 3x^2 - 3 = 3(x - 1)(x + 1)$។",
+              "$f'(x) < 0$ ចំពោះ $-1 < x < 1$ ដូចនេះ $f$ ចុះលើ $(-1, 1)$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002207",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-function-study",
+          "topicId": "kh-grade12-science-mathematics-function-study-extrema",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "រកតម្លៃអប្បបរមានៃអនុគមន៍ $f(x) = x^2 - 4x + 5$។",
+          "solution": {
+            "answer": "តម្លៃអប្បបរមា $1$ ត្រង់ $x = 2$",
+            "numericAnswer": 1,
+            "numericTolerance": 0,
+            "steps": [
+              "$f'(x) = 2x - 4 = 0$ នាំឲ្យ $x = 2$ ហើយ $f''(x) = 2 > 0$។",
+              "$f(2) = 4 - 8 + 5 = 1$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002208",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-function-study",
+          "topicId": "kh-grade12-science-mathematics-function-study-inflection",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "ក្រាបនៃ $f(x) = x^3 - 6x^2 + 1$ មានចំណុចរបត់មួយ។ រកអាប់ស៊ីស $x$ នៃចំណុចនោះ។",
+          "solution": {
+            "answer": "$x = 2$",
+            "numericAnswer": 2,
+            "numericTolerance": 0,
+            "steps": [
+              "$f''(x) = 6x - 12$។",
+              "$f''(x) = 0$ នាំឲ្យ $x = 2$ ហើយ $f''$ ប្តូរសញ្ញាត្រង់ $2$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002209",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-function-study",
+          "topicId": "kh-grade12-science-mathematics-function-study-graphs",
+          "type": "multiple-choice",
+          "difficulty": 3,
+          "content": "អនុគមន៍ណាមានអាស៊ីមតូតឈរ $x = 2$ និងអាស៊ីមតូតដេក $y = 1$?",
+          "choices": [
+            {
+              "id": "a",
+              "content": "$y = \\dfrac{x + 1}{x - 2}$"
+            },
+            {
+              "id": "b",
+              "content": "$y = \\dfrac{x - 2}{x + 1}$"
+            },
+            {
+              "id": "c",
+              "content": "$y = \\dfrac{1}{x - 2}$"
+            },
+            {
+              "id": "d",
+              "content": "$y = \\dfrac{2x}{x - 1}$"
+            }
+          ],
+          "solution": {
+            "answer": "$y = \\dfrac{x + 1}{x - 2}$",
+            "correctChoice": "a",
+            "steps": [
+              "ភាគបែងសូន្យត្រង់ $x = 2$ (ភាគយក $3 \\neq 0$) ៖ អាស៊ីមតូតឈរ $x = 2$។",
+              "$\\lim_{x \\to \\pm\\infty} \\dfrac{x + 1}{x - 2} = 1$ ៖ អាស៊ីមតូតដេក $y = 1$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002210",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-exponential-logarithm",
+          "topicId": "kh-grade12-science-mathematics-exponential-logarithm-properties",
+          "type": "numeric",
+          "difficulty": 1,
+          "content": "គណនា $\\ln\\left(e^{3}\\right) + \\log_2 8$។",
+          "solution": {
+            "answer": "$6$",
+            "numericAnswer": 6,
+            "numericTolerance": 0,
+            "steps": [
+              "$\\ln(e^3) = 3$ និង $\\log_2 8 = \\log_2 2^3 = 3$។",
+              "ផលបូក $= 6$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002211",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-integrals",
+          "topicId": "kh-grade12-science-mathematics-integrals-antiderivatives",
+          "type": "numeric",
+          "difficulty": 1,
+          "content": "$F$ ជាព្រីមីទីវមួយនៃ $f(x) = 3x^2$ ដែល $F(0) = 2$។ គណនា $F(1)$។",
+          "solution": {
+            "answer": "$F(1) = 3$",
+            "numericAnswer": 3,
+            "numericTolerance": 0,
+            "steps": [
+              "$F(x) = x^3 + C$ ហើយ $F(0) = 2$ នាំឲ្យ $C = 2$។",
+              "$F(1) = 1 + 2 = 3$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002212",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-integrals",
+          "topicId": "kh-grade12-science-mathematics-integrals-definite",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "គណនា $\\displaystyle\\int_{0}^{2} (3x^2 + 1)\\,dx$។",
+          "solution": {
+            "answer": "$10$",
+            "numericAnswer": 10,
+            "numericTolerance": 0,
+            "steps": [
+              "ព្រីមីទីវ៖ $x^3 + x$។",
+              "$\\left[x^3 + x\\right]_0^2 = 8 + 2 = 10$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002213",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-integrals",
+          "topicId": "kh-grade12-science-mathematics-integrals-volume",
+          "type": "multiple-choice",
+          "difficulty": 3,
+          "content": "តំបន់ខណ្ឌដោយ $y = \\sqrt{x}$, អ័ក្ស $Ox$ និង $x = 4$ វិលជុំវិញអ័ក្ស $Ox$។ រកមាឌសូលីដ។",
+          "choices": [
+            {
+              "id": "a",
+              "content": "$8\\pi$"
+            },
+            {
+              "id": "b",
+              "content": "$16\\pi$"
+            },
+            {
+              "id": "c",
+              "content": "$4\\pi$"
+            },
+            {
+              "id": "d",
+              "content": "$\\dfrac{32\\pi}{3}$"
+            }
+          ],
+          "solution": {
+            "answer": "$V = 8\\pi$",
+            "correctChoice": "a",
+            "steps": [
+              "$V = \\pi \\displaystyle\\int_0^4 (\\sqrt{x})^2\\,dx = \\pi \\int_0^4 x\\,dx$។",
+              "$= \\pi \\left[\\dfrac{x^2}{2}\\right]_0^4 = 8\\pi$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002214",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-differential-equations",
+          "topicId": "kh-grade12-science-mathematics-differential-equations-second-order",
+          "type": "multiple-choice",
+          "difficulty": 3,
+          "content": "ចម្លើយទូទៅនៃសមីការ $y'' + y = 0$ គឺ៖",
+          "choices": [
+            {
+              "id": "a",
+              "content": "$y = A\\cos x + B\\sin x$"
+            },
+            {
+              "id": "b",
+              "content": "$y = Ae^{x} + Be^{-x}$"
+            },
+            {
+              "id": "c",
+              "content": "$y = (A + Bx)e^{x}$"
+            },
+            {
+              "id": "d",
+              "content": "$y = A\\cos 2x + B\\sin 2x$"
+            }
+          ],
+          "solution": {
+            "answer": "$y = A\\cos x + B\\sin x$",
+            "correctChoice": "a",
+            "steps": [
+              "សមីការសម្គាល់៖ $r^2 + 1 = 0$ នាំឲ្យ $r = \\pm i$។",
+              "ដូចនេះ $y = A\\cos x + B\\sin x$ ($A, B$ ចំនួនពិត)។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002215",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-complex-numbers",
+          "topicId": "kh-grade12-science-mathematics-complex-numbers-algebraic-form",
+          "type": "numeric",
+          "difficulty": 1,
+          "content": "គេឲ្យ $z = (2 + i)(1 - i)$។ រកផ្នែកពិតនៃ $z$។",
+          "solution": {
+            "answer": "$\\operatorname{Re}(z) = 3$ ($z = 3 - i$)",
+            "numericAnswer": 3,
+            "numericTolerance": 0,
+            "steps": [
+              "$z = 2 - 2i + i - i^2 = 2 - i + 1 = 3 - i$។",
+              "ផ្នែកពិត $= 3$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002216",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-complex-numbers",
+          "topicId": "kh-grade12-science-mathematics-complex-numbers-trigonometric-form",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "រកម៉ូឌុលនៃ $z = 1 + i\\sqrt{3}$។",
+          "solution": {
+            "answer": "$|z| = 2$",
+            "numericAnswer": 2,
+            "numericTolerance": 0,
+            "steps": [
+              "$|z| = \\sqrt{1^2 + (\\sqrt{3})^2} = \\sqrt{4} = 2$។",
+              "ទម្រង់ត្រីកោណមាត្រ៖ $z = 2\\left(\\cos\\dfrac{\\pi}{3} + i\\sin\\dfrac{\\pi}{3}\\right)$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002217",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-complex-numbers",
+          "topicId": "kh-grade12-science-mathematics-complex-numbers-de-moivre",
+          "type": "numeric",
+          "difficulty": 3,
+          "content": "គណនា $(1 + i)^8$ (ជាចំនួនពិត)។",
+          "solution": {
+            "answer": "$16$",
+            "numericAnswer": 16,
+            "numericTolerance": 0,
+            "steps": [
+              "$1 + i = \\sqrt{2}\\left(\\cos\\dfrac{\\pi}{4} + i\\sin\\dfrac{\\pi}{4}\\right)$។",
+              "តាមរូបមន្តដឺម័រ៖ $(1 + i)^8 = (\\sqrt{2})^8(\\cos 2\\pi + i\\sin 2\\pi) = 16$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002218",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-complex-numbers",
+          "topicId": "kh-grade12-science-mathematics-complex-numbers-equations",
+          "type": "multiple-choice",
+          "difficulty": 2,
+          "content": "ចម្លើយនៃសមីការ $z^2 + 4 = 0$ ក្នុងសំណុំចំនួនកុំផ្លិច គឺ៖",
+          "choices": [
+            {
+              "id": "a",
+              "content": "$z = \\pm 2i$"
+            },
+            {
+              "id": "b",
+              "content": "$z = \\pm 2$"
+            },
+            {
+              "id": "c",
+              "content": "$z = \\pm 4i$"
+            },
+            {
+              "id": "d",
+              "content": "$z = 2 \\pm i$"
+            }
+          ],
+          "solution": {
+            "answer": "$z = 2i$ ឬ $z = -2i$",
+            "correctChoice": "a",
+            "steps": [
+              "$z^2 = -4 = (2i)^2$។",
+              "ដូចនេះ $z = 2i$ ឬ $z = -2i$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002219",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-probability",
+          "topicId": "kh-grade12-science-mathematics-probability-events",
+          "type": "multiple-choice",
+          "difficulty": 1,
+          "content": "គេបោះគ្រាប់ឡុកឡាក់ស្មើពីរ។ រកប្រូបាបដែលផលបូកលេខស្មើ $7$។",
+          "choices": [
+            {
+              "id": "a",
+              "content": "$\\dfrac{1}{6}$"
+            },
+            {
+              "id": "b",
+              "content": "$\\dfrac{7}{36}$"
+            },
+            {
+              "id": "c",
+              "content": "$\\dfrac{1}{12}$"
+            },
+            {
+              "id": "d",
+              "content": "$\\dfrac{5}{36}$"
+            }
+          ],
+          "solution": {
+            "answer": "$P = \\dfrac{6}{36} = \\dfrac{1}{6}$",
+            "correctChoice": "a",
+            "steps": [
+              "លទ្ធផលអាចមាន $6 \\times 6 = 36$ ស្មើគ្នា។",
+              "ផលបូក $7$៖ $(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)$ គឺ $6$ ករណី។",
+              "$P = \\dfrac{6}{36} = \\dfrac{1}{6}$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002220",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-probability",
+          "topicId": "kh-grade12-science-mathematics-probability-conditional",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "គេឲ្យ $P(A) = 0.5$ និង $P(A \\cap B) = 0.2$។ គណនា $P(B \\mid A)$។",
+          "solution": {
+            "answer": "$P(B \\mid A) = 0.4$",
+            "numericAnswer": 0.4,
+            "numericTolerance": 0.001,
+            "steps": [
+              "$P(B \\mid A) = \\dfrac{P(A \\cap B)}{P(A)} = \\dfrac{0.2}{0.5} = 0.4$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002221",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-probability",
+          "topicId": "kh-grade12-science-mathematics-probability-random-variables",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "អថេរចៃដន្យ $X$ យកតម្លៃ $0, 1, 2$ ដោយប្រូបាប $0.2, 0.5, 0.3$ រៀងគ្នា។ គណនាសង្ឃឹមគណិត $E(X)$។",
+          "solution": {
+            "answer": "$E(X) = 1.1$",
+            "numericAnswer": 1.1,
+            "numericTolerance": 0.001,
+            "steps": [
+              "$E(X) = 0 \\times 0.2 + 1 \\times 0.5 + 2 \\times 0.3$។",
+              "$= 0 + 0.5 + 0.6 = 1.1$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002222",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-conics",
+          "topicId": "kh-grade12-science-mathematics-conics-parabola",
+          "type": "numeric",
+          "difficulty": 1,
+          "content": "ប៉ារ៉ាបូល $y^2 = 8x$ មានកំណុំ $F(c, 0)$។ រកតម្លៃ $c$។",
+          "solution": {
+            "answer": "$c = 2$ ($F(2, 0)$)",
+            "numericAnswer": 2,
+            "numericTolerance": 0,
+            "steps": [
+              "ប៉ារ៉ាបូល $y^2 = 4px$ មានកំណុំ $(p, 0)$។",
+              "$4p = 8$ នាំឲ្យ $p = 2$ ដូចនេះ $F(2, 0)$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002223",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-conics",
+          "topicId": "kh-grade12-science-mathematics-conics-hyperbola",
+          "type": "multiple-choice",
+          "difficulty": 2,
+          "content": "អាស៊ីមតូតនៃអ៊ីពែបូល $\\dfrac{x^2}{9} - \\dfrac{y^2}{16} = 1$ គឺ៖",
+          "choices": [
+            {
+              "id": "a",
+              "content": "$y = \\pm \\dfrac{4}{3}x$"
+            },
+            {
+              "id": "b",
+              "content": "$y = \\pm \\dfrac{3}{4}x$"
+            },
+            {
+              "id": "c",
+              "content": "$y = \\pm \\dfrac{16}{9}x$"
+            },
+            {
+              "id": "d",
+              "content": "$y = \\pm \\dfrac{9}{16}x$"
+            }
+          ],
+          "solution": {
+            "answer": "$y = \\pm \\dfrac{4}{3}x$",
+            "correctChoice": "a",
+            "steps": [
+              "អ៊ីពែបូល $\\dfrac{x^2}{a^2} - \\dfrac{y^2}{b^2} = 1$ មានអាស៊ីមតូត $y = \\pm \\dfrac{b}{a}x$។",
+              "$a = 3, b = 4$ ដូចនេះ $y = \\pm \\dfrac{4}{3}x$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002224",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-vectors-space",
+          "topicId": "kh-grade12-science-mathematics-vectors-space-cross-product",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "គេឲ្យ $\\vec{u} = (2, 0, 0)$ និង $\\vec{v} = (0, 3, 0)$។ គណនាក្រឡាផ្ទៃប្រលេឡូក្រាមសង់លើ $\\vec{u}$ និង $\\vec{v}$ ពោលគឺ $\\|\\vec{u} \\times \\vec{v}\\|$។",
+          "solution": {
+            "answer": "$6$",
+            "numericAnswer": 6,
+            "numericTolerance": 0,
+            "steps": [
+              "$\\vec{u} \\times \\vec{v} = (0 \\cdot 0 - 0 \\cdot 3,\\ 0 \\cdot 0 - 2 \\cdot 0,\\ 2 \\cdot 3 - 0 \\cdot 0) = (0, 0, 6)$។",
+              "$\\|\\vec{u} \\times \\vec{v}\\| = 6$។"
+            ]
+          }
+        },
+        {
+          "id": "6d1f0a00-0000-4000-8000-000000002225",
+          "points": 4,
+          "chapterId": "kh-grade12-science-mathematics-vectors-space",
+          "topicId": "kh-grade12-science-mathematics-vectors-space-lines-planes",
+          "type": "numeric",
+          "difficulty": 2,
+          "content": "គណនាចម្ងាយពីចំណុច $A(1, 2, 2)$ ទៅប្លង់ $(P): x + 2y + 2z = 0$។",
+          "solution": {
+            "answer": "$d = 3$",
+            "numericAnswer": 3,
+            "numericTolerance": 0,
+            "steps": [
+              "$d = \\dfrac{|1 + 2 \\cdot 2 + 2 \\cdot 2|}{\\sqrt{1^2 + 2^2 + 2^2}} = \\dfrac{9}{3}$។",
+              "$d = 3$។"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "6d1f0a00-0000-4000-8000-000000002023",
       "subjectId": "kh-grade12-science-mathematics",
       "year": 2023,
@@ -18,10 +598,22 @@
           "difficulty": 1,
           "content": "គណនាលីមីត $$\\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}$$",
           "choices": [
-            { "id": "a", "content": "$0$" },
-            { "id": "b", "content": "$2$" },
-            { "id": "c", "content": "$4$" },
-            { "id": "d", "content": "លីមីតនេះមិនមាន" }
+            {
+              "id": "a",
+              "content": "$0$"
+            },
+            {
+              "id": "b",
+              "content": "$2$"
+            },
+            {
+              "id": "c",
+              "content": "$4$"
+            },
+            {
+              "id": "d",
+              "content": "លីមីតនេះមិនមាន"
+            }
           ],
           "solution": {
             "answer": "$4$",
@@ -60,10 +652,22 @@
           "difficulty": 2,
           "content": "គណនាអាំងតេក្រាល $$I = \\int_0^1 x e^x \\, dx$$",
           "choices": [
-            { "id": "a", "content": "$e$" },
-            { "id": "b", "content": "$1$" },
-            { "id": "c", "content": "$e - 1$" },
-            { "id": "d", "content": "$2e - 1$" }
+            {
+              "id": "a",
+              "content": "$e$"
+            },
+            {
+              "id": "b",
+              "content": "$1$"
+            },
+            {
+              "id": "c",
+              "content": "$e - 1$"
+            },
+            {
+              "id": "d",
+              "content": "$2e - 1$"
+            }
           ],
           "solution": {
             "answer": "$I = 1$",
@@ -128,10 +732,22 @@
           "difficulty": 2,
           "content": "ដោះស្រាយសមីការ $$e^{2x} - 3e^{x} + 2 = 0$$",
           "choices": [
-            { "id": "a", "content": "$x = 0$ ឬ $x = \\ln 2$" },
-            { "id": "b", "content": "$x = 1$ ឬ $x = 2$" },
-            { "id": "c", "content": "$x = \\ln 3$" },
-            { "id": "d", "content": "សមីការគ្មានឫស" }
+            {
+              "id": "a",
+              "content": "$x = 0$ ឬ $x = \\ln 2$"
+            },
+            {
+              "id": "b",
+              "content": "$x = 1$ ឬ $x = 2$"
+            },
+            {
+              "id": "c",
+              "content": "$x = \\ln 3$"
+            },
+            {
+              "id": "d",
+              "content": "សមីការគ្មានឫស"
+            }
           ],
           "solution": {
             "answer": "$x = 0$ ឬ $x = \\ln 2$",
@@ -197,10 +813,22 @@
           "difficulty": 2,
           "content": "រកកំណុំ (foci) នៃអេលីប $$\\frac{x^2}{25} + \\frac{y^2}{9} = 1$$",
           "choices": [
-            { "id": "a", "content": "$(\\pm 3, 0)$" },
-            { "id": "b", "content": "$(\\pm 4, 0)$" },
-            { "id": "c", "content": "$(0, \\pm 4)$" },
-            { "id": "d", "content": "$(\\pm 5, 0)$" }
+            {
+              "id": "a",
+              "content": "$(\\pm 3, 0)$"
+            },
+            {
+              "id": "b",
+              "content": "$(\\pm 4, 0)$"
+            },
+            {
+              "id": "c",
+              "content": "$(0, \\pm 4)$"
+            },
+            {
+              "id": "d",
+              "content": "$(\\pm 5, 0)$"
+            }
           ],
           "solution": {
             "answer": "$(\\pm 4, 0)$",
@@ -239,10 +867,22 @@
           "difficulty": 1,
           "content": "គេឲ្យវ៉ិចទ័រ $\\vec{u} = (1, 2, -1)$ និង $\\vec{v} = (3, -1, 1)$។ គណនាផលគុណស្កាលែ $\\vec{u} \\cdot \\vec{v}$។",
           "choices": [
-            { "id": "a", "content": "$0$" },
-            { "id": "b", "content": "$2$" },
-            { "id": "c", "content": "$-2$" },
-            { "id": "d", "content": "$4$" }
+            {
+              "id": "a",
+              "content": "$0$"
+            },
+            {
+              "id": "b",
+              "content": "$2$"
+            },
+            {
+              "id": "c",
+              "content": "$-2$"
+            },
+            {
+              "id": "d",
+              "content": "$4$"
+            }
           ],
           "solution": {
             "answer": "$\\vec{u} \\cdot \\vec{v} = 0$ (វ៉ិចទ័រទាំងពីរកែងគ្នា)",
