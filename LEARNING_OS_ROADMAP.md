@@ -142,7 +142,11 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
 
 ## Phase 5 — Adaptive practice
 
-- [ ] Question selection for a target topic; gradual difficulty change; no repeats.
+- [x] 5.1 Question selection for a target topic; gradual difficulty change; no repeats.
+  ✔ 2026-10-17: `src/lib/adaptive.ts` with `src/data/learning/adaptive-rules.json`:
+  start from the estimate (1–5), one step per answer, topic priority, never
+  twice a session, recent ones last; server-markable only. `npm run
+  test:adaptive` 8/8.
 - [ ] Modes: recommended, weak topic, prerequisite review, quick five, mixed, exam prep.
 - [ ] Answers marked on the server, mastery updated, results screen.
 - [ ] End-to-end tests.

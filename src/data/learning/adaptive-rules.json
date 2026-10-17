@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "note": "Adaptive practice (Learning OS 5.1). Product rules of thumb. Changing a number here means bumping version.",
+  "startDifficulty": 2,
+  "scorePerDifficultyStep": 25,
+  "stepAfterRight": 1,
+  "stepAfterWrong": -1,
+  "repeatAfterDays": 3,
+  "weights": { "topic": 3, "difficulty": 2, "freshness": 1 }
+}

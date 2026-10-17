@@ -84,3 +84,15 @@ strength (0–1, reviews up to 1.5):
   kind, main reason and its review count, label or topic — changes.
 - Action (4.3): reviews due → the notebook; else practice questions; else
   a checked video; else a linked note; nothing → skipped (takes no place).
+
+## Adaptive practice (5.1)
+
+Code: `src/lib/adaptive.ts`. Numbers: `src/data/learning/adaptive-rules.json`
+(version 1). Tests: `npm run test:adaptive`.
+
+- Start: `1 + floor(estimate/25)` within 1–5; no estimate → 2.
+- After each answer: +1 when right, −1 when wrong, within 1–5.
+- Next question: multiple-choice or numeric, on a target topic, not yet
+  asked this session; score `3 × 1/(1 + topic position) + 2 × (1 − |difficulty − target|/4)
+  + 1 × freshness` (never answered 1, else days since/30, at most 1);
+  answered within 3 days only when nothing else is left; ties by id.

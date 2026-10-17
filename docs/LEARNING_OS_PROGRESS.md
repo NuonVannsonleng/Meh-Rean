@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 5 — 5.1 Adaptive question selection** (next up).
+**Phase 5 — 5.2 Practice modes** (next up).
 
 ## Done
 
@@ -292,6 +292,16 @@
   again, English reasons, topic link, 320px); mastery UI 5/5, topic page
   4/4; mastery 20/20, knowledge graph 8/8, profile 6/6, questions 21/21;
   lint, build. No database change: production needs nothing new.
+
+- **2026-10-17 — 5.1 Adaptive selection.** Agents: learning intelligence.
+  `startingDifficulty()` maps a topic's estimate onto 1–5 (0–24 → 1, …,
+  100 → 5; none → 2), `nextDifficulty()` moves one step per answer within
+  1–5, `pickNext()` scores candidates by topic priority (×3), closeness to
+  the difficulty (×2) and freshness (×1). Only multiple-choice and numeric
+  questions on the target topics; never twice in a session; answered in the
+  last 3 days only when nothing else is left; ties by id. `npm run
+  test:adaptive` 8/8; lint. Limit: 12 demo questions (about one per topic),
+  so difficulty can rarely move to a different question yet.
 
 ## Report format (per task)
 
