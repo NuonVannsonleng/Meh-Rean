@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import ErrorState from "../../components/ErrorState";
-import { BulbIcon, CalendarIcon, FileTextIcon, GraduationIcon, PenIcon, TableIcon } from "../../components/Icons";
+import { BookmarkIcon, BulbIcon, CalendarIcon, FileTextIcon, GraduationIcon, PenIcon, TableIcon } from "../../components/Icons";
 import LoadingState from "../../components/LoadingState";
 import MasteryBadge, { MASTERY_LABELS } from "../../components/MasteryBadge";
 import journeyRules from "../../data/learning/journey-rules.json";
@@ -100,6 +100,7 @@ export default function LearningHome() {
     [copy.actions.companion, "/learning/companion", BulbIcon],
     [copy.actions.map, "/learning/map", TableIcon],
     [copy.actions.notebook, "/bacii/mistakes", FileTextIcon],
+    [copy.actions.flashcards, "/learning/flashcards", BookmarkIcon],
     [copy.actions.exams, "/bacii/papers", GraduationIcon],
     [copy.actions.history, "/learning/history", CalendarIcon],
   ];

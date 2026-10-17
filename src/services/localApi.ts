@@ -12,6 +12,7 @@ import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
 import khGrade12MathLinks from "../data/curriculum-links/kh-grade12-math.json";
 import { expandLinks, findPrerequisiteCycle, type ConceptLinkInput, type LinkSeed } from "../lib/conceptGraph";
 import { masteryFromEvents, type MasteryRules, type TopicMastery } from "../lib/mastery";
+import { afterFlashcardReview, isFlashcardDue, MAX_FLASHCARDS } from "../lib/flashcards";
 import masteryRules from "../data/learning/mastery-rules.json";
 import { suggestedProfile } from "../lib/learningDefaults";
 import { topicResultsFromEvents, type TopicResult } from "../lib/learningProfile";
@@ -84,6 +85,8 @@ import {
   type ProfileImageKind,
   type VerificationRequest,
   type VerificationStatus,
+  type Flashcard,
+  type FlashcardInput,
 } from "../types";
 import {
   createId,
@@ -2121,4 +2124,63 @@ export async function getTopicResults(): Promise<TopicResult[]> {
 /** As topic_mastery: worked out from the student's own events. */
 export async function getTopicMastery(): Promise<TopicMastery[]> {
   return masteryFromEvents(await getLearningEvents(100_000), masteryRules as MasteryRules);
+}
+
+// ---- Flashcards (Learning OS 7.4) ----
+// Mirrors the flashcards table and review_flashcard().
+
+export async function getFlashcards(): Promise<Flashcard[]> {
+  const db = await loadDb();
+  const viewer = viewerId(db);
+  if (!viewer) return [];
+  return structuredClone((db.flashcards ?? []).filter((card) => card.userId === viewer))
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .map(({ userId: _userId, ...card }) => card);
+}
+
+export async function saveFlashcard(input: FlashcardInput, id?: string): Promise<Flashcard> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  const front = input.front.trim();
+  const back = input.back.trim();
+  if (!front || front.length > 500 || !back || back.length > 2000) throw new ApiError("UNKNOWN", 400, "write a front (up to 500 characters) and a back (up to 2000)");
+  db.flashcards ??= [];
+  const now = new Date().toISOString();
+  if (id) {
+    const card = db.flashcards.find((item) => item.id === id && item.userId === viewer.id);
+    if (!card) throw new ApiError("NOT_FOUND", 404);
+    Object.assign(card, { topicId: input.topicId, front, back, updatedAt: now });
+    persist();
+    const { userId: _userId, ...rest } = card;
+    return structuredClone(rest);
+  }
+  if (db.flashcards.filter((item) => item.userId === viewer.id).length >= MAX_FLASHCARDS) throw new ApiError("UNKNOWN", 400, "you can keep up to 500 flashcards");
+  const card = { id: createId("fc"), userId: viewer.id, topicId: input.topicId, front, back, reviewStage: 0, nextReviewAt: now, lastReviewedAt: null, timesForgotten: 0, createdAt: now, updatedAt: now };
+  db.flashcards.push(card);
+  persist();
+  const { userId: _userId, ...rest } = card;
+  return structuredClone(rest);
+}
+
+export async function deleteFlashcard(id: string): Promise<void> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  db.flashcards = (db.flashcards ?? []).filter((card) => !(card.id === id && card.userId === viewer.id));
+  persist();
+}
+
+export async function reviewFlashcard(id: string, remembered: boolean): Promise<string | null> {
+  const db = await loadDb();
+  const viewer = requireViewer(db);
+  const card = (db.flashcards ?? []).find((item) => item.id === id && item.userId === viewer.id);
+  if (!card) throw new ApiError("NOT_FOUND", 404, "flashcard not found");
+  const now = new Date();
+  const wasDue = isFlashcardDue(card, now);
+  const next = afterFlashcardReview(card, remembered, now);
+  if (!remembered || wasDue) {
+    Object.assign(card, next, { lastReviewedAt: now.toISOString() });
+    logEvent(db, viewer.id, "flashcard_reviewed", "flashcard", id, { self_reported: true, remembered, topic_id: card.topicId }, `flashcard:${id}:${createId("rv")}`);
+  }
+  persist();
+  return card.nextReviewAt;
 }

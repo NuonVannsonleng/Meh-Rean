@@ -47,6 +47,7 @@ await me.from("learning_profiles").upsert({ user_id: owner.id, target_grade: "B"
 await me.from("youtube_search_log").insert({ searches: 1 });
 await me.from("bacii_video_lookups").insert({});
 await me.from("companion_requests").insert({ kind: "summary" });
+await me.from("flashcards").insert({ front: "Owner card", back: "Private answer" });
 
 const TABLES = [
   ["mistakes", "user_id"],
@@ -61,6 +62,7 @@ const TABLES = [
   ["bacii_video_lookups", "user_id"],
   ["topic_mastery", "user_id"],
   ["companion_requests", "user_id"],
+  ["flashcards", "user_id"],
 ];
 
 await check("the owner can see their own data in every table (so the checks below mean something)", async () => {
@@ -117,6 +119,7 @@ await check("nobody can write rows in someone else's name", async () => {
     ["chapter_progress", { user_id: owner.id, chapter_id: q1.chapterId, answered: 99, correct: 99 }],
     ["topic_mastery", { user_id: owner.id, topic_id: q1.topicId, score: 100, evidence: 9, correct: 9, last_at: new Date().toISOString(), version: 2 }],
     ["companion_requests", { user_id: owner.id, kind: "plan" }],
+    ["flashcards", { user_id: owner.id, front: "forged", back: "forged" }],
   ];
   for (const [table, row] of attempts) if (!(await peer.client.from(table).insert(row)).error) forged.push(table);
   assert(!forged.length, `wrote as the owner into: ${forged.join(", ")}`);

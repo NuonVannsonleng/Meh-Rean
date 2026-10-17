@@ -3688,6 +3688,125 @@ drop policy if exists "add own companion requests" on public.companion_requests;
 create policy "add own companion requests" on public.companion_requests for insert to authenticated
   with check (user_id = auth.uid() and created_at > now() - interval '1 minute');
 
+-- ================================================================
+-- Flashcards (Learning OS 7.4)
+-- ================================================================
+
+-- A student's own cards: a front and a back (LaTeX allowed), optionally on a
+-- curriculum topic. Students write the content; only review_flashcard() moves
+-- the schedule, so dates come from the database.
+create table if not exists public.flashcards (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null default auth.uid() references public.profiles on delete cascade,
+  topic_id text references public.curriculum_topics on delete set null,
+  front text not null check (char_length(btrim(front)) between 1 and 500),
+  back text not null check (char_length(btrim(back)) between 1 and 2000),
+  -- 0 new … 5 learned; reviews after 1, 3, 7 and 14 days, as in the notebook.
+  review_stage smallint not null default 0 check (review_stage between 0 and 5),
+  next_review_at timestamptz default now(),
+  last_reviewed_at timestamptz,
+  times_forgotten integer not null default 0 check (times_forgotten >= 0),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists flashcards_user_due on public.flashcards (user_id, next_review_at);
+alter table public.flashcards enable row level security;
+drop policy if exists "see own flashcards" on public.flashcards;
+create policy "see own flashcards" on public.flashcards for select to authenticated using (user_id = auth.uid());
+drop policy if exists "add own flashcards" on public.flashcards;
+create policy "add own flashcards" on public.flashcards for insert to authenticated with check (user_id = auth.uid());
+drop policy if exists "edit own flashcards" on public.flashcards;
+create policy "edit own flashcards" on public.flashcards for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+drop policy if exists "remove own flashcards" on public.flashcards;
+create policy "remove own flashcards" on public.flashcards for delete to authenticated using (user_id = auth.uid());
+revoke all on public.flashcards from anon, authenticated;
+grant select, delete on public.flashcards to authenticated;
+grant insert (topic_id, front, back) on public.flashcards to authenticated;
+grant update (topic_id, front, back) on public.flashcards to authenticated;
+
+-- At most 500 cards each; edits keep their own timestamp.
+create or replace function public.guard_flashcard()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if tg_op = 'INSERT' and (select count(*) from public.flashcards f where f.user_id = new.user_id) >= 500 then
+    raise exception 'you can keep up to 500 flashcards' using errcode = '54000';
+  end if;
+  new.front := btrim(new.front);
+  new.back := btrim(new.back);
+  if tg_op = 'UPDATE' then
+    new.updated_at := now();
+  end if;
+  return new;
+end;
+$$;
+revoke execute on function public.guard_flashcard() from public, anon, authenticated;
+drop trigger if exists guard_flashcard on public.flashcards;
+create trigger guard_flashcard before insert or update on public.flashcards
+  for each row execute function public.guard_flashcard();
+
+-- Flashcard reviews are learning events, self-reported (not mastery evidence).
+alter table public.learning_events drop constraint if exists learning_events_event_type_check;
+alter table public.learning_events add constraint learning_events_event_type_check check (event_type in (
+  'question_attempted', 'mistake_reviewed', 'mock_exam_completed',
+  'video_watched', 'video_marked_understood', 'video_marked_revise', 'study_task_completed',
+  'flashcard_reviewed'
+));
+alter table public.learning_events drop constraint if exists learning_events_resource_type_check;
+alter table public.learning_events add constraint learning_events_resource_type_check check (resource_type in ('question', 'exam_paper', 'video', 'study_plan', 'flashcard'));
+
+-- Remembered when due: one stage on (next review after 1, 3, 7, 14 days, then
+-- learned). Remembered early: nothing changes. Forgot: back to the start,
+-- due tomorrow. Returns the next review time (null once learned).
+create or replace function public.review_flashcard(card uuid, remembered boolean)
+returns timestamptz
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  me uuid := auth.uid();
+  intervals constant integer[] := array[1, 3, 7, 14];
+  entry record;
+  stage smallint;
+  later timestamptz;
+begin
+  if me is null then
+    raise exception 'sign in to review flashcards' using errcode = '42501';
+  end if;
+  if remembered is null then
+    raise exception 'say whether you remembered it' using errcode = '22023';
+  end if;
+  select f.review_stage, f.next_review_at, f.topic_id into entry from public.flashcards f where f.id = card and f.user_id = me for update;
+  if not found then
+    raise exception 'flashcard not found' using errcode = 'P0002';
+  end if;
+  if remembered then
+    if entry.next_review_at is null or entry.next_review_at > now() then
+      return entry.next_review_at;
+    end if;
+    stage := entry.review_stage + 1;
+    later := case when stage >= 5 then null else now() + make_interval(days => intervals[stage]) end;
+    update public.flashcards f set review_stage = stage, next_review_at = later, last_reviewed_at = now() where f.id = card;
+  else
+    later := now() + make_interval(days => intervals[1]);
+    update public.flashcards f set review_stage = 0, next_review_at = later, last_reviewed_at = now(), times_forgotten = f.times_forgotten + 1 where f.id = card;
+  end if;
+  perform public.record_learning_event(
+    me, 'flashcard_reviewed', 'flashcard', card::text,
+    jsonb_build_object('self_reported', true, 'remembered', remembered, 'topic_id', (select t.id from public.curriculum_topics t where t.id = entry.topic_id)),
+    -- Every review is its own event, even two in the same second.
+    'flashcard:' || card || ':' || gen_random_uuid()
+  );
+  return later;
+end;
+$$;
+revoke execute on function public.review_flashcard(uuid, boolean) from public, anon;
+grant execute on function public.review_flashcard(uuid, boolean) to authenticated;
+
 -- ===== supabase/seed/curriculum.sql =====
 -- Generated by scripts/build-curriculum-seed.mjs from src/data/curriculum/.
 -- Do not edit by hand. Run after supabase/schema.sql; safe to run again.

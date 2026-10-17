@@ -19,6 +19,7 @@ For signed-in students, from the BacII page → **My learning** (`/learning`):
 | Exam readiness `/learning/readiness` | Coverage, estimate and mock exam trends, consistency, this week; a level, never a predicted result |
 | Study companion `/learning/companion` | Summary, why the suggestions, a session plan — by rules; optional AI version, labelled |
 | Learning history `/learning/history` | Every recorded event; delete one or all |
+| Flashcards `/learning/flashcards` | Your own cards (formulas allowed), reviewed after 1, 3, 7 and 14 days |
 | Admin → Topic links | Add, check and remove prerequisite and related links |
 
 All of it works in both the online version and the browser-only preview,
@@ -139,7 +140,6 @@ usage grows before any paid plan is considered (owner approval needed).
   adaptive practice, journey, revision, readiness, companion, history).
 - **Estimates are product rules**, not a validated measure; readiness is never
   a BacII prediction. Trends and history use the latest 1000 events.
-- **Flashcards** are not built (owner decision); revision uses the notebook.
 - **"Not now"** on Study next is remembered per device only.
 - **Bundle.** The main chunk is 780 kB (232 kB gzipped), slightly up from
   ~756 kB before the Learning OS; splitting it is a separate task.
@@ -151,8 +151,7 @@ usage grows before any paid plan is considered (owner approval needed).
 
 ## Owner decisions open
 
-1. Flashcards: build them, or keep revision notebook-only.
-2. Make My learning the home page for students.
-3. A native Khmer speaker (ideally a teacher) to check the Khmer wording and
+1. Make My learning the home page for students.
+2. A native Khmer speaker (ideally a teacher) to check the Khmer wording and
    the provisional curriculum and topic links.
-4. Optional: revoke visitor `execute` on the messaging functions.
+3. Optional: revoke visitor `execute` on the messaging functions.

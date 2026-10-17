@@ -122,6 +122,10 @@ export const {
   getTopicQuestionCounts,
   postponeReview,
   deleteLearningEvents,
+  getFlashcards,
+  saveFlashcard,
+  deleteFlashcard,
+  reviewFlashcard,
 } = backend;
 
 export type { TrendingView, VerificationState } from "./localApi";

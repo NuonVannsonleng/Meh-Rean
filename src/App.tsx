@@ -33,6 +33,7 @@ const HistoryPage = lazy(() => import("./pages/learning/HistoryPage"));
 const CompanionPage = lazy(() => import("./pages/learning/CompanionPage"));
 const ReadinessPage = lazy(() => import("./pages/learning/ReadinessPage"));
 const LearningHome = lazy(() => import("./pages/learning/LearningHome"));
+const FlashcardsPage = lazy(() => import("./pages/learning/FlashcardsPage"));
 const LiveQuizEditor = lazy(() => import("./pages/live/LiveQuizEditor"));
 const LiveHost = lazy(() => import("./pages/live/LiveHost"));
 const LivePlay = lazy(() => import("./pages/live/LivePlay"));
@@ -150,6 +151,7 @@ export default function App() {
             <Route path="/learning/companion" element={<RequireAuth><CompanionPage /></RequireAuth>} />
             <Route path="/learning/readiness" element={<RequireAuth><ReadinessPage /></RequireAuth>} />
             <Route path="/learning" element={<RequireAuth><LearningHome /></RequireAuth>} />
+            <Route path="/learning/flashcards" element={<RequireAuth><FlashcardsPage /></RequireAuth>} />
             <Route path="/live/quizzes/new" element={<RequireAuth><LiveQuizEditor key="new" /></RequireAuth>} />
             <Route path="/live/quizzes/:id" element={<RequireAuth><LiveQuizEditor /></RequireAuth>} />
             <Route path="/live/host/:id" element={<RequireAuth><LiveHost /></RequireAuth>} />

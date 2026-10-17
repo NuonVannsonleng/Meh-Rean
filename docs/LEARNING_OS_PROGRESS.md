@@ -2,7 +2,7 @@
 
 ## Current
 
-**All phases done** (11.1, 2026-10-17). Open: owner decisions in docs/LEARNING_OS_RELEASE.md.
+**Phase 7 — 7.5 Flashcards in the revision queue** (next up; the owner chose to build flashcards).
 
 ## Done
 
@@ -524,6 +524,29 @@
   local `supabase start` printed the standard local demo keys into the
   session output (not production keys; nothing committed); later runs were
   silenced.
+
+- **2026-10-17 — 7.4 Flashcards** (owner: "build it"). Agents: database,
+  backend, frontend, security, tester. Table `flashcards`: student's own
+  cards (front ≤ 500, back ≤ 2000 characters, LaTeX allowed, optional
+  topic); row level security own only; column grants let students insert
+  and edit only topic, front and back, so the schedule (stage 0–5, next
+  review, times forgotten) is set by `review_flashcard(card, remembered)`:
+  remembered when due → next after 1, 3, 7, 14 days, then learned;
+  remembered early → no change; forgot → back to the start, tomorrow. New
+  cards are due at once; 500 a student (trigger). Each review is a
+  `flashcard_reviewed` learning event marked self-reported (in the history,
+  never mastery evidence); event type and resource type checks widened.
+  The same rules in `src/lib/flashcards.ts` and the browser-only store.
+  Page `/learning/flashcards` (My learning quick actions; "Make a flashcard"
+  on topic pages, topic chosen): form with formula preview and topic, review
+  of the due cards (show answer, I remembered / I forgot, next date), list
+  with status, edit and delete. Fixed while testing: two reviews in the same
+  second shared one event key (now unique per review). Tests: `npm run
+  test:flashcards` 7/7 (rules, database parity, no schedule writes, events
+  self-reported and no estimates, privacy, 500 cap, kept when history is
+  deleted); Playwright 7/7 browser-only and online; privacy 8/8 (13
+  tables), history 4/4, events 9/9; My learning, history and topic page UI
+  pass; lint. Production needs setup-all.sql again.
 
 ## Report format (per task)
 

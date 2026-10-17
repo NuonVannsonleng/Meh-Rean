@@ -157,6 +157,9 @@ export default function TopicPage() {
           <Link to={`/bacii/videos?text=${encodeURIComponent(`${topic.nameKm} ${topic.nameEn}`)}&subject=mathematics&chapter=${encodeURIComponent(chapter.id)}`} className="btn-secondary">
             {copy.findVideo}
           </Link>
+          <Link to={`/learning/flashcards?topic=${encodeURIComponent(topicId)}`} className="btn-secondary">
+            {t.learning.flashcards.makeFromTopic}
+          </Link>
         </div>
       </section>
 

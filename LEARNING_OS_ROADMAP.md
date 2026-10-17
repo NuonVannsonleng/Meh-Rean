@@ -179,6 +179,15 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   `postponeReview()` in both backends. `npm run test:revision` 6/6;
   Playwright 5/5 in both backends; 320px. Flashcards still need the
   owner's decision; the queue has a `source` field ready for them.
+- [x] 7.4 Flashcards (owner decision 2026-10-17: build them).
+  ✔ 2026-10-17: table `flashcards` (content written by the student, schedule
+  only by `review_flashcard()`; 500 each), the same rules in
+  `src/lib/flashcards.ts` and the browser-only store; `/learning/flashcards`
+  (make with a formula preview, edit, delete, review due cards); "Make a
+  flashcard" on topic pages; reviews are self-reported events, never
+  mastery evidence. `npm run test:flashcards` 7/7; Playwright 7/7 in both
+  backends; privacy 8/8 with flashcards.
+- [ ] 7.5 Flashcards in the revision queue and on My learning.
 - [x] 7.3 Learning history view and deletion controls.
   ✔ 2026-10-17: `/learning/history` (by day, newest first, up to 1000);
   delete one entry or everything through `delete_my_learning_events()`,

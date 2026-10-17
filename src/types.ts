@@ -319,13 +319,14 @@ export type LearningEventType =
   | "video_watched"
   | "video_marked_understood"
   | "video_marked_revise"
-  | "study_task_completed";
+  | "study_task_completed"
+  | "flashcard_reviewed";
 
 /** One thing a student did (Learning OS 1.3), recorded by the database. */
 export interface LearningEvent {
   id: string;
   eventType: LearningEventType;
-  resourceType: "question" | "exam_paper" | "video" | "study_plan" | null;
+  resourceType: "question" | "exam_paper" | "video" | "study_plan" | "flashcard" | null;
   resourceId: string | null;
   topicId: string | null;
   chapterId: string | null;
@@ -333,6 +334,24 @@ export interface LearningEvent {
   data: Record<string, unknown>;
   createdAt: string;
 }
+
+/** A student's own flashcard (Learning OS 7.4). */
+export interface Flashcard {
+  id: string;
+  topicId: string | null;
+  front: string;
+  back: string;
+  /** 0 new … 5 learned. */
+  reviewStage: number;
+  /** null once learned. */
+  nextReviewAt: string | null;
+  lastReviewedAt: string | null;
+  timesForgotten: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type FlashcardInput = Pick<Flashcard, "topicId" | "front" | "back">;
 
 /** A video or note linked to a topic (Learning OS 1.2). */
 export interface ResourceTopic {

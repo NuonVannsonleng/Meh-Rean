@@ -31,6 +31,8 @@ function kindOf(event: LearningEvent): string {
       return copy.kinds.videoRevise;
     case "study_task_completed":
       return copy.kinds.planTask;
+    case "flashcard_reviewed":
+      return copy.kinds.flashcard;
   }
 }
 

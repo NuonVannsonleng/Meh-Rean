@@ -88,6 +88,8 @@ import {
   type ProfileImageKind,
   type VerificationRequest,
   type VerificationStatus,
+  type Flashcard,
+  type FlashcardInput,
 } from "../types";
 import { ATTACHMENTS_BUCKET, supabase } from "./supabase/client";
 
@@ -2500,4 +2502,57 @@ export async function deleteConceptLink(id: string): Promise<void> {
   await requireViewer();
   const { error } = await supabase.from("concept_links").delete().eq("id", id);
   if (error) failLink(error);
+}
+
+// ---- Flashcards (Learning OS 7.4) ----
+
+type FlashcardRow = { id: string; topic_id: string | null; front: string; back: string; review_stage: number; next_review_at: string | null; last_reviewed_at: string | null; times_forgotten: number; created_at: string; updated_at: string };
+const FLASHCARD_COLUMNS = "id, topic_id, front, back, review_stage, next_review_at, last_reviewed_at, times_forgotten, created_at, updated_at";
+const toFlashcard = (row: FlashcardRow): Flashcard => ({
+  id: row.id,
+  topicId: row.topic_id,
+  front: row.front,
+  back: row.back,
+  reviewStage: row.review_stage,
+  nextReviewAt: row.next_review_at,
+  lastReviewedAt: row.last_reviewed_at,
+  timesForgotten: row.times_forgotten,
+  createdAt: row.created_at,
+  updatedAt: row.updated_at,
+});
+const failFlashcard = (error: { message: string; code?: string }): never => {
+  throw new ApiError(error.code === "42501" ? "FORBIDDEN" : error.code === "P0002" ? "NOT_FOUND" : "UNKNOWN", error.code === "42501" ? 403 : error.code === "P0002" ? 404 : 400, error.message);
+};
+
+export async function getFlashcards(): Promise<Flashcard[]> {
+  const viewer = await viewerId();
+  if (!viewer) return [];
+  const { data, error } = await supabase.from("flashcards").select(FLASHCARD_COLUMNS).eq("user_id", viewer).order("created_at", { ascending: false }).limit(500).returns<FlashcardRow[]>();
+  if (error) failFlashcard(error);
+  return (data ?? []).map(toFlashcard);
+}
+
+/** Creates a card, or edits its content when `id` is given; the schedule is the database's. */
+export async function saveFlashcard(input: FlashcardInput, id?: string): Promise<Flashcard> {
+  await requireViewer();
+  const row = { topic_id: input.topicId, front: input.front, back: input.back };
+  const { data, error } = id
+    ? await supabase.from("flashcards").update(row).eq("id", id).select(FLASHCARD_COLUMNS).single<FlashcardRow>()
+    : await supabase.from("flashcards").insert(row).select(FLASHCARD_COLUMNS).single<FlashcardRow>();
+  if (error) failFlashcard(error);
+  return toFlashcard(data!);
+}
+
+export async function deleteFlashcard(id: string): Promise<void> {
+  await requireViewer();
+  const { error } = await supabase.from("flashcards").delete().eq("id", id);
+  if (error) failFlashcard(error);
+}
+
+/** Records a review; the database moves the schedule and returns the next review time (null once learned). */
+export async function reviewFlashcard(id: string, remembered: boolean): Promise<string | null> {
+  await requireViewer();
+  const { data, error } = await supabase.rpc("review_flashcard", { card: id, remembered });
+  if (error) failFlashcard(error);
+  return (data as string | null) ?? null;
 }

@@ -25,6 +25,8 @@ are added per task and listed here with their latest results.
 | 2026-10-17 | `npm run test:recommend` (incl. 300 random students) | 15 passed, 0 failed |
 | 2026-10-17 | Playwright: Study next (visitor, Khmer reasons, due review first, Not now, English, 320px), browser-only / online | 7/7, 7/7 |
 | 2026-10-17 | `npm run test:adaptive` (selection, difficulty, modes) | 13 passed, 0 failed |
+| 2026-10-17 | `npm run test:flashcards` (unit + local Supabase) | 7 passed, 0 failed |
+| 2026-10-17 | Playwright: flashcards (make with preview, review, edit, history, topic link, delete, 320px), browser-only / online | 7/7, 7/7 |
 | 2026-10-17 | Full suite: all 34 `npm run test:*` on a local database upgraded from the old production schema (accounts 68/68 after the cold-start realtime fix) | all pass |
 | 2026-10-17 | `npm run test:learning-privacy` (12 tables + postpone/delete functions) | 8 passed, 0 failed |
 | 2026-10-17 | Slow phone (production build, 360 px, slow 3G, CPU ×4): 5 pages, cold and cached, no overflow — see LEARNING_OS_RELEASE.md | measured |
