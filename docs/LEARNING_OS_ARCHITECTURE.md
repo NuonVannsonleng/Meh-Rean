@@ -19,7 +19,7 @@ General architecture: [ARCHITECTURE.md](ARCHITECTURE.md).
 | Study plan | Working: weekly plan from exam date, time and weak chapters; student-owned. | `study_plans` |
 | Video finder | Working (AI reading + YouTube), with chapter matching, trusted channels, creator chapters, photo-to-solution, quizzes, watched marks. | `api/bacii-videos.ts`, `video_progress`, `video_quizzes` |
 | Live quiz | Working (Kahoot-style). | `live_*` |
-| **Flashcards** | **Do not exist.** (Only a sample post mentions them.) | — |
+| **Flashcards** | **Did not exist** at the audit; built in 7.4–7.5 (`flashcards`, `/learning/flashcards`, in the revision queue). | — |
 | Learning profile | Partly: `profiles.grade`, school; exam date and target grade live in the study plan. No track, language or session preferences. | `profiles`, `study_plans` |
 
 Authentication: Supabase Auth; all data access through `src/services/api.ts`

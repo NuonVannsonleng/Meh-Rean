@@ -187,7 +187,12 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   flashcard" on topic pages; reviews are self-reported events, never
   mastery evidence. `npm run test:flashcards` 7/7; Playwright 7/7 in both
   backends; privacy 8/8 with flashcards.
-- [ ] 7.5 Flashcards in the revision queue and on My learning.
+- [x] 7.5 Flashcards in the revision queue and on My learning.
+  ✔ 2026-10-17: due cards join `/learning/revision` (reviewed in place,
+  "Forgot it N times before" raises them, never postponed; later ones
+  coming up); My learning's revision count and today's focus include them.
+  `npm run test:revision` 7/7; Playwright revision 6/6, My learning 5/5,
+  flashcards 7/7 in both backends.
 - [x] 7.3 Learning history view and deletion controls.
   ✔ 2026-10-17: `/learning/history` (by day, newest first, up to 1000);
   delete one entry or everything through `delete_my_learning_events()`,

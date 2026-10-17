@@ -1,7 +1,7 @@
-// The revision queue (Learning OS 7.1, 7.2): every review that is due, most
-// urgent first, and what comes up in the next days. Sources: the mistake
-// notebook today; flashcards would join as another `source` (owner decision,
-// see the blockers). Numbers in src/data/learning/revision-rules.json.
+// The revision queue (Learning OS 7.1, 7.2, 7.5): every review that is due,
+// most urgent first, and what comes up in the next days, from the mistake
+// notebook and the student's flashcards. Numbers in
+// src/data/learning/revision-rules.json.
 
 import { prerequisitesOf, type ConceptLinkInput } from "./conceptGraph.ts";
 import type { MasteryLabel, TopicMastery } from "./mastery.ts";
@@ -21,13 +21,14 @@ export interface RevisionRules {
 export type RevisionReason =
   | { code: "overdue"; days: number }
   | { code: "repeated"; times: number }
+  | { code: "forgotten"; times: number }
   | { code: "weak-topic"; label: MasteryLabel }
   | { code: "needed-for"; topicId: string }
   | { code: "exam-soon"; days: number };
 
 export interface RevisionItem {
-  source: "notebook";
-  /** The question to review. */
+  source: "notebook" | "flashcard";
+  /** The question (notebook) or card (flashcard) to review. */
   id: string;
   topicId: string | null;
   dueAt: string;
@@ -40,6 +41,8 @@ export interface RevisionItem {
 
 export interface RevisionInput {
   reviews: { questionId: string; topicId: string | null; nextReviewAt: string | null; timesWrong: number; postponed: number }[];
+  /** The student's flashcards (self-marked reviews; never postponed). */
+  flashcards?: { id: string; topicId: string | null; nextReviewAt: string | null; timesForgotten: number }[];
   mastery: TopicMastery[];
   links: ConceptLinkInput[];
   examDate: string | null;
@@ -64,10 +67,15 @@ export function buildRevisionQueue(input: RevisionInput, rules: RevisionRules): 
 
   const due: RevisionItem[] = [];
   const upcoming: RevisionItem[] = [];
-  for (const review of input.reviews) {
+  // Cards in the same shape: forgetting a card counts like answering wrong again.
+  const entries = [
+    ...input.reviews.map((review) => ({ source: "notebook" as const, id: review.questionId, topicId: review.topicId, nextReviewAt: review.nextReviewAt, repeats: review.timesWrong - 1, postponed: review.postponed })),
+    ...(input.flashcards ?? []).map((card) => ({ source: "flashcard" as const, id: card.id, topicId: card.topicId, nextReviewAt: card.nextReviewAt, repeats: card.timesForgotten, postponed: 0 })),
+  ];
+  for (const review of entries) {
     if (!review.nextReviewAt) continue;
     const at = Date.parse(review.nextReviewAt);
-    const base = { source: "notebook" as const, id: review.questionId, topicId: review.topicId, dueAt: review.nextReviewAt, postponed: review.postponed, canPostpone: review.postponed < rules.maxPostpones };
+    const base = { source: review.source, id: review.id, topicId: review.topicId, dueAt: review.nextReviewAt, postponed: review.postponed, canPostpone: review.source === "notebook" && review.postponed < rules.maxPostpones };
     if (at > now) {
       if (at - now <= rules.upcomingDays * DAY) upcoming.push({ ...base, priority: 0, reasons: [] });
       continue;
@@ -79,9 +87,9 @@ export function buildRevisionQueue(input: RevisionInput, rules: RevisionRules): 
       priority += rules.weights.overdue * Math.min(1, overdueDays / rules.overdueDaysForFull);
       reasons.push({ code: "overdue", days: overdueDays });
     }
-    if (review.timesWrong > 1) {
-      priority += rules.weights.repeated * Math.min(1, (review.timesWrong - 1) / (rules.repeatsForFull - 1));
-      reasons.push({ code: "repeated", times: review.timesWrong });
+    if (review.repeats > 0) {
+      priority += rules.weights.repeated * Math.min(1, review.repeats / (rules.repeatsForFull - 1));
+      reasons.push(review.source === "flashcard" ? { code: "forgotten", times: review.repeats } : { code: "repeated", times: review.repeats + 1 });
     }
     const label = labelOf(review.topicId);
     if (isWeak(label)) {

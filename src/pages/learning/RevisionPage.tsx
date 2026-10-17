@@ -3,14 +3,15 @@ import { Link } from "react-router-dom";
 import ErrorState from "../../components/ErrorState";
 import { ArrowLeftIcon } from "../../components/Icons";
 import LoadingState from "../../components/LoadingState";
+import FlashcardReview from "../../components/FlashcardReview";
 import PracticeQuestion from "../../components/PracticeQuestion";
 import revisionRules from "../../data/learning/revision-rules.json";
 import { useCurriculum } from "../../hooks/useCurriculum";
 import { t } from "../../i18n/en";
 import { formatDate } from "../../lib/format";
 import { buildRevisionQueue, type RevisionItem, type RevisionReason, type RevisionRules } from "../../lib/revision";
-import { getConceptLinks, getLearningProfile, getMistakes, getTopicMastery, postponeReview } from "../../services/api";
-import type { ConceptLink, Mistake } from "../../types";
+import { getConceptLinks, getFlashcards, getLearningProfile, getMistakes, getTopicMastery, postponeReview } from "../../services/api";
+import type { ConceptLink, Flashcard, Mistake } from "../../types";
 import type { TopicMastery } from "../../lib/mastery";
 
 const copy = t.learning.revision;
@@ -19,7 +20,7 @@ const rules = revisionRules as RevisionRules;
 /** Revision (Learning OS 7.1, 7.2): the due reviews, most useful first, with postpone. */
 export default function RevisionPage() {
   const { subjects, chapters } = useCurriculum();
-  const [data, setData] = useState<{ mistakes: Mistake[]; mastery: TopicMastery[]; links: ConceptLink[]; examDate: string | null } | null>(null);
+  const [data, setData] = useState<{ mistakes: Mistake[]; flashcards: Flashcard[]; mastery: TopicMastery[]; links: ConceptLink[]; examDate: string | null } | null>(null);
   const [failed, setFailed] = useState(false);
   // The order is fixed when the page opens, so items do not jump while answering.
   const [now] = useState(() => new Date());
@@ -28,8 +29,8 @@ export default function RevisionPage() {
 
   useEffect(() => {
     document.title = `${copy.title} · ${t.common.appName}`;
-    Promise.all([getMistakes(), getTopicMastery(), getConceptLinks(), getLearningProfile()])
-      .then(([mistakes, mastery, links, profile]) => setData({ mistakes, mastery, links, examDate: profile.examDate }))
+    Promise.all([getMistakes(), getFlashcards(), getTopicMastery(), getConceptLinks(), getLearningProfile()])
+      .then(([mistakes, flashcards, mastery, links, profile]) => setData({ mistakes, flashcards, mastery, links, examDate: profile.examDate }))
       .catch(() => setFailed(true));
   }, []);
 
@@ -39,6 +40,7 @@ export default function RevisionPage() {
         ? buildRevisionQueue(
             {
               reviews: data.mistakes.map((m) => ({ questionId: m.questionId, topicId: m.question.topicId, nextReviewAt: m.nextReviewAt, timesWrong: m.timesWrong, postponed: m.postponed })),
+              flashcards: data.flashcards,
               mastery: data.mastery,
               links: data.links,
               examDate: data.examDate,
@@ -68,12 +70,15 @@ export default function RevisionPage() {
   }
 
   const mistakeOf = new Map(data.mistakes.map((m) => [m.questionId, m]));
+  const cardOf = new Map(data.flashcards.map((card) => [card.id, card]));
   const reasonText = (reason: RevisionReason) => {
     switch (reason.code) {
       case "overdue":
         return copy.reasons.overdue(reason.days);
       case "repeated":
         return copy.reasons.repeated(reason.times);
+      case "forgotten":
+        return copy.reasons.forgotten(reason.times);
       case "weak-topic":
         return copy.reasons.weakTopic(t.learning.mastery.labels[reason.label]);
       case "needed-for":
@@ -105,6 +110,23 @@ export default function RevisionPage() {
       <h2 className="font-display text-ink-900 mb-2 text-lg font-bold">{queue.due.length ? copy.dueTitle(queue.due.length) : copy.noneDue}</h2>
       <ol className="space-y-4">
         {queue.due.map((item, index) => {
+          if (item.source === "flashcard") {
+            const card = cardOf.get(item.id)!;
+            return (
+              <li key={`card:${item.id}`} data-revision-item={item.id} data-source="flashcard">
+                {item.reasons.length > 0 && (
+                  <ul className="mb-1.5 flex flex-wrap gap-1.5">
+                    {item.reasons.map((reason, i) => (
+                      <li key={i} className="bg-surface-hover text-ink-700 rounded-full px-2 py-0.5 text-xs">
+                        {reasonText(reason)}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <FlashcardReview card={card} topicName={`${copy.flashcardLabel}${card.topicId && topicName.get(card.topicId) ? ` · ${topicName.get(card.topicId)}` : ""}`} />
+              </li>
+            );
+          }
           const mistake = mistakeOf.get(item.id)!;
           const chapter = mistake.question.chapterId ? chapterOf.get(mistake.question.chapterId) : undefined;
           const subject = subjects.find((s) => s.id === chapter?.subjectId);
@@ -162,10 +184,14 @@ export default function RevisionPage() {
         {queue.upcoming.length ? (
           <ul className="divide-line divide-y">
             {queue.upcoming.map((item) => {
-              const question = mistakeOf.get(item.id)!.question;
+              const question = item.source === "notebook" ? mistakeOf.get(item.id)!.question : null;
+              const card = item.source === "flashcard" ? cardOf.get(item.id)! : null;
+              const label = card
+                ? `${copy.flashcardLabel}: ${card.front.length > 60 ? `${card.front.slice(0, 60)}…` : card.front}`
+                : (question!.topicId && topicName.get(question!.topicId)) || (question!.chapterId && chapterOf.get(question!.chapterId)?.nameEn) || question!.id;
               return (
-                <li key={item.id} className="flex flex-wrap items-center justify-between gap-2 py-2 text-sm">
-                  <span className="text-ink-900 min-w-0">{(question.topicId && topicName.get(question.topicId)) || (question.chapterId && chapterOf.get(question.chapterId)?.nameEn) || question.id}</span>
+                <li key={`${item.source}:${item.id}`} className="flex flex-wrap items-center justify-between gap-2 py-2 text-sm">
+                  <span className="text-ink-900 min-w-0">{label}</span>
                   <span className="text-ink-500 text-xs">{copy.dueOn(formatDate(item.dueAt))}</span>
                 </li>
               );
@@ -179,6 +205,10 @@ export default function RevisionPage() {
         {copy.flashcardsNote}{" "}
         <Link to="/bacii/mistakes" className="text-accent font-semibold hover:underline">
           {copy.notebook}
+        </Link>
+        {" · "}
+        <Link to="/learning/flashcards" className="text-accent font-semibold hover:underline">
+          {copy.flashcardsLink}
         </Link>
       </p>
     </div>

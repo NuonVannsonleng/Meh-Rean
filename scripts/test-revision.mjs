@@ -50,6 +50,20 @@ await check("an exam within 60 days raises every due review and says so", async 
   assert(soon.priority > base.priority && soon.reasons.some((r) => r.code === "exam-soon" && r.days === 30), JSON.stringify(soon));
 });
 
+await check("flashcards join the queue: due ones by priority, forgotten ones higher, never postponed; later ones coming up", async () => {
+  const cards = [
+    { id: "card-new", topicId: T("conics-ellipse"), nextReviewAt: daysAgo(0), timesForgotten: 0 },
+    { id: "card-forgot", topicId: T("conics-ellipse"), nextReviewAt: daysAgo(0), timesForgotten: 2 },
+    { id: "card-later", topicId: null, nextReviewAt: daysAgo(-3), timesForgotten: 0 },
+    { id: "card-learned", topicId: null, nextReviewAt: null, timesForgotten: 0 },
+  ];
+  const { due, upcoming } = queue([review("q", "conics-ellipse", 5)], { flashcards: cards });
+  assert(due.map((i) => `${i.source}:${i.id}`).join() === "flashcard:card-forgot,notebook:q,flashcard:card-new", due.map((i) => `${i.id}:${i.priority}`).join());
+  const forgot = due.find((i) => i.id === "card-forgot");
+  assert(forgot.reasons.some((r) => r.code === "forgotten" && r.times === 2) && !forgot.canPostpone, JSON.stringify(forgot));
+  assert(upcoming.map((i) => i.id).join() === "card-later", upcoming.map((i) => i.id).join());
+});
+
 await check("postponing is offered until it has been used 5 times; ties are deterministic", async () => {
   const { due } = queue([review("x", "conics-ellipse", 1, { postponed: 4 }), review("y", "conics-ellipse", 1, { postponed: 5 })]);
   assert(due.find((i) => i.id === "x").canPostpone && !due.find((i) => i.id === "y").canPostpone, "postpone limit");

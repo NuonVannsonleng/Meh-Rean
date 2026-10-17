@@ -126,6 +126,10 @@ Code: `src/lib/revision.ts`. Numbers: `src/data/learning/revision-rules.json`
   weakness of its topic when "Needs foundation"/"Developing" + 1 when its
   topic is a direct prerequisite of such a topic; × (1 + 0.5 × (1 −
   days/60)) when the exam is within 60 days. Ties: earlier due, then id.
+- Flashcards (7.5): due cards in the same queue; forgetting counts like a
+  repeated mistake (1.5 × min(1, times forgotten/2)); never postponed.
+  Their own schedule: remembered when due → 1, 3, 7, 14 days, then learned;
+  forgot → tomorrow (`review_flashcard`, `src/lib/flashcards.ts`).
 - Coming up: due within 7 days, by date.
 - Postpone (database `postpone_review`): 1, 3 or 7 days from the later of
   now and the due date; at most 5 times per entry.

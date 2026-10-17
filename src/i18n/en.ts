@@ -1513,6 +1513,7 @@ export const en = {
       reasons: {
         overdue: (days: number) => (days === 1 ? "1 day overdue" : `${days} days overdue`),
         repeated: (times: number) => `Answered wrong ${times} times`,
+        forgotten: (times: number) => (times === 1 ? "Forgot it once before" : `Forgot it ${times} times before`),
         weakTopic: (label: string) => `Topic: ${label}`,
         neededFor: (topic: string) => `Needed for ${topic}`,
         examSoon: (days: number) => `Exam in ${days} days`,
@@ -1522,7 +1523,9 @@ export const en = {
       postponeLabel: (days: number, question: number) => `Put review ${question} off by ${days} ${days === 1 ? "day" : "days"}`,
       postponed: (date: string) => `Put off until ${date}.`,
       postponeLimit: "Put off 5 times already: give it a try.",
-      flashcardsNote: "Reviews come from your mistake notebook. Flashcards are not part of Meh Rean yet.",
+      flashcardsNote: "Reviews come from your mistake notebook and your flashcards.",
+      flashcardLabel: "Flashcard",
+      flashcardsLink: "Open flashcards",
       notebook: "Open the mistake notebook",
     },
     journey: {

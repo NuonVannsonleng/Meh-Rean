@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 7 — 7.5 Flashcards in the revision queue** (next up; the owner chose to build flashcards).
+**All phases done**, flashcards included (7.5, 2026-10-17). Open: owner decisions in docs/LEARNING_OS_RELEASE.md.
 
 ## Done
 
@@ -547,6 +547,20 @@
   deleted); Playwright 7/7 browser-only and online; privacy 8/8 (13
   tables), history 4/4, events 9/9; My learning, history and topic page UI
   pass; lint. Production needs setup-all.sql again.
+
+- **2026-10-17 — 7.5 Flashcards in revision.** Agents: learning
+  intelligence (priorities), frontend, tester. `buildRevisionQueue()` takes
+  the student's cards as a second source: due cards are ranked with the
+  notebook (forgetting counts like a repeated mistake, reason "Forgot it N
+  times before"), never postponed, and cards due within 7 days are listed
+  as coming up. The revision page shows due cards in the same list and
+  reviews them in place with `FlashcardReview`; its note now says reviews
+  come from the notebook and flashcards, with a link to them. My learning's
+  revision card and today's focus count due cards too. Study next, the
+  journey and the companion still count notebook reviews only (cards are
+  self-marked). Tests: `npm run test:revision` 7/7; Playwright revision
+  6/6 (a card reviewed in place and moved to coming up), My learning 5/5,
+  flashcards 7/7 in both backends; lint. No database change.
 
 ## Report format (per task)
 
