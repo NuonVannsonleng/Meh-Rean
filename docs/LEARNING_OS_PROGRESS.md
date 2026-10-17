@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 11 — 11.1 Security, performance and release readiness** (next up).
+**All phases done** (11.1, 2026-10-17). Open: owner decisions in docs/LEARNING_OS_RELEASE.md.
 
 ## Done
 
@@ -499,6 +499,31 @@
   practice 9/9, revision 5/5, readiness 3/3, companion 4/4, Study next 7/7,
   each in both backends; lint. No database change. Open: whether My
   learning should replace the Home feed for students (owner decision).
+
+- **2026-10-17 — 11.1 Release readiness.** Agents: security (isolation and
+  database audit), performance (slow phone), tester (full suite), AI
+  engineer (cost), documentation. Full run on a local database reset, loaded
+  with the old production schema (256811f) and upgraded twice with
+  `setup-all.sql`: all 34 `npm run test:*` suites pass. The accounts
+  suite's realtime check failed only on the first run after a cold local
+  Realtime start (a channel reports SUBSCRIBED before its feed is live); the
+  test now waits 3 s after subscribing and passes on a cold start. Privacy
+  audit extended to topic mastery, companion requests, and the postpone and
+  delete functions: 8/8. Database audit: no table without row level
+  security, every security definer function pins search_path, no student
+  write access to events, estimates or rules; older messaging functions are
+  visitor-callable but scoped to auth.uid() (low, left as is). Slow-phone
+  run on the production build (360 px, slow 3G, CPU ×4, 600 answers): every
+  page usable, no sideways scroll; fixed: My learning no longer fetches the
+  event history (readiness from stored estimates, same result — new unit
+  check), practice fetches only the last 30 days (`getLearningEvents(limit,
+  since)` in both backends). Tests after the fixes: readiness 8/8; My
+  learning 5/5, practice 9/9, readiness 3/3 in both backends. Release notes,
+  checklist, AI cost review and limitations in
+  docs/LEARNING_OS_RELEASE.md. No database change. Note: during the run a
+  local `supabase start` printed the standard local demo keys into the
+  session output (not production keys; nothing committed); later runs were
+  silenced.
 
 ## Report format (per task)
 

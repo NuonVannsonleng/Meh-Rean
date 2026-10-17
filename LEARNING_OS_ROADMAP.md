@@ -228,5 +228,10 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
 
 ## Phase 11 — Security, performance and release readiness
 
-- [ ] Full test suite, data-isolation audit, slow-network and phone tests,
+- [x] 11.1 Full test suite, data-isolation audit, slow-network and phone tests,
   AI cost review, deployment checklist, known limitations.
+  ✔ 2026-10-17: [docs/LEARNING_OS_RELEASE.md](docs/LEARNING_OS_RELEASE.md).
+  All 34 suites on a database upgraded from the old production schema;
+  privacy 8/8 over 12 tables and the new functions; database audit; slow-3G
+  phone measurements (My learning 224 → 48 KB of API data after a fix);
+  AI cost table; checklist; limitations and open owner decisions.

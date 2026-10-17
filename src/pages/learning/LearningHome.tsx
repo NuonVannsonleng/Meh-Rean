@@ -14,9 +14,9 @@ import type { MasteryRules } from "../../lib/mastery";
 import { buildReadiness, type ReadinessRules } from "../../lib/readiness";
 import { rankCandidates, recommend } from "../../lib/recommend";
 import { reasonText } from "../../lib/recommendText";
-import { getDailyStreak, getLearningEvents, getMyExamAttempts } from "../../services/api";
+import { getDailyStreak, getMyExamAttempts } from "../../services/api";
 import { loadStudyContext, RECOMMENDATION_RULES, type StudyContext } from "../../services/recommendations";
-import type { DailyStreak, ExamAttempt, LearningEvent } from "../../types";
+import type { DailyStreak, ExamAttempt } from "../../types";
 
 const copy = t.learning.home;
 const DAY = 86_400_000;
@@ -39,24 +39,25 @@ function Card({ id, title, titleKm, link, children }: { id: string; title: strin
 
 /** My learning (Learning OS 10.1): today's focus and every part of the Learning OS at a glance. */
 export default function LearningHome() {
-  const [data, setData] = useState<{ context: StudyContext; events: LearningEvent[]; exams: ExamAttempt[]; streak: DailyStreak | null } | null>(null);
+  const [data, setData] = useState<{ context: StudyContext; exams: ExamAttempt[]; streak: DailyStreak | null } | null>(null);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     document.title = `${copy.title} · ${t.common.appName}`;
-    Promise.all([loadStudyContext(), getLearningEvents(1000), getMyExamAttempts(), getDailyStreak().catch(() => null)])
-      .then(([context, events, exams, streak]) => setData({ context, events, exams, streak }))
+    // No event history here: the readiness card uses the stored estimates (slow networks).
+    Promise.all([loadStudyContext(), getMyExamAttempts(), getDailyStreak().catch(() => null)])
+      .then(([context, exams, streak]) => setData({ context, exams, streak }))
       .catch(() => setFailed(true));
   }, []);
 
   const derived = useMemo(() => {
     if (!data) return null;
-    const { context, events, exams } = data;
+    const { context, exams } = data;
     const now = Date.now();
     const items = recommend(context.input, RECOMMENDATION_RULES);
     const ranked = rankCandidates(context.input, RECOMMENDATION_RULES).map((item) => item.topicId);
     const journey = buildJourney({ topics: context.input.topics, links: context.input.links, mastery: context.input.mastery, reviews: context.input.reviews, recommended: ranked }, journeyRules as JourneyRules);
-    const readiness = buildReadiness({ topics: context.input.topics, events, exams }, readinessRules as ReadinessRules, masteryRules as MasteryRules);
+    const readiness = buildReadiness({ topics: context.input.topics, events: [], exams, mastery: context.input.mastery }, readinessRules as ReadinessRules, masteryRules as MasteryRules);
     const dueAt = context.input.reviews.map((review) => (review.nextReviewAt ? Date.parse(review.nextReviewAt) : null)).filter((at): at is number => at !== null);
     const due = dueAt.filter((at) => at <= now).length;
     const soon = dueAt.filter((at) => at > now && at - now <= revisionRules.upcomingDays * DAY).length;

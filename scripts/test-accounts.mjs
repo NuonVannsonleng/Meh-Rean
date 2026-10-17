@@ -1265,6 +1265,8 @@ async function runMessages(state) {
   // Subscribed before anything is sent, so the delivery check below is real.
   const listenerB = await listenForMessages(b);
   const listenerC = await listenForMessages(c);
+  // Just after Realtime starts, a channel can report SUBSCRIBED before its changes feed is live.
+  await wait(3_000);
 
   await check("Messages", "A sends B a message", async () => {
     const { data, error } = await a.client

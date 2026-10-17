@@ -73,6 +73,7 @@ Layer 6  Experience     dashboard, concept map, journey, adaptive practice, comp
 | 12 demo questions, 1 subject | Mastery and adaptive practice have little to work with; results are demos | Real, checked questions (admin editor) |
 | Curriculum and prerequisites are provisional | Concept map and prerequisite suggestions must be labelled provisional | A Grade 12 teacher to check (`meh-rean-curriculum`); admins can now check links at `/bacii/admin/topic-links` |
 | Khmer topic names not checked | Review flagged: "លក្ខណៈ" is vague; "សមីការលំដាប់ទី១" may need "លីនេអ៊ែរ"; "ចំណុចរបត់", "ព្រីមីទីវ" and "ផលគុណស្កាលែ" spellings to confirm | A Grade 12 teacher; not changed without one |
+| Khmer wording of new pages not checked | Titles of My learning, practice, journey, revision, readiness, companion and history are Meh Rean's own | A native Khmer speaker |
 | Khmer recommendation reasons not checked | Sentences in `t.learning.next.reasonKm` are Meh Rean's own wording | A native Khmer speaker (ideally a teacher) to review |
 | No flashcards | Phase 7 integrates only the notebook until flashcards exist | Owner decision: build flashcards (new feature) or skip |
 | Notes not linked to the curriculum | Notes can only be recommended once linked | 1.2 lets authors/admins link notes to topics |

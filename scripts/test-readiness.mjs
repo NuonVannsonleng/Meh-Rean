@@ -80,6 +80,15 @@ await check("readiness needs 20 answers; parts without data share their weight; 
   assert(withExam.readiness.parts.exams === 100 && withExam.readiness.score > score, "an exam at 100% should raise it");
 });
 
+await check("from stored estimates alone (My learning): the same readiness, no trends", async () => {
+  const events = [...old, ...["d", "e", "f", "g", "h"].flatMap((t) => [5, 4].map((d) => answer(t, true, d)))];
+  const full = run(events);
+  const stored = (await import("../src/lib/mastery.ts")).masteryFromEvents(events, masteryRules, NOW);
+  const light = buildReadiness({ topics, events: [], exams: [], mastery: stored, now: NOW }, rules, masteryRules);
+  assert(light.readiness.score === full.readiness.score && light.readiness.level === full.readiness.level && light.readiness.answers === full.readiness.answers, `${light.readiness.score}/${light.readiness.answers} vs ${full.readiness.score}/${full.readiness.answers}`);
+  assert(light.coverage.practised === full.coverage.practised && light.mastery.trends.every((t) => t.trend.state === "not-enough-data"), "coverage or trends");
+});
+
 await check("this week against last week", async () => {
   const events = [answer("a", true, 1), answer("b", false, 2), answer("a", true, 3, "mistake_reviewed"), answer("c", true, 9), { ...answer("x", true, 1), eventType: "mock_exam_completed", data: {} }];
   const r = run(events);

@@ -2061,11 +2061,11 @@ export async function unlinkResourceTopic(id: string): Promise<void> {
 }
 
 /** The student's own activity, newest first (Learning OS 1.3). */
-export async function getLearningEvents(limit = 50): Promise<LearningEvent[]> {
+export async function getLearningEvents(limit = 50, since?: string): Promise<LearningEvent[]> {
   const db = await loadDb();
   const viewer = viewerId(db);
   if (!viewer) return [];
-  return structuredClone((db.learningEvents ?? []).filter((event) => event.userId === viewer))
+  return structuredClone((db.learningEvents ?? []).filter((event) => event.userId === viewer && (!since || event.createdAt >= since)))
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .slice(0, limit)
     .map(({ userId: _userId, idempotencyKey: _key, ...event }) => event);

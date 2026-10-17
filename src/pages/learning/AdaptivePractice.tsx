@@ -116,7 +116,9 @@ function Session({ mode, onAgain }: { mode: PracticeMode; onAgain: () => void })
     let active = true;
     (async () => {
       const context = await loadStudyContext();
-      const [lists, events] = await Promise.all([Promise.all(context.subjectIds.map((subjectId) => getQuestions({ subjectId }))), getLearningEvents(1000)]);
+      // Only the last 30 days matter for "answered lately" (freshness is full after 30 days).
+      const since = new Date(Date.now() - 30 * 86_400_000).toISOString();
+      const [lists, events] = await Promise.all([Promise.all(context.subjectIds.map((subjectId) => getQuestions({ subjectId }))), getLearningEvents(1000, since)]);
       const recommended = rankCandidates(context.input, RECOMMENDATION_RULES).map((item) => item.topicId);
       const plan = sessionPlan(mode, { topics: context.input.topics, links: context.input.links, mastery: context.input.mastery, recommended }, rules);
       if (!active) return;

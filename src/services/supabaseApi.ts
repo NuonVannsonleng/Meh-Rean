@@ -2340,14 +2340,17 @@ export async function unlinkResourceTopic(id: string): Promise<void> {
 
 // ---- Learning activity (Learning OS 1.3) ----
 
-export async function getLearningEvents(limit = 50): Promise<LearningEvent[]> {
+/** The student's latest events, newest first; `since` (ISO time) leaves older ones on the server. */
+export async function getLearningEvents(limit = 50, since?: string): Promise<LearningEvent[]> {
   const viewer = await viewerId();
   if (!viewer) return [];
+  let query = supabase
+    .from("learning_events")
+    .select("id, event_type, resource_type, resource_id, topic_id, chapter_id, data, created_at")
+    .eq("user_id", viewer);
+  if (since) query = query.gte("created_at", since);
   const rows = unwrap(
-    await supabase
-      .from("learning_events")
-      .select("id, event_type, resource_type, resource_id, topic_id, chapter_id, data, created_at")
-      .eq("user_id", viewer)
+    await query
       .order("created_at", { ascending: false })
       .limit(Math.min(1000, limit))
       .returns<{ id: number; event_type: LearningEvent["eventType"]; resource_type: LearningEvent["resourceType"]; resource_id: string | null; topic_id: string | null; chapter_id: string | null; data: Record<string, unknown>; created_at: string }[]>(),

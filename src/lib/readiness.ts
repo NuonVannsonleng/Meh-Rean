@@ -5,7 +5,7 @@
 // each part says "not enough data" rather than guessing. Never a prediction of
 // a BacII result.
 
-import { masteryFromEvents, type MasteryRules } from "./mastery.ts";
+import { masteryFromEvents, type MasteryRules, type TopicMastery } from "./mastery.ts";
 import type { ExamAttempt, LearningEvent } from "../types.ts";
 
 export interface ReadinessRules {
@@ -45,8 +45,13 @@ export interface Readiness {
   week: { answers: number; correct: number; activeDays: number; topics: number; reviews: number; exams: number; previous: { answers: number; correct: number; activeDays: number } };
 }
 
+/**
+ * `mastery` (the stored estimates) may stand in for replaying the events when
+ * only the current picture is needed, as on My learning: trends, the week and
+ * consistency then say there is not enough data.
+ */
 export function buildReadiness(
-  input: { topics: { id: string; chapterId: string }[]; events: LearningEvent[]; exams: ExamAttempt[]; now?: Date },
+  input: { topics: { id: string; chapterId: string }[]; events: LearningEvent[]; exams: ExamAttempt[]; mastery?: TopicMastery[]; now?: Date },
   rules: ReadinessRules,
   masteryRules: MasteryRules,
 ): Readiness {
@@ -60,7 +65,9 @@ export function buildReadiness(
     const labelled = masteryFromEvents(ownTopics(input.events.filter((event) => Date.parse(event.createdAt) <= time)), masteryRules, new Date(time)).filter((item) => known.has(item.topicId) && item.label !== "unknown" && item.score !== null);
     return labelled.length >= rules.minLabelledTopics ? average(labelled.map((item) => item.score!)) : null;
   };
-  const current = masteryFromEvents(ownTopics(input.events), masteryRules, new Date(now)).filter((item) => known.has(item.topicId));
+  const current = (input.mastery ?? masteryFromEvents(ownTopics(input.events), masteryRules, new Date(now))).filter((item) => known.has(item.topicId));
+  // Marked answers behind the estimates: counted from the events, or from the stored estimates' evidence.
+  const answerCount = input.mastery && !input.events.length ? current.reduce((sum, item) => sum + item.evidence, 0) : answers.length;
   const labelled = current.filter((item) => item.label !== "unknown" && item.score !== null);
   const masteryNow = labelled.length >= rules.minLabelledTopics ? average(labelled.map((item) => item.score!)) : null;
 
@@ -94,8 +101,8 @@ export function buildReadiness(
   };
 
   // Readiness: only with enough answers; parts without data share their weight.
-  let readiness: Readiness["readiness"] = { level: "not-enough-data", score: null, parts: null, answers: answers.length };
-  if (answers.length >= rules.minAnswers && input.topics.length) {
+  let readiness: Readiness["readiness"] = { level: "not-enough-data", score: null, parts: null, answers: answerCount };
+  if (answerCount >= rules.minAnswers && input.topics.length) {
     const parts = { coverage: (labelled.length / input.topics.length) * 100, mastery: masteryNow, exams: completed.length ? completed.at(-1)!.percent : null };
     const weighted = [
       [rules.weights.coverage, parts.coverage],
@@ -105,7 +112,7 @@ export function buildReadiness(
     const weight = weighted.reduce((sum, [w]) => sum + w, 0);
     const score = Math.round(weighted.reduce((sum, [w, value]) => sum + w * value, 0) / weight);
     const level = [...rules.levels].sort((a, b) => a.from - b.from).reduce<ReadinessLevel>((found, band) => (score >= band.from ? band.id : found), "early");
-    readiness = { level, score, parts: { coverage: Math.round(parts.coverage), mastery: parts.mastery === null ? null : Math.round(parts.mastery), exams: parts.exams }, answers: answers.length };
+    readiness = { level, score, parts: { coverage: Math.round(parts.coverage), mastery: parts.mastery === null ? null : Math.round(parts.mastery), exams: parts.exams }, answers: answerCount };
   }
 
   const inWeek = (offset: number) => (event: LearningEvent) => Date.parse(event.createdAt) > now - (offset + 1) * 7 * DAY && Date.parse(event.createdAt) <= now - offset * 7 * DAY;

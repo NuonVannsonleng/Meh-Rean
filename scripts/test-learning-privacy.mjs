@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Student data isolation across every table that holds personal learning
- * data (Learning OS 1.5), against a LOCAL Supabase only. One student creates
+ * data (Learning OS 1.5; mastery, companion and history added in 11.1),
+ * against a LOCAL Supabase only. One student creates
  * real data through the normal paths; another student, an admin and a
  * visitor then try to read, change and delete it.
  *
@@ -45,6 +46,7 @@ await me.from("video_progress").upsert({ user_id: owner.id, video_id: "abcdefghi
 await me.from("learning_profiles").upsert({ user_id: owner.id, target_grade: "B", session_minutes: 30 });
 await me.from("youtube_search_log").insert({ searches: 1 });
 await me.from("bacii_video_lookups").insert({});
+await me.from("companion_requests").insert({ kind: "summary" });
 
 const TABLES = [
   ["mistakes", "user_id"],
@@ -57,6 +59,8 @@ const TABLES = [
   ["learning_profiles", "user_id"],
   ["youtube_search_log", "user_id"],
   ["bacii_video_lookups", "user_id"],
+  ["topic_mastery", "user_id"],
+  ["companion_requests", "user_id"],
 ];
 
 await check("the owner can see their own data in every table (so the checks below mean something)", async () => {
@@ -111,9 +115,22 @@ await check("nobody can write rows in someone else's name", async () => {
     ["learning_events", { user_id: owner.id, event_type: "question_attempted", idempotency_key: "forged" }],
     ["mistakes", { user_id: owner.id, question_id: q1.id, source: "practice" }],
     ["chapter_progress", { user_id: owner.id, chapter_id: q1.chapterId, answered: 99, correct: 99 }],
+    ["topic_mastery", { user_id: owner.id, topic_id: q1.topicId, score: 100, evidence: 9, correct: 9, last_at: new Date().toISOString(), version: 2 }],
+    ["companion_requests", { user_id: owner.id, kind: "plan" }],
   ];
   for (const [table, row] of attempts) if (!(await peer.client.from(table).insert(row)).error) forged.push(table);
   assert(!forged.length, `wrote as the owner into: ${forged.join(", ")}`);
+});
+
+await check("another student's functions cannot reach the owner's reviews or history", async () => {
+  const before = sql(`select next_review_at || ':' || postponed from public.mistakes where user_id = '${owner.id}' and question_id = '${q3.id}'`);
+  assert((await peer.client.rpc("postpone_review", { question: q3.id, days: 7 })).error, "the peer postponed a review");
+  assert(sql(`select next_review_at || ':' || postponed from public.mistakes where user_id = '${owner.id}' and question_id = '${q3.id}'`) === before, "the owner's review moved");
+  const ids = sql(`select string_agg(id::text, ',') from public.learning_events where user_id = '${owner.id}'`).split(",");
+  const removed = await peer.client.rpc("delete_my_learning_events", { ids });
+  assert(removed.data === 0, `the peer deleted ${removed.data} of the owner's events`);
+  assert(sql(`select count(*) from public.learning_events where user_id = '${owner.id}'`) === String(ids.length), "the owner's events changed");
+  assert((await anon.rpc("delete_my_learning_events", {})).error && (await anon.rpc("postpone_review", { question: q3.id, days: 1 })).error, "a visitor called them");
 });
 
 await check("a request id the owner used cannot be replayed by someone else to read the owner's result", async () => {
