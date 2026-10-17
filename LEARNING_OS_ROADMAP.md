@@ -188,8 +188,15 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
 
 ## Phase 8 — AI study companion
 
-- [ ] Context from the student's own data only; explanations of recommendations,
-  progress summaries, session plans; deterministic fallback; usage limits; tests.
+- [x] 8.1 Deterministic companion (the fallback): progress summary, why the
+  suggestions, session plan, from the student's own data, in English and Khmer.
+  ✔ 2026-10-17: `src/lib/companion.ts` + `companionText.ts` (rules in
+  `companion-rules.json`) and `/learning/companion`. `npm run
+  test:companion` 6/6 (300 random plans fill their time); Playwright 4/4
+  in both backends; 320px.
+- [ ] 8.2 AI version: context from the student's own data only (read on the
+  server), explanations, summaries and plans labelled as AI and unverified;
+  usage limits; falls back to 8.1; tests.
 
 ## Phase 9 — Exam readiness and analytics
 

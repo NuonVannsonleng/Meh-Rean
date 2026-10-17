@@ -29,6 +29,8 @@ export interface StudyNext {
 export interface StudyContext {
   input: RecommendationInput & { resources: Record<string, TopicResources> };
   language: "km" | "en";
+  /** The study session length the student chose (or was suggested). */
+  sessionMinutes: number;
   subjectIds: string[];
   topics: Map<string, { topic: CurriculumTopic; chapter: CurriculumChapter }>;
 }
@@ -74,6 +76,7 @@ export async function loadStudyContext(snoozed: { topicId: string; signature: st
       resources,
     },
     language: profile.preferredLanguage,
+    sessionMinutes: profile.sessionMinutes,
     subjectIds: chosen.map((subject) => subject.id),
     topics,
   };

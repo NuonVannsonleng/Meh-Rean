@@ -25,6 +25,8 @@ are added per task and listed here with their latest results.
 | 2026-10-17 | `npm run test:recommend` (incl. 300 random students) | 15 passed, 0 failed |
 | 2026-10-17 | Playwright: Study next (visitor, Khmer reasons, due review first, Not now, English, 320px), browser-only / online | 7/7, 7/7 |
 | 2026-10-17 | `npm run test:adaptive` (selection, difficulty, modes) | 13 passed, 0 failed |
+| 2026-10-17 | `npm run test:companion` | 6 passed, 0 failed |
+| 2026-10-17 | Playwright: study companion without AI (summary, reasons, plan, break, review first, 320px), browser-only / online | 4/4, 4/4 |
 | 2026-10-17 | `npm run test:learning-history` (local Supabase) | 4 passed, 0 failed |
 | 2026-10-17 | Playwright: learning history (empty, entries, delete one, delete all, notebook kept, 320px), browser-only / online | 5/5, 5/5 |
 | 2026-10-17 | `npm run test:revision` (unit + local Supabase postpone rules) | 6 passed, 0 failed |

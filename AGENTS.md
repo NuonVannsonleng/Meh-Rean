@@ -71,6 +71,7 @@ npm run test:video-quizzes # video quizzes; local Supabase
 npm run test:video-progress # watched-video marks; local Supabase
 npm run test:live        # live quiz games; local Supabase
 npm run test:mastery     # mastery rules; stored estimates with local Supabase
+npm run test:companion   # study companion without AI: plans and summaries (no database)
 npm run test:learning-history # deleting your own learning history; local Supabase
 npm run test:revision    # revision queue order; postpone rules with local Supabase
 npm run test:journey     # learning journey states and milestones (no database)

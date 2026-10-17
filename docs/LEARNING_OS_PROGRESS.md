@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 8 — 8.1 AI study companion** (next up).
+**Phase 8 — 8.2 AI companion with usage limits** (next up).
 
 ## Done
 
@@ -408,6 +408,24 @@
   `mistakes.postponed` added, mastery rules version 2 active, 40 topic
   links, 0 tables without row level security, students cannot delete
   learning events directly.
+
+- **2026-10-17 — 8.1 Study companion without AI.** Agents: learning
+  intelligence, designer, frontend, tester. Built first because it is the
+  fallback the AI version needs. `planSession()` fills the chosen session
+  length exactly in 5-minute steps: due reviews first (3 minutes each, at
+  most 40%), then the top 3 Study next topics (videos and notes 10
+  minutes, practice shares the rest), a 5-minute break from 45 minutes;
+  `progressFacts()` gathers what a summary says (topics practised and
+  strong, the last 7 days, weakest and strongest topics, reviews due, days
+  to the exam). Page `/learning/companion` ("Study companion" on BacII):
+  summary, why these suggestions (the Study next reasons), and a plan with
+  a length picker and "Start with the first step" (revision, practice, a
+  video or a note); all in the student's language; it says it is written
+  by Meh Rean's rules, no AI. Tests: `npm run test:companion` 6/6 (300
+  random plans add up; review cap; order; breaks; facts; both languages);
+  Playwright 4/4 browser-only and online (Khmer summary and reasons, plan
+  adds up, 60 minutes with a break, a due review first and Start opens
+  revision, 320px); lint. Blocker: Khmer wording is Meh Rean's own.
 
 ## Report format (per task)
 

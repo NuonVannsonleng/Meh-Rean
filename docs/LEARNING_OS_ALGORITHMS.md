@@ -129,3 +129,19 @@ Code: `src/lib/revision.ts`. Numbers: `src/data/learning/revision-rules.json`
 - Coming up: due within 7 days, by date.
 - Postpone (database `postpone_review`): 1, 3 or 7 days from the later of
   now and the due date; at most 5 times per entry.
+
+## Study companion without AI (8.1)
+
+Code: `src/lib/companion.ts`, `src/lib/companionText.ts`. Numbers:
+`src/data/learning/companion-rules.json` (version 1). Tests: `npm run test:companion`.
+
+- Plan for N minutes (rounded to 5; default 30): reviews first, 3 minutes
+  each, rounded to 5, at most 40% of the time; then up to 3 Study next
+  topics in order (notebook-only ones are covered by the review step):
+  video 10 minutes, note 10, practice shares what is left in 5-minute
+  steps; with nothing to practise the time goes to reviews or free
+  practice; from 45 minutes a 5-minute break in the middle. Steps always
+  add up to N.
+- Summary facts: topics practised and done (Strong+), last 7 days'
+  answers, share right and active days, the 3 weakest labelled topics and 3
+  strongest, reviews due, days to the exam.

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "note": "Study companion without AI (Learning OS 8.1): session plans and summaries from the student's own data. Product rules of thumb. Changing a number here means bumping version.",
+  "defaultMinutes": 30,
+  "minStep": 5,
+  "reviewMinutesEach": 3,
+  "reviewShareMax": 0.4,
+  "maxTopics": 3,
+  "videoMinutes": 10,
+  "noteMinutes": 10,
+  "breakFrom": 45,
+  "breakMinutes": 5
+}
