@@ -4,7 +4,8 @@
 // Only questions the server can mark (multiple choice, numbers) are used.
 
 import type { LearningEvent, Question } from "../types.ts";
-import type { TopicMastery } from "./mastery.ts";
+import { prerequisitesOf, type ConceptLinkInput } from "./conceptGraph.ts";
+import { needsWork, type TopicMastery } from "./mastery.ts";
 
 export interface AdaptiveRules {
   version: number;
@@ -17,7 +18,11 @@ export interface AdaptiveRules {
   /** A question answered within this many days is used only when nothing else is left. */
   repeatAfterDays: number;
   weights: { topic: number; difficulty: number; freshness: number };
+  modes: Record<PracticeMode, { count: number; difficultyOffset: number; spread: boolean }>;
 }
+
+export type PracticeMode = "recommended" | "weak" | "prerequisites" | "quick" | "mixed" | "exam";
+export const PRACTICE_MODES: PracticeMode[] = ["recommended", "quick", "weak", "prerequisites", "mixed", "exam"];
 
 export type PoolQuestion = Pick<Question, "id" | "topicId" | "chapterId" | "difficulty" | "type">;
 
@@ -81,4 +86,71 @@ export function pickNext(input: PickInput, rules: AdaptiveRules): PoolQuestion |
   });
   scored.sort((a, b) => b.score - a.score || a.question.id.localeCompare(b.question.id));
   return scored[0].question;
+}
+
+export interface SessionPlan {
+  mode: PracticeMode;
+  /** Target topics, most important first. */
+  topics: string[];
+  count: number;
+  difficultyOffset: number;
+  /** Move to another topic after each question instead of staying on the first. */
+  spread: boolean;
+}
+
+/**
+ * Which topics a session works on (Learning OS 5.2). `recommended` is the
+ * Study next order (src/lib/recommend.ts); every mode falls back on nothing
+ * rather than inventing topics, and the page says so.
+ */
+export function sessionPlan(
+  mode: PracticeMode,
+  context: { topics: { id: string; chapterId: string }[]; links: ConceptLinkInput[]; mastery: TopicMastery[]; recommended: string[] },
+  rules: AdaptiveRules,
+): SessionPlan {
+  const settings = rules.modes[mode];
+  const masteryOf = new Map(context.mastery.map((item) => [item.topicId, item]));
+  const labelOf = (id: string) => masteryOf.get(id)?.label ?? "unknown";
+  const scoreOf = (id: string) => (labelOf(id) === "unknown" ? 50 : (masteryOf.get(id)?.score ?? 50));
+  const order = new Map(context.topics.map((topic, index) => [topic.id, index]));
+  const byWeakness = (ids: string[]) => [...ids].sort((a, b) => scoreOf(a) - scoreOf(b) || order.get(a)! - order.get(b)!);
+  const weak = byWeakness(context.topics.map((topic) => topic.id).filter((id) => labelOf(id) === "needs-foundation" || labelOf(id) === "developing"));
+
+  let topics: string[];
+  switch (mode) {
+    case "recommended":
+    case "quick":
+      topics = context.recommended.filter((id) => order.has(id));
+      break;
+    case "weak":
+      topics = weak;
+      break;
+    case "prerequisites": {
+      const seen = new Set<string>();
+      topics = weak
+        .flatMap((id) => prerequisitesOf(id, context.links))
+        .sort((a, b) => a.distance - b.distance)
+        .map((item) => item.topicId)
+        .filter((id) => order.has(id) && needsWork(labelOf(id)) && !seen.has(id) && Boolean(seen.add(id)));
+      break;
+    }
+    case "mixed": {
+      // One topic from each chapter in turn, so the session moves around the course.
+      const chapters = [...new Set(context.topics.map((topic) => topic.chapterId))].map((chapter) => context.topics.filter((topic) => topic.chapterId === chapter).map((topic) => topic.id));
+      topics = [];
+      for (let round = 0; chapters.some((list) => list.length > round); round++) for (const list of chapters) if (list[round]) topics.push(list[round]);
+      break;
+    }
+    case "exam":
+      topics = byWeakness(context.topics.map((topic) => topic.id));
+      break;
+  }
+  return { mode, topics, count: settings.count, difficultyOffset: settings.difficultyOffset, spread: settings.spread };
+}
+
+/** The topic order for the next pick: with `spread`, topics asked less this session come first. */
+export function topicsForTurn(plan: SessionPlan, askedTopics: string[]): string[] {
+  if (!plan.spread) return plan.topics;
+  const times = (id: string) => askedTopics.filter((topic) => topic === id).length;
+  return plan.topics.map((id, index) => ({ id, index })).sort((a, b) => times(a.id) - times(b.id) || a.index - b.index).map((item) => item.id);
 }

@@ -147,7 +147,10 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   start from the estimate (1–5), one step per answer, topic priority, never
   twice a session, recent ones last; server-markable only. `npm run
   test:adaptive` 8/8.
-- [ ] Modes: recommended, weak topic, prerequisite review, quick five, mixed, exam prep.
+- [x] 5.2 Modes: recommended, weak topic, prerequisite review, quick five, mixed, exam prep.
+  ✔ 2026-10-17: `sessionPlan()` and `topicsForTurn()`; counts, difficulty
+  offsets and spreading per mode in the rules (version 2). `npm run
+  test:adaptive` 13/13. (Shown in the app with 5.3.)
 - [ ] Answers marked on the server, mastery updated, results screen.
 - [ ] End-to-end tests.
 

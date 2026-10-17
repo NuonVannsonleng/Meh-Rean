@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 5 — 5.2 Practice modes** (next up).
+**Phase 5 — 5.3 Practice session and results** (next up).
 
 ## Done
 
@@ -302,6 +302,17 @@
   last 3 days only when nothing else is left; ties by id. `npm run
   test:adaptive` 8/8; lint. Limit: 12 demo questions (about one per topic),
   so difficulty can rarely move to a different question yet.
+
+- **2026-10-17 — 5.2 Modes.** Agents: learning intelligence, knowledge
+  graph. `sessionPlan(mode)` gives the target topics, count and difficulty
+  offset: recommended (Study next ranking, 10), quick five (same, 5), weak
+  topics (labelled "Needs foundation"/"Developing", weakest first, 10),
+  prerequisite review (those topics' prerequisites that need work, nearest
+  first, 8), mixed (one topic per chapter in turn, 10), exam prep (every
+  topic weakest first, one step harder, 15). No mode invents topics: an
+  empty plan is shown as such. `topicsForTurn()` moves to a topic asked
+  less this session (all modes but weak topics). `npm run test:adaptive`
+  13/13; lint.
 
 ## Report format (per task)
 

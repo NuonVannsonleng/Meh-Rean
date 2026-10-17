@@ -96,3 +96,8 @@ Code: `src/lib/adaptive.ts`. Numbers: `src/data/learning/adaptive-rules.json`
   asked this session; score `3 × 1/(1 + topic position) + 2 × (1 − |difficulty − target|/4)
   + 1 × freshness` (never answered 1, else days since/30, at most 1);
   answered within 3 days only when nothing else is left; ties by id.
+- Modes (5.2, rules version 2): recommended 10 and quick 5 (Study next
+  ranking), weak 10 (weakest first, stays on a topic), prerequisites 8
+  (nearest first), mixed 10 (chapters in turn), exam 15 (all topics weakest
+  first, difficulty +1). With spreading, the next pick prefers topics asked
+  less this session.

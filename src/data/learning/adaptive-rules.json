@@ -1,10 +1,18 @@
 {
-  "version": 1,
+  "version": 2,
   "note": "Adaptive practice (Learning OS 5.1). Product rules of thumb. Changing a number here means bumping version.",
   "startDifficulty": 2,
   "scorePerDifficultyStep": 25,
   "stepAfterRight": 1,
   "stepAfterWrong": -1,
   "repeatAfterDays": 3,
-  "weights": { "topic": 3, "difficulty": 2, "freshness": 1 }
+  "weights": { "topic": 3, "difficulty": 2, "freshness": 1 },
+  "modes": {
+    "recommended": { "count": 10, "difficultyOffset": 0, "spread": true },
+    "weak": { "count": 10, "difficultyOffset": 0, "spread": false },
+    "prerequisites": { "count": 8, "difficultyOffset": 0, "spread": true },
+    "quick": { "count": 5, "difficultyOffset": 0, "spread": true },
+    "mixed": { "count": 10, "difficultyOffset": 0, "spread": true },
+    "exam": { "count": 15, "difficultyOffset": 1, "spread": true }
+  }
 }
