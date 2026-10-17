@@ -579,6 +579,18 @@
   predates the chat redesign (not affected by this change; superseded by
   `chat-rich-e2e.mjs`).
 
+- **2026-10-17 — 11.3 Smaller bundle.** Agents: performance, tester. A Vite
+  plugin (`vite.config.ts`, `onlineOnly`) gives `api.ts` a stand-in for
+  `localApi.ts` in builds with Supabase settings (the same trimmed test as
+  `isSupabaseConfigured`), so the browser-only store, sample posts and demo
+  papers are not shipped online; dev and browser-only builds are unchanged
+  (checked: the online build has no sample data, the browser-only one does).
+  `DEMO_ACCOUNT` moved to `src/data/demoAccount.ts`. React and Supabase are
+  their own chunks so app deploys leave them cached. Main chunk 785 → 209
+  kB (233 → 64 kB gzipped); 693 kB in all. Slow-phone run again: every page
+  about 0.5 s faster on a first visit, nothing broken; My learning and Study
+  next UI pass browser-only. Calls per page: about 16 (two small repeats).
+
 ## Report format (per task)
 
 Phase · Task · Agents involved · Summary · Files · Database changes · Tests

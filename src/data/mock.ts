@@ -12,10 +12,9 @@ import type {
  * service layer is the only module that reads from this file.
  */
 
-export const DEMO_ACCOUNT = {
-  email: "demo@mehrean.app",
-  password: "demo1234",
-} as const;
+import { DEMO_ACCOUNT } from "./demoAccount";
+
+export { DEMO_ACCOUNT };
 
 export const DEMO_USER_ID = "u-demo";
 

@@ -67,6 +67,40 @@ function devApi(mode: string): Plugin {
   };
 }
 
-export default defineConfig(({ mode }) => ({
-  plugins: [react(), tailwindcss(), devApi(mode)],
+/**
+ * A build with Supabase settings never uses the browser-only store, so api.ts
+ * gets a stand-in for it and the demo data stays out of the bundle. Dev and
+ * builds without Supabase keep the real one.
+ */
+function onlineOnly(mode: string, command: string): Plugin {
+  const env = loadEnv(mode, process.cwd(), "");
+  // The same test as isSupabaseConfigured in src/services/supabase/client.ts.
+  const value = (name: string) => (process.env[name] ?? env[name] ?? "").trim();
+  const online = command === "build" && Boolean(value("VITE_SUPABASE_URL") && (value("VITE_SUPABASE_PUBLISHABLE_KEY") || value("VITE_SUPABASE_ANON_KEY")));
+  return {
+    name: "meh-rean-online-only",
+    enforce: "pre",
+    async resolveId(source, importer) {
+      if (!online || source !== "./localApi" || !importer?.split("\\").join("/").endsWith("/src/services/api.ts")) return null;
+      return this.resolve("./localApi.online", importer, { skipSelf: true });
+    },
+  };
+}
+
+export default defineConfig(({ mode, command }) => ({
+  plugins: [onlineOnly(mode, command), react(), tailwindcss(), devApi(mode)],
+  build: {
+    rollupOptions: {
+      output: {
+        // Libraries change rarely: in their own files, a deploy of app code
+        // leaves them cached on students' phones.
+        manualChunks(id) {
+          const path = id.split("\\").join("/");
+          if (/\/node_modules\/(react|react-dom|react-router|react-router-dom|scheduler)\//.test(path)) return "react";
+          if (/\/node_modules\/(@supabase|iceberg-js|tslib)\//.test(path)) return "supabase";
+          return undefined;
+        },
+      },
+    },
+  },
 }));

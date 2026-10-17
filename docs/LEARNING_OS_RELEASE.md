@@ -139,8 +139,11 @@ usage grows before any paid plan is considered (owner approval needed).
 - **Estimates are product rules**, not a validated measure; readiness is never
   a BacII prediction. Trends and history use the latest 1000 events.
 - **"Not now"** on Study next is remembered per device only.
-- **Bundle.** The main chunk is 780 kB (232 kB gzipped), slightly up from
-  ~756 kB before the Learning OS; splitting it is a separate task.
+- **Bundle.** Online builds now leave the browser-only store and its demo
+  data out, and React and Supabase are separate long-cached chunks: main
+  app code 209 kB (64 kB gzipped), React 261 kB, Supabase 223 kB — 693 kB
+  in all (206 kB gzipped), down from 785 kB (233 kB). Each page still makes
+  about 16 API calls (plus the browser's CORS checks); most run in parallel.
 - **My learning is not the site's Home**; the Home feed is unchanged (owner
   decision).
 - **Tests.** Playwright checks are run by hand against local servers (see
