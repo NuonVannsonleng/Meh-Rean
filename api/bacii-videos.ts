@@ -35,6 +35,13 @@
  * { task: "quiz" } (admins only, roadmap 4.6) drafts multiple-choice questions
  * from a transcript the admin may use; the admin reviews them before saving.
  * The transcript is not stored.
+ *
+ * { task: "companion" } (Learning OS 8.2) writes a progress summary, an
+ * explanation of the Study next suggestions or a session plan. The facts come
+ * from the student's own rows, read here with their own session (row level
+ * security); the browser only says which suggestions it shows, checked against
+ * the curriculum. Nothing that identifies the student goes to the model.
+ * Allowance: BACII_COMPANION_LIMIT a day (default 10), in companion_requests.
  */
 
 // --------------------------------------------------------------- types --
@@ -133,6 +140,23 @@ async function countLookups(token: string): Promise<number | null> {
   if (count.status === 404) return null;
   if (!count.ok) throw new Error(`lookup count failed: ${count.status}`);
   return Number(count.headers.get("content-range")?.split("/")[1] ?? "0");
+}
+
+/** Counts one AI companion request against its own daily allowance (Learning OS 8.2). */
+async function takeCompanionRequest(token: string, kind: string, limit: number): Promise<"ok" | "limit" | "setup"> {
+  const headers = { apikey: supabaseKey(), Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const count = await fetch(`${supabaseUrl()}/rest/v1/companion_requests?select=id&created_at=gte.${encodeURIComponent(since)}`, {
+    method: "HEAD",
+    headers: { ...headers, Prefer: "count=exact" },
+  });
+  if (count.status === 404) return "setup";
+  if (!count.ok) throw new Error(`companion count failed: ${count.status}`);
+  if (Number(count.headers.get("content-range")?.split("/")[1] ?? "0") >= limit) return "limit";
+  const insert = await fetch(`${supabaseUrl()}/rest/v1/companion_requests`, { method: "POST", headers: { ...headers, Prefer: "return=minimal" }, body: JSON.stringify({ kind }) });
+  if (insert.status === 404) return "setup";
+  if (!insert.ok) throw new Error(`companion insert failed: ${insert.status}`);
+  return "ok";
 }
 
 async function takeLookup(token: string, limit: number): Promise<"ok" | "limit" | "setup"> {
@@ -853,6 +877,153 @@ async function draftQuiz(token: string, body: Body & { transcript?: unknown; lan
   return json(200, { questions });
 }
 
+// ------------------------------------------------------------ companion --
+
+const COMPANION_KINDS = ["summary", "explain", "plan"] as const;
+const COMPANION_ACTIVITIES = ["review", "practise", "watch", "read", "break"] as const;
+const REASON_CODES = new Set(["reviews-due", "weak", "needed-for", "few-answers", "not-practised", "start-here", "next-in-order", "exam-soon"]);
+
+const COMPANION_SYSTEM = `You are Meh Rean's study companion for a Cambodian Grade 12 student preparing for the BacII (បាក់ឌុប).
+You are given facts about this one student, worked out by Meh Rean from their own answers. Write for the student, warmly and plainly, in the language asked for (Khmer or English).
+Rules:
+- Use only the facts given. Do not invent scores, topics, dates, exam rules, exam content, pass marks or results. Never claim to know the official BacII syllabus or what will be in the exam.
+- Estimates are Meh Rean's estimates from a few answers, not grades: say "your answers suggest", never "you are".
+- Be brief: at most 120 words. No headings, no lists of more than 4 items.
+- For "summary": how they are doing and one thing to do next.
+- For "explain": why each suggested topic is worth doing now, from its reasons.
+- For "plan": a plan for the session length given. plan_steps must add up exactly to that many minutes, use only the activities review, practise, watch, read, break, and name only topics from the facts (in English, exactly as written) or none. companion_text then says in a sentence or two why this order.
+- For "summary" and "explain", plan_steps is an empty list.`;
+
+const COMPANION_TOOL = {
+  name: "companion_answer",
+  description: "The companion's answer: companion_text (the words for the student) and plan_steps (only for a plan, else empty).",
+  input_schema: {
+    type: "object",
+    properties: {
+      companion_text: { type: "string" },
+      plan_steps: {
+        type: "array",
+        maxItems: 8,
+        items: {
+          type: "object",
+          properties: {
+            minutes: { type: "integer" },
+            activity: { type: "string", enum: [...COMPANION_ACTIVITIES] },
+            topic: { type: ["string", "null"] },
+          },
+          required: ["minutes", "activity", "topic"],
+        },
+      },
+    },
+    required: ["companion_text", "plan_steps"],
+  },
+};
+
+interface CompanionBody {
+  kind?: unknown;
+  minutes?: unknown;
+  recommendations?: unknown;
+}
+
+/** The student's own rows, read with their session: row level security keeps them to this student. */
+async function companionFacts(token: string) {
+  const headers = { apikey: supabaseKey(), Authorization: `Bearer ${token}` };
+  const get = async <T>(path: string): Promise<T[]> => {
+    const response = await fetch(`${supabaseUrl()}/rest/v1/${path}`, { headers, signal: AbortSignal.timeout(5000) });
+    if (!response.ok) throw new Error(`${path.split("?")[0]} ${response.status}`);
+    return (await response.json()) as T[];
+  };
+  const now = new Date().toISOString();
+  const week = new Date(Date.now() - 7 * 86_400_000).toISOString();
+  const [profiles, mastery, due, answers] = await Promise.all([
+    get<{ exam_date: string | null; target_grade: string | null; preferred_language: string; session_minutes: number }>("learning_profiles?select=exam_date,target_grade,preferred_language,session_minutes&limit=1"),
+    get<{ topic_id: string; score: number; evidence: number }>("topic_mastery?select=topic_id,score,evidence&limit=500"),
+    get<{ question_id: string }>(`mistakes?select=question_id&next_review_at=lte.${encodeURIComponent(now)}&limit=500`),
+    get<{ data: { correct?: unknown } }>(`learning_events?select=data&created_at=gte.${encodeURIComponent(week)}&event_type=in.(question_attempted,mistake_reviewed)&limit=1000`),
+  ]);
+  return { profile: profiles[0] ?? null, mastery, reviewsDue: due.length, answers: answers.filter((row) => typeof row.data?.correct === "boolean"), };
+}
+
+async function companion(token: string, body: CompanionBody, deadline: number, ai: AIState): Promise<Response> {
+  const kind = (COMPANION_KINDS as readonly string[]).includes(String(body.kind)) ? (body.kind as (typeof COMPANION_KINDS)[number]) : null;
+  if (!kind) return fail(400, "BAD_REQUEST", "Ask for a summary, an explanation or a plan.");
+  const userId = await userFromToken(token);
+  if (!userId) return fail(401, "UNAUTHORIZED", "Your session has expired. Sign in again.");
+  const limit = Number(env("BACII_COMPANION_LIMIT")) || 10;
+  let facts: Awaited<ReturnType<typeof companionFacts>>;
+  try {
+    const taken = await takeCompanionRequest(token, kind, limit);
+    if (taken === "limit") return fail(429, "LIMIT", `You can ask the AI companion ${limit} times a day. Meh Rean's own version is shown instead.`);
+    if (taken === "setup") return fail(503, "NOT_CONFIGURED", "The AI companion needs the latest supabase/setup-all.sql.");
+    facts = await companionFacts(token);
+  } catch (error) {
+    console.error(error);
+    return fail(502, "UPSTREAM", "Could not read your learning data. Try again.", upstreamDetail(error));
+  }
+
+  const chapters = await curriculumChapters();
+  const topics = new Map(chapters.flatMap((chapter) => chapter.topics.map((topic) => [topic.id, { ...topic, chapter: chapter.nameEn }] as const)));
+  // The suggestions shown on the page: known topics and reason codes only.
+  const shown = (Array.isArray(body.recommendations) ? body.recommendations : [])
+    .slice(0, 5)
+    .flatMap((item) => {
+      const entry = item as { topicId?: unknown; reasons?: unknown; neededFor?: unknown };
+      const topic = typeof entry.topicId === "string" ? topics.get(entry.topicId) : undefined;
+      if (!topic) return [];
+      const reasons = (Array.isArray(entry.reasons) ? entry.reasons : []).filter((code): code is string => typeof code === "string" && REASON_CODES.has(code)).slice(0, 4);
+      const neededFor = typeof entry.neededFor === "string" ? topics.get(entry.neededFor)?.nameEn : undefined;
+      return [{ topic, reasons, neededFor }];
+    });
+  const language = facts.profile?.preferred_language === "en" ? "English" : "Khmer";
+  const requested = Number(body.minutes);
+  const minutes = Number.isInteger(requested) && requested >= 10 && requested <= 180 ? requested : facts.profile?.session_minutes || 30;
+  const examDays = facts.profile?.exam_date ? Math.ceil((Date.parse(`${facts.profile.exam_date}T00:00:00+07:00`) - Date.now()) / 86_400_000) : null;
+  const practised = facts.mastery.filter((row) => topics.has(row.topic_id));
+  const right = facts.answers.filter((row) => row.data.correct === true).length;
+
+  const lines = [
+    `Write: ${kind}. Language: ${language}.`,
+    `Exam: ${examDays !== null && examDays >= 0 ? `in ${examDays} days` : "date not set"}. Target grade: ${facts.profile?.target_grade ?? "not set"}.`,
+    `Topics in the course: ${topics.size}. Practised: ${practised.length}.`,
+    ...practised
+      .sort((a, b) => a.score - b.score)
+      .slice(0, 20)
+      .map((row) => {
+        const topic = topics.get(row.topic_id)!;
+        return `- ${topic.nameEn} (${topic.nameKm}; chapter ${topic.chapter}): estimate ${Math.round(Number(row.score))}/100 from ${row.evidence} answer${row.evidence === 1 ? "" : "s"}${row.evidence < 3 ? " (too few to say much)" : ""}`;
+      }),
+    `Reviews due in the mistake notebook: ${facts.reviewsDue}.`,
+    `Last 7 days: ${facts.answers.length} answers, ${right} right.`,
+    shown.length ? "Study next suggestions, in order:" : "No Study next suggestions.",
+    ...shown.map((item, index) => `${index + 1}. ${item.topic.nameEn} (${item.topic.nameKm}) — reasons: ${item.reasons.join(", ") || "none"}${item.neededFor ? `; needed for ${item.neededFor}` : ""}`),
+    kind === "plan" ? `Session length: ${minutes} minutes.` : "",
+  ].filter(Boolean);
+
+  let answer: { companion_text?: unknown; plan_steps?: unknown };
+  try {
+    answer = await askAI<typeof answer>(COMPANION_SYSTEM, [{ type: "text", text: lines.join("\n") }], COMPANION_TOOL, deadline, ai);
+  } catch (error) {
+    console.error(error);
+    return fail(502, "UPSTREAM", "The AI could not answer just now. Meh Rean's own version is shown instead.", upstreamDetail(error));
+  }
+  const text = typeof answer.companion_text === "string" ? answer.companion_text.trim().slice(0, 1500) : "";
+  if (!text) return fail(502, "UPSTREAM", "The AI gave an empty answer. Meh Rean's own version is shown instead.");
+
+  // A plan is kept only when it is sound: known activities and topics, adding up to the session.
+  let steps: { minutes: number; activity: string; topicId: string | null }[] | null = null;
+  if (kind === "plan" && Array.isArray(answer.plan_steps)) {
+    const byName = new Map([...topics.values()].flatMap((topic) => [[topic.nameEn.toLowerCase(), topic.id], [topic.nameKm, topic.id]] as const));
+    const parsed = answer.plan_steps.slice(0, 8).map((raw) => {
+      const step = raw as { minutes?: unknown; activity?: unknown; topic?: unknown };
+      const topicId = typeof step.topic === "string" && step.topic.trim() ? (byName.get(step.topic.trim().toLowerCase()) ?? byName.get(step.topic.trim()) ?? "unknown") : null;
+      return { minutes: Number(step.minutes), activity: String(step.activity), topicId };
+    });
+    const sound = parsed.length > 0 && parsed.every((step) => Number.isInteger(step.minutes) && step.minutes > 0 && (COMPANION_ACTIVITIES as readonly string[]).includes(step.activity) && step.topicId !== "unknown");
+    if (sound && parsed.reduce((sum, step) => sum + step.minutes, 0) === minutes) steps = parsed;
+  }
+  return json(200, { kind, text, steps, minutes, model: env("ANTHROPIC_API_KEY") ? env("BACII_AI_MODEL") || "claude-opus-5-5" : (ai.model ?? (env("BACII_GEMINI_MODEL") || GEMINI_MODELS[0])), generatedAt: new Date().toISOString() });
+}
+
 // -------------------------------------------------------------- handler --
 
 interface Body {
@@ -893,6 +1064,7 @@ export async function POST(request: Request): Promise<Response> {
     return fail(400, "BAD_REQUEST", "The request was not valid JSON.");
   }
 
+  if (body.task === "companion") return companion(token, body as CompanionBody, deadline, ai);
   const task = body.task === "read" || body.task === "solve" || body.task === "quiz" ? body.task : "videos";
   if (task === "quiz") return draftQuiz(token, body);
   if (task === "videos" && !env("YOUTUBE_API_KEY")) {

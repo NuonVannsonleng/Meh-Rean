@@ -10,6 +10,7 @@ import { stepText, summaryLines } from "../../lib/companionText";
 import { activitySummary } from "../../lib/learningProfile";
 import { recommend, type RecommendationWithAction } from "../../lib/recommend";
 import { reasonText } from "../../lib/recommendText";
+import { askCompanion, LookupError, type CompanionAnswer } from "../../lib/bacii";
 import { getLearningEvents } from "../../services/api";
 import { loadStudyContext, RECOMMENDATION_RULES, type StudyContext } from "../../services/recommendations";
 import type { LearningEvent } from "../../types";
@@ -23,6 +24,9 @@ export default function CompanionPage() {
   const [data, setData] = useState<{ context: StudyContext; items: RecommendationWithAction[]; events: LearningEvent[] } | null>(null);
   const [failed, setFailed] = useState(false);
   const [minutes, setMinutes] = useState<number | null>(null);
+  const [ai, setAi] = useState<Partial<Record<CompanionAnswer["kind"], CompanionAnswer>>>({});
+  const [asking, setAsking] = useState<CompanionAnswer["kind"] | null>(null);
+  const [aiProblem, setAiProblem] = useState<Partial<Record<CompanionAnswer["kind"], string>>>({});
 
   useEffect(() => {
     document.title = `${copy.title} · ${t.common.appName}`;
@@ -75,7 +79,51 @@ export default function CompanionPage() {
       ? { href: `/bacii/practice?subject=${encodeURIComponent(found.chapter.subjectId)}&chapter=${encodeURIComponent(found.chapter.id)}&topic=${encodeURIComponent(found.topic.id)}`, external: false }
       : { href: "/learning/practice?mode=recommended", external: false };
   };
-  const first = derived.plan.find((step) => step.activity !== "break");
+  const ask = async (kind: CompanionAnswer["kind"]) => {
+    setAsking(kind);
+    setAiProblem((map) => ({ ...map, [kind]: undefined }));
+    try {
+      const recommendations = items.map((item) => ({
+        topicId: item.topicId,
+        reasons: item.reasons.map((reason) => reason.code),
+        neededFor: item.reasons.find((reason) => reason.code === "needed-for")?.topicId,
+      }));
+      const answer = await askCompanion(kind, recommendations, minutes);
+      setAi((map) => ({ ...map, [kind]: answer }));
+    } catch (error) {
+      setAiProblem((map) => ({ ...map, [kind]: `${error instanceof LookupError || error instanceof Error ? error.message : String(error)} ${copy.fallback}` }));
+    } finally {
+      setAsking(null);
+    }
+  };
+  // Asks for one part; the AI's words sit above Meh Rean's own, which always stay.
+  const aiPart = (kind: CompanionAnswer["kind"]) => {
+    const answer = ai[kind];
+    return (
+      <div className="mt-3">
+        {answer && (
+          <div className="bg-ribbon-50 rounded-md p-3" data-testid={`ai-${kind}`}>
+            <p className="text-ribbon-fg mb-1 text-[11px] font-semibold">{copy.aiLabel(answer.model)}</p>
+            <p className="text-ink-900 text-sm whitespace-pre-line" lang={language}>
+              {answer.text}
+            </p>
+            {kind === "plan" && <p className="text-ink-500 mt-1 text-xs">{answer.steps ? copy.aiPlanKept : copy.aiPlanDropped}</p>}
+          </div>
+        )}
+        {aiProblem[kind] && (
+          <p role="alert" className="text-ink-700 text-xs">
+            {aiProblem[kind]}
+          </p>
+        )}
+        <button type="button" onClick={() => void ask(kind)} disabled={asking !== null} className="btn-ghost text-accent mt-1 h-8 px-2 text-xs">
+          {asking === kind ? copy.asking : copy.ask}
+        </button>
+      </div>
+    );
+  };
+  // A sound AI plan replaces the list; Meh Rean's own stays otherwise.
+  const shownPlan: PlanStep[] = ai.plan?.steps && ai.plan.minutes === minutes ? ai.plan.steps : derived.plan;
+  const first = shownPlan.find((step) => step.activity !== "break");
   const firstLink = first ? stepLink(first) : null;
 
   return (
@@ -98,6 +146,7 @@ export default function CompanionPage() {
             <li key={line}>{line}</li>
           ))}
         </ul>
+        {aiPart("summary")}
       </section>
 
       <section className="card mb-4 p-4 sm:p-5" aria-labelledby="companion-explain">
@@ -121,6 +170,7 @@ export default function CompanionPage() {
         ) : (
           <p className="text-ink-700 text-sm">{copy.noSuggestions}</p>
         )}
+        {items.length > 0 && aiPart("explain")}
       </section>
 
       <section className="card mb-4 p-4 sm:p-5" aria-labelledby="companion-plan">
@@ -142,7 +192,7 @@ export default function CompanionPage() {
           </label>
         </div>
         <ol className="divide-line divide-y" data-testid="companion-plan">
-          {derived.plan.map((step, index) => (
+          {shownPlan.map((step, index) => (
             <li key={index} className="flex items-center gap-3 py-2 text-sm" data-activity={step.activity}>
               <span className="bg-surface-hover text-ink-900 w-16 shrink-0 rounded-md px-2 py-1 text-center text-xs font-semibold tabular-nums">{copy.minutes(step.minutes)}</span>
               <span className="text-ink-900 min-w-0 flex-1" lang={language}>
@@ -151,7 +201,8 @@ export default function CompanionPage() {
             </li>
           ))}
         </ol>
-        <p className="text-ink-500 mt-1 text-xs">{copy.totalMinutes(derived.plan.reduce((sum, step) => sum + step.minutes, 0))}</p>
+        <p className="text-ink-500 mt-1 text-xs">{copy.totalMinutes(shownPlan.reduce((sum, step) => sum + step.minutes, 0))}</p>
+        {aiPart("plan")}
         {firstLink &&
           (firstLink.external ? (
             <a href={firstLink.href} target="_blank" rel="noreferrer" className="btn-primary mt-3">
@@ -164,6 +215,7 @@ export default function CompanionPage() {
           ))}
       </section>
       <p className="text-ink-500 text-xs">{copy.fromRules}</p>
+      <p className="text-ink-500 mt-1 text-xs">{copy.askNote}</p>
     </div>
   );
 }

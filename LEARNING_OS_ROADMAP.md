@@ -194,9 +194,16 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   `companion-rules.json`) and `/learning/companion`. `npm run
   test:companion` 6/6 (300 random plans fill their time); Playwright 4/4
   in both backends; 320px.
-- [ ] 8.2 AI version: context from the student's own data only (read on the
+- [x] 8.2 AI version: context from the student's own data only (read on the
   server), explanations, summaries and plans labelled as AI and unverified;
   usage limits; falls back to 8.1; tests.
+  ✔ 2026-10-17: task "companion" in `api/bacii-videos.ts`: facts read with
+  the student's own session, suggestions checked against the curriculum, no
+  identifying data to the model; plans kept only when sound;
+  `companion_requests` and `BACII_COMPANION_LIMIT` (default 10 a day). Ask
+  buttons on `/learning/companion`; every answer labelled AI-generated and
+  unchecked; the rules version always stays. Playwright with mock Gemini
+  6/6 online, 2/2 browser-only; video finder 22/22, photo to solution 8/8.
 
 ## Phase 9 — Exam readiness and analytics
 

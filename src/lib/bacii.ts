@@ -200,6 +200,28 @@ export interface VideoUsage {
 }
 
 /** Lookups left today and YouTube quota used; null when unknown (offline, browser-only, not set up). */
+export interface CompanionAnswer {
+  kind: "summary" | "explain" | "plan";
+  text: string;
+  /** Only for a sound plan (known topics, adding up to the session); otherwise null. */
+  steps: { minutes: number; activity: "review" | "practise" | "watch" | "read" | "break"; topicId: string | null }[] | null;
+  minutes: number;
+  model: string;
+  generatedAt: string;
+}
+
+/**
+ * The AI study companion (Learning OS 8.2). The server reads the student's
+ * own data; this only says which suggestions the page shows.
+ */
+export async function askCompanion(
+  kind: CompanionAnswer["kind"],
+  recommendations: { topicId: string; reasons: string[]; neededFor?: string }[],
+  minutes: number,
+): Promise<CompanionAnswer> {
+  return postExercise<CompanionAnswer>({ task: "companion", kind, recommendations: recommendations.slice(0, 5), minutes });
+}
+
 export async function getVideoUsage(): Promise<VideoUsage | null> {
   if (isLocalMode) return null;
   const { data } = await supabase.auth.getSession();

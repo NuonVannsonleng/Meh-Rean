@@ -24,6 +24,7 @@ Used by `api/bacii-videos.ts`. After changing them, redeploy.
 | `BACII_GEMINI_MODEL` | no | default `gemini-2.5-flash` |
 | `BACII_AI_MODEL` | no | Claude model, default `claude-opus-5-5` |
 | `BACII_DAILY_LIMIT` | no | lookups per student per day, default 20 |
+| `BACII_COMPANION_LIMIT` | no | AI study companion requests per student per day, default 10 (uses the same AI key) |
 | `YOUTUBE_DAILY_QUOTA` | no | the Google Cloud project's YouTube units a day, for the quota display; default 10000 |
 | `BACII_SEARCH_CACHE_HOURS` | no | how long a YouTube search is reused by a warm server, default 24 |
 

@@ -1288,6 +1288,13 @@ export const en = {
       totalMinutes: (n: number) => `${n} minutes in all`,
       startPlan: "Start with the first step",
       fromRules: "Written by Meh Rean's rules from your own data — no AI.",
+      ask: "Ask the AI to write this",
+      asking: "Asking the AI…",
+      askNote: "Sends your topic estimates, reviews due and last week's answer counts to the AI — not your name or account.",
+      aiLabel: (model: string) => `AI-generated (${model}) · not checked by a teacher · may be wrong`,
+      aiPlanKept: "The AI's plan, checked by Meh Rean: only your topics, and it adds up to your session.",
+      aiPlanDropped: "The AI's plan did not add up or named other topics, so Meh Rean's plan is kept below.",
+      fallback: "Meh Rean's own version stays below.",
       noSuggestions: "No suggestions yet: practise a few questions first.",
       lineEn: {
         practised: (practised: number, total: number, done: number) => `You have practised ${practised} of ${total} topics; ${done} ${done === 1 ? "is" : "are"} strong or better.`,

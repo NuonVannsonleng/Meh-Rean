@@ -89,6 +89,7 @@ Environment Variables, then redeploy:
 | `ANTHROPIC_API_KEY` (optional) | Use Claude instead of Gemini; when set, it is used |
 | `BACII_GEMINI_MODEL` (optional) | Defaults to `gemini-2.5-flash` |
 | `BACII_DAILY_LIMIT` (optional) | Lookups per student per day, default 20 |
+| `BACII_COMPANION_LIMIT` (optional) | AI study companion requests per student per day, default 10 |
 | `YOUTUBE_DAILY_QUOTA` (optional) | Your YouTube API units a day, for the quota display; default 10000 |
 | `BACII_SEARCH_CACHE_HOURS` (optional) | How long a YouTube search is reused, default 24 |
 

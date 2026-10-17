@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 8 — 8.2 AI companion with usage limits** (next up).
+**Phase 9 — 9.1 Exam readiness and analytics** (next up).
 
 ## Done
 
@@ -426,6 +426,32 @@
   Playwright 4/4 browser-only and online (Khmer summary and reasons, plan
   adds up, 60 minutes with a break, a due review first and Start opens
   revision, 320px); lint. Blocker: Khmer wording is Meh Rean's own.
+
+- **2026-10-17 — 8.2 AI study companion.** Agents: AI engineer, backend,
+  database (allowance table), security (context, privacy, prompt input),
+  frontend, tester. New task "companion" in the existing function (one file,
+  as before): it signs the student in from their token, takes one of their
+  `BACII_COMPANION_LIMIT` requests a day (default 10; table
+  `companion_requests`, insert/select own only, never changed or removed),
+  then reads their own profile, estimates, due reviews and last 7 days'
+  answers with their own session (row level security). The browser only
+  sends the Study next topics and reason codes on its page; both are checked
+  against the curriculum and a fixed list, so no student-typed text reaches
+  the model, and no name, email or id does. The prompt forbids inventing
+  scores, dates, exam rules or content and asks for "your answers
+  suggest" wording. A plan is kept only when every step is a known activity
+  and topic and the steps add up to the session; otherwise the page keeps
+  Meh Rean's plan and says why. Page: "Ask the AI to write this" under the
+  summary, the reasons and the plan; every AI answer is labelled
+  "AI-generated (model) · not checked by a teacher · may be wrong" and sits
+  above Meh Rean's own version, which always stays; a note says what is
+  sent. Errors (limit, not set up, AI down, browser-only) explain and fall
+  back. Tests: Playwright with mock Gemini 6/6 online (label, prompt facts
+  and no identifying data, sound plan kept, bad plan dropped, limit with
+  rows that cannot be deleted, 320px) and 2/2 browser-only; video finder
+  e2e 22/22, photo to solution 8/8, companion 4/4; lint, build. Cost: uses
+  the existing Gemini key and free tier; no new provider. Production needs
+  setup-all.sql again (table) and, optionally, `BACII_COMPANION_LIMIT`.
 
 ## Report format (per task)
 

@@ -3655,3 +3655,29 @@ end;
 $$;
 revoke execute on function public.delete_my_learning_events(text[]) from public, anon;
 grant execute on function public.delete_my_learning_events(text[]) to authenticated;
+
+-- ================================================================
+-- AI study companion (Learning OS 8.2)
+-- ================================================================
+
+-- One row per AI companion request, to hold each student to a daily
+-- allowance (api/bacii-videos.ts, task "companion"). Added with the student's
+-- own session, like bacii_video_lookups: no service key; rows cannot be
+-- changed or removed, so the allowance cannot be reset from the app.
+create table if not exists public.companion_requests (
+  id bigint generated always as identity primary key,
+  user_id uuid not null default auth.uid() references public.profiles on delete cascade,
+  kind text not null check (kind in ('summary', 'explain', 'plan')),
+  created_at timestamptz not null default now()
+);
+create index if not exists companion_requests_user_time on public.companion_requests (user_id, created_at desc);
+alter table public.companion_requests enable row level security;
+revoke all on public.companion_requests from anon;
+revoke update, delete, truncate on public.companion_requests from authenticated;
+grant select, insert on public.companion_requests to authenticated;
+drop policy if exists "see own companion requests" on public.companion_requests;
+create policy "see own companion requests" on public.companion_requests for select to authenticated
+  using (user_id = auth.uid());
+drop policy if exists "add own companion requests" on public.companion_requests;
+create policy "add own companion requests" on public.companion_requests for insert to authenticated
+  with check (user_id = auth.uid() and created_at > now() - interval '1 minute');
