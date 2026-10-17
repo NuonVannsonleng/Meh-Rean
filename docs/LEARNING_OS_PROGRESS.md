@@ -562,6 +562,12 @@
   6/6 (a card reviewed in place and moved to coming up), My learning 5/5,
   flashcards 7/7 in both backends; lint. No database change.
 
+- **2026-10-17 — Production database updated to 414d2da (flashcards).**
+  Same method. Read-only check: `flashcards` present with row level
+  security, students cannot set review dates, `review_flashcard` present,
+  the event type check allows `flashcard_reviewed`, 0 tables without row
+  level security.
+
 ## Report format (per task)
 
 Phase · Task · Agents involved · Summary · Files · Database changes · Tests
