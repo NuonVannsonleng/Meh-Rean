@@ -151,8 +151,13 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   ✔ 2026-10-17: `sessionPlan()` and `topicsForTurn()`; counts, difficulty
   offsets and spreading per mode in the rules (version 2). `npm run
   test:adaptive` 13/13. (Shown in the app with 5.3.)
-- [ ] Answers marked on the server, mastery updated, results screen.
-- [ ] End-to-end tests.
+- [x] 5.3 Answers marked on the server, mastery updated, results screen.
+- [x] 5.4 End-to-end tests.
+  ✔ 2026-10-17: `/learning/practice` (mode picker, one question at a time,
+  difficulty shown, skip, finish, results with each topic's estimate before
+  and now); answers go through `record_practice_answer` so the database
+  marks them and updates mastery. Playwright 9/9 browser-only and online
+  (recorded in docs/LEARNING_OS_TESTING.md).
 
 ## Phase 6 — Learning journey
 

@@ -4,7 +4,7 @@
 
 import masteryRules from "../data/learning/mastery-rules.json";
 import recommendationRules from "../data/learning/recommendation-rules.json";
-import { recommend, type RecommendationRules, type RecommendationWithAction, type TopicResources } from "../lib/recommend";
+import { recommend, type RecommendationInput, type RecommendationRules, type RecommendationWithAction, type TopicResources } from "../lib/recommend";
 import type { CurriculumChapter, CurriculumTopic } from "../types";
 import {
   getConceptLinks,
@@ -26,7 +26,15 @@ export interface StudyNext {
   topics: Map<string, { topic: CurriculumTopic; chapter: CurriculumChapter }>;
 }
 
-export async function getRecommendations(snoozed: { topicId: string; signature: string; until: string }[] = []): Promise<StudyNext> {
+export interface StudyContext {
+  input: RecommendationInput & { resources: Record<string, TopicResources> };
+  language: "km" | "en";
+  subjectIds: string[];
+  topics: Map<string, { topic: CurriculumTopic; chapter: CurriculumChapter }>;
+}
+
+/** Everything the rankings need, read fresh (also used by adaptive practice, 5.3). */
+export async function loadStudyContext(snoozed: { topicId: string; signature: string; until: string }[] = []): Promise<StudyContext> {
   const [profile, subjects, links, mastery, mistakes, resourceLinks] = await Promise.all([
     getLearningProfile(),
     getCurriculumSubjects(),
@@ -53,8 +61,8 @@ export async function getRecommendations(snoozed: { topicId: string; signature: 
     else slot(link.topicId).notes.push(entry);
   }
 
-  const items = recommend(
-    {
+  return {
+    input: {
       topics: chapters.flatMap((chapter) => chapter.topics.map((topic) => ({ id: topic.id, chapterId: chapter.id }))),
       links,
       mastery,
@@ -65,7 +73,13 @@ export async function getRecommendations(snoozed: { topicId: string; signature: 
       snoozed,
       resources,
     },
-    RECOMMENDATION_RULES,
-  );
-  return { items, language: profile.preferredLanguage, topics };
+    language: profile.preferredLanguage,
+    subjectIds: chosen.map((subject) => subject.id),
+    topics,
+  };
+}
+
+export async function getRecommendations(snoozed: { topicId: string; signature: string; until: string }[] = []): Promise<StudyNext> {
+  const context = await loadStudyContext(snoozed);
+  return { items: recommend(context.input, RECOMMENDATION_RULES), language: context.language, topics: context.topics };
 }

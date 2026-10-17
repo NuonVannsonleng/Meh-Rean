@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 5 — 5.3 Practice session and results** (next up).
+**Phase 6 — 6.1 Learning journey** (next up).
 
 ## Done
 
@@ -313,6 +313,27 @@
   empty plan is shown as such. `topicsForTurn()` moves to a topic asked
   less this session (all modes but weak topics). `npm run test:adaptive`
   13/13; lint.
+
+- **2026-10-17 — 5.3, 5.4 Practice session, results, end-to-end tests.**
+  Agents: frontend, designer, backend (marking path), tester. Page
+  `/learning/practice` (signed in): the six modes with their question
+  counts; a session shows one question at a time with "Question n of up to
+  N" and "Difficulty d of 5", reusing `PracticeQuestion`. Each answer is
+  marked by the backend (`record_practice_answer` online, the same rules in
+  the browser-only store), the database trigger updates mastery, and only
+  then does the difficulty move and "Next question" appear. Skip and Finish
+  at any time; the results show the score, skips and each practised topic's
+  estimate before the session and now, with Practise again / another mode /
+  back. Empty plans say so (e.g. no weak topics yet). Links: BacII header
+  ("Adaptive practice") and Study next ("Practise these"). Shared
+  `loadStudyContext()` now feeds both Study next and sessions. Fixed while
+  testing: "That was the last question" showed after finishing early.
+  Tests: Playwright end to end 9/9 browser-only and online (sign-in,
+  picker, empty weak mode, difficulty 2→3→2, no repeats across four
+  chapters, skip, results, events and estimates written by the backend,
+  practise again, quick five stops at five, Study next link, 320px); Study
+  next 7/7, mastery UI 5/5; lint. Blocker: the page's Khmer title is Meh
+  Rean's own wording.
 
 ## Report format (per task)
 

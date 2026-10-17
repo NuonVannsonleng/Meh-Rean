@@ -150,6 +150,11 @@ export default function StudyNext({ userId }: { userId: string }) {
           </button>
         </p>
       )}
+      {visible.length > 0 && (
+        <Link to="/learning/practice?mode=recommended" className="btn-secondary mt-3 h-9 px-3 text-sm">
+          {t.learning.practice.fromStudyNext}
+        </Link>
+      )}
       <p className="text-ink-500 mt-3 text-xs">{copy.note}</p>
     </section>
   );

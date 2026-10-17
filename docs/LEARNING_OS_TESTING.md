@@ -18,3 +18,11 @@ are added per task and listed here with their latest results.
 | 2026-10-16 | Playwright: topic page (visitor, results, check-first, 320px), browser-only / online | 4/4, 4/4 |
 | 2026-10-16 | Playwright: concept map (desktop map, chain highlight, keyboard, phone list, 320px), browser-only / online | 4/4, 4/4 |
 | 2026-10-16 | UI regressions after events (practice, mistakes, exam, daily, plan both backends; watched browser-only) | all pass |
+| 2026-10-16 | `npm run test:concept-links` (incl. seed rerun keeps admins' work) | 7 passed, 0 failed |
+| 2026-10-16 | Playwright: topic links admin (add, loop refused, check needs source, remove, 320px), browser-only / online | 4/4, 4/4 |
+| 2026-10-17 | `npm run test:mastery` (unit + local Supabase: stored = app to 1e-9, privacy, version change) | 20 passed, 0 failed |
+| 2026-10-17 | Playwright: mastery label, meter, history, profile list, map legend, 320px, browser-only / online | 5/5, 5/5 |
+| 2026-10-17 | `npm run test:recommend` (incl. 300 random students) | 15 passed, 0 failed |
+| 2026-10-17 | Playwright: Study next (visitor, Khmer reasons, due review first, Not now, English, 320px), browser-only / online | 7/7, 7/7 |
+| 2026-10-17 | `npm run test:adaptive` (selection, difficulty, modes) | 13 passed, 0 failed |
+| 2026-10-17 | Playwright end to end: adaptive practice (sign-in, picker, empty weak mode, difficulty up/down, no repeats, skip, results before/now, marked by the backend, quick five, Study next link, 320px), browser-only / online | 9/9, 9/9 |

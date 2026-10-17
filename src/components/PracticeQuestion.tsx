@@ -63,7 +63,7 @@ export default function PracticeQuestion({
   };
 
   return (
-    <li className="card p-4 sm:p-5" aria-labelledby={`${formId}-title`}>
+    <li className="card p-4 sm:p-5" aria-labelledby={`${formId}-title`} data-question-id={question.id}>
       <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
         <h2 id={`${formId}-title`} className="font-display text-ink-900 text-base font-bold">
           {t.bacii.papers.question(number)}
