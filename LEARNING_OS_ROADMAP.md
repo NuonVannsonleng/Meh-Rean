@@ -128,7 +128,11 @@ database upgraded from the pre-BacII schema with `supabase/setup-all.sql`.
   checked video, else a linked note, with a video and a note alongside;
   topics with nothing are skipped without taking a place. `npm run
   test:recommend` 12/12.
-- [ ] Reasons in English and Khmer; no repeats without reason.
+- [x] 4.4 Reasons in English and Khmer; no repeats without reason.
+  ✔ 2026-10-17: `reasonText()` with copy in `src/i18n/en.ts` (Khmer to be
+  checked by a native speaker); "Not now" sets a suggestion aside for 3
+  days unless its reason changes (`reasonSignature()`). `npm run
+  test:recommend` 14/14.
 - [ ] API and quality tests.
 
 ## Phase 5 — Adaptive practice

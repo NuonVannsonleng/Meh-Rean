@@ -80,5 +80,7 @@ strength (0–1, reviews up to 1.5):
 - Practised today (Cambodia day) and no reviews due: × 0.5.
 - One recommendation per topic (strongest kind, all reasons); ties in
   curriculum order; at most 2 per chapter and 5 in all.
+- Not now (4.4): skipped until it expires unless `reasonSignature()` —
+  kind, main reason and its review count, label or topic — changes.
 - Action (4.3): reviews due → the notebook; else practice questions; else
   a checked video; else a linked note; nothing → skipped (takes no place).

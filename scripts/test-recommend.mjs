@@ -10,7 +10,8 @@
 import { readFileSync } from "node:fs";
 import { flattenCurriculum } from "../src/lib/curriculum.ts";
 import { expandLinks } from "../src/lib/conceptGraph.ts";
-import { rankCandidates, recommend } from "../src/lib/recommend.ts";
+import { rankCandidates, reasonSignature, recommend } from "../src/lib/recommend.ts";
+import { reasonText } from "../src/lib/recommendText.ts";
 import { assert, reporter } from "./lib/local-supabase.mjs";
 
 const { check, finish } = reporter();
@@ -159,6 +160,47 @@ await check("a topic with nothing to learn it with is left out, and does not tak
   const reviewOnly = recommend(input({ resources: { ...resources }, reviews: [{ topicId: T("limits-continuity-limits"), nextReviewAt: daysAgo(1) }] }), rules);
   assert(find(reviewOnly, "limits-continuity-limits")?.action.type === "review", "a due review was left out");
   assert(recommend(input({ resources: {} }), rules).length === 0, "recommended with nothing at all");
+});
+
+await check("every reason reads as a sentence in English and in Khmer", async () => {
+  const reasons = [
+    { code: "reviews-due", count: 2, overdueDays: 3 },
+    { code: "reviews-due", count: 1, overdueDays: 0 },
+    { code: "weak", label: "developing", score: 31 },
+    { code: "needed-for", topicId: T("integrals-by-parts") },
+    { code: "few-answers", needed: 1 },
+    { code: "not-practised", days: 20 },
+    { code: "start-here" },
+    { code: "next-in-order" },
+    { code: "exam-soon", days: 30 },
+  ];
+  const nameOf = (id) => `«${short(id)}»`;
+  for (const reason of reasons) {
+    const en = reasonText(reason, "en", nameOf);
+    const km = reasonText(reason, "km", nameOf);
+    assert(/^[A-Z0-9«].*\.$/.test(en) && !/undefined|NaN/.test(en), `English for ${reason.code}: ${en}`);
+    assert(/[\u1780-\u17FF]/.test(km) && km.endsWith("។") && !/undefined|NaN/.test(km), `Khmer for ${reason.code}: ${km}`);
+  }
+  assert(reasonText(reasons[3], "en", nameOf).includes("«integrals-by-parts»") && reasonText(reasons[3], "km", nameOf).includes("«integrals-by-parts»"), "topic name missing");
+  assert(reasonText(reasons[0], "en", nameOf) === "2 mistakes are due for review (3 days overdue)." && reasonText(reasons[1], "en", nameOf) === "1 mistake is due for review.", "review wording");
+});
+
+await check("'Not now' sets a suggestion aside until it expires or its reason changes; another takes its place", async () => {
+  const mastery = [m("integrals-antiderivatives", 80), m("integrals-by-parts", 30)];
+  const first = recommend(input({ mastery }), rules);
+  const top = first[0];
+  const snoozed = [{ topicId: top.topicId, signature: reasonSignature(top), until: daysAgo(-3) }];
+  const later = recommend(input({ mastery, snoozed }), rules);
+  assert(!find(later, short(top.topicId)) && later.length === first.length, `still there: ${later.map((i) => short(i.topicId)).join()}`);
+  const expired = recommend(input({ mastery, snoozed: [{ ...snoozed[0], until: daysAgo(1) }] }), rules);
+  assert(expired[0].topicId === top.topicId, "did not come back after expiring");
+  // A worse estimate is a new reason: it comes back straight away.
+  const worse = recommend(input({ mastery: [m("integrals-antiderivatives", 80), m("integrals-by-parts", 10)], snoozed }), rules);
+  assert(find(worse, short(top.topicId)), "a new reason did not bring it back");
+  // Time passing alone (days since practice) does not change the signature.
+  const refresh = rankCandidates(input({ mastery: [m("conics-parabola", 80, { lastAt: daysAgo(20) })] }), rules);
+  const refreshLater = rankCandidates(input({ mastery: [m("conics-parabola", 80, { lastAt: daysAgo(25) })] }), rules);
+  assert(reasonSignature(find(refresh, "conics-parabola")) === reasonSignature(find(refreshLater, "conics-parabola")), "time alone changed the signature");
 });
 
 finish();

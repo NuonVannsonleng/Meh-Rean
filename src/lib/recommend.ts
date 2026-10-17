@@ -1,4 +1,4 @@
-// What to study next (Learning OS 4.1–4.3): candidates from the student's
+// What to study next (Learning OS 4.1–4.4): candidates from the student's
 // due reviews, weak topics, weak prerequisites and the study order, scored by
 // the weights in src/data/learning/recommendation-rules.json. Deterministic;
 // every recommendation carries the reasons it was chosen.
@@ -69,6 +69,8 @@ export interface RecommendationInput {
   examDate: string | null;
   /** Answers before a topic gets a label (mastery rules). */
   labelAfter: number;
+  /** Suggestions the student set aside ("Not now"): skipped until `until`, unless their reason changes. */
+  snoozed?: { topicId: string; signature: string; until: string }[];
   now?: Date;
 }
 
@@ -163,6 +165,18 @@ export function rankCandidates(input: RecommendationInput, rules: Recommendation
 }
 
 /**
+ * What a recommendation is about, coarsely: when this changes (a new review
+ * due, a different label, another topic it is needed for), a suggestion the
+ * student set aside comes back early. Scores and day counts are left out so
+ * that time passing alone does not bring it back.
+ */
+export function reasonSignature(item: Recommendation): string {
+  const main = item.reasons[0];
+  const detail = main.code === "reviews-due" ? main.count : main.code === "weak" ? main.label : main.code === "needed-for" ? main.topicId : "";
+  return `${item.kind}:${main.code}:${detail}`;
+}
+
+/**
  * What to do for one recommendation (4.3): due reviews first, then practice
  * questions, else a checked video, else a linked note; null when the topic
  * has nothing to learn it with yet, so it is left out.
@@ -191,7 +205,10 @@ export function recommend(input: RecommendationInput & { resources: Record<strin
   const chapterOf = new Map(input.topics.map((topic) => [topic.id, topic.chapterId]));
   const perChapter = new Map<string, number>();
   const picked: RecommendationWithAction[] = [];
+  const now = (input.now ?? new Date()).getTime();
+  const resting = new Set((input.snoozed ?? []).filter((item) => Date.parse(item.until) > now).map((item) => `${item.topicId}|${item.signature}`));
   for (const item of rankCandidates(input, rules)) {
+    if (resting.has(`${item.topicId}|${reasonSignature(item)}`)) continue;
     const chapter = chapterOf.get(item.topicId)!;
     if ((perChapter.get(chapter) ?? 0) >= rules.maxPerChapter) continue;
     const todo = actionFor(item, input.resources[item.topicId]);

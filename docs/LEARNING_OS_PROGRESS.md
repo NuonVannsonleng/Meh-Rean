@@ -2,7 +2,7 @@
 
 ## Current
 
-**Phase 4 — 4.4 Reasons in English and Khmer** (next up).
+**Phase 4 — 4.5 Recommendations API, "Study next" and quality tests** (next up).
 
 ## Done
 
@@ -256,6 +256,18 @@
   bank, videos an admin linked, notes still linked (deleting a note removes
   its links). A topic with nothing is skipped before the list is cut, so it
   never takes a place. `npm run test:recommend` 12/12; lint.
+
+- **2026-10-17 — 4.4 Reasons and no repeats.** Agents: learning
+  intelligence, curriculum (wording; Khmer flagged), designer (copy). Every
+  reason (reviews due, estimate, needed for a topic, answers still needed,
+  days since practice, start here, next in order, exam soon) has an English
+  and a Khmer sentence; `reasonText()` picks it. No repeats: one entry per
+  topic (4.1), and "Not now" sets a suggestion aside until it expires (3
+  days, from the page) unless what it is about changes — a new review due,
+  a different label, another topic it is needed for — which brings it back
+  at once; time passing alone does not. Tests: `npm run test:recommend`
+  14/14 (both languages for every reason, wording, set-aside rules); lint.
+  Blocker: the Khmer sentences are Meh Rean's own and need a native check.
 
 ## Report format (per task)
 
