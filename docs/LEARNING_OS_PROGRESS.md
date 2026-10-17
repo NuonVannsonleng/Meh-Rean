@@ -226,6 +226,12 @@
   history, profile list, map legend, 320px); topic page 4/4 and map 4/4
   ×2; `npm run test:mastery` 20/20, knowledge graph 8/8; lint, build.
 
+- **2026-10-17 — Production database updated to ea913c7.** Same method as
+  before (file checked against the commit, run in the SQL editor). Read-only
+  check: mastery rules version 2 active, mastery trigger present, 40 topic
+  links, 0 tables without row level security, students cannot insert
+  estimates; no answers on production yet, so 0 estimates.
+
 ## Report format (per task)
 
 Phase · Task · Agents involved · Summary · Files · Database changes · Tests
