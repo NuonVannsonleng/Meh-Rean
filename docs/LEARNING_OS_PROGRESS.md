@@ -591,6 +591,14 @@
   about 0.5 s faster on a first visit, nothing broken; My learning and Study
   next UI pass browser-only. Calls per page: about 16 (two small repeats).
 
+- **2026-10-17 — 11.4 Continue learning on Home** (owner: "finish all").
+  The Home feed stays for every student; signed-in students who have
+  practised (any stored estimate) see a "Continue learning · ការសិក្សារបស់ខ្ញុំ"
+  card above it with topics practised and strong, opening My learning. One
+  light request (stored estimates); nothing for anyone else. Playwright My
+  learning test extended: 7/7 browser-only and online (no card before
+  practice; card after one answer opens My learning).
+
 ## Report format (per task)
 
 Phase · Task · Agents involved · Summary · Files · Database changes · Tests

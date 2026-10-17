@@ -144,14 +144,14 @@ usage grows before any paid plan is considered (owner approval needed).
   app code 209 kB (64 kB gzipped), React 261 kB, Supabase 223 kB — 693 kB
   in all (206 kB gzipped), down from 785 kB (233 kB). Each page still makes
   about 16 API calls (plus the browser's CORS checks); most run in parallel.
-- **My learning is not the site's Home**; the Home feed is unchanged (owner
-  decision).
+- **Home** keeps the feed for every student (Meh Rean is not only for
+  BacII); students who have practised see a "Continue learning" card at the
+  top that opens My learning.
 - **Tests.** Playwright checks are run by hand against local servers (see
   TESTING.md); the accounts suite's realtime check needed a settle time after
   a cold local Realtime start (fixed in the test).
 
 ## Owner decisions open
 
-1. Make My learning the home page for students.
-2. A native Khmer speaker (ideally a teacher) to check the Khmer wording and
+1. A native Khmer speaker (ideally a teacher) to check the Khmer wording and
    the provisional curriculum and topic links.

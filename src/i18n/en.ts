@@ -222,6 +222,9 @@ export const en = {
     },
   },
   home: {
+    continueTitle: "Continue learning",
+    continueLine: (practised: number, strong: number) => `${practised} ${practised === 1 ? "topic" : "topics"} practised · ${strong} strong`,
+    continueGo: "My learning",
     morning: "Good morning",
     afternoon: "Good afternoon",
     evening: "Good evening",

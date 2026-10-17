@@ -12,7 +12,8 @@ import { useAuth } from "../context/AuthContext";
 import { useChat } from "../context/ChatContext";
 import { t } from "../i18n/en";
 import { SUBJECT_COLORS } from "../lib/subjects";
-import { getFeed } from "../services/api";
+import type { TopicMastery } from "../lib/mastery";
+import { getFeed, getTopicMastery } from "../services/api";
 import {
   EDUCATION_LEVELS,
   SUBJECTS,
@@ -79,6 +80,41 @@ function Welcome() {
         ))}
       </div>
     </section>
+  );
+}
+
+/**
+ * Signed in, for students already practising (Learning OS 11.4): a way back
+ * to My learning. One light request; nothing shows for anyone else.
+ */
+function ContinueLearning() {
+  const { user } = useAuth();
+  const [mastery, setMastery] = useState<TopicMastery[] | null>(null);
+  useEffect(() => {
+    if (!user) return;
+    let active = true;
+    getTopicMastery()
+      .then((list) => active && setMastery(list))
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [user]);
+  if (!user || !mastery?.length) return null;
+  const strong = mastery.filter((item) => item.label === "strong" || item.label === "consistently-strong").length;
+  return (
+    <Link to="/learning" className="card press hover:border-brand-500 mb-6 flex items-center gap-4 p-4 transition-colors" data-testid="continue-learning">
+      <span className="bg-brand-50 text-accent flex h-11 w-11 shrink-0 items-center justify-center rounded-xl">
+        <GraduationIcon className="h-5.5 w-5.5" />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="font-display text-ink-900 block font-bold">
+          {t.home.continueTitle} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${t.learning.home.titleKm}`}</span>
+        </span>
+        <span className="text-ink-700 block text-sm">{t.home.continueLine(mastery.length, strong)}</span>
+      </span>
+      <span className="text-accent shrink-0 text-sm font-semibold">{t.home.continueGo}</span>
+    </Link>
   );
 }
 
@@ -232,6 +268,7 @@ export default function Home() {
     <div className="container-page py-6 sm:py-8 xl:max-w-7xl">
       {/* Nothing until the session is known, so a signed-in student never sees the sign-up intro. */}
       {!hasFilters && status !== "loading" && (user ? <Welcome /> : <Intro />)}
+      {!hasFilters && user && <ContinueLearning />}
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
         <section aria-labelledby="feed-title" className="min-w-0">
