@@ -9,6 +9,7 @@ import { isValidLiveQuiz } from "../lib/liveQuiz";
 import { addDays, cambodiaDay, streakOf, weakestChapter } from "../lib/daily";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
+import scienceMathematicsPastPapers from "../data/past-papers/kh-grade12-science-mathematics.json";
 import khGrade12MathLinks from "../data/curriculum-links/kh-grade12-math.json";
 import { expandLinks, findPrerequisiteCycle, type ConceptLinkInput, type LinkSeed } from "../lib/conceptGraph";
 import { masteryFromEvents, type MasteryRules, type TopicMastery } from "../lib/mastery";
@@ -16,7 +17,7 @@ import { afterFlashcardReview, isFlashcardDue, MAX_FLASHCARDS } from "../lib/fla
 import masteryRules from "../data/learning/mastery-rules.json";
 import { suggestedProfile } from "../lib/learningDefaults";
 import { topicResultsFromEvents, type TopicResult } from "../lib/learningProfile";
-import { buildDemoPapers, sortPapers, type DemoPaperSeed } from "../lib/papers";
+import { buildDemoPapers, buildPastPapers, sortPapers, type DemoPaperSeed, type PastPaperSeed } from "../lib/papers";
 import { detectAttachmentKind, matchesMediaFilter, safeContentType, MAX_FILE_BYTES, MAX_FILES_PER_POST } from "../lib/attachments";
 import {
   ApiError,
@@ -1407,9 +1408,13 @@ export async function uploadQuestionImage(file: File): Promise<Omit<QuestionImag
 
 let papers: ExamPaperDetail[] | null = null;
 
-/** The demo practice papers; the same ones supabase/seed/demo-papers.sql loads. */
+/** The demo practice papers and the real past papers; the same ones supabase/seed/demo-papers.sql and past-papers.sql load. */
 function loadPapers(): ExamPaperDetail[] {
-  papers ??= buildDemoPapers(khGrade12MathPapers as unknown as DemoPaperSeed, loadCurriculum().chapters);
+  const { chapters } = loadCurriculum();
+  papers ??= [
+    ...buildDemoPapers(khGrade12MathPapers as unknown as DemoPaperSeed, chapters),
+    ...[scienceMathematicsPastPapers].flatMap((seed) => buildPastPapers(seed as unknown as PastPaperSeed, chapters)),
+  ];
   return papers;
 }
 

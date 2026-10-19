@@ -72,6 +72,7 @@ npm run test:video-progress # watched-video marks; local Supabase
 npm run test:live        # live quiz games; local Supabase
 npm run test:mastery     # mastery rules; stored estimates with local Supabase
 npm run test:exam-timer  # paper exam timer and BacII paper lengths (no database)
+npm run test:past-papers # real BacII papers: data rules and formulas; reading and guards with local Supabase
 npm run test:flashcards  # flashcard review rules, privacy and limits; local Supabase
 npm run test:readiness   # exam readiness and analytics calculations (no database)
 npm run test:companion   # study companion without AI: plans and summaries (no database)
@@ -89,6 +90,7 @@ npm run test:knowledge-graph # graph queries and per-topic results
 npm run build:links-seed # regenerate supabase/seed/concept-links.sql from src/data/curriculum-links/
 npx supabase start       # local Supabase (Docker)
 npm run build:mastery-seed # after editing src/data/learning/mastery-rules.json
+npm run build:past-papers-seed # after editing src/data/past-papers/
 npm run build:setup-sql  # regenerate supabase/setup-all.sql (schema + seeds) after DB changes
 ```
 

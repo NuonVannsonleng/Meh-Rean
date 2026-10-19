@@ -48,7 +48,9 @@ function MathPiece({ katex, segment }: { katex: Katex | null; segment: Extract<M
     // Wide formulas scroll inside their own box, never the page.
     <span className="math-display block overflow-x-auto overflow-y-hidden" dangerouslySetInnerHTML={{ __html: html }} />
   ) : (
-    <span className="math-inline" dangerouslySetInnerHTML={{ __html: html }} />
+    // A long inline formula (a whole integral or limit) can be wider than a
+    // phone; it scrolls in its own box instead of pushing the page sideways.
+    <span className={segment.value.length > 40 ? "math-inline math-wide" : "math-inline"} dangerouslySetInnerHTML={{ __html: html }} />
   );
 }
 

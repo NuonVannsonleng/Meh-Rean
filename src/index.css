@@ -372,6 +372,15 @@
   margin: 0.4em 0;
 }
 
+/* Long inline maths (see MathText): its own scroll box, centred on the line. */
+.math-text .math-wide {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  vertical-align: middle;
+}
+
 /* The same for big headings, which take two rules per line. */
 @utility on-rule-2 {
   line-height: calc(var(--rule-gap, 2rem) * 2) !important;

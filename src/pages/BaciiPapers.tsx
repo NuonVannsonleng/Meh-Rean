@@ -10,12 +10,15 @@ import type { CurriculumSubject, ExamPaper } from "../types";
 
 const copy = t.bacii.papers;
 
-/** Demo or Official, always visible on a paper. */
-export function PaperOriginBadge({ paper }: { paper: Pick<ExamPaper, "origin"> }) {
+/** Demo or Official, always visible on a paper; an official paper not yet checked says so. */
+export function PaperOriginBadge({ paper }: { paper: Pick<ExamPaper, "origin" | "verification"> }) {
   return paper.origin === "demo" ? (
     <span className="bg-ribbon-50 text-ribbon-fg rounded-full px-2 py-0.5 text-[11px] font-bold tracking-wide uppercase">{copy.demo}</span>
   ) : (
-    <span className="bg-brand-50 text-accent rounded-full px-2 py-0.5 text-[11px] font-bold tracking-wide uppercase">{copy.official}</span>
+    <span className="flex flex-wrap items-center gap-1">
+      <span className="bg-brand-50 text-accent rounded-full px-2 py-0.5 text-[11px] font-bold tracking-wide uppercase">{copy.official}</span>
+      {paper.verification !== "verified" && <span className="bg-ribbon-50 text-ribbon-fg rounded-full px-2 py-0.5 text-[11px] font-semibold">{copy.needsReview}</span>}
+    </span>
   );
 }
 

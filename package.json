@@ -43,9 +43,11 @@
     "test:companion": "node scripts/test-companion.mjs",
     "test:readiness": "node scripts/test-readiness.mjs",
     "test:flashcards": "node scripts/test-flashcards.mjs",
+    "test:past-papers": "node scripts/test-past-papers.mjs",
     "test:exam-timer": "node scripts/test-exam-timer.mjs",
     "build:links-seed": "node scripts/build-links-seed.mjs",
     "build:mastery-seed": "node scripts/build-mastery-seed.mjs",
+    "build:past-papers-seed": "node scripts/build-past-papers-seed.mjs",
     "build:setup-sql": "node scripts/build-setup-sql.mjs"
   },
   "dependencies": {

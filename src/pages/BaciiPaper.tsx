@@ -137,12 +137,31 @@ export default function BaciiPaper() {
           {copy.demoBanner}
         </p>
       )}
+      {paper.origin === "official" && paper.verification !== "verified" && (
+        <p role="note" className="bg-ribbon-50 text-ribbon-fg mb-5 rounded-md px-4 py-3 text-sm">
+          {copy.officialBanner}
+        </p>
+      )}
+      {paper.durationMinutes && paper.durationSource && (
+        <div className="card mb-3 flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
+          <div className="min-w-0 flex-1">
+            <p className="text-ink-900 text-sm font-semibold">{copy.timed.title}</p>
+            <p className="text-ink-500 text-xs">{copy.timed.hint(paper.durationMinutes)}</p>
+          </div>
+          <Link to={`/bacii/timer?paper=${encodeURIComponent(paper.id)}`} className="btn-primary">
+            {copy.timed.start}
+          </Link>
+        </div>
+      )}
       <div className="card mb-5 flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
         <div className="min-w-0 flex-1">
           <p className="text-ink-900 text-sm font-semibold">{t.bacii.exam.take}</p>
           <p className="text-ink-500 text-xs">{t.bacii.exam.takeHint}</p>
         </div>
-        <Link to={user ? `/bacii/papers/${paper.id}/exam` : `/login?next=${encodeURIComponent(`/bacii/papers/${paper.id}/exam`)}`} className="btn-primary">
+        <Link
+          to={user ? `/bacii/papers/${paper.id}/exam` : `/login?next=${encodeURIComponent(`/bacii/papers/${paper.id}/exam`)}`}
+          className={paper.durationMinutes && paper.durationSource ? "btn-secondary" : "btn-primary"}
+        >
           {t.bacii.exam.take}
         </Link>
       </div>

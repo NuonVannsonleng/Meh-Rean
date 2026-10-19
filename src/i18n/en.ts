@@ -887,6 +887,19 @@ export const en = {
       another: "Time another paper",
       historyTitle: "Recent papers on this device",
       historyLine: (subject: string, used: string, score: string) => `${subject} · ${used}${score ? ` · ${score}` : ""}`,
+      paper: {
+        label: "Real BacII paper",
+        intro: "Write your answers on paper. The questions stay on screen under the clock.",
+        loading: "Loading the paper…",
+        length: (minutes: number) => `${minutes} minutes, as printed on the paper`,
+        startHint: "Paper, pen and calculator (if allowed) ready? The clock starts straight away.",
+        back: "Back to the paper",
+        other: "Time another subject instead",
+        missing: "This paper could not be loaded. Choose a subject below to time it instead.",
+        questionsTitle: "The questions",
+        show: "Show",
+        hide: "Hide",
+      },
     },
     live: {
       optionTitle: "Live quiz",
@@ -1153,10 +1166,11 @@ export const en = {
     papers: {
       optionTitle: "Past papers",
       optionTitleKm: "វិញ្ញាសាប្រឡងឆ្នាំមុនៗ",
-      optionDescription: "Browse BacII papers by year and subject. For now these are demo practice papers written for Meh Rean, not official exams.",
+      optionDescription: "Real BacII papers by year and subject, each with its real time. Do one on paper with the exam timer. Demo practice sets are here too, marked Demo.",
       title: "Past papers",
       subtitle: "BacII papers by year, track and subject.",
-      demoNotice: "Only demo practice papers are here so far. Real past papers will be added once they can be checked and published.",
+      demoNotice:
+        "Real BacII papers are typed by Meh Rean from copies shared online and are not yet checked against the Ministry's originals; each paper names its copies. Papers marked Demo are practice sets written for Meh Rean, not real exams.",
       track: "Track",
       subject: "Subject",
       year: "Year",
@@ -1168,6 +1182,14 @@ export const en = {
       count: (count: number) => plural(count, "paper", "papers"),
       demo: "Demo",
       official: "Official",
+      needsReview: "Not yet checked",
+      officialBanner:
+        "The real BacII paper, typed by Meh Rean from copies shared online. It has not been checked against the Ministry's original yet, so a word or number may differ: the source at the bottom names the copies and any place they disagree. There is no answer key yet; mark it yourself or with your teacher.",
+      timed: {
+        title: "Do it on paper, timed",
+        hint: (minutes: number) => `The real length, ${minutes} minutes. The questions stay on screen while you write on paper.`,
+        start: "Start the paper timer",
+      },
       questions: (count: number) => plural(count, "question", "questions"),
       points: (points: number) => `${points} points`,
       back: "Past papers",

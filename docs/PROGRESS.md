@@ -316,13 +316,48 @@ timing only in database functions, never in the browser.
   pausing with the real clock, 320px); lint. Blocker: a teacher or the
   official timetable to confirm the lengths; the Khmer title is Meh Rean's.
 
+- **2026-10-19 — Real past papers, part 1: science-track mathematics
+  2014–2025, timed on paper** (owner request). The 12 real BacII sittings
+  (2014 first and second, 2015–2019, 2021–2025; there was no exam in 2020),
+  81 exercises, typed by Meh Rean into `src/data/past-papers/` from copies
+  shared online: the exercises only, never the copies' worked answers.
+  2014–2022 were typed from one copy and checked line by line against a
+  second (retyped by ជៀប គន្ធា / ជៀប គីមឈរ, github.com/HELMAB/bacii; compiled
+  by ខែម ឫទ្ធី, Edu Plus, on sala.moeys.gov.kh); 2023–2025 come from the
+  second copy only. Where the copies disagreed, the paper's own working
+  settled it (2017 J: the first copy's own solution uses sin 2x − cos x;
+  2018 (z₁/z₂)³ likewise; 2016 and 2017 typos in one copy contradict the
+  rest of the exercise) and the paper's source says so. Each paper keeps
+  its printed length (150 minutes, matching the timer data) and points
+  (125; the 2024 copy prints none per exercise). Everything is `official`
+  but `needs-review`, with no answer key, and says so on the page.
+  Seed `supabase/seed/past-papers.sql` (`npm run build:past-papers-seed`),
+  in `setup-all.sql`; the browser-only store loads the same papers. A paper
+  page now offers **Do it on paper, timed**: `/bacii/timer?paper=<id>` uses
+  the paper's own length and points, shows its questions under the clock
+  (hide or show), survives a reload, scores out of the paper's points, and
+  links back to the paper; the mock exam stays as the second option. Long
+  inline formulas scroll in their own box, so a phone never scrolls
+  sideways. Tests: `npm run test:past-papers` 7/7 (every sitting, lengths
+  and points, origin and no answer key, every formula parsed by KaTeX,
+  broken data refused, seeds up to date; on local Supabase: read in order,
+  no answer key, an official paper refuses other years' and demo
+  questions, a student cannot edit); papers, exams, daily, mistakes,
+  mastery, questions, exam-timer, recommend, adaptive, learning-privacy,
+  knowledge-graph all pass; Playwright 7/7 browser-only and online (list
+  badges, a paper with 76 formulas drawn, timing it end to end, a reload
+  mid-paper, a broken link, 320px on four papers and the timer), the
+  original timer test 6/6; lint, build. Next: social-science mathematics,
+  then the other subjects (2014–2022 found for all of them; 2023–2025 only
+  for mathematics so far).
+
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
 | Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
 | Production database | everything since 1.1 | **Checked 2026-10-13: production has none of the BacII tables yet** — every BacII feature fails until the owner pastes `supabase/setup-all.sql` into the Supabase SQL editor and runs it (see SUPABASE.md §2). |
-| Real past papers | 2.1 | Papers and permission to publish them; until then demo entries only, clearly labelled. |
+| Real past papers | 2.1 | Science-track mathematics 2014–2025 is in, typed from copies shared online and marked "not yet checked". Needed: a teacher (or the Ministry's original papers) to check each paper and mark it verified; the owner to confirm publishing the exercises is fine; answer keys written or checked by a teacher; 2023–2025 papers for subjects other than mathematics. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. Grade bands: edit `src/data/grade-scale.json`. |
 | YouTube transcripts | 4.6 content | The Data API only gives captions to a video's owner. 4.4 uses creators' description chapters; 4.6 quizzes need an admin with a transcript they may use (channels that agree to share theirs). |
 | Telegram bot | 5.5 | A bot token from @BotFather (free) and owner approval. |

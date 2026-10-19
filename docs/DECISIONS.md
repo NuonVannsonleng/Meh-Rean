@@ -243,3 +243,14 @@ exams, whose timing and marking stay in the database. BacII paper lengths
 are data with their sources and `provisional` status, because the official
 timetable could not be read; a teacher or the Ministry's document should
 confirm them before they are marked verified.
+
+## 2026-10-19 — Real past papers are typed exercises from two copies, never the copies' answers
+
+The Ministry's original papers are not online, so real papers are typed from
+copies shared online and cross-checked against a second, independent copy
+wherever one exists. Only the exercises are kept: the copies' worked
+solutions are the compilers' own work (and contain mistakes), so no answer
+key is published until a teacher writes or checks one. Papers are
+`official` but `needs-review`, name their copies, and record any place the
+copies disagree and which reading is used. Each paper keeps the length and
+points printed on it, which the timer uses when a student does it on paper.
