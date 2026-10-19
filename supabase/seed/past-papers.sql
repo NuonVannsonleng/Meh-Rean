@@ -4,6 +4,564 @@
 -- answer keys. Run after supabase/schema.sql and supabase/seed/curriculum.sql;
 -- safe to run again.
 
+-- kh-grade12-science-biology.json
+begin;
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000000', 'kh-grade12-science-biology', 2022, 'BacII 2022: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000001', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'តើអណ្តាតរួសនឹងរសជាតិអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000001', 1, 5)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'តើប្រព័ន្ធប្រសាទមនុស្សមាននាទីអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000002', 2, 5)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'តើផូស៊ីលមានសារៈសំខាន់ដូចម្តេចខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'ចូររកលក្ខណៈខុសគ្នារវាងរុក្ខជាតិម៉ូណូកូទីលេដុន និងរុក្ខជាតិឌីកូទីលេដុន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'តើកត្តាអ្វីខ្លះ ដែលបង្កាក់ការបង្កើតទម្រង់ និងនាទីរបស់ប្រូតេអ៊ីន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000005', 5, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'ម៉ូលេគុល ADN មួយមាន $3000$ នុយក្លេអូទីតនិងមាននុយក្លេអូទីតប្រភេទ អាដេនីនស្មើ $20\%$ នៃចំនួននុយក្លេអូទីតសរុប។
+ក. តើម៉ូលេគុល ADN មានសម្ព័ន្ធអ៊ីដ្រូសែនប៉ុន្មាន?
+ខ. ពេលម៉ូលេគុល ADN នេះស្វ័យដំឡើងទ្វេ ៣ដង តើវាត្រូវការនុយក្លេអូទីត សេរីចំនួនប៉ុន្មាន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000006', 6, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'សែនមួយមាននុយក្លេអូទីតសរុប $480$ និងមាននុយក្លេអូទីត $A=100$។ $\mathrm{ARN_m}$ ដែលសំយោគចេញពីសែននេះ មានរីបូនុយក្លេអូទីត $U=50$ និង $C=60$។
+ក. រកចំនួនរីបូនុយក្លេអូទីតប្រភេទផ្សេងៗទៀតរបស់ $\mathrm{ARN_m}$ នេះ។
+ខ. រកសមាមាត្រជាភាគរយនៃរីបូនុយក្លេអូទីតប្រភេទនីមួយៗ', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000007', 7, 20)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000000', 'kh-grade12-science-biology', 2021, 'BacII 2021: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2021 (2021-12-27), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000001', 'kh-grade12-science-biology-past-papers', null, 2021, 'open', 'តើគេសម្គាល់ផ្ការបស់រុក្ខជាតិឌីកូទីលេដុនបានដោយសារអ្វី? តើផ្កាមាននាទីអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000001', 1, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2021, 'open', 'ចូរពន្យល់ពី៖
+ក. អង្គស៊ីលីយែ
+ខ. បាតុភូតដែលធ្វើឲ្យយើងអាចមើលឃើញវត្ថុផ្សេងៗស្ថិតក្នុងចម្ងាយខុសៗគ្នា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2021, 'open', 'ក. ហេតុអ្វីបានជាសកម្មភាពអង់ស៊ីមត្រូវបាត់បង់គុណភាពទៅសីតុណ្ហភាពលើសពី $45^{o}C$។
+ខ. តើលក្ខខណ្ឌអ្វីខ្លះដែលធ្វើឲ្យប្រូតេអ៊ីនបាត់បង់គុណភាពបាន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2021, 'open', 'តើវិស្វកម្មសេនេទិចផ្តល់ផលល្អ និងផលអាក្រក់អ្វីខ្លះដល់មនុស្ស?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2021, 'open', 'ម៉ូលេគុល ADN មួយមាន $3\times10^3$ នុយក្លេអូទីត
+ក. បើនុយក្លេអូទីតប្រភេទស៊ីតូស៊ីនមាន $30\%$ នៃចំនួននុយក្លេអូទីត។ តើម៉ូលេគុល ADN មានសម្ព័ន្ធអ៊ីដ្រូសែនប៉ុន្មាន
+ខ. ពេលម៉ូលេគុល ADN ស្វ័យដំឡើងទ្វេ៤ដង តើវាត្រូវការនុយក្លេអូទីតសេរីចំនួនប៉ុន្មាន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000005', 5, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2021, 'open', 'សែនមួយមាននុយក្លេអូទីតសរុប $480$ និងនុយក្លេអូទីតប្រភេទអាដេនីនស្មើ $100$។ $\mathrm{ARN_m}$ ដែលសំយោគចេញពីសែននេះមានរីបូនុយក្លេអូទីតប្រភេទអ៊ុយ៉ាស៊ីលស្មើ $50$ និងស៊ីតូស៊ីនស្មើ $60$។
+ក. រកប្រវែង $\mathrm{ARN_m}$ ដែលសមយោគចេញពីសែននេះ។
+ខ. រកចំនួនរីបូនុយក្លេអូទីតប្រភេទផ្សេងៗទៀតរបស់ $\mathrm{ARN_m}$។
+គ. រកសមាមាត្រភាគរយនៃរីបូនុយក្លេអូទីតប្រភេទនីមួយៗ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000006', 6, 20)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000000', 'kh-grade12-science-biology', 2019, 'BacII 2019: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000001', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ដូចម្តេចហៅថាដំណើរលម្អងសិប្បនិម្មិត? ហេតុអ្វីបានជាគេធ្វើដំណើរលម្អងសិប្បនិម្មិត?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000001', 1, 5)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ចូរពន្យល់ពី៖
+ក. ដំណើរឆ្លងកាត់ស៊ីណាប់របស់អាំងភ្លុចប្រសាទ។
+ខ. ការកកើតនៃពុម្ពក្រៅ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ចូរពណ៌នាពីលក្ខណៈរបស់អង់ស៊ីម?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'តើអរម៉ូនដែលបញ្ចេញដោយកោសិកា $(\beta)$ និងកោសិកាអាល់ហ្វា $(\alpha)$ របស់លំពែងមានសកម្មភាពដូចម្តេចខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ចូរប្រៀបធៀប ADN និងប្រូតេអ៊ីន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000005', 5, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ម៉ូលេគុល ADN មួយមានចំនួនវង្វេល $10^5$។ ដោយការនៃផលសងនុយក្លេអូទីត A និងនុយក្លេអូទីត C ស្មើ $4\times10^{10}$។
+ក. រកចំនួននុយក្លេអូទីតប្រភេទនីមួយៗរបស់ ADN។
+ខ. តើ ADN នេះស្វ័យដំឡើងទ្វេប៉ុន្មានលើក? បើក្រោយស្វ័យដំឡើងទ្វេរួច ADN មានកូននុយក្លេអូទីត A ស្មើ $48\times10^5$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000006', 6, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ច្រវាក់ម្ខាងនៃសែនមួយមាននុយក្លេអូទីត $C=\dfrac{1}{2}$ និង $A=\dfrac{1}{3}$ និង $T=\dfrac{1}{6}$។ $\mathrm{ARN_m}$ មួយចម្លងក្រមចេញពីច្រវាក់ម្ខាងនៃសែននេះមានរីបូនុយក្លេអូទីត $750$។
+ក. រកចំនួនរីបូនុយក្លេអូទីតនៃរាល់ប្រភេទរបស់ $\mathrm{ARN_m}$ នេះ?
+ខ. រកចំនួនសម្ព័ន្ធអ៊ីដ្រូសែននៃសែនខាងលើ', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000007', 7, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000000', 'kh-grade12-science-biology', 2018, 'BacII 2018: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000001', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'ដូចម្តេចហៅថា អាំងភ្លុចប្រសាទ? តើអាំងភ្លុចប្រសាទឆ្លងកាត់ស៊ីណាប់យ៉ាងដូចម្តេច?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000001', 1, 6)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'តើរលកសូរមានឥទ្ធិពលទៅលើផ្នែកផ្សេងៗនៃត្រចៀកយ៉ាងដូចម្តេច?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000002', 2, 8)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'តើវិស្វកម្មសេនេទិចផ្តល់ផលល្អនិងផលអាក្រក់អ្វីខ្លះដល់មនុស្ស?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000003', 3, 9)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'ចូររកលក្ខណៈខុសគ្នារវាង៖
+ក. (៦ពិន្ទុ) រុក្ខជាតិម៉ូណូកូទីលេដុន និងរុក្ខជាតិឌីកូទីលេដុន។
+ខ. (៤ពិន្ទុ) ការបង្កាត់ជិត និងការបង្កាត់ឆ្ងាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'ក. (៥ពិន្ទុ) តើអាំងស៊ុយលីនជាអ្វី? បើកង្វះអរម៉ូនអាំងស៊ុយលីនបណ្តាលឲ្យមានផលវិបាកអ្វី?
+ខ. (៦ពិន្ទុ) ចូរបកស្រាយពីរបៀបផលិតអរម៉ូនអាំងស៊ុយលីនដោយវិស្វកម្មសេនេទិច?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000005', 5, 11)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'ក. (៣ពិន្ទុ) ចូររៀបរាប់ពីតួនាទីរបស់អង់ស៊ីម ARN ប៉ូលីមេរ៉ាស។
+ខ. (៨ពិន្ទុ) ម៉ូលេគុល ARNm មួយមានទំនាក់ទំនងរីបូនុយក្លេអូទីត
+$$A=4U;\ \frac{G}{C}=\frac{1}{2};\ \frac{U}{G}=\frac{1}{5}$$
+គណនាភាគរយនៃនុយក្លេអូទីតប្រភេទនីមួយៗរបស់អង្កត់ ADN ដែលកំណត់សំយោគ ARNm នេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000006', 6, 11)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'ម៉ូលេគុល ADN មួយ មាននុយក្លេអូទីតប្រភេទ $C=35\%$ នៃនុយក្លេអូទីតសរុប ហើយនុយក្លេអូទីតប្រភេទ C លើសនុយក្លេអូទីតប្រភេទ A ចំនួន $4400$។
+ក. (១០ពិន្ទុ) គណនាចំនួននុយក្លេអូទីតប្រភេទនីមួយៗរបស់ ADN។
+ខ. (៤ពិន្ទុ) តើម៉ូលេគុល ADN នេះមានប៉ុន្មានជំហាន?
+គ. (៦ពិន្ទុ) បើម៉ូលេគុល ADN នេះស្វ័យដំឡើងទ្វេ៤ដង តើវាត្រូវការនុយក្លេអូទីតសេរីចំនួនប៉ុន្មាន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000007', 7, 20)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000000', 'kh-grade12-science-biology', 2017, 'BacII 2017: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000001', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'តើគេហៅឈ្មោះរបស់អង់ស៊ីមបានត្រឹមត្រូវដោយផ្អែកលើកត្តាអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'តើពោតជារុក្ខជាតិម៉ូណូកូទីលេដុន ឬឌីកូទីលេដុន? ហេតុអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'តើមានបាតុភូតអ្វីកើតឡើងនៅពេលដែលរីបូសូមលោតដល់កូដុងស្តុប?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'តើកត្តាអ្វីខ្លះដែលបណ្តាលឲ្យកើតភាវៈរស់ប្រភេទថ្មី? ចូររៀបរាប់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'ប្រៀបធៀបក្រពេញអិចសូគ្រីន និងក្រពេញអង់ដូគ្រីន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'ក. ដូចម្តេចដែលហៅថាអាំងភ្លុចប្រសាទ?
+ខ. ហេតុអ្វីបានជាពេលដែលមានរបួសដោយវត្ថុមុតស្រួចធ្វើឲ្យយើងមានការឈឺចាប់?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'ម៉ូលេគុល ADN មួយមានសម្ព័ន្ធអ៊ីដ្រូសែនសរុប $16\times10^4$។ នុយក្លេអូទីតប្រភេទ C ច្រើនជាងនុយក្លេអូទីតប្រភេទ A ចំនួនពីរដង។
+ក. រកចំនួននុយក្លេអូទីតប្រភេទនីមួយៗរបស់ ADN។
+ខ. ពេលម៉ូលេគុល ADN ស្វ័យដំឡើងទ្វេ៣ដង តើត្រូវការនុយក្លេអូទីតសេរីនីមួយៗចំនួនប៉ុន្មាន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000007', 7, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000008', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'ម៉ូលេគុល ARN នាំសារមួយមានសមាមាត្រជាភាគរយនៃនុយក្លេអូទីត $U=20\%$ $C=20\%$ $A=28\%$។
+ក. រកសមាមាត្រជាភាគរយនៃនុយក្លេអូទីតនីមួយៗនៃអង្កត់ ADN ដែលបានសំយោគម៉ូលេគុល ARN នាំសាខាងលើ។
+ខ. តើអង្កត់ ADN នេះមានប្រវែងប៉ុន្មានណាណូម៉ែត $(nm)$ បើ $U=1800$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000008', 8, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000000', 'kh-grade12-science-biology', 2016, 'BacII 2016: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000001', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'តើនៅក្នុងស្លឹកមានស្រទាប់អ្វីខ្លះ? តើស្រទាប់នីមួយៗមាននាទីដូចម្តេចខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'ហេតុអ្វីបានជាគេនិយាយថាអង់ស៊ីមជាប្រូតេអ៊ីនដែលមានសកម្មភាពខ្លាំងក្លា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'ចូរប្រៀបធៀបប្រព័ន្ធប្រសាទសត្វឥតឆ្អឹងកង និងប្រព័ន្ធប្រសាទសត្វឆ្អឹងកង។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'តើវិស្វកម្មសេនេទិចជួយដល់រុក្ខជាតិដូចម្តេចខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'ក្រោយពេលដំឡើងទ្វេហើយ ហេតុអ្វីបានជាម៉ូលេគុល ADN កូនដូចគ្នាបេះបិទទៅនឹងម៉ូលេគុល ADN មេ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'ហេតុអ្វីបានជាអរម៉ូនភ្ញោចតែកោសិកាគោលដៅ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'ម៉ូលេគុល ADN មួយមាននុយក្លេអូទីតប្រភេទ $C=180000$ ដែលមានសមាមាត្រ $30$ នៃ$\%$នុយក្លេអូទីតទាំងអស់។
+ក. រកភាគរយនៃនុយក្លេអូទីតប្រភេទនីមួយៗ។
+ខ. រកប្រវែងម៉ូលេគុល ADN គិតជាមីក្រូម៉ែត្រ $(\mu m)$។
+គ. រកចំនួនសម្ព័ន្ធអ៊ីដ្រូសែនសរុបរបស់ម៉ូលេគុល ADN។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000007', 7, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000008', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'សែនមួយមានប្រវែង $680\,nm$។ សែននេះកំណត់សំយោគ ARNm មួយដែលមានទំនាក់ទំនងរីបូនុយក្លេអូទីត $2A-3C=3G-2U$។
+ក. គណនាចំនួននុយក្លេអូទីតប្រភេទនីមួយៗរបស់សែននេះ។
+ខ. គណនាចំនួននុយក្លេអូទីតប្រភេទនីមួយៗរបស់ ARNm បើគេដឹងថាក្នុងម៉ូលេគុល ARNm នេះមានផលដករវាង A និង $U=600$ ហើយផលដករវាង C និង $G=400$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000008', 8, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000000', 'kh-grade12-science-biology', 2015, 'BacII 2015: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000001', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', 'តើផ្នែកសំខាន់ៗនៃប្រព័ន្ធប្រសាទសត្វឆ្អឹងកងមានអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', 'ដូចម្តេចដែលហៅថាពន្លកជីវវិញ្ញាណ? ចូររៀបរាប់ទីតាំងនៃរសជាតិទាំង៤របស់អណ្តាត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', '១. ចូរសរសេររូបមន្តទូទៅរបស់អាស៊ីតអាមីនេ។
+២. រ៉ាឌីកាល់ R របស់អាស៊ីតអាមីនេប្រភេទអាឡានី $\mathrm{CH_3}$
+រ៉ាឌីកាល់ R របស់អាស៊ីតអាមីនេប្រភេទសេរីន $\mathrm{CH_2OH}$
+ចូរសរសេររូបមន្តគីមីនៃអាស៊ីតអាមីនេទាំងពីរ
+៣. ចូរសរសេររូបមន្តឌីប៉ិបទីតដែលកើតចេញពីអាស៊ីតអាមីនេទាំងពីរនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', 'តើផូស៊ីលជាអ្វី? ការកកើតផូស៊ីលមានប៉ុន្មានរបៀប? អ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', 'ហេតុអ្វីបានជាគេចាត់ ក្រពះ និងពោះវៀនតូចជាក្រពេញអង់ដូគ្រីន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', 'សែនមួយមានផលបូកនុយក្លេអូទីតប្រភេទ A និង T ស្មើនឹង $25\%$ នៃនុយក្លេអូទីតទាំងអស់ ហើយមានចំនួនសម្ព័ន្ធអ៊ីដ្រូសែនសរុប $1287$។
+ក. គណនាចំនួននុយក្លេអូទីតប្រភេទនីមួយៗរបស់សែន?
+ខ. រកចំនួនសម្ព័ន្ធអ៊ីដ្រូសែនរវាង C និង G, T និង A', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', 'សែនមួយបាននុយក្លេអូទីតសរុប $14400$។
+ក. រកប្រវែងរបស់សែនគិតជាមីក្រូម៉ែត?
+ខ. គណនាចំនួនអាស៊ីតអាមីនេនៅក្នុងម៉ូលេគុលដែលសំយោគចេញពីសែននេះ?
+គ. គណនាល្បឿនរបស់រីបូសូម បើដឹងថាបម្លាស់ពីដើមម៉ូលេគុល ARNm រហូតដល់ចុងម៉ូលេគុលប្រើរយៈពេល $80$ នាទី', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000007', 7, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000000', 'kh-grade12-science-biology', 2014, 'BacII 2014, second sitting: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000001', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'តើក្រពេញញើសមាននាទីដូចម្តេច?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'តើអង់ទីប៊្យូទិចជាអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ដូចម្តេចដែលហៅថាក្រពេញប៉ារ៉ាទីរ៉ូអ៊ីត? វាមាននាទីដូចម្តេច?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'តើហេតុអ្វីបានជាគេថាគ្រាប់លម្អងមិនមែនជាកាម៉េតឈ្មោល? ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'តើចលនាការស្វ័យដំឡើងទ្វេ ADN មានសារៈសំខាន់ដូចម្តេចខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ហេតុអ្វីចាំបាច់ត្រូវមាន $\mathrm{ARN_t}$ (ARN ដឹកនាំ) ក្នុងការសំយោគប្រូតេអ៊ីន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'រាល់ម៉ូលេគុល ADN ក្នុងកោសិកាមនុស្សមាន $6\times10^9$ នុយក្លេអូទីត។
+ក. តើប្រវែងម៉ូលេគុលទាំងអស់មានប៉ុន្មានមីលីម៉ែត?
+ខ. ហេតុដូចម្តេចបានជាប្រវែងទាំងនេះអាចរួញ ហើយស្ថិតនៅក្នុងណ្វៃយ៉ូកោសិកាដែលមានអង្កត់ផ្ចិតតែ $2$-$3$ ភាគពាន់នៃមីលីម៉ែត?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000007', 7, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000008', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ច្រវាក់ទោលមួយនៃម៉ូលេគុល ADN មាន $3\times10^4$ នុយក្លេអូទីត។
+១. កាលណាម៉ូលេគុល ADN នេះធ្វើស្វ័យដំឡើងទ្វេ២លើក តើវាត្រូវការនុយក្លេអូទីតសេរីចំនួនប៉ុន្មាន?
+២. ក្នុងម៉ូលេគុល ADN នេះចំនួននុយក្លេអូទីតនៃប្រភេទស៊ីតូស៊ីនស្មើនឹង $14\%$ នៃចំនួននុយក្លេអូទីតទាំងអស់។ គណនាចំនួននុយក្លេអូទីតនៃប្រភេទនិមួយៗរបស់ម៉ូលេគុល ADN។
+៣. ម៉ូលេគុល ADN នេះអាចប្រើជាគំរូពុម្ព តើវាត្រូវការម៉ូលេគុល ARNm ប៉ុន្មាន បើម៉ូលេគុល ARNm នីមួយៗមានជាមធ្យម $10^4$ នុយក្លេអូទីត?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000008', 8, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000000', 'kh-grade12-science-biology', 2014, 'BacII 2014, first sitting: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Every question is kept as printed. VI.២ is incomplete in the copy ("ARNm … មាន។" with the value missing), so check it against the original. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000001', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', '១. តើគេសម្គាល់រុក្ខជាតិឌីកូទីលេដុងបានដោយសារអ្វីខ្លះ?
+២. ដូចម្តេចដែលហៅថាការបង្ករកំណើត?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Every question is kept as printed. VI.២ is incomplete in the copy ("ARNm … មាន។" with the value missing), so check it against the original. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ការពិសោធន៍អំពីអត្តសញ្ញាណប្រូតេអ៊ីន៖
+គេដាក់សូលុយស្យុងសូដ្យូមអ៊ីដ្រុកស៊ីត ($\mathrm{NaOH}$) $10\%$ និងសូលុយស្យុងទង់ដែងស៊ុលផាត ($\mathrm{CuSO_4}$) $0.5\%$ ចំណុះ $3\,ml$ ដូចគ្នាទៅក្នុងកែវដែលមានសូលុយស្យុងអាល់ប៊ុយមីនចំណុះ $3\,ml$ ដែររួចក្រឡុកឲ្យសព្វ។
+១. តើគេសង្កេតឃើញពណ៌អ្វីដែលកើតឡើងនៅក្នុងកែវជ័រនោះ?
+២. តើគេប្រើសូលុយស្យុង $10\%$ នៃសូដ្យូមអ៊ីដ្រុកស៊ីត ($\mathrm{NaOH}$) និង $0.5\%$ ទង់ដែងស៊ុលផាត ($\mathrm{CuSO_4}$) ដើម្បីអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Every question is kept as printed. VI.២ is incomplete in the copy ("ARNm … មាន។" with the value missing), so check it against the original. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', '១. តើនុយក្លេអូទីតជាអ្វី? តើវាផ្សំឡើងពីធាតុអ្វីខ្លះ?
+២. នុយក្លេអូទីតមានតែ៤ប្រភេទ ហេតុអ្វីបានជាអាចបង្កើតម៉ូលេគុល ADN ខុសគ្នាច្រើន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Every question is kept as printed. VI.២ is incomplete in the copy ("ARNm … មាន។" with the value missing), so check it against the original. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ពេលឮទូរសព្ទរោទិ៍ អ្នកលើកទូរសព្ទឡើងដើម្បីឆ្លើយតប។ ក្នុងករណីនេះ តើមានណឺរ៉ូនអ្វីខ្លះដែលចូលរួម? ចូររៀបរាប់ពីនាទីរបស់ណឺរ៉ូននីមួយៗ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Every question is kept as printed. VI.២ is incomplete in the copy ("ARNm … មាន។" with the value missing), so check it against the original. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ម៉ូលេគុល ADN មួយមាននុយក្លេអូទីត $T=640000$ និងមានចំនួននុយក្លេអូទីត $C=50\%$ នៃនុយក្លេអូទីតទីមីន។
+១. រកចំនួននុយក្លេអូទីតសុបរបស់ម៉ូលេគុល ADN។
+២. តើម៉ូលេគុល ADN នេះត្រូវការនុយក្លេអូទីតសេរីចំនួនប៉ុន្មាន ពេលស្វ័យដំឡើងទ្វេ៣លើក?
+៣. រកចំនួនសម្ព័ន្ធគីមីរបស់ ADN។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Every question is kept as printed. VI.២ is incomplete in the copy ("ARNm … មាន។" with the value missing), so check it against the original. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ម៉ូលេគុលប្រូតេអ៊ីនមួយមាន $178$ អាស៊ីតអាមីនេ។
+១. គណនាប្រវែងម៉ូលេគុល ARNm ដែលចម្លងចេញពីសែនខាងលើ។
+២. ក្នុងសែនខាងលើ គេឃើញថាផលដករវាងនុយក្លេអូទីអាដេនីន និងនុយក្លេអូទីតហ្កានីនស្មើ $200$។ ម៉ូលេគុល ARNm ដែលសំយោគចេញពីសែននេះមាន។ រកចំនួននៃប្រភេទនុយក្លេអូទីតរបស់សែន និងចំនួននៃប្រភេទនុយក្លេអូទីតរបស់ច្រវាក់ទោលនីមួយៗនៃសែន។
+៣. គណនាសមាមាត្រជាភាគរយនៃប្រភេទនុយក្លេអូទីតនីមួយៗរបស់ ម៉ូលេគុល ARNm។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Every question is kept as printed. VI.២ is incomplete in the copy ("ARNm … មាន។" with the value missing), so check it against the original. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
+
 -- kh-grade12-science-chemistry.json
 begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)

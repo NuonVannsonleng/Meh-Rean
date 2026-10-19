@@ -437,6 +437,13 @@ timing only in database functions, never in the browser.
   so no figures were needed. 2022's printed points add up to 80, so none are
   shown. Tests: affected suites; `test:past-papers` 9/9 (134 papers, 588
   questions); Playwright 12/12 browser-only and online.
+- **2026-10-19 — Real past papers, part 8: science-track biology
+  2014–2022.** 9 papers, 64 questions, text only (no figures in the
+  questions). Every printed total checked (2018: 6+8+9+10+11+11+20); 2014
+  first sitting VI.2 is missing a value in the copy, noted on the paper.
+  With this every subject in the collection is in: 16 subjects, 143
+  papers, 652 questions. Tests: all 37 suites; `test:past-papers` 9/9;
+  Playwright 12/12 browser-only and online.
 
 ## Blockers and things that need a person
 

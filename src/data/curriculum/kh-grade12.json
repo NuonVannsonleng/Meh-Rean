@@ -215,6 +215,21 @@
               ]
             }
           ]
+        },
+        {
+          "subjectKey": "biology",
+          "nameEn": "Biology",
+          "nameKm": "ជីវវិទ្យា",
+          "chapters": [
+            {
+              "slug": "past-papers",
+              "nameEn": "BacII exam questions (not yet sorted into chapters)",
+              "nameKm": "សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)",
+              "topics": [
+                { "slug": "exam-questions", "nameEn": "Past exam questions", "nameKm": "សំណួរប្រឡងឆ្នាំមុនៗ" }
+              ]
+            }
+          ]
         }
       ]
     },
