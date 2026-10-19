@@ -33,10 +33,15 @@ const seeds = readdirSync(new URL("src/data/past-papers/", ROOT))
 const papers = seeds.flatMap(({ seed }) => buildPastPapers(seed, chapters));
 const timings = JSON.parse(read("src/data/bacii/exam-timings.json"));
 
-await check("science-track mathematics: every sitting from 2014 to 2025 (none in 2020), each built and in order", async () => {
-  const science = papers.filter((paper) => paper.subjectId === "kh-grade12-science-mathematics");
-  const sittings = science.map((paper) => `${paper.year}${/first|second/.exec(paper.titleEn)?.[0]?.[0] ?? ""}`).sort();
-  assert(sittings.join() === "2014f,2014s,2015,2016,2017,2018,2019,2021,2022,2023,2024,2025", sittings.join());
+const ALL_SITTINGS = "2014f,2014s,2015,2016,2017,2018,2019,2021,2022,2023,2024,2025";
+await check("science- and social-track mathematics: every sitting from 2014 to 2025 (none in 2020), each built and in order", async () => {
+  for (const subjectId of ["kh-grade12-science-mathematics", "kh-grade12-social-mathematics"]) {
+    const sittings = papers
+      .filter((paper) => paper.subjectId === subjectId)
+      .map((paper) => `${paper.year}${/first|second/.exec(paper.titleEn)?.[0]?.[0] ?? ""}`)
+      .sort();
+    assert(sittings.join() === ALL_SITTINGS, `${subjectId}: ${sittings.join()}`);
+  }
   assert(new Set(papers.map((paper) => paper.id)).size === papers.length, "duplicate paper ids");
   const questionIds = papers.flatMap((paper) => paper.questions.map((entry) => entry.question.id));
   assert(new Set(questionIds).size === questionIds.length && questionIds.every((id) => /^bacc[0-9]{4}-[0-9]{4}-4[0-2]00-8000-0{10}[0-9]{2}$/.test(id)), "question ids");
@@ -54,7 +59,8 @@ await check("each paper keeps its printed length, which matches the BacII paper 
   }
   for (const paper of papers) {
     assert(paper.durationMinutes && /រយៈពេល/.test(paper.durationSource), `${paper.id}: printed length`);
-    assert(paper.totalPoints === null || paper.totalPoints === 125, `${paper.id}: ${paper.totalPoints} points`);
+    const expected = paper.subjectId.includes("-science-") ? 125 : 75;
+    assert(paper.totalPoints === null || paper.totalPoints === expected, `${paper.id}: ${paper.totalPoints} points`);
   }
 });
 

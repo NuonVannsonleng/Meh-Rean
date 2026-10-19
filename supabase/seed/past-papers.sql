@@ -879,4 +879,641 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000005', 5, 45)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+-- kh-grade12-social-mathematics.json
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2025-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2025, 'BacII 2025: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2025-4000-8000-000000000001', 'kh-grade12-social-mathematics-limits-continuity', null, 2025, 'open', 'គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖
+a. $\displaystyle\lim_{x\to1}\left(7-5x^2-2x^3\right)$
+b. $\displaystyle\lim_{x\to e}\frac{\ln^2x-1}{1-\ln x}$
+c. $\displaystyle\lim_{x\to4}\frac{2-\sqrt{x}}{x-4}$
+d. $\displaystyle\lim_{x\to0}\frac{x}{e^{3x}+e^{-2x}}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000001', 1, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2025-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2025, 'open', 'គណនាអាំងតេក្រាល៖
+ក. $\displaystyle I=\int_{-1}^1\left(2x^3-x^2+2x-1\right)dx$
+ខ. $\displaystyle J=\int_1^e\left(\frac{2}{x}+e^x\right)dx$
+គ. $\displaystyle K=\int_{-1}^0\left(\frac{1}{x-1}-\frac{1}{(x-1)^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2025-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2025, 'open', 'ពេលប្រឡងបញ្ចប់ឆ្នាំសិក្សា ត្រូវបានរៀបចំប្រឡងជាសំណួរផ្ទាល់មាត់ ដោយបានរៀបសំណួរចំនួន $10$ សំណួរ ដែលចែកជា $5$ សំណួរដកចេញពីមេរៀនក្នុងត្រីមាសទី $1$ $3$ សំណួរដកចេញពីមេរៀនក្នុងត្រីមាសទី $2$ និង $2$ សំណួរដកចេញពីមេរៀនក្នុងត្រីមាសទី $3$ ដាក់ក្នុងប្រអប់មួយ។ លោកគ្រូបានហៅសិស្សម្នាក់មកចាប់យក $3$ សំណួរព្រមគ្នាដោយចៃដន្យពីក្នុងប្រអប់។ ចូររកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
+$A$៖ សំណួរទាំងបីដែលចាប់បាន ជាសំណួរដកចេញពីមេរៀនត្រីមាសទី $1$។
+$B$៖ សំណួរទាំងបីដែលចាប់បាន មាននៅក្នុងមេរៀនទាំងបីត្រីមាស។
+$C$៖ សំណួរទាំងបីដែលចាប់បាន ជាមេរៀននៅក្នុងត្រីមាសដូចគ្នា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2025-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2025, 'open', 'គេមានប៉ារ៉ាបូលដែលមានសមីការទូទៅ៖ $y^2+4y-2x=0$។ ចូរបំប្លែងសមីការនេះជាទម្រង់សមីការស្តង់ដានៃប៉ារ៉ាបូល។ ចូររកកូអរដោនេនៃកំពូល កំណុំ និងសមីការបន្ទាត់ប្រាប់ទិសរបស់ប៉ារ៉ាបូលនេះ រួចសង់ប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2025-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2025, 'open', 'គេមានអនុគមន៍ $f$ ដែល $f(x)=\dfrac{2-x-2x^2}{-1-x}$។ តាង $(C)$ ជាក្រាបនៃ $f(x)$ ក្នុងតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
+ក. រកដែនកំណត់នៃអនុគមន៍ $f$។
+ខ. បង្ហាញថា $f(x)=ax+b+\dfrac{c}{x+1}$។
+គ. បង្ហាញថា $(d)$៖ $y=2x-1$ ជាអាស៊ីមតូតទ្រេតខាង $\pm\infty$។
+ឃ. សិក្សាទីតាំងធៀបរវាង $(C)$ និង $(d)$។
+ង. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000005', 5, 30)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2024-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2024, 'BacII 2024: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២៤ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2024-4000-8000-000000000001', 'kh-grade12-social-mathematics-limits-continuity', null, 2024, 'open', 'គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖
+១. $\displaystyle\lim_{x\to2}\frac{x^2-4}{x+2}$
+២. $\displaystyle\lim_{x\to0}\left[(\ln x)^2-2\ln x+1\right]$
+៣. $\displaystyle\lim_{x\to3}\frac{2x-3x^2}{x^2+5x+1}$
+៤. $\displaystyle\lim_{x\to1}\frac{\sqrt{x+3}-2}{x-1}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2024-4000-8000-000000000002', 'kh-grade12-social-mathematics-probability', null, 2024, 'open', 'ក្នុងប្រអប់មួយមានកូនបាល់ចំនួន $40$ គ្រាប់ ក្នុងនោះមានកូនបាល់ពណ៌បៃតងចំនួន $19$ និងពណ៌លឿងចំនួន $21$។ គេចាប់យកកូនបាល់ម្តង $2$ ព្រមគ្នាចេញពីថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
+ក. កូនបាល់ទាំងពីរមានពណ៌ខុសគ្នា។
+ខ. កូនបាល់ទាំងពីរមានពណ៌បៃតង។
+គ. កូនបាល់ទាំងពីរមានពណ៌ដូចគ្នា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2024-4000-8000-000000000003', 'kh-grade12-social-mathematics-integrals', null, 2024, 'open', 'គណនាអាំងតេក្រាល៖
+ក. $\displaystyle\int_2^3(x-3)\,dx$
+ខ. $\displaystyle\int_0^{\ln6}\left(e^x-1\right)dx$
+គ. $\displaystyle\int_1^e\frac{\ln x}{x}dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2024-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2024, 'open', 'គេមានសមីការ $(4x+3y)^2-144=24xy$។
+១. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច ប្រវែងអ័ក្សធំ កូអរដោនេនៃកំពូលទាំងពីរ និងកូអរដោនេនៃកំណុំទាំងពីររបស់អេលីប។
+២. សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2024-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2024, 'open', 'គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\dfrac{-x^2+x+3}{x+1}$។ យើងតាង $(C)$ ជាក្រាបរបស់អនុគមន៍ ក្នុងតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
+ក. រកដែនកំណត់នៃអនុគមន៍ $f$។
+ខ. បង្ហាញថា $f(x)=-x+2+\dfrac{1}{x+1}$។
+គ. គណនាលីមីតនៃ $f(x)$ ត្រង់ $-\infty$; $+\infty$ និង $-1$។
+ឃ. រកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។
+ង. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2023-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2023, 'BacII 2023: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២៣ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2023-4000-8000-000000000001', 'kh-grade12-social-mathematics-limits-continuity', null, 2023, 'open', 'គណនាលីមីតខាងក្រោម៖
+ក. $\displaystyle\lim_{x\to+\infty}\left(3x^2-x\right)$
+ខ. $\displaystyle\lim_{x\to2}\frac{4\left(\sqrt{x+2}-2\right)}{4-x^2}$
+គ. $\displaystyle\lim_{x\to\infty}e^x\left(-x^2+\frac{1}{x}\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000001', 1, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2023-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2023, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
+ក. $\displaystyle\int_0^1\left(1-x+x^2\right)dx$
+ខ. $\displaystyle\int_0^1\frac{e^x}{e^x+1}dx$
+គ. $\displaystyle\int_0^1\left[\frac{e^x}{e^x+1}+\frac{1}{1+e^x}\right]dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2023-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2023, 'open', 'ក្នុងថង់មួយមានប៊ូលពណ៌ក្រហមចំនួន $4$ និងប៊ូលពណ៌ខ្មៅចំនួន $5$។
+ក. គេចាប់យកប៊ូល $2$ ពីក្នុងថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ដែលប៊ូលចាប់បានមកទាំងពីរ មានមួយពណ៌ក្រហម និងមួយពណ៌ខ្មៅ។
+ខ. គេចាប់យកប៊ូលមួយហើយដាក់ទៅវិញ បន្ទាប់មកគេចាប់យកប៊ូលមួយទៀត។ រកប្រូបាបនៃព្រឹត្តិការណ៍ដែលប៊ូលលើកដំបូងពណ៌ខ្មៅ ហើយមួយទៀតពណ៌ក្រហម។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2023-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2023, 'open', 'រកសមីការស្តង់ដាប៉ារ៉ាបូលដែលមានកំណុំ $F(0,-2)$ និងបន្ទាត់ប្រាប់ទិសមានសមីការ $y=2$។ ចូរសង់ប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2023-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2023, 'open', 'គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\dfrac{3x-1}{(x-1)^2}$ និងគេតាងក្រាប $(C)$។
+ក. រកដែនកំណត់នៃអនុគមន៍ $f$។
+ខ. គណនា $\displaystyle\lim_{x\to1}f(x)$, $\displaystyle\lim_{x\to-\infty}f(x)$, $\displaystyle\lim_{x\to+\infty}f(x)$។ រកអាស៊ីមតូតឈរ និងអាស៊ីមតូតដេកនៃក្រាប $(C)$។
+គ. បង្ហាញថា $f''(x)=-\dfrac{3x+1}{(x-1)^3}$។
+ឃ. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000005', 5, 30)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2022-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2022, 'BacII 2022: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2022-4000-8000-000000000001', 'kh-grade12-social-mathematics-limits-continuity', null, 2022, 'open', 'គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖
+ក. $\displaystyle\lim_{x\to0}\left(e^{2x}-2e^x+1\right)$
+ខ. $\displaystyle\lim_{x\to4}\frac{\sqrt{x}-2}{x-4}$
+គ. $\displaystyle\lim_{x\to+\infty}\frac{3-x}{2x-1}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000001', 1, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2022-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2022, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
+ក. $\displaystyle A=\int_0^1\left[\left(x^2-3x+1\right)+(2x+1)\right]dx$
+ខ. $\displaystyle B=\int_2^3\left(\frac{1}{x-1}+\frac{1}{x^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2022-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2022, 'open', 'ក្នុងអាងចិញ្ចឹមត្រីមួយមានត្រីឈ្មោលចំនួន $4$ និងញីចំនួន $6$។ គេចាប់យកត្រី $3$ មកដាក់នៅអាងថ្មីមួយដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
+ក. ត្រីទាំងបីដែលចាប់មកជាត្រីឈ្មោលទាំងបី។
+ខ. ត្រីទាំងបីដែលចាប់មកមានត្រីញីពីរ និងឈ្មោលមួយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2022-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2022, 'open', 'គេមានសមីការ $12y^2=300-75x^2$។
+ក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច អ័ក្សធំ កូអរដោនេនៃកំពូលទាំងពីរ និងកំណុំទាំងពីររបស់អេលីបនេះ។
+ខ. សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2022-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2022, 'open', 'គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\dfrac{4-x^2}{1-x}$ និងតាង $(C)$ ជាក្រាបរបស់អនុគមន៍ $f$។
+ក. រកដែនកំណត់នៃអនុគមន៍ $f$។
+ខ. បង្ហាញថា $f(x)=x+1+\dfrac{3}{1-x}$។
+គ. គណនា $\displaystyle\lim_{x\to1^+}f(x)$, $\displaystyle\lim_{x\to1^-}f(x)$, $\displaystyle\lim_{x\to+\infty}f(x)$, $\displaystyle\lim_{x\to-\infty}f(x)$ ហើយទាញរកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតរបស់ក្រាប $(C)$។
+ឃ. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000005', 5, 30)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2021-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2021, 'BacII 2021: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2021-4000-8000-000000000001', 'kh-grade12-social-mathematics-limits-continuity', null, 2021, 'open', 'គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖
+ក. $\displaystyle\lim_{x\to-1}\left(-x^3+x^2-2x-4\right)$
+ខ. $\displaystyle\lim_{x\to+\infty}\frac{2x-1}{3-x}$
+គ. $\displaystyle\lim_{x\to+\infty}e^x\left(-x^2+\frac{1}{x}\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000001', 1, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2021-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2021, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
+១. $\displaystyle I=\int_0^1\left(x^2+x+1\right)dx$
+២. $\displaystyle J=\int_1^2\left(\frac{4}{x^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2021-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2021, 'open', 'ក្នុងប្រអប់មួយមានឃ្លីពណ៌ក្រហមចំនួន $5$ និងឃ្លីពណ៌ខ្មៅចំនួន $3$។ គេចាប់យកឃ្លីម្តង $3$ ដោយចៃដន្យ។ គេសន្និដ្ឋានថាប្រូបាបដែលចាប់បានឃ្លីនីមួយៗជាសមប្រូបាប។ គណនាប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
+$A$៖ «ឃ្លីទាំង $3$ មានពណ៌ក្រហម»
+$B$៖ «ឃ្លី $2$ មានពណ៌ក្រហម និង $1$ មានពណ៌ខ្មៅ»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2021-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2021, 'open', 'រកសមីការស្តង់ដានៃអេលីបដែលមានកំណុំមួយជាចំណុច $(2,0)$ និងចំណុចកំពូលទាំងពីរមានកូអរដោនេ $(-3,0)$ និង $(3,0)$។ សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2021-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2021, 'open', 'គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\dfrac{x^2-5x+7}{2-x}$។ យើងតាង $(C)$ ជាក្រាបរបស់អនុគមន៍ $f$ ក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
+ក. រកដែនកំណត់នៃអនុគមន៍ $f$។
+ខ. បង្ហាញថា $f(x)=3-x+\dfrac{1}{2-x}$។
+គ. គណនាលីមីតនៃ $f(x)$ ត្រង់ $-\infty$; $+\infty$; $2$។
+ឃ. រកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។
+ង. សិក្សាអថេរភាពនៃអនុគមន៍ $f$ និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000005', 5, 30)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2019-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2019, 'BacII 2019: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2019-4000-8000-000000000001', 'kh-grade12-social-mathematics-limits-continuity', null, 2019, 'open', 'គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖
+១. $\displaystyle\lim_{x\to1}\frac{x-1}{2(x^2-1)}$
+២. $\displaystyle\lim_{x\to+\infty}\frac{x^2+x+1}{2x^2-x+1}$
+៣. $\displaystyle\lim_{x\to0}\frac{e^x-e^{-x}}{2e^x}$
+៤. $\displaystyle\lim_{x\to1}\frac{1-\sqrt{x}}{x-1}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000001', 1, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2019-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2019, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
+$\displaystyle I=\int_0^1\left(2-3x+x^2\right)dx$; $\displaystyle J=\int_0^2\left[2x-\frac{1}{x+e}\right]dx$; $\displaystyle K=\int_{-1}^0\left(2-\frac{1}{(x-1)^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2019-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2019, 'open', 'ក្នុងថង់មួយមានប៊ូល $10$ ដែលមានក្នុងនោះប៊ូល $5$ មានពណ៌លឿង ហើយគេសរសេរលេខពី $1$ ដល់ $5$ ប៊ូល $3$ មានពណ៌ក្រហម ហើយគេសរសេរលេខពី $1$ ដល់ $3$ និងប៊ូលពីរមានពណ៌ស ហើយគេសរសេរលេខពី $1$ ដល់ $2$។ គេចាប់យកប៊ូលមួយពីក្នុងថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
+$A$៖ «ប៊ូលដែលចាប់បានមានពណ៌លឿង»
+$B$៖ «ប៊ូលដែលចាប់បានមានលេខ $2$»
+$C$៖ «ប៊ូលដែលចាប់បានមានលេខ $1$ និងពណ៌ក្រហម»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2019-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2019, 'open', 'គេមានសមីការ $25x^2+9y^2-225=0$។
+ក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សធំ អ័ក្សតូច កូអរដោនេនៃកំពូលទាំងពីរ និងកូអរដោនេនៃកំណុំទាំងពីរនៃអេលីបនេះ។
+ខ. សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2019-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2019, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $D=\mathbb{R}\setminus\{-1\}$ ដោយ $f(x)=\dfrac{x^2+2x-2}{x+1}$។ យើងតាងក្រាប $(C)$ របស់អនុគមន៍នេះក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
+១. បង្ហាញថា $f(x)=x+1-\dfrac{3}{x+1}$។
+២. ចូររកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។
+៣. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000005', 5, 30)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2018-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2018, 'BacII 2018: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2018-4000-8000-000000000001', 'kh-grade12-social-mathematics-limits-continuity', null, 2018, 'open', 'គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖
+ក. $\displaystyle\lim_{x\to3}\frac{x^4+6x+1}{x^2+1}$
+ខ. $\displaystyle\lim_{x\to+\infty}\frac{x-1}{(x+1)^2}$
+គ. $\displaystyle\lim_{x\to+\infty}\left(x^2+2-\ln x\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000001', 1, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2018-4000-8000-000000000002', 'kh-grade12-social-mathematics-probability', null, 2018, 'open', 'ក្នុងថ្នាក់រៀនមួយមានសិស្ស $15$ នាក់ ក្នុងនោះមានសិស្សប្រុស $9$ នាក់ និងសិស្សស្រី $6$ នាក់។ គេជ្រើសរើសសិស្ស $3$ នាក់ដោយចៃដន្យជាតំណាងយកទៅសម្ភាសន៍។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
+$A$៖ «ក្រុមសិស្សទាំង $3$ នាក់ សុទ្ធតែជាសិស្សស្រី»
+$B$៖ «ក្រុមសិស្សទាំង $3$ នាក់ សុទ្ធតែជាសិស្សប្រុស»
+$C$៖ «ក្រុមសិស្សទាំង $3$ នាក់ មាន $2$ នាក់ជាសិស្សស្រី»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2018-4000-8000-000000000003', 'kh-grade12-social-mathematics-integrals', null, 2018, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
+$\displaystyle I=\int_1^2\left(3x^2-2x+3\right)dx$; $\displaystyle J=\int_0^1\left(e^{2x}-e^x+1\right)dx$; $\displaystyle K=\int_1^2\left(\frac{1}{x+3}+\frac{1}{x^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000003', 3, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2018-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2018, 'open', 'គេមានប៉ារ៉ាបូលមួយដែលមានកំពូលជាចំណុច $O(0,0)$ និងកំណុំ $F$ ស្ថិតនៅលើអ័ក្សអាប់ស៊ីស។
+ក. រកសមីការស្តង់ដានៃប៉ារ៉ាបូលនេះបើគេដឹងថាវាកាត់តាមចំណុច $A\left(\dfrac{3}{2},-3\right)$។
+ខ. រកកូអរដោនេរបស់កំណុំ សមីការបន្ទាត់ប្រាប់ទិស រួចសង់ប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2018-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2018, 'open', 'គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\dfrac{2x^2-7x+5}{x^2-5x+7}$។ យើងតាងដោយ $(C)$ ក្រាបរបស់វាលើតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
+១. រកដែនកំណត់ $D$ នៃអនុគមន៍ $f$។
+២. សិក្សាលីមីតនៃអនុគមន៍ $f$ ត្រង់ $-\infty$ និងត្រង់ $+\infty$។ ទាញយកសមីការអាស៊ីមតូត $d$ ទៅនឹងក្រាប $(C)$ ត្រង់ $-\infty$ និងត្រង់ $+\infty$។
+៣. ក. ស្រាយបំភ្លឺថាគ្រប់ចំនួនពិត $x\in D$៖ ដេរីវេ $f''(x)=\dfrac{-3\left(x^2-6x+8\right)}{\left(x^2-5x+7\right)^2}$។
+ខ. សិក្សាអថេរភាពនៃអនុគមន៍ $f$ និងសង់តារាងអថេរភាពនៃអនុគមន៍ $f$។
+គ. សង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000005', 5, 30)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2017-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2017, 'BacII 2017: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2017-4000-8000-000000000001', 'kh-grade12-social-mathematics-limits-continuity', null, 2017, 'open', 'គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖
+ក. $\displaystyle\lim_{x\to+\infty}\frac{x^2+x+1}{x^2+1}$
+ខ. $\displaystyle\lim_{x\to3}\frac{x^3-27}{\sqrt{x+6}-3}$
+គ. $\displaystyle\lim_{x\to0}\frac{e^x+e^{-x}}{2}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000001', 1, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2017-4000-8000-000000000002', 'kh-grade12-social-mathematics-probability', null, 2017, 'open', 'ក្នុងថង់មួយមានប៊ូលពណ៌សចំនួន $3$ និងប៊ូលពណ៌ក្រហមចំនួន $6$។ គេចាប់យកប៊ូល $3$ ក្នុងពេលតែមួយចេញពីថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
+$A$៖ «ប៊ូលទាំងបីមានពណ៌ស»
+$B$៖ «ប៊ូលទាំងបីមានពណ៌ក្រហម»
+$C$៖ «មានប៊ូលមួយពណ៌ក្រហម និងពីរទៀតពណ៌ស»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2017-4000-8000-000000000003', 'kh-grade12-social-mathematics-integrals', null, 2017, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
+ក. $\displaystyle I=\int_1^3\left(3x^2+2x+1\right)dx$
+ខ. $\displaystyle J=\int_0^1\left(2e^x-1\right)dx$
+គ. $\displaystyle K=\int_1^2\left(x+\frac{1}{x^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000003', 3, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2017-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2017, 'open', 'គេមានសមីការ $9x^2+25y^2=225$។
+ក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច ប្រវែងអ័ក្សធំ និងកូអរដោនេនៃកំពូលទាំងពីរ។
+ខ. សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2017-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2017, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $\mathbb{R}\setminus\{2\}$ ដោយ $f(x)=\dfrac{x^2-x-1}{x-2}$។ យើងតាង $C$ ក្រាបរបស់វាលើតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
+១. សិក្សាលីមីតនៃអនុគមន៍ $f$ ត្រង់ $-\infty$ ត្រង់ $2$ និងត្រង់ $+\infty$។
+២. សិក្សាអថេរភាព និងសង់តារាងអថេរភាពនៃអនុគមន៍ $f$។
+៣. ក. រកចំនួនពិត $a$, $b$, $c$ ដែលគ្រប់ $x\neq2$; $f(x)=ax+b+\dfrac{c}{x-2}$។
+ខ. គេតាង $d$ បន្ទាត់ដែលមានសមីការ $y=x+1$។ បង្ហាញថា $d$ ជាអាស៊ីមតូតនៃ $C$ ត្រង់ $+\infty$ និង $-\infty$។ សិក្សាទីតាំងនៃក្រាប $C$ ធៀបនឹងបន្ទាត់ $d$។
+គ. សង់ក្រាប $C$ និងបន្ទាត់ $d$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000005', 5, 30)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2016-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2016, 'BacII 2016: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2016, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2016-4000-8000-000000000001', 'kh-grade12-social-mathematics-limits-continuity', null, 2016, 'open', 'គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖
+ក. $\displaystyle\lim_{x\to1}\left(3x^3-4x\right)$
+ខ. $\displaystyle\lim_{x\to2}\frac{x^3-8}{\sqrt{x+2}-2}$
+គ. $\displaystyle\lim_{x\to+\infty}\left(\ln x-x^2\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000001', 1, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2016-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2016, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
+ក. $\displaystyle I=\int_1^2\left(1-3x^2\right)dx$
+ខ. $\displaystyle J=\int_2^3\frac{1}{x^2}dx$
+គ. $\displaystyle K=\int_0^1\left(\frac{1}{x+e}-1\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000002', 2, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2016-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2016, 'open', 'ក្នុងប្រអប់មួយមានឃ្លីពណ៌ក្រហមចំនួន $3$ និងឃ្លីពណ៌ខៀវចំនួន $5$។ គេចាប់យកឃ្លី $2$ ក្នុងពេលតែមួយចេញពីប្រអប់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
+$A$៖ «ឃ្លីទាំងពីរមានពណ៌ក្រហម»
+$B$៖ «ឃ្លីទាំងពីរមានពណ៌ខៀវ»
+$C$៖ «ឃ្លីមួយក្នុងមួយពណ៌»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2016-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2016, 'open', 'រកសមីការស្តង់ដានៃអេលីបដែលមានកំណុំ $F_1(-2,0)$ និងកំពូលពីរនៅត្រង់ចំណុច $A(-3,0)$ និង $B(3,0)$។ សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2016-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2016, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $\mathbb{R}\setminus\{-2,2\}$ ដោយ $f(x)=\dfrac{2x^2}{x^2-4}$។
+១. សិក្សាលីមីតនៃអនុគមន៍ $f$ ត្រង់ $-\infty$; ត្រង់ $-2$; ត្រង់ $+2$ និងត្រង់ $+\infty$។ ចូរបញ្ជាក់ពីអាស៊ីមតូតដេក និងអាស៊ីមតូតឈររបស់ក្រាបនៃអនុគមន៍ $f$។
+២. សិក្សាអថេរភាព និងសង់តារាងអថេរភាពនៃអនុគមន៍ $f$។
+៣. សង់នៅលើតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$ ក្រាបតាងអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000005', 5, 30)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2015-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2015, 'BacII 2015: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2015, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2015-4000-8000-000000000001', 'kh-grade12-social-mathematics-probability', null, 2015, 'open', 'ក្នុងថង់មួយមានឃ្លីពណ៌សចំនួន $3$ និងឃ្លីពណ៌ខៀវចំនួន $5$។ គេចាប់យកឃ្លី $2$ គ្រាប់ក្នុងពេលតែមួយចេញពីក្នុងថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
+ក. «គេចាប់បានឃ្លីពណ៌ខៀវទាំងពីរ»
+ខ. «គេចាប់បានឃ្លីមួយក្នុងមួយពណ៌»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000001', 1, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2015-4000-8000-000000000002', 'kh-grade12-social-mathematics-limits-continuity', null, 2015, 'open', 'គណនាលីមីតខាងក្រោម៖
+ក. $\displaystyle\lim_{x\to1}\frac{x^2-1}{x^2-3x+2}$
+ខ. $\displaystyle\lim_{x\to1}\frac{x-1}{\sqrt{x}-1}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2015-4000-8000-000000000003', 'kh-grade12-social-mathematics-integrals', null, 2015, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
+ក. គណនា $\displaystyle I=\int_2^3\left(3x^2+3x-1\right)dx$
+ខ. $f(x)=\dfrac{1+2x}{\left(x^2-4x\right)+(4-x)}$។ បង្ហាញថា $f(x)=\dfrac{1}{1-x}-\dfrac{3}{4-x}$។ គណនា $\displaystyle J=\int_2^3f(x)\,dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000003', 3, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2015-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2015, 'open', 'គេមានប៉ារ៉ាបូលមួយមានកំពូលនៅត្រង់ចំណុច $O(0,0)$ និងកំណុំ $F$ ស្ថិតនៅលើអ័ក្សអរដោនេ។
+ក. រកសមីការស្តង់ដានៃប៉ារ៉ាបូលនេះ បើគេដឹងថាវាកាត់តាមចំណុច $A(2,6)$។
+ខ. រកតម្លៃនៃ $x_1$ បើ $B\left(x_1,\dfrac{3}{2}\right)$ ស្ថិតនៅលើប៉ារ៉ាបូលនេះ។ ចូរសង់ប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000004', 4, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2015-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2015, 'open', 'គេមានអនុគមន៍ $f$ ដែល $f(x)=\dfrac{x^2-x-3}{x+1}$ និងគេតាងដោយ $(C)$ ក្រាបនៃអនុគមន៍ $f$។
+ក. រកដែនកំណត់នៃអនុគមន៍ $f$។
+ខ. បង្ហាញថា $f(x)=x-2-\dfrac{1}{x+1}$។
+គ. បង្ហាញថាបន្ទាត់ដែលមានសមីការ $y=x-2$ ជាអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។
+ឃ. សិក្សាអថេរភាព និងសង់ក្រាបនៃ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000005', 5, 30)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2014-4200-8000-000000000000', 'kh-grade12-social-mathematics', 2014, 'BacII 2014, second sitting: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, second sitting, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2014-4200-8000-000000000001', 'kh-grade12-social-mathematics-limits-continuity', null, 2014, 'open', 'គណនាលីមីតខាងក្រោម៖
+ក. $\displaystyle\lim_{x\to-3}\frac{x^2+6x+9}{x^2+4x+3}$
+ខ. $\displaystyle\lim_{x\to0}\frac{\sin^2x}{-3x}$
+គ. $\displaystyle\lim_{x\to0}\frac{\sqrt{2+x}-\sqrt{2-x}}{x}$
+ឃ. $\displaystyle\lim_{x\to+\infty}\left(2e^x+2x-2\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000001', 1, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2014-4200-8000-000000000002', 'kh-grade12-social-mathematics-probability', null, 2014, 'open', 'ក្នុងអាងចិញ្ចឹមត្រីមួយមានត្រីពណ៌ក្រហម $4$ និងត្រីពណ៌ស $3$។ គេចាប់ត្រី $2$ មកដាក់ក្នុងអាងថ្មីដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
+ក. «ត្រីពណ៌ក្រហមទាំងពីរ»
+ខ. «ត្រីពណ៌សទាំងពីរ»
+គ. «ត្រីមួយក្នុងមួយពណ៌»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2014-4200-8000-000000000003', 'kh-grade12-social-mathematics-function-study', null, 2014, 'open', 'គេមានអនុគមន៍ $f(x)=\dfrac{(x+2)(x-2)}{(1-x)}$។
+ក. រកដែនកំណត់ $f(x)$។
+ខ. បង្ហាញថា $f(x)=-x-1+\dfrac{3}{x-1}$។
+គ. សិក្សាអថេរភាព និងសង់ក្រាប $C$ នៃអនុគមន៍ $f(x)=\dfrac{(x+2)(x-2)}{(1-x)}$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000003', 3, 25)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2014-4200-8000-000000000004', 'kh-grade12-social-mathematics-integrals', null, 2014, 'open', 'គណនាអាំងតេក្រាលនៃអនុគមន៍ខាងក្រោម៖
+ក. $\displaystyle I=\int_1^3\left(2x^2-3x+1\right)dx$
+ខ. $f(x)=\dfrac{2x+1}{x^2-5x+4}$។ បង្ហាញថា $f(x)=\dfrac{-1}{x-1}+\dfrac{3}{x-4}$ រួចគណនា $\displaystyle J=\int_2^3f(x)\,dx$។
+គ. គេមានអនុគមន៍ $f(x)=x\ln x$។ គណនាដេរីវេ $f''(x)$ នៃអនុគមន៍ $f(x)$ នៅលើចន្លោះ $[1,e]$។ ទាញរកអាំងតេក្រាល $\displaystyle K=\int_1^e\ln x\,dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000004', 4, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2014-4200-8000-000000000005', 'kh-grade12-social-mathematics-conics', null, 2014, 'open', 'រកសមីការស្តង់ដានៃអេលីប ដែលមានកំពូលទាំងពីរជាចំណុច $(4,0)$ និង $(-4,0)$ និងមានកំណុំមួយនៅត្រង់ចំណុច $(3,0)$ រួចសង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000005', 5, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2010-2014-4100-8000-000000000000', 'kh-grade12-social-mathematics', 2014, 'BacII 2014, first sitting: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, first sitting, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808) and the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2014-4100-8000-000000000001', 'kh-grade12-social-mathematics-limits-continuity', null, 2014, 'open', 'គណនាលីមីត៖
+ក. $\displaystyle\lim_{x\to-\infty}\frac{(2x^2-3)(1-x)}{(5+2x)(2-x^2)}$
+ខ. $\displaystyle\lim_{x\to1}\frac{2-\sqrt{x+3}}{x^2-1}$
+គ. $\displaystyle\lim_{x\to+\infty}\ln\frac{x+1}{x-1}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808) and the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000001', 1, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2014-4100-8000-000000000002', 'kh-grade12-social-mathematics-probability', null, 2014, 'open', 'ក្នុងធុងមួយគេមានប៊ូលក្រហម $4$ ប៊ូលស $3$ និងប៊ូលខៀវ $1$។ គេចាប់យកប៊ូល $3$ ក្នុងពេលតែមួយចេញពីធុងដោយចៃដន្យ។
+ក. រកប្រូបាបដែល «គេចាប់បានប៊ូលក្រហមពីរ និងមួយទៀតមិនក្រហម»។
+ខ. រកប្រូបាបដែល «គេចាប់បានប៊ូលក្រហមទាំងបី»។
+គ. រកប្រូបាបដែល «គេចាប់បានយ៉ាងតិចប៊ូលក្រហមពីរ»។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808) and the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000002', 2, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2014-4100-8000-000000000003', 'kh-grade12-social-mathematics-function-study', null, 2014, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $\mathbb{R}$ ដោយ $f(x)=\dfrac{1}{1+e^x}+\dfrac{2}{9}x$ និង $C$ តាងក្រាបរបស់ $f$។
+១. អនុគមន៍ $g$ កំណត់លើ $\mathbb{R}$ ដោយ $g(x)=2e^{2x}-5e^x+2$។
+ក. ផ្ទៀងផ្ទាត់ថា $g(x)=\left(2e^x-1\right)\left(e^x-2\right)$។
+ខ. ទាញយកតាមតម្លៃនៃ $x$ ចំពោះសញ្ញានៃ $g(x)$។
+២. ក. រក $\displaystyle\lim_{x\to+\infty}f(x)$ និង $\displaystyle\lim_{x\to-\infty}f(x)$។
+ខ. អនុគមន៍ $f$ មានដេរីវេ $f''$។ បង្ហាញថាចំពោះគ្រប់ចំនួនពិត $x$ គេបាន $f''(x)$ និង $g(x)$ មានសញ្ញាដូចគ្នា។
+គ. សិក្សាអថេរភាពនៃអនុគមន៍ $f$ លើ $\mathbb{R}$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808) and the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000003', 3, 30)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2010-2014-4100-8000-000000000004', 'kh-grade12-social-mathematics-integrals', null, 2014, 'open', 'ក. គណនាអាំងតេក្រាល $\displaystyle I=\int_1^5\left(x^2+2x-3\right)dx$។
+ខ. បង្ហាញថាគ្រប់ចំនួនពិត $x$; $x\neq1$ គេបាន $\dfrac{2x^2-3x+2}{x-1}=2x-1+\dfrac{1}{x-1}$ រួចទាញរក $\displaystyle I=\int_2^3\frac{2x^2-3x+2}{x-1}dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808) and the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000004', 4, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 commit;

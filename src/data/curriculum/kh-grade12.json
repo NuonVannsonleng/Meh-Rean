@@ -127,6 +127,67 @@
           ]
         }
       ]
+    },
+    {
+      "key": "social",
+      "nameEn": "Social science track",
+      "nameKm": "ថ្នាក់វិទ្យាសាស្ត្រសង្គម",
+      "subjects": [
+        {
+          "subjectKey": "mathematics",
+          "nameEn": "Mathematics",
+          "nameKm": "គណិតវិទ្យា",
+          "chapters": [
+            {
+              "slug": "limits-continuity",
+              "nameEn": "Limits and continuity",
+              "nameKm": "លីមីត និងភាពជាប់",
+              "topics": [
+                { "slug": "limits", "nameEn": "Limits of functions", "nameKm": "លីមីតនៃអនុគមន៍" },
+                { "slug": "indeterminate-forms", "nameEn": "Indeterminate forms", "nameKm": "រាងមិនកំណត់" },
+                { "slug": "asymptotes", "nameEn": "Asymptotes", "nameKm": "អាស៊ីមតូត" }
+              ]
+            },
+            {
+              "slug": "function-study",
+              "nameEn": "Study of functions and graphs",
+              "nameKm": "សិក្សាអថេរភាព និងសង់ក្រាបនៃអនុគមន៍",
+              "topics": [
+                { "slug": "monotonicity", "nameEn": "Increasing and decreasing", "nameKm": "អថេរភាពនៃអនុគមន៍" },
+                { "slug": "extrema", "nameEn": "Maxima and minima", "nameKm": "បរមា" },
+                { "slug": "graphs", "nameEn": "Sketching graphs", "nameKm": "សង់ក្រាប" }
+              ]
+            },
+            {
+              "slug": "integrals",
+              "nameEn": "Integrals",
+              "nameKm": "អាំងតេក្រាល",
+              "topics": [
+                { "slug": "antiderivatives", "nameEn": "Antiderivatives", "nameKm": "ព្រីមីទីវ" },
+                { "slug": "definite", "nameEn": "Definite integrals", "nameKm": "អាំងតេក្រាលកំណត់" }
+              ]
+            },
+            {
+              "slug": "probability",
+              "nameEn": "Probability",
+              "nameKm": "ប្រូបាប",
+              "topics": [
+                { "slug": "counting", "nameEn": "Permutations and combinations", "nameKm": "ចម្លាស់ និងបន្សំ" },
+                { "slug": "events", "nameEn": "Probability of events", "nameKm": "ប្រូបាបនៃព្រឹត្តិការណ៍" }
+              ]
+            },
+            {
+              "slug": "conics",
+              "nameEn": "Conics",
+              "nameKm": "កោនិក",
+              "topics": [
+                { "slug": "parabola", "nameEn": "Parabola", "nameKm": "ប៉ារ៉ាបូល" },
+                { "slug": "ellipse", "nameEn": "Ellipse", "nameKm": "អេលីប" }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

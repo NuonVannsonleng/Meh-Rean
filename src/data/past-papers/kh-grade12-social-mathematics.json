@@ -1,0 +1,460 @@
+{
+  "comment": "Real BacII papers (Ministry of Education, Youth and Sport), typed by Meh Rean from copies shared online: the exercises only, never the copies' worked answers. Not yet checked against the Ministry's original papers, so every paper and question is 'needs-review'. Where two copies disagree, the paper's 'note' says which reading is used and why.",
+  "subjectId": "kh-grade12-social-mathematics",
+  "idPrefix": "bacc2010",
+  "nameEn": "Mathematics",
+  "nameKm": "គណិតវិទ្យា",
+  "trackEn": "social science track",
+  "trackKm": "ថ្នាក់វិទ្យាសាស្ត្រសង្គម",
+  "copies": {
+    "chiep": {
+      "label": "retyped by ជៀប គន្ធា (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    },
+    "chiep2022": {
+      "label": "retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    },
+    "chiep-answers": {
+      "label": "the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    },
+    "khem-social": {
+      "label": "compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808)",
+      "url": "https://sala.moeys.gov.kh/kh/library/00007808"
+    }
+  },
+  "papers": [
+    {
+      "year": 2025,
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "khem-social"
+      ],
+      "questions": [
+        {
+          "points": 15,
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖\na. $\\displaystyle\\lim_{x\\to1}\\left(7-5x^2-2x^3\\right)$\nb. $\\displaystyle\\lim_{x\\to e}\\frac{\\ln^2x-1}{1-\\ln x}$\nc. $\\displaystyle\\lim_{x\\to4}\\frac{2-\\sqrt{x}}{x-4}$\nd. $\\displaystyle\\lim_{x\\to0}\\frac{x}{e^{3x}+e^{-2x}}$"
+        },
+        {
+          "points": 10,
+          "chapter": "integrals",
+          "content": "គណនាអាំងតេក្រាល៖\nក. $\\displaystyle I=\\int_{-1}^1\\left(2x^3-x^2+2x-1\\right)dx$\nខ. $\\displaystyle J=\\int_1^e\\left(\\frac{2}{x}+e^x\\right)dx$\nគ. $\\displaystyle K=\\int_{-1}^0\\left(\\frac{1}{x-1}-\\frac{1}{(x-1)^2}\\right)dx$"
+        },
+        {
+          "points": 10,
+          "chapter": "probability",
+          "content": "ពេលប្រឡងបញ្ចប់ឆ្នាំសិក្សា ត្រូវបានរៀបចំប្រឡងជាសំណួរផ្ទាល់មាត់ ដោយបានរៀបសំណួរចំនួន $10$ សំណួរ ដែលចែកជា $5$ សំណួរដកចេញពីមេរៀនក្នុងត្រីមាសទី $1$ $3$ សំណួរដកចេញពីមេរៀនក្នុងត្រីមាសទី $2$ និង $2$ សំណួរដកចេញពីមេរៀនក្នុងត្រីមាសទី $3$ ដាក់ក្នុងប្រអប់មួយ។ លោកគ្រូបានហៅសិស្សម្នាក់មកចាប់យក $3$ សំណួរព្រមគ្នាដោយចៃដន្យពីក្នុងប្រអប់។ ចូររកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖\n$A$៖ សំណួរទាំងបីដែលចាប់បាន ជាសំណួរដកចេញពីមេរៀនត្រីមាសទី $1$។\n$B$៖ សំណួរទាំងបីដែលចាប់បាន មាននៅក្នុងមេរៀនទាំងបីត្រីមាស។\n$C$៖ សំណួរទាំងបីដែលចាប់បាន ជាមេរៀននៅក្នុងត្រីមាសដូចគ្នា។"
+        },
+        {
+          "points": 10,
+          "chapter": "conics",
+          "content": "គេមានប៉ារ៉ាបូលដែលមានសមីការទូទៅ៖ $y^2+4y-2x=0$។ ចូរបំប្លែងសមីការនេះជាទម្រង់សមីការស្តង់ដានៃប៉ារ៉ាបូល។ ចូររកកូអរដោនេនៃកំពូល កំណុំ និងសមីការបន្ទាត់ប្រាប់ទិសរបស់ប៉ារ៉ាបូលនេះ រួចសង់ប៉ារ៉ាបូលនេះ។"
+        },
+        {
+          "points": 30,
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f$ ដែល $f(x)=\\dfrac{2-x-2x^2}{-1-x}$។ តាង $(C)$ ជាក្រាបនៃ $f(x)$ ក្នុងតម្រុយអរតូណរម៉ាល់ $\\left(O,\\vec{i},\\vec{j}\\right)$។\nក. រកដែនកំណត់នៃអនុគមន៍ $f$។\nខ. បង្ហាញថា $f(x)=ax+b+\\dfrac{c}{x+1}$។\nគ. បង្ហាញថា $(d)$៖ $y=2x-1$ ជាអាស៊ីមតូតទ្រេតខាង $\\pm\\infty$។\nឃ. សិក្សាទីតាំងធៀបរវាង $(C)$ និង $(d)$។\nង. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។"
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "khem-social"
+      ],
+      "note": "The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.",
+      "questions": [
+        {
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖\n១. $\\displaystyle\\lim_{x\\to2}\\frac{x^2-4}{x+2}$\n២. $\\displaystyle\\lim_{x\\to0}\\left[(\\ln x)^2-2\\ln x+1\\right]$\n៣. $\\displaystyle\\lim_{x\\to3}\\frac{2x-3x^2}{x^2+5x+1}$\n៤. $\\displaystyle\\lim_{x\\to1}\\frac{\\sqrt{x+3}-2}{x-1}$"
+        },
+        {
+          "chapter": "probability",
+          "content": "ក្នុងប្រអប់មួយមានកូនបាល់ចំនួន $40$ គ្រាប់ ក្នុងនោះមានកូនបាល់ពណ៌បៃតងចំនួន $19$ និងពណ៌លឿងចំនួន $21$។ គេចាប់យកកូនបាល់ម្តង $2$ ព្រមគ្នាចេញពីថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖\nក. កូនបាល់ទាំងពីរមានពណ៌ខុសគ្នា។\nខ. កូនបាល់ទាំងពីរមានពណ៌បៃតង។\nគ. កូនបាល់ទាំងពីរមានពណ៌ដូចគ្នា។"
+        },
+        {
+          "chapter": "integrals",
+          "content": "គណនាអាំងតេក្រាល៖\nក. $\\displaystyle\\int_2^3(x-3)\\,dx$\nខ. $\\displaystyle\\int_0^{\\ln6}\\left(e^x-1\\right)dx$\nគ. $\\displaystyle\\int_1^e\\frac{\\ln x}{x}dx$"
+        },
+        {
+          "chapter": "conics",
+          "content": "គេមានសមីការ $(4x+3y)^2-144=24xy$។\n១. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច ប្រវែងអ័ក្សធំ កូអរដោនេនៃកំពូលទាំងពីរ និងកូអរដោនេនៃកំណុំទាំងពីររបស់អេលីប។\n២. សង់អេលីបនេះ។"
+        },
+        {
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\\dfrac{-x^2+x+3}{x+1}$។ យើងតាង $(C)$ ជាក្រាបរបស់អនុគមន៍ ក្នុងតម្រុយអរតូណរម៉ាល់ $\\left(O,\\vec{i},\\vec{j}\\right)$។\nក. រកដែនកំណត់នៃអនុគមន៍ $f$។\nខ. បង្ហាញថា $f(x)=-x+2+\\dfrac{1}{x+1}$។\nគ. គណនាលីមីតនៃ $f(x)$ ត្រង់ $-\\infty$; $+\\infty$ និង $-1$។\nឃ. រកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។\nង. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។"
+        }
+      ]
+    },
+    {
+      "year": 2023,
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "khem-social"
+      ],
+      "questions": [
+        {
+          "points": 15,
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីតខាងក្រោម៖\nក. $\\displaystyle\\lim_{x\\to+\\infty}\\left(3x^2-x\\right)$\nខ. $\\displaystyle\\lim_{x\\to2}\\frac{4\\left(\\sqrt{x+2}-2\\right)}{4-x^2}$\nគ. $\\displaystyle\\lim_{x\\to\\infty}e^x\\left(-x^2+\\frac{1}{x}\\right)$"
+        },
+        {
+          "points": 10,
+          "chapter": "integrals",
+          "content": "គណនាអាំងតេក្រាលខាងក្រោម៖\nក. $\\displaystyle\\int_0^1\\left(1-x+x^2\\right)dx$\nខ. $\\displaystyle\\int_0^1\\frac{e^x}{e^x+1}dx$\nគ. $\\displaystyle\\int_0^1\\left[\\frac{e^x}{e^x+1}+\\frac{1}{1+e^x}\\right]dx$"
+        },
+        {
+          "points": 10,
+          "chapter": "probability",
+          "content": "ក្នុងថង់មួយមានប៊ូលពណ៌ក្រហមចំនួន $4$ និងប៊ូលពណ៌ខ្មៅចំនួន $5$។\nក. គេចាប់យកប៊ូល $2$ ពីក្នុងថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ដែលប៊ូលចាប់បានមកទាំងពីរ មានមួយពណ៌ក្រហម និងមួយពណ៌ខ្មៅ។\nខ. គេចាប់យកប៊ូលមួយហើយដាក់ទៅវិញ បន្ទាប់មកគេចាប់យកប៊ូលមួយទៀត។ រកប្រូបាបនៃព្រឹត្តិការណ៍ដែលប៊ូលលើកដំបូងពណ៌ខ្មៅ ហើយមួយទៀតពណ៌ក្រហម។"
+        },
+        {
+          "points": 10,
+          "chapter": "conics",
+          "content": "រកសមីការស្តង់ដាប៉ារ៉ាបូលដែលមានកំណុំ $F(0,-2)$ និងបន្ទាត់ប្រាប់ទិសមានសមីការ $y=2$។ ចូរសង់ប៉ារ៉ាបូលនេះ។"
+        },
+        {
+          "points": 30,
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\\dfrac{3x-1}{(x-1)^2}$ និងគេតាងក្រាប $(C)$។\nក. រកដែនកំណត់នៃអនុគមន៍ $f$។\nខ. គណនា $\\displaystyle\\lim_{x\\to1}f(x)$, $\\displaystyle\\lim_{x\\to-\\infty}f(x)$, $\\displaystyle\\lim_{x\\to+\\infty}f(x)$។ រកអាស៊ីមតូតឈរ និងអាស៊ីមតូតដេកនៃក្រាប $(C)$។\nគ. បង្ហាញថា $f'(x)=-\\dfrac{3x+1}{(x-1)^3}$។\nឃ. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។"
+        }
+      ]
+    },
+    {
+      "year": 2022,
+      "date": "2022-12-05",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep2022",
+        "khem-social"
+      ],
+      "note": "V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).",
+      "questions": [
+        {
+          "points": 15,
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖\nក. $\\displaystyle\\lim_{x\\to0}\\left(e^{2x}-2e^x+1\\right)$\nខ. $\\displaystyle\\lim_{x\\to4}\\frac{\\sqrt{x}-2}{x-4}$\nគ. $\\displaystyle\\lim_{x\\to+\\infty}\\frac{3-x}{2x-1}$"
+        },
+        {
+          "points": 10,
+          "chapter": "integrals",
+          "content": "គណនាអាំងតេក្រាលខាងក្រោម៖\nក. $\\displaystyle A=\\int_0^1\\left[\\left(x^2-3x+1\\right)+(2x+1)\\right]dx$\nខ. $\\displaystyle B=\\int_2^3\\left(\\frac{1}{x-1}+\\frac{1}{x^2}\\right)dx$"
+        },
+        {
+          "points": 10,
+          "chapter": "probability",
+          "content": "ក្នុងអាងចិញ្ចឹមត្រីមួយមានត្រីឈ្មោលចំនួន $4$ និងញីចំនួន $6$។ គេចាប់យកត្រី $3$ មកដាក់នៅអាងថ្មីមួយដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖\nក. ត្រីទាំងបីដែលចាប់មកជាត្រីឈ្មោលទាំងបី។\nខ. ត្រីទាំងបីដែលចាប់មកមានត្រីញីពីរ និងឈ្មោលមួយ។"
+        },
+        {
+          "points": 10,
+          "chapter": "conics",
+          "content": "គេមានសមីការ $12y^2=300-75x^2$។\nក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច អ័ក្សធំ កូអរដោនេនៃកំពូលទាំងពីរ និងកំណុំទាំងពីររបស់អេលីបនេះ។\nខ. សង់អេលីបនេះ។"
+        },
+        {
+          "points": 30,
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\\dfrac{4-x^2}{1-x}$ និងតាង $(C)$ ជាក្រាបរបស់អនុគមន៍ $f$។\nក. រកដែនកំណត់នៃអនុគមន៍ $f$។\nខ. បង្ហាញថា $f(x)=x+1+\\dfrac{3}{1-x}$។\nគ. គណនា $\\displaystyle\\lim_{x\\to1^+}f(x)$, $\\displaystyle\\lim_{x\\to1^-}f(x)$, $\\displaystyle\\lim_{x\\to+\\infty}f(x)$, $\\displaystyle\\lim_{x\\to-\\infty}f(x)$ ហើយទាញរកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតរបស់ក្រាប $(C)$។\nឃ. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។"
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "date": "2021-12-27",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep",
+        "khem-social"
+      ],
+      "note": "V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.",
+      "questions": [
+        {
+          "points": 15,
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖\nក. $\\displaystyle\\lim_{x\\to-1}\\left(-x^3+x^2-2x-4\\right)$\nខ. $\\displaystyle\\lim_{x\\to+\\infty}\\frac{2x-1}{3-x}$\nគ. $\\displaystyle\\lim_{x\\to+\\infty}e^x\\left(-x^2+\\frac{1}{x}\\right)$"
+        },
+        {
+          "points": 10,
+          "chapter": "integrals",
+          "content": "គណនាអាំងតេក្រាលខាងក្រោម៖\n១. $\\displaystyle I=\\int_0^1\\left(x^2+x+1\\right)dx$\n២. $\\displaystyle J=\\int_1^2\\left(\\frac{4}{x^2}\\right)dx$"
+        },
+        {
+          "points": 10,
+          "chapter": "probability",
+          "content": "ក្នុងប្រអប់មួយមានឃ្លីពណ៌ក្រហមចំនួន $5$ និងឃ្លីពណ៌ខ្មៅចំនួន $3$។ គេចាប់យកឃ្លីម្តង $3$ ដោយចៃដន្យ។ គេសន្និដ្ឋានថាប្រូបាបដែលចាប់បានឃ្លីនីមួយៗជាសមប្រូបាប។ គណនាប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖\n$A$៖ «ឃ្លីទាំង $3$ មានពណ៌ក្រហម»\n$B$៖ «ឃ្លី $2$ មានពណ៌ក្រហម និង $1$ មានពណ៌ខ្មៅ»"
+        },
+        {
+          "points": 10,
+          "chapter": "conics",
+          "content": "រកសមីការស្តង់ដានៃអេលីបដែលមានកំណុំមួយជាចំណុច $(2,0)$ និងចំណុចកំពូលទាំងពីរមានកូអរដោនេ $(-3,0)$ និង $(3,0)$។ សង់អេលីបនេះ។"
+        },
+        {
+          "points": 30,
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\\dfrac{x^2-5x+7}{2-x}$។ យើងតាង $(C)$ ជាក្រាបរបស់អនុគមន៍ $f$ ក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\\left(O,\\vec{i},\\vec{j}\\right)$។\nក. រកដែនកំណត់នៃអនុគមន៍ $f$។\nខ. បង្ហាញថា $f(x)=3-x+\\dfrac{1}{2-x}$។\nគ. គណនាលីមីតនៃ $f(x)$ ត្រង់ $-\\infty$; $+\\infty$; $2$។\nឃ. រកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។\nង. សិក្សាអថេរភាពនៃអនុគមន៍ $f$ និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។"
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "date": "2019-08-19",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep",
+        "khem-social"
+      ],
+      "questions": [
+        {
+          "points": 15,
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖\n១. $\\displaystyle\\lim_{x\\to1}\\frac{x-1}{2(x^2-1)}$\n២. $\\displaystyle\\lim_{x\\to+\\infty}\\frac{x^2+x+1}{2x^2-x+1}$\n៣. $\\displaystyle\\lim_{x\\to0}\\frac{e^x-e^{-x}}{2e^x}$\n៤. $\\displaystyle\\lim_{x\\to1}\\frac{1-\\sqrt{x}}{x-1}$"
+        },
+        {
+          "points": 10,
+          "chapter": "integrals",
+          "content": "គណនាអាំងតេក្រាលខាងក្រោម៖\n$\\displaystyle I=\\int_0^1\\left(2-3x+x^2\\right)dx$; $\\displaystyle J=\\int_0^2\\left[2x-\\frac{1}{x+e}\\right]dx$; $\\displaystyle K=\\int_{-1}^0\\left(2-\\frac{1}{(x-1)^2}\\right)dx$"
+        },
+        {
+          "points": 10,
+          "chapter": "probability",
+          "content": "ក្នុងថង់មួយមានប៊ូល $10$ ដែលមានក្នុងនោះប៊ូល $5$ មានពណ៌លឿង ហើយគេសរសេរលេខពី $1$ ដល់ $5$ ប៊ូល $3$ មានពណ៌ក្រហម ហើយគេសរសេរលេខពី $1$ ដល់ $3$ និងប៊ូលពីរមានពណ៌ស ហើយគេសរសេរលេខពី $1$ ដល់ $2$។ គេចាប់យកប៊ូលមួយពីក្នុងថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖\n$A$៖ «ប៊ូលដែលចាប់បានមានពណ៌លឿង»\n$B$៖ «ប៊ូលដែលចាប់បានមានលេខ $2$»\n$C$៖ «ប៊ូលដែលចាប់បានមានលេខ $1$ និងពណ៌ក្រហម»"
+        },
+        {
+          "points": 10,
+          "chapter": "conics",
+          "content": "គេមានសមីការ $25x^2+9y^2-225=0$។\nក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សធំ អ័ក្សតូច កូអរដោនេនៃកំពូលទាំងពីរ និងកូអរដោនេនៃកំណុំទាំងពីរនៃអេលីបនេះ។\nខ. សង់អេលីបនេះ។"
+        },
+        {
+          "points": 30,
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f$ កំណត់លើ $D=\\mathbb{R}\\setminus\\{-1\\}$ ដោយ $f(x)=\\dfrac{x^2+2x-2}{x+1}$។ យើងតាងក្រាប $(C)$ របស់អនុគមន៍នេះក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\\left(O,\\vec{i},\\vec{j}\\right)$។\n១. បង្ហាញថា $f(x)=x+1-\\dfrac{3}{x+1}$។\n២. ចូររកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។\n៣. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។"
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "date": "2018-08-20",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep",
+        "khem-social"
+      ],
+      "questions": [
+        {
+          "points": 10,
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖\nក. $\\displaystyle\\lim_{x\\to3}\\frac{x^4+6x+1}{x^2+1}$\nខ. $\\displaystyle\\lim_{x\\to+\\infty}\\frac{x-1}{(x+1)^2}$\nគ. $\\displaystyle\\lim_{x\\to+\\infty}\\left(x^2+2-\\ln x\\right)$"
+        },
+        {
+          "points": 10,
+          "chapter": "probability",
+          "content": "ក្នុងថ្នាក់រៀនមួយមានសិស្ស $15$ នាក់ ក្នុងនោះមានសិស្សប្រុស $9$ នាក់ និងសិស្សស្រី $6$ នាក់។ គេជ្រើសរើសសិស្ស $3$ នាក់ដោយចៃដន្យជាតំណាងយកទៅសម្ភាសន៍។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖\n$A$៖ «ក្រុមសិស្សទាំង $3$ នាក់ សុទ្ធតែជាសិស្សស្រី»\n$B$៖ «ក្រុមសិស្សទាំង $3$ នាក់ សុទ្ធតែជាសិស្សប្រុស»\n$C$៖ «ក្រុមសិស្សទាំង $3$ នាក់ មាន $2$ នាក់ជាសិស្សស្រី»"
+        },
+        {
+          "points": 15,
+          "chapter": "integrals",
+          "content": "គណនាអាំងតេក្រាលខាងក្រោម៖\n$\\displaystyle I=\\int_1^2\\left(3x^2-2x+3\\right)dx$; $\\displaystyle J=\\int_0^1\\left(e^{2x}-e^x+1\\right)dx$; $\\displaystyle K=\\int_1^2\\left(\\frac{1}{x+3}+\\frac{1}{x^2}\\right)dx$"
+        },
+        {
+          "points": 10,
+          "chapter": "conics",
+          "content": "គេមានប៉ារ៉ាបូលមួយដែលមានកំពូលជាចំណុច $O(0,0)$ និងកំណុំ $F$ ស្ថិតនៅលើអ័ក្សអាប់ស៊ីស។\nក. រកសមីការស្តង់ដានៃប៉ារ៉ាបូលនេះបើគេដឹងថាវាកាត់តាមចំណុច $A\\left(\\dfrac{3}{2},-3\\right)$។\nខ. រកកូអរដោនេរបស់កំណុំ សមីការបន្ទាត់ប្រាប់ទិស រួចសង់ប៉ារ៉ាបូលនេះ។"
+        },
+        {
+          "points": 30,
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\\dfrac{2x^2-7x+5}{x^2-5x+7}$។ យើងតាងដោយ $(C)$ ក្រាបរបស់វាលើតម្រុយអរតូណរម៉ាល់ $\\left(O,\\vec{i},\\vec{j}\\right)$។\n១. រកដែនកំណត់ $D$ នៃអនុគមន៍ $f$។\n២. សិក្សាលីមីតនៃអនុគមន៍ $f$ ត្រង់ $-\\infty$ និងត្រង់ $+\\infty$។ ទាញយកសមីការអាស៊ីមតូត $d$ ទៅនឹងក្រាប $(C)$ ត្រង់ $-\\infty$ និងត្រង់ $+\\infty$។\n៣. ក. ស្រាយបំភ្លឺថាគ្រប់ចំនួនពិត $x\\in D$៖ ដេរីវេ $f'(x)=\\dfrac{-3\\left(x^2-6x+8\\right)}{\\left(x^2-5x+7\\right)^2}$។\nខ. សិក្សាអថេរភាពនៃអនុគមន៍ $f$ និងសង់តារាងអថេរភាពនៃអនុគមន៍ $f$។\nគ. សង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។"
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "date": "2017-08-21",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep",
+        "khem-social"
+      ],
+      "note": "V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.",
+      "questions": [
+        {
+          "points": 10,
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖\nក. $\\displaystyle\\lim_{x\\to+\\infty}\\frac{x^2+x+1}{x^2+1}$\nខ. $\\displaystyle\\lim_{x\\to3}\\frac{x^3-27}{\\sqrt{x+6}-3}$\nគ. $\\displaystyle\\lim_{x\\to0}\\frac{e^x+e^{-x}}{2}$"
+        },
+        {
+          "points": 10,
+          "chapter": "probability",
+          "content": "ក្នុងថង់មួយមានប៊ូលពណ៌សចំនួន $3$ និងប៊ូលពណ៌ក្រហមចំនួន $6$។ គេចាប់យកប៊ូល $3$ ក្នុងពេលតែមួយចេញពីថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖\n$A$៖ «ប៊ូលទាំងបីមានពណ៌ស»\n$B$៖ «ប៊ូលទាំងបីមានពណ៌ក្រហម»\n$C$៖ «មានប៊ូលមួយពណ៌ក្រហម និងពីរទៀតពណ៌ស»"
+        },
+        {
+          "points": 15,
+          "chapter": "integrals",
+          "content": "គណនាអាំងតេក្រាលខាងក្រោម៖\nក. $\\displaystyle I=\\int_1^3\\left(3x^2+2x+1\\right)dx$\nខ. $\\displaystyle J=\\int_0^1\\left(2e^x-1\\right)dx$\nគ. $\\displaystyle K=\\int_1^2\\left(x+\\frac{1}{x^2}\\right)dx$"
+        },
+        {
+          "points": 10,
+          "chapter": "conics",
+          "content": "គេមានសមីការ $9x^2+25y^2=225$។\nក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច ប្រវែងអ័ក្សធំ និងកូអរដោនេនៃកំពូលទាំងពីរ។\nខ. សង់អេលីបនេះ។"
+        },
+        {
+          "points": 30,
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f$ កំណត់លើ $\\mathbb{R}\\setminus\\{2\\}$ ដោយ $f(x)=\\dfrac{x^2-x-1}{x-2}$។ យើងតាង $C$ ក្រាបរបស់វាលើតម្រុយអរតូណរម៉ាល់ $\\left(O,\\vec{i},\\vec{j}\\right)$។\n១. សិក្សាលីមីតនៃអនុគមន៍ $f$ ត្រង់ $-\\infty$ ត្រង់ $2$ និងត្រង់ $+\\infty$។\n២. សិក្សាអថេរភាព និងសង់តារាងអថេរភាពនៃអនុគមន៍ $f$។\n៣. ក. រកចំនួនពិត $a$, $b$, $c$ ដែលគ្រប់ $x\\neq2$; $f(x)=ax+b+\\dfrac{c}{x-2}$។\nខ. គេតាង $d$ បន្ទាត់ដែលមានសមីការ $y=x+1$។ បង្ហាញថា $d$ ជាអាស៊ីមតូតនៃ $C$ ត្រង់ $+\\infty$ និង $-\\infty$។ សិក្សាទីតាំងនៃក្រាប $C$ ធៀបនឹងបន្ទាត់ $d$។\nគ. សង់ក្រាប $C$ និងបន្ទាត់ $d$។"
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep",
+        "khem-social"
+      ],
+      "questions": [
+        {
+          "points": 10,
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីតនៃអនុគមន៍ខាងក្រោម៖\nក. $\\displaystyle\\lim_{x\\to1}\\left(3x^3-4x\\right)$\nខ. $\\displaystyle\\lim_{x\\to2}\\frac{x^3-8}{\\sqrt{x+2}-2}$\nគ. $\\displaystyle\\lim_{x\\to+\\infty}\\left(\\ln x-x^2\\right)$"
+        },
+        {
+          "points": 15,
+          "chapter": "integrals",
+          "content": "គណនាអាំងតេក្រាលខាងក្រោម៖\nក. $\\displaystyle I=\\int_1^2\\left(1-3x^2\\right)dx$\nខ. $\\displaystyle J=\\int_2^3\\frac{1}{x^2}dx$\nគ. $\\displaystyle K=\\int_0^1\\left(\\frac{1}{x+e}-1\\right)dx$"
+        },
+        {
+          "points": 10,
+          "chapter": "probability",
+          "content": "ក្នុងប្រអប់មួយមានឃ្លីពណ៌ក្រហមចំនួន $3$ និងឃ្លីពណ៌ខៀវចំនួន $5$។ គេចាប់យកឃ្លី $2$ ក្នុងពេលតែមួយចេញពីប្រអប់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖\n$A$៖ «ឃ្លីទាំងពីរមានពណ៌ក្រហម»\n$B$៖ «ឃ្លីទាំងពីរមានពណ៌ខៀវ»\n$C$៖ «ឃ្លីមួយក្នុងមួយពណ៌»"
+        },
+        {
+          "points": 10,
+          "chapter": "conics",
+          "content": "រកសមីការស្តង់ដានៃអេលីបដែលមានកំណុំ $F_1(-2,0)$ និងកំពូលពីរនៅត្រង់ចំណុច $A(-3,0)$ និង $B(3,0)$។ សង់អេលីបនេះ។"
+        },
+        {
+          "points": 30,
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f$ កំណត់លើ $\\mathbb{R}\\setminus\\{-2,2\\}$ ដោយ $f(x)=\\dfrac{2x^2}{x^2-4}$។\n១. សិក្សាលីមីតនៃអនុគមន៍ $f$ ត្រង់ $-\\infty$; ត្រង់ $-2$; ត្រង់ $+2$ និងត្រង់ $+\\infty$។ ចូរបញ្ជាក់ពីអាស៊ីមតូតដេក និងអាស៊ីមតូតឈររបស់ក្រាបនៃអនុគមន៍ $f$។\n២. សិក្សាអថេរភាព និងសង់តារាងអថេរភាពនៃអនុគមន៍ $f$។\n៣. សង់នៅលើតម្រុយអរតូណរម៉ាល់ $\\left(O,\\vec{i},\\vec{j}\\right)$ ក្រាបតាងអនុគមន៍ $f$។"
+        }
+      ]
+    },
+    {
+      "year": 2015,
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep",
+        "khem-social"
+      ],
+      "questions": [
+        {
+          "points": 10,
+          "chapter": "probability",
+          "content": "ក្នុងថង់មួយមានឃ្លីពណ៌សចំនួន $3$ និងឃ្លីពណ៌ខៀវចំនួន $5$។ គេចាប់យកឃ្លី $2$ គ្រាប់ក្នុងពេលតែមួយចេញពីក្នុងថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖\nក. «គេចាប់បានឃ្លីពណ៌ខៀវទាំងពីរ»\nខ. «គេចាប់បានឃ្លីមួយក្នុងមួយពណ៌»"
+        },
+        {
+          "points": 10,
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីតខាងក្រោម៖\nក. $\\displaystyle\\lim_{x\\to1}\\frac{x^2-1}{x^2-3x+2}$\nខ. $\\displaystyle\\lim_{x\\to1}\\frac{x-1}{\\sqrt{x}-1}$"
+        },
+        {
+          "points": 15,
+          "chapter": "integrals",
+          "content": "គណនាអាំងតេក្រាលខាងក្រោម៖\nក. គណនា $\\displaystyle I=\\int_2^3\\left(3x^2+3x-1\\right)dx$\nខ. $f(x)=\\dfrac{1+2x}{\\left(x^2-4x\\right)+(4-x)}$។ បង្ហាញថា $f(x)=\\dfrac{1}{1-x}-\\dfrac{3}{4-x}$។ គណនា $\\displaystyle J=\\int_2^3f(x)\\,dx$។"
+        },
+        {
+          "points": 10,
+          "chapter": "conics",
+          "content": "គេមានប៉ារ៉ាបូលមួយមានកំពូលនៅត្រង់ចំណុច $O(0,0)$ និងកំណុំ $F$ ស្ថិតនៅលើអ័ក្សអរដោនេ។\nក. រកសមីការស្តង់ដានៃប៉ារ៉ាបូលនេះ បើគេដឹងថាវាកាត់តាមចំណុច $A(2,6)$។\nខ. រកតម្លៃនៃ $x_1$ បើ $B\\left(x_1,\\dfrac{3}{2}\\right)$ ស្ថិតនៅលើប៉ារ៉ាបូលនេះ។ ចូរសង់ប៉ារ៉ាបូលនេះ។"
+        },
+        {
+          "points": 30,
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f$ ដែល $f(x)=\\dfrac{x^2-x-3}{x+1}$ និងគេតាងដោយ $(C)$ ក្រាបនៃអនុគមន៍ $f$។\nក. រកដែនកំណត់នៃអនុគមន៍ $f$។\nខ. បង្ហាញថា $f(x)=x-2-\\dfrac{1}{x+1}$។\nគ. បង្ហាញថាបន្ទាត់ដែលមានសមីការ $y=x-2$ ជាអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។\nឃ. សិក្សាអថេរភាព និងសង់ក្រាបនៃ $f$។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 2,
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep",
+        "khem-social"
+      ],
+      "note": "III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.",
+      "questions": [
+        {
+          "points": 15,
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីតខាងក្រោម៖\nក. $\\displaystyle\\lim_{x\\to-3}\\frac{x^2+6x+9}{x^2+4x+3}$\nខ. $\\displaystyle\\lim_{x\\to0}\\frac{\\sin^2x}{-3x}$\nគ. $\\displaystyle\\lim_{x\\to0}\\frac{\\sqrt{2+x}-\\sqrt{2-x}}{x}$\nឃ. $\\displaystyle\\lim_{x\\to+\\infty}\\left(2e^x+2x-2\\right)$"
+        },
+        {
+          "points": 10,
+          "chapter": "probability",
+          "content": "ក្នុងអាងចិញ្ចឹមត្រីមួយមានត្រីពណ៌ក្រហម $4$ និងត្រីពណ៌ស $3$។ គេចាប់ត្រី $2$ មកដាក់ក្នុងអាងថ្មីដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖\nក. «ត្រីពណ៌ក្រហមទាំងពីរ»\nខ. «ត្រីពណ៌សទាំងពីរ»\nគ. «ត្រីមួយក្នុងមួយពណ៌»"
+        },
+        {
+          "points": 25,
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f(x)=\\dfrac{(x+2)(x-2)}{(1-x)}$។\nក. រកដែនកំណត់ $f(x)$។\nខ. បង្ហាញថា $f(x)=-x-1+\\dfrac{3}{x-1}$។\nគ. សិក្សាអថេរភាព និងសង់ក្រាប $C$ នៃអនុគមន៍ $f(x)=\\dfrac{(x+2)(x-2)}{(1-x)}$។"
+        },
+        {
+          "points": 15,
+          "chapter": "integrals",
+          "content": "គណនាអាំងតេក្រាលនៃអនុគមន៍ខាងក្រោម៖\nក. $\\displaystyle I=\\int_1^3\\left(2x^2-3x+1\\right)dx$\nខ. $f(x)=\\dfrac{2x+1}{x^2-5x+4}$។ បង្ហាញថា $f(x)=\\dfrac{-1}{x-1}+\\dfrac{3}{x-4}$ រួចគណនា $\\displaystyle J=\\int_2^3f(x)\\,dx$។\nគ. គេមានអនុគមន៍ $f(x)=x\\ln x$។ គណនាដេរីវេ $f'(x)$ នៃអនុគមន៍ $f(x)$ នៅលើចន្លោះ $[1,e]$។ ទាញរកអាំងតេក្រាល $\\displaystyle K=\\int_1^e\\ln x\\,dx$។"
+        },
+        {
+          "points": 10,
+          "chapter": "conics",
+          "content": "រកសមីការស្តង់ដានៃអេលីប ដែលមានកំពូលទាំងពីរជាចំណុច $(4,0)$ និង $(-4,0)$ និងមានកំណុំមួយនៅត្រង់ចំណុច $(3,0)$ រួចសង់អេលីបនេះ។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 1,
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "khem-social",
+        "chiep-answers"
+      ],
+      "questions": [
+        {
+          "points": 15,
+          "chapter": "limits-continuity",
+          "content": "គណនាលីមីត៖\nក. $\\displaystyle\\lim_{x\\to-\\infty}\\frac{(2x^2-3)(1-x)}{(5+2x)(2-x^2)}$\nខ. $\\displaystyle\\lim_{x\\to1}\\frac{2-\\sqrt{x+3}}{x^2-1}$\nគ. $\\displaystyle\\lim_{x\\to+\\infty}\\ln\\frac{x+1}{x-1}$"
+        },
+        {
+          "points": 15,
+          "chapter": "probability",
+          "content": "ក្នុងធុងមួយគេមានប៊ូលក្រហម $4$ ប៊ូលស $3$ និងប៊ូលខៀវ $1$។ គេចាប់យកប៊ូល $3$ ក្នុងពេលតែមួយចេញពីធុងដោយចៃដន្យ។\nក. រកប្រូបាបដែល «គេចាប់បានប៊ូលក្រហមពីរ និងមួយទៀតមិនក្រហម»។\nខ. រកប្រូបាបដែល «គេចាប់បានប៊ូលក្រហមទាំងបី»។\nគ. រកប្រូបាបដែល «គេចាប់បានយ៉ាងតិចប៊ូលក្រហមពីរ»។"
+        },
+        {
+          "points": 30,
+          "chapter": "function-study",
+          "content": "គេមានអនុគមន៍ $f$ កំណត់លើ $\\mathbb{R}$ ដោយ $f(x)=\\dfrac{1}{1+e^x}+\\dfrac{2}{9}x$ និង $C$ តាងក្រាបរបស់ $f$។\n១. អនុគមន៍ $g$ កំណត់លើ $\\mathbb{R}$ ដោយ $g(x)=2e^{2x}-5e^x+2$។\nក. ផ្ទៀងផ្ទាត់ថា $g(x)=\\left(2e^x-1\\right)\\left(e^x-2\\right)$។\nខ. ទាញយកតាមតម្លៃនៃ $x$ ចំពោះសញ្ញានៃ $g(x)$។\n២. ក. រក $\\displaystyle\\lim_{x\\to+\\infty}f(x)$ និង $\\displaystyle\\lim_{x\\to-\\infty}f(x)$។\nខ. អនុគមន៍ $f$ មានដេរីវេ $f'$។ បង្ហាញថាចំពោះគ្រប់ចំនួនពិត $x$ គេបាន $f'(x)$ និង $g(x)$ មានសញ្ញាដូចគ្នា។\nគ. សិក្សាអថេរភាពនៃអនុគមន៍ $f$ លើ $\\mathbb{R}$។"
+        },
+        {
+          "points": 15,
+          "chapter": "integrals",
+          "content": "ក. គណនាអាំងតេក្រាល $\\displaystyle I=\\int_1^5\\left(x^2+2x-3\\right)dx$។\nខ. បង្ហាញថាគ្រប់ចំនួនពិត $x$; $x\\neq1$ គេបាន $\\dfrac{2x^2-3x+2}{x-1}=2x-1+\\dfrac{1}{x-1}$ រួចទាញរក $\\displaystyle I=\\int_2^3\\frac{2x^2-3x+2}{x-1}dx$។"
+        }
+      ]
+    }
+  ]
+}

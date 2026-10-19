@@ -350,14 +350,30 @@ timing only in database functions, never in the browser.
   original timer test 6/6; lint, build. Next: social-science mathematics,
   then the other subjects (2014–2022 found for all of them; 2023–2025 only
   for mathematics so far).
+- **2026-10-19 — Real past papers, part 2: social-science mathematics
+  2014–2025.** The curriculum gains the social science track
+  (ថ្នាក់វិទ្យាសាស្ត្រសង្គម) with Mathematics: 5 provisional chapters, 12
+  topics, taken from what its papers examine (limits, function study,
+  integrals, probability, conics). Its 12 sittings, 59 exercises, 90 minutes
+  and 75 points each, typed from the Edu Plus social-science collection
+  (sala.moeys.gov.kh/kh/library/00007808) and checked against the
+  ជៀប គន្ធា / ជៀប គីមឈរ copies for 2014–2022 (2014 first sitting: only that
+  copy's worked answers, which restate every exercise). Disagreements
+  settled by the paper itself or the copy's own solution (2018 J; 2021 and
+  2022 misprinted denominators); 2014 second sitting III.ខ is wrong in both
+  copies and is kept as printed with a note; 2024 prints no points for IV
+  and V, so none are shown. Tests: `npm run test:past-papers` covers both
+  tracks; all 37 suites pass after the curriculum change;
+  Playwright 8/8 browser-only and online (a social paper timed at
+  1:30:00, scored out of 75, 320px).
 
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |
 | --- | --- | --- |
-| Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms; then set `verification: "verified"` with a `source`. |
+| Official Grade 12 curriculum | 1.1 → verified, all later content | A Grade 12 maths teacher, or the MoEYS textbook, to check chapters, topics and Khmer terms (both tracks; the social-science chapters were taken from what its past papers examine); then set `verification: "verified"` with a `source`. |
 | Production database | everything since 1.1 | **Checked 2026-10-13: production has none of the BacII tables yet** — every BacII feature fails until the owner pastes `supabase/setup-all.sql` into the Supabase SQL editor and runs it (see SUPABASE.md §2). |
-| Real past papers | 2.1 | Science-track mathematics 2014–2025 is in, typed from copies shared online and marked "not yet checked". Needed: a teacher (or the Ministry's original papers) to check each paper and mark it verified; the owner to confirm publishing the exercises is fine; answer keys written or checked by a teacher; 2023–2025 papers for subjects other than mathematics. |
+| Real past papers | 2.1 | Mathematics for both tracks, 2014–2025, is in, typed from copies shared online and marked "not yet checked". Needed: a teacher (or the Ministry's original papers) to check each paper and mark it verified; the owner to confirm publishing the exercises is fine; answer keys written or checked by a teacher; 2023–2025 papers for subjects other than mathematics. |
 | Official exam rules (durations, grade bands, exam-day rules) | 2.4, 2.5, 8.1 | An official source; until then values are labelled practice settings. Grade bands: edit `src/data/grade-scale.json`. |
 | YouTube transcripts | 4.6 content | The Data API only gives captions to a video's owner. 4.4 uses creators' description chapters; 4.6 quizzes need an admin with a transcript they may use (channels that agree to share theirs). |
 | Telegram bot | 5.5 | A bot token from @BotFather (free) and owner approval. |

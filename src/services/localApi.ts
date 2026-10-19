@@ -10,6 +10,7 @@ import { addDays, cambodiaDay, streakOf, weakestChapter } from "../lib/daily";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
 import scienceMathematicsPastPapers from "../data/past-papers/kh-grade12-science-mathematics.json";
+import socialMathematicsPastPapers from "../data/past-papers/kh-grade12-social-mathematics.json";
 import khGrade12MathLinks from "../data/curriculum-links/kh-grade12-math.json";
 import { expandLinks, findPrerequisiteCycle, type ConceptLinkInput, type LinkSeed } from "../lib/conceptGraph";
 import { masteryFromEvents, type MasteryRules, type TopicMastery } from "../lib/mastery";
@@ -1413,7 +1414,7 @@ function loadPapers(): ExamPaperDetail[] {
   const { chapters } = loadCurriculum();
   papers ??= [
     ...buildDemoPapers(khGrade12MathPapers as unknown as DemoPaperSeed, chapters),
-    ...[scienceMathematicsPastPapers].flatMap((seed) => buildPastPapers(seed as unknown as PastPaperSeed, chapters)),
+    ...[scienceMathematicsPastPapers, socialMathematicsPastPapers].flatMap((seed) => buildPastPapers(seed as unknown as PastPaperSeed, chapters)),
   ];
   return papers;
 }

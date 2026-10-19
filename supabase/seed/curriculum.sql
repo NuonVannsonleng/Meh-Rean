@@ -8,11 +8,13 @@ insert into public.curriculum_versions (id, title_en, title_km, country, grade, 
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, country = excluded.country, grade = excluded.grade, verification = excluded.verification, source = excluded.source, notes = excluded.notes, updated_at = excluded.updated_at;
 
 insert into public.curriculum_tracks (id, version_id, key, name_en, name_km, sort) values
-  ('kh-grade12-science', 'kh-grade12', 'science', 'Science track', 'ថ្នាក់វិទ្យាសាស្ត្រពិត', 1)
+  ('kh-grade12-science', 'kh-grade12', 'science', 'Science track', 'ថ្នាក់វិទ្យាសាស្ត្រពិត', 1),
+  ('kh-grade12-social', 'kh-grade12', 'social', 'Social science track', 'ថ្នាក់វិទ្យាសាស្ត្រសង្គម', 2)
 on conflict (id) do update set version_id = excluded.version_id, key = excluded.key, name_en = excluded.name_en, name_km = excluded.name_km, sort = excluded.sort;
 
 insert into public.curriculum_subjects (id, track_id, subject_key, name_en, name_km, sort) values
-  ('kh-grade12-science-mathematics', 'kh-grade12-science', 'mathematics', 'Mathematics', 'គណិតវិទ្យា', 1)
+  ('kh-grade12-science-mathematics', 'kh-grade12-science', 'mathematics', 'Mathematics', 'គណិតវិទ្យា', 1),
+  ('kh-grade12-social-mathematics', 'kh-grade12-social', 'mathematics', 'Mathematics', 'គណិតវិទ្យា', 1)
 on conflict (id) do update set track_id = excluded.track_id, subject_key = excluded.subject_key, name_en = excluded.name_en, name_km = excluded.name_km, sort = excluded.sort;
 
 insert into public.curriculum_chapters (id, subject_id, number, name_en, name_km, verification, source, updated_at) values
@@ -25,7 +27,12 @@ insert into public.curriculum_chapters (id, subject_id, number, name_en, name_km
   ('kh-grade12-science-mathematics-complex-numbers', 'kh-grade12-science-mathematics', 7, 'Complex numbers', 'ចំនួនកុំផ្លិច', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-science-mathematics-probability', 'kh-grade12-science-mathematics', 8, 'Probability', 'ប្រូបាប', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-science-mathematics-conics', 'kh-grade12-science-mathematics', 9, 'Conics', 'កោនិក', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
-  ('kh-grade12-science-mathematics-vectors-space', 'kh-grade12-science-mathematics', 10, 'Vectors and geometry in space', 'វ៉ិចទ័រ និងធរណីមាត្រក្នុងលំហ', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now())
+  ('kh-grade12-science-mathematics-vectors-space', 'kh-grade12-science-mathematics', 10, 'Vectors and geometry in space', 'វ៉ិចទ័រ និងធរណីមាត្រក្នុងលំហ', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-social-mathematics-limits-continuity', 'kh-grade12-social-mathematics', 1, 'Limits and continuity', 'លីមីត និងភាពជាប់', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-social-mathematics-function-study', 'kh-grade12-social-mathematics', 2, 'Study of functions and graphs', 'សិក្សាអថេរភាព និងសង់ក្រាបនៃអនុគមន៍', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-social-mathematics-integrals', 'kh-grade12-social-mathematics', 3, 'Integrals', 'អាំងតេក្រាល', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-social-mathematics-probability', 'kh-grade12-social-mathematics', 4, 'Probability', 'ប្រូបាប', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-social-mathematics-conics', 'kh-grade12-social-mathematics', 5, 'Conics', 'កោនិក', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now())
 on conflict (id) do update set subject_id = excluded.subject_id, number = excluded.number, name_en = excluded.name_en, name_km = excluded.name_km, verification = excluded.verification, source = excluded.source, updated_at = excluded.updated_at;
 
 insert into public.curriculum_topics (id, chapter_id, name_en, name_km, sort, verification) values
@@ -62,7 +69,19 @@ insert into public.curriculum_topics (id, chapter_id, name_en, name_km, sort, ve
   ('kh-grade12-science-mathematics-conics-hyperbola', 'kh-grade12-science-mathematics-conics', 'Hyperbola', 'អ៊ីពែបូល', 3, 'provisional'),
   ('kh-grade12-science-mathematics-vectors-space-dot-product', 'kh-grade12-science-mathematics-vectors-space', 'Dot product', 'ផលគុណស្កាលែ', 1, 'provisional'),
   ('kh-grade12-science-mathematics-vectors-space-cross-product', 'kh-grade12-science-mathematics-vectors-space', 'Cross product', 'ផលគុណវ៉ិចទ័រ', 2, 'provisional'),
-  ('kh-grade12-science-mathematics-vectors-space-lines-planes', 'kh-grade12-science-mathematics-vectors-space', 'Lines and planes', 'បន្ទាត់ និងប្លង់ក្នុងលំហ', 3, 'provisional')
+  ('kh-grade12-science-mathematics-vectors-space-lines-planes', 'kh-grade12-science-mathematics-vectors-space', 'Lines and planes', 'បន្ទាត់ និងប្លង់ក្នុងលំហ', 3, 'provisional'),
+  ('kh-grade12-social-mathematics-limits-continuity-limits', 'kh-grade12-social-mathematics-limits-continuity', 'Limits of functions', 'លីមីតនៃអនុគមន៍', 1, 'provisional'),
+  ('kh-grade12-social-mathematics-limits-continuity-indeterminate-forms', 'kh-grade12-social-mathematics-limits-continuity', 'Indeterminate forms', 'រាងមិនកំណត់', 2, 'provisional'),
+  ('kh-grade12-social-mathematics-limits-continuity-asymptotes', 'kh-grade12-social-mathematics-limits-continuity', 'Asymptotes', 'អាស៊ីមតូត', 3, 'provisional'),
+  ('kh-grade12-social-mathematics-function-study-monotonicity', 'kh-grade12-social-mathematics-function-study', 'Increasing and decreasing', 'អថេរភាពនៃអនុគមន៍', 1, 'provisional'),
+  ('kh-grade12-social-mathematics-function-study-extrema', 'kh-grade12-social-mathematics-function-study', 'Maxima and minima', 'បរមា', 2, 'provisional'),
+  ('kh-grade12-social-mathematics-function-study-graphs', 'kh-grade12-social-mathematics-function-study', 'Sketching graphs', 'សង់ក្រាប', 3, 'provisional'),
+  ('kh-grade12-social-mathematics-integrals-antiderivatives', 'kh-grade12-social-mathematics-integrals', 'Antiderivatives', 'ព្រីមីទីវ', 1, 'provisional'),
+  ('kh-grade12-social-mathematics-integrals-definite', 'kh-grade12-social-mathematics-integrals', 'Definite integrals', 'អាំងតេក្រាលកំណត់', 2, 'provisional'),
+  ('kh-grade12-social-mathematics-probability-counting', 'kh-grade12-social-mathematics-probability', 'Permutations and combinations', 'ចម្លាស់ និងបន្សំ', 1, 'provisional'),
+  ('kh-grade12-social-mathematics-probability-events', 'kh-grade12-social-mathematics-probability', 'Probability of events', 'ប្រូបាបនៃព្រឹត្តិការណ៍', 2, 'provisional'),
+  ('kh-grade12-social-mathematics-conics-parabola', 'kh-grade12-social-mathematics-conics', 'Parabola', 'ប៉ារ៉ាបូល', 1, 'provisional'),
+  ('kh-grade12-social-mathematics-conics-ellipse', 'kh-grade12-social-mathematics-conics', 'Ellipse', 'អេលីប', 2, 'provisional')
 on conflict (id) do update set chapter_id = excluded.chapter_id, name_en = excluded.name_en, name_km = excluded.name_km, sort = excluded.sort, verification = excluded.verification;
 
 commit;
