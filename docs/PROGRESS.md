@@ -430,6 +430,13 @@ timing only in database functions, never in the browser.
   `test:past-papers` 9/9 (figures exist, are small, described and all used;
   the database refuses other paths); Playwright 12/12 browser-only and
   online (the 2015 figure on the paper and under the timer at 320px).
+- **2026-10-19 — Real past papers, part 7: science-track chemistry
+  2014–2022.** 9 papers, 48 questions; formulas and equations in LaTeX
+  (`\mathrm{…}`), the 2014 second-sitting rate table as a KaTeX array. The
+  structural drawings in the copies are in their answers, not the questions,
+  so no figures were needed. 2022's printed points add up to 80, so none are
+  shown. Tests: affected suites; `test:past-papers` 9/9 (134 papers, 588
+  questions); Playwright 12/12 browser-only and online.
 
 ## Blockers and things that need a person
 

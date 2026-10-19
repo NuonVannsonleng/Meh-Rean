@@ -3858,6 +3858,7 @@ insert into public.curriculum_subjects (id, track_id, subject_key, name_en, name
   ('kh-grade12-science-english', 'kh-grade12-science', 'english', 'English', 'ភាសាអង់គ្លេស', 4),
   ('kh-grade12-science-french', 'kh-grade12-science', 'french', 'French', 'ភាសាបារាំង', 5),
   ('kh-grade12-science-physics', 'kh-grade12-science', 'physics', 'Physics', 'រូបវិទ្យា', 6),
+  ('kh-grade12-science-chemistry', 'kh-grade12-science', 'chemistry', 'Chemistry', 'គីមីវិទ្យា', 7),
   ('kh-grade12-social-mathematics', 'kh-grade12-social', 'mathematics', 'Mathematics', 'គណិតវិទ្យា', 1),
   ('kh-grade12-social-khmer-literature', 'kh-grade12-social', 'khmer-literature', 'Khmer literature', 'អក្សរសាស្ត្រខ្មែរ', 2),
   ('kh-grade12-social-history', 'kh-grade12-social', 'history', 'History', 'ប្រវត្តិវិទ្យា', 3),
@@ -3884,6 +3885,7 @@ insert into public.curriculum_chapters (id, subject_id, number, name_en, name_km
   ('kh-grade12-science-english-past-papers', 'kh-grade12-science-english', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-science-french-past-papers', 'kh-grade12-science-french', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-science-physics-past-papers', 'kh-grade12-science-physics', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-science-chemistry-past-papers', 'kh-grade12-science-chemistry', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-social-mathematics-limits-continuity', 'kh-grade12-social-mathematics', 1, 'Limits and continuity', 'លីមីត និងភាពជាប់', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-social-mathematics-function-study', 'kh-grade12-social-mathematics', 2, 'Study of functions and graphs', 'សិក្សាអថេរភាព និងសង់ក្រាបនៃអនុគមន៍', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-social-mathematics-integrals', 'kh-grade12-social-mathematics', 3, 'Integrals', 'អាំងតេក្រាល', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
@@ -3938,6 +3940,7 @@ insert into public.curriculum_topics (id, chapter_id, name_en, name_km, sort, ve
   ('kh-grade12-science-english-past-papers-exam-questions', 'kh-grade12-science-english-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
   ('kh-grade12-science-french-past-papers-exam-questions', 'kh-grade12-science-french-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
   ('kh-grade12-science-physics-past-papers-exam-questions', 'kh-grade12-science-physics-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
+  ('kh-grade12-science-chemistry-past-papers-exam-questions', 'kh-grade12-science-chemistry-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
   ('kh-grade12-social-mathematics-limits-continuity-limits', 'kh-grade12-social-mathematics-limits-continuity', 'Limits of functions', 'លីមីតនៃអនុគមន៍', 1, 'provisional'),
   ('kh-grade12-social-mathematics-limits-continuity-indeterminate-forms', 'kh-grade12-social-mathematics-limits-continuity', 'Indeterminate forms', 'រាងមិនកំណត់', 2, 'provisional'),
   ('kh-grade12-social-mathematics-limits-continuity-asymptotes', 'kh-grade12-social-mathematics-limits-continuity', 'Asymptotes', 'អាស៊ីមតូត', 3, 'provisional'),
@@ -4440,6 +4443,503 @@ commit;
 -- against the Ministry's originals (needs-review). Exercises only, no
 -- answer keys. Run after supabase/schema.sql and supabase/seed/curriculum.sql;
 -- safe to run again.
+
+-- kh-grade12-science-chemistry.json
+begin;
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1040-2022-4000-8000-000000000000', 'kh-grade12-science-chemistry', 2022, 'BacII 2022: Chemistry (science track)', 'វិញ្ញាសាគីមីវិទ្យា បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2022 (2022-12-05), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 20, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown. IV gives the ester''s mass as 2.29 with no unit, as printed.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2022-4000-8000-000000000001', 'kh-grade12-science-chemistry-past-papers', null, 2022, 'open', '1. ដូចម្តេចដែលហៅថាអត្រាកម្ម?
+2. ហេតុអ្វីបានជាគេនិយាយថាអាមីតជាស្រឡាយអាស៊ីតកាបុកស៊ីលិច?
+3. ហេតុអ្វីបានជាគេនិយាយថាអាស៊ីតអាមីនេជាអំផូទែ?
+4. ហេតុអ្វីបានជាល្បឿនប្រតិកម្មប្រែប្រួលនៅពេលដែលគេបន្ថែមសម្ពាធទៅលើវា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 20, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown. IV gives the ester''s mass as 2.29 with no unit, as printed.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2022-4000-8000-000000000000', 'bacc1040-2022-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2022-4000-8000-000000000002', 'kh-grade12-science-chemistry-past-papers', null, 2022, 'open', 'គេមាន $\mathrm{CaCO_3}$ ដែលមានប្រតិកម្មជាមួយ $\mathrm{HCL}$ បង្កើតបាន $\mathrm{CO_2}$ $1440\,mL$ នៅក្នុង សីតុណ្ហភាព $25^{\circ}C$ និងសម្ពាធ $1\,atm$។
+ក. គណនាម៉ាស $\mathrm{CaCO_3}$ ដែលចូលរួមប្រតិកម្ម។
+ខ. គណនាមាឌសូលុយស្យុង $\mathrm{HCL}$ នៅកំហាប់ $2.00\,M$ ដែលប្រើក្នុងប្រតិកម្មនេះ។
+គេមាន $Ca=40\,g/mol$, $C=12\,g/mol$, $O=16\,g/mol$, $1\,atm=24\,L/mol$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 20, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown. IV gives the ester''s mass as 2.29 with no unit, as printed.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2022-4000-8000-000000000000', 'bacc1040-2022-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2022-4000-8000-000000000003', 'kh-grade12-science-chemistry-past-papers', null, 2022, 'open', 'គេលាយ $40\,ml$ នៃសូលុយស្យុងប្រាក់នីត្រាតនៅកំហាប់ $5.00\,M$ ជាមួយសូលុយស្យុងសូដ្យូមស៊ុលផាតដែលមានបរិមាណគ្រប់គ្រាន់។
+ក. សរសេរសមីការគីមី សមីការអ៊ីយ៉ុងសព្វ សមីការអ៊ីយ៉ុងសម្រួលនៃប្រតិកម្ម។
+ខ. គណនាម៉ាសកករដែលទទួលបាន។
+គេមាន $Ag=108\,g/mol$, $S=32\,g/mol$, $O=16\,g/mol$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 20, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown. IV gives the ester''s mass as 2.29 with no unit, as printed.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2022-4000-8000-000000000000', 'bacc1040-2022-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2022-4000-8000-000000000004', 'kh-grade12-science-chemistry-past-papers', null, 2022, 'open', 'ចំហេះសព្វអេស្ទែ $2.29$ បង្កើតបានឧស្ម័នកាបូនិច $4.4\,g$ និងទឹក។ សន្មតថាអេស្ទែ និងអាល់កុលមានបណ្តុំរ៉ាឌីកាល់អ៊ីកាបួឆ្អែត។
+ក. កំណត់រូបមន្តដុលរបស់អេស្ទែនេះ។
+ខ. សរសេររូបមន្តស្ទើរលាតព្រមទាំងហៅឈ្មោះអេស្ទែដែលអាចកើតមាន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 20, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown. IV gives the ester''s mass as 2.29 with no unit, as printed.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2022-4000-8000-000000000000', 'bacc1040-2022-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2022-4000-8000-000000000005', 'kh-grade12-science-chemistry-past-papers', null, 2022, 'open', 'គេរំលាយសូលុយស្យុង $\mathrm{NaOH}$ $0.4\,g$ ទៅក្នុងទឹក $1\,L$ ជាសូលុយស្យុង $S_1$
+ក. គណនាកំហាប់ជាម៉ូលនៃសូលុយស្យុង $S_1$។
+ខ. គេពង្រាវសូលុយស្យុង $S_1$ $10$ ដង ទទួលបានសូលុយស្យុង $S_2$។ គណនាកំហាប់សូលុយស្យុង $S_2$
+គ. គេយកសូលុយស្យុងអាស៊ីត $\mathrm{H_2SO_4}$ $10\,mL$ ទៅធ្វើអត្រាកម្មជាមួយនឹងសូលុយស្យុង $S_2$ ចំនួន $100\,mL$។ គណនាកំហាប់ $\mathrm{H_2SO_4}$ និង $pH$ របស់វា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 20, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown. IV gives the ester''s mass as 2.29 with no unit, as printed.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2022-4000-8000-000000000000', 'bacc1040-2022-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1040-2021-4000-8000-000000000000', 'kh-grade12-science-chemistry', 2021, 'BacII 2021: Chemistry (science track)', 'វិញ្ញាសាគីមីវិទ្យា បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2021 (2021-12-27), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2021-4000-8000-000000000001', 'kh-grade12-science-chemistry-past-papers', null, 2021, 'open', 'គេធ្វើពិសោធន៍អត្រាកម្មអាស៊ីតក្លរីឌ្រិចចំនួន $25\,mL$ កំហាប់ $0.012\,M$ ដោយសូលុយស្យុងស៊ូតដែលមិនស្គាល់កំហាប់អស់ចំនួន $30\,mL$ ទើបអង្គធាតុចង្អុលពណ៌ប្រែពណ៌។
+ក. គណនាកំហាប់សូលុយស្យុងអ៊ីដ្រុកស៊ីតដែលប្រើក្នុងអត្រាកម្មនេះ។
+ខ. គណនាតម្លៃ $pH$ សូលុយស្យុងស៊ូដែលគេធ្វើអត្រាកម្ម។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2021-4000-8000-000000000000', 'bacc1040-2021-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2021-4000-8000-000000000002', 'kh-grade12-science-chemistry-past-papers', null, 2021, 'open', 'ចូរសរសេរសមីការតុល្យការនៃប្រតិកម្ម បើគេឲ្យគូរេដុកនីមួយៗដូចខាងក្រោមនេះ៖
+ក. $\mathrm{Cr_2O_7^{2-}}/\mathrm{Cr^{3+}}; E^o=1.33\,V$ និង $\mathrm{NO_3^-}/\mathrm{NO}; E^o=0.96\,V$
+ខ. $\mathrm{S_2O_3^{2-}}/\mathrm{S}; E^o=0.50\,V$ និង $\mathrm{SO_2}/\mathrm{S_2O_3^{2-}}; E^o=0.40\,V$
+គ. តើប្រតិកម្មណាមួយជាប្រតិកម្មឌីស្មូតកម្ម? ព្រោះអ្វី?
+ឃ. ចូរបកស្រាយកត្តាទាំងពីរយ៉ាង ដើម្បីបង្កើនល្បឿនប្រតិកម្មរវាង $\mathrm{CaCO_3}(s)$ ជាមួយសូលុយស្យុង $\mathrm{HCl}(aq)$ ក្នុងករណីកំហាប់ $\mathrm{HCl}(aq)$ ថេរ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2021-4000-8000-000000000000', 'bacc1040-2021-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2021-4000-8000-000000000003', 'kh-grade12-science-chemistry-past-papers', null, 2021, 'open', 'គេដាក់ $200\,mL$ នៃសូលុយស្យុងអាម៉ូញ៉ូមកាបូណាត ដែលមានកំហាប់ $0.10\,M$ ឲ្យមានប្រតិកម្មសព្វជាមួយសូលុយកាល់ស្យូមនីត្រាត។
+ក. ចូរសរសេរសមីការគីមី សមីការអ៊ីយ៉ុងសព្វ និងសមីការសម្រួលនៃប្រតិកម្មនេះ។
+ខ. ចូរកំណត់អ៊ីយ៉ុងទស្សនិក។
+គ. ចូរគណនាម៉ាសកករដែលទទួលបាន។
+(គេឲ្យម៉ាសម៉ូល $(g.mol^{-1})$ $H=1; C=12; N=14; O=16; Ca=40$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2021-4000-8000-000000000000', 'bacc1040-2021-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2021-4000-8000-000000000004', 'kh-grade12-science-chemistry-past-papers', null, 2021, 'open', 'គេយកសូលុយស្យុងអាស៊ីតអេតាណូអ៊ិចកំហាប់ $0.18\,M$ ចំនួន $1\,L$ ឲ្យមានប្រតិកម្មជាមួយសូលុយស្យុងអាម៉ូញ៉ាក់គេទទួលបានអាមីត និងទឹក។
+ក. ចូរសរសេរសមីការតាងប្រតិកម្មធ្វើអាមីត។ ចូរប្រាប់ឈ្មោះអាមីតដែលទទួលបាន។
+ខ. គណនាម៉ាសអាមីតដែលទទួលបាន បើទិន្នផលនៃប្រតិកម្មស្មើនឹង $80\%$។
+គេឲ្យ $C=12; O=16; N=14; H=1$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2021-4000-8000-000000000000', 'bacc1040-2021-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2021-4000-8000-000000000005', 'kh-grade12-science-chemistry-past-papers', null, 2021, 'open', '១. ចូរសរសេរសមីការ និងប្រាប់ឈ្មោះអេស្ទែ ដែលសំយោគឡើងតាមប្រតិកម្ម
+ក. $\mathrm{CH_3-CH_2-CH_2-OH}$ និង $\mathrm{H-COOH}$
+ខ. $\mathrm{CH_3-OH}$ និង $\mathrm{CH_3-CH_2-COCl}$
+២. តើគេទទួលបានអេស្ទែប៉ុន្មានក្រាម តាមប្រតិកម្មរវាងអាស៊ីតអេតាណូអ៊ិច $500\,mL$ នៅកំហាប់ $0.5\,mol.L^{-1}$ ជាមួយមេតាណុលបើទិន្នផលប្រតិកម្មមាន $67\%$
+$(C=12; H=1; O=16)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2021-4000-8000-000000000000', 'bacc1040-2021-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1040-2019-4000-8000-000000000000', 'kh-grade12-science-chemistry', 2019, 'BacII 2019: Chemistry (science track)', 'វិញ្ញាសាគីមីវិទ្យា បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2019 (2019-08-19), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2019-4000-8000-000000000001', 'kh-grade12-science-chemistry-past-papers', null, 2019, 'open', 'ចូរសរសេររូបមន្តទូទៅនៃ អេស្ទែ អាមីត អាមីន និងអាស៊ីតអាមីនេ។ ហេតុអ្វីបានជាគេចាត់ទុកអាមីនជាស្រឡាយនៃអាម៉ូញ៉ាក់? ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2019-4000-8000-000000000000', 'bacc1040-2019-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2019-4000-8000-000000000002', 'kh-grade12-science-chemistry-past-papers', null, 2019, 'open', 'គេបន្ថែមសូលុយស្យុងបារ្យ៉ូមក្លរួដែលមានកំហាប់ $0.10\,M$ ប្រតិកម្មជាមួយសូលុយស្យុងសូដ្យូមស៊ុលផាត $20\,mL$ ដែលមានកំហាប់ $0.50\,M$ គេឃើញមានកករពណ៌សកើតឡើង។
+១. សរសេរសមីការតុល្យការ សមីការអ៊ីយ៉ុងសព្វ និងសមីការអ៊ីយ៉ុងសម្រួលតាងប្រតិកម្មខាងលើ។
+២. គណនាមាឌសូលុយស្យុងបារ្យ៉ូមក្លរួចាំបាច់ដែលត្រូវប្រើដើម្បីទទួលបានកករអតិបរមា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2019-4000-8000-000000000000', 'bacc1040-2019-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2019-4000-8000-000000000003', 'kh-grade12-science-chemistry-past-papers', null, 2019, 'open', 'គេមានសមីការដូចខាងក្រោម
+$$\mathrm{ClO^-}+\mathrm{H_3O^+}\rightarrow\mathrm{HClO}+\mathrm{H_2O}\quad(1)$$
+$$\mathrm{ClO^-}+\mathrm{Cl^-}+2\mathrm{H_3O^+}\rightarrow\mathrm{Cl_2}+3\mathrm{H_3O}\quad(2)$$
+១. តើប្រតិកម្មណាជាប្រតិកម្មអាស៊ីត-បាស និងប្រតិកម្មណាជាប្រតិកម្មអុកស៊ីដូដុកម្ម?
+២. ចូរសរសេរគូអាស៊ីត-បាស និងគូរេដុកចូលរួមប្រតិកម្ម។
+៣. តើប្រតិកម្ម (2) អាចចាត់ទុកជាប្រតិកម្មឌីស្មូតកម្មដែរឬទេ? ព្រោះអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2019-4000-8000-000000000000', 'bacc1040-2019-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2019-4000-8000-000000000004', 'kh-grade12-science-chemistry-past-papers', null, 2019, 'open', 'គេធ្វើសូលុយស្យុងអាស៊ីតក្លរីឌ្រិច $1\,L$ ដោយការរំលាយឧស្ម័នអ៊ីដ្រូសែនក្លរួ $22.40\,mL$ ទៅក្នុងទឹកបិតនៅសីតុណ្ហភាព STP។
+ក. សរសេរសមីការអ៊ីយ៉ុងកម្មអ៊ីដ្រូសែនក្លរួក្នុងទឹក។
+ខ. គណនា $pH$ នៃសូលុយស្យុងអាស៊ីតនេះ។
+គ. សូលុយស្យុងអាស៊ីតនេះត្រូវបានគេយកទៅធ្វើអត្រាកម្មជាមួយបារ្យ៉ូមអ៊ីដ្រុកស៊ីត $100\,mL$។
+  ក. សរសេរសមីការតាងប្រតិកម្មអត្រាកម្មនេះ។
+  ខ. គណនាកំហាប់ជាម៉ូលនៃសូលុយស្យុងបារ្យ៉ូមអ៊ីដ្រុកស៊ីតដែលប្រើ។ (ឧស្ម័ន $1\,mol$ នៅសីតុណ្ហភាព STP មានមាឌ $22.4\,L$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2019-4000-8000-000000000000', 'bacc1040-2019-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2019-4000-8000-000000000005', 'kh-grade12-science-chemistry-past-papers', null, 2019, 'open', 'សាធាតុ $E$ មួយមានរូបមន្តស្ទើលាត
+$$\mathrm{CH_3COO-CH_2-CH_2-CH_3}$$
+១. តើ $E$ ជាសារធាតុអ្វី? មានបង្គុំនាទីអ្វីខ្លះ? ប្រាប់ឈ្មោះអាស៊ីត និងអាល់កុលសម្រាប់សំយោគ $E$?
+២. ចូរសរសេរសមីការតាងប្រតិកម្មសំយោគ $E$។
+៣. ដើម្បីសំយោគ $E=4.60\,g$ គេត្រូវប្រើអាស៊ីត $4.50\,g$។ ចូរគណនាទិន្នផលនៃប្រតិកម្ម។
+$(C=12; H=1; O=16)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2019-4000-8000-000000000000', 'bacc1040-2019-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1040-2018-4000-8000-000000000000', 'kh-grade12-science-chemistry', 2018, 'BacII 2018: Chemistry (science track)', 'វិញ្ញាសាគីមីវិទ្យា បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2018 (2018-08-20), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2018-4000-8000-000000000001', 'kh-grade12-science-chemistry-past-papers', null, 2018, 'open', 'សិស្សម្នាក់ធ្វើអត្រាកម្មសូលុយស្យុងអាស៊ីតនីទ្រិចមិនស្គាល់កំហាប់ចំនួន $250\,mL$ ជាមួយសូលុយស្យុងសូដ្យូមអ៊ីដ្រុកស៊ីតកំហាប់ $0.20\,M$ មាន $200\,mL$។
+ក. តើគេត្រូវប្រើអង្គធាតុចង្អុលពណ៌អ្វីសម្រាប់អត្រាកម្មនេះ?
+ខ. ចូរសរសេរសមីការតាងប្រតិកម្មនេះ។ តើប្រតិកម្មនេះជាប្រតិកម្មអ្វី?
+គ. រកកំហាប់ជាម៉ូលរបស់សូលុយស្យុងអាស៊ីតនីទ្រិចដែលប្រើ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2018-4000-8000-000000000000', 'bacc1040-2018-4000-8000-000000000001', 1, 12)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2018-4000-8000-000000000002', 'kh-grade12-science-chemistry-past-papers', null, 2018, 'open', 'គេយក $0.15\,mol$ នៃ $\mathrm{Cl_2}$ និង $0.30\,mol$ នៃ $\mathrm{NO_2}$ ដាក់ក្នុងប្រអប់បិទជិតដែលមានចំណុះ $1.50\,L$។ គេទុកឲ្យប្រព័ន្ធមានលំនឹងនៅសីតុណ្ហភាពកំណត់មួយ។ កំហាប់ $\mathrm{NO_2Cl}$ ពេលមានលំនឹងគឺ $0.054\,mol.L^{-1}$។ ចូរគណនាតម្លៃ $K$ នៅសីតុណ្ហភាពនោះ។ គេឲ្យសមីការតុល្យការលំនឹង៖
+$$2\mathrm{NO_2}(g)+\mathrm{Cl_2}(g)\rightleftarrows2\mathrm{NO_2Cl}(g)$$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2018-4000-8000-000000000000', 'bacc1040-2018-4000-8000-000000000002', 2, 12)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2018-4000-8000-000000000003', 'kh-grade12-science-chemistry-past-papers', null, 2018, 'open', 'គេលាយសូលុយស្យុង $\mathrm{H_2SO_4}$ ចំនួន $10\,mL$ កំហាប់ $0.0025\,M$ ជាមួយសូលុយស្យុង $\mathrm{NaOH}$ ចំនួន $10\,mL$ កំហាប់ $0.003\,M$។
+ក. តើល្បាយដែលទទួលបានមានភាពជាអាស៊ីត ឬជាបាស ឬជាណឺត?
+ខ. ចូរគណនា $pH$ របស់ល្បាយនោះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2018-4000-8000-000000000000', 'bacc1040-2018-4000-8000-000000000003', 3, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2018-4000-8000-000000000004', 'kh-grade12-science-chemistry-past-papers', null, 2018, 'open', 'ក. នៅសីតុណ្ហភាពជាក់លាក់មួយ អាស៊ីតក្លរីឌ្រិច $\mathrm{HCl}$ មានប្រតិកម្មជាមួយថ្មម៉ាប ឬ $\mathrm{CaCO_3}$។ ចូរណែនាំពីវិធីពីរយ៉ាងដែលធ្វើឲ្យល្បឿននៃប្រតិកម្មនេះកាន់តែលឿន។
+ខ. គេឲ្យសូលុយស្យុងសូដ្យូមអ៊ីដ្រុកស៊ីតមានប្រតិកម្មជាមួយសូលុយស្យុងស័ង្កសីនីត្រាត គេសង្កេតឃើញមានកករពណ៌សកើតឡើង។ ចូរសរសេរសមីការតាងប្រតិកម្ម សមីការអ៊ីយ៉ុងសព្វ និងសមីការអ៊ីយ៉ុងសម្រួលនៃប្រតិកម្មនេះ។
+គ. ចូរបង្ហាញថាប្រតិកម្មខាងក្រោមនេះ ជាប្រតិកម្មស្វ័តកម្ម។
+$$\mathrm{S_2O_3^{2-}}+2\mathrm{H^+}\rightarrow\mathrm{S}+\mathrm{SO_2}+\mathrm{H_2O}$$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2018-4000-8000-000000000000', 'bacc1040-2018-4000-8000-000000000004', 4, 18)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2018-4000-8000-000000000005', 'kh-grade12-science-chemistry-past-papers', null, 2018, 'open', 'ចំហេះសព្វអេស្ទែឆ្អែតមួយចំនួន $1.02\,g$ បានផ្តល់ឧស្ម័នកាបូនីអុកស៊ីត $(\mathrm{CO_2})$ ចំនួន $2.20\,g$។
+ក. ចូរកំណត់រូបមន្តរបស់អេស្ទែនោះ
+ខ. ចូរសរសេររូបមន្តស្ទើរលាត និងហៅឈ្មោះរបស់អេស្ទែដែលអាចមាន។
+គេឲ្យ $H=1$; $C=12$; $O=16$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2018-4000-8000-000000000000', 'bacc1040-2018-4000-8000-000000000005', 5, 18)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1040-2017-4000-8000-000000000000', 'kh-grade12-science-chemistry', 2017, 'BacII 2017: Chemistry (science track)', 'វិញ្ញាសាគីមីវិទ្យា បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2017 (2017-08-21), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2017-4000-8000-000000000001', 'kh-grade12-science-chemistry-past-papers', null, 2017, 'open', 'សរសេរសមីការអ៊ីយ៉ុងសព្វ និងអ៊ីយ៉ុងសម្រួលសម្រាប់ប្រតិកម្មខាងក្រោម៖
+ក. $\mathrm{Zn(NO_3)_2}(aq)+\mathrm{(NH_4)_2S}(aq)\rightarrow$
+ខ. $\mathrm{(NH_4)_2CO_3}(aq)+\mathrm{CaCl_2}(aq)\rightarrow$
+គ. $\mathrm{BaCl_2}(aq)+\mathrm{ZnSO_4}(aq)\rightarrow$
+ឃ. $\mathrm{Na_2S}(aq)+\mathrm{ZnCl_2}(aq)\rightarrow$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2017-4000-8000-000000000000', 'bacc1040-2017-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2017-4000-8000-000000000002', 'kh-grade12-science-chemistry-past-papers', null, 2017, 'open', 'សមាសធាតុគីមីទាំងនេះជាសមាសធាតុអំផូទែ៖ $\mathrm{H_2O}, \mathrm{NH_3}, \mathrm{HCO_3^-}, \mathrm{HSO_4^-}$
+ក. ដូចម្តេចដែលហៅថាសមាសធាតុអំផូទែ?
+ខ. ចូរសរសេរគូទាំងពីររបស់សមាសធាតុនីមួយៗ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2017-4000-8000-000000000000', 'bacc1040-2017-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2017-4000-8000-000000000003', 'kh-grade12-science-chemistry-past-papers', null, 2017, 'open', 'ថ្មកំបោរអាចមានអំពើជាមួយអាស៊ីតក្លរីឌ្រិចតាមសមីការតុល្យការ $\mathrm{CaCO_3}(s)+2\mathrm{H^+}(aq)\rightarrow\mathrm{Ca^{2+}}(aq)+\mathrm{CO_2}(g)+\mathrm{H_2O}(l)$។ នៅខណៈ $t=0$ កំហាប់អ៊ីយ៉ុង $\mathrm{Ca^{2+}}$ មានតម្លៃស្មើសូន្យ។ នៅខណៈ $t=15\,s$ កំហាប់អ៊ីយ៉ុង $\mathrm{Ca^{2+}}$ កើតឡើងស្មើនឹង $1.8\times10^{-3}\,mol.L^{-1}$ និងនៅខណៈ $t=30\,s$ មានតម្លៃស្មើ $3.13\times10^{-3}\,mol.L^{-1}$។
+ក. តើប្រភេទគីមីណាខ្លះជាអង្គធាតុប្រតិករ និងប្រភេទគីមីណាខ្លះជាអង្គធាតុកកើត?
+ខ. ចូរគណនាល្បឿនមធ្យមកំណអ៊ីយ៉ុង $\mathrm{Ca^{2+}}$ នៅចន្លោះពេល $15\,s$ និង $30\,s$
+គ. ចូរទាញរកល្បឿនមធ្យមបំបាត់អ៊ីយ៉ុង $\mathrm{H^+}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2017-4000-8000-000000000000', 'bacc1040-2017-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2017-4000-8000-000000000004', 'kh-grade12-science-chemistry-past-papers', null, 2017, 'open', 'ការវិភាគម៉ូលេគុលអាមីនមួយ បានលទ្ធផលដូចតទៅ៖ កាបូន $61.02\%$ អាសូត $23.73\%$ និងអ៊ីដ្រូសែន $15.25\%$ គិតជាម៉ាស។
+ក. កំណត់រូបមន្តដុលនៃអាមីននោះ។
+ខ. សរសេររូបមន្តស្ទើលាតដែលអាចមាន និងហៅឈ្មោះរបស់វា។
+គេឲ្យ $H=1$, $C=12$, $N=14$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2017-4000-8000-000000000000', 'bacc1040-2017-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2017-4000-8000-000000000005', 'kh-grade12-science-chemistry-past-papers', null, 2017, 'open', 'គេលាយសូលុយស្យុង $\mathrm{HCl}$ ចំនួន $10\,mL$ កំហាប់ $0.002\,M$ ជាមួយសូលុយស្យុង $\mathrm{NaOH}$ ចំនួន $10\,mL$ កំហាប់ $0.003\,M$។
+ក. គណនា $pH$ របស់ល្បាយសូលុយស្យុងក្រោយប្រតិកម្ម។
+ខ. តើគេត្រូវបន្ថែមអាស៊ីត ឬបាសប៉ុន្មាន $mL$ ដើម្បីឲ្យល្បាយទទួលបានសមមូលអាស៊ីត-បាស?
+គេឲ្យ $K_e=10^{-14}$, $\log2=0.3$, $\log5=0.7$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2017-4000-8000-000000000000', 'bacc1040-2017-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1040-2016-4000-8000-000000000000', 'kh-grade12-science-chemistry', 2016, 'BacII 2016: Chemistry (science track)', 'វិញ្ញាសាគីមីវិទ្យា បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2016 (2016-08-22), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2016-4000-8000-000000000001', 'kh-grade12-science-chemistry-past-papers', null, 2016, 'open', 'គេឲ្យប្រតិកម្មគីមីមួយដូចខាងក្រោម៖
+$$\mathrm{Fe}+2\mathrm{HCl}\rightarrow\mathrm{FeCl_2}+\mathrm{H_2}$$
+ចូរពន្យល់ ហេតុអ្វីបានជាប្រតិកម្មរវាង $\mathrm{Fe}$ និង $\mathrm{HCl}$ កើតឡើងលឿនកាលណា៖
+ក. $\mathrm{Fe}$ ស្ថិតនៅភាពជាម្សៅ
+ខ. សីតុណ្ហភាពខ្ពស់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2016-4000-8000-000000000000', 'bacc1040-2016-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2016-4000-8000-000000000002', 'kh-grade12-science-chemistry-past-papers', null, 2016, 'open', 'ចូរសរសេរសមីការតាងប្រតិកម្មការបំបែកសមាសធាតុអ៊ីយ៉ុងក្នុងទឹក និងប្រាប់ពីចំនួនម៉ូលសរុបដែលកើតឡើង៖
+ក. $0.25$ ម៉ូលអាលុយមីញ៉ូមក្លរួ
+ខ. $0.75$ ម៉ូលសូដ្យូមស៊ុលផាត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2016-4000-8000-000000000000', 'bacc1040-2016-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2016-4000-8000-000000000003', 'kh-grade12-science-chemistry-past-papers', null, 2016, 'open', 'គេដាក់ម៉ាញេស្យូមឲ្យមានប្រតិកម្មជាមួយសូលុយស្យុង $\mathrm{HNO_3}$ ចំនួន $100\,ml$ នៅកំហាប់ $3.00\,M$។ គណនា៖
+ក. ម៉ាសម៉ាញេស្យូមនីត្រាតដែលទទួលបាន
+ខ. មាឌឧស្ម័នអ៊ីដ្រូសែនដែលភាយចេញពីប្រតិកម្មនៅសីតុណ្ហភាព STP។
+($Mg=24$, $N=14$, $O=16$, $H=1$ ឧស្ម័ន $1\,mol$ នៅ STP មានមាឌ $22.4\,L$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2016-4000-8000-000000000000', 'bacc1040-2016-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2016-4000-8000-000000000004', 'kh-grade12-science-chemistry-past-papers', null, 2016, 'open', 'ចូរសរសេរទម្រង់សមាសធាតុខាងក្រោម ព្រមទាំងលើកឧទាហរណ៍មួយៗមកបញ្ជាក់ផង
+ក. អាល់កុលថ្នាក់ទីI អាល់កុលថ្នាក់ទីII និងអាល់កុលថ្នាក់ទីIII
+ខ. អាមីតថ្នាក់ទីI អាមីតថ្នាក់ទីII និងអាមីតថ្នាក់ទីIII
+គ. អេស្ទែ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2016-4000-8000-000000000000', 'bacc1040-2016-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2016-4000-8000-000000000005', 'kh-grade12-science-chemistry-past-papers', null, 2016, 'open', 'ក. ចូរគណនាម៉ាសជាក្រាមរបស់ស៊ូតចាំបាច់ដើម្បីធ្វើជាសូលុយស្យុង $\mathrm{NaOH}$ $546\,mL$ ដែលមាន $pH=10$។ ($Na=23$, $O=16$, $H=1$)
+ខ. រកកំហាប់អ៊ីយ៉ុង $\mathrm{H_3O^+}\,(aq)$ និង $\mathrm{OH^-}\,(aq)$ ក្នុងសូលុយស្យុងដែលរៀបចំដោយ $0.200\,mol$ អាស៊ីត $\mathrm{HNO_3}$ រលាយក្នុងទឹក $250\,mL$។ ($K_e=1.0\times10^{-14}$, $T=25^{0}C$)
+គ. សូលុយស្យុងអាស៊ីតក្លរីឌ្រិចមួយធ្វើឡើងដោយរំលាយអាស៊ីតសុទ្ធ $18.4\,g$ ទៅក្នុងទឹក $662\,mL$។ ចូរគណនា $pH$ របស់សូលុយស្យុងនេះ? (ឧបមាថាមាឌសូលុយស្យុងនៅថេរ)។ ($H=1$, $Cl=35.5$, $\log7.50=0.88$)។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2016-4000-8000-000000000000', 'bacc1040-2016-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1040-2015-4000-8000-000000000000', 'kh-grade12-science-chemistry', 2015, 'BacII 2015: Chemistry (science track)', 'វិញ្ញាសាគីមីវិទ្យា បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2015 (2015-08-24), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2015-4000-8000-000000000001', 'kh-grade12-science-chemistry-past-papers', null, 2015, 'open', 'គេសំយោគអេស្ទែមួយ ដោយឲ្យអាស៊ីតប្រូប៉ាណូអ៊ិចមានប្រតិកម្មជាមួយអេតាណុល។ ចូរសរសេរសមីការតាងប្រតិកម្ម និងប្រាប់អេស្ទែនោះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2015-4000-8000-000000000000', 'bacc1040-2015-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2015-4000-8000-000000000002', 'kh-grade12-science-chemistry-past-papers', null, 2015, 'open', 'សូលុយស្យុងអាម៉ូញ៉ាក់ក្នុងទឹកគឺជាបាស។ ចូរពន្យល់ ព្រមទាំងសរសេរសមីការគីមីបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2015-4000-8000-000000000000', 'bacc1040-2015-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2015-4000-8000-000000000003', 'kh-grade12-science-chemistry-past-papers', null, 2015, 'open', 'តើនឹងមានអ្វីកើតឡើង នៅពេលដែលសូលុយស្យុងអាម៉ូញ៉ូមស៊ុលផាត និងកាត់ម្ញូមនីត្រាតត្រូវបានលាយបញ្ចូលគ្នា? ចូរសរសេរសមីការគីមី សមីការអ៊ីយ៉ុងសព្វ និងសមីការអ៊ីយ៉ុងសម្រួលសម្រាប់ប្រតិកម្មនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2015-4000-8000-000000000000', 'bacc1040-2015-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2015-4000-8000-000000000004', 'kh-grade12-science-chemistry-past-papers', null, 2015, 'open', 'គេឲ្យម្សៅដែកមានប្រតិកម្មជាមួយសូលុយស្យុងអាស៊ីតក្លរីឌ្រិច។ គេទទួលបានសូលុយស្យុងដែក (II) ក្លរួ និងឧស្ម័នអ៊ីដ្រូសែនភាយឡើង
+ក. ចូរសរសេរសមីការគីមីតាងប្រតិកម្មខាងលើ។
+ខ. ចូររៀបរាប់ពីវិធីបួនយ៉ាងដែលគេអាចប្រើដើម្បីវាស់ល្បឿនប្រតិកម្មនេះបាន។
+គ. ក្នុងចំណោមវិធីទាំងបួននេះ តើវិធីណាមួយដែលងាយស្រួលជាងគេ? ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2015-4000-8000-000000000000', 'bacc1040-2015-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2015-4000-8000-000000000005', 'kh-grade12-science-chemistry-past-papers', null, 2015, 'open', 'សូលុយស្យុងមួយមាន $pH=10.70$។ ចូរគណនា៖
+ក. កំហាប់អ៊ីយ៉ុង $[\mathrm{H_3O^+}]$។
+ខ. កំហាប់អ៊ីយ៉ុង $[\mathrm{OH^-}]$។
+គ. តើវាជាសូលុយស្យុងអាស៊ីត ឬបាស?
+គេឲ្យ $10^{-0.3}=2$, $K_w$ នៅ $25^{0}C=10^{-14}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2015-4000-8000-000000000000', 'bacc1040-2015-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2015-4000-8000-000000000006', 'kh-grade12-science-chemistry-past-papers', null, 2015, 'open', 'ក. តើទិន្នន័យអ្វីដែលត្រូវការដើម្បីគណនាកំហាប់របស់បាសដែលគេមិនស្គាល់?
+ខ. ចូរគណនាកំហាប់អ៊ីយ៉ុង $[\mathrm{OH^-}]$ ដែលមានក្នុងសូលុយស្យុង កាលណាគេដាក់ $59.0\,ml$ សូលុយស្យុង $\mathrm{HCL}$ $0.3\,M$ ឲ្យធ្វើប្រតិកម្មបន្សាបជាមួយសូលុយស្យុងបាស $50.0\,ml$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2015-4000-8000-000000000000', 'bacc1040-2015-4000-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1040-2014-4200-8000-000000000000', 'kh-grade12-science-chemistry', 2014, 'BacII 2014, second sitting: Chemistry (science track)', 'វិញ្ញាសាគីមីវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4200-8000-000000000001', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'ចូរសរសេរទម្រង់អាមីនថ្នាក់ទីI, ថ្នាក់ទីII និងថ្នាក់ទីIII ព្រមទាំងលើកឧទាហរណ៍ទម្រង់អាមីននីមួយៗមកបញ្ជាក់ផង។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4200-8000-000000000000', 'bacc1040-2014-4200-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4200-8000-000000000002', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'ហេតុអ្វីបានជាឧស្ម័នធ្វើប្រតិកម្មលឿនកាលណាគេបង្កើនសម្ពាធលើវា? ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4200-8000-000000000000', 'bacc1040-2014-4200-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4200-8000-000000000003', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'គេលាយសូលុយស្យុងបារ្យ៉ូមក្លរួ និងសូដ្យូមស៊ុលផាតចូលគ្នា។ ចូរសរសេរសមីការគីមី សមីការអ៊ីយ៉ុងសព្វ សមីការសម្រួល ព្រមទាំងប្រាប់ពីអ៊ីយ៉ុងទស្សនិកផង។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4200-8000-000000000000', 'bacc1040-2014-4200-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4200-8000-000000000004', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'គេប្រើសូលុយស្យុង $\mathrm{HCl}$ ចំនួន $40\,mL$ នៅកំហាប់ $0.3388\,M$ ដើម្បីធ្វើអព្យាក្រឹតកម្មសូលុយស្យុង $\mathrm{NaOH}$ $24.64\,mL$។ រកកំហាប់ជាម៉ូលរបស់សូលុយស្យុង $\mathrm{NaOH}$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4200-8000-000000000000', 'bacc1040-2014-4200-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4200-8000-000000000005', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'សូលុយស្យុងអាស៊ីត $\mathrm{HCl}$ មួយមានកំហាប់ $0.001\,M$។ ចូរគណនា៖
+ក. កំហាប់អ៊ីយ៉ុងអ៊ីដ្រូញ៉ូម $[\mathrm{H_3O^+}]$
+ខ. កំហាប់អ៊ីយ៉ុង $[\mathrm{OH^-}]$
+គ. $pH$ របស់សូលុយស្យុង។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4200-8000-000000000000', 'bacc1040-2014-4200-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4200-8000-000000000006', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'ទិន្នន័យខាងក្រោមប្រមូលបានកំឡុងពេលសិក្សាប្រតិកម្ម៖
+$$\mathrm{H_2O_2}(aq)+2\mathrm{H^+}(aq)+2\mathrm{I^-}\rightarrow\mathrm{I_2}(aq)+2\mathrm{H_2O}(l)$$
+រយៈពេល $t$ គិតជា $s$ កំហាប់គិតជា $M$ ឬ $mol.L^{-1}$៖
+$$\begin{array}{|c|c|c|}\hline t\,(s) & [\mathrm{H^+}] & [\mathrm{I_2}]\\\hline 0 & 0.0500 & 0\\\hline 85 & 0.0298 & 0.0101\\\hline 95 & 0.0280 & 0.0110\\\hline 105 & 0.0264 & 0.0118\\\hline\end{array}$$
+ក. តើប្រភេទគីមីណាខ្លះជាអង្គធាតុប្រតិករ និងប្រភេទគីមីណាខ្លះជាអង្គធាតុកកើត?
+ខ. គណនាល្បឿនមធ្យមបំបាត់អ៊ីយ៉ុង $\mathrm{H^+}$ និងល្បឿនមធ្យមកំណ $\mathrm{I_2}$ នៅចន្លោះពេល $t=85\,s$ និង $t=105\,s$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4200-8000-000000000000', 'bacc1040-2014-4200-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1040-2014-4100-8000-000000000000', 'kh-grade12-science-chemistry', 2014, 'BacII 2014, first sitting: Chemistry (science track)', 'វិញ្ញាសាគីមីវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4100-8000-000000000001', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'ចូរសរសេររូបមន្តរបស់សមាសធាតុដូចខាងក្រោម៖
+ក. មេទីលអេទីលប្រប៉ាណូអាត
+ខ. ប្រូពីលមេតាណូអាត
+គ. ទ្រីអេទីឡាមីន
+ឃ. ផេនីលអេតាណូអាត', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4100-8000-000000000000', 'bacc1040-2014-4100-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4100-8000-000000000002', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'កាល់ស្យូមកាបូណាតជាសមាសធាតុមិនរលាយក្នុងទឹក។ វាមានប្រតិកម្មជាមួយសូលុយស្យុងអាស៊ីតក្លរីឌ្រិចរាវ។
+ក. ចូរសរសេរសមីការគីមី សមីការអ៊ីយ៉ុង សមីការអ៊ីយ៉ុងសម្រួលនៃប្រតិកម្មនេះ។
+ខ. តើអ៊ីយ៉ុងណាដែលគ្មានការប្រែប្រួលក្នុងពេលប្រតិកម្ម។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4100-8000-000000000000', 'bacc1040-2014-4100-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4100-8000-000000000003', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'សូលុយស្យុងអាស៊ីតស៊ុលផួរិចមួយមានដង់ស៊ីតេស្មើនឹង $1.198\,g/cm^3$ និងមានកំហាប់ជាភាគរយស្មើនឹង $27\%$។ គណនាកំហាប់ជាម៉ូលនៃសូលុយស្យុងអាស៊ីតនេះ។ (ម៉ាសម៉ូល $H=1$; $O=16$; $S=32$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4100-8000-000000000000', 'bacc1040-2014-4100-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4100-8000-000000000004', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'ក្នុង $100\,mL$ នៃសូលុយស្យុងស៊ូតដែលទទួលបាន គេឃើញមានស៊ូត $10^{-5}\,mol$ រលាយ។ គេបន្ថែមទឹក $400\,mL$ ទៅក្នុងសូលុយស្យុងនោះទៀត។ កំណត់តម្លៃនៃកំហាប់ជាម៉ូលរបស់សូលុយស្យុងក្រោយនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4100-8000-000000000000', 'bacc1040-2014-4100-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4100-8000-000000000005', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'គេឲ្យប្រតិកម្មគីមីមួយដូចខាងក្រោម៖
+$$\mathrm{Zn}+2\mathrm{HCl}\rightarrow\mathrm{ZnCl_2}+\mathrm{H_2}$$
+ចូរបកស្រាយថាប្រតិកម្មនេះ ជាប្រតិកម្មអុកស៊ីដូរដុកម្ម។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4100-8000-000000000000', 'bacc1040-2014-4100-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1040-2014-4100-8000-000000000006', 'kh-grade12-science-chemistry-past-papers', null, 2014, 'open', 'គ្រូរបស់អ្នកចង់ផលិតឧស្ម័នអ៊ីដ្រូសែននៅក្នុងមន្ទីរពិសោធន៍ ដោយឲ្យអាស៊ីតស៊ុលផួរិចមានប្រតិកម្មជាមួយដុំលោហៈស័ង្កសី។ សូមផ្តល់គំនិតបីរបៀប ថាតើត្រូវធ្វើដូចម្តេចដើម្បីឲ្យល្បឿននៃការផលិតឧស្ម័នអ៊ីដ្រូសែនកាន់តែលឿនជាងមុន។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track chemistry, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1040-2014-4100-8000-000000000000', 'bacc1040-2014-4100-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-science-english.json
 begin;
