@@ -1,0 +1,167 @@
+{
+  "comment": "Real BacII papers (Ministry of Education, Youth and Sport), typed by Meh Rean from a copy shared online: the exercises only, never the copy's worked answers. Not yet checked against the Ministry's original papers, so every paper and question is 'needs-review'.",
+  "subjectId": "kh-grade12-social-khmer-literature",
+  "idPrefix": "bacc2020",
+  "nameEn": "Khmer literature",
+  "nameKm": "អក្សរសាស្ត្រខ្មែរ",
+  "trackEn": "social science track",
+  "trackKm": "ថ្នាក់វិទ្យាសាស្ត្រសង្គម",
+  "copies": {
+    "chiep": {
+      "label": "retyped by ជៀប គន្ធា (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    },
+    "chiep2022": {
+      "label": "retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    }
+  },
+  "papers": [
+    {
+      "year": 2022,
+      "date": "2022-12-05",
+      "minutes": 150,
+      "points": 125,
+      "copies": [
+        "chiep2022"
+      ],
+      "questions": [
+        {
+          "points": 125,
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់ និងបកស្រាយពី «ទស្សនៈស្នេហាជាតិនៅក្នុងអក្សរសិល្ប៍ខ្មែរ» ដោយរកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "date": "2021-12-27",
+      "minutes": 150,
+      "points": 125,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 125,
+          "chapter": "past-papers",
+          "content": "ទស្សនៈមួយចែងថា «ការតស៊ូព្យាយាមមិនរាថយគឺជាគុណសម្បត្តិដើម្បីទទួលបានជោគជ័យក្នុងជីវិត»។ ចូរពន្យល់ទស្សនៈនេះដោយលើកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "date": "2019-08-19",
+      "minutes": 150,
+      "points": 125,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 125,
+          "chapter": "past-papers",
+          "content": "«អក្សរសិល្ប៍ខេមរនិយមបង្ហាញពីសង្គមខ្មែរតាមសម័យកាលនីមួយៗ»។ ចូរអ្នកបកស្រាយឲ្យបានក្បោះក្បាយដោយលើកអត្ថបទអក្សរសិល្ប៍ឲ្យបានបីមកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "date": "2018-08-20",
+      "minutes": 150,
+      "points": 125,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 125,
+          "chapter": "past-papers",
+          "content": "ទស្សនៈមួយចែងថា «វិជ្ជាជាអលង្ការរបស់មនុស្សគ្រប់រូប»។ ចូរអ្នកធ្វើការបកស្រាយទស្សនៈនេះ ដោយលើកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "date": "2017-08-21",
+      "minutes": 150,
+      "points": 125,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 125,
+          "chapter": "past-papers",
+          "content": "នៅក្នុងច្បាប់ល្បើកថ្មី អ្នកព្រះភិរម្យភាសាអ៊ូ ហៅង៉ុយបានពោលថា៖ «បម្រើមើលពុត ប្រាជ្ញាឲ្យមុត ស្មារតីឲ្យមាន បើខ្លៅឲ្យប្រាជ្ញ បើខ្លាចឲ្យហ៊ាន ចង់បានរបៀន កុំអៀនកុំខ្មាស»។ ចូរអ្នកបកស្រាយដោយយកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "date": "2016-08-22",
+      "minutes": 150,
+      "points": 125,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 125,
+          "chapter": "past-papers",
+          "content": "មានទស្សនៈមួយចែងថា «ការអប់រំ គឺជាសិទ្ធិសេរីភាពដែលបើកផ្លូវឲ្យមនុស្សសម្រេចបានភាពថ្លៃថ្នូក្នុងជីវិត»។ ចូរបកស្រាយទស្សនៈនេះដោយរកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរ។"
+        }
+      ]
+    },
+    {
+      "year": 2015,
+      "date": "2015-08-24",
+      "minutes": 150,
+      "points": 125,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 125,
+          "chapter": "past-papers",
+          "content": "ទស្សនៈមួយចែងថា៖ «ការតស៊ូជាគន្លឹះដើម្បីទទួលបានសុភមង្គល»។ ចូរអ្នកបកស្រាយទស្សនៈនេះដោយរកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 2,
+      "date": "2014-10-13",
+      "minutes": 150,
+      "points": 125,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 125,
+          "chapter": "past-papers",
+          "content": "មានសុភាសិតខ្មែរមួយចែងថា៖ «តក់ៗពេញបំពង់»។ ចូរអ្នកបកស្រាយដោយរកអំណះអំណាងក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 1,
+      "date": "2014-08-04",
+      "minutes": 150,
+      "points": 125,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 125,
+          "chapter": "past-papers",
+          "content": "ពាក្យចាស់លោកពោលថា៖ «តែខំច្រើនកើនចំណេះ តែចេះការច្រើនជាបញ្ញ័យ តែខំរៀនសូត្ររាល់ខែថ្ងៃ ដូចច្នៃត្បូងពេជ្រលេចពន្លឺ»។ ចូរបកស្រាយដោយរកអំណះអំណាងក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។"
+        }
+      ]
+    }
+  ]
+}

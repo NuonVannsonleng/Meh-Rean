@@ -366,6 +366,20 @@ timing only in database functions, never in the browser.
   tracks; all 37 suites pass after the curriculum change;
   Playwright 8/8 browser-only and online (a social paper timed at
   1:30:00, scored out of 75, 320px).
+- **2026-10-19 — Real past papers, part 3: Khmer literature 2014–2022, both
+  tracks.** 18 papers, one essay each (science 90 minutes / 75 points,
+  social science 150 / 125), typed from the ជៀប គន្ធា / ជៀប គីមឈរ copies
+  (one copy only, so single-source), every prompt read from a zoomed image.
+  Each sitting's date is printed on these copies, so the mathematics papers
+  of the same sittings now carry it too. New subjects in the curriculum get
+  one clearly labelled chapter, "BacII exam questions (not yet sorted into
+  chapters)", instead of invented chapters. A question may now be worth up
+  to 200 points (was 100), since a whole literature paper is one 125-point
+  essay; `schema.sql` relaxes the check in a re-runnable way. The browser-only
+  store loads every file in `src/data/past-papers/` itself. Tests: all 37
+  suites pass; `test:past-papers` 7/7 over 4 subjects, 42 papers;
+  Playwright 9/9 browser-only and online. No 2023–2025 literature papers
+  were found online.
 
 ## Blockers and things that need a person
 

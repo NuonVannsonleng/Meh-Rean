@@ -1,0 +1,167 @@
+{
+  "comment": "Real BacII papers (Ministry of Education, Youth and Sport), typed by Meh Rean from a copy shared online: the exercises only, never the copy's worked answers. Not yet checked against the Ministry's original papers, so every paper and question is 'needs-review'.",
+  "subjectId": "kh-grade12-science-khmer-literature",
+  "idPrefix": "bacc1020",
+  "nameEn": "Khmer literature",
+  "nameKm": "អក្សរសាស្ត្រខ្មែរ",
+  "trackEn": "science track",
+  "trackKm": "ថ្នាក់វិទ្យាសាស្ត្រ",
+  "copies": {
+    "chiep": {
+      "label": "retyped by ជៀប គន្ធា (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    },
+    "chiep2022": {
+      "label": "retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    }
+  },
+  "papers": [
+    {
+      "year": 2022,
+      "date": "2022-12-05",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep2022"
+      ],
+      "questions": [
+        {
+          "points": 75,
+          "chapter": "past-papers",
+          "content": "មានមតិមួយលើកឡើងថា «ភក្តីភាព គឺជាឧត្តមគតិដ៏សំខាន់នៅក្នុងអត្ថបទអក្សរសិល្ប៍»។ ចូរពន្យល់ និងលើកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍មកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "date": "2021-12-27",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 75,
+          "chapter": "past-papers",
+          "content": "មានមតិមួយលើកឡើងថា «អក្សរសិល្ប៍ខេមរនិយមមានគោលដៅអប់រំមនុស្សឲ្យក្លាយជាពលរដ្ឋល្អ»។ ចូរពន្យល់ និងលើកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍មកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "date": "2019-08-19",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 75,
+          "chapter": "past-papers",
+          "content": "«ការសិក្សាអក្សរសិល្ប៍ឆ្លុះបញ្ចាំងឲ្យឃើញពីការប្រយុទ្ធរវាងសភាវៈល្អ និងសភាវៈអាក្រក់»។ ចូរបកស្រាយដោយលើកយកអក្សរសិល្ប៍មកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "date": "2018-08-20",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 75,
+          "chapter": "past-papers",
+          "content": "ពាក្យចាស់លោកពោលថា៖ «សេចក្តីព្យាយាមគង់តែបានសម្រេច»។ ចូរបកស្រាយដោយរកអំណះអំណាងក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "date": "2017-08-21",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 75,
+          "chapter": "past-papers",
+          "content": "«ការសិក្សាអស់មួយជីវិត គឺជារបៀបអប់រំក្នុងសតវត្សទី២១»។ ចូរអ្នកពន្យល់បកស្រាយទស្សនៈនេះ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "date": "2016-08-22",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 75,
+          "chapter": "past-papers",
+          "content": "មានមតិមួយពោលថា «អត្ថបទអក្សរសិល្ប៍មានគោលដៅអប់រំមនុស្សឲ្យចេះដោះស្រាយបញ្ហា»។ ចូរអ្នកបកស្រាយដោយយកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2015,
+      "date": "2015-08-24",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 75,
+          "chapter": "past-papers",
+          "content": "សុភាសិតមួយចែងថា «ការងារជាមាសប្រាក់»។ ចូរអ្នកបកស្រាយដោយរកអំណះអំណាងក្នុងអក្សរសិល្ប៍មកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 2,
+      "date": "2014-10-13",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 75,
+          "chapter": "past-papers",
+          "content": "មានទស្សនៈមួយចែងថា៖ «អក្សរសាស្ត្ររលត់ ជាតិរលាយ អក្សរសាស្ត្រពណ្ណរាយ ជាតិថ្កើងថ្កាន»។ ចូរអ្នកបកស្រាយទស្សនៈនេះ ដោយយកការវិវត្តនៃចលនាអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 1,
+      "date": "2014-08-04",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 75,
+          "chapter": "past-papers",
+          "content": "មានទស្សនៈមួយចែងថា៖ «អក្សរសិល្ប៍គឺជាកញ្ចក់សម្រាប់ឆ្លុះសង្គម»។ ចូរអ្នកធ្វើការបកស្រាយទស្សនៈនេះ ដោយរកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។"
+        }
+      ]
+    }
+  ]
+}

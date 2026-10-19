@@ -9,8 +9,6 @@ import { isValidLiveQuiz } from "../lib/liveQuiz";
 import { addDays, cambodiaDay, streakOf, weakestChapter } from "../lib/daily";
 import khGrade12 from "../data/curriculum/kh-grade12.json";
 import khGrade12MathPapers from "../data/demo/kh-grade12-math-papers.json";
-import scienceMathematicsPastPapers from "../data/past-papers/kh-grade12-science-mathematics.json";
-import socialMathematicsPastPapers from "../data/past-papers/kh-grade12-social-mathematics.json";
 import khGrade12MathLinks from "../data/curriculum-links/kh-grade12-math.json";
 import { expandLinks, findPrerequisiteCycle, type ConceptLinkInput, type LinkSeed } from "../lib/conceptGraph";
 import { masteryFromEvents, type MasteryRules, type TopicMastery } from "../lib/mastery";
@@ -1408,13 +1406,15 @@ export async function uploadQuestionImage(file: File): Promise<Omit<QuestionImag
 // ---- BacII exam papers ----
 
 let papers: ExamPaperDetail[] | null = null;
+// Every subject's real papers (src/data/past-papers/), as supabase/seed/past-papers.sql loads them.
+const PAST_PAPERS = import.meta.glob<PastPaperSeed>("../data/past-papers/*.json", { eager: true, import: "default" });
 
 /** The demo practice papers and the real past papers; the same ones supabase/seed/demo-papers.sql and past-papers.sql load. */
 function loadPapers(): ExamPaperDetail[] {
   const { chapters } = loadCurriculum();
   papers ??= [
     ...buildDemoPapers(khGrade12MathPapers as unknown as DemoPaperSeed, chapters),
-    ...[scienceMathematicsPastPapers, socialMathematicsPastPapers].flatMap((seed) => buildPastPapers(seed as unknown as PastPaperSeed, chapters)),
+    ...Object.values(PAST_PAPERS).flatMap((seed) => buildPastPapers(seed, chapters)),
   ];
   return papers;
 }

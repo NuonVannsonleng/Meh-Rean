@@ -1715,10 +1715,14 @@ create table if not exists public.exam_paper_questions (
   paper_id uuid not null references public.exam_papers on delete cascade,
   question_id uuid not null references public.questions on delete restrict,
   position smallint not null check (position > 0),
-  points numeric check (points > 0 and points <= 100),
+  points numeric check (points > 0 and points <= 200),
   primary key (paper_id, question_id),
   constraint exam_paper_questions_position unique (paper_id, position) deferrable initially deferred
 );
+
+-- A whole paper can be one question (a 125-point literature essay).
+alter table public.exam_paper_questions drop constraint if exists exam_paper_questions_points_check;
+alter table public.exam_paper_questions add constraint exam_paper_questions_points_check check (points > 0 and points <= 200);
 
 create index if not exists exam_papers_subject_year_idx on public.exam_papers (subject_id, year desc);
 create index if not exists exam_paper_questions_question_idx on public.exam_paper_questions (question_id);

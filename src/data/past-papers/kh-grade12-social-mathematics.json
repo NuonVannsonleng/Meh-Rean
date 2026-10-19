@@ -316,6 +316,7 @@
     },
     {
       "year": 2016,
+      "date": "2016-08-22",
       "minutes": 90,
       "points": 75,
       "copies": [
@@ -352,6 +353,7 @@
     },
     {
       "year": 2015,
+      "date": "2015-08-24",
       "minutes": 90,
       "points": 75,
       "copies": [
@@ -389,6 +391,7 @@
     {
       "year": 2014,
       "session": 2,
+      "date": "2014-10-13",
       "minutes": 90,
       "points": 75,
       "copies": [
@@ -427,6 +430,7 @@
     {
       "year": 2014,
       "session": 1,
+      "date": "2014-08-04",
       "minutes": 90,
       "points": 75,
       "copies": [

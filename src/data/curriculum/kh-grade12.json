@@ -125,6 +125,21 @@
               ]
             }
           ]
+        },
+        {
+          "subjectKey": "khmer-literature",
+          "nameEn": "Khmer literature",
+          "nameKm": "អក្សរសាស្ត្រខ្មែរ",
+          "chapters": [
+            {
+              "slug": "past-papers",
+              "nameEn": "BacII exam questions (not yet sorted into chapters)",
+              "nameKm": "សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)",
+              "topics": [
+                { "slug": "exam-questions", "nameEn": "Past exam questions", "nameKm": "សំណួរប្រឡងឆ្នាំមុនៗ" }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -183,6 +198,21 @@
               "topics": [
                 { "slug": "parabola", "nameEn": "Parabola", "nameKm": "ប៉ារ៉ាបូល" },
                 { "slug": "ellipse", "nameEn": "Ellipse", "nameKm": "អេលីប" }
+              ]
+            }
+          ]
+        },
+        {
+          "subjectKey": "khmer-literature",
+          "nameEn": "Khmer literature",
+          "nameKm": "អក្សរសាស្ត្រខ្មែរ",
+          "chapters": [
+            {
+              "slug": "past-papers",
+              "nameEn": "BacII exam questions (not yet sorted into chapters)",
+              "nameKm": "សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)",
+              "topics": [
+                { "slug": "exam-questions", "nameEn": "Past exam questions", "nameKm": "សំណួរប្រឡងឆ្នាំមុនៗ" }
               ]
             }
           ]

@@ -45,12 +45,18 @@ await check("science- and social-track mathematics: every sitting from 2014 to 2
   assert(new Set(papers.map((paper) => paper.id)).size === papers.length, "duplicate paper ids");
   const questionIds = papers.flatMap((paper) => paper.questions.map((entry) => entry.question.id));
   assert(new Set(questionIds).size === questionIds.length && questionIds.every((id) => /^bacc[0-9]{4}-[0-9]{4}-4[0-2]00-8000-0{10}[0-9]{2}$/.test(id)), "question ids");
-  return `${papers.length} papers, ${questionIds.length} exercises`;
+  // Other subjects: only sittings that happened (none in 2020), one paper per sitting.
+  for (const { seed } of seeds) {
+    const keys = seed.papers.map((paper) => `${paper.year}${paper.session ? `-${paper.session}` : ""}`);
+    assert(new Set(keys).size === keys.length && keys.every((key) => /^(2014-[12]|2015|2016|2017|2018|2019|2021|2022|2023|2024|2025)$/.test(key)), `${seed.subjectId}: ${keys.join()}`);
+  }
+  return `${seeds.length} subjects, ${papers.length} papers, ${questionIds.length} exercises`;
 });
 
 await check("each paper keeps its printed length, which matches the BacII paper lengths; points add up to the paper's total", async () => {
   for (const { seed } of seeds) {
-    const [, trackId, subjectId] = /^kh-grade12-(science|social)-(.+)$/.exec(seed.subjectId);
+    const [, trackId, subjectKey] = /^kh-grade12-(science|social)-(.+)$/.exec(seed.subjectId);
+    const subjectId = subjectKey === "english" || subjectKey === "french" ? "foreign-language" : subjectKey;
     const timing = timings.tracks.find((track) => track.id === trackId).subjects.find((subject) => subject.id === subjectId);
     for (const paper of seed.papers) {
       assert(paper.minutes === timing.minutes, `${seed.subjectId} ${paper.year}: ${paper.minutes} minutes, the timer says ${timing.minutes}`);
@@ -59,8 +65,9 @@ await check("each paper keeps its printed length, which matches the BacII paper 
   }
   for (const paper of papers) {
     assert(paper.durationMinutes && /រយៈពេល/.test(paper.durationSource), `${paper.id}: printed length`);
-    const expected = paper.subjectId.includes("-science-") ? 125 : 75;
-    assert(paper.totalPoints === null || paper.totalPoints === expected, `${paper.id}: ${paper.totalPoints} points`);
+    const seed = seeds.find((item) => item.seed.subjectId === paper.subjectId).seed;
+    const printed = seed.papers.find((item) => item.year === paper.year && (item.session ?? 0) === Number(paper.id.slice(15, 16))).points;
+    assert(paper.totalPoints === null || paper.totalPoints === printed, `${paper.id}: ${paper.totalPoints} points, ${printed} printed`);
   }
 });
 
@@ -126,7 +133,7 @@ if (!target) {
 const people = accounts(target, "pastpapers");
 const { anon } = people;
 const admin = await people.create("a", { admin: true });
-const sample = papers.find((paper) => paper.year === 2019);
+const sample = papers.find((paper) => paper.id === "bacc1010-2019-4000-8000-000000000000");
 
 await check("anyone can read a real paper with its questions in order, its printed length, and no answer key", async () => {
   const { data, error } = await anon
@@ -145,7 +152,7 @@ await check("anyone can read a real paper with its questions in order, its print
 });
 
 await check("an official paper refuses a question from another year or a demo question, even from an admin", async () => {
-  const other = papers.find((paper) => paper.year === 2018).questions[0].question.id;
+  const other = papers.find((paper) => paper.id === "bacc1010-2018-4000-8000-000000000000").questions[0].question.id;
   const demo = "6d1f0a00-0000-4000-8000-000000002201";
   for (const question of [other, demo]) {
     const { error } = await admin.client.from("exam_paper_questions").insert({ paper_id: sample.id, question_id: question, position: 99, points: 1 });

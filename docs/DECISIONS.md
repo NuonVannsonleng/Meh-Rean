@@ -254,3 +254,12 @@ key is published until a teacher writes or checks one. Papers are
 `official` but `needs-review`, name their copies, and record any place the
 copies disagree and which reading is used. Each paper keeps the length and
 points printed on it, which the timer uses when a student does it on paper.
+
+## 2026-10-19 — Subjects added for their past papers get one labelled chapter
+
+Every question belongs to a curriculum chapter, but only mathematics has a
+mapped Grade 12 curriculum. Rather than invent chapter lists for literature,
+history, the sciences and languages, each such subject gets one chapter,
+"BacII exam questions (not yet sorted into chapters)", marked provisional
+like the rest of the curriculum. A teacher can later add the real chapters
+and move the questions; nothing else depends on there being only one.

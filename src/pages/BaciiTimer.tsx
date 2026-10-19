@@ -60,8 +60,10 @@ const paperIdOf = (key: string | undefined) => (key?.startsWith(PAPER_PREFIX) ? 
 /** The paper's points, or the usual points for its track and subject when the copy gives none. */
 function paperPoints(paper: ExamPaperDetail): number | undefined {
   if (paper.totalPoints !== null) return paper.totalPoints;
-  const [, trackId, subjectId] = /^kh-grade12-(science|social)-(.+)$/.exec(paper.subjectId) ?? [];
-  return subjectOf(`${trackId}:${subjectId}`).subject?.points;
+  const [, trackId, subjectKey] = /^kh-grade12-(science|social)-(.+)$/.exec(paper.subjectId) ?? [];
+  // English and French papers share the foreign-language paper's length and points.
+  const timingId = subjectKey === "english" || subjectKey === "french" ? "foreign-language" : subjectKey;
+  return subjectOf(`${trackId}:${timingId}`).subject?.points;
 }
 
 /** A short beep, made in the browser (no sound files to download). */
