@@ -81,6 +81,10 @@ export function toQuestionSolution(row: QuestionSolutionRow): QuestionSolution {
   };
 }
 
+/** Figures of the real past papers ship with the app (public/past-papers/) rather than storage. */
+export const BUNDLED_IMAGE = /^past-papers\/[a-z0-9-]{1,80}\.(png|jpg|webp)$/;
+export const bundledImageUrl = (path: string) => `/${path}`;
+
 export function toQuestion(
   row: QuestionRow & { solution?: QuestionSolutionRow | QuestionSolutionRow[] | null },
   /** Turns a stored image path into its address (the storage bucket's public URL). */
@@ -97,7 +101,7 @@ export function toQuestion(
     type: row.type,
     content: row.content,
     choices: row.choices ?? [],
-    images: (row.images ?? []).map((image) => ({ path: image.path, alt: image.alt, url: imageUrl(image.path) })),
+    images: (row.images ?? []).map((image) => ({ path: image.path, alt: image.alt, url: BUNDLED_IMAGE.test(image.path) ? bundledImageUrl(image.path) : imageUrl(image.path) })),
     difficulty: row.difficulty,
     language: row.language,
     origin: row.origin,

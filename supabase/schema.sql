@@ -1412,16 +1412,18 @@ begin
   -- Images are files in the attachments bucket, stored by path only: the app
   -- builds the address from the path, so no URL (javascript:, data:, another
   -- site) can be stored, and a moved project keeps working.
+  -- Figures of the real past papers ship with the app instead (public/past-papers/,
+  -- part of the reviewed code, so no user can replace them).
   for image in select * from jsonb_array_elements(new.images) loop
     if jsonb_typeof(image) <> 'object'
-       or coalesce(image->>'path', '') !~ '^[0-9a-f-]{36}/questions/[0-9a-f-]{36}\.(png|jpg|webp|gif)$'
+       or coalesce(image->>'path', '') !~ '^([0-9a-f-]{36}/questions/[0-9a-f-]{36}\.(png|jpg|webp|gif)|past-papers/[a-z0-9-]{1,80}\.(png|jpg|webp))$'
        or char_length(btrim(coalesce(image->>'alt', ''))) not between 1 and 300 then
       raise exception 'each image needs a question image path and a description of at most 300 characters' using errcode = '23514';
     end if;
     -- A newly added image must be an admin's upload: anyone else could later
     -- replace the file (owners may overwrite their own uploads) and change
     -- what a checked question shows. Images already on the question stay.
-    if (tg_op = 'INSERT' or not exists (
+    if (image->>'path') !~ '^past-papers/' and (tg_op = 'INSERT' or not exists (
           select 1 from jsonb_array_elements(old.images) o where o->>'path' = image->>'path'))
        and not exists (
           select 1 from public.profiles p where p.id::text = split_part(image->>'path', '/', 1) and p.is_admin) then

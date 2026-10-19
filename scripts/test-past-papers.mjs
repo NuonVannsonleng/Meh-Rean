@@ -13,7 +13,7 @@
  * official questions.
  */
 
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { flattenCurriculum } from "../src/lib/curriculum.ts";
 import { buildPastPapers } from "../src/lib/papers.ts";
 import { splitMath } from "../src/lib/mathText.ts";
@@ -89,6 +89,19 @@ await check("real papers stay official but unchecked, with open questions, no an
       }
     }
   }
+});
+
+await check("figures: every one is a small image shipped in public/past-papers/, described, and every file there is used", async () => {
+  const used = papers.flatMap((paper) => paper.questions.flatMap(({ question }) => question.images));
+  const files = readdirSync(new URL("public/past-papers/", ROOT));
+  for (const image of used) {
+    const file = image.path.replace(/^past-papers\//, "");
+    assert(files.includes(file), `${image.path} is missing`);
+    assert(statSync(new URL(`public/past-papers/${file}`, ROOT)).size < 150 * 1024, `${image.path} is too large`);
+    assert(image.url === `/${image.path}` && image.alt.length >= 10, `${image.path}: url or description`);
+  }
+  for (const file of files) assert(used.some((image) => image.path === `past-papers/${file}`), `public/past-papers/${file} is not used`);
+  return `${used.length} figures`;
 });
 
 await check("the builder refuses a paper whose points do not add up, an unknown chapter or copy, and a bad date", async () => {
@@ -171,6 +184,17 @@ await check("an official paper refuses a question from another year or a demo qu
   const { error } = await student.client.from("exam_papers").update({ title_en: "changed" }).eq("id", sample.id).select();
   const after = await anon.from("exam_papers").select("title_en").eq("id", sample.id).single();
   assert(after.data.title_en === sample.titleEn, `a student renamed the paper (${error?.message ?? "no error"})`);
+});
+
+await check("a figure path must name an image shipped in public/past-papers/; anything else is refused", async () => {
+  const withFigure = papers.flatMap((paper) => paper.questions).find(({ question }) => question.images.length)?.question;
+  assert(withFigure, "no question with a figure");
+  const { data } = await anon.from("questions").select("images").eq("id", withFigure.id).single();
+  assert(data.images[0].path === withFigure.images[0].path, "the figure did not load");
+  for (const path of ["past-papers/../secret.png", "past-papers/x.svg", "https://example.com/x.png", "/past-papers/x.png"]) {
+    const { error } = await admin.client.from("questions").update({ images: [{ path, alt: "a test figure" }] }).eq("id", withFigure.id);
+    assert(error, `accepted ${path}`);
+  }
 });
 
 await people.cleanUp();

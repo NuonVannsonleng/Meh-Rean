@@ -36,8 +36,8 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
     for (const { position, points, question: q } of paper.questions) {
       counts.questions += 1;
       statements.push(`insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values (${text(q.id)}, ${text(q.chapterId)}, null, ${q.year}, 'open', ${text(q.content)}, '[]'::jsonb, '[]'::jsonb, null, ${text(q.language)}, 'official-past-paper', ${text(q.source)}, 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+values (${text(q.id)}, ${text(q.chapterId)}, null, ${q.year}, 'open', ${text(q.content)}, '[]'::jsonb, ${text(JSON.stringify(q.images.map(({ path, alt }) => ({ path, alt }))))}::jsonb, null, ${text(q.language)}, 'official-past-paper', ${text(q.source)}, 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values (${text(paper.id)}, ${text(q.id)}, ${position}, ${num(points)})
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;`);

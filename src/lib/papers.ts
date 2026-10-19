@@ -1,3 +1,4 @@
+import { BUNDLED_IMAGE, bundledImageUrl } from "./questions.ts";
 import type { ContentLanguage, ExamPaper, ExamPaperDetail, Question, QuestionChoice, QuestionType } from "../types";
 
 /**
@@ -130,6 +131,8 @@ interface PastPaperSeedQuestion {
   points?: number;
   chapter: string;
   content: string;
+  /** Figures cropped from the copy, in public/past-papers/, with a description. */
+  images?: { file: string; alt: string }[];
 }
 
 /** Real BacII papers (src/data/past-papers/*.json), typed from the copies named in `copies`. */
@@ -207,6 +210,8 @@ export function buildPastPapers(seed: PastPaperSeed, chapters: { id: string; sub
       if (!chapters.some((chapter) => chapter.id === chapterId && chapter.subjectId === seed.subjectId)) problems.push(`${label} Q${index + 1}: chapter ${item.chapter}`);
       if (!item.content.trim() || item.content.length > 20000) problems.push(`${label} Q${index + 1}: content`);
       if (item.points !== undefined && !(item.points > 0 && item.points <= 200)) problems.push(`${label} Q${index + 1}: points`);
+      const images = (item.images ?? []).map(({ file, alt }) => ({ path: `past-papers/${file}`, alt: alt.trim(), url: bundledImageUrl(`past-papers/${file}`) }));
+      if (images.length > 6 || images.some((image) => !BUNDLED_IMAGE.test(image.path) || !image.alt || image.alt.length > 300)) problems.push(`${label} Q${index + 1}: images`);
       const question: Question = {
         id: `${id.slice(0, -2)}${String(index + 1).padStart(2, "0")}`,
         subjectId: seed.subjectId,
@@ -216,7 +221,7 @@ export function buildPastPapers(seed: PastPaperSeed, chapters: { id: string; sub
         type: "open",
         content: item.content,
         choices: [],
-        images: [],
+        images,
         difficulty: null,
         language: seed.language ?? "km",
         origin: "official-past-paper",

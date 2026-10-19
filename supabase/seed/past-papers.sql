@@ -18,7 +18,7 @@ Read the text and fill the gaps with the words in the box. Gap one has been done
 (0) discipline · (1) stricter · ( ) situation · ( ) Punishment · ( ) reputation · ( ) behavior · ( ) control · ( ) conduct · ( ) freedom · ( ) respect · ( ) progressive
 
 In most countries, schools were much (1) stricter twenty-five years ago than they are today. Many parents are not at all happy with the present (2)……………….. because they feel that teachers have lost the ability to (3)……………… their classes. Some schools in particular have developed a very bad (4)……………….. for the way in which the students (5)……………. themselves. They no longer seem to have any (6) ……………….. for the school or the teachers who work in it. Some experts feel that the reason for these new patterns of (7)………………. in schools is the result of (8) ………………… ideas in education. They feel that (9). ……………… has become weak because students have been given too much (10)….. to choose how they want to spend their time. It is no doubt a good idea that physical (11)…………….. traditional kind of education has vanished in most places. But nowadays in many schools no punishment at all is possible.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2022-4000-8000-000000000000', 'bacc1070-2022-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -39,7 +39,7 @@ a. didn''t she  b. doesn''t she  c. wouldn''t she  d. hadn''t she
 a. am getting  b. get  c. was getting  d. have gotten
 5. More roads…………. every year.
 a. was built  b. had built  c. are being built  d. are building', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2022-4000-8000-000000000000', 'bacc1070-2022-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -60,7 +60,7 @@ a. promised  b. exacted  c. assume  d. supposed
 a. participate  b. join in  c. enroll  d. enter
 5.………… inform you that your grandmother died ten minutes ago.
 a. apologies  b. sorry  c. pity  d. regret', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2022-4000-8000-000000000000', 'bacc1070-2022-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -68,7 +68,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1070-2022-4000-8000-000000000004', 'kh-grade12-science-english-past-papers', null, 2022, 'open', 'Part 4. Writing
 Write an essay in English at least 80 words about "How to reduce road accident in Cambodia?".', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2022-4000-8000-000000000000', 'bacc1070-2022-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -86,7 +86,7 @@ Read the text and fill the gaps with the words in the box. Gap one has been done
 
 A working life
 Well I studied (0) … economics at university, and the I was lucky because I got a (1) …….. very quickly as an accountant in a local (2) …….. store. It wasn''t exactly what I wanted, but you know, it was a first job. I stayed there for four years altogether. After three year I was (3) …….. to accounts manager, and I decided to leave and I (4) …….. for others jobs in the area. But I had no luck getting a second job at all, and I was very short of (5) ………., so in the end I had to get job working as a (6) ………. in a restaurant. Well it wasn''t very successful because I''m quite clumsy you see I kept dropping things. So I after a few weeks they gave me sack. And then, just by chance I met an old friend who I (7) ……… at university with, and he was working in (8) ……… And he got me a job as television researcher on a programme called "Business Today". And after a (9)………. really they decided that want younger (10) ……… of the programme, and I got a job and I love it.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2021-4000-8000-000000000000', 'bacc1070-2021-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -107,7 +107,7 @@ a. because  b. so  c. since  d. because of
 a. visited  b. would visit  c. visit  d. will visit
 5. If she doesn''t do he homework, she …………. punished.
 a. is  b. would be  c. will be  d. will have', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2021-4000-8000-000000000000', 'bacc1070-2021-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -128,7 +128,7 @@ a. essay  b. message  c. complaint  d. information
 a. lost  b. abandoned  c. forgot  d. missed
 5. She went to the library to ……….
 a. borrow a book  b. lend a book  c. let a book  d. hire a book', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2021-4000-8000-000000000000', 'bacc1070-2021-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -136,7 +136,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1070-2021-4000-8000-000000000004', 'kh-grade12-science-english-past-papers', null, 2021, 'open', 'Part 4. Writing
 Write an essay in English at least 80 words about "Your goal in the future".', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2021-4000-8000-000000000000', 'bacc1070-2021-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -154,7 +154,7 @@ Read the text and fill the gaps with the words in the box. Gap one has been done
 
 Opening of New Sport Centre
 The Champa Sport Centre, which has been completely (1) …rebuilt…, was reopened yesterday by the Minister for Sport. The building was (2)…… used as a market, but was sold to Champa Council in 1981, and then (3) ……into a sports hall. Local schools played football and basketball (4) ……, and keep fit classes were held there. In 2001 the hall was damaged by a (5) ……which broke out in the heating system. The hall could not be used, and remained empty while (6) …… continued about its future. It was then decided that the hall would be rebuilt, and an appeal for (7) ……was launched. Two years ago a local (8) …… offered (9) ……for the building work, and plans were drawn up. The new hall includes a swimming pool, running track and other (10) ……facilities which can be (11) ……by anyone in the Champa area. The Minister made a speech in which he congratulated everyone involved.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2019-4000-8000-000000000000', 'bacc1070-2019-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -175,7 +175,7 @@ a. I am a cool  b. I''ve catched a cold  c. I have cold  d. I have caught a cold
 a. was sitting  b. have sat  c. sat  d. was sat
 5. Thida …………to the cinema if you went with her.
 a. will go  b. would go  c. goes  d. went', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2019-4000-8000-000000000000', 'bacc1070-2019-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -196,7 +196,7 @@ a. reduced  b. decreased  c. bargained  d. lowered
 a. apologise  b. sorry  c. pity  d. regret
 5. We were unable to reach an agreement because of …………the between the two groups.
 a. contact  b. concern  c. connection  d. conflict', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2019-4000-8000-000000000000', 'bacc1070-2019-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -204,7 +204,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1070-2019-4000-8000-000000000004', 'kh-grade12-science-english-past-papers', null, 2019, 'open', 'Part 4. Writing
 Write an essay "Studying for Success" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2019-4000-8000-000000000000', 'bacc1070-2019-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -222,7 +222,7 @@ economic · earnings · disagreed · applications · employee · profitable · (
 
 Leaving a job
 I recently left my job in an …advertising…agency after disagreement with my boss. She accepted my (2) …. but warned me that because of the (3) ….. situation, I might have to get used to the idea of being (4) ….. for a while. I thought that she was trying to make a point, but after I had made over fifty (5) …… to other companies. O realized that she was right. Although I am a (6) …. designer. I don''t receive any offers of a job. After that I tried working from home, but it was not very (7) ……Then I became and (8) ……. in a fast-food restaurant, even though my (9) …… were extremely low. I wish I had accepted early (10) …… from my old job. That is what I (11) ……. with my boss about!', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2018-4000-8000-000000000000', 'bacc1070-2018-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -243,7 +243,7 @@ a. are driving  b. drives  c. driven  d. were driving
 a. will be completed  b. will complete  c. is completed  d. completes
 5. Their marriage wouldn''t be so good if they ……. so well with each other.
 a. communicated  b. didn''t communicate  c. don''t communicate  d. communicate', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2018-4000-8000-000000000000', 'bacc1070-2018-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -264,7 +264,7 @@ a. reduced  b. decreased  c. bargained  d. lowered
 a. timeless  b. punctual  c. boring  d. careful
 5. It''ll take you over an hour to get to the city center in ….. hour.
 a. rush  b. busy  c. run  d. crowded', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2018-4000-8000-000000000000', 'bacc1070-2018-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -272,7 +272,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1070-2018-4000-8000-000000000004', 'kh-grade12-science-english-past-papers', null, 2018, 'open', 'IV. Writing
 Write an essay "Role of women in modern Cambodia society" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2018-4000-8000-000000000000', 'bacc1070-2018-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -289,7 +289,7 @@ Read the text and fill the gaps with the words in the box. Gap one has been done
 ( ) occupation · ( ) successful · ( ) embarrassment · ( ) hobby · ( ) failure · ( ) solution · (1) evening · ( ) secretarial · ( ) explanation · ( ) frozen · ( ) construction
 
 Recently I decided to go to (1) ……classes twice a week. During the day, I work in a (2) ……agency as a telephonist. It is not a very good interesting (3) ……and I get bored. I also got tired of coming home every evening putting a (4) ……meal in the oven and then watching TV. So, I decided to take up carpentry as a (5) ……. Perhaps I should give you an (6) …… for my choice. Learning a skill is a good (7) ……to the problem of boring work. Also, I felt I was a (8) …… because any time I tried to put up a shelf, for example, it always fell down. Now I am quite a (9) ……wood worker. I am working on the (10) ……of some furniture at the moment. And although there are only few students in the class, I don''t feel any (11) ……I''ve turned out to be the best student in the class!', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2017-4000-8000-000000000000', 'bacc1070-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -310,7 +310,7 @@ a. broke  b. breaks  c. broken  d. break
 a. was  b. had  c. came  d. been
 5. If you give me some money, I …… to go shopping.
 a. can  b. could  c. will be able  d. will can', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2017-4000-8000-000000000000', 'bacc1070-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -331,7 +331,7 @@ a. agree  b. approve  c. support  d. believe
 a. lost  b. abandoned  c. forgot  d. missed
 5. The fans climbed over the fence to …… paying.
 a. avoid  b. prevent  c. abandon  d. refuse', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2017-4000-8000-000000000000', 'bacc1070-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -339,7 +339,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1070-2017-4000-8000-000000000004', 'kh-grade12-science-english-past-papers', null, 2017, 'open', 'Part 4: Writing
 Writing an essay. There is too much traffic in the city. "What do you think the authorities should do about it?" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2017-4000-8000-000000000000', 'bacc1070-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -357,7 +357,7 @@ practicing · raincoat · change · be able · offered · nothing · (1) tennis 
 
 A friend in the rain
 Last week I was walking home after playing (1)…tennis…. when it started raining very heavily. "Oh no, I will get (2)……. Before I reach home". I thought. "I wish I had remembered to bring my (3)……." But unfortunately I had left it at home. "How stupid of me! I always (4)…….. to bring it with me." Luckily just then a friend of mine passed in his car and (5)…….. me a lift. "Are you going home?" he asked "or do you want to go for a (6)…….?" "I think I''d rather you took me home." I said. If I don''t (7)…… my clothes, I know I will fall ill, and then I won''t (8)….. to play in the tennis tournament next week. And I have been (9) …… hard for the last month. "I will wait for you to change if you like", he told me. "I think it''s time you (10)…… for a change". You have been worrying to much about things lately. And people who worry too much fail ill more easily. It''s got (11)…… to do with the rain.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2016-4000-8000-000000000000', 'bacc1070-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -378,7 +378,7 @@ a. will be solved  b. is solved  c. was solved  d. solved
 a. will  b. must  c. would  d. have
 5. She was cleaning her teeth when the phone…….
 a. was going to ring  b. was ringing  c. rang  d. ring', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2016-4000-8000-000000000000', 'bacc1070-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -399,7 +399,7 @@ a. depress  b. horror  c. anger  d. delight
 a. send  b. enroll  c. join in  d. enter
 5. Most parents finds it difficult to…… their children nowadays.
 a. bring up  b. develop  c. grow up  d. set up', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2016-4000-8000-000000000000', 'bacc1070-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -407,7 +407,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1070-2016-4000-8000-000000000004', 'kh-grade12-science-english-past-papers', null, 2016, 'open', 'IV. Writing
 Write an essay "Life in the countryside" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2016-4000-8000-000000000000', 'bacc1070-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -425,7 +425,7 @@ recovery · month · treatment · poisonous · weight · disease · (1) doctor �
 
 A visit to the doctor''s
 Kimseng decided to visit the (1)….doctor…. after his trip to the jungle. He was normally a tall muscular person. but over the past (2)……….. he had lost a lot of (3)………… He had also notices that his ankles and knees had become rather (4)……………. He thought that he might have eaten or drunk something(5)……………. or caught some kinds of (6)………………. disease. The doctor took some blood for tests and told Kimseng felt quite (8)…………. "Don''t worry" said the doctor, "It''s nothing serious. You haven''t caught an incurable (9)………………… or anything terrible like that. It''s a simple virus, and you will need some (10)……………. take these tablets twice a day for two weeks, and you''ll make a full (11)………………".', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2015-4000-8000-000000000000', 'bacc1070-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -446,7 +446,7 @@ a. leave  b. has left  c. am leaving  d. had been leaving
 a. will take  b. take  c. would take  d. am taking
 5. The tree, ………… behind my house, give a lot of shade.
 a. grows.  b. which it grows  c. which grows  d. it grows', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2015-4000-8000-000000000000', 'bacc1070-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -467,7 +467,7 @@ a. allow  b. enter  c. pass  d. bring
 a. postponed  b. delayed  c. cancelled  d. stopped
 5. In recent years, inflation has almost double the ……….. Of living.
 a. price  b. expense  c. charge  d. cost', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2015-4000-8000-000000000000', 'bacc1070-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -475,7 +475,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1070-2015-4000-8000-000000000004', 'kh-grade12-science-english-past-papers', null, 2015, 'open', 'IV. Writing
 Write an essay "What make a good parent" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2015-4000-8000-000000000000', 'bacc1070-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -493,7 +493,7 @@ timetable · help · information · taught · afterwards · memories · heart ·
 
 Learning how to learn
 There is usually on important (1) …subject… missing from most school (2) ……. Very few students are (3) ………. how to organize their learning, and how to make the best use of their time. Let''s take some simple examples. Do you know how to (4) ……. up words in a dictionary, and do you understand all the (5) …….the dictionary contains? Can you make notes quickly, and can you understand them (6) ……..? For some reasons , many school give learners no (7) …….. with this matters. Teachers ask students to (8) ……… pages from books, or tell them to write ten pages, but don''t explain how to do it. Learning by (9) ……. Can be useful, but it is more important to have a genuine (10) …….. of a subject. You can (11) …….. a lot of time memorizing books, without understanding anything about the subject.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2014-4200-8000-000000000000', 'bacc1070-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -514,7 +514,7 @@ a. has already left  b. already leaves  c. already left  d. had already left
 a. working  b. worked  c. to work  d. work
 5. The benefits programme ……… in the next few months.
 a. had changed  b. were changed  c. will be changed  d. changed', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2014-4200-8000-000000000000', 'bacc1070-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -535,7 +535,7 @@ a. committed  b. done  c. made  d. performed
 a. considered  b. confirmed  c. concerned  d. conducted
 5. I ……… on the news that the price of gas is going up again.
 a. looked  b. listened  c. heard  d. watched', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2014-4200-8000-000000000000', 'bacc1070-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -543,7 +543,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1070-2014-4200-8000-000000000004', 'kh-grade12-science-english-past-papers', null, 2014, 'open', 'IV. Writing
 Write an essay "The value of Higher Education" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2014-4200-8000-000000000000', 'bacc1070-2014-4200-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -561,7 +561,7 @@ candidate · eligible · result · opinion pool · violent · (1) predict · bal
 
 Election
 People sometimes try to (1) predict ……. the result of an election weeks before it takes place. Several hundred people are asked which party they prefer, and their answers are used to guess the (2)…….. of the coming election. This is called an (3) ………. Meanwhile each party conducts its (4) ………. with meetings, speeches, television commercials and party members going form door to door encouraging people to (5) ……. Their party. In Cambodia everyone over 18 is (6)……… to vote. The place where people go to vote in an election is called a (7) ……… and the day of the election is often known as (8)…………. The voters put their votes in a (9)………. And later they are counted. The (10)……… with the most bites in then declared the (11)………. .', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2014-4100-8000-000000000000', 'bacc1070-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -582,7 +582,7 @@ a. because of  b. since  c. haven''t eaten  d. didn''t eat
 a. don''t eat  b. won''t eat  c. haven''t eaten  d. didn''t eat
 5. Mr. Dara………… so many accidents if he drove more carefully.
 a. would have  b. won''t have  c. would have had  d. wouldn''t have', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2014-4100-8000-000000000000', 'bacc1070-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -603,7 +603,7 @@ a. ambitions  b. opportunities  c. decisions  d. golds
 a. programme  b. information  c. survey  d. forecast
 5. Many people believe that violent computer games can have a harmful…………. on children.
 a. effect  b. affect  c. damage  d. involvement', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2014-4100-8000-000000000000', 'bacc1070-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -611,7 +611,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1070-2014-4100-8000-000000000004', 'kh-grade12-science-english-past-papers', null, 2014, 'open', 'IV. Writing
 Write an essay "Advantages and Disadvantages of TV" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2014-4100-8000-000000000000', 'bacc1070-2014-4100-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -628,7 +628,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1080-2021-4000-8000-000000000001', 'kh-grade12-science-french-past-papers', null, 2021, 'open', 'I. Compréhension écrite.
 Complétez le texte avec les mots: copain, parents, maison, bizarre, bruits.
 Moi, j''ai peur de rester seul à la ………. ! Quand mes ……… sortent, je ne sais pas quoi faire. J''essaie d''inviter un …….. à la maison ou d''aller chez quelqu''un, mais ce n''est pas toujours possible. Quand je suis seul, je ne peux me concentrer sur rien, je commence à entendre des ………. J''ai honte, parce qu''à 15 ans, c''est un peu …….., non ? Mais je ne peux pas l''éviter.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2021-4000-8000-000000000000', 'bacc1080-2021-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -644,7 +644,7 @@ Example : argent · cuivre · or · fer · agent
 5. père · mère · frère · sœur · voisin
 6. Laos · Russie · Cambodge · Thaïlande · Vietnam
 7. poitrine · tête · bras · docteur · jambe', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2021-4000-8000-000000000000', 'bacc1080-2021-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -674,7 +674,7 @@ e. Elle ne peut pas écrite.
 f. Elle ne peut pas courir.
 g. Elle ne peut pas lire
 C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2021-4000-8000-000000000000', 'bacc1080-2021-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -682,7 +682,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1080-2021-4000-8000-000000000004', 'kh-grade12-science-french-past-papers', null, 2021, 'open', 'IV. Expression écrite. (10 points)
 Après l''examen du baccalauréat, qu''est-ce que vous faites ? Ecrivez environ 70 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2021-4000-8000-000000000000', 'bacc1080-2021-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -700,7 +700,7 @@ Complétez les phrases avec : l''impression, avis, semble, ne crois pas, demande
 3. Qu''est-ce que vous (3) ……….. de ce projet ?
 4. Je me (4) ………… si ce n''est pas inutile d''organiser une réunion.
 5. Il me (6) ………… que c''est intéressant.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2019-4000-8000-000000000000', 'bacc1080-2019-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -716,7 +716,7 @@ Example : jambes · bras · _thermomètre_ · bouche · tête
 5. Cambodge · Vietnam · Laos · France · Thaïlande
 6. docteur · professeur · ventilateur · ingénieur · présentateur
 7. bananier · infirmier · caféier · pommier · cerisier', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2019-4000-8000-000000000000', 'bacc1080-2019-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -745,7 +745,7 @@ d. nous allons être en retard
 e. tant pis, je resterai à la maison.
 f. les élèves comprennent bien.
 C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2019-4000-8000-000000000000', 'bacc1080-2019-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -753,7 +753,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1080-2019-4000-8000-000000000004', 'kh-grade12-science-french-past-papers', null, 2019, 'open', 'IV. Expression écrite. (10 points)
 Vous avez assisté à l''anniversaire (de naissance) d''un (e) ami(e). Racontez ce que vous avez fait, vu et entendu pendant la fête.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2019-4000-8000-000000000000', 'bacc1080-2019-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -772,7 +772,7 @@ Est-ce que je pourrais l'' (2) …………. pour un autre.
 3. Oui, le voilà.
 4. Très bien. Vous préférez un remboursement ou un (4) ………. ?
 5. Un échange. Je vais (5) …………. un autre livre. J''espère qu'' (6) …………., celui-là.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2018-4000-8000-000000000000', 'bacc1080-2018-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -789,7 +789,7 @@ Exemple : règle · gomme · crayon · stylo · rayon
 6. amoureusement · facilement · pauvrement · appartement · librement
 7. Birmanie · Phnom Penh · Bangkok · Vientiane · Hanoi
 8. marcher · habiter · oranger · demander · jouer', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2018-4000-8000-000000000000', 'bacc1080-2018-4000-8000-000000000002', 2, 16)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -820,7 +820,7 @@ d. donc elle réussira le bac.
 e. sans rien manger.
 f. elle ne réussira pas le baccalauréat:
 C: 1 → c · 2 → … · 3 → … · 4 → … · 5 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2018-4000-8000-000000000000', 'bacc1080-2018-4000-8000-000000000003', 3, 14)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -828,7 +828,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1080-2018-4000-8000-000000000004', 'kh-grade12-science-french-past-papers', null, 2018, 'open', 'IV. Expression écrite.
 Pour réussir le baccalauréat, qu''est-ce-que vous avez appris au lycée ? Et à la maison, qu''est-ce-que vous avez fait ? (environ 100 mots)', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2018-4000-8000-000000000000', 'bacc1080-2018-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -845,7 +845,7 @@ Complétez les mots « vraiment, mère, bus, accident, étudiante » dans le tex
 Avez-vous votre permis de conduire ?
 - Yann : Chez, nous, c''est une tradition, on ne conduit pas, Mon père n''avait pas son permis de conduire, Ma (1) ……. si, mais elle n''avait pas de voiture …….. Moi je l''ai passé à 18 ans mais j''ai eu un (2) ……. quelques mois plus tard, alors je n''ai plus conduit. J''ai eu trop peur. Non, moi, maintenant, je prends le taxi, le (3) ……. Ou bien je loue une voiture aven un chauffeur pour partir en week-end.
 - Marie : Non, je n''ai pas encore le permis, Je suis (4) ……… et je n''ai pas beaucoup d''argent, Je passerai le permis quand je travaillerai dans deux ou trois ans ! De toute façon, je n''en ai pas (5) ……. besoin. J''ai un scooter et ça me convient très bien.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2017-4000-8000-000000000000', 'bacc1080-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -862,7 +862,7 @@ Exemple : père · frère · sœur · mer · mère
 6. Amoureusement · vêtement · librement · pauvrement · contrairement
 7. Framboisier · olivier · collier · bananier · caféier
 8. Laos · Malaisie · Thaïlande · Vietnam · France', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2017-4000-8000-000000000000', 'bacc1080-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -890,7 +890,7 @@ d. aussi faut-il le faire la réparer.
 e. je m''amuse.
 f. je révise mes leçons
 C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2017-4000-8000-000000000000', 'bacc1080-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -898,7 +898,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1080-2017-4000-8000-000000000004', 'kh-grade12-science-french-past-papers', null, 2017, 'open', 'IV. Expression écrite.
 Depuis combien de temps apprenez-vous le français ? Pourquoi apprenez-vous cette langue ? Rédigez le texte au minimum 80 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2017-4000-8000-000000000000', 'bacc1080-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -912,7 +912,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1080-2016-4000-8000-000000000001', 'kh-grade12-science-french-past-papers', null, 2016, 'open', 'I. Compréhension écrite
 Complétez les mots « copine, coquillage, parents, montage, mer » dans le texte
 Pendant les vacances, avec mes ………., on allait toujours au bord de la …….. en Brergane. Là-bas, je retrouvais ma ……….Alice. Le matin, on ramassait des ……… et l''après-midi, quand l''eau était plus chaude, on se baignait, On était toujours ensemble. Maintenant, mes parents vont à la ……… mais moi, je vais chez Alice.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2016-4000-8000-000000000000', 'bacc1080-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -928,7 +928,7 @@ Exemple : père · frère · sœur · mer · mère
 5. pharmacie · mairie · boucherie · boulangerie · librairie
 6. tête · fièvre · main · jambe · bouche
 7. durian · orange · coco · mangue · poisson', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2016-4000-8000-000000000000', 'bacc1080-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -948,7 +948,7 @@ Exemple : Cette élève ne lit pas de brouillons, elles en lit pas de corrigé. 
 2. Il ne sait pas expliquer, il ne sait pas discuter.
 3. Paul n''est pas timide. Marie n''est pas timide.
 4. Ma sœur ne bois pas de bière, elle ne boit pas de vin.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2016-4000-8000-000000000000', 'bacc1080-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -956,7 +956,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1080-2016-4000-8000-000000000004', 'kh-grade12-science-french-past-papers', null, 2016, 'open', 'IV. Expression écrite
 Après avoir fini vos études, quel métier préférez-vous ? Pourquoi ? Donnez vos raisons en écrivant un texte de 80 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2016-4000-8000-000000000000', 'bacc1080-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -978,7 +978,7 @@ Mal – grave – docteur – le – médicament – soir – jours – temps �
 - Ce n''est pas très (7) ……. Tu vas prendre ce (8) ……. Pendant une semaine.
 - Je (9) ……. Prends combien de fois par jour ?
 - Te le prends (10) ……. Fois par jour, le matin, à midi et le (11)', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2015-4000-8000-000000000000', 'bacc1080-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -994,7 +994,7 @@ Exemple : librement · pauvrement · courageusement · contentement · commencem
 5. le nord · le fond · le sud · l''est · l''ouest
 6. fraisier · policier · citronnier · pommier · palmier
 7. Cambodge · Laos · Vietnam · Bangkok · Malaisie', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2015-4000-8000-000000000000', 'bacc1080-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1018,7 +1018,7 @@ Exemple : Tévi a de mauvaises notes à ses devoirs. Elle fait ses devoirs en re
 1. Bopha est arrivée en retard. Elle a eu un accident.
 2. Vuth ne va pas se promener. Il est malade.
 3. Neary est fatiguée. Elle a beaucoup travaillé.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2015-4000-8000-000000000000', 'bacc1080-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1026,7 +1026,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1080-2015-4000-8000-000000000004', 'kh-grade12-science-french-past-papers', null, 2015, 'open', 'IV. Expression écrite
 Entre la ville et la campagne, où armeriez-vous habiter ? Pourquoi ? Racontez en 80 monts.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2015-4000-8000-000000000000', 'bacc1080-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1051,7 +1051,7 @@ Exemple : coûter · acheter · louer · aller · demander
 3. fièvre · tuberculose · grippe · stéthoscope · rougeole
 4. Brunei · Rangoon · Vientiane · Jakarta · Manille
 5. Suisse · France · Hollande · Belgique · Cambodge', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2014-4200-8000-000000000000', 'bacc1080-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1071,7 +1071,7 @@ Exemple : Elle vent du thé → Elle en veut.
 3. Mon amie adore _le football_.
 4. Le cuisinier va _au supermarché_.
 5. Narith boit _du lait_.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2014-4200-8000-000000000000', 'bacc1080-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1079,7 +1079,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1080-2014-4200-8000-000000000003', 'kh-grade12-science-french-past-papers', null, 2014, 'open', 'III. Expression écrite
 Vous apprenez le français depuis le niveau collégien. D''après vous, quels sont les avantages de l''apprentissage de la langue française. Écrivez un texte de 100 à 120 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2014-4200-8000-000000000000', 'bacc1080-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1104,7 +1104,7 @@ Exemple : ventre · genou · bras · vent · pied
 3. bon · mauvais · fatigue · fort · faible
 4. Singapour · Birmanie · Cambodge · Brunie · Canada
 5. France · Phnom Penh · Laos · Vietnam · Chine', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2014-4100-8000-000000000000', 'bacc1080-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1126,7 +1126,7 @@ Exemple : Montrez votre photo a Dara. → Montrez-la-lui
 3. Montre le chemin à cet enfant.
 4. Envoyez de lettres à vos parents.
 5. Laisse vos sacs dans la voiture.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2014-4100-8000-000000000000', 'bacc1080-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1134,7 +1134,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1080-2014-4100-8000-000000000003', 'kh-grade12-science-french-past-papers', null, 2014, 'open', 'III. Expression écrite
 Décrivez une ville touristique du Cambodge ou d''autre pays que vous aimez bien. Écrive un texte 100 à 120 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2014-4100-8000-000000000000', 'bacc1080-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1149,35 +1149,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2022-4000-8000-000000000001', 'kh-grade12-science-history-past-papers', null, 2022, 'open', 'តើសមាគមអាស៊ានមានសមាជិកចំនួនប៉ុន្មាន? ការចូលអាស៊ានផ្តល់ផលប្រយោជន៍អ្វីខ្លះដល់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2022-4000-8000-000000000000', 'bacc1060-2022-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2022-4000-8000-000000000002', 'kh-grade12-science-history-past-papers', null, 2022, 'open', 'តើអាណាព្យាបាលបារាំងបាននាំមកនូវអ្វីខ្លះដល់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2022-4000-8000-000000000000', 'bacc1060-2022-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2022-4000-8000-000000000003', 'kh-grade12-science-history-past-papers', null, 2022, 'open', 'ចូររៀបរាប់ពីបញ្ហាសន្តិសុខស្បៀងលើពិភពលោក។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2022-4000-8000-000000000000', 'bacc1060-2022-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2022-4000-8000-000000000004', 'kh-grade12-science-history-past-papers', null, 2022, 'open', 'ចូររៀបរាប់មូលហេតុ និងផលវិបាកនៃសកលភាវូបនីយកម្ម។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2022-4000-8000-000000000000', 'bacc1060-2022-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2022-4000-8000-000000000005', 'kh-grade12-science-history-past-papers', null, 2022, 'open', 'តើថ្ងៃរំដោះ ៧ មករា ១៩៧៩ បានផ្តល់អត្ថន័យជាប្រវត្តិសាស្ត្រយ៉ាងណាខ្លះចំពោះកម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2022-4000-8000-000000000000', 'bacc1060-2022-4000-8000-000000000005', 5, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1189,28 +1189,28 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2021-4000-8000-000000000001', 'kh-grade12-science-history-past-papers', null, 2021, 'open', 'តើសមាគមអាស៊ាន មានប្រទេសណាខ្លះជាសមាជិក?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2021-4000-8000-000000000000', 'bacc1060-2021-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2021-4000-8000-000000000002', 'kh-grade12-science-history-past-papers', null, 2021, 'open', 'ចូរពិពណ៌នាពីបញ្ហាធំៗលើពិភពលោក។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2021-4000-8000-000000000000', 'bacc1060-2021-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2021-4000-8000-000000000003', 'kh-grade12-science-history-past-papers', null, 2021, 'open', 'ចូរពិពណ៌នាពីសមិទ្ធផលសំខាន់ៗរបស់រាជរដ្ឋាភិបាលកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2021-4000-8000-000000000000', 'bacc1060-2021-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2021-4000-8000-000000000004', 'kh-grade12-science-history-past-papers', null, 2021, 'open', 'ចូរអ្នកវិភាគអំពីតួនាទីនៃសន្តិភាពក្នុងការអភិវឌ្ឍប្រទេសកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2021-4000-8000-000000000000', 'bacc1060-2021-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1222,28 +1222,28 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2019-4000-8000-000000000001', 'kh-grade12-science-history-past-papers', null, 2019, 'open', 'ចូររៀបរាប់ពីឈ្មោះមេដឹកនាំខ្មែរក្រហមសំខាន់ៗឲ្យបាន៥នាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2019-4000-8000-000000000000', 'bacc1060-2019-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2019-4000-8000-000000000002', 'kh-grade12-science-history-past-papers', null, 2019, 'open', 'ចូរពណ៌នាពីចលនាតស៊ូដើម្បីទទួលបានឯករាជ្យ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2019-4000-8000-000000000000', 'bacc1060-2019-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2019-4000-8000-000000000003', 'kh-grade12-science-history-past-papers', null, 2019, 'open', 'ចូរពណ៌នាពីរបបសាធារណរដ្ឋប្រជាមានិតខ្មែរ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2019-4000-8000-000000000000', 'bacc1060-2019-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2019-4000-8000-000000000004', 'kh-grade12-science-history-past-papers', null, 2019, 'open', 'ហេតុអ្វីបានជាកើតមានរដ្ឋប្រហារឆ្នាំ ១៩៧០? តើរដ្ឋប្រហារនេះផ្តល់ផលវិបាកដូចម្តេចខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2019-4000-8000-000000000000', 'bacc1060-2019-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1255,35 +1255,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2018-4000-8000-000000000001', 'kh-grade12-science-history-past-papers', null, 2018, 'open', 'តើអ្នកនយោបាយខ្មែរណាដែលបានបញ្ចប់សង្គ្រាមក្នុងស្រុកនៅឆ្នាំ១៩៩៨?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2018-4000-8000-000000000000', 'bacc1060-2018-4000-8000-000000000001', 1, 5)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2018-4000-8000-000000000002', 'kh-grade12-science-history-past-papers', null, 2018, 'open', 'តើអាណាព្យាបាលបារាំងនាំមកអ្វីខ្លះដល់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2018-4000-8000-000000000000', 'bacc1060-2018-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2018-4000-8000-000000000003', 'kh-grade12-science-history-past-papers', null, 2018, 'open', 'ចូរពណ៌នាពីកត្តាសំខាន់ៗ ដែលធ្វើឲ្យរបបកម្ពុជាប្រជាធិបតេយ្យ (ឆ្នាំ១៩៧៥-១៩៧៩) ដួលរលំ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2018-4000-8000-000000000000', 'bacc1060-2018-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2018-4000-8000-000000000004', 'kh-grade12-science-history-past-papers', null, 2018, 'open', 'ចូរពណ៌នាពីតួនាទីរបស់សហគមន៍អាស៊ាននៅអាស៊ីអាគ្នេយ៍។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2018-4000-8000-000000000000', 'bacc1060-2018-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2018-4000-8000-000000000005', 'kh-grade12-science-history-past-papers', null, 2018, 'open', 'តើសន្តិភាពដែលសម្រេចបានចាប់តាំងពីឆ្នាំ១៩៩៨ បាននាំមកអ្វីខ្លះដល់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2018-4000-8000-000000000000', 'bacc1060-2018-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1295,35 +1295,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2017-4000-8000-000000000001', 'kh-grade12-science-history-past-papers', null, 2017, 'open', 'តើស្តេចខ្មែរអង្គណាដែលទាមទារបានសម្រេចឯករាជ្យពីបារាំង?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the paper''s total as 75 points; other science-track history papers, and the BacII rules, give 50, so 50 is used here. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2017-4000-8000-000000000000', 'bacc1060-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2017-4000-8000-000000000002', 'kh-grade12-science-history-past-papers', null, 2017, 'open', 'តើសង្គ្រាមត្រជាក់ក្នុងទសវត្ស ១៩៥០ ដល់ ១៩៦០ នាំមកអ្វីខ្លះដល់ឧបទ្វីបឥណ្ឌូចិន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the paper''s total as 75 points; other science-track history papers, and the BacII rules, give 50, so 50 is used here. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2017-4000-8000-000000000000', 'bacc1060-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2017-4000-8000-000000000003', 'kh-grade12-science-history-past-papers', null, 2017, 'open', 'ចូរពណ៌នាពីកត្តាសំខាន់ៗដែលធ្វើឲ្យរបបសាធារណរដ្ឋខ្មែរ (១៩៧០-១៩៧៥) ដួលរលំ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the paper''s total as 75 points; other science-track history papers, and the BacII rules, give 50, so 50 is used here. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2017-4000-8000-000000000000', 'bacc1060-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2017-4000-8000-000000000004', 'kh-grade12-science-history-past-papers', null, 2017, 'open', 'ចូរពណ៌នាពីចលនាតស៊ូដើម្បីរំដោះប្រទេសកម្ពុជា ពីរបបប្រល័យពូជសាសន៍ «កម្ពុជាប្រជាធិបតេយ្យ» (ឆ្នាំ១៩៧៥-១៩៧៩)។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the paper''s total as 75 points; other science-track history papers, and the BacII rules, give 50, so 50 is used here. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2017-4000-8000-000000000000', 'bacc1060-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2017-4000-8000-000000000005', 'kh-grade12-science-history-past-papers', null, 2017, 'open', 'ចូរពណ៌នាពីសមិទ្ធផលរបស់រាជរដ្ឋាភិបាល ១៩៩៣ ដល់ពេលបច្ចុប្បន្ន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the paper''s total as 75 points; other science-track history papers, and the BacII rules, give 50, so 50 is used here. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2017-4000-8000-000000000000', 'bacc1060-2017-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1335,35 +1335,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2016-4000-8000-000000000001', 'kh-grade12-science-history-past-papers', null, 2016, 'open', 'អ្នកប្រាជ្ញខ្មែរឈ្មោះអ្វីដែលបានរៀបចំវចនានុក្រមខ្មែរ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2016-4000-8000-000000000000', 'bacc1060-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2016-4000-8000-000000000002', 'kh-grade12-science-history-past-papers', null, 2016, 'open', 'តើអាណាព្យាបាលបារាំងពីឆ្នាំ១៨៦៣ ដល់ឆ្នាំ១៩៥៣ មានចំណុចវិជ្ជមាន និងអវិជ្ជមានអ្វីខ្លះសម្រាប់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2016-4000-8000-000000000000', 'bacc1060-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2016-4000-8000-000000000003', 'kh-grade12-science-history-past-papers', null, 2016, 'open', 'ចូរពណ៌នាសមិទ្ធផលសង្គមរាស្ត្រនិយមពីឆ្នាំ១៩៥៣ ដល់ឆ្នាំ១៩៧០?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2016-4000-8000-000000000000', 'bacc1060-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2016-4000-8000-000000000004', 'kh-grade12-science-history-past-papers', null, 2016, 'open', 'ចូរពណ៌នាពីមូលហេតុដែលធ្វើឲ្យសង្គ្រាមស៊ីវិលផ្ទុះឡើងពីឆ្នាំ១៩៧០ ដល់ឆ្នាំ១៩៧៥។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2016-4000-8000-000000000000', 'bacc1060-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2016-4000-8000-000000000005', 'kh-grade12-science-history-past-papers', null, 2016, 'open', 'តើសង្គ្រាមពីឆ្នាំ១៩៧០ ដល់ឆ្នាំ១៩៧៥ មានផលវិបាកអ្វីខ្លះសម្រាប់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2016-4000-8000-000000000000', 'bacc1060-2016-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1375,35 +1375,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2015-4000-8000-000000000001', 'kh-grade12-science-history-past-papers', null, 2015, 'open', 'តើកម្ពុជាទទួលបានឯករាជ្យពីបារាំងនៅឆ្នាំណា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2015-4000-8000-000000000000', 'bacc1060-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2015-4000-8000-000000000002', 'kh-grade12-science-history-past-papers', null, 2015, 'open', 'តើការទទួលឯករាជ្យនេះមានន័យយ៉ាងដូចម្តេចសម្រាប់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2015-4000-8000-000000000000', 'bacc1060-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2015-4000-8000-000000000003', 'kh-grade12-science-history-past-papers', null, 2015, 'open', 'ចូរពណ៌នាពីមូលហេតុដែលកម្ពុជាទទួលយកអាណានិគមនិយមបារាំង។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2015-4000-8000-000000000000', 'bacc1060-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2015-4000-8000-000000000004', 'kh-grade12-science-history-past-papers', null, 2015, 'open', 'ចូររិភាគពីតម្លៃនៃសន្តិភាពដែលកម្ពុជាទទួលបានសម្រាប់ការអភិវឌ្ឍសេដ្ឋកិច្ច និងសង្គម។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2015-4000-8000-000000000000', 'bacc1060-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2015-4000-8000-000000000005', 'kh-grade12-science-history-past-papers', null, 2015, 'open', 'ចូរបកស្រាយពីតួនាទីនៃ «វប្បធម៌សន្ទនា» នៅក្នុងសង្គមប្រជាធិបតេយ្យ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2015-4000-8000-000000000000', 'bacc1060-2015-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1415,21 +1415,21 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2014-4200-8000-000000000001', 'kh-grade12-science-history-past-papers', null, 2014, 'open', 'តើប្រាសាទអង្គរវត្តត្រូវបានសាងសង់នៅក្នុងរជ្ជកាលនៃព្រះមហាក្សត្រអង្គណា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2014-4200-8000-000000000000', 'bacc1060-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2014-4200-8000-000000000002', 'kh-grade12-science-history-past-papers', null, 2014, 'open', 'ពណ៌នាអំពីនយោបាយបង្រួបបង្រួមជាតិ ដែលបាននាំមកនូវសន្តិភាពនៅកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2014-4200-8000-000000000000', 'bacc1060-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2014-4200-8000-000000000003', 'kh-grade12-science-history-past-papers', null, 2014, 'open', 'ចូររៀបរាប់ពីព្រឹត្តិការណ៍សំខាន់ៗនៃប្រវត្តិសាស្ត្រកម្ពុជា នៅក្នុងសតវត្សទី២០។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2014-4200-8000-000000000000', 'bacc1060-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1441,21 +1441,21 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2014-4100-8000-000000000001', 'kh-grade12-science-history-past-papers', null, 2014, 'open', 'តើពិភពលោកកំពុងជួបប្រទះនឹងបញ្ហាធំៗអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2014-4100-8000-000000000000', 'bacc1060-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2014-4100-8000-000000000002', 'kh-grade12-science-history-past-papers', null, 2014, 'open', 'ពណ៌នាអំពីវិនាសកម្មនៅក្រោមរបបប្រល័យពូជសាសន៍កម្ពុជាប្រជាធិបតេយ្យ និងការស្តារកម្ពុជាឡើងវិញ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2014-4100-8000-000000000000', 'bacc1060-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1060-2014-4100-8000-000000000003', 'kh-grade12-science-history-past-papers', null, 2014, 'open', 'ការដាក់ប្រាសាទព្រះវិហារចូលក្នុងបញ្ជីបេតិកភណ្ឌពិភពលោក មានអត្ថន័យដូចម្តេចសម្រាប់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2014-4100-8000-000000000000', 'bacc1060-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1470,7 +1470,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1020-2022-4000-8000-000000000001', 'kh-grade12-science-khmer-literature-past-papers', null, 2022, 'open', 'មានមតិមួយលើកឡើងថា «ភក្តីភាព គឺជាឧត្តមគតិដ៏សំខាន់នៅក្នុងអត្ថបទអក្សរសិល្ប៍»។ ចូរពន្យល់ និងលើកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1020-2022-4000-8000-000000000000', 'bacc1020-2022-4000-8000-000000000001', 1, 75)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1482,7 +1482,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1020-2021-4000-8000-000000000001', 'kh-grade12-science-khmer-literature-past-papers', null, 2021, 'open', 'មានមតិមួយលើកឡើងថា «អក្សរសិល្ប៍ខេមរនិយមមានគោលដៅអប់រំមនុស្សឲ្យក្លាយជាពលរដ្ឋល្អ»។ ចូរពន្យល់ និងលើកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1020-2021-4000-8000-000000000000', 'bacc1020-2021-4000-8000-000000000001', 1, 75)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1494,7 +1494,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1020-2019-4000-8000-000000000001', 'kh-grade12-science-khmer-literature-past-papers', null, 2019, 'open', '«ការសិក្សាអក្សរសិល្ប៍ឆ្លុះបញ្ចាំងឲ្យឃើញពីការប្រយុទ្ធរវាងសភាវៈល្អ និងសភាវៈអាក្រក់»។ ចូរបកស្រាយដោយលើកយកអក្សរសិល្ប៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1020-2019-4000-8000-000000000000', 'bacc1020-2019-4000-8000-000000000001', 1, 75)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1506,7 +1506,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1020-2018-4000-8000-000000000001', 'kh-grade12-science-khmer-literature-past-papers', null, 2018, 'open', 'ពាក្យចាស់លោកពោលថា៖ «សេចក្តីព្យាយាមគង់តែបានសម្រេច»។ ចូរបកស្រាយដោយរកអំណះអំណាងក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1020-2018-4000-8000-000000000000', 'bacc1020-2018-4000-8000-000000000001', 1, 75)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1518,7 +1518,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1020-2017-4000-8000-000000000001', 'kh-grade12-science-khmer-literature-past-papers', null, 2017, 'open', '«ការសិក្សាអស់មួយជីវិត គឺជារបៀបអប់រំក្នុងសតវត្សទី២១»។ ចូរអ្នកពន្យល់បកស្រាយទស្សនៈនេះ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1020-2017-4000-8000-000000000000', 'bacc1020-2017-4000-8000-000000000001', 1, 75)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1530,7 +1530,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1020-2016-4000-8000-000000000001', 'kh-grade12-science-khmer-literature-past-papers', null, 2016, 'open', 'មានមតិមួយពោលថា «អត្ថបទអក្សរសិល្ប៍មានគោលដៅអប់រំមនុស្សឲ្យចេះដោះស្រាយបញ្ហា»។ ចូរអ្នកបកស្រាយដោយយកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1020-2016-4000-8000-000000000000', 'bacc1020-2016-4000-8000-000000000001', 1, 75)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1542,7 +1542,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1020-2015-4000-8000-000000000001', 'kh-grade12-science-khmer-literature-past-papers', null, 2015, 'open', 'សុភាសិតមួយចែងថា «ការងារជាមាសប្រាក់»។ ចូរអ្នកបកស្រាយដោយរកអំណះអំណាងក្នុងអក្សរសិល្ប៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1020-2015-4000-8000-000000000000', 'bacc1020-2015-4000-8000-000000000001', 1, 75)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1554,7 +1554,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1020-2014-4200-8000-000000000001', 'kh-grade12-science-khmer-literature-past-papers', null, 2014, 'open', 'មានទស្សនៈមួយចែងថា៖ «អក្សរសាស្ត្ររលត់ ជាតិរលាយ អក្សរសាស្ត្រពណ្ណរាយ ជាតិថ្កើងថ្កាន»។ ចូរអ្នកបកស្រាយទស្សនៈនេះ ដោយយកការវិវត្តនៃចលនាអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1020-2014-4200-8000-000000000000', 'bacc1020-2014-4200-8000-000000000001', 1, 75)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1566,7 +1566,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1020-2014-4100-8000-000000000001', 'kh-grade12-science-khmer-literature-past-papers', null, 2014, 'open', 'មានទស្សនៈមួយចែងថា៖ «អក្សរសិល្ប៍គឺជាកញ្ចក់សម្រាប់ឆ្លុះសង្គម»។ ចូរអ្នកធ្វើការបកស្រាយទស្សនៈនេះ ដោយរកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1020-2014-4100-8000-000000000000', 'bacc1020-2014-4100-8000-000000000001', 1, 75)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1585,7 +1585,7 @@ values ('bacc1010-2025-4000-8000-000000000001', 'kh-grade12-science-mathematics-
 ខ. $\displaystyle\lim_{x\to0}\frac{e^{4x}-1}{e^x-1}$
 គ. $\displaystyle\lim_{x\to2}\frac{2-\sqrt{x+2}}{x^3-8}$
 ឃ. $\displaystyle\lim_{x\to\frac{\pi}{3}}\frac{x-\frac{\pi}{3}}{\sin x-\sqrt{3}\cos x}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1595,21 +1595,21 @@ values ('bacc1010-2025-4000-8000-000000000002', 'kh-grade12-science-mathematics-
 $A$៖ កូនឃ្លីទាំងពីរដែលចាប់បានមានពណ៌ខុសគ្នា។
 $B$៖ កូនឃ្លីទាំងពីរដែលចាប់បានមានពណ៌បៃតង។
 $C$៖ កូនឃ្លីទាំងពីរដែលចាប់បានមានពណ៌ដូចគ្នា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2025-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2025, 'open', 'គេមានចំនួនកុំផ្លិច $z_1=\sqrt{3}-i$; $z_2=2(1-i)$ និង $Z=\dfrac{z_1^7}{z_2^6}$។ រកម៉ូឌុល និងអាគុយម៉ង់នៃ $z_1$, $z_2$ និង $Z$ រួចសរសេរ $z_1$, $z_2$ និង $Z$ ជាទម្រង់ត្រីកោណមាត្រ។ សរសេរ $Z$ ជាទម្រង់ពីជគណិត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2025-4000-8000-000000000004', 'kh-grade12-science-mathematics-integrals', null, 2025, 'open', 'គណនាអាំងតេក្រាល $\displaystyle I=\int_0^2\left(x^2+2-x^3\right)dx$។ គណនាអាំងតេក្រាល $\displaystyle J_1=\int_0^1\frac{x\,dx}{1+x^2}$។ គេមាន $\displaystyle J_2=\int_0^1\frac{x^3}{1+x^2}dx$។ គណនា $J_1+J_2$ និងទាញយកតម្លៃនៃ $J_2$។ គណនាអាំងតេក្រាល $\displaystyle K=\int_0^{\frac{\pi}{2}}\left(\sin^2x\cos^4x+\sin^4x\cos^2x\right)dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1617,7 +1617,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2025-4000-8000-000000000005', 'kh-grade12-science-mathematics-differential-equations', null, 2025, 'open', 'ក. ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''=3y-2y''$។
 ខ. រកចម្លើយពិសេសមួយនៃសមីការឌីផេរ៉ង់ស្យែល $(E)$ ដែល $y(0)=1$ និង $y''(1)=e$។ ($e$ ជាចំនួនពិតដែល $\ln e=1$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000005', 5, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1627,7 +1627,7 @@ values ('bacc1010-2025-4000-8000-000000000006', 'kh-grade12-science-mathematics-
 ១. គណនាវ៉ិចទ័រ $\overrightarrow{AC}$, $\overrightarrow{AE}$, $\overrightarrow{BD}$, $\overrightarrow{BF}$ និង $\overrightarrow{DF}$។
 ២. បង្ហាញថាត្រីកោណ $ACE$ កែងត្រង់ $A$ និងត្រីកោណ $BDF$ សម័ង្ស។
 B. ប៉ារ៉ាបូលមួយមានកំណុំ $F$ នៅលើអ័ក្សអាប់ស៊ីស និងកំពូល $O(0,0)$។ រកសមីការស្តង់ដានៃប៉ារ៉ាបូលនេះ បើវាកាត់តាមចំណុច $A(2,4)$។ រកតម្លៃ $x_1$ បើ $B(x_1,-8)$ នៅលើប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000006', 6, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1639,7 +1639,7 @@ values ('bacc1010-2025-4000-8000-000000000007', 'kh-grade12-science-mathematics-
 ៣. $\left(O,\vec{i},\vec{j}\right)$ ជាតម្រុយអរតូណរម៉ាល់។ តាង $(C)$ ក្រាបនៃអនុគមន៍ $g(x)$ ក្នុងតម្រុយនោះ។ កំណត់សមីការបន្ទាត់ប៉ះ $(T)$ ទៅនឹងក្រាប $(C)$ ត្រង់ចំណុចដែលមានអាប់ស៊ីស $x=0$។ សង់ក្រាប $(C)$ និងបន្ទាត់ប៉ះ $(T)$។ សិក្សាសញ្ញានៃ $g(x)$ ទៅតាមតម្លៃនៃ $x$។
 ៤. ក. គណនាដេរីវេនៃអនុគមន៍ $h(x)$ ដែល $h(x)=xg(x)$។
 ខ. រកផ្ទៃក្រឡានៃផ្នែកប្លង់នៅចន្លោះក្រាប $(C)$ អ័ក្សអាប់ស៊ីស និងបន្ទាត់ដែលមានសមីការ $x=0$ និង $x=1$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000007', 7, 40)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1655,7 +1655,7 @@ values ('bacc1010-2024-4000-8000-000000000001', 'kh-grade12-science-mathematics-
 ខ. រកតម្លៃ $a$ បើ $\displaystyle\lim_{x\to+\infty}\frac{8x^2-x+1}{ax^2+8}=1$
 គ. $\displaystyle\lim_{x\to-\infty}\left(x+\sqrt{x^2+9}\right)$
 ឃ. $\displaystyle\lim_{x\to0}\frac{\sin x-\sin x\cos x}{x^3}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: The copy gives no points for each exercise, so none are shown; the paper is out of 125 like other science-track mathematics papers.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1665,7 +1665,7 @@ values ('bacc1010-2024-4000-8000-000000000002', 'kh-grade12-science-mathematics-
 ក. «សិស្សទាំង $3$ នាក់ សុទ្ធតែជាជនជាតិនៅទ្វីបអឺរ៉ុប»
 ខ. «សិស្សទាំង $3$ នាក់ សុទ្ធតែជាជនជាតិនៅទ្វីបអាស៊ី តែមិនមែនជាជនជាតិខ្មែរ»
 គ. «សិស្សទាំង $3$ នាក់ មានម្នាក់ជាជនជាតិខ្មែរ ម្នាក់ជាជនជាតិនៅទ្វីបអឺរ៉ុប និងម្នាក់ទៀតជាជនជាតិនៅទ្វីបអាស៊ីមិនមែនខ្មែរ»។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: The copy gives no points for each exercise, so none are shown; the paper is out of 125 like other science-track mathematics papers.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1676,7 +1676,7 @@ values ('bacc1010-2024-4000-8000-000000000003', 'kh-grade12-science-mathematics-
 ខ. $\displaystyle J=\int_1^2\frac{6x^2+4x}{x^3+x^2-1}dx$
 គ. $\displaystyle K=\int_0^1\left(x^2+1\right)^7x\,dx$
 ឃ. $\displaystyle L=\int_0^{\frac{\pi}{4}}\left(2\cos2x-\cos4x\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: The copy gives no points for each exercise, so none are shown; the paper is out of 125 like other science-track mathematics papers.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1685,7 +1685,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2024-4000-8000-000000000004', 'kh-grade12-science-mathematics-complex-numbers', null, 2024, 'open', 'នៅក្នុងសំណុំនៃចំនួនកុំផ្លិច $\mathbb{C}$។
 ក. ដោះស្រាយសមីការ $2z-(1+i)\bar{z}=-1+5i$។ គណនា $i^{2025}$។
 ខ. យើងមាន $z_1=-4$; $z_2=3+i$។ គណនា $z_1+z_2$ រួចសរសេរ $z_1+z_2$ ជាទម្រង់ត្រីកោណមាត្រ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: The copy gives no points for each exercise, so none are shown; the paper is out of 125 like other science-track mathematics papers.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1695,7 +1695,7 @@ values ('bacc1010-2024-4000-8000-000000000005', 'kh-grade12-science-mathematics-
 ក. បង្ហាញថាអនុគមន៍ $u$ កំណត់លើសំណុំចំនួនពិត $\mathbb{R}$ ដោយ $u(x)=xe^{-x}$ ជាចម្លើយមួយរបស់សមីការឌីផេរ៉ង់ស្យែល $(E)$។
 ខ. គេមានសមីការឌីផេរ៉ង់ស្យែល $(E'')$៖ $y''+y=0$។ ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E'')$។
 គ. ជាអនុគមន៍កំណត់ និងមានដេរីវេលើ $\mathbb{R}$។ បង្ហាញថាអនុគមន៍ $v$ ជាចម្លើយនៃសមីការឌីផេរ៉ង់ស្យែល $(E)$ លុះត្រាតែអនុគមន៍ $v-u$ ជាចម្លើយមួយរបស់សមីការឌីផេរ៉ង់ស្យែល $(E'')$។ ទាញយកចម្លើយរបស់សមីការឌីផេរ៉ង់ស្យែល $(E)$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: The copy gives no points for each exercise, so none are shown; the paper is out of 125 like other science-track mathematics papers.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1703,7 +1703,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2024-4000-8000-000000000006', 'kh-grade12-science-mathematics-vectors-space', null, 2024, 'open', '១. ក្នុងលំហប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $A(2,0,0)$; $B\left(-1,\sqrt{3},0\right)$ និង $C\left(-1,-\sqrt{3},0\right)$។ រកវ៉ិចទ័រ $\overrightarrow{AB}$; $\overrightarrow{AC}$ និង $\overrightarrow{BC}$។ បង្ហាញថាត្រីកោណ $ABC$ ជាត្រីកោណសម័ង្ស និងរកផ្ទៃក្រឡារបស់វា។
 ២. គេឲ្យសមីការ $(2x-3y)^2=6\left(3y^2-2xy-6\right)$។ បង្ហាញថាសមីការនេះជាសមីការអ៊ីពែបូល។ កំណត់កូអរដោនេនៃកំពូល និងកំណុំរបស់អ៊ីពែបូល។ រកសមីការអាស៊ីមតូតនៃអ៊ីពែបូល។ ចូរសង់អ៊ីពែបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: The copy gives no points for each exercise, so none are shown; the paper is out of 125 like other science-track mathematics papers.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1714,7 +1714,7 @@ values ('bacc1010-2024-4000-8000-000000000007', 'kh-grade12-science-mathematics-
 ខ. បង្ហាញថានៅលើ $(1,+\infty)$ ដេរីវេនៃអនុគមន៍ $f$ គឺ $f''(x)=\dfrac{-(x^2+1)}{(x+1)(x-1)}$។ សិក្សាអថេរភាព និងសង់តារាងអថេរភាពនៃ $f$។
 គ. បង្ហាញថាបន្ទាត់ $(d)$ មានសមីការ $y=-x+2$ ជាអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។
 ឃ. ប្រៀបធៀបទីតាំងនៃ $(C)$ ធៀបនឹង $(d)$។ សង់ក្រាប $(C)$ និងបន្ទាត់ $(d)$។ (ប្រើតម្លៃ $\ln3\approx1.1$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: The copy gives no points for each exercise, so none are shown; the paper is out of 125 like other science-track mathematics papers.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000007', 7, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1729,7 +1729,7 @@ values ('bacc1010-2023-4000-8000-000000000001', 'kh-grade12-science-mathematics-
 ក. $\displaystyle\lim_{x\to+\infty}\left[x\ln\left(1+\frac{1}{x}\right)\right]$ គេដឹងថា $\displaystyle\lim_{x\to0}\frac{\ln(1+x)}{x}=1$
 ខ. $\displaystyle\lim_{x\to-\frac{\pi}{2}}\frac{1-\sin^2x}{2+2\sin x}$
 គ. $\displaystyle\lim_{x\to3}\frac{x^3-27}{27\left(\sqrt{x+6}-3\right)}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: the copy prints the fourth point as (6, 6, −1) without its letter; it is written here as D, since part ខ uses triangle BCD.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1739,14 +1739,14 @@ values ('bacc1010-2023-4000-8000-000000000002', 'kh-grade12-science-mathematics-
 ក. $\displaystyle I=\int_0^3(x-1)(x+3)\,dx$
 ខ. $\displaystyle J=\int_0^{\frac{\pi}{2}}\sin^4x\cos x\,dx$
 គ. $\displaystyle K=\int_{\frac{1}{2}}^1\left(\frac{3}{2x+1}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: the copy prints the fourth point as (6, 6, −1) without its letter; it is written here as D, since part ខ uses triangle BCD.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2023-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2023, 'open', 'ដោះស្រាយក្នុងសំណុំចំនួនកុំផ្លិចសមីការ $z^2+4z+16=0$។ សរសេរចម្លើយទាំងពីរតាងដោយ $z_1$ និង $z_2$ ជាទម្រង់ត្រីកោណមាត្រ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: the copy prints the fourth point as (6, 6, −1) without its letter; it is written here as D, since part ខ uses triangle BCD.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1756,7 +1756,7 @@ values ('bacc1010-2023-4000-8000-000000000004', 'kh-grade12-science-mathematics-
 ១. រកប្រូបាបនៃព្រឹត្តិការណ៍ $A$៖ «បន្ទាត់ដែលចាប់បានមិនឆែបចុង»
 ២. អ្នកទិញគាត់ចាប់យកដោយមិនបានផ្ទៀងផ្ទាត់ ហើយគាត់ចង់បានដាច់ខាតបន្ទាត់ល្អចំនួន $7$។ តើគាត់ត្រូវទិញបន្ទាត់យ៉ាងតិចចំនួនប៉ុន្មាន?
 ៣. គេចាប់យកបន្ទាត់ $2$ ម្តងដោយចៃដន្យក្នុងចំណោមបន្ទាត់ទាំង $25$។ រកប្រូបាបនៃព្រឹត្តិការណ៍ $B$៖ «បន្ទាត់ទាំងពីរចាប់បានមិនឆែបចុង»។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: the copy prints the fourth point as (6, 6, −1) without its letter; it is written here as D, since part ខ uses triangle BCD.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1768,7 +1768,7 @@ values ('bacc1010-2023-4000-8000-000000000005', 'kh-grade12-science-mathematics-
 ២. គេឲ្យសមីការ $12(xy+3)-(3x+2y)^2=0$
 ក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។
 ខ. ចូររកប្រវែងអ័ក្សតូច អ័ក្សធំ និងកូអរដោនេនៃកំពូលទាំងពីរ។ រួចសង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: the copy prints the fourth point as (6, 6, −1) without its letter; it is written here as D, since part ខ uses triangle BCD.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1776,7 +1776,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2023-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2023, 'open', 'ក. ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $3y''''=9y-6y''$។
 ខ. រកចម្លើយពិសេសមួយរបស់សមីការឌីផេរ៉ង់ស្យែល $(E)$ ដែល $y(0)=1$ និង $y''(1)=e$។ $(\ln e=1)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: the copy prints the fourth point as (6, 6, −1) without its letter; it is written here as D, since part ខ uses triangle BCD.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1792,7 +1792,7 @@ B.
 ២. $A$ ជាចំណុចនៃ $(C)$ ដែលមានអាប់ស៊ីស $x=0$។ រកសមីការបន្ទាត់ប៉ះ $(T)$ ទៅនឹងក្រាប $(C)$ ត្រង់ចំណុច $A$។
 ៣. បង្ហាញថាសមីការ $f(x)=0$ មានចម្លើយតែមួយគត់ $\beta$ នៅក្នុងចន្លោះ $[-1,0]$។
 ៤. សង់បន្ទាត់ប៉ះ $(T)$ អាស៊ីមតូត $(D)$ និងក្រាប $(C)$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: the copy prints the fourth point as (6, 6, −1) without its letter; it is written here as D, since part ខ uses triangle BCD.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000007', 7, 40)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1807,7 +1807,7 @@ values ('bacc1010-2022-4000-8000-000000000001', 'kh-grade12-science-mathematics-
 ក. $\displaystyle\lim_{x\to0}\frac{e^x+1}{2e^x}$
 ខ. $\displaystyle\lim_{x\to1}\frac{\sqrt{x+3}-2}{\sqrt{x}-1}$
 គ. $\displaystyle\lim_{x\to\frac{\pi}{3}}\frac{\sqrt{3}\left(\frac{\pi}{3}-x\right)}{\sin\left(x-\frac{\pi}{3}\right)}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VI: one copy prints 40 points and the other none; 10 points is what makes the paper add up to 125.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1817,7 +1817,7 @@ values ('bacc1010-2022-4000-8000-000000000002', 'kh-grade12-science-mathematics-
 ក. $\displaystyle I=\int_0^1\left(2-x+2x^2\right)dx$
 ខ. $\displaystyle J=\int_0^{\frac{\pi}{4}}\left(\frac{\cos4x-\cos2x}{2}\right)dx$
 គ. គេមាន $f(x)=\dfrac{x^2-1}{2x-1}$ បង្ហាញថា $f(x)=\dfrac{x}{2}+\dfrac{1}{4}-\dfrac{3}{4(2x-1)}$។ គណនា $\displaystyle K=\int_{-1}^0f(x)\,dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VI: one copy prints 40 points and the other none; 10 points is what makes the paper add up to 125.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1826,7 +1826,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2022-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2022, 'open', 'គេមានចំនួនកុំផ្លិច $z_1=i(3+2i)(2+i)^2$។
 ក. សរសេរ $z_1$ ជាទម្រង់ពីជគណិត រួចរក $\overline{z_1}$ ចំនួនកុំផ្លិចឆ្លាស់នៃ $z_1$។
 ខ. សរសេរ $z_2=z_1+19$ ជាទម្រង់ត្រីកោណមាត្រ។ គណនា $z_2^4$ និង $z_2^6$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VI: one copy prints 40 points and the other none; 10 points is what makes the paper add up to 125.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1835,7 +1835,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2022-4000-8000-000000000004', 'kh-grade12-science-mathematics-probability', null, 2022, 'open', 'ក្នុងមណ្ឌលសុខភាពមួយមានបុគ្គលិកនារី $9$ នាក់ និងបុគ្គលិកបុរស $5$ នាក់។ គេរៀបចំជាក្រុមការងារមួយក្រុមគ្នា $4$ នាក់ដោយចៃដន្យឲ្យចុះធ្វើការតាមភូមិ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 $A$៖ ក្រុមការងារដែលរៀបចំមានបុគ្គលិកទាំង $4$ នាក់សុទ្ធតែនារី។
 $B$៖ ក្រុមការងារដែលរៀបចំមានបុគ្គលិក $50\%$ ជានារី។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VI: one copy prints 40 points and the other none; 10 points is what makes the paper add up to 125.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1845,7 +1845,7 @@ values ('bacc1010-2022-4000-8000-000000000005', 'kh-grade12-science-mathematics-
 ក. រកវ៉ិចទ័រ $\overrightarrow{MN}$, $\overrightarrow{NP}$, $\overrightarrow{NQ}$, $\overrightarrow{PQ}$ និងរកប្រវែងវ៉ិចទ័រទាំងបួននេះ។
 ខ. បង្ហាញថាត្រីកោណ $NPQ$ ជាត្រីកោណកែងត្រង់ $Q$ និងរកផ្ទៃក្រឡារបស់ត្រីកោណនេះ។
 ២. រកកូអរដោនេកំពូល កំណុំ និងសមីការបន្ទាត់ប្រាប់ទិសរបស់ប៉ារ៉ាបូលដែលមានសមីការ $(y+2)^2=-8(x-2)$។ សង់ប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VI: one copy prints 40 points and the other none; 10 points is what makes the paper add up to 125.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1854,7 +1854,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2022-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2022, 'open', 'គេមានសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''+y=2(x+1)e^{-x}$។
 ក. បង្ហាញថាអនុគមន៍ $y_0$ កំណត់លើ $\mathbb{R}$ ដោយ $y_0(x)=\left(x^2+2x\right)e^{-x}$ ជាចម្លើយមួយនៃសមីការឌីផេរ៉ង់ស្យែល $(E)$។
 ខ. ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E'')$៖ $y''+y=0$ ដែលផ្ទៀងផ្ទាត់ $y(0)=e$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VI: one copy prints 40 points and the other none; 10 points is what makes the paper add up to 125.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1866,7 +1866,7 @@ values ('bacc1010-2022-4000-8000-000000000007', 'kh-grade12-science-mathematics-
 ២. គេចង់សិក្សាទីតាំងរបស់ក្រាប $(C)$ នៃ $f$ ធៀបទៅនឹងក្រាប $(P)$ ដែលមានសមីការ $y=\dfrac{1}{2}x^2$។
 ក. ក្នុងន័យនេះគេបង្កើតអនុគមន៍ $g$ កំណត់លើ $D$ ដែនកំណត់របស់ $f$ ដោយ $g(x)=f(x)-\dfrac{x^2}{2}$។ សិក្សាអថេរភាពនៃអនុគមន៍ $g$ និងទាញយកសញ្ញានៃ $g(x)$ កាលណា $x$ រត់នៅលើ $D$។ សិក្សាទីតាំងនៃក្រាប $(C)$ ធៀបនឹងក្រាប $(P)$។
 ខ. សង់ក្រាប $(C)$ និងក្រាប $(P)$ ក្នុងតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VI: one copy prints 40 points and the other none; 10 points is what makes the paper add up to 125.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000007', 7, 40)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1881,7 +1881,7 @@ values ('bacc1010-2021-4000-8000-000000000001', 'kh-grade12-science-mathematics-
 ក. $\displaystyle\lim_{x\to3}\sqrt{3x^2-11}$
 ខ. $\displaystyle\lim_{x\to\frac{\pi}{3}}\frac{\sqrt{3}\sin\left(x-\frac{\pi}{3}\right)}{\left(\frac{\pi}{3}-x\right)}$
 គ. $\displaystyle\lim_{x\to+\infty}\left(2x-7-11\ln x\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1890,7 +1890,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2021-4000-8000-000000000002', 'kh-grade12-science-mathematics-probability', null, 2021, 'open', 'ក្នុងថង់មួយមានឃ្លីពណ៌ក្រហមចំនួន $2$ ឃ្លីពណ៌ខៀវចំនួន $3$ និងឃ្លីពណ៌សចំនួន $4$។ គេចាប់យកឃ្លីចំនួន $3$ ពីក្នុងថង់ដោយចៃដន្យ។ គណនាប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 ក. ឃ្លីទាំង $3$ មានពណ៌ស
 ខ. ឃ្លីទាំង $3$ មានពណ៌ខុសៗគ្នា', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1899,7 +1899,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2021-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2021, 'open', 'ក. គេមានចំនួនកុំផ្លិច $z_1=\sqrt{2}+i\sqrt{2}$។ រក $\overline{z_1}$ ($\overline{z_1}$ ជាចំនួនកុំផ្លិចឆ្លាស់នៃ $z_1$)។
 ខ. រកម៉ូឌុល និងអាគុយម៉ង់នៃចំនួនកុំផ្លិច $z_1$។ សរសេរ $z_1$ ជាទម្រង់ត្រីកោណមាត្រ។
 គ. បង្ហាញថា $\overline{z_1}$ ជាឫសរបស់សមីការ $z^2=2\left(z\sqrt{2}-2\right)$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1907,7 +1907,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2021-4000-8000-000000000004', 'kh-grade12-science-mathematics-integrals', null, 2021, 'open', 'គណនាអាំងតេក្រាល៖
 $\displaystyle I=\int_0^1\left(3x^2-2x+1\right)dx$; $\displaystyle J=\int_0^1\left(\frac{e^x}{e^x+1}\right)dx$; $\displaystyle K=\int_{\frac{\pi}{4}}^{\frac{\pi}{2}}\left(\sin^3x\cos x\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1915,7 +1915,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2021-4000-8000-000000000005', 'kh-grade12-science-mathematics-vectors-space', null, 2021, 'open', '១. ក្នុងលំហប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $A(0,-2,0)$, $B(-4,1,2)$, $C(0,3,7)$ និង $D(4,0,5)$។ រកវ៉ិចទ័រ $\overrightarrow{AB}$, $\overrightarrow{BC}$, $\overrightarrow{CD}$ និង $\overrightarrow{AD}$ រួចបង្ហាញថាចតុកោណ $ABCD$ ជាចតុកោណកែង តែមិនមែនជាការេ។
 ២. គេមានសមីការ $9y^2=25(3-x)(3+x)$។ បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សធំ អ័ក្សតូច កូអរដោនេកំពូលទាំងពីរ និងកូអរដោនេកំណុំទាំងពីររបស់អេលីប។ សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1924,7 +1924,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2021-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2021, 'open', 'គេមានសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''=-4y$។
 ក. បង្ហាញថា $y=\lambda\cos2x+\mu\sin2x$ ដែល $\lambda$, $\mu$ ជាចំនួនពិត ជាចម្លើយរបស់សមីការឌីផេរ៉ង់ស្យែល $(E)$។
 ខ. រកចម្លើយពិសេសរបស់សមីការឌីផេរ៉ង់ស្យែល $(E)$ ដែល $y''''(0)=1$ និង $y''(0)=0$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1935,7 +1935,7 @@ values ('bacc1010-2021-4000-8000-000000000007', 'kh-grade12-science-mathematics-
 ២. បង្ហាញថាបន្ទាត់ $(D)$ ដែលមានសមីការ $y=x-2$ ជាអាស៊ីមតូតទ្រេតនៃ $(C)$ ត្រង់ $+\infty$។ បញ្ជាក់ទីតាំង $(C)$ ធៀបនឹងបន្ទាត់ $(D)$។
 ៣. យើងតាង $f''(x)$ ជាដេរីវេនៃ $f(x)$។ បង្ហាញថា $f''(x)=\dfrac{e^x-2x}{e^x}$។ គេដឹងថាគ្រប់ $x$ ជាធាតុរបស់ $\mathbb{R}$, $e^x-2x>0$។ ប្រើលទ្ធផលនេះដើម្បីទាញយកការសិក្សាអថេរភាពនៃអនុគមន៍ $f$។
 ៤. បង្ហាញថាបន្ទាត់ប៉ះ $(\Delta)$ ទៅនឹង $(C)$ ត្រង់ចំណុចដែលមានអាប់ស៊ីស $0$ ស្របនឹងបន្ទាត់ $(D)$។ សង់បន្ទាត់ $(D)$, $(\Delta)$ និងក្រាប $(C)$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1950,7 +1950,7 @@ values ('bacc1010-2019-4000-8000-000000000001', 'kh-grade12-science-mathematics-
 ក. $\displaystyle\lim_{x\to+\infty}\left[\sqrt{x^2+2x+3}-(x+1)\right]$
 ខ. $\displaystyle\lim_{x\to0}\frac{-2x\sin x}{1-\cos^2 x}$
 គ. $\displaystyle\lim_{x\to-\frac{\pi}{2}}\frac{1+\sin x}{\sin^4 x-1}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1960,7 +1960,7 @@ values ('bacc1010-2019-4000-8000-000000000002', 'kh-grade12-science-mathematics-
 $A$៖ «គេចាប់បានប៊ូលទាំងបីសុទ្ធតែមានលេខចែកដាច់នឹង $4$»
 $B$៖ «គេចាប់បានប៊ូលទាំងបីមានលេខសុទ្ធតែមិនអាចចែកដាច់នឹង $5$»
 $C$៖ «គេចាប់បានប៊ូលតែមួយគត់មានលេខចែកដាច់នឹង $4$»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1968,7 +1968,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2019-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2019, 'open', '១. ដោះស្រាយនៅក្នុងសំណុំចំនួនកុំផ្លិច $\mathbb{C}$ សមីការ $z^2-8z+64=0$។
 ២. គេមានចំនួនកុំផ្លិច $z_1=4+4i\sqrt{3}$ និង $z_2=4-4i\sqrt{3}$។ សរសេរ $\left(2z_1+\overline{z_2}\right)$ ជាទម្រង់ត្រីកោណមាត្រ និងគណនា $\left(2z_1+\overline{z_2}\right)^3$។ (យើងតាងដោយ $\overline{z_2}$ ជាកុំផ្លិចឆ្លាស់នៃ $z_2$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1976,7 +1976,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2019-4000-8000-000000000004', 'kh-grade12-science-mathematics-integrals', null, 2019, 'open', 'គណនាអាំងតេក្រាល៖
 $\displaystyle I=\int_0^1\left(x^2+1\right)^2dx$; $\displaystyle J=\int_0^{\ln6}\left(e^x-1\right)dx$; $\displaystyle K=\int_0^{\frac{\pi}{4}}\left[\sin\left(3x+\frac{\pi}{4}\right)+\sin^4x\cos x\right]dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1989,7 +1989,7 @@ values ('bacc1010-2019-4000-8000-000000000005', 'kh-grade12-science-mathematics-
 ឃ. ទាញបង្ហាញសមីការរបស់ប្លង់ $(ABC)$។
 ២. បង្ហាញថាត្រីកោណ $ABC$ ជាត្រីកោណសម័ង្ស។
 ៣. គេមានប៉ារ៉ាបូលដែលមានសមីការទូទៅ $y^2+4y-8x-12=0$។ ចូរបម្លែងសមីការនេះជាទម្រង់សមីការស្តង់ដារនៃប៉ារ៉ាបូល។ ចូររកកូអរដោនេនៃកំពូល កំណុំ និងសមីការបន្ទាត់ប្រាប់ទិស រួចសង់ប៉ារ៉ាបូល។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -1997,7 +1997,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2019-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2019, 'open', 'គេមានសមីការឌីផេរ៉ង់ស្យែល៖ $y''''+3y''+3y=2y''+5y$ $(E)$។ ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែលនេះ។
 បង្ហាញថាអនុគមន៍ $y=-e^{-2x}+2e^x$ ជាចម្លើយពិសេសមួយនៃសមីការ $(E)$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2011,7 +2011,7 @@ values ('bacc1010-2019-4000-8000-000000000007', 'kh-grade12-science-mathematics-
 ៣. ក. រកសមីការបន្ទាត់ប៉ះទៅក្រាប $(C)$ ត្រង់ចំណុច $A$ នៅលើ $(C)$ ដែលមានអាប់ស៊ីស $1$។
 ខ. រកកូអរដោនេនៃចំណុច $B$ នៃ $(C)$ ដែលបន្ទាត់ប៉ះទៅនឹង $(C)$ ត្រង់ $B$ ស្របនឹងបន្ទាត់ដែលមានសមីការ $y=x$។
 ៤. សង់ក្រាប $(C)$ និងបន្ទាត់ប៉ះត្រង់ $A$ និងត្រង់ $B$។ (គេឲ្យតម្លៃ $\ln2\approx0.7$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2026,7 +2026,7 @@ values ('bacc1010-2018-4000-8000-000000000001', 'kh-grade12-science-mathematics-
 $A$៖ «ឃ្លីទាំង $3$ មានពណ៌ក្រហម»
 $B$៖ «យ៉ាងតិចមានឃ្លី $2$ មានពណ៌ខៀវ»
 $C$៖ «ឃ្លីទាំង $3$ មានពណ៌ខុសៗគ្នា»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2036,7 +2036,7 @@ values ('bacc1010-2018-4000-8000-000000000002', 'kh-grade12-science-mathematics-
 ក. $\displaystyle\lim_{x\to1}\frac{x^2(x-2)+x^2+x-1}{1-x}$
 ខ. $\displaystyle\lim_{x\to0}\frac{-2x}{\sin3x}$
 គ. $\displaystyle\lim_{x\to\frac{\pi}{3}}\frac{\sin x-\sqrt{3}\cos x}{2(\pi-3x)}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2046,7 +2046,7 @@ values ('bacc1010-2018-4000-8000-000000000003', 'kh-grade12-science-mathematics-
 ក. គណនា $z_1\times z_2$ និង $\dfrac{z_1}{z_2}$។
 ខ. សរសេរ $z_1\times z_2$ និង $\left(\dfrac{z_1}{z_2}\right)^2$ ជាទម្រង់ត្រីកោណមាត្រ។
 គ. សរសេរ $\left(\dfrac{z_1}{z_2}\right)^3$ ជាទម្រង់ពីជគណិត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2054,7 +2054,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2018-4000-8000-000000000004', 'kh-grade12-science-mathematics-integrals', null, 2018, 'open', 'គណនាអាំងតេក្រាល៖
 $\displaystyle I=\int_1^2\left(2-x+x^2\right)dx$; $\displaystyle J=\int_0^{\frac{\pi}{4}}\left(\cos2x-\frac{1}{2}\cos4x\right)dx$; $\displaystyle K=\int_2^3\left(3x-2+\frac{1}{x-1}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2065,7 +2065,7 @@ values ('bacc1010-2018-4000-8000-000000000005', 'kh-grade12-science-mathematics-
 ខ. បង្ហាញថាចំណុច $A$, $B$ និង $C$ មិននៅលើបន្ទាត់តែមួយ។
 គ. បង្ហាញថាវ៉ិចទ័រ $\vec{n}(0,1,-1)$ ជាវ៉ិចទ័រណរម៉ាល់ទៅនឹងប្លង់ $(ABC)$។
 ២. គេមានសមីការ $(2x+3y)^2=12(xy+3)$។ បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច អ័ក្សធំ កូអរដោនេនៃកំពូលទាំងពីរ និងសង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2073,7 +2073,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2018-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2018, 'open', '១. ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''+4y''=5y$។
 ២. រកចម្លើយពិសេសមួយនៃសមីការឌីផេរ៉ង់ស្យែល $(E)$ បើគេដឹងថាក្រាប $(C)$ នៃអនុគមន៍ចម្លើយនេះកាត់តាមចំណុច $(0,3)$ ហើយបន្ទាត់ប៉ះនឹងក្រាប $(C)$ ត្រង់ចំណុចនេះមានមេគុណប្រាប់ទិសស្មើ $-3$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2086,7 +2086,7 @@ values ('bacc1010-2018-4000-8000-000000000007', 'kh-grade12-science-mathematics-
 ខ. បង្ហាញថាចំពោះគ្រប់ $x$ លើ $(1,+\infty)$ $\dfrac{x+1}{x-1}>1$ និងទាញយកការប្រៀបធៀបទីតាំងនៃ $(C)$ ធៀបនឹង $d_1$។
 ៤. កំណត់កូអរដោនេនៃចំណុចនៅលើ $(C)$ ដែលបន្ទាត់ប៉ះ $d_2$ ប៉ះនឹងក្រាប $(C)$ ត្រង់ចំណុចនេះមានមេគុណប្រាប់ទិសស្មើ $-\dfrac{5}{3}$ និងសរសេរសមីការនៃបន្ទាត់ប៉ះ $d_2$ នេះ។
 ៥. សង់ក្រាប $(C)$ អាស៊ីមតូត $d_1$ និងបន្ទាត់ប៉ះ $d_2$។ ប្រើតម្លៃប្រហែល $\ln3=1.1$ និងក្រាប $(C)$ កាត់អ័ក្សអាប់ស៊ីសត្រង់ចំណុច $(4.5,0)$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2101,7 +2101,7 @@ values ('bacc1010-2017-4000-8000-000000000001', 'kh-grade12-science-mathematics-
 ក. $\displaystyle\lim_{x\to1}\frac{1-x^2}{x^3-x^2+x-1}$
 ខ. $\displaystyle\lim_{x\to0}\frac{\sin3x}{-x}$
 គ. $\displaystyle\lim_{x\to0}\frac{\sqrt{2+x}-\sqrt{2-x}}{\sin x}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII: one copy prints f(x) = x + (1+3eˣ)/(1+eˣ), which does not match part 1; this page follows the other copy, x + (1−3eˣ)/(1+eˣ).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2111,7 +2111,7 @@ values ('bacc1010-2017-4000-8000-000000000002', 'kh-grade12-science-mathematics-
 $A$៖ «ក្រុមសិស្សដែលជ្រើសរើសបានសុទ្ធតែស្រី»
 $B$៖ «ក្រុមសិស្សដែលជ្រើសរើសបានសុទ្ធតែប្រុស»
 $C$៖ «ក្រុមសិស្សដែលជ្រើសរើសបាន $50\%$ ជាសិស្សប្រុស»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII: one copy prints f(x) = x + (1+3eˣ)/(1+eˣ), which does not match part 1; this page follows the other copy, x + (1−3eˣ)/(1+eˣ).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2121,7 +2121,7 @@ values ('bacc1010-2017-4000-8000-000000000003', 'kh-grade12-science-mathematics-
 ក. សរសេរ $z_1$ ជាទម្រង់ត្រីកោណមាត្រ។
 ខ. រកម៉ូឌុល និងអាគុយម៉ង់នៃ $z_1^3$។
 គ. សរសេរផលគុណ $z_1\times z_2$ ជាទម្រង់ពីជគណិត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII: one copy prints f(x) = x + (1+3eˣ)/(1+eˣ), which does not match part 1; this page follows the other copy, x + (1−3eˣ)/(1+eˣ).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2131,7 +2131,7 @@ values ('bacc1010-2017-4000-8000-000000000004', 'kh-grade12-science-mathematics-
 ក. រកវ៉ិចទ័រ $\overrightarrow{AB}$, $\overrightarrow{AC}$, $\overrightarrow{AD}$, $\overrightarrow{BC}$, $\overrightarrow{BD}$, $\overrightarrow{CD}$។
 ខ. គណនាប្រវែង $AB$, $AC$, $AD$, $BD$ និង $CD$។ ទាញបង្ហាញថាត្រីកោណ $ABD$ និង $ACD$ កែងត្រង់ $A$។
 ២. គេមានសមីការ $9y^2-16x^2=144$។ បង្ហាញថាសមីការនេះជាសមីការអ៊ីពែបូល។ រកកូអរដោនេរបស់កំពូលទាំងពីរ និងកំណុំទាំងពីរនៃអ៊ីពែបូល។ រកសមីការអាស៊ីមតូតរបស់អ៊ីពែបូលនេះ និងសង់អ៊ីពែបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII: one copy prints f(x) = x + (1+3eˣ)/(1+eˣ), which does not match part 1; this page follows the other copy, x + (1−3eˣ)/(1+eˣ).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000004', 4, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2139,7 +2139,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2017-4000-8000-000000000005', 'kh-grade12-science-mathematics-integrals', null, 2017, 'open', 'គណនាអាំងតេក្រាល៖ $\displaystyle I=\int_1^3\left(x-2+3x^2\right)dx$; $\displaystyle J=\int_0^{\frac{\pi}{4}}\left(\sin2x-\cos x\right)dx$។
 គណនាអាំងតេក្រាល៖ $\displaystyle K=\int_0^1\frac{x^3+(x+1)^2}{x^2+1}dx$ ដើម្បីគណនា $K$ យើងត្រូវបង្ហាញថា $\dfrac{x^3+(x+1)^2}{x^2+1}=x+1+\dfrac{x}{x^2+1}$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII: one copy prints f(x) = x + (1+3eˣ)/(1+eˣ), which does not match part 1; this page follows the other copy, x + (1−3eˣ)/(1+eˣ).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2147,7 +2147,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2017-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2017, 'open', 'ក. ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''-3y''+2y=0$។
 ខ. រកចម្លើយពិសេសមួយនៃសមីការឌីផេរ៉ង់ស្យែល $(E)$ ដែល $y(0)=1$ និង $y''(1)=2e^2$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII: one copy prints f(x) = x + (1+3eˣ)/(1+eˣ), which does not match part 1; this page follows the other copy, x + (1−3eˣ)/(1+eˣ).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2158,7 +2158,7 @@ values ('bacc1010-2017-4000-8000-000000000007', 'kh-grade12-science-mathematics-
 ២. គណនាលីមីត $f$ ត្រង់ $+\infty$។ ស្រាយបំភ្លឺថាបន្ទាត់ $(d_2)$ ដែលមានសមីការ $y=x-3$ ជាអាស៊ីមតូតទៅនឹងក្រាប $(C)$ ត្រង់ $+\infty$។ សិក្សាទីតាំងនៃក្រាប $(C)$ ធៀបនឹងបន្ទាត់ $(d_2)$។
 ៣. ក. គណនាដេរីវេ $f''(x)$ និងបង្ហាញថាគ្រប់ចំនួនពិត $x$, $f''(x)=\left(\dfrac{e^x-1}{e^x+1}\right)^2$។
 ខ. សិក្សាអថេរភាពនៃ $f$ រួចសង់តារាងអថេរភាពនៃ $f$។ សង់ក្រាប $C$ និងអាស៊ីមតូត $(d_1)$ និង $(d_2)$ របស់វា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII: one copy prints f(x) = x + (1+3eˣ)/(1+eˣ), which does not match part 1; this page follows the other copy, x + (1−3eˣ)/(1+eˣ).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2173,7 +2173,7 @@ values ('bacc1010-2016-4000-8000-000000000001', 'kh-grade12-science-mathematics-
 ក. $\displaystyle\lim_{x\to1}\frac{1-x^2}{x^2+2-3x}$
 ខ. $\displaystyle\lim_{x\to3}\frac{\sqrt{x+6}-3}{x^3-27}$
 គ. $\displaystyle\lim_{x\to0}\frac{5\sin5x}{x}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII.2: one copy prints f′(x) = ((eˣ−3)/(eˣ−3))², a typo; this page follows the other, ((eˣ−3)/(eˣ+3))², which is what differentiating f gives.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2182,7 +2182,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2016-4000-8000-000000000002', 'kh-grade12-science-mathematics-complex-numbers', null, 2016, 'open', 'គេមានចំនួនកុំផ្លិច $z_1=\sqrt{3}-i$; $z_2=\left(1-\sqrt{3}\right)+\left(1-\sqrt{3}\right)i$ និង $z_3=-\dfrac{1}{2}$។
 គណនា $z_1+z_2$, $(z_1+z_2)\times z_3$។
 សរសេរជាទម្រង់ត្រីកោណមាត្រនៃចំនួនកុំផ្លិច $Z=(z_1+z_2)\times z_3$។ ទាញរកតម្លៃនៃ $Z^3$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII.2: one copy prints f′(x) = ((eˣ−3)/(eˣ−3))², a typo; this page follows the other, ((eˣ−3)/(eˣ+3))², which is what differentiating f gives.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2191,7 +2191,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2016-4000-8000-000000000003', 'kh-grade12-science-mathematics-integrals', null, 2016, 'open', 'គណនាអាំងតេក្រាល $\displaystyle I=\int_0^2\left(6x^2-3x-1\right)dx$, $\displaystyle J=\int_0^{\frac{\pi}{4}}\left(1-2\sin^2x\right)dx$។
 គេមាន $f$ កំណត់លើ $\mathbb{R}^*$ ដោយ $f(x)=-2\left(\dfrac{x+1}{x^2}\right)$។ បង្ហាញថា $f(x)=-\dfrac{2}{x}-\dfrac{2}{x^2}$។
 គណនា $\displaystyle K=\int_1^ef(x)\,dx$។ $(\ln e=1)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII.2: one copy prints f′(x) = ((eˣ−3)/(eˣ−3))², a typo; this page follows the other, ((eˣ−3)/(eˣ+3))², which is what differentiating f gives.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2201,7 +2201,7 @@ values ('bacc1010-2016-4000-8000-000000000004', 'kh-grade12-science-mathematics-
 ក. $A$៖ ប៊ូលដែលចាប់បានមានពណ៌បៃតង។
 ខ. $B$៖ ប៊ូលដែលចាប់បានមានលេខសេស។
 គ. $C$៖ ប៊ូលដែលចាប់បានមានពណ៌បៃតង និងលេខសេស។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII.2: one copy prints f′(x) = ((eˣ−3)/(eˣ−3))², a typo; this page follows the other, ((eˣ−3)/(eˣ+3))², which is what differentiating f gives.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2213,7 +2213,7 @@ values ('bacc1010-2016-4000-8000-000000000005', 'kh-grade12-science-mathematics-
 ២. នៅក្នុងលំហប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $M(2,3,4)$, $N(3,5,6)$, $P(4,6,7)$, $Q(3,4,5)$។
 ក. រកវ៉ិចទ័រ $\overrightarrow{MN}$, $\overrightarrow{QP}$។
 ខ. ទាញបង្ហាញថាចតុកោណ $MNPQ$ ជាប្រលេឡូក្រាម។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII.2: one copy prints f′(x) = ((eˣ−3)/(eˣ−3))², a typo; this page follows the other, ((eˣ−3)/(eˣ+3))², which is what differentiating f gives.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2221,7 +2221,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2016-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2016, 'open', 'ក. ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''+2y''-3y=0$។
 ខ. រកចម្លើយពិសេសមួយនៃសមីការឌីផេរ៉ង់ស្យែល $(E)$ ដែល $y(0)=1$, $y''(1)=e$។ ($e$ ជាចំនួនពិតដែល $\ln e=1$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII.2: one copy prints f′(x) = ((eˣ−3)/(eˣ−3))², a typo; this page follows the other, ((eˣ−3)/(eˣ+3))², which is what differentiating f gives.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2236,7 +2236,7 @@ values ('bacc1010-2016-4000-8000-000000000007', 'kh-grade12-science-mathematics-
 ខ. សិក្សាទីតាំងនៃក្រាប $C$ ធៀបនឹងបន្ទាត់ប៉ះ $d_2$។
 ៤. ក. បង្ហាញថាបន្ទាត់ប៉ះ $d_3$ ទៅនឹងក្រាប $C$ ត្រង់ចំណុចដែលមានអាប់ស៊ីសសូន្យមានសមីការ $y=\dfrac{1}{4}x+1$។
 ខ. ដោយសន្មត់ថាចំណុច $I$ ជាផ្ចិតឆ្លុះនៃក្រាប $C$ និងក្នុងតម្លៃប្រហែលនៃ $\ln(3)$ ចូរសង់ក្រាប $C$ និងបន្ទាត់ប៉ះ $d_1$, $d_2$, $d_3$។ (នៅក្នុងតម្រុយនេះមួយឯកតាស្មើ $2\,\text{cm}$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII.2: one copy prints f′(x) = ((eˣ−3)/(eˣ−3))², a typo; this page follows the other, ((eˣ−3)/(eˣ+3))², which is what differentiating f gives.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2250,7 +2250,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2015-4000-8000-000000000001', 'kh-grade12-science-mathematics-complex-numbers', null, 2015, 'open', 'គេមានចំនួនកុំផ្លិច $z_1=-1+i\sqrt{3}$ និង $z_2=1-i\sqrt{3}$។
 ១. គណនា $z_1+z_2$, $z_1-z_2$, $z_1\times z_2$។
 ២. សរសេរជាទម្រង់ត្រីកោណមាត្រនៃចំនួនកុំផ្លិច $z_1-z_2$, $z_1\times z_2$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for u×u and u×v, the other for w×u and w×v; this page follows the second, as w is otherwise unused.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2260,7 +2260,7 @@ values ('bacc1010-2015-4000-8000-000000000002', 'kh-grade12-science-mathematics-
 ក. $\displaystyle\lim_{x\to2}\frac{x^3-8}{\sqrt{x+2}-2}$
 ខ. $\displaystyle\lim_{x\to0}\frac{\cos x-1}{\sin^2x}$
 គ. $\displaystyle\lim_{x\to0}\frac{3\sin3x}{x}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for u×u and u×v, the other for w×u and w×v; this page follows the second, as w is otherwise unused.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2269,7 +2269,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2015-4000-8000-000000000003', 'kh-grade12-science-mathematics-probability', null, 2015, 'open', 'ក្នុងស្បោងមួយមានប៊ូលពណ៌ស $3$ ប៊ូលពណ៌ខៀវ $3$ និងប៊ូលពណ៌ក្រហម $2$។ គេចាប់យកប៊ូលម្តង $3$ ក្នុងពេលតែមួយចេញពីស្បោងដោយចៃដន្យ។ គេសន្និដ្ឋានថាប្រូបាបដែលចាប់បានប៊ូលនីមួយៗជាសមប្រូបាប។ គណនាប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 ក. $A$៖ «យ៉ាងតិចមានប៊ូល $2$ ពណ៌ខៀវ»
 ខ. $B$៖ «ប៊ូលទាំងបីមានពណ៌ខុសៗគ្នា»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for u×u and u×v, the other for w×u and w×v; this page follows the second, as w is otherwise unused.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2277,7 +2277,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2015-4000-8000-000000000004', 'kh-grade12-science-mathematics-integrals', null, 2015, 'open', 'ក. គណនាអាំងតេក្រាល $\displaystyle I=\int_1^2\left(\frac{x^2}{3}-\frac{x}{2}+3\right)dx$។
 ខ. គេមានអនុគមន៍ $f(x)=-\dfrac{2-x}{(x-1)^2}$។ បង្ហាញថា $f(x)=-\dfrac{1}{(x-1)^2}+\dfrac{1}{x-1}$។ គណនា $\displaystyle K=\int_{-1}^0f(x)\,dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for u×u and u×v, the other for w×u and w×v; this page follows the second, as w is otherwise unused.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2285,7 +2285,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2015-4000-8000-000000000005', 'kh-grade12-science-mathematics-vectors-space', null, 2015, 'open', '១. គេមានវ៉ិចទ័រ $\vec{u}=\vec{i}-\vec{j}+2\vec{k}$, $\vec{v}=-\vec{i}+2\vec{j}+2\vec{k}$, $\vec{w}=\vec{i}+\vec{j}-2\vec{k}$។ រកវ៉ិចទ័រ៖ ក. $\vec{u}+\vec{v}$ ខ. $\vec{w}\times\vec{u}$ គ. $\vec{w}\times\vec{v}$។
 ២. រកសមីការស្តង់ដានៃអេលីប ដែលមានកំណុំមួយមានកូអរដោនេ $(-1,0)$ និងចំណុចកំពូលពីរមានកូអរដោនេ $(-3,0)$ និង $(3,0)$។ សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for u×u and u×v, the other for w×u and w×v; this page follows the second, as w is otherwise unused.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2294,7 +2294,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2015-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2015, 'open', 'គេមានសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''+2y=2\dfrac{e^{-x}}{1+2e^x}$។
 ១. ផ្ទៀងផ្ទាត់ថាអនុគមន៍ $f$ ដែល $f(x)=e^{-2x}\ln\left(1+2e^x\right)$ ជាចម្លើយនៃ $(E)$។
 ២. បង្ហាញថាអនុគមន៍ $\varphi$ ជាចម្លើយនៃ $(E)$ លុះត្រាតែ $(\varphi-f)$ ជាចម្លើយនៃសមីការ $(E'')$៖ $y''+2y=0$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for u×u and u×v, the other for w×u and w×v; this page follows the second, as w is otherwise unused.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2311,7 +2311,7 @@ B. គេមានអនុគមន៍ $f$ កំណត់លើ $(0,+\infty)$ 
 ៣. ប្រើលទ្ធផលនៃសំណួរខាងលើ សិក្សាសញ្ញានៃ $f''(x)$ និងសង់តារាងអថេរភាពនៃអនុគមន៍ $f$ លើ $(0,+\infty)$។
 ៤. ក. បង្ហាញថាបន្ទាត់ $\Delta$ មានសមីការ $y=x+1$ ជាអាស៊ីមតូតទៅនឹងក្រាប $C$ ត្រង់ $+\infty$។
 ខ. សិក្សាទីតាំង $C$ ធៀបនឹង $\Delta$ និងបញ្ជាក់កូអរដោនេនៃចំណុចប្រសព្វ $I$ រវាងក្រាប $C$ និង $\Delta$។ សង់ $\Delta$ និងក្រាប $C$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for u×u and u×v, the other for w×u and w×v; this page follows the second, as w is otherwise unused.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2328,7 +2328,7 @@ values ('bacc1010-2014-4200-8000-000000000001', 'kh-grade12-science-mathematics-
 គ. $\displaystyle\lim_{x\to+\infty}\left(\sqrt{x^2+x}-x\right)$
 ឃ. $\displaystyle\lim_{x\to0}\frac{\left(e^{-x}+e^x\right)\sin^2x}{2x^2}$
 ង. $\displaystyle\lim_{x\to+\infty}\left(\ln(x+2)-\ln x-\frac{2}{x+2}+\frac{1}{4}\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000001', 1, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2338,7 +2338,7 @@ values ('bacc1010-2014-4200-8000-000000000002', 'kh-grade12-science-mathematics-
 ក. គណនា $z_1+z_2$, $z_1+z_3$, $(z_1+z_2)(z_1+z_3)$។
 ខ. កំណត់ម៉ូឌុល និងអាគុយម៉ង់នៃ $z_1+z_2$, $z_1+z_3$, $\left(\dfrac{z_1+z_3}{z_1+z_2}\right)^2$។
 ២. កំណត់ $i^n$ ចំពោះតម្លៃនៃចំនួនគត់ធម្មជាតិ $n\geq1$។ ទាញរកតម្លៃ $i^{2015}-i^{2014}$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000002', 2, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2348,7 +2348,7 @@ values ('bacc1010-2014-4200-8000-000000000003', 'kh-grade12-science-mathematics-
 ក. «យ៉ាងតិចមានសិស្ស $2$ នាក់ ជាសិស្សអាស៊ី»។
 ខ. «យ៉ាងតិចមានសិស្ស $2$ នាក់ ជាសិស្សអឺរ៉ុប»។
 គ. «មានសិស្សម្នាក់ក្នុងមួយទ្វីប»។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2360,7 +2360,7 @@ values ('bacc1010-2014-4200-8000-000000000004', 'kh-grade12-science-mathematics-
 ខ. គណនាដេរីវេ $f''(x)$ នៃអនុគមន៍ $f(x)$។
 គ. បង្ហាញថានៅលើ $I$, $f''(x)$ មានសញ្ញាដូច $h(x)$។
 ឃ. ទាញយកអថេរភាពនៃ $f(x)$ លើ $I$ និងសង់ក្រាប $C$ នៃ $f(x)$ នៅលើប្លង់ប្រដាប់ដោយតម្រុយ $\left(O,\vec{i},\vec{j}\right)$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000004', 4, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2369,7 +2369,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2014-4200-8000-000000000005', 'kh-grade12-science-mathematics-differential-equations', null, 2014, 'open', 'គេមានសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''+4y=x^2+2x-1$។
 ១. រកអនុគមន៍ $f_1(x)=ax^2+bx+c$ ជាចម្លើយរបស់សមីការ $(E)$។
 ២. បង្ហាញថាបើ $f(x)$ ជាចម្លើយនៃសមីការ $(E)$ នោះ $g(x)=f(x)-f_1(x)$ ជាចម្លើយនៃសមីការ $y''''+4y=0$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2378,7 +2378,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc1010-2014-4200-8000-000000000006', 'kh-grade12-science-mathematics-vectors-space', null, 2014, 'open', '១. ក្នុងតម្រុយអរតូណរម៉ាល់មានទិសដៅវិជ្ជមាន $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $A(2,2,1)$, $B(4,-2,0)$, $C(3,1,1)$, $D(1,5,2)$។ បង្ហាញថា $ABCD$ ជាប្រលេឡូក្រាម រួចគណនាផ្ទៃក្រឡាប្រលេឡូក្រាមនេះ។
 ២. រកសមីការប៉ារ៉ាម៉ែតនៃបន្ទាត់ ដែលកាត់តាមចំណុច $A(2,2,1)$ និង $B(4,-2,0)$។
 ៣. រកសមីការប្លង់ ដែលកាត់តាមចំណុច $A(2,2,1)$, $B(4,-2,0)$, $D(1,5,2)$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000006', 6, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2394,7 +2394,7 @@ values ('bacc1010-2014-4100-8000-000000000001', 'kh-grade12-science-mathematics-
 ខ. $\displaystyle\lim_{x\to0}\frac{-2\sin5x}{\sqrt{5}-\sqrt{x+5}}$
 គ. $\displaystyle\lim_{x\to0}\frac{1-\cos^2 3x}{-2x^2}$
 ឃ. $\displaystyle\lim_{x\to0}\frac{x^2-x}{|x|}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2404,7 +2404,7 @@ values ('bacc1010-2014-4100-8000-000000000002', 'kh-grade12-science-mathematics-
 ១. គណនា $z_1+z_2$, $z_1-z_2$, $z_1z_2$។
 ២. សរសេរចំនួនកុំផ្លិច $z_1$ និង $z_2$ ជាទម្រង់ត្រីកោណមាត្រ។
 ៣. បង្ហាញថា $z_1$ និង $z_2$ ជាឫសរបស់សមីការ $z^3-8=0$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2414,7 +2414,7 @@ values ('bacc1010-2014-4100-8000-000000000003', 'kh-grade12-science-mathematics-
 ១. «គេចាប់បានប៊ូលទាំងបីមានលេខសុទ្ធតែចែកដាច់នឹង $3$»
 ២. «គេចាប់បានប៊ូលតែមួយគត់មានលេខចែកដាច់នឹង $3$»
 ៣. «គេចាប់បានលេខតាមលំដាប់កើនជាស្វ៊ីតនព្វន្តដែលមានផលសងរួម $d=3$»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2427,7 +2427,7 @@ values ('bacc1010-2014-4100-8000-000000000004', 'kh-grade12-science-mathematics-
 ឃ. កំណត់អាប់ស៊ីសនៃចំណុចប្រសព្វរវាង $\Delta$ និងខ្សែកោង $C$។
 ២. ក. បង្ហាញថាចំពោះគ្រប់ $x$ នៅលើ $]0,+\infty[$ គេបាន $f''(x)=\dfrac{g(x)}{x^2}$។
 ខ. សិក្សាអថេរភាពនៃអនុគមន៍ $f$ ដោយដឹងថាសមីការ $g(x)=0$ មានចម្លើយ $x=1$ និង $x=\alpha$ $(1<\alpha)$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000004', 4, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2442,9 +2442,507 @@ values ('bacc1010-2014-4100-8000-000000000005', 'kh-grade12-science-mathematics-
 ២. ក. គណនា $f''(x)$។ សិក្សាអថេរភាពនៃ $f$។ កំណត់តម្លៃពិតនៃអតិបរមារបស់ $f$។
 ខ. $A$ ជាចំណុចនៅលើខ្សែកោង $C$ ដែលមានអាប់ស៊ីស $0$។ កំណត់សមីការបន្ទាត់ប៉ះខ្សែកោង $C$ ត្រង់ចំណុច $A$។
 គ. បង្ហាញថាសមីការ $f(x)=0$ មានចម្លើយតែមួយគត់ ដែលគេតាងដោយ $\beta$ នៅក្នុងចន្លោះ $[-1,0]$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000005', 5, 45)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
+
+-- kh-grade12-science-physics.json
+begin;
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000000', 'kh-grade12-science-physics', 2022, 'BacII 2022: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2022 (2022-12-05), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: IV is kept as the copy prints it; its wording looks incomplete (it does not say what to calculate), so check it against the original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000001', 'kh-grade12-science-physics-past-papers', null, 2022, 'open', '១. ដូចម្តេចដែលហៅថា បំលែងទែម៉ូឌីណាមិច?
+២. តើបាតុភូតអូតូអាំងឌុចស្យុងកើតមាននៅពេលណា? ចូរលើកឧទាហរណ៍មួយមកបង្ហាញពីបាតុភូតអូតូអាំងឌុចស្យុង។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: IV is kept as the copy prints it; its wording looks incomplete (it does not say what to calculate), so check it against the original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000001', 1, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2022, 'open', 'បម្លាស់ទីរលកមួយឲ្យដោយសមីការ $y=0.50-\sin(0.40x-0.40t)\ (m)$
+គណនាអំព្លីនៃរលក ចំនួនរលក ខួបនៃរលក និងល្បឿនដំណាលនៃរលក។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: IV is kept as the copy prints it; its wording looks incomplete (it does not say what to calculate), so check it against the original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2022, 'open', 'គណនាមាឌធុងដែលផ្ទុកអុកស៊ីសែន $16\,g$ នៅសម្ពាធ $1\,atm$ និងសីតុណ្ហភាព $27^{\circ}C$។ គេឲ្យថេរសកលឧស្ម័ន $R=8.31\,J/mol.K$ និងម៉ាសម៉ូលអុកស៊ីសែន $32\,g/mol$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: IV is kept as the copy prints it; its wording looks incomplete (it does not say what to calculate), so check it against the original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2022, 'open', 'ឧស្ម័នបរិសុទ្ធ $2.0\,mol$ មានសីតុណ្ហភាពថេរ $27^{\circ}C$ ក្នុងរយៈពេលបម្រែបម្រួលមាឌនោះ។ គេឲ្យ $\ln\left(\dfrac{10.0}{3.68}\right)=1$ និងថេរសកលឧស្ម័ន $R=8.31\,J/mol.K$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: IV is kept as the copy prints it; its wording looks incomplete (it does not say what to calculate), so check it against the original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000004', 4, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2022, 'open', 'ម៉ាស៊ីនមួយមានទិន្នផលកម្តៅ $50\%$ ហើយវាស្រូបបរិមាណកម្តៅ $5000\,J$។ គណនា៖
+ក. កម្មន្តមេកានិកដែលបានពីពីស្តុង
+ខ. បរិមាណកម្តៅដែលបញ្ចេញទៅក្នុងបរិយាកាស
+គ. កម្មន្តបានការ បើគេថាទិន្នផលគ្រឿងបញ្ជូន $80\%$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: IV is kept as the copy prints it; its wording looks incomplete (it does not say what to calculate), so check it against the original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000005', 5, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2022, 'open', 'នៅក្នុងសៀគ្វីអីដេអាល់ $(L,C)$ មួយដែលមានជាសៀគ្វីលំយោលមិនចយ តង់ស្យុងរវាងគោលនៃកុងដង់សាទ័រមានតម្លៃ $V_1=200\,V$ កាលណាអាំងតង់ស៊ីតេចរន្តក្នុងបូប៊ីនស្មើសូន្យ។ គណនាអាំងតង់ស៊ីតេចរន្ត កាលណាតង់ស្យុងរវាងគោលនៃកុងដង់សាទ័រមានតម្លៃ $V_2=100\,V$។ គេឲ្យកាប៉ាស៊ីតេនៃកុងដង់សាទ័រ $C=1\,\mu F$ និងអាំងតង់ស៊ីតេចរន្តនៃបូប៊ីន $L=0.5\,H$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: IV is kept as the copy prints it; its wording looks incomplete (it does not say what to calculate), so check it against the original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000006', 6, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000000', 'kh-grade12-science-physics', 2021, 'BacII 2021: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2021 (2021-12-27), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000001', 'kh-grade12-science-physics-past-papers', null, 2021, 'open', '១. ដូចម្តេចដែលហៅថារលក?
+២. តើប្រភពដែលម៉ាញេទិចមានអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000001', 1, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2021, 'open', 'គណនាមាឌអាសូត $28\,g$ ដែលផ្ទុកក្នុងធុងសម្ពាធ $1\,atm$ និងសីតុណ្ហភាព $127^{\circ}C$។ គេឲ្យ $R=8.31\,J/mol.K$ និងម៉ាសម៉ូលអាសូត $28\,g/mol$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2021, 'open', 'សូលេណូអ៊ីតមួយមានប្រវែង $3.14\,m$ និងមាន $500$ ស្ពៀ ផ្ទុកថាមពលម៉ាញេទិច $0.25\,J$ នៅពេលមានចរន្តអគ្គិសនី $10\,A$ ឆ្លងកាត់វា។ គេឲ្យ $\mu_o=4\pi\times10^{-7}\,T.m/A$
+ក. គណនាអាំងឌុចតង់របស់សូលេណូអ៊ីត
+ខ. គណនាផ្ទៃមុខកាត់របស់សូលេណូអ៊ីត', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2021, 'open', 'ចូរគណនាថាមពលក្នុងរបស់ប្រព័ន្ធមួយ៖
+ក. ប្រព័ន្ធស្រូបបរិមាណកម្តៅ $1000\,cal$ និងធ្វើកម្មន្ត $800\,J$
+ខ. ប្រព័ន្ធស្រូបបរិមាណកម្តៅ $600\,cal$ និងទទួលកម្មន្ត $840\,J$
+គ. បរិមាណកម្តៅ $2400\,cal$ ត្រូវបានបំភាយចេញពីប្រព័ន្ធនៅពេលមាឌថេរ។
+គេឲ្យ $1\,cal=4.2\,J$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000004', 4, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2021, 'open', 'ម៉ាស៊ីននៃរថយន្តទំនើបមួយមានទិន្នផលកម្តៅ $0.50$ យើងវាស្រូបបរិមាណកម្តៅ $5.0\,MJ$។ គណនា៖
+ក. កម្មន្តមេកានិចដែលបានពីពីស្តុង
+ខ. បរិមាណកម្តៅដែលបញ្ចេញទៅក្នុងបរិយាកាស
+គ. កម្មន្តបានការ បើគេថាទិន្នផលគ្រឿងបញ្ជូន $0.90$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000005', 5, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2021, 'open', 'ខ្សែចម្លងត្រង់មួយមានប្រវែង $\ell=30\,cm$ ឆ្លងកាត់ដោយចរន្តអគ្គិសនី $5.0\,A$ ត្រូវបានគេយកទៅដាក់ក្នុងដែនម៉ាញេទិចឯកសណ្ឋានមួយដែលមានអាំងឌុចស្យុង $B=3.0\,T$។ គណនា កម្លាំងអេឡិចត្រូម៉ាញេទិចដែលមានអំពើលើរបារក្នុងករណីដែលខ្សែចម្លងផ្គុំបានមុំ $\theta_1=0^{o},\theta_2=30^{o},\theta_3=60^{o},\theta_4=90^{o},\theta_5=180^{o}$ ជាមួយអាំងឌុចស្យុង ម៉ាញេទិច។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000006', 6, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000000', 'kh-grade12-science-physics', 2019, 'BacII 2019: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2019 (2019-08-19), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 10, 10, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000001', 'kh-grade12-science-physics-past-papers', null, 2019, 'open', '១. ដូចម្តេចដែលហៅថាបំលែងទែម៉ូឌីណាមិច?
+២. ចូរពោលច្បាប់ឡង់ ដើម្បីកំណត់ទិសដៅចរន្តអាំងឌុី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 10, 10, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2019, 'open', 'គណនាតម្លៃមធ្យមនៃថាមពលស៊ីនេទិចនៃម៉ូលេគុលឧស្ម័ននៅសីតុណ្ហភាព $931^{\circ}C$។ គេឲ្យ $R=8.31\,J/mol.K$ និង $N_A=6.02\times10^{23}$ ម៉ូលេគុល/mol។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 10, 10, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2019, 'open', 'ម៉ាស៊ីនកកណ្តុរមានប្រភពត្រជាក់មានសីតុណ្ហភាព $17.0^{\circ}C$ ហើយមានទិន្នផលកម្តៅ $50\%$។ តើសីតុណ្ហភាពនៃប្រភពក្តៅកើនឡើងបានប៉ុន្មានអង្សា? ប្រសិនបើគេចង់បង្កើនទិន្នផលកម្តៅម៉ាស៊ីននេះឲ្យឡើងដល់ $80\%$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 10, 10, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2019, 'open', 'ក. គេផ្ទុកកុងដង់សាទ័រមួយដែលមាន $C=1\,\mu F$ ក្រោមតង់ស្យុង $E=V=1\,V$។ គណនាថាមពលដែលស្តុកទុកក្នុងកុងដង់សាទ័រនៅពេលផ្ទុក។
+ខ. ក្នុងកុងដង់សាទ័រដែលផ្ទុកនោះ ត្រូវបានគេភ្ជាប់ទៅគោលបូប៊ីនដែលមានអាំងឌុចតង់ $L=0.1\,H$ និងរេស៊ីស្តង់អាចចោលបាន។ គណនាអាំងតង់ស៊ីតេចរន្តអតិបរមា $i_m$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 10, 10, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2019, 'open', 'ទម្រខ្សែចម្លងពីរដាក់ស្របគ្នាក្នុងប្លង់ដេកដែលចុងទាំងពីររបស់វាភ្ជាប់គ្នាដោយរេស៊ីស្តង់ $R=4\,\Omega$ ហើយទម្រនេះឃ្លាតពីគ្នា $10\,cm$។ របារលោហៈ $MN$ មួយដាក់ផ្គុំកែងលើទម្រទាំងពីរ។ ប្លង់ទម្រកែងនឹងដែនម៉ាញេទិចឯកសណ្ឋានមានអាំងឌុចស្យុង $B=0.05\,T$។ គេរុញរបារ $MN$ ឲ្យផ្លាស់ទីលើទម្រទាំងពីរដោយល្បឿន $40\,m/s$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 10, 10, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2019, 'open', 'ប្រព័ន្ធទែម៉ូឌីណាមិចបានធ្វើបំលែងដូចខាងក្រោម។ ចូរគណនាបម្រែបម្រួលថាមពលក្នុងរបស់ប្រព័ន្ធ។
+ក. ប្រព័ន្ធស្រូបកម្តៅ $2000\,J$ និងទទួលកម្មន្ត $500\,J$។
+ខ. ប្រព័ន្ធស្រូបកម្តៅ $1500\,J$ និងធ្វើកម្មន្ត $400\,J$។
+គ. បរិមាណកម្តៅ $50000\,J$ ត្រូវបានបំភាយចេញពីប្រព័ន្ធនៅពេលមាឌថេរ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 10, 10, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000000', 'kh-grade12-science-physics', 2018, 'BacII 2018: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2018 (2018-08-20), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000001', 'kh-grade12-science-physics-past-papers', null, 2018, 'open', 'ចូរពោលច្បាប់ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន និងច្បាប់ទី១ ទែម៉ូឌីណាមិច។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000001', 1, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2018, 'open', 'គណនាមាឌឧស្ម័នអុកស៊ីសែន $3.2\,g$ ដែលផ្ទុកក្នុងធុងនៅសម្ពាធ $1.0\times10^5\,Pa$ និងសីតុណ្ហភាព $27^{o}C$។ គេឲ្យ $R=8.31\,J/mol.K$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000002', 2, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2018, 'open', 'គេធ្វើកម្មន្ត $20\,KJ$ លើប្រព័ន្ធឧស្ម័នបិទជិតមួយ។ ក្រោយមកកម្តៅ $1\,kcal$ បានភាយចេញពីប្រព័ន្ធ។ គណនាបម្រែបម្រួលថាមពលក្នុងនៃប្រព័ន្ធ។ $(1\,kcal=4186\,J)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000003', 3, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2018, 'open', 'ម៉ាស៊ីនមួយមានទិន្នផលកម្តៅ $0.40$ ហើយវាស្រូបបរិមាណកម្តៅ $5.0\,MJ$។ គណនា៖
+ក. កម្មន្តមេកានិចដែលបានពីពីស្តុង
+ខ. បរិមាណកម្តៅដែលបញ្ចេញទៅក្នុងបរិយាកាស
+គ. កម្មន្តបានការ បើគេដឹងថាទិន្នផលគ្រឿងបញ្ជូន $0.80$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000004', 4, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2018, 'open', 'ខ្សែចម្លងវែងពីរស្របគ្នានៅចម្ងាយ $10\,cm$ ពីគ្នា ហើយឆ្លងកាត់ដោយចរន្ត $6.0\,A$ និង $4.0\,A$។ ជម្រាបម៉ាញេទិចនៃខ្យល់ ឬសុញ្ញកាស $\mu_o=4\pi\times10^{-7}\,T.m/A$
+គណនាវ៉ិចទ័រកម្លាំងដែលមានអំពើលើខ្សែចម្លង $D$ ប្រវែង $1.0\,m$ (ដូចរូបខាងស្តាំ) ប្រសិនបើ៖
+ក. ចរន្តឆ្លងកាត់ខ្សែចម្លងមានទិសដៅស្របគ្នា។
+ខ. ចរន្តឆ្លងកាត់ខ្សែចម្លងមានទិសដៅផ្ទុយគ្នា។', '[]'::jsonb, '[{"path":"past-papers/ph-2018-q5.jpg","alt":"ខ្សែចម្លងស្របគ្នាពីរ C (6.0 A) និង D (4.0 A) នៅចម្ងាយ 10 cm ពីគ្នា។"}]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000005', 5, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2018, 'open', 'សូលេណូអ៊ីតមួយមានប្រវែង $1.5\,m$ និងមាន $470$ ស្ពៀក្នុង $1.0\,m$ ផ្ទុកថាមពលម៉ាញេទិច $0.31\,J$ នៅពេលមានចរន្តអគ្គិសនី $12\,A$ ឆ្លងកាត់។ គេឲ្យ $\mu_o=4\pi\times10^{-7}\,T.m/A$
+ក. គណនាអាំងឌុចតង់របស់សូលេណូអ៊ីត។
+ខ. គណនាផ្ទៃមុខកាត់របស់សូលេណូអ៊ីត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000006', 6, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000000', 'kh-grade12-science-physics', 2017, 'BacII 2017: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2017 (2017-08-21), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000001', 'kh-grade12-science-physics-past-papers', null, 2017, 'open', 'គណនាតម្លៃមធ្យមនៃថាមពលស៊ីនេទិចនៃម៉ូលេគុលឧស្ម័ននៅសីតុណ្ហភាព $1727^{o}C$។ គេឲ្យថេរសកលនៃឧស្ម័ន $R=8.30\,J/(mol.K)$ និងចំនួនអាវ៉ូកាដ្រូ $N_A=6.00\times10^{23}$ ម៉ូលេគុល $/mol$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2017, 'open', 'បម្លាស់ទីនៃរលកមួយឲ្យដោយសមីការ $y=0.30\sin\left(0.20x-0.20t\right)(m)$។ គណនា៖ អំព្លីទុតនៃរលក ចំនួនរលក ជំហាននៃរលក ខួបនៃរលក និងល្បឿនដំណាលរលក។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2017, 'open', 'គណនាបម្រែបម្រួលថាមពលក្នុងរបស់ប្រព័ន្ធ៖
+ក. ប្រព័ន្ធធ្វើកម្មន្ត $500\,J$ ខណៈវារីកអាដ្យាបាទិច។
+ខ. ខណៈប្រព័ន្ធរួមអាដ្យាបាទិច កម្មន្ត $1000\,J$ ត្រូវបានធ្វើលើឧស្ម័ន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2017, 'open', 'ម៉ាស៊ីនម៉ាសូតនៃរថយន្តមួយដែលមានទិន្នផលកម្តៅ $0.40$ ហើយវាស្រូបបរិមាណកម្តៅ $6.0\times10^6\,J$។ គណនា៖
+ក. កម្មន្តមេកានិចដែលបានពី ពីស្តុង។
+ខ. បរិមាណកម្តៅដែលបញ្ចេញទៅក្នុងបរិយាកាស។
+គ. កម្មន្តបានការ បើគេដឹងថា ទិន្នផលគ្រឿងបញ្ជូនស្មើនឹង $0.80$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2017, 'open', 'គណនាម៉ាសនៃផង់ផ្ទុកបន្ទុកអគ្គិសនី $1.6\times10^{-19}\,C$ មួយដែលផ្លាស់ទីដោយល្បឿន $5.0\times10^5\,m/s$ ហើយមានកាំកំណោង $2.0\times10^{-2}\,m$ នៅពេលវាផ្លាស់ទីចូលក្នុងដែនម៉ាញេទិច ហើយមានទិសដៅកែងនឹងដែនម៉ាញេទិច $B=0.26\,T$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2017, 'open', 'របារអង្គធាតុចម្លងពីររាងជាស៊ីឡាំងត្រូវបានដាក់ឲ្យស្របគ្នាក្នុងប្លង់ដេកដែលចុងទាំងពីររបស់វាភ្ជាប់គ្នាដោយរេស៊ីស្តង់ $R=6.0\,\Omega$ ហើយរបារទាំងពីរនៅឃ្លាតពីគ្នាចម្ងាយ $30\,cm$។ របារលោហៈ $MN$ មួយដាក់ឲ្យកែងលើរបារអង្គធាតុចម្លងទាំងពីរ។ ប្លង់នៃរបារអង្គធាតុចម្លងទាំងពីរកែងនឹងដែនម៉ាញេទិចឯកសណ្ឋានមានអាំងឌុចស្យុង $B=0.20\,T$។ គេរុញរបារ $MN$ ឲ្យផ្លាស់ទីលើរបារអង្គធាតុចម្លងទាំងពីរដោយល្បឿន $100\,m/s$។ គណនាអាំងតង់ស៊ីតេចរន្តអាំងឌុីឆ្លងកាត់រេស៊ីស្តង់ បើរបារលោហៈ និងរបារអង្គធាតុចម្លងទាំងពីរ មានរេស៊ីស្តង់អាចចោលបាន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000000', 'kh-grade12-science-physics', 2016, 'BacII 2016: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000001', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'ដូចម្តេចដែលហៅថាប្រព័ន្ធទែម៉ូឌីណាមិច?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'នៅពេលចរន្តអគ្គិសនីឆ្លងកាត់បូប៊ីនមួយគេសង្កេតឃើញប៉ូលមួយរបស់បូប៊ីនមានខ្សែដែនតេចេញ ហើយប៉ូលមួយទៀតមានខ្សែដែនតេចូល។ តើប៉ូលណាជាប៉ូលជើង ហើយមួយណាជាប៉ូលត្បូងរបស់បូប៊ីន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'គណនាមាឌឧស្ម័នអុកស៊ីសែន $6.4\,g$ ដែលផ្ទុកក្នុងធុងនៅសម្ពាធ $10^5\,Pa$ និងសីតុណ្ហភាព $400\,K$ ដោយម៉ាសម៉ូលរបស់ឧស្ម័នអុកស៊ីសែន $M=32\,g/mol$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'គេផ្ទុកកុងដង់សាទ័រមួយដែលមានកាប៉ាស៊ីតេ $C=2.0\,\mu F$ ក្រោមតង់ស្យុង $V=5.0\,V$។ គណនាថាមពលអគ្គិសនីដែលផ្ទុកក្នុងកុងដង់សាទ័រ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'ចូរគណនាបម្រែបម្រួលថាមពលក្នុងរបស់ប្រព័ន្ធទែម៉ូឌីណាមិច៖
+ក. ប្រព័ន្ធស្រូបបរិមាណកម្តៅ $2000\,J$ និងធ្វើកម្មន្ត $500\,J$។
+ខ. ប្រព័ន្ធស្រូបបរិមាណកម្តៅ $1200\,J$ និងទទួលកម្មន្ត $400\,J$។
+គ. បរិមាណកម្តៅ $300\,J$ ត្រូវបានបំភាយចេញពីប្រព័ន្ធនៅ ពេលមាឌថេរ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'ម៉ាស៊ីនមួយមានទិន្នផលកម្តៅ $40\%$ គណនា៖
+ក. កម្មន្តដែលបានធ្វើ ប្រសិនបើវាស្រូបកម្តៅ $2000\,J$ ពីធុងក្តៅ
+ខ. កម្តៅភាយចេញទៅធុងត្រជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000007', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'សូលេណូអ៊ីតគ្មានស្នូលមួយមានប្រវែង $50\,cm$ ហើយមានអង្កត់ផ្ចិត $3.0\,cm$ ត្រូវបានគេរុំចំនួន $3000$ ស្ពៀ។ ប្រសិនបើសូលេណូអ៊ីតឆ្លងកាត់ដោយចរន្តអគ្គិសនី $5.0\,A$។ គណនា៖
+ក. ដែនម៉ាញេទិចឆ្លងកាត់សូលេណូអ៊ីត
+ខ. ប្រវែងខ្សែចម្លងដែលរុំជាសូលេណូអ៊ីត។ (គេឲ្យ )', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000007', 7, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000000', 'kh-grade12-science-physics', 2015, 'BacII 2015: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2015 (2015-08-24), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000001', 'kh-grade12-science-physics-past-papers', null, 2015, 'open', 'ចូរពោលទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000001', 1, 8)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2015, 'open', 'ដូចម្តេចដែលហៅថារលកតម្រួត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000002', 2, 8)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2015, 'open', 'ចូរគណនាមាឌឧស្ម័នអាសូត $2.8\,g$ ដែលផ្ទុកក្នុងធុងក្រោមសម្ពាធ $1.0\times10^5\,Pa$ និងសីតុណ្ហភាព $300\,K$។ ថេរសកលនៃឧស្ម័ន $R=8.31\,J/mol.K$ និងម៉ាសម៉ូលអាសូត $28\,g/mol$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000003', 3, 14)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2015, 'open', 'គេធ្វើបំលែងទែម៉ូឌីណាមិចដូចរូបខាងក្រោម។ ចូរគណនា៖
+ក. កម្មន្តក្នុងបំលែងទែម៉ូឌីណាមិចពី $A$ ទៅ $B$។
+ខ. កម្មន្តក្នុងបំលែងទែម៉ូឌីណាមិចពី $B$ ទៅ $C$។
+គ. កម្មន្តក្នុងបំលែងទែម៉ូឌីណាមិចពី $C$ ទៅ $A$។
+ឃ. កម្មន្តសរុបក្នុងបំលែងបិទ $ABCA$។', '[]'::jsonb, '[{"path":"past-papers/ph-2015-q4.jpg","alt":"ក្រាប P–V៖ A (2.0 m³, 2.0×10⁵ Pa) ទៅ B (3.0 m³, 1.0×10⁵ Pa) ជាបន្ទាត់ត្រង់, B ទៅ C (2.0 m³, 1.0×10⁵ Pa) សម្ពាធថេរ, C ទៅ A មាឌថេរ។"}]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000004', 4, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2015, 'open', 'ម៉ាស៊ីនម៉ាសូតនៃរថយន្តដែលមានទិន្នផលកម្តៅ $0.45$ ហើយវាស្រូបបរិមាណកម្តៅ $4.0\times10^6\,J$។ ចូរគណនា៖
+ក. កម្មន្តមេកានិចដែលបានពីពិស្តុង។
+ខ. បរិមាណកម្តៅដែលបញ្ចេញទៅក្នុងបរិយាកាស។
+គ. កម្មន្តបានការ បើគេដឹងថាទិន្នផលគ្រឿងបញ្ជូនស្មើ $0.80$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000005', 5, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2015, 'open', 'ខ្សែចម្លងទង់ដែងមួយមានមុខកាត់ $0.2\,mm$ មានរេស៊ីស្ទីវីតេ $\rho=1.7\times10^{-8}\,\Omega.m$ ត្រូវបានគេរុំចំនួន $6000$ ស្ពៀ ជាសូលេណូអ៊ីតគ្មានស្នូលមួយដែលមានអង្កត់ផ្ចិត $3.0\,cm$ និងមានប្រវែង $60\,cm$។ សូលេណូអ៊ីតត្រូវបានឆ្លងកាត់ដោយចរន្តអគ្គិសនី $1.0\,A$។ គេឲ្យជំរាបម៉ាញេទិចនៃខ្យល់ ឬ សុញ្ញាកាស $\mu_o=4\pi\times10^{-7}\,T.m/A$។ ចូរគណនា៖
+ក. ដែនម៉ាញេទិចឆ្លងកាត់ស្នូលសូលេណូអ៊ីត។
+ខ. ប្រវែងខ្សែចម្លងដែលរុំជាសូលេណូអ៊ីត។
+គ. រេស៊ីស្តង់របស់ខ្សែចម្លង។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000006', 6, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000000', 'kh-grade12-science-physics', 2014, 'BacII 2014, second sitting: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000001', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'តើច្បាប់ទី១ទែម៉ូឌីណាមិចសិក្សាអំពីអ្វី? ចូរពោលច្បាប់នេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000001', 1, 10)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'គណនាមាឌផុងដែលផ្ទុកឧស្ម័នអុកស៊ីសែន $9.6\,g$ នៅសម្ពាធ $10^5\,Pa$ និងសីតុណ្ហភាព $300\,K$។ ថេរ សកលនៃឧស្ម័ន $R=8.31\,J/mol.K$ និងម៉ាសម៉ូលនៃអុកស៊ីសែនគឺ $32\,g/mol$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000002', 2, 12)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'គណនាបម្រែបម្រួលថាមពលក្នុងរបស់ប្រព័ន្ធទែម៉ូឌីណាមិចដូចលក្ខខណ្ឌខាងក្រោម៖
+ក. ក្នុងពេលតែមួយប្រព័ន្ធស្រូបកម្តៅ $500\,cal$ និងធ្វើកម្មន្ត $400\,J$។
+ខ. ក្នុងពេលតែមួយប្រព័ន្ធស្រូបកម្តៅ $300\,cal$ និងទទួលកម្មន្តពីកម្លាំងខាងក្រៅ $420\,J$។
+គ. ប្រព័ន្ធបញ្ចេញកម្តៅ $1200\,cal$ ដោយរក្សាមាឌថេរ។ គេឲ្យ $1\,cal=4.19\,J$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000003', 3, 12)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'ម៉ាស៊ីនសាំងមួយទទួលកម្តៅ $4.0\times10^6\,J$។ វាមានទិន្នផលកម្តៅ $0.40$។
+ក. គណនាកម្មន្តមេកានិចដែលផ្តល់ដោយពិស្តុង។
+ខ. តើកម្តៅដែលបញ្ចេញទៅបរិយាកាសមានតម្លៃប៉ុន្មាន?
+គ. ទិន្នផលគ្រឿងបញ្ជូន $0.85$។ គណនាកម្មន្តដែលទទួលដោយភ្លៅម៉ូទ័រ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000004', 4, 13)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'ខ្សែចម្លងត្រង់ពីរមានប្រវែងស្មើគ្នា $\ell_1=\ell_2=1\,m$ ដាក់ស្របគ្នាក្នុងខ្យល់ហើយស្ថិតនៅចម្ងាយពីគ្នា $a=1\,cm$ ហើយឆ្លងកាត់ដោយចរន្តមានទិសដៅដូចគ្នា និងមានអាំងតង់ស៊ីតេចរន្ត $I_1=I_2=1\,A$។ ជំរាបម៉ាញេទិចនៃខ្យល់ឬសុញ្ញាកាស $\mu_o=4\pi\times10^{-7}\,(T.m)/A$។
+ក. គណនាកម្លាំងដែលមានអំពើទៅវិញទៅមករវាងខ្សែចម្លងទាំងពីរ។
+ខ. តើខ្សែចម្លងទាំងពីរទាញគ្នាចូល ឬច្រានគ្នាចេញ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000005', 5, 13)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'គេធ្វើពិសោធន៍មួយដើម្បីវាស់អាំងតង់ស៊ីតេនៃដែនម៉ាញេទិច។ អេឡិចត្រុងត្រូវគេដាក់ឲ្យស្ទុះពីនៅស្ងៀមឆ្លងកាត់ផលសងប៉ូតង់ស្យែលអគ្គិសនី $350\,V$។ ប្រសិនដែនម៉ាញេទិចមានទិសកែងនឹងគន្លងរបស់អេឡិចត្រុងនោះអេឡិចត្រុងផ្លាស់ទីបានជាគន្លងរង្វង់ដែលមានកាំ $R=7.5\,cm$ ពីព្រោះដែនម៉ាញេទិចមានអំពើទៅលើវា។ គេឲ្យបន្ទុកអគ្គិសនីរបស់អេឡិចត្រុង $1.60\times10^{-19}\,C$ និងម៉ាសអេឡិចត្រុង $9.11\times10^{-31}\,kg$។ គណនា៖
+ក. អាំងតង់ស៊ីតេដែនម៉ាញេទិចឯកសណ្ឋាន។
+ខ. ល្បឿនមុំរបស់អេឡិចត្រុងពេលធ្វើចលនាវង់គិតជា ជុំក្នុងមួយវិនាទី។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000006', 6, 15)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000000', 'kh-grade12-science-physics', 2014, 'BacII 2014, first sitting: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000001', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'តើត្រង់ស្វូម៉ាទ័រប្រើសម្រាប់ធ្វើអ្វី? ចូរបញ្ជាក់ពីទម្រង់របស់វា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000001', 1, 5)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'តើបាតុភូតអូតូអាំងឌុចស្យុងកើតមាននៅពេលណា? ចូរលើកឧទាហរណ៍មួយមកបង្ហាញពីបាតុភូតនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000002', 2, 8)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'តើគេប្រើវិធានដៃស្តាំយ៉ាងដូចម្តេចដើម្បីកំណត់ទិសដៅដែនម៉ាញេទិច ករណីចរន្តត្រង់? ករណីចរន្តវង់?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000003', 3, 8)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'ត្រង់ស្វូម៉ាទ័រមានបូប៊ីនពីរមាន $10000$ ស្ពៀ ហើយមួយទៀតមាន $200$ ស្ពៀ។ តើគេត្រូវយករបុំណាមួយជារបុំបឋម បើគេចង់បានតង់ស្យុងកើន? គណនាតង់ស្យុងនៃគោលរបស់របុំមធ្យម បើគេដឹងថាតង់ស្យុងនៅគោលនៃរបុំបឋមស្មើនឹង $220\,V$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000004', 4, 12)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'គេឲ្យសៀគ្វីនៃចរន្តឆ្លាស់ ដែលមានពុលសាស្យុង $\omega$ (ដូចរូប)។ គេឲ្យតង់ស្យុងប្រសិទ្ធ $U_{AB}=160\,V$; $U_{BD}=56\,V$; $U_{AD}=120\,V$ និងអាំងតង់ស៊ីតេប្រសិទ្ធនៃចរន្ត $I=0.2\,A$។
+ក. គណនាអាំប៉េដង់ $Z_{AB}$; $Z_{BD}$ និង $Z_{AD}$។
+ខ. គណនារេស៊ីស្តង់នៃបូប៊ីន។', '[]'::jsonb, '[{"path":"past-papers/ph-2014-1-q5.jpg","alt":"សៀគ្វីចរន្តឆ្លាស់៖ បូប៊ីន (R, L) រវាង A និង B និងកុងដង់សាទ័រ C រវាង B និង D ភ្ជាប់ទៅប្រភពចរន្តឆ្លាស់។"}]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000005', 5, 20)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'គេសង់បូប៊ីនមួយ មានអាំងឌុចតង់ $L=64\,mH$ ដោយប្រើខ្សែចម្លងដែលមានអង្កត់ផ្ចិត $d=0.8\,mm$ ស្រោបដោយអ៊ីសូឡង់ដែលមានកម្រាស់ $e=0.1\,mm$ ជាស្ពៀជាប់ៗគ្នាលើស៊ីឡាំងមួយដែលមានអង្កត់ផ្ចិត $D=2\,cm$។
+ក. តើគេត្រូវរុំបូប៊ីននេះចំនួនប៉ុន្មានស្ពៀ?
+ខ. គេចង់ឲ្យបូប៊ីននេះ មានអាំងឌុចតង់ឡើងដល់ $L_2=81\,mH$ គេត្រូវរុំបូប៊ីននេះសាជាថ្មីដោយប្រើខ្សែចម្លងផ្សេងជាងមុនលើស៊ីឡាំងដដែល។ តើបូប៊ីនក្រោយនេះមានចំនួនស្ពៀប៉ុន្មាន?
+គេឲ្យ $\pi^2=10$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000006', 6, 22)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 commit;
 
@@ -2458,7 +2956,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2022-4000-8000-000000000001', 'kh-grade12-social-earth-science-past-papers', null, 2022, 'open', 'ក. ដូចម្តេចដែលហៅថា ដំណើរពុកផុយ? តើដំណើរពុកផុយមានប៉ុន្មាន?
 ខ. តើកត្តាអ្វីខ្លះដែលនាំឲ្យមានដំណើរពុកផុយនីមួយៗ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2022-4000-8000-000000000000', 'bacc2110-2022-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2466,7 +2964,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2022-4000-8000-000000000002', 'kh-grade12-social-earth-science-past-papers', null, 2022, 'open', 'ក. តើភពក្នុង និងភពក្រៅនៃប្រព័ន្ធព្រះអាទិត្យមានអ្វីខ្លះ? មានលក្ខណៈខុសគ្នាដូចម្តេច?
 ខ. ហេតុអ្វីបានជាគេនិយាយថា ភពផែនដីជាភពតែមួយ គត់ដែលមានជីវិតរស់នៅ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2022-4000-8000-000000000000', 'bacc2110-2022-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2474,7 +2972,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2022-4000-8000-000000000003', 'kh-grade12-social-earth-science-past-papers', null, 2022, 'open', 'ក. តើឥន្ធនៈអ្វីខ្លះដែលគេចាត់ទុកជាឥន្ធនៈផូស៊ីល?
 ខ. ចំហេះឥន្ធនៈផូស៊ីលប៉ះពាល់អ្វីខ្លះដល់ភាវៈមានជីវិតនៅលើផែនដី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2022-4000-8000-000000000000', 'bacc2110-2022-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2487,14 +2985,14 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2021-4000-8000-000000000001', 'kh-grade12-social-earth-science-past-papers', null, 2021, 'open', '១. តើគេបែងចែកកំណប់រ៉ែនៅប្រទេសកម្ពុជាជាប៉ុន្មានក្រុម? អ្វីខ្លះ?
 ២. តើត្បូងមានតម្លៃនិងថ្មរចនាភាគច្រើនមាននៅក្នុងខេត្តណាខ្លះនៃប្រទេសកម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2021-4000-8000-000000000000', 'bacc2110-2021-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2021-4000-8000-000000000002', 'kh-grade12-social-earth-science-past-papers', null, 2021, 'open', 'តើផែនដីមានចលនាអ្វីខ្លះ? ចូរពណ៌នាពីចលនារបស់ផែនដីដែលបង្កើតឲ្យមានថ្ងៃនិងយប់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2021-4000-8000-000000000000', 'bacc2110-2021-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2502,7 +3000,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2021-4000-8000-000000000003', 'kh-grade12-social-earth-science-past-papers', null, 2021, 'open', '១. តើគេប្រើប្រាស់ដីសម្រាប់ធ្វើអ្វីខ្លះ?
 ២. តើត្រូវគិតគូរពីតុល្យភាពរវាងដីសម្រាប់សាងសង់និងដីសម្រាប់កសិកម្មដែរឬទេ? ហេតុអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2021-4000-8000-000000000000', 'bacc2110-2021-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2510,7 +3008,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2021-4000-8000-000000000004', 'kh-grade12-social-earth-science-past-papers', null, 2021, 'open', '១. ចូររកឈ្មោះឥន្ធនៈផូស៊ីលសំខាន់ៗដែលអ្នកបានស្គាល់?
 ២. តើឥន្ធនៈផូស៊ីលមានគុណសម្បត្តិ និងគុណវិបត្តិអ្វីខ្លះក្នុងជីវភាពរស់នៅប្រចាំថ្ងៃ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2021-4000-8000-000000000000', 'bacc2110-2021-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2522,7 +3020,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2019-4000-8000-000000000001', 'kh-grade12-social-earth-science-past-papers', null, 2019, 'open', 'តើដីមានប៉ុន្មានស្រទាប់? អ្វីខ្លះ? តើស្រទាប់នីមួយៗមានលក្ខណៈខុសគ្នាដោយសារកត្តាអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2019-4000-8000-000000000000', 'bacc2110-2019-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2530,7 +3028,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2019-4000-8000-000000000002', 'kh-grade12-social-earth-science-past-papers', null, 2019, 'open', '១. តើឥន្ធនៈផូស៊ីលរឹងជាអ្វី? មានប៉ុន្មានប្រភេទ?
 ២. ចូររៀបរាប់ពីការកកើតនៃប្រភេទនីមួយៗ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2019-4000-8000-000000000000', 'bacc2110-2019-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2538,7 +3036,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2019-4000-8000-000000000003', 'kh-grade12-social-earth-science-past-papers', null, 2019, 'open', '១. ចូរពណ៌នាពីផលវិជ្ជមាន និងអវិជ្ជមាននៃ «ផលផ្ទះកញ្ចក់»។
 ២. តើមានកត្តាអ្វីខ្លះដែលអាចបន្ថយល្បឿននៃការកើនកម្តៅលើផែនដីបាន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2019-4000-8000-000000000000', 'bacc2110-2019-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2546,7 +3044,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2019-4000-8000-000000000004', 'kh-grade12-social-earth-science-past-papers', null, 2019, 'open', '១. តើពេលណាដែលថ្ងៃវែងជាងយប់ និងយប់វែងជាងថ្ងៃជាងគេ?
 ២. តើបាតុភូតនេះកើតឡើងដោយសារមូលហេតុអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2019-4000-8000-000000000000', 'bacc2110-2019-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2558,28 +3056,28 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2018-4000-8000-000000000001', 'kh-grade12-social-earth-science-past-papers', null, 2018, 'open', 'តើហេតុអ្វីបានជាសមាសធាតុផ្សំរបស់ភពសិលាខុសពីសមាសធាតុផ្សំរបស់ភពឧស្ម័ន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points, but its question points add up to 50, the elective''s points; 50 is used.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2018-4000-8000-000000000000', 'bacc2110-2018-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2018-4000-8000-000000000002', 'kh-grade12-social-earth-science-past-papers', null, 2018, 'open', 'ចូររាប់ឈ្មោះឧស្ម័នផ្ទះកញ្ចក់សំខាន់ៗឲ្យបានចំនួនបួន។ តើឧស្ម័នផ្ទះកញ្ចក់ទាំងនោះមានប្រភពមកពីណាខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points, but its question points add up to 50, the elective''s points; 50 is used.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2018-4000-8000-000000000000', 'bacc2110-2018-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2018-4000-8000-000000000003', 'kh-grade12-social-earth-science-past-papers', null, 2018, 'open', 'ចូររៀបរាប់ពីភាពខុសគ្នារវាងការផ្ទុះបំបែក និងការលាយថាមពលនុយក្លេអ៊ែ។ តើថាមពលទាំងពីរផ្តល់គុណសម្បត្តិ និងគុណវិបត្តិអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points, but its question points add up to 50, the elective''s points; 50 is used.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2018-4000-8000-000000000000', 'bacc2110-2018-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2018-4000-8000-000000000004', 'kh-grade12-social-earth-science-past-papers', null, 2018, 'open', 'ហេតុអ្វីបានជាគេនិយាយថាសំណល់ជាបញ្ហាធ្ងន់ធ្ងរ ជាពិសេសនៅក្នុងទីក្រុងឬទីប្រជុំជន? តើត្រូវមានវិធានការអ្វីខ្លះដើម្បីកាត់បន្ថយបញ្ហាទាំងនេះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points, but its question points add up to 50, the elective''s points; 50 is used.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2018-4000-8000-000000000000', 'bacc2110-2018-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2593,7 +3091,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2110-2017-4000-8000-000000000001', 'kh-grade12-social-earth-science-past-papers', null, 2017, 'open', 'ក. នៅកម្ពុជាតើស្ថាប័នណាដែលជាអ្នកទទួលខុសត្រូវក្នុងការគ្រប់គ្រងធនធានរ៉ែនៅក្នុងប្រទេស?
 ខ. តើគេបានបែងចែកកំណប់រ៉ែនៅប្រទេសកម្ពុជាជាប៉ុន្មានក្រុម? អ្វីខ្លះ?
 គ. តើការជីកយករ៉ែ និងការធ្វើប្រព្រឹត្តិកម្មរ៉ែបណ្តាលឲ្យមានផលប៉ះពាល់អ្វីខ្លះដល់បរិស្ថាន និងសង្គមជាតិ? ចូររៀបរាប់ដោយសង្ខេប។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2017-4000-8000-000000000000', 'bacc2110-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2601,14 +3099,14 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2017-4000-8000-000000000002', 'kh-grade12-social-earth-science-past-papers', null, 2017, 'open', 'ក. ចូលពណ៌នាពីចលនាវង្វិលជុំ និងចលនាវង្វិលខ្លួននៃភពផែនដី និងលទ្ធផលនៃចលនាទាំងពីរ។
 ខ. ហេតុអ្វីបានជាគេនិយាយថា ផែនដីជាភពតែមួយគត់នៅក្នុងប្រព័ន្ធព្រះអាទិត្យដែលអាចទ្រទ្រង់ជីវិតបាន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2017-4000-8000-000000000000', 'bacc2110-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2017-4000-8000-000000000003', 'kh-grade12-social-earth-science-past-papers', null, 2017, 'open', 'នាពេលបច្ចុប្បន្ន សំណល់ត្រូវបានគេប្រមូលកែច្នៃ ហើយប្រើប្រាស់ឡើងវិញ ឬប្រើប្រាស់ក្នុងគោលដៅថ្មីទៀត។ តើការកែច្នៃជាថ្មី និងកំប៉ុស្តកម្មមានសារៈសំខាន់អ្វីខ្លះលើជីវភាពរស់នៅក្នុងសង្គម?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2017-4000-8000-000000000000', 'bacc2110-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2616,7 +3114,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2017-4000-8000-000000000004', 'kh-grade12-social-earth-science-past-papers', null, 2017, 'open', 'ក. តើដីនៅប្រទេសកម្ពុជាមានប៉ុន្មានប្រភេទ? ប្រភេទអ្វីខ្លះ?
 ខ. តើដីប្រភេទណាខ្លះដែលបម្រើឲ្យវិស័យកសិកម្មបានល្អជាងគេ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2017-4000-8000-000000000000', 'bacc2110-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2624,7 +3122,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2017-4000-8000-000000000005', 'kh-grade12-social-earth-science-past-papers', null, 2017, 'open', 'ក. តើប្រភពថាមពលចម្បងសម្រាប់ការប្រើប្រាស់មនុស្សបច្ចុប្បន្នមានអ្វីខ្លះ?
 ខ. តើយើងត្រូវប្រើប្រាស់ប្រភពថាមពលយ៉ាងដូចម្តេច ដើម្បីអភិរក្ស និងបញ្ចៀសផលប៉ះពាល់ទៅលើបរិស្ថាន និងសុខភាពមនុស្ស?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2017-4000-8000-000000000000', 'bacc2110-2017-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2636,21 +3134,21 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2016-4000-8000-000000000001', 'kh-grade12-social-earth-science-past-papers', null, 2016, 'open', 'តើកាឡាក់ស៊ីមានប៉ុន្មានប្រភេទ? អ្វីខ្លះ? ប្រព័ន្ធព្រះអាទិត្យរបស់យើងស្ថិតនៅក្នុងប្រភេទកាឡាក់ស៊ីមួយណា? មានឈ្មោះអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2016-4000-8000-000000000000', 'bacc2110-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2016-4000-8000-000000000002', 'kh-grade12-social-earth-science-past-papers', null, 2016, 'open', 'តើថាមពលព្រះអាទិត្យ ផ្តល់សារៈសំខាន់អ្វីខ្លះដល់ជីវិតនៅលើភពផែនដី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2016-4000-8000-000000000000', 'bacc2110-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2016-4000-8000-000000000003', 'kh-grade12-social-earth-science-past-papers', null, 2016, 'open', 'តើដំណើរពុកផុយមានប៉ុន្មានប្រភេទ អ្វីខ្លះ? ចូរបង្ហាញពីមូលហេតុនៃការពុកផុយរបស់ប្រភេទនីមួយៗ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2016-4000-8000-000000000000', 'bacc2110-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2658,14 +3156,14 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2016-4000-8000-000000000004', 'kh-grade12-social-earth-science-past-papers', null, 2016, 'open', 'ក. ចូររាប់ឈ្មោះឥន្ធនៈផូស៊ីលសំខាន់ៗដែលអ្នកបានស្គាល់។
 ខ. តើការប្រើប្រាស់ឥន្ធនៈផូស៊ីលបង្កឲ្យមានផលប៉ះពាល់អ្វីខ្លះដល់បរិស្ថាន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2016-4000-8000-000000000000', 'bacc2110-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2016-4000-8000-000000000005', 'kh-grade12-social-earth-science-past-papers', null, 2016, 'open', 'តើផ្នែកសំខាន់ៗនៃវដ្តទឹកមានអ្វីខ្លះ? ចូរពណ៌នាដោយសង្ខេបពីផ្នែកនីមួយៗនៃវដ្តទឹក។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2016-4000-8000-000000000000', 'bacc2110-2016-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2673,7 +3171,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2110-2016-4000-8000-000000000006', 'kh-grade12-social-earth-science-past-papers', null, 2016, 'open', 'ក. តើកំណើនផលផ្ទះកញ្ចក់នាំឲ្យមានផលប៉ះពាល់អ្វីខ្លះលើអាកាសធាតុ និងវិស័យកសិកម្ម?
 ខ. តើយើងត្រូវធ្វើដូចម្តេចខ្លះដើម្បីកាត់បន្ថយការកើនឡើងនៃកម្តៅនៅលើពិភពលោក?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2016-4000-8000-000000000000', 'bacc2110-2016-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2693,7 +3191,7 @@ Read the text and fill the gaps with the words in the box. Gap one has been done
 (0) discipline · (1) stricter · ( ) situation · ( ) Punishment · ( ) reputation · ( ) behavior · ( ) control · ( ) conduct · ( ) freedom · ( ) respect · ( ) progressive
 
 In most countries, schools were much (1) stricter twenty-five years ago than they are today. Many parents are not at all happy with the present (2)……………….. because they feel that teachers have lost the ability to (3)……………… their classes. Some schools in particular have developed a very bad (4)……………….. for the way in which the students (5)……………. themselves. They no longer seem to have any (6) ……………….. for the school or the teachers who work in it. Some experts feel that the reason for these new patterns of (7)………………. in schools is the result of (8) ………………… ideas in education. They feel that (9). ……………… has become weak because students have been given too much (10)….. to choose how they want to spend their time. It is no doubt a good idea that physical (11)…………….. traditional kind of education has vanished in most places. But nowadays in many schools no punishment at all is possible.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2714,7 +3212,7 @@ a. didn''t she  b. doesn''t she  c. wouldn''t she  d. hadn''t she
 a. am getting  b. get  c. was getting  d. have gotten
 5. More roads…………. every year.
 a. was built  b. had built  c. are being built  d. are building', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2735,7 +3233,7 @@ a. promised  b. exacted  c. assume  d. supposed
 a. participate  b. join in  c. enroll  d. enter
 5.………… inform you that your grandmother died ten minutes ago.
 a. apologies  b. sorry  c. pity  d. regret', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2743,7 +3241,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2022-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2022, 'open', 'Part 4. Writing
 Write an essay in English at least 80 words about "How to reduce road accident in Cambodia?".', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2761,7 +3259,7 @@ Read the text and fill the gaps with the words in the box. Gap one has been done
 
 A working life
 Well I studied (0) … economics at university, and the I was lucky because I got a (1) …….. very quickly as an accountant in a local (2) …….. store. It wasn''t exactly what I wanted, but you know, it was a first job. I stayed there for four years altogether. After three year I was (3) …….. to accounts manager, and I decided to leave and I (4) …….. for others jobs in the area. But I had no luck getting a second job at all, and I was very short of (5) ………., so in the end I had to get job working as a (6) ………. in a restaurant. Well it wasn''t very successful because I''m quite clumsy you see I kept dropping things. So I after a few weeks they gave me sack. And then, just by chance I met an old friend who I (7) ……… at university with, and he was working in (8) ……… And he got me a job as television researcher on a programme called "Business Today". And after a (9)………. really they decided that want younger (10) ……… of the programme, and I got a job and I love it.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2782,7 +3280,7 @@ a. because  b. so  c. since  d. because of
 a. visited  b. would visit  c. visit  d. will visit
 5. If she doesn''t do he homework, she …………. punished.
 a. is  b. would be  c. will be  d. will have', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2803,7 +3301,7 @@ a. essay  b. message  c. complaint  d. information
 a. lost  b. abandoned  c. forgot  d. missed
 5. She went to the library to ……….
 a. borrow a book  b. lend a book  c. let a book  d. hire a book', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2811,7 +3309,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2021-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2021, 'open', 'Part 4. Writing
 Write an essay in English at least 80 words about "Your goal in the future".', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2829,7 +3327,7 @@ Read the text and fill the gaps with the words in the box. Gap one has been done
 
 Opening of New Sport Centre
 The Champa Sport Centre, which has been completely (1) …rebuilt…, was reopened yesterday by the Minister for Sport. The building was (2)…… used as a market, but was sold to Champa Council in 1981, and then (3) ……into a sports hall. Local schools played football and basketball (4) ……, and keep fit classes were held there. In 2001 the hall was damaged by a (5) ……which broke out in the heating system. The hall could not be used, and remained empty while (6) …… continued about its future. It was then decided that the hall would be rebuilt, and an appeal for (7) ……was launched. Two years ago a local (8) …… offered (9) ……for the building work, and plans were drawn up. The new hall includes a swimming pool, running track and other (10) ……facilities which can be (11) ……by anyone in the Champa area. The Minister made a speech in which he congratulated everyone involved.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2850,7 +3348,7 @@ a. I am a cool  b. I''ve catched a cold  c. I have cold  d. I have caught a cold
 a. was sitting  b. have sat  c. sat  d. was sat
 5. Thida …………to the cinema if you went with her.
 a. will go  b. would go  c. goes  d. went', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2871,7 +3369,7 @@ a. reduced  b. decreased  c. bargained  d. lowered
 a. apologise  b. sorry  c. pity  d. regret
 5. We were unable to reach an agreement because of …………the between the two groups.
 a. contact  b. concern  c. connection  d. conflict', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2879,7 +3377,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2019-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2019, 'open', 'Part 4. Writing
 Write an essay "Studying for Success" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2897,7 +3395,7 @@ economic · earnings · disagreed · applications · employee · profitable · (
 
 Leaving a job
 I recently left my job in an …advertising…agency after disagreement with my boss. She accepted my (2) …. but warned me that because of the (3) ….. situation, I might have to get used to the idea of being (4) ….. for a while. I thought that she was trying to make a point, but after I had made over fifty (5) …… to other companies. O realized that she was right. Although I am a (6) …. designer. I don''t receive any offers of a job. After that I tried working from home, but it was not very (7) ……Then I became and (8) ……. in a fast-food restaurant, even though my (9) …… were extremely low. I wish I had accepted early (10) …… from my old job. That is what I (11) ……. with my boss about!', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2918,7 +3416,7 @@ a. are driving  b. drives  c. driven  d. were driving
 a. will be completed  b. will complete  c. is completed  d. completes
 5. Their marriage wouldn''t be so good if they ……. so well with each other.
 a. communicated  b. didn''t communicate  c. don''t communicate  d. communicate', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2939,7 +3437,7 @@ a. reduced  b. decreased  c. bargained  d. lowered
 a. timeless  b. punctual  c. boring  d. careful
 5. It''ll take you over an hour to get to the city center in ….. hour.
 a. rush  b. busy  c. run  d. crowded', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2947,7 +3445,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2018-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2018, 'open', 'IV. Writing
 Write an essay "Role of women in modern Cambodia society" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2964,7 +3462,7 @@ Read the text and fill the gaps with the words in the box. Gap one has been done
 ( ) occupation · ( ) successful · ( ) embarrassment · ( ) hobby · ( ) failure · ( ) solution · (1) evening · ( ) secretarial · ( ) explanation · ( ) frozen · ( ) construction
 
 Recently I decided to go to (1) ……classes twice a week. During the day, I work in a (2) ……agency as a telephonist. It is not a very good interesting (3) ……and I get bored. I also got tired of coming home every evening putting a (4) ……meal in the oven and then watching TV. So, I decided to take up carpentry as a (5) ……. Perhaps I should give you an (6) …… for my choice. Learning a skill is a good (7) ……to the problem of boring work. Also, I felt I was a (8) …… because any time I tried to put up a shelf, for example, it always fell down. Now I am quite a (9) ……wood worker. I am working on the (10) ……of some furniture at the moment. And although there are only few students in the class, I don''t feel any (11) ……I''ve turned out to be the best student in the class!', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -2985,7 +3483,7 @@ a. broke  b. breaks  c. broken  d. break
 a. was  b. had  c. came  d. been
 5. If you give me some money, I …… to go shopping.
 a. can  b. could  c. will be able  d. will can', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3006,7 +3504,7 @@ a. agree  b. approve  c. support  d. believe
 a. lost  b. abandoned  c. forgot  d. missed
 5. The fans climbed over the fence to …… paying.
 a. avoid  b. prevent  c. abandon  d. refuse', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3014,7 +3512,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2017-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2017, 'open', 'Part 4: Writing
 Writing an essay. There is too much traffic in the city. "What do you think the authorities should do about it?" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3032,7 +3530,7 @@ practicing · raincoat · change · be able · offered · nothing · (1) tennis 
 
 A friend in the rain
 Last week I was walking home after playing (1)…tennis…. when it started raining very heavily. "Oh no, I will get (2)……. Before I reach home". I thought. "I wish I had remembered to bring my (3)……." But unfortunately I had left it at home. "How stupid of me! I always (4)…….. to bring it with me." Luckily just then a friend of mine passed in his car and (5)…….. me a lift. "Are you going home?" he asked "or do you want to go for a (6)…….?" "I think I''d rather you took me home." I said. If I don''t (7)…… my clothes, I know I will fall ill, and then I won''t (8)….. to play in the tennis tournament next week. And I have been (9) …… hard for the last month. "I will wait for you to change if you like", he told me. "I think it''s time you (10)…… for a change". You have been worrying to much about things lately. And people who worry too much fail ill more easily. It''s got (11)…… to do with the rain.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3053,7 +3551,7 @@ a. will be solved  b. is solved  c. was solved  d. solved
 a. will  b. must  c. would  d. have
 5. She was cleaning her teeth when the phone…….
 a. was going to ring  b. was ringing  c. rang  d. ring', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3074,7 +3572,7 @@ a. depress  b. horror  c. anger  d. delight
 a. send  b. enroll  c. join in  d. enter
 5. Most parents finds it difficult to…… their children nowadays.
 a. bring up  b. develop  c. grow up  d. set up', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3082,7 +3580,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2016-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2016, 'open', 'IV. Writing
 Write an essay "Life in the countryside" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3100,7 +3598,7 @@ recovery · month · treatment · poisonous · weight · disease · (1) doctor �
 
 A visit to the doctor''s
 Kimseng decided to visit the (1)….doctor…. after his trip to the jungle. He was normally a tall muscular person. but over the past (2)……….. he had lost a lot of (3)………… He had also notices that his ankles and knees had become rather (4)……………. He thought that he might have eaten or drunk something(5)……………. or caught some kinds of (6)………………. disease. The doctor took some blood for tests and told Kimseng felt quite (8)…………. "Don''t worry" said the doctor, "It''s nothing serious. You haven''t caught an incurable (9)………………… or anything terrible like that. It''s a simple virus, and you will need some (10)……………. take these tablets twice a day for two weeks, and you''ll make a full (11)………………".', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3121,7 +3619,7 @@ a. leave  b. has left  c. am leaving  d. had been leaving
 a. will take  b. take  c. would take  d. am taking
 5. The tree, ………… behind my house, give a lot of shade.
 a. grows.  b. which it grows  c. which grows  d. it grows', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3142,7 +3640,7 @@ a. allow  b. enter  c. pass  d. bring
 a. postponed  b. delayed  c. cancelled  d. stopped
 5. In recent years, inflation has almost double the ……….. Of living.
 a. price  b. expense  c. charge  d. cost', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3150,7 +3648,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2015-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2015, 'open', 'IV. Writing
 Write an essay "What make a good parent" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3168,7 +3666,7 @@ timetable · help · information · taught · afterwards · memories · heart ·
 
 Learning how to learn
 There is usually on important (1) …subject… missing from most school (2) ……. Very few students are (3) ………. how to organize their learning, and how to make the best use of their time. Let''s take some simple examples. Do you know how to (4) ……. up words in a dictionary, and do you understand all the (5) …….the dictionary contains? Can you make notes quickly, and can you understand them (6) ……..? For some reasons , many school give learners no (7) …….. with this matters. Teachers ask students to (8) ……… pages from books, or tell them to write ten pages, but don''t explain how to do it. Learning by (9) ……. Can be useful, but it is more important to have a genuine (10) …….. of a subject. You can (11) …….. a lot of time memorizing books, without understanding anything about the subject.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3189,7 +3687,7 @@ a. has already left  b. already leaves  c. already left  d. had already left
 a. working  b. worked  c. to work  d. work
 5. The benefits programme ……… in the next few months.
 a. had changed  b. were changed  c. will be changed  d. changed', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3210,7 +3708,7 @@ a. committed  b. done  c. made  d. performed
 a. considered  b. confirmed  c. concerned  d. conducted
 5. I ……… on the news that the price of gas is going up again.
 a. looked  b. listened  c. heard  d. watched', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3218,7 +3716,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2014-4200-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'IV. Writing
 Write an essay "The value of Higher Education" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3236,7 +3734,7 @@ candidate · eligible · result · opinion pool · violent · (1) predict · bal
 
 Election
 People sometimes try to (1) predict ……. the result of an election weeks before it takes place. Several hundred people are asked which party they prefer, and their answers are used to guess the (2)…….. of the coming election. This is called an (3) ………. Meanwhile each party conducts its (4) ………. with meetings, speeches, television commercials and party members going form door to door encouraging people to (5) ……. Their party. In Cambodia everyone over 18 is (6)……… to vote. The place where people go to vote in an election is called a (7) ……… and the day of the election is often known as (8)…………. The voters put their votes in a (9)………. And later they are counted. The (10)……… with the most bites in then declared the (11)………. .', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3257,7 +3755,7 @@ a. because of  b. since  c. haven''t eaten  d. didn''t eat
 a. don''t eat  b. won''t eat  c. haven''t eaten  d. didn''t eat
 5. Mr. Dara………… so many accidents if he drove more carefully.
 a. would have  b. won''t have  c. would have had  d. wouldn''t have', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3278,7 +3776,7 @@ a. ambitions  b. opportunities  c. decisions  d. golds
 a. programme  b. information  c. survey  d. forecast
 5. Many people believe that violent computer games can have a harmful…………. on children.
 a. effect  b. affect  c. damage  d. involvement', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3286,7 +3784,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2014-4100-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'IV. Writing
 Write an essay "Advantages and Disadvantages of TV" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3303,7 +3801,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2080-2021-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'I. Compréhension écrite.
 Complétez le texte avec les mots: copain, parents, maison, bizarre, bruits.
 Moi, j''ai peur de rester seul à la ………. ! Quand mes ……… sortent, je ne sais pas quoi faire. J''essaie d''inviter un …….. à la maison ou d''aller chez quelqu''un, mais ce n''est pas toujours possible. Quand je suis seul, je ne peux me concentrer sur rien, je commence à entendre des ………. J''ai honte, parce qu''à 15 ans, c''est un peu …….., non ? Mais je ne peux pas l''éviter.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3319,7 +3817,7 @@ Example : argent · cuivre · or · fer · agent
 5. père · mère · frère · sœur · voisin
 6. Laos · Russie · Cambodge · Thaïlande · Vietnam
 7. poitrine · tête · bras · docteur · jambe', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3349,7 +3847,7 @@ e. Elle ne peut pas écrite.
 f. Elle ne peut pas courir.
 g. Elle ne peut pas lire
 C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3357,7 +3855,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2021-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'IV. Expression écrite. (10 points)
 Après l''examen du baccalauréat, qu''est-ce que vous faites ? Ecrivez environ 70 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3375,7 +3873,7 @@ Complétez les phrases avec : l''impression, avis, semble, ne crois pas, demande
 3. Qu''est-ce que vous (3) ……….. de ce projet ?
 4. Je me (4) ………… si ce n''est pas inutile d''organiser une réunion.
 5. Il me (6) ………… que c''est intéressant.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3391,7 +3889,7 @@ Example : jambes · bras · _thermomètre_ · bouche · tête
 5. Cambodge · Vietnam · Laos · France · Thaïlande
 6. docteur · professeur · ventilateur · ingénieur · présentateur
 7. bananier · infirmier · caféier · pommier · cerisier', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3420,7 +3918,7 @@ d. nous allons être en retard
 e. tant pis, je resterai à la maison.
 f. les élèves comprennent bien.
 C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3428,7 +3926,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2019-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'IV. Expression écrite. (10 points)
 Vous avez assisté à l''anniversaire (de naissance) d''un (e) ami(e). Racontez ce que vous avez fait, vu et entendu pendant la fête.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3447,7 +3945,7 @@ Est-ce que je pourrais l'' (2) …………. pour un autre.
 3. Oui, le voilà.
 4. Très bien. Vous préférez un remboursement ou un (4) ………. ?
 5. Un échange. Je vais (5) …………. un autre livre. J''espère qu'' (6) …………., celui-là.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3464,7 +3962,7 @@ Exemple : règle · gomme · crayon · stylo · rayon
 6. amoureusement · facilement · pauvrement · appartement · librement
 7. Birmanie · Phnom Penh · Bangkok · Vientiane · Hanoi
 8. marcher · habiter · oranger · demander · jouer', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000002', 2, 16)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3495,7 +3993,7 @@ d. donc elle réussira le bac.
 e. sans rien manger.
 f. elle ne réussira pas le baccalauréat:
 C: 1 → c · 2 → … · 3 → … · 4 → … · 5 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000003', 3, 14)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3503,7 +4001,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2018-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'IV. Expression écrite.
 Pour réussir le baccalauréat, qu''est-ce-que vous avez appris au lycée ? Et à la maison, qu''est-ce-que vous avez fait ? (environ 100 mots)', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3520,7 +4018,7 @@ Complétez les mots « vraiment, mère, bus, accident, étudiante » dans le tex
 Avez-vous votre permis de conduire ?
 - Yann : Chez, nous, c''est une tradition, on ne conduit pas, Mon père n''avait pas son permis de conduire, Ma (1) ……. si, mais elle n''avait pas de voiture …….. Moi je l''ai passé à 18 ans mais j''ai eu un (2) ……. quelques mois plus tard, alors je n''ai plus conduit. J''ai eu trop peur. Non, moi, maintenant, je prends le taxi, le (3) ……. Ou bien je loue une voiture aven un chauffeur pour partir en week-end.
 - Marie : Non, je n''ai pas encore le permis, Je suis (4) ……… et je n''ai pas beaucoup d''argent, Je passerai le permis quand je travaillerai dans deux ou trois ans ! De toute façon, je n''en ai pas (5) ……. besoin. J''ai un scooter et ça me convient très bien.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3537,7 +4035,7 @@ Exemple : père · frère · sœur · mer · mère
 6. Amoureusement · vêtement · librement · pauvrement · contrairement
 7. Framboisier · olivier · collier · bananier · caféier
 8. Laos · Malaisie · Thaïlande · Vietnam · France', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3565,7 +4063,7 @@ d. aussi faut-il le faire la réparer.
 e. je m''amuse.
 f. je révise mes leçons
 C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3573,7 +4071,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2017-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'IV. Expression écrite.
 Depuis combien de temps apprenez-vous le français ? Pourquoi apprenez-vous cette langue ? Rédigez le texte au minimum 80 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3587,7 +4085,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2080-2016-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'I. Compréhension écrite
 Complétez les mots « copine, coquillage, parents, montage, mer » dans le texte
 Pendant les vacances, avec mes ………., on allait toujours au bord de la …….. en Brergane. Là-bas, je retrouvais ma ……….Alice. Le matin, on ramassait des ……… et l''après-midi, quand l''eau était plus chaude, on se baignait, On était toujours ensemble. Maintenant, mes parents vont à la ……… mais moi, je vais chez Alice.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3603,7 +4101,7 @@ Exemple : père · frère · sœur · mer · mère
 5. pharmacie · mairie · boucherie · boulangerie · librairie
 6. tête · fièvre · main · jambe · bouche
 7. durian · orange · coco · mangue · poisson', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3623,7 +4121,7 @@ Exemple : Cette élève ne lit pas de brouillons, elles en lit pas de corrigé. 
 2. Il ne sait pas expliquer, il ne sait pas discuter.
 3. Paul n''est pas timide. Marie n''est pas timide.
 4. Ma sœur ne bois pas de bière, elle ne boit pas de vin.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3631,7 +4129,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2016-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'IV. Expression écrite
 Après avoir fini vos études, quel métier préférez-vous ? Pourquoi ? Donnez vos raisons en écrivant un texte de 80 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3653,7 +4151,7 @@ Mal – grave – docteur – le – médicament – soir – jours – temps �
 - Ce n''est pas très (7) ……. Tu vas prendre ce (8) ……. Pendant une semaine.
 - Je (9) ……. Prends combien de fois par jour ?
 - Te le prends (10) ……. Fois par jour, le matin, à midi et le (11)', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3669,7 +4167,7 @@ Exemple : librement · pauvrement · courageusement · contentement · commencem
 5. le nord · le fond · le sud · l''est · l''ouest
 6. fraisier · policier · citronnier · pommier · palmier
 7. Cambodge · Laos · Vietnam · Bangkok · Malaisie', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3693,7 +4191,7 @@ Exemple : Tévi a de mauvaises notes à ses devoirs. Elle fait ses devoirs en re
 1. Bopha est arrivée en retard. Elle a eu un accident.
 2. Vuth ne va pas se promener. Il est malade.
 3. Neary est fatiguée. Elle a beaucoup travaillé.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3701,7 +4199,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2015-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'IV. Expression écrite
 Entre la ville et la campagne, où armeriez-vous habiter ? Pourquoi ? Racontez en 80 monts.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3726,7 +4224,7 @@ Exemple : coûter · acheter · louer · aller · demander
 3. fièvre · tuberculose · grippe · stéthoscope · rougeole
 4. Brunei · Rangoon · Vientiane · Jakarta · Manille
 5. Suisse · France · Hollande · Belgique · Cambodge', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3746,7 +4244,7 @@ Exemple : Elle vent du thé → Elle en veut.
 3. Mon amie adore _le football_.
 4. Le cuisinier va _au supermarché_.
 5. Narith boit _du lait_.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3754,7 +4252,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2014-4200-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'III. Expression écrite
 Vous apprenez le français depuis le niveau collégien. D''après vous, quels sont les avantages de l''apprentissage de la langue française. Écrivez un texte de 100 à 120 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3779,7 +4277,7 @@ Exemple : ventre · genou · bras · vent · pied
 3. bon · mauvais · fatigue · fort · faible
 4. Singapour · Birmanie · Cambodge · Brunie · Canada
 5. France · Phnom Penh · Laos · Vietnam · Chine', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3801,7 +4299,7 @@ Exemple : Montrez votre photo a Dara. → Montrez-la-lui
 3. Montre le chemin à cet enfant.
 4. Envoyez de lettres à vos parents.
 5. Laisse vos sacs dans la voiture.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3809,7 +4307,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2014-4100-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'III. Expression écrite
 Décrivez une ville touristique du Cambodge ou d''autre pays que vous aimez bien. Écrive un texte 100 à 120 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3824,35 +4322,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2022-4000-8000-000000000001', 'kh-grade12-social-geography-past-papers', null, 2022, 'open', 'តើបម្លាស់លំនៅក្នុងស្រុកនៅកម្ពុជា មានប៉ុន្មានរូបភាព? តើរូបភាពណាមួយដែលមានទំហំធំជាងគេ? ហេតុអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2022-4000-8000-000000000000', 'bacc2090-2022-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2022-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2022, 'open', 'កម្ពុជាជាប្រទេសមួយដែលពឹងផ្អែកលើកសិកម្ម យ៉ាងសំខាន់។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2022-4000-8000-000000000000', 'bacc2090-2022-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2022-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2022, 'open', 'ព្រៃឈើគឺជាប្រភពភោគទ្រព្យសម្បត្តិដែលកើតឡើងវិញ? ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2022-4000-8000-000000000000', 'bacc2090-2022-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2022-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2022, 'open', 'ទេសចរណ៍កម្ពុជា ជាទេសចរណ៍វប្បធម៌ និងធម្មជាតិ។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2022-4000-8000-000000000000', 'bacc2090-2022-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2022-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2022, 'open', 'វិស័យទេសចរណ៍ បង្កើតការងារ។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2022-4000-8000-000000000000', 'bacc2090-2022-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3864,14 +4362,14 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2021-4000-8000-000000000001', 'kh-grade12-social-geography-past-papers', null, 2021, 'open', 'ស្រូវជាដំណាំសំខាន់ជាងគេបំផុតនៅកម្ពុជា។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points for I, II, IV and V (15 each) but not III, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2021-4000-8000-000000000000', 'bacc2090-2021-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2021-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2021, 'open', 'សកម្មភាពទេសចរណ៍ក្នុងស្រុកមានការរីកចម្រើនគួរកត់សម្គាល់។ ចូរពន្យល់ពីបាតុភូតនៃការរីកចម្រើននេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points for I, II, IV and V (15 each) but not III, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2021-4000-8000-000000000000', 'bacc2090-2021-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3879,21 +4377,21 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2021-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2021, 'open', 'របាយប្រជាជននៅកម្ពុជា គឺមិនស្មើគ្នាទេ។ ចូរពន្យល់ពីមូលហេតុ។
 ចូរគណនាដង់ស៊ីតេប្រជាជនកម្ពុជានៅឆ្នាំ១៩៩៨។ ប្រជាជនឆ្នាំ១៩៩៨ មាន ១១ ៤៣៧ ៦៥៦ នាក់។ ផ្ទៃដីមាន ១៨១ ០៣៥ គីឡូម៉ែត្រការ៉េ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points for I, II, IV and V (15 each) but not III, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2021-4000-8000-000000000000', 'bacc2090-2021-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2021-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2021, 'open', '«អភិវឌ្ឍស្ពាន ថ្នល់ គឺកាត់បន្ថយភាពក្រីក្ររបស់ប្រជាជន»។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points for I, II, IV and V (15 each) but not III, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2021-4000-8000-000000000000', 'bacc2090-2021-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2021-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2021, 'open', 'ទេសចរណ៍កម្ពុជា ជាទេសចរណ៍វប្បធម៌ និងធម្មជាតិ។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points for I, II, IV and V (15 each) but not III, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2021-4000-8000-000000000000', 'bacc2090-2021-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3905,42 +4403,42 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000001', 'kh-grade12-social-geography-past-papers', null, 2019, 'open', 'ផែនការរៀបចំដីធ្លីនៅតំបន់ខ្លះនៅកម្ពុជាត្រូវការរៀបចំឡើងវិញ។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2019, 'open', 'តើប្រជាពលរដ្ឋកម្ពុជាទទួលបានផលប្រយោជន៍អ្វីខ្លះ តាមរយៈយន្តការ និងចលនា «ភូមិមួយ ផលិតផលមួយ»។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2019, 'open', 'ឧស្សាហកម្មបង្កើតការងារ។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2019, 'open', 'តើនៅកម្ពុជាគេបែងចែកប្រភេទរាជធានី-ខេត្តជាប៉ុន្មាន? ចូរពន្យល់ពីខេត្តរឹងមាំ និងខេត្តជាប់ស្រយាល។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2019, 'open', 'ចូរនិយាយពីទំនាក់ទំនងរវាង ការដាំដុះព្រៃឈើ អាជីវកម្មព្រៃឈើ និងការនេសាទ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000006', 'kh-grade12-social-geography-past-papers', null, 2019, 'open', 'ចូររៀបរាប់ពីតួនាទីនៃវិស័យទេសចរណ៍នៅក្នុងសេដ្ឋកិច្ចជាតិ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3952,42 +4450,42 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000001', 'kh-grade12-social-geography-past-papers', null, 2017, 'open', 'ព្រៃឈើជាប្រភពភោគទ្រព្យធម្មជាតិដែលកើតឡើងវិញ។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2017, 'open', 'ចូររៀបរាប់ពីភោគទ្រព្យទេសចរណ៍ប្រវត្តិសាស្ត្រ និងវប្បធម៌របស់កម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2017, 'open', 'ចូរពន្យល់បាតុភូត «ចំណាកស្រុកស្រែ» និងបាតុភូត «ចំណោលស្រុកស្រែ»។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2017, 'open', 'ផ្នែកឯកជន ជាកម្លាំងដ៏សំខាន់សម្រាប់ការវិនិយោគ និងកំណើនក្នុងប្រទេស។ ចូរពន្យល់ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2017, 'open', 'ការដឹកជញ្ជូន ជាសកម្មភាពមួយដើរតួនាទីយ៉ាងសំខាន់ សម្រាប់ការអភិវឌ្ឍសង្គមសេដ្ឋកិច្ច។ ចូរពន្យល់ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000006', 'kh-grade12-social-geography-past-papers', null, 2017, 'open', 'បណ្តាញគមនាគមន៍កម្ពុជា មានតួនាទីជា «ក្បាលរថភ្លើងនៃកំណើនសេដ្ឋកិច្ច»។ ចូរពន្យល់ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -3999,35 +4497,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2016-4000-8000-000000000001', 'kh-grade12-social-geography-past-papers', null, 2016, 'open', 'តើកង្វះអាហារូបត្ថម្ភ បណ្តាលមកពីកត្តាអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2016-4000-8000-000000000000', 'bacc2090-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2016-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2016, 'open', 'ចូររៀបរាប់ពីផែនការសកម្មភាពសុវត្ថិភាពចរាចរណ៍ផ្លូវគោក។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2016-4000-8000-000000000000', 'bacc2090-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2016-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2016, 'open', 'ចូរពន្យល់ពីភាពវិជ្ជមាន និងភាពអវិជ្ជមាននៃវិស័យទេសចរណ៍។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2016-4000-8000-000000000000', 'bacc2090-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2016-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2016, 'open', 'ប្រព័ន្ធផលិតស្រូវនៅកម្ពុជាមានលក្ខណៈខុសប្លែកគ្នា។ ចូររៀបរាប់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2016-4000-8000-000000000000', 'bacc2090-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2016-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2016, 'open', 'តើវិស័យទេសចរណ៍ បានផ្តល់ការងារអ្វីខ្លះដល់ប្រជាជនកម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2016-4000-8000-000000000000', 'bacc2090-2016-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4039,42 +4537,42 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000001', 'kh-grade12-social-geography-past-papers', null, 2015, 'open', 'តើយុទ្ធនាការឃោសនាផ្សព្វផ្សាយ និងចលនាប្រលងប្រណាំងអ្វីខ្លះ ដែលបានជំរុញឲ្យវិស័យទេសចរណ៍កម្ពុជាមានការរីកចម្រើន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2015, 'open', 'តើគេបែងចែកប្រភេទរាជធានី ខេត្ត នៅកម្ពុជាដោយផ្អែកលើអ្វីខ្លះ? មានប៉ុន្មានប្រភេទ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2015, 'open', 'ការបែងចែកដីធ្លីមានចំណងដ៏រឹងមាំរវាងភាពគ្មានដី និងភាពក្រីក្រ។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2015, 'open', 'ប្រទេសកម្ពុជាបានអនុវត្តប្រព័ន្ធសេដ្ឋកិច្ចទីផ្សារសេរីចាប់ពីឆ្នាំ១៩៩៣។ ចូរពន្យល់ពីអត្ថប្រយោជន៍នៃការអនុវត្តសេដ្ឋកិច្ចទីផ្សារសេរីនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2015, 'open', 'ផ្លូវថ្នល់ចែកចេញជាបួនប្រភេទ។ អ្វីខ្លះ? ចូរពន្យល់ប្រភេទនីមួយៗ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000006', 'kh-grade12-social-geography-past-papers', null, 2015, 'open', 'អត្រាចូលរួមសកម្មភាពសេដ្ឋកិច្ចនៅតំបន់ជនបទខ្ពស់ជាងនៅទីប្រជុំជន។ ចូរពន្យល់ពីមូលហេតុ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4086,28 +4584,28 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4200-8000-000000000001', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'តើវិសមភាពចំពោះការអប់រំទាក់ទងទៅនឹងអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4200-8000-000000000000', 'bacc2090-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4200-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'កំណើននគរូបនីយកម្មមានកម្រិតខ្ពស់នៅកម្ពុជា។ ចូររៀបរាប់ពីកត្តាដែលនាំឲ្យមានកំណើននេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4200-8000-000000000000', 'bacc2090-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4200-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'ចូររៀបរាប់អំពីទីផ្សារសំខាន់ៗរបស់កម្ពុជា។ តើទីផ្សារណាដែលមានបរិមាណទឹកប្រាក់ច្រើនជាងគេ? ហេតុអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4200-8000-000000000000', 'bacc2090-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4200-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'តើបណ្តាញគមនាគមន៍នៅប្រទេសកម្ពុជាមានប៉ុន្មានប្រភេទ? អ្វីខ្លះ? អភិវឌ្ឍស្ពាន ថ្នល់ គឺកាត់បន្ថយភាពក្រីក្ររបស់ប្រជាជន។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4200-8000-000000000000', 'bacc2090-2014-4200-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4119,42 +4617,42 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000001', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'តើការចេះភាសាផ្សេងៗទៀត ក្រៅពីភាសាខ្លួនផ្តល់ផលប្រយោជន៍អ្វីខ្លះចំពោះខ្លួនឯង និងចំពោះសង្គមជាតិ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'នៅកម្ពុជាកសិករផលិតស្រូវមានចំនួនច្រើនជាងគេ។ តើមានការងារអ្វីផ្សេងៗទៀត ក្រៅពីការធ្វើស្រូវវស្សា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'អភិវឌ្ឍស្ពាន ថ្នល់ គឺកាត់បន្ថយភាពក្រីក្ររបស់ប្រជាជន។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'នៅកម្ពុជាការដាំដុះកៅស៊ូមានការកើនឡើង។ តើដំណាំកៅស៊ូផ្តល់សារៈសំខាន់អ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'ចូររៀបរាប់ពីសារៈសំខាន់នៃការអនុវត្តនយោបាយបែងចែកដីធ្លីនៅកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000006', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'ហេតុអ្វីបានជាគេថា វិស័យទេសចរណ៍ជាឧស្សាហកម្មគ្មានផ្សែង?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4169,35 +4667,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2022-4000-8000-000000000001', 'kh-grade12-social-history-past-papers', null, 2022, 'open', 'តើរដ្ឋប្រហារទម្លាក់សម្តេចនរោត្តម សីហនុ កើតឡើងនៅឆ្នាំណា និងបាននាំមកអ្វីខ្លះសម្រាប់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2022-4000-8000-000000000000', 'bacc2060-2022-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2022-4000-8000-000000000002', 'kh-grade12-social-history-past-papers', null, 2022, 'open', 'តើមូលហេតុអ្វីបានជាគេចាត់ទុកថាសម្តេចនរោត្តម សីហនុ និងសម្តេចហ៊ុន សែន ជាបិតាសន្តិភាពនៅកម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2022-4000-8000-000000000000', 'bacc2060-2022-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2022-4000-8000-000000000003', 'kh-grade12-social-history-past-papers', null, 2022, 'open', 'តើសង្គ្រាមត្រជាក់ជាអ្វី? ជាមានផលវិបាកអ្វីខ្លះដល់ពិភពលោក?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2022-4000-8000-000000000000', 'bacc2060-2022-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2022-4000-8000-000000000004', 'kh-grade12-social-history-past-papers', null, 2022, 'open', 'ថ្ងៃរំដោះ ៧មករា ឆ្នាំ១៩៧៩ មានអត្ថន័យជាប្រវត្តិសាស្ត្រអ្វីខ្លះសម្រាប់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2022-4000-8000-000000000000', 'bacc2060-2022-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2022-4000-8000-000000000005', 'kh-grade12-social-history-past-papers', null, 2022, 'open', 'តើអ្វីទៅជាគោលនយោបាយឈ្នះ ឈ្នះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2022-4000-8000-000000000000', 'bacc2060-2022-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4209,35 +4707,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2021-4000-8000-000000000001', 'kh-grade12-social-history-past-papers', null, 2021, 'open', 'តើអ្វីទៅជាសមាគមអាស៊ាន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy numbers two questions III; here they are simply questions 3 and 4. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2021-4000-8000-000000000000', 'bacc2060-2021-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2021-4000-8000-000000000002', 'kh-grade12-social-history-past-papers', null, 2021, 'open', 'តើអាណានិគមបារាំងបាននាំមកនូវអ្វីខ្លះ ដល់ប្រទេសកម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy numbers two questions III; here they are simply questions 3 and 4. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2021-4000-8000-000000000000', 'bacc2060-2021-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2021-4000-8000-000000000003', 'kh-grade12-social-history-past-papers', null, 2021, 'open', 'មូលហេតុអ្វីដែលនាំឲ្យមានរដ្ឋប្រហារទម្លាក់សម្តេចសីហនុ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy numbers two questions III; here they are simply questions 3 and 4. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2021-4000-8000-000000000000', 'bacc2060-2021-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2021-4000-8000-000000000004', 'kh-grade12-social-history-past-papers', null, 2021, 'open', 'តើមូលហេតុអ្វីបានជារបបកម្ពុជាប្រជាធិបតេយ្យដួលរលំ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy numbers two questions III; here they are simply questions 3 and 4. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2021-4000-8000-000000000000', 'bacc2060-2021-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2021-4000-8000-000000000005', 'kh-grade12-social-history-past-papers', null, 2021, 'open', 'ចូរពណ៌នាពីនយោបាយបង្រួបបង្រួមជាតិនាំមកនូវសន្តិភាពជូនកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy numbers two questions III; here they are simply questions 3 and 4. The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2021-4000-8000-000000000000', 'bacc2060-2021-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4249,35 +4747,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2019-4000-8000-000000000001', 'kh-grade12-social-history-past-papers', null, 2019, 'open', 'អ្វីទៅជាគោលនយោបាយអព្យាក្រឹត? ចូរអ្នកពណ៌នា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2019-4000-8000-000000000000', 'bacc2060-2019-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2019-4000-8000-000000000002', 'kh-grade12-social-history-past-papers', null, 2019, 'open', 'ហេតុអ្វីបានជារបបសាធារណរដ្ឋខ្មែរឆ្នាំ១៩៧០-១៩៧៥ ដួលរលំ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2019-4000-8000-000000000000', 'bacc2060-2019-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2019-4000-8000-000000000003', 'kh-grade12-social-history-past-papers', null, 2019, 'open', 'ហេតុអ្វីបានជាតុលាការយកមេដឹកនាំកំពូលរបស់ខ្មែរក្រហម ដែលកាន់អំណាចនៅឆ្នាំ ១៩៧៥-១៩៧៩ ទៅកាត់ទោស?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2019-4000-8000-000000000000', 'bacc2060-2019-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2019-4000-8000-000000000004', 'kh-grade12-social-history-past-papers', null, 2019, 'open', 'ចូរអ្នកពិពណ៌នាពីការខិតខំចរចារកសន្តិភាព និងការបង្រួបបង្រួមជាតិនៅកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2019-4000-8000-000000000000', 'bacc2060-2019-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2019-4000-8000-000000000005', 'kh-grade12-social-history-past-papers', null, 2019, 'open', 'ចូរអ្នកពណ៌នាពីការអភិវឌ្ឍសេដ្ឋកិច្ច សង្គមនៅកម្ពុជាពីឆ្នាំ ១៩៩៣ មកទល់សព្វថ្ងៃ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2019-4000-8000-000000000000', 'bacc2060-2019-4000-8000-000000000005', 5, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4289,35 +4787,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2018-4000-8000-000000000001', 'kh-grade12-social-history-past-papers', null, 2018, 'open', 'សហគមន៍អឺរ៉ុបជាអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2018-4000-8000-000000000000', 'bacc2060-2018-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2018-4000-8000-000000000002', 'kh-grade12-social-history-past-papers', null, 2018, 'open', 'ចូរអត្ថាធិប្បាយពីចំណុចវិជ្ជមាន និងអវិជ្ជមាននៃរបបអាណាព្យាបាលបារាំងនៅកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2018-4000-8000-000000000000', 'bacc2060-2018-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2018-4000-8000-000000000003', 'kh-grade12-social-history-past-papers', null, 2018, 'open', 'ចូរពណ៌នាពីកម្ពុជាសម័យសង្គមរាស្ត្រនិយម (១៩៥៣-១៩៧០)។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2018-4000-8000-000000000000', 'bacc2060-2018-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2018-4000-8000-000000000004', 'kh-grade12-social-history-past-papers', null, 2018, 'open', 'មូលហេតុអ្វីបានជារបបប្រល័យពូជសាសន៍ កម្ពុជាប្រជាធិបតេយ្យ (១៩៧៥-១៩៧៩) សម្លាប់មនុស្ស ហើយតើវាមានផលវិបាកអ្វីខ្លះដល់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2018-4000-8000-000000000000', 'bacc2060-2018-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2018-4000-8000-000000000005', 'kh-grade12-social-history-past-papers', null, 2018, 'open', 'ចូរពណ៌នាពីដំណើរការកសាងកម្ពុជាឡើងវិញចាប់ពីឆ្នាំ ១៩៩៨ មកទល់ពេលបច្ចុប្បន្ន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2018-4000-8000-000000000000', 'bacc2060-2018-4000-8000-000000000005', 5, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4329,35 +4827,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2017-4000-8000-000000000001', 'kh-grade12-social-history-past-papers', null, 2017, 'open', 'តើសមាគមអាស៊ាន មានសមាជិកប៉ុន្មាន? ប្រទេសណាខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2017-4000-8000-000000000000', 'bacc2060-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2017-4000-8000-000000000002', 'kh-grade12-social-history-past-papers', null, 2017, 'open', 'ហេតុអ្វីបានជាកម្ពុជាចាំបាច់ស្វែងរកកិច្ចការពារពីបារាំង ដោយចុះសន្ធិសញ្ញាអាណាព្យាបាលជាមួយបារាំង?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2017-4000-8000-000000000000', 'bacc2060-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2017-4000-8000-000000000003', 'kh-grade12-social-history-past-papers', null, 2017, 'open', 'ចូរពណ៌នាពីនយោបាយអព្យាក្រឹត នៅក្នុងរបបសង្គមរាស្ត្រនិយម (ឆ្នាំ១៩៥៣-១៩៧០)។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2017-4000-8000-000000000000', 'bacc2060-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2017-4000-8000-000000000004', 'kh-grade12-social-history-past-papers', null, 2017, 'open', 'តើសង្គ្រាមនៅកម្ពុជាក្នុងឆ្នាំ ១៩៧០-១៩៧៥ និងឆ្នាំ ១៩៧៩-១៩៩៨ និងរបបប្រល័យពូជសាសន៍ កម្ពុជាប្រជាធិបតេយ្យ (១៩៧៥-១៩៧៩) មានផលវិបាកអ្វីខ្លះសម្រាប់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2017-4000-8000-000000000000', 'bacc2060-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2017-4000-8000-000000000005', 'kh-grade12-social-history-past-papers', null, 2017, 'open', 'មូលហេតុអ្វីបានជាគេចាត់ទុកថា សម្តេចនរោត្តម សីហនុ និងសម្តេច ហ៊ុន សែន ជាបិតាសន្តិភាពនៅកម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2017-4000-8000-000000000000', 'bacc2060-2017-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4369,35 +4867,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2016-4000-8000-000000000001', 'kh-grade12-social-history-past-papers', null, 2016, 'open', 'តើនរណាជាមេខ្មែរក្រហម? សូមរាប់ឲ្យបាន៣នាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2016-4000-8000-000000000000', 'bacc2060-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2016-4000-8000-000000000002', 'kh-grade12-social-history-past-papers', null, 2016, 'open', 'ហេតុអ្វីបានជាកម្ពុជារងការបំផ្លិចបំផ្លាញក្នុងរបបខ្មែរក្រហម?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2016-4000-8000-000000000000', 'bacc2060-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2016-4000-8000-000000000003', 'kh-grade12-social-history-past-papers', null, 2016, 'open', 'តើអាស៊ានជាអ្វី? ហើយតើកម្ពុជាបានទទួលផលប្រយោជន៍អ្វីខ្លះពីការចូលជាសមាជិកអាស៊ាន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2016-4000-8000-000000000000', 'bacc2060-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2016-4000-8000-000000000004', 'kh-grade12-social-history-past-papers', null, 2016, 'open', 'ចូរពណ៌នាពីការកសាងជាតិឡើងវិញ ក្រោយរបបខ្មែរក្រហមពីឆ្នាំ១៩៧៩ ដល់១៩៩០?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2016-4000-8000-000000000000', 'bacc2060-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2016-4000-8000-000000000005', 'kh-grade12-social-history-past-papers', null, 2016, 'open', 'តើពិភពលោកយើងនាពេលបច្ចុប្បន្ននេះ កំពុងជួបប្រទះនឹងបញ្ហាធំៗអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2016-4000-8000-000000000000', 'bacc2060-2016-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4409,35 +4907,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2015-4000-8000-000000000001', 'kh-grade12-social-history-past-papers', null, 2015, 'open', 'តើរដ្ឋប្រហារទម្លាក់សម្តេចនរោត្តម សីហនុកើតឡើងនៅឆ្នាំណា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2015-4000-8000-000000000000', 'bacc2060-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2015-4000-8000-000000000002', 'kh-grade12-social-history-past-papers', null, 2015, 'open', 'តើរដ្ឋប្រហារនេះបាននាំមកអ្វីខ្លះសម្រាប់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2015-4000-8000-000000000000', 'bacc2060-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2015-4000-8000-000000000003', 'kh-grade12-social-history-past-papers', null, 2015, 'open', 'ចូរពណ៌នាគោលនយោបាយឈ្នះ ឈ្នះរបស់សម្តេចហ៊ុន សែន ក្នុងការបញ្ចប់សង្គ្រាមនៅកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2015-4000-8000-000000000000', 'bacc2060-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2015-4000-8000-000000000004', 'kh-grade12-social-history-past-papers', null, 2015, 'open', 'ចូររិភាគពីតួនាទីព្រះពុទ្ធសាសនាក្នុងសង្គមកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2015-4000-8000-000000000000', 'bacc2060-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2015-4000-8000-000000000005', 'kh-grade12-social-history-past-papers', null, 2015, 'open', 'ចូររិភាគពីព្រះរាជាណាចក្រកម្ពុជាទី២ និងការកសាងកម្ពុជាឡើងវិញ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2015-4000-8000-000000000000', 'bacc2060-2015-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4449,21 +4947,21 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2014-4100-8000-000000000001', 'kh-grade12-social-history-past-papers', null, 2014, 'open', 'ពណ៌នាអំពីទិដ្ឋភាពវិជ្ជមាន និងអវិជ្ជមាននៃសកលភាវូបនីយកម្ម។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2014-4100-8000-000000000000', 'bacc2060-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2014-4100-8000-000000000002', 'kh-grade12-social-history-past-papers', null, 2014, 'open', 'តើព្រះបាទសម្តេច នរោត្តម សីហនុ និងសម្តេច ហ៊ុន សែន មានតួនាទីអ្វីខ្លះក្នុងការបញ្ចប់សង្គ្រាមនៅកម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2014-4100-8000-000000000000', 'bacc2060-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2060-2014-4100-8000-000000000003', 'kh-grade12-social-history-past-papers', null, 2014, 'open', 'តើអាស៊ានជាអ្វី ហើយមានសារៈសំខាន់អ្វីខ្លះសម្រាប់កម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2014-4100-8000-000000000000', 'bacc2060-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4478,7 +4976,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2020-2022-4000-8000-000000000001', 'kh-grade12-social-khmer-literature-past-papers', null, 2022, 'open', 'ចូរពន្យល់ និងបកស្រាយពី «ទស្សនៈស្នេហាជាតិនៅក្នុងអក្សរសិល្ប៍ខ្មែរ» ដោយរកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2020-2022-4000-8000-000000000000', 'bacc2020-2022-4000-8000-000000000001', 1, 125)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4490,7 +4988,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2020-2021-4000-8000-000000000001', 'kh-grade12-social-khmer-literature-past-papers', null, 2021, 'open', 'ទស្សនៈមួយចែងថា «ការតស៊ូព្យាយាមមិនរាថយគឺជាគុណសម្បត្តិដើម្បីទទួលបានជោគជ័យក្នុងជីវិត»។ ចូរពន្យល់ទស្សនៈនេះដោយលើកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2020-2021-4000-8000-000000000000', 'bacc2020-2021-4000-8000-000000000001', 1, 125)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4502,7 +5000,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2020-2019-4000-8000-000000000001', 'kh-grade12-social-khmer-literature-past-papers', null, 2019, 'open', '«អក្សរសិល្ប៍ខេមរនិយមបង្ហាញពីសង្គមខ្មែរតាមសម័យកាលនីមួយៗ»។ ចូរអ្នកបកស្រាយឲ្យបានក្បោះក្បាយដោយលើកអត្ថបទអក្សរសិល្ប៍ឲ្យបានបីមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2020-2019-4000-8000-000000000000', 'bacc2020-2019-4000-8000-000000000001', 1, 125)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4514,7 +5012,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2020-2018-4000-8000-000000000001', 'kh-grade12-social-khmer-literature-past-papers', null, 2018, 'open', 'ទស្សនៈមួយចែងថា «វិជ្ជាជាអលង្ការរបស់មនុស្សគ្រប់រូប»។ ចូរអ្នកធ្វើការបកស្រាយទស្សនៈនេះ ដោយលើកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2020-2018-4000-8000-000000000000', 'bacc2020-2018-4000-8000-000000000001', 1, 125)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4526,7 +5024,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2020-2017-4000-8000-000000000001', 'kh-grade12-social-khmer-literature-past-papers', null, 2017, 'open', 'នៅក្នុងច្បាប់ល្បើកថ្មី អ្នកព្រះភិរម្យភាសាអ៊ូ ហៅង៉ុយបានពោលថា៖ «បម្រើមើលពុត ប្រាជ្ញាឲ្យមុត ស្មារតីឲ្យមាន បើខ្លៅឲ្យប្រាជ្ញ បើខ្លាចឲ្យហ៊ាន ចង់បានរបៀន កុំអៀនកុំខ្មាស»។ ចូរអ្នកបកស្រាយដោយយកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2020-2017-4000-8000-000000000000', 'bacc2020-2017-4000-8000-000000000001', 1, 125)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4538,7 +5036,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2020-2016-4000-8000-000000000001', 'kh-grade12-social-khmer-literature-past-papers', null, 2016, 'open', 'មានទស្សនៈមួយចែងថា «ការអប់រំ គឺជាសិទ្ធិសេរីភាពដែលបើកផ្លូវឲ្យមនុស្សសម្រេចបានភាពថ្លៃថ្នូក្នុងជីវិត»។ ចូរបកស្រាយទស្សនៈនេះដោយរកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2020-2016-4000-8000-000000000000', 'bacc2020-2016-4000-8000-000000000001', 1, 125)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4550,7 +5048,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2020-2015-4000-8000-000000000001', 'kh-grade12-social-khmer-literature-past-papers', null, 2015, 'open', 'ទស្សនៈមួយចែងថា៖ «ការតស៊ូជាគន្លឹះដើម្បីទទួលបានសុភមង្គល»។ ចូរអ្នកបកស្រាយទស្សនៈនេះដោយរកឧទាហរណ៍ក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2020-2015-4000-8000-000000000000', 'bacc2020-2015-4000-8000-000000000001', 1, 125)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4562,7 +5060,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2020-2014-4200-8000-000000000001', 'kh-grade12-social-khmer-literature-past-papers', null, 2014, 'open', 'មានសុភាសិតខ្មែរមួយចែងថា៖ «តក់ៗពេញបំពង់»។ ចូរអ្នកបកស្រាយដោយរកអំណះអំណាងក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2020-2014-4200-8000-000000000000', 'bacc2020-2014-4200-8000-000000000001', 1, 125)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4574,7 +5072,7 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2020-2014-4100-8000-000000000001', 'kh-grade12-social-khmer-literature-past-papers', null, 2014, 'open', 'ពាក្យចាស់លោកពោលថា៖ «តែខំច្រើនកើនចំណេះ តែចេះការច្រើនជាបញ្ញ័យ តែខំរៀនសូត្ររាល់ខែថ្ងៃ ដូចច្នៃត្បូងពេជ្រលេចពន្លឺ»។ ចូរបកស្រាយដោយរកអំណះអំណាងក្នុងអក្សរសិល្ប៍ខ្មែរមកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2020-2014-4100-8000-000000000000', 'bacc2020-2014-4100-8000-000000000001', 1, 125)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4593,7 +5091,7 @@ a. $\displaystyle\lim_{x\to1}\left(7-5x^2-2x^3\right)$
 b. $\displaystyle\lim_{x\to e}\frac{\ln^2x-1}{1-\ln x}$
 c. $\displaystyle\lim_{x\to4}\frac{2-\sqrt{x}}{x-4}$
 d. $\displaystyle\lim_{x\to0}\frac{x}{e^{3x}+e^{-2x}}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4603,7 +5101,7 @@ values ('bacc2010-2025-4000-8000-000000000002', 'kh-grade12-social-mathematics-i
 ក. $\displaystyle I=\int_{-1}^1\left(2x^3-x^2+2x-1\right)dx$
 ខ. $\displaystyle J=\int_1^e\left(\frac{2}{x}+e^x\right)dx$
 គ. $\displaystyle K=\int_{-1}^0\left(\frac{1}{x-1}-\frac{1}{(x-1)^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4613,14 +5111,14 @@ values ('bacc2010-2025-4000-8000-000000000003', 'kh-grade12-social-mathematics-p
 $A$៖ សំណួរទាំងបីដែលចាប់បាន ជាសំណួរដកចេញពីមេរៀនត្រីមាសទី $1$។
 $B$៖ សំណួរទាំងបីដែលចាប់បាន មាននៅក្នុងមេរៀនទាំងបីត្រីមាស។
 $C$៖ សំណួរទាំងបីដែលចាប់បាន ជាមេរៀននៅក្នុងត្រីមាសដូចគ្នា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2025-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2025, 'open', 'គេមានប៉ារ៉ាបូលដែលមានសមីការទូទៅ៖ $y^2+4y-2x=0$។ ចូរបំប្លែងសមីការនេះជាទម្រង់សមីការស្តង់ដានៃប៉ារ៉ាបូល។ ចូររកកូអរដោនេនៃកំពូល កំណុំ និងសមីការបន្ទាត់ប្រាប់ទិសរបស់ប៉ារ៉ាបូលនេះ រួចសង់ប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4632,7 +5130,7 @@ values ('bacc2010-2025-4000-8000-000000000005', 'kh-grade12-social-mathematics-f
 គ. បង្ហាញថា $(d)$៖ $y=2x-1$ ជាអាស៊ីមតូតទ្រេតខាង $\pm\infty$។
 ឃ. សិក្សាទីតាំងធៀបរវាង $(C)$ និង $(d)$។
 ង. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4648,7 +5146,7 @@ values ('bacc2010-2024-4000-8000-000000000001', 'kh-grade12-social-mathematics-l
 ២. $\displaystyle\lim_{x\to0}\left[(\ln x)^2-2\ln x+1\right]$
 ៣. $\displaystyle\lim_{x\to3}\frac{2x-3x^2}{x^2+5x+1}$
 ៤. $\displaystyle\lim_{x\to1}\frac{\sqrt{x+3}-2}{x-1}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4658,7 +5156,7 @@ values ('bacc2010-2024-4000-8000-000000000002', 'kh-grade12-social-mathematics-p
 ក. កូនបាល់ទាំងពីរមានពណ៌ខុសគ្នា។
 ខ. កូនបាល់ទាំងពីរមានពណ៌បៃតង។
 គ. កូនបាល់ទាំងពីរមានពណ៌ដូចគ្នា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4668,7 +5166,7 @@ values ('bacc2010-2024-4000-8000-000000000003', 'kh-grade12-social-mathematics-i
 ក. $\displaystyle\int_2^3(x-3)\,dx$
 ខ. $\displaystyle\int_0^{\ln6}\left(e^x-1\right)dx$
 គ. $\displaystyle\int_1^e\frac{\ln x}{x}dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4677,7 +5175,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2024-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2024, 'open', 'គេមានសមីការ $(4x+3y)^2-144=24xy$។
 ១. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច ប្រវែងអ័ក្សធំ កូអរដោនេនៃកំពូលទាំងពីរ និងកូអរដោនេនៃកំណុំទាំងពីររបស់អេលីប។
 ២. សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4689,7 +5187,7 @@ values ('bacc2010-2024-4000-8000-000000000005', 'kh-grade12-social-mathematics-f
 គ. គណនាលីមីតនៃ $f(x)$ ត្រង់ $-\infty$; $+\infty$ និង $-1$។
 ឃ. រកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។
 ង. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4704,7 +5202,7 @@ values ('bacc2010-2023-4000-8000-000000000001', 'kh-grade12-social-mathematics-l
 ក. $\displaystyle\lim_{x\to+\infty}\left(3x^2-x\right)$
 ខ. $\displaystyle\lim_{x\to2}\frac{4\left(\sqrt{x+2}-2\right)}{4-x^2}$
 គ. $\displaystyle\lim_{x\to\infty}e^x\left(-x^2+\frac{1}{x}\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4714,7 +5212,7 @@ values ('bacc2010-2023-4000-8000-000000000002', 'kh-grade12-social-mathematics-i
 ក. $\displaystyle\int_0^1\left(1-x+x^2\right)dx$
 ខ. $\displaystyle\int_0^1\frac{e^x}{e^x+1}dx$
 គ. $\displaystyle\int_0^1\left[\frac{e^x}{e^x+1}+\frac{1}{1+e^x}\right]dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4723,14 +5221,14 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2023-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2023, 'open', 'ក្នុងថង់មួយមានប៊ូលពណ៌ក្រហមចំនួន $4$ និងប៊ូលពណ៌ខ្មៅចំនួន $5$។
 ក. គេចាប់យកប៊ូល $2$ ពីក្នុងថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ដែលប៊ូលចាប់បានមកទាំងពីរ មានមួយពណ៌ក្រហម និងមួយពណ៌ខ្មៅ។
 ខ. គេចាប់យកប៊ូលមួយហើយដាក់ទៅវិញ បន្ទាប់មកគេចាប់យកប៊ូលមួយទៀត។ រកប្រូបាបនៃព្រឹត្តិការណ៍ដែលប៊ូលលើកដំបូងពណ៌ខ្មៅ ហើយមួយទៀតពណ៌ក្រហម។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2023-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2023, 'open', 'រកសមីការស្តង់ដាប៉ារ៉ាបូលដែលមានកំណុំ $F(0,-2)$ និងបន្ទាត់ប្រាប់ទិសមានសមីការ $y=2$។ ចូរសង់ប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4741,7 +5239,7 @@ values ('bacc2010-2023-4000-8000-000000000005', 'kh-grade12-social-mathematics-f
 ខ. គណនា $\displaystyle\lim_{x\to1}f(x)$, $\displaystyle\lim_{x\to-\infty}f(x)$, $\displaystyle\lim_{x\to+\infty}f(x)$។ រកអាស៊ីមតូតឈរ និងអាស៊ីមតូតដេកនៃក្រាប $(C)$។
 គ. បង្ហាញថា $f''(x)=-\dfrac{3x+1}{(x-1)^3}$។
 ឃ. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4756,7 +5254,7 @@ values ('bacc2010-2022-4000-8000-000000000001', 'kh-grade12-social-mathematics-l
 ក. $\displaystyle\lim_{x\to0}\left(e^{2x}-2e^x+1\right)$
 ខ. $\displaystyle\lim_{x\to4}\frac{\sqrt{x}-2}{x-4}$
 គ. $\displaystyle\lim_{x\to+\infty}\frac{3-x}{2x-1}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4765,7 +5263,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2022-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2022, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
 ក. $\displaystyle A=\int_0^1\left[\left(x^2-3x+1\right)+(2x+1)\right]dx$
 ខ. $\displaystyle B=\int_2^3\left(\frac{1}{x-1}+\frac{1}{x^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4774,7 +5272,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2022-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2022, 'open', 'ក្នុងអាងចិញ្ចឹមត្រីមួយមានត្រីឈ្មោលចំនួន $4$ និងញីចំនួន $6$។ គេចាប់យកត្រី $3$ មកដាក់នៅអាងថ្មីមួយដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 ក. ត្រីទាំងបីដែលចាប់មកជាត្រីឈ្មោលទាំងបី។
 ខ. ត្រីទាំងបីដែលចាប់មកមានត្រីញីពីរ និងឈ្មោលមួយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4783,7 +5281,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2022-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2022, 'open', 'គេមានសមីការ $12y^2=300-75x^2$។
 ក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច អ័ក្សធំ កូអរដោនេនៃកំពូលទាំងពីរ និងកំណុំទាំងពីររបស់អេលីបនេះ។
 ខ. សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4794,7 +5292,7 @@ values ('bacc2010-2022-4000-8000-000000000005', 'kh-grade12-social-mathematics-f
 ខ. បង្ហាញថា $f(x)=x+1+\dfrac{3}{1-x}$។
 គ. គណនា $\displaystyle\lim_{x\to1^+}f(x)$, $\displaystyle\lim_{x\to1^-}f(x)$, $\displaystyle\lim_{x\to+\infty}f(x)$, $\displaystyle\lim_{x\to-\infty}f(x)$ ហើយទាញរកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតរបស់ក្រាប $(C)$។
 ឃ. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4809,7 +5307,7 @@ values ('bacc2010-2021-4000-8000-000000000001', 'kh-grade12-social-mathematics-l
 ក. $\displaystyle\lim_{x\to-1}\left(-x^3+x^2-2x-4\right)$
 ខ. $\displaystyle\lim_{x\to+\infty}\frac{2x-1}{3-x}$
 គ. $\displaystyle\lim_{x\to+\infty}e^x\left(-x^2+\frac{1}{x}\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4818,7 +5316,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2021-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2021, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
 ១. $\displaystyle I=\int_0^1\left(x^2+x+1\right)dx$
 ២. $\displaystyle J=\int_1^2\left(\frac{4}{x^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4827,14 +5325,14 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2021-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2021, 'open', 'ក្នុងប្រអប់មួយមានឃ្លីពណ៌ក្រហមចំនួន $5$ និងឃ្លីពណ៌ខ្មៅចំនួន $3$។ គេចាប់យកឃ្លីម្តង $3$ ដោយចៃដន្យ។ គេសន្និដ្ឋានថាប្រូបាបដែលចាប់បានឃ្លីនីមួយៗជាសមប្រូបាប។ គណនាប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 $A$៖ «ឃ្លីទាំង $3$ មានពណ៌ក្រហម»
 $B$៖ «ឃ្លី $2$ មានពណ៌ក្រហម និង $1$ មានពណ៌ខ្មៅ»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2021-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2021, 'open', 'រកសមីការស្តង់ដានៃអេលីបដែលមានកំណុំមួយជាចំណុច $(2,0)$ និងចំណុចកំពូលទាំងពីរមានកូអរដោនេ $(-3,0)$ និង $(3,0)$។ សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4846,7 +5344,7 @@ values ('bacc2010-2021-4000-8000-000000000005', 'kh-grade12-social-mathematics-f
 គ. គណនាលីមីតនៃ $f(x)$ ត្រង់ $-\infty$; $+\infty$; $2$។
 ឃ. រកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។
 ង. សិក្សាអថេរភាពនៃអនុគមន៍ $f$ និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4862,7 +5360,7 @@ values ('bacc2010-2019-4000-8000-000000000001', 'kh-grade12-social-mathematics-l
 ២. $\displaystyle\lim_{x\to+\infty}\frac{x^2+x+1}{2x^2-x+1}$
 ៣. $\displaystyle\lim_{x\to0}\frac{e^x-e^{-x}}{2e^x}$
 ៤. $\displaystyle\lim_{x\to1}\frac{1-\sqrt{x}}{x-1}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4870,7 +5368,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2019-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2019, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
 $\displaystyle I=\int_0^1\left(2-3x+x^2\right)dx$; $\displaystyle J=\int_0^2\left[2x-\frac{1}{x+e}\right]dx$; $\displaystyle K=\int_{-1}^0\left(2-\frac{1}{(x-1)^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4880,7 +5378,7 @@ values ('bacc2010-2019-4000-8000-000000000003', 'kh-grade12-social-mathematics-p
 $A$៖ «ប៊ូលដែលចាប់បានមានពណ៌លឿង»
 $B$៖ «ប៊ូលដែលចាប់បានមានលេខ $2$»
 $C$៖ «ប៊ូលដែលចាប់បានមានលេខ $1$ និងពណ៌ក្រហម»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4889,7 +5387,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2019-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2019, 'open', 'គេមានសមីការ $25x^2+9y^2-225=0$។
 ក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សធំ អ័ក្សតូច កូអរដោនេនៃកំពូលទាំងពីរ និងកូអរដោនេនៃកំណុំទាំងពីរនៃអេលីបនេះ។
 ខ. សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4899,7 +5397,7 @@ values ('bacc2010-2019-4000-8000-000000000005', 'kh-grade12-social-mathematics-f
 ១. បង្ហាញថា $f(x)=x+1-\dfrac{3}{x+1}$។
 ២. ចូររកសមីការអាស៊ីមតូតឈរ និងអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។
 ៣. សិក្សាអថេរភាព និងសង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4914,7 +5412,7 @@ values ('bacc2010-2018-4000-8000-000000000001', 'kh-grade12-social-mathematics-l
 ក. $\displaystyle\lim_{x\to3}\frac{x^4+6x+1}{x^2+1}$
 ខ. $\displaystyle\lim_{x\to+\infty}\frac{x-1}{(x+1)^2}$
 គ. $\displaystyle\lim_{x\to+\infty}\left(x^2+2-\ln x\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4924,7 +5422,7 @@ values ('bacc2010-2018-4000-8000-000000000002', 'kh-grade12-social-mathematics-p
 $A$៖ «ក្រុមសិស្សទាំង $3$ នាក់ សុទ្ធតែជាសិស្សស្រី»
 $B$៖ «ក្រុមសិស្សទាំង $3$ នាក់ សុទ្ធតែជាសិស្សប្រុស»
 $C$៖ «ក្រុមសិស្សទាំង $3$ នាក់ មាន $2$ នាក់ជាសិស្សស្រី»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4932,7 +5430,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2018-4000-8000-000000000003', 'kh-grade12-social-mathematics-integrals', null, 2018, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
 $\displaystyle I=\int_1^2\left(3x^2-2x+3\right)dx$; $\displaystyle J=\int_0^1\left(e^{2x}-e^x+1\right)dx$; $\displaystyle K=\int_1^2\left(\frac{1}{x+3}+\frac{1}{x^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4941,7 +5439,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2018-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2018, 'open', 'គេមានប៉ារ៉ាបូលមួយដែលមានកំពូលជាចំណុច $O(0,0)$ និងកំណុំ $F$ ស្ថិតនៅលើអ័ក្សអាប់ស៊ីស។
 ក. រកសមីការស្តង់ដានៃប៉ារ៉ាបូលនេះបើគេដឹងថាវាកាត់តាមចំណុច $A\left(\dfrac{3}{2},-3\right)$។
 ខ. រកកូអរដោនេរបស់កំណុំ សមីការបន្ទាត់ប្រាប់ទិស រួចសង់ប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4953,7 +5451,7 @@ values ('bacc2010-2018-4000-8000-000000000005', 'kh-grade12-social-mathematics-f
 ៣. ក. ស្រាយបំភ្លឺថាគ្រប់ចំនួនពិត $x\in D$៖ ដេរីវេ $f''(x)=\dfrac{-3\left(x^2-6x+8\right)}{\left(x^2-5x+7\right)^2}$។
 ខ. សិក្សាអថេរភាពនៃអនុគមន៍ $f$ និងសង់តារាងអថេរភាពនៃអនុគមន៍ $f$។
 គ. សង់ក្រាប $(C)$ នៃអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4968,7 +5466,7 @@ values ('bacc2010-2017-4000-8000-000000000001', 'kh-grade12-social-mathematics-l
 ក. $\displaystyle\lim_{x\to+\infty}\frac{x^2+x+1}{x^2+1}$
 ខ. $\displaystyle\lim_{x\to3}\frac{x^3-27}{\sqrt{x+6}-3}$
 គ. $\displaystyle\lim_{x\to0}\frac{e^x+e^{-x}}{2}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4978,7 +5476,7 @@ values ('bacc2010-2017-4000-8000-000000000002', 'kh-grade12-social-mathematics-p
 $A$៖ «ប៊ូលទាំងបីមានពណ៌ស»
 $B$៖ «ប៊ូលទាំងបីមានពណ៌ក្រហម»
 $C$៖ «មានប៊ូលមួយពណ៌ក្រហម និងពីរទៀតពណ៌ស»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4988,7 +5486,7 @@ values ('bacc2010-2017-4000-8000-000000000003', 'kh-grade12-social-mathematics-i
 ក. $\displaystyle I=\int_1^3\left(3x^2+2x+1\right)dx$
 ខ. $\displaystyle J=\int_0^1\left(2e^x-1\right)dx$
 គ. $\displaystyle K=\int_1^2\left(x+\frac{1}{x^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -4997,7 +5495,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2017-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2017, 'open', 'គេមានសមីការ $9x^2+25y^2=225$។
 ក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច ប្រវែងអ័ក្សធំ និងកូអរដោនេនៃកំពូលទាំងពីរ។
 ខ. សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5009,7 +5507,7 @@ values ('bacc2010-2017-4000-8000-000000000005', 'kh-grade12-social-mathematics-f
 ៣. ក. រកចំនួនពិត $a$, $b$, $c$ ដែលគ្រប់ $x\neq2$; $f(x)=ax+b+\dfrac{c}{x-2}$។
 ខ. គេតាង $d$ បន្ទាត់ដែលមានសមីការ $y=x+1$។ បង្ហាញថា $d$ ជាអាស៊ីមតូតនៃ $C$ ត្រង់ $+\infty$ និង $-\infty$។ សិក្សាទីតាំងនៃក្រាប $C$ ធៀបនឹងបន្ទាត់ $d$។
 គ. សង់ក្រាប $C$ និងបន្ទាត់ $d$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5024,7 +5522,7 @@ values ('bacc2010-2016-4000-8000-000000000001', 'kh-grade12-social-mathematics-l
 ក. $\displaystyle\lim_{x\to1}\left(3x^3-4x\right)$
 ខ. $\displaystyle\lim_{x\to2}\frac{x^3-8}{\sqrt{x+2}-2}$
 គ. $\displaystyle\lim_{x\to+\infty}\left(\ln x-x^2\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5034,7 +5532,7 @@ values ('bacc2010-2016-4000-8000-000000000002', 'kh-grade12-social-mathematics-i
 ក. $\displaystyle I=\int_1^2\left(1-3x^2\right)dx$
 ខ. $\displaystyle J=\int_2^3\frac{1}{x^2}dx$
 គ. $\displaystyle K=\int_0^1\left(\frac{1}{x+e}-1\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5044,14 +5542,14 @@ values ('bacc2010-2016-4000-8000-000000000003', 'kh-grade12-social-mathematics-p
 $A$៖ «ឃ្លីទាំងពីរមានពណ៌ក្រហម»
 $B$៖ «ឃ្លីទាំងពីរមានពណ៌ខៀវ»
 $C$៖ «ឃ្លីមួយក្នុងមួយពណ៌»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2016-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2016, 'open', 'រកសមីការស្តង់ដានៃអេលីបដែលមានកំណុំ $F_1(-2,0)$ និងកំពូលពីរនៅត្រង់ចំណុច $A(-3,0)$ និង $B(3,0)$។ សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5061,7 +5559,7 @@ values ('bacc2010-2016-4000-8000-000000000005', 'kh-grade12-social-mathematics-f
 ១. សិក្សាលីមីតនៃអនុគមន៍ $f$ ត្រង់ $-\infty$; ត្រង់ $-2$; ត្រង់ $+2$ និងត្រង់ $+\infty$។ ចូរបញ្ជាក់ពីអាស៊ីមតូតដេក និងអាស៊ីមតូតឈររបស់ក្រាបនៃអនុគមន៍ $f$។
 ២. សិក្សាអថេរភាព និងសង់តារាងអថេរភាពនៃអនុគមន៍ $f$។
 ៣. សង់នៅលើតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$ ក្រាបតាងអនុគមន៍ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5075,7 +5573,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2015-4000-8000-000000000001', 'kh-grade12-social-mathematics-probability', null, 2015, 'open', 'ក្នុងថង់មួយមានឃ្លីពណ៌សចំនួន $3$ និងឃ្លីពណ៌ខៀវចំនួន $5$។ គេចាប់យកឃ្លី $2$ គ្រាប់ក្នុងពេលតែមួយចេញពីក្នុងថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 ក. «គេចាប់បានឃ្លីពណ៌ខៀវទាំងពីរ»
 ខ. «គេចាប់បានឃ្លីមួយក្នុងមួយពណ៌»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5084,7 +5582,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2015-4000-8000-000000000002', 'kh-grade12-social-mathematics-limits-continuity', null, 2015, 'open', 'គណនាលីមីតខាងក្រោម៖
 ក. $\displaystyle\lim_{x\to1}\frac{x^2-1}{x^2-3x+2}$
 ខ. $\displaystyle\lim_{x\to1}\frac{x-1}{\sqrt{x}-1}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5093,7 +5591,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2015-4000-8000-000000000003', 'kh-grade12-social-mathematics-integrals', null, 2015, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
 ក. គណនា $\displaystyle I=\int_2^3\left(3x^2+3x-1\right)dx$
 ខ. $f(x)=\dfrac{1+2x}{\left(x^2-4x\right)+(4-x)}$។ បង្ហាញថា $f(x)=\dfrac{1}{1-x}-\dfrac{3}{4-x}$។ គណនា $\displaystyle J=\int_2^3f(x)\,dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5102,7 +5600,7 @@ insert into public.questions (id, chapter_id, topic_id, year, type, content, cho
 values ('bacc2010-2015-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2015, 'open', 'គេមានប៉ារ៉ាបូលមួយមានកំពូលនៅត្រង់ចំណុច $O(0,0)$ និងកំណុំ $F$ ស្ថិតនៅលើអ័ក្សអរដោនេ។
 ក. រកសមីការស្តង់ដានៃប៉ារ៉ាបូលនេះ បើគេដឹងថាវាកាត់តាមចំណុច $A(2,6)$។
 ខ. រកតម្លៃនៃ $x_1$ បើ $B\left(x_1,\dfrac{3}{2}\right)$ ស្ថិតនៅលើប៉ារ៉ាបូលនេះ។ ចូរសង់ប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5113,7 +5611,7 @@ values ('bacc2010-2015-4000-8000-000000000005', 'kh-grade12-social-mathematics-f
 ខ. បង្ហាញថា $f(x)=x-2-\dfrac{1}{x+1}$។
 គ. បង្ហាញថាបន្ទាត់ដែលមានសមីការ $y=x-2$ ជាអាស៊ីមតូតទ្រេតនៃក្រាប $(C)$។
 ឃ. សិក្សាអថេរភាព និងសង់ក្រាបនៃ $f$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5129,7 +5627,7 @@ values ('bacc2010-2014-4200-8000-000000000001', 'kh-grade12-social-mathematics-l
 ខ. $\displaystyle\lim_{x\to0}\frac{\sin^2x}{-3x}$
 គ. $\displaystyle\lim_{x\to0}\frac{\sqrt{2+x}-\sqrt{2-x}}{x}$
 ឃ. $\displaystyle\lim_{x\to+\infty}\left(2e^x+2x-2\right)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5139,7 +5637,7 @@ values ('bacc2010-2014-4200-8000-000000000002', 'kh-grade12-social-mathematics-p
 ក. «ត្រីពណ៌ក្រហមទាំងពីរ»
 ខ. «ត្រីពណ៌សទាំងពីរ»
 គ. «ត្រីមួយក្នុងមួយពណ៌»', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5149,7 +5647,7 @@ values ('bacc2010-2014-4200-8000-000000000003', 'kh-grade12-social-mathematics-f
 ក. រកដែនកំណត់ $f(x)$។
 ខ. បង្ហាញថា $f(x)=-x-1+\dfrac{3}{x-1}$។
 គ. សិក្សាអថេរភាព និងសង់ក្រាប $C$ នៃអនុគមន៍ $f(x)=\dfrac{(x+2)(x-2)}{(1-x)}$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000003', 3, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5159,14 +5657,14 @@ values ('bacc2010-2014-4200-8000-000000000004', 'kh-grade12-social-mathematics-i
 ក. $\displaystyle I=\int_1^3\left(2x^2-3x+1\right)dx$
 ខ. $f(x)=\dfrac{2x+1}{x^2-5x+4}$។ បង្ហាញថា $f(x)=\dfrac{-1}{x-1}+\dfrac{3}{x-4}$ រួចគណនា $\displaystyle J=\int_2^3f(x)\,dx$។
 គ. គេមានអនុគមន៍ $f(x)=x\ln x$។ គណនាដេរីវេ $f''(x)$ នៃអនុគមន៍ $f(x)$ នៅលើចន្លោះ $[1,e]$។ ទាញរកអាំងតេក្រាល $\displaystyle K=\int_1^e\ln x\,dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2014-4200-8000-000000000005', 'kh-grade12-social-mathematics-conics', null, 2014, 'open', 'រកសមីការស្តង់ដានៃអេលីប ដែលមានកំពូលទាំងពីរជាចំណុច $(4,0)$ និង $(-4,0)$ និងមានកំណុំមួយនៅត្រង់ចំណុច $(3,0)$ រួចសង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000005', 5, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5181,7 +5679,7 @@ values ('bacc2010-2014-4100-8000-000000000001', 'kh-grade12-social-mathematics-l
 ក. $\displaystyle\lim_{x\to-\infty}\frac{(2x^2-3)(1-x)}{(5+2x)(2-x^2)}$
 ខ. $\displaystyle\lim_{x\to1}\frac{2-\sqrt{x+3}}{x^2-1}$
 គ. $\displaystyle\lim_{x\to+\infty}\ln\frac{x+1}{x-1}$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808) and the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5191,7 +5689,7 @@ values ('bacc2010-2014-4100-8000-000000000002', 'kh-grade12-social-mathematics-p
 ក. រកប្រូបាបដែល «គេចាប់បានប៊ូលក្រហមពីរ និងមួយទៀតមិនក្រហម»។
 ខ. រកប្រូបាបដែល «គេចាប់បានប៊ូលក្រហមទាំងបី»។
 គ. រកប្រូបាបដែល «គេចាប់បានយ៉ាងតិចប៊ូលក្រហមពីរ»។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808) and the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5204,7 +5702,7 @@ values ('bacc2010-2014-4100-8000-000000000003', 'kh-grade12-social-mathematics-f
 ២. ក. រក $\displaystyle\lim_{x\to+\infty}f(x)$ និង $\displaystyle\lim_{x\to-\infty}f(x)$។
 ខ. អនុគមន៍ $f$ មានដេរីវេ $f''$។ បង្ហាញថាចំពោះគ្រប់ចំនួនពិត $x$ គេបាន $f''(x)$ និង $g(x)$ មានសញ្ញាដូចគ្នា។
 គ. សិក្សាអថេរភាពនៃអនុគមន៍ $f$ លើ $\mathbb{R}$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808) and the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000003', 3, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5212,7 +5710,7 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2014-4100-8000-000000000004', 'kh-grade12-social-mathematics-integrals', null, 2014, 'open', 'ក. គណនាអាំងតេក្រាល $\displaystyle I=\int_1^5\left(x^2+2x-3\right)dx$។
 ខ. បង្ហាញថាគ្រប់ចំនួនពិត $x$; $x\neq1$ គេបាន $\dfrac{2x^2-3x+2}{x-1}=2x-1+\dfrac{1}{x-1}$ រួចទាញរក $\displaystyle I=\int_2^3\frac{2x^2-3x+2}{x-1}dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808) and the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5227,35 +5725,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2022-4000-8000-000000000001', 'kh-grade12-social-morality-civics-past-papers', null, 2022, 'open', 'ចូរពន្យល់ពីភាពខុសគ្នារវាង «ការបង្កើតថ្មី» និង «របកគំហើញ» ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2022-4000-8000-000000000000', 'bacc2100-2022-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2022-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2022, 'open', 'ចូរបង្ហាញពីទំនាក់ទំនងរវាង អនុមានញែក និង អនុមានរួម។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2022-4000-8000-000000000000', 'bacc2100-2022-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2022-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2022, 'open', 'សីលតម្លៃ ជាតម្លៃថ្នាក់ខ្ពស់របស់មនុស្ស។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2022-4000-8000-000000000000', 'bacc2100-2022-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2022-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2022, 'open', 'ចូរពន្យល់ពីសុខដុមនៃផ្នែកសាសនា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2022-4000-8000-000000000000', 'bacc2100-2022-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2022-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2022, 'open', 'សិស្សគឺជាកម្លាំងមួយដ៏រឹងមាំ ក្នុងការចូលរួមប្រយុទ្ធប្រឆាំងនឹងអំពើពុករលួយ។ ពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2022-4000-8000-000000000000', 'bacc2100-2022-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5267,35 +5765,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2021-4000-8000-000000000001', 'kh-grade12-social-morality-civics-past-papers', null, 2021, 'open', 'ចូរពន្យល់ពីសភាវគតិ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2021-4000-8000-000000000000', 'bacc2100-2021-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2021-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2021, 'open', 'ចូរបង្ហាញពីទំនាក់ទំនងរវាងវិភាគ និងសំយោគ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2021-4000-8000-000000000000', 'bacc2100-2021-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2021-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2021, 'open', 'ចូរពន្យល់តម្លៃសម្ភារៈ និងតម្លៃពីធម្មជាតិ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2021-4000-8000-000000000000', 'bacc2100-2021-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2021-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2021, 'open', 'ចូរពន្យល់ ការសម្រេចចិត្ត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2021-4000-8000-000000000000', 'bacc2100-2021-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2021-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2021, 'open', 'ចូរបង្ហាញវិធានការគន្លឹះ ដែលធ្វើឲ្យបុគ្គលិកម្នាក់ៗមិនចង់ពុករលួយ មិនអាចពុករលួយ និងមិនហ៊ានពុករលួយ ក្នុងបរិបទនៃការប្រឆាំងអំពើពុករលួយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2021-4000-8000-000000000000', 'bacc2100-2021-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5307,35 +5805,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2019-4000-8000-000000000001', 'kh-grade12-social-morality-civics-past-papers', null, 2019, 'open', 'ចូរពន្យល់ឲ្យបានក្បោះក្បាយអំពីពុទ្ធិសាមញ្ញ និងពុទ្ធិស្បង់ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2019-4000-8000-000000000000', 'bacc2100-2019-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2019-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2019, 'open', 'ការបណ្តុះបណ្តាលឲ្យពលរដ្ឋមានទំនោរផ្នែកវិជ្ជាជីវៈគឺត្រូវប្រកបដោយសីលធម៌ ស្មេរភាព កម្លាំងរឹងមាំ និងប្រសិទ្ធភាពខ្ពស់។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2019-4000-8000-000000000000', 'bacc2100-2019-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2019-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2019, 'open', 'ច្បាប់និងករណីយកិច្ចតាមទិដ្ឋភាពនៃតម្លៃគឺមានទំនាក់ទំនងគ្នាទៅវិញទៅមក។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2019-4000-8000-000000000000', 'bacc2100-2019-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2019-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2019, 'open', 'តម្លៃបញ្ញា ជាប្រភេទនៃតម្លៃថ្នាក់ខ្ពស់។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2019-4000-8000-000000000000', 'bacc2100-2019-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2019-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2019, 'open', 'តើត្រូវមានវិធានអ្វីខ្លះ ដើម្បីឲ្យបុគ្គលម្នាក់ៗមិនចង់ពុករលួយ និងមិនហ៊ានពុករលួយនៅកម្ពុជា? ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2019-4000-8000-000000000000', 'bacc2100-2019-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5347,35 +5845,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2018-4000-8000-000000000001', 'kh-grade12-social-morality-civics-past-papers', null, 2018, 'open', 'ពន្យល់ពីតម្លៃធម្មជាតិក្នុងក្របខណ្ឌតម្លៃសីលវិជ្ជាដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2018-4000-8000-000000000000', 'bacc2100-2018-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2018-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2018, 'open', 'ផលប្រយោជន៍ការប្រឆាំងអំពើពុករលួយប្រកបដោយប្រសិទ្ធភាព។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2018-4000-8000-000000000000', 'bacc2100-2018-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2018-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2018, 'open', 'ពហុសាសនាពុំមែនជាប្រភពទំនាស់។ ចូរពន្យល់និងឧទាហរណ៍។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2018-4000-8000-000000000000', 'bacc2100-2018-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2018-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2018, 'open', 'ភាពខុសគ្នារវាងសីលញ្ញាណ និងចិត្តញ្ញាណ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2018-4000-8000-000000000000', 'bacc2100-2018-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2018-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2018, 'open', 'ឆន្ទៈជាអ្វី? ចូរពន្យល់អំពីឆន្ទៈ និងអឆន្ទៈ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2018-4000-8000-000000000000', 'bacc2100-2018-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5387,42 +5885,42 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000001', 'kh-grade12-social-morality-civics-past-papers', null, 2017, 'open', 'គ្រប់កុមារទាំងអស់មានសិទ្ធិទទួលបានការរៀនសូត្រ។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2017, 'open', 'ចូរពន្យល់ទំនួលខុសត្រូវផ្នែកសីលធម៌។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2017, 'open', 'តើតម្លៃបញ្ញា និងសីលតម្លៃស្ថិតនៅតម្លៃថ្នាក់ណា? ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2017, 'open', 'មាតាបិតាមានកាតព្វកិច្ចចិញ្ចឹមថែរក្សាកូនចៅជាពលរដ្ឋល្អ។ កូនមានករណីកិច្ចចិញ្ចឹម និងបីបាច់ថែរក្សាមាតាបិតាដែលចាស់ជរា តាមទំនៀមទម្លាប់ខ្មែរ។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2017, 'open', 'សិស្សជាកម្លាំងមួយដ៏សំខាន់ ក្នុងការចូលរួមប្រឆាំងនឹងអំពើពុករលួយ។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000006', 'kh-grade12-social-morality-civics-past-papers', null, 2017, 'open', 'ចូរពន្យល់ពុទ្ធិទស្សនៈវិជ្ជា ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5434,35 +5932,35 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2016-4000-8000-000000000001', 'kh-grade12-social-morality-civics-past-papers', null, 2016, 'open', 'តើជំរឿនផ្តល់សារៈសំខាន់អ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2016-4000-8000-000000000000', 'bacc2100-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2016-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2016, 'open', 'ចូរពន្យល់ពាក្យវិមជ្ឈការ និងពាក្យវិសហមជ្ឈការក្នុងក្របខណ្ឌកំណែទម្រង់ រដ្ឋបាល សាធារណៈនៅកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2016-4000-8000-000000000000', 'bacc2100-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2016-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2016, 'open', 'ទំនួលខុសត្រូវផ្នែកសីលធម៌មានពីរបែប។ ចូររៀបរាប់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2016-4000-8000-000000000000', 'bacc2100-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2016-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2016, 'open', 'ចូររៀបរាប់ពីប្រភពនៃការបំពុលបរិស្ថាន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2016-4000-8000-000000000000', 'bacc2100-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2016-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2016, 'open', 'ចូរបង្ហាញពីភាពខុសគ្នារវាងគុណធម៌សាមញ្ញ និងគុណកំណើត ដោយលើកឧទាហរណ៍បញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2016-4000-8000-000000000000', 'bacc2100-2016-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5474,42 +5972,42 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000001', 'kh-grade12-social-morality-civics-past-papers', null, 2015, 'open', 'តើគំរូមនុស្សថ្លៃថ្នូរមានប៉ុន្មានប្រភេទ? ចូររៀបរាប់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2015, 'open', 'ការប្រឆាំងអំពើពុករលួយកើតចេញពីយើងម្នាក់ៗ។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2015, 'open', 'ភាពសុខដុមផ្នែកសាសនា គឺជាគោលការណ៍បង្កើតនូវសុខសន្តិភាពពិតៗ និងយូរអង្វែង។ ចូរពន្យល់ដោយលើកយកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2015, 'open', 'ទំនោររបស់បុគ្គលគឺជាលក្ខណៈចិត្តដែលមានមូលដ្ឋានត្រឹមត្រូវ និងជាស្នូលនៃជីវិតផ្លូវចិត្តរបស់បុគ្គល។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2015, 'open', 'ច្បាប់ និងករណីកិច្ចតាងនូវទិដ្ឋភាពពីរនៃតម្លៃដែលបង្គ្រប់ឲ្យគ្នាទៅវិញទៅមក។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000006', 'kh-grade12-social-morality-civics-past-papers', null, 2015, 'open', 'យើងត្រូវចេះជ្រើសរើសសេចក្តីប្រាថ្នា គោលបំណង និងមធ្យោបាយល្អ និងត្រឹមត្រូវដើម្បីសម្រេចឧត្តមគតិរបស់យើង។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5521,42 +6019,42 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000001', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'តើការចាក់កាកសំណល់ពាសវាលពាសកាល ធ្វើឲ្យប៉ះពាល់ដល់បរិស្ថានយ៉ាងដូចម្តេចខ្លះ? ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'មនុស្សគ្រប់រូបមានសិទ្ធិទទួលការអប់រំ។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'សីលតម្លៃ ជាតម្លៃថ្នាក់ខ្ពស់។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'ចូរពន្យល់ពីភាពខុសគ្នារវាងអំពើឆន្ទៈ និងអំពើអឆន្ទៈ។ ចូរលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'ការចេះគោរពសិទ្ធិអ្នកដទៃបញ្ជាក់ឲ្យឃើញពីតម្លៃនៃការគោរពជីវិតរបស់មនុស្ស។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000006', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'ចូររៀបរាប់ពីបញ្ហាដែលកើតឡើងដោយសារកំណើនប្រជាជនពិភពលោក។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
@@ -5568,42 +6066,42 @@ on conflict (id) do update set title_en = excluded.title_en, title_km = excluded
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000001', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'កិច្ចការក្នុងគ្រួសារ និងការអប់រំចិញ្ចឹមបីបាច់ថែរក្សាកូន ជាភារកិច្ចរបស់បុរសនារី។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'តើគ្រួសារ សាលារៀន និងសង្គមត្រូវយកចិត្តទុកដាក់ចំពោះកុមារគ្រប់រូបដូចម្តេចខ្លះ ដើម្បីឲ្យកុមារមានការអភិវឌ្ឍពេញលេញ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'ជំរឿនបានផ្តល់ទិន្នន័យដ៏មានប្រយោជន៍ និងតម្រង់ទៅរកតម្រូវការចាំបាច់។ តើការធ្វើជំរឿនផ្តល់ប្រយោជន៍អ្វីខ្លះដល់ក្រសួងអប់រំយុវជន និងកីឡា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'បច្ចុប្បន្ន មនុស្សលោកបាននឹងកំពុងបំផ្លិចបំផ្លាញបរិស្ថានយ៉ាងធ្ងន់ធ្ងរ។ ចូរពន្យល់ពីប្រភពនៃការបំពុលខ្យល់ ការបំពុលទឹក និងការបំពុលសូរសំឡេង។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'គុណធម៌ជាអ្វី? គុណធម៌ចែកចេញជាប៉ុន្មានបែប? អ្វីខ្លះ? ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000006', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'តើទំនួលខុសត្រូវមានប៉ុន្មានបែប? អ្វីខ្លះ? ចូរពន្យល់ទំនួលខុសត្រូវផ្នែកសីលធម៌ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, language = excluded.language, source = excluded.source;
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;

@@ -16,7 +16,8 @@ export default function QuestionImage({ image, className = "" }: { image: Questi
   const { url } = useAttachmentUrl(attachment);
   if (!url) return <span className={`bg-surface-hover animate-shimmer block rounded-md ${className}`} aria-hidden="true" />;
   // Addresses come from our storage bucket (https; plain http only for a local
-  // development server) or this browser's own files (blob:).
-  if (!/^(https:|blob:|http:\/\/(127\.0\.0\.1|localhost)[:/])/.test(url)) return null;
+  // development server), this browser's own files (blob:), or the past-paper
+  // figures shipped with the app (/past-papers/).
+  if (!/^(https:|blob:|http:\/\/(127\.0\.0\.1|localhost)[:/]|\/past-papers\/[a-z0-9-]+\.(png|jpg|webp)$)/.test(url)) return null;
   return <img src={url} alt={image.alt} loading="lazy" className={`rounded-md bg-white object-contain ${className}`} />;
 }

@@ -417,6 +417,19 @@ timing only in database functions, never in the browser.
   `setup-parts/01–03.sql` in order (each hash-checked against the commit).
   Read-only check: 116 official papers, 485 questions, 13 subjects, 72
   English and 60 French questions — the same as locally.
+- **2026-10-19 — Real past papers, part 6: science-track physics 2014–2022,
+  with figures.** 9 papers, 55 questions, typed from zoomed crops of the
+  copies (2014–2015 from ប៉ែន ពេជ្រវិចិត្រ's copy, which says it copies the
+  paper in full). Figures a question needs are cropped from the copy into
+  `public/past-papers/` (small grayscale JPEGs, 4–9 KB) and shown with a
+  description on the paper page and under the timer. The database accepts
+  `past-papers/<name>.(png|jpg|webp)` as an image path besides admin
+  uploads; the app serves it from its own origin. 2019's printed points add
+  up to 80, so none are shown; 2016 VII's constant and 2022 IV's question
+  are missing in the copy, noted on the paper. Tests: all 37 suites;
+  `test:past-papers` 9/9 (figures exist, are small, described and all used;
+  the database refuses other paths); Playwright 12/12 browser-only and
+  online (the 2015 figure on the paper and under the timer at 320px).
 
 ## Blockers and things that need a person
 

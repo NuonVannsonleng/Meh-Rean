@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } fro
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeftIcon } from "../components/Icons";
 import MathText from "../components/MathText";
+import QuestionImage from "../components/QuestionImage";
 import examTimings from "../data/bacii/exam-timings.json";
 import { t } from "../i18n/en";
 import { crossedWarnings, elapsedMs, formatClock, isFinished, pauseTimer, readTimer, remainingMs, resumeTimer, startTimer, warningsFor, type TimerState } from "../lib/examTimer";
@@ -528,6 +529,13 @@ export default function BaciiTimer() {
                     {entry.points !== null && <span className="text-ink-500 font-normal">{` · ${t.bacii.papers.questionPoints(entry.points)}`}</span>}
                   </p>
                   <MathText text={entry.question.content} className="text-ink-900 text-base" />
+                  {entry.question.images.length > 0 && (
+                    <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                      {entry.question.images.map((image) => (
+                        <QuestionImage key={image.path} image={image} className="max-h-72 w-full" />
+                      ))}
+                    </div>
+                  )}
                 </li>
               ))}
             </ol>

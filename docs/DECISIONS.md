@@ -263,3 +263,13 @@ history, the sciences and languages, each such subject gets one chapter,
 "BacII exam questions (not yet sorted into chapters)", marked provisional
 like the rest of the curriculum. A teacher can later add the real chapters
 and move the questions; nothing else depends on there being only one.
+
+## 2026-10-19 — Past-paper figures ship with the app, not in storage
+
+Question images are normally admin uploads in Supabase Storage, so that no one
+else can swap a file under a checked question. Figures of the real past papers
+are cropped from the copies and committed in `public/past-papers/` instead:
+they are reviewed with the code, cannot be replaced by any user, need no
+upload step, and reach the live site with each deploy. The database accepts
+only `past-papers/<name>.(png|jpg|webp)` for these, and the app builds the
+same-origin address itself, so no outside URL can be stored.
