@@ -391,6 +391,12 @@ timing only in database functions, never in the browser.
   says so. Points per question are shown only where the copy prints them for
   every question. Tests: affected suites pass; `test:past-papers` 7/7 over 9
   subjects, 82 papers, 353 questions; Playwright 10/10 browser-only and online.
+- **2026-10-19 — Production database updated to 572b187** (and to 46a16f1
+  before it), the same way: the committed `setup-all.sql` hash-checked in the
+  browser, pasted into the SQL editor and run. Read-only check: 82 official
+  papers and 353 questions over the 9 subjects, the same counts as locally,
+  and the questions' 200-point check in place. The live 2019 science
+  mathematics paper shows with its notice and timer.
 
 ## Blockers and things that need a person
 
