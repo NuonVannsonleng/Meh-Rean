@@ -1,0 +1,295 @@
+{
+  "comment": "Real BacII papers (Ministry of Education, Youth and Sport), typed by Meh Rean from a copy shared online: the exercises only, never the copy's worked answers. Not yet checked against the Ministry's original papers, so every paper and question is 'needs-review'.",
+  "subjectId": "kh-grade12-science-history",
+  "idPrefix": "bacc1060",
+  "nameEn": "History",
+  "nameKm": "ប្រវត្តិវិទ្យា",
+  "trackEn": "science track",
+  "trackKm": "ថ្នាក់វិទ្យាសាស្ត្រ",
+  "copies": {
+    "chiep": {
+      "label": "retyped by ជៀប គន្ធា (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    },
+    "chiep2022": {
+      "label": "retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    }
+  },
+  "papers": [
+    {
+      "year": 2022,
+      "date": "2022-12-05",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep2022"
+      ],
+      "questions": [
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "តើសមាគមអាស៊ានមានសមាជិកចំនួនប៉ុន្មាន? ការចូលអាស៊ានផ្តល់ផលប្រយោជន៍អ្វីខ្លះដល់កម្ពុជា?"
+        },
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "តើអាណាព្យាបាលបារាំងបាននាំមកនូវអ្វីខ្លះដល់កម្ពុជា?"
+        },
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់ពីបញ្ហាសន្តិសុខស្បៀងលើពិភពលោក។"
+        },
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់មូលហេតុ និងផលវិបាកនៃសកលភាវូបនីយកម្ម។"
+        },
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "តើថ្ងៃរំដោះ ៧ មករា ១៩៧៩ បានផ្តល់អត្ថន័យជាប្រវត្តិសាស្ត្រយ៉ាងណាខ្លះចំពោះកម្ពុជា?"
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "date": "2021-12-27",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើសមាគមអាស៊ាន មានប្រទេសណាខ្លះជាសមាជិក?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពិពណ៌នាពីបញ្ហាធំៗលើពិភពលោក។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពិពណ៌នាពីសមិទ្ធផលសំខាន់ៗរបស់រាជរដ្ឋាភិបាលកម្ពុជា។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរអ្នកវិភាគអំពីតួនាទីនៃសន្តិភាពក្នុងការអភិវឌ្ឍប្រទេសកម្ពុជា។"
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "date": "2019-08-19",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់ពីឈ្មោះមេដឹកនាំខ្មែរក្រហមសំខាន់ៗឲ្យបាន៥នាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីចលនាតស៊ូដើម្បីទទួលបានឯករាជ្យ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីរបបសាធារណរដ្ឋប្រជាមានិតខ្មែរ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ហេតុអ្វីបានជាកើតមានរដ្ឋប្រហារឆ្នាំ ១៩៧០? តើរដ្ឋប្រហារនេះផ្តល់ផលវិបាកដូចម្តេចខ្លះ?"
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "date": "2018-08-20",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 5,
+          "chapter": "past-papers",
+          "content": "តើអ្នកនយោបាយខ្មែរណាដែលបានបញ្ចប់សង្គ្រាមក្នុងស្រុកនៅឆ្នាំ១៩៩៨?"
+        },
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "តើអាណាព្យាបាលបារាំងនាំមកអ្វីខ្លះដល់កម្ពុជា?"
+        },
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីកត្តាសំខាន់ៗ ដែលធ្វើឲ្យរបបកម្ពុជាប្រជាធិបតេយ្យ (ឆ្នាំ១៩៧៥-១៩៧៩) ដួលរលំ។"
+        },
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីតួនាទីរបស់សហគមន៍អាស៊ាននៅអាស៊ីអាគ្នេយ៍។"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "តើសន្តិភាពដែលសម្រេចបានចាប់តាំងពីឆ្នាំ១៩៩៨ បាននាំមកអ្វីខ្លះដល់កម្ពុជា?"
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "date": "2017-08-21",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy prints the paper's total as 75 points; other science-track history papers, and the BacII rules, give 50, so 50 is used here. The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើស្តេចខ្មែរអង្គណាដែលទាមទារបានសម្រេចឯករាជ្យពីបារាំង?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើសង្គ្រាមត្រជាក់ក្នុងទសវត្ស ១៩៥០ ដល់ ១៩៦០ នាំមកអ្វីខ្លះដល់ឧបទ្វីបឥណ្ឌូចិន?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីកត្តាសំខាន់ៗដែលធ្វើឲ្យរបបសាធារណរដ្ឋខ្មែរ (១៩៧០-១៩៧៥) ដួលរលំ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីចលនាតស៊ូដើម្បីរំដោះប្រទេសកម្ពុជា ពីរបបប្រល័យពូជសាសន៍ «កម្ពុជាប្រជាធិបតេយ្យ» (ឆ្នាំ១៩៧៥-១៩៧៩)។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីសមិទ្ធផលរបស់រាជរដ្ឋាភិបាល ១៩៩៣ ដល់ពេលបច្ចុប្បន្ន។"
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "date": "2016-08-22",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "អ្នកប្រាជ្ញខ្មែរឈ្មោះអ្វីដែលបានរៀបចំវចនានុក្រមខ្មែរ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើអាណាព្យាបាលបារាំងពីឆ្នាំ១៨៦៣ ដល់ឆ្នាំ១៩៥៣ មានចំណុចវិជ្ជមាន និងអវិជ្ជមានអ្វីខ្លះសម្រាប់កម្ពុជា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាសមិទ្ធផលសង្គមរាស្ត្រនិយមពីឆ្នាំ១៩៥៣ ដល់ឆ្នាំ១៩៧០?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីមូលហេតុដែលធ្វើឲ្យសង្គ្រាមស៊ីវិលផ្ទុះឡើងពីឆ្នាំ១៩៧០ ដល់ឆ្នាំ១៩៧៥។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើសង្គ្រាមពីឆ្នាំ១៩៧០ ដល់ឆ្នាំ១៩៧៥ មានផលវិបាកអ្វីខ្លះសម្រាប់កម្ពុជា?"
+        }
+      ]
+    },
+    {
+      "year": 2015,
+      "date": "2015-08-24",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើកម្ពុជាទទួលបានឯករាជ្យពីបារាំងនៅឆ្នាំណា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើការទទួលឯករាជ្យនេះមានន័យយ៉ាងដូចម្តេចសម្រាប់កម្ពុជា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីមូលហេតុដែលកម្ពុជាទទួលយកអាណានិគមនិយមបារាំង។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូររិភាគពីតម្លៃនៃសន្តិភាពដែលកម្ពុជាទទួលបានសម្រាប់ការអភិវឌ្ឍសេដ្ឋកិច្ច និងសង្គម។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរបកស្រាយពីតួនាទីនៃ «វប្បធម៌សន្ទនា» នៅក្នុងសង្គមប្រជាធិបតេយ្យ។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 2,
+      "date": "2014-10-13",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើប្រាសាទអង្គរវត្តត្រូវបានសាងសង់នៅក្នុងរជ្ជកាលនៃព្រះមហាក្សត្រអង្គណា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ពណ៌នាអំពីនយោបាយបង្រួបបង្រួមជាតិ ដែលបាននាំមកនូវសន្តិភាពនៅកម្ពុជា។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់ពីព្រឹត្តិការណ៍សំខាន់ៗនៃប្រវត្តិសាស្ត្រកម្ពុជា នៅក្នុងសតវត្សទី២០។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 1,
+      "date": "2014-08-04",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើពិភពលោកកំពុងជួបប្រទះនឹងបញ្ហាធំៗអ្វីខ្លះ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ពណ៌នាអំពីវិនាសកម្មនៅក្រោមរបបប្រល័យពូជសាសន៍កម្ពុជាប្រជាធិបតេយ្យ និងការស្តារកម្ពុជាឡើងវិញ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ការដាក់ប្រាសាទព្រះវិហារចូលក្នុងបញ្ជីបេតិកភណ្ឌពិភពលោក មានអត្ថន័យដូចម្តេចសម្រាប់កម្ពុជា?"
+        }
+      ]
+    }
+  ]
+}

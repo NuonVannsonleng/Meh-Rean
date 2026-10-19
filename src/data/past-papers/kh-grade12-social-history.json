@@ -1,0 +1,278 @@
+{
+  "comment": "Real BacII papers (Ministry of Education, Youth and Sport), typed by Meh Rean from a copy shared online: the exercises only, never the copy's worked answers. Not yet checked against the Ministry's original papers, so every paper and question is 'needs-review'.",
+  "subjectId": "kh-grade12-social-history",
+  "idPrefix": "bacc2060",
+  "nameEn": "History",
+  "nameKm": "ប្រវត្តិវិទ្យា",
+  "trackEn": "social science track",
+  "trackKm": "ថ្នាក់វិទ្យាសាស្ត្រសង្គម",
+  "copies": {
+    "chiep": {
+      "label": "retyped by ជៀប គន្ធា (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    },
+    "chiep2022": {
+      "label": "retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    }
+  },
+  "papers": [
+    {
+      "year": 2022,
+      "date": "2022-12-05",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep2022"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើរដ្ឋប្រហារទម្លាក់សម្តេចនរោត្តម សីហនុ កើតឡើងនៅឆ្នាំណា និងបាននាំមកអ្វីខ្លះសម្រាប់កម្ពុជា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើមូលហេតុអ្វីបានជាគេចាត់ទុកថាសម្តេចនរោត្តម សីហនុ និងសម្តេចហ៊ុន សែន ជាបិតាសន្តិភាពនៅកម្ពុជា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើសង្គ្រាមត្រជាក់ជាអ្វី? ជាមានផលវិបាកអ្វីខ្លះដល់ពិភពលោក?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ថ្ងៃរំដោះ ៧មករា ឆ្នាំ១៩៧៩ មានអត្ថន័យជាប្រវត្តិសាស្ត្រអ្វីខ្លះសម្រាប់កម្ពុជា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើអ្វីទៅជាគោលនយោបាយឈ្នះ ឈ្នះ?"
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "date": "2021-12-27",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy numbers two questions III; here they are simply questions 3 and 4. The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើអ្វីទៅជាសមាគមអាស៊ាន?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើអាណានិគមបារាំងបាននាំមកនូវអ្វីខ្លះ ដល់ប្រទេសកម្ពុជា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "មូលហេតុអ្វីដែលនាំឲ្យមានរដ្ឋប្រហារទម្លាក់សម្តេចសីហនុ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើមូលហេតុអ្វីបានជារបបកម្ពុជាប្រជាធិបតេយ្យដួលរលំ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីនយោបាយបង្រួបបង្រួមជាតិនាំមកនូវសន្តិភាពជូនកម្ពុជា។"
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "date": "2019-08-19",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "អ្វីទៅជាគោលនយោបាយអព្យាក្រឹត? ចូរអ្នកពណ៌នា។"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ហេតុអ្វីបានជារបបសាធារណរដ្ឋខ្មែរឆ្នាំ១៩៧០-១៩៧៥ ដួលរលំ?"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ហេតុអ្វីបានជាតុលាការយកមេដឹកនាំកំពូលរបស់ខ្មែរក្រហម ដែលកាន់អំណាចនៅឆ្នាំ ១៩៧៥-១៩៧៩ ទៅកាត់ទោស?"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ចូរអ្នកពិពណ៌នាពីការខិតខំចរចារកសន្តិភាព និងការបង្រួបបង្រួមជាតិនៅកម្ពុជា។"
+        },
+        {
+          "points": 20,
+          "chapter": "past-papers",
+          "content": "ចូរអ្នកពណ៌នាពីការអភិវឌ្ឍសេដ្ឋកិច្ច សង្គមនៅកម្ពុជាពីឆ្នាំ ១៩៩៣ មកទល់សព្វថ្ងៃ?"
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "date": "2018-08-20",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "សហគមន៍អឺរ៉ុបជាអ្វី?"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ចូរអត្ថាធិប្បាយពីចំណុចវិជ្ជមាន និងអវិជ្ជមាននៃរបបអាណាព្យាបាលបារាំងនៅកម្ពុជា។"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីកម្ពុជាសម័យសង្គមរាស្ត្រនិយម (១៩៥៣-១៩៧០)។"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "មូលហេតុអ្វីបានជារបបប្រល័យពូជសាសន៍ កម្ពុជាប្រជាធិបតេយ្យ (១៩៧៥-១៩៧៩) សម្លាប់មនុស្ស ហើយតើវាមានផលវិបាកអ្វីខ្លះដល់កម្ពុជា?"
+        },
+        {
+          "points": 20,
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីដំណើរការកសាងកម្ពុជាឡើងវិញចាប់ពីឆ្នាំ ១៩៩៨ មកទល់ពេលបច្ចុប្បន្ន។"
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "date": "2017-08-21",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើសមាគមអាស៊ាន មានសមាជិកប៉ុន្មាន? ប្រទេសណាខ្លះ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ហេតុអ្វីបានជាកម្ពុជាចាំបាច់ស្វែងរកកិច្ចការពារពីបារាំង ដោយចុះសន្ធិសញ្ញាអាណាព្យាបាលជាមួយបារាំង?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីនយោបាយអព្យាក្រឹត នៅក្នុងរបបសង្គមរាស្ត្រនិយម (ឆ្នាំ១៩៥៣-១៩៧០)។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើសង្គ្រាមនៅកម្ពុជាក្នុងឆ្នាំ ១៩៧០-១៩៧៥ និងឆ្នាំ ១៩៧៩-១៩៩៨ និងរបបប្រល័យពូជសាសន៍ កម្ពុជាប្រជាធិបតេយ្យ (១៩៧៥-១៩៧៩) មានផលវិបាកអ្វីខ្លះសម្រាប់កម្ពុជា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "មូលហេតុអ្វីបានជាគេចាត់ទុកថា សម្តេចនរោត្តម សីហនុ និងសម្តេច ហ៊ុន សែន ជាបិតាសន្តិភាពនៅកម្ពុជា?"
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "date": "2016-08-22",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើនរណាជាមេខ្មែរក្រហម? សូមរាប់ឲ្យបាន៣នាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ហេតុអ្វីបានជាកម្ពុជារងការបំផ្លិចបំផ្លាញក្នុងរបបខ្មែរក្រហម?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើអាស៊ានជាអ្វី? ហើយតើកម្ពុជាបានទទួលផលប្រយោជន៍អ្វីខ្លះពីការចូលជាសមាជិកអាស៊ាន?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាពីការកសាងជាតិឡើងវិញ ក្រោយរបបខ្មែរក្រហមពីឆ្នាំ១៩៧៩ ដល់១៩៩០?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើពិភពលោកយើងនាពេលបច្ចុប្បន្ននេះ កំពុងជួបប្រទះនឹងបញ្ហាធំៗអ្វីខ្លះ?"
+        }
+      ]
+    },
+    {
+      "year": 2015,
+      "date": "2015-08-24",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើរដ្ឋប្រហារទម្លាក់សម្តេចនរោត្តម សីហនុកើតឡើងនៅឆ្នាំណា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើរដ្ឋប្រហារនេះបាននាំមកអ្វីខ្លះសម្រាប់កម្ពុជា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពណ៌នាគោលនយោបាយឈ្នះ ឈ្នះរបស់សម្តេចហ៊ុន សែន ក្នុងការបញ្ចប់សង្គ្រាមនៅកម្ពុជា។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូររិភាគពីតួនាទីព្រះពុទ្ធសាសនាក្នុងសង្គមកម្ពុជា។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូររិភាគពីព្រះរាជាណាចក្រកម្ពុជាទី២ និងការកសាងកម្ពុជាឡើងវិញ។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 1,
+      "date": "2014-08-04",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "ពណ៌នាអំពីទិដ្ឋភាពវិជ្ជមាន និងអវិជ្ជមាននៃសកលភាវូបនីយកម្ម។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើព្រះបាទសម្តេច នរោត្តម សីហនុ និងសម្តេច ហ៊ុន សែន មានតួនាទីអ្វីខ្លះក្នុងការបញ្ចប់សង្គ្រាមនៅកម្ពុជា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើអាស៊ានជាអ្វី ហើយមានសារៈសំខាន់អ្វីខ្លះសម្រាប់កម្ពុជា?"
+        }
+      ]
+    }
+  ]
+}

@@ -140,6 +140,21 @@
               ]
             }
           ]
+        },
+        {
+          "subjectKey": "history",
+          "nameEn": "History",
+          "nameKm": "ប្រវត្តិវិទ្យា",
+          "chapters": [
+            {
+              "slug": "past-papers",
+              "nameEn": "BacII exam questions (not yet sorted into chapters)",
+              "nameKm": "សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)",
+              "topics": [
+                { "slug": "exam-questions", "nameEn": "Past exam questions", "nameKm": "សំណួរប្រឡងឆ្នាំមុនៗ" }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -206,6 +221,66 @@
           "subjectKey": "khmer-literature",
           "nameEn": "Khmer literature",
           "nameKm": "អក្សរសាស្ត្រខ្មែរ",
+          "chapters": [
+            {
+              "slug": "past-papers",
+              "nameEn": "BacII exam questions (not yet sorted into chapters)",
+              "nameKm": "សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)",
+              "topics": [
+                { "slug": "exam-questions", "nameEn": "Past exam questions", "nameKm": "សំណួរប្រឡងឆ្នាំមុនៗ" }
+              ]
+            }
+          ]
+        },
+        {
+          "subjectKey": "history",
+          "nameEn": "History",
+          "nameKm": "ប្រវត្តិវិទ្យា",
+          "chapters": [
+            {
+              "slug": "past-papers",
+              "nameEn": "BacII exam questions (not yet sorted into chapters)",
+              "nameKm": "សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)",
+              "topics": [
+                { "slug": "exam-questions", "nameEn": "Past exam questions", "nameKm": "សំណួរប្រឡងឆ្នាំមុនៗ" }
+              ]
+            }
+          ]
+        },
+        {
+          "subjectKey": "morality-civics",
+          "nameEn": "Morals and civics",
+          "nameKm": "សីលធម៌-ពលរដ្ឋវិជ្ជា",
+          "chapters": [
+            {
+              "slug": "past-papers",
+              "nameEn": "BacII exam questions (not yet sorted into chapters)",
+              "nameKm": "សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)",
+              "topics": [
+                { "slug": "exam-questions", "nameEn": "Past exam questions", "nameKm": "សំណួរប្រឡងឆ្នាំមុនៗ" }
+              ]
+            }
+          ]
+        },
+        {
+          "subjectKey": "geography",
+          "nameEn": "Geography",
+          "nameKm": "ភូមិវិទ្យា",
+          "chapters": [
+            {
+              "slug": "past-papers",
+              "nameEn": "BacII exam questions (not yet sorted into chapters)",
+              "nameKm": "សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)",
+              "topics": [
+                { "slug": "exam-questions", "nameEn": "Past exam questions", "nameKm": "សំណួរប្រឡងឆ្នាំមុនៗ" }
+              ]
+            }
+          ]
+        },
+        {
+          "subjectKey": "earth-science",
+          "nameEn": "Earth and environmental science",
+          "nameKm": "ផែនដី និងបរិស្ថានវិទ្យា",
           "chapters": [
             {
               "slug": "past-papers",

@@ -1,0 +1,331 @@
+{
+  "comment": "Real BacII papers (Ministry of Education, Youth and Sport), typed by Meh Rean from a copy shared online: the exercises only, never the copy's worked answers. Not yet checked against the Ministry's original papers, so every paper and question is 'needs-review'.",
+  "subjectId": "kh-grade12-social-morality-civics",
+  "idPrefix": "bacc2100",
+  "nameEn": "Morals and civics",
+  "nameKm": "សីលធម៌-ពលរដ្ឋវិជ្ជា",
+  "trackEn": "social science track",
+  "trackKm": "ថ្នាក់វិទ្យាសាស្ត្រសង្គម",
+  "copies": {
+    "chiep": {
+      "label": "retyped by ជៀប គន្ធា (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    },
+    "chiep2022": {
+      "label": "retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    }
+  },
+  "papers": [
+    {
+      "year": 2022,
+      "date": "2022-12-05",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep2022"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់ពីភាពខុសគ្នារវាង «ការបង្កើតថ្មី» និង «របកគំហើញ» ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរបង្ហាញពីទំនាក់ទំនងរវាង អនុមានញែក និង អនុមានរួម។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "សីលតម្លៃ ជាតម្លៃថ្នាក់ខ្ពស់របស់មនុស្ស។ ចូរពន្យល់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់ពីសុខដុមនៃផ្នែកសាសនា។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "សិស្សគឺជាកម្លាំងមួយដ៏រឹងមាំ ក្នុងការចូលរួមប្រយុទ្ធប្រឆាំងនឹងអំពើពុករលួយ។ ពន្យល់។"
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "date": "2021-12-27",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់ពីសភាវគតិ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរបង្ហាញពីទំនាក់ទំនងរវាងវិភាគ និងសំយោគ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់តម្លៃសម្ភារៈ និងតម្លៃពីធម្មជាតិ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់ ការសម្រេចចិត្ត។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរបង្ហាញវិធានការគន្លឹះ ដែលធ្វើឲ្យបុគ្គលិកម្នាក់ៗមិនចង់ពុករលួយ មិនអាចពុករលួយ និងមិនហ៊ានពុករលួយ ក្នុងបរិបទនៃការប្រឆាំងអំពើពុករលួយ។"
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "date": "2019-08-19",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "questions": [
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់ឲ្យបានក្បោះក្បាយអំពីពុទ្ធិសាមញ្ញ និងពុទ្ធិស្បង់ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ការបណ្តុះបណ្តាលឲ្យពលរដ្ឋមានទំនោរផ្នែកវិជ្ជាជីវៈគឺត្រូវប្រកបដោយសីលធម៌ ស្មេរភាព កម្លាំងរឹងមាំ និងប្រសិទ្ធភាពខ្ពស់។ ចូរពន្យល់។"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ច្បាប់និងករណីយកិច្ចតាមទិដ្ឋភាពនៃតម្លៃគឺមានទំនាក់ទំនងគ្នាទៅវិញទៅមក។ ចូរពន្យល់។"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "តម្លៃបញ្ញា ជាប្រភេទនៃតម្លៃថ្នាក់ខ្ពស់។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "តើត្រូវមានវិធានអ្វីខ្លះ ដើម្បីឲ្យបុគ្គលម្នាក់ៗមិនចង់ពុករលួយ និងមិនហ៊ានពុករលួយនៅកម្ពុជា? ចូរពន្យល់។"
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "date": "2018-08-20",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "ពន្យល់ពីតម្លៃធម្មជាតិក្នុងក្របខណ្ឌតម្លៃសីលវិជ្ជាដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ផលប្រយោជន៍ការប្រឆាំងអំពើពុករលួយប្រកបដោយប្រសិទ្ធភាព។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ពហុសាសនាពុំមែនជាប្រភពទំនាស់។ ចូរពន្យល់និងឧទាហរណ៍។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ភាពខុសគ្នារវាងសីលញ្ញាណ និងចិត្តញ្ញាណ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ឆន្ទៈជាអ្វី? ចូរពន្យល់អំពីឆន្ទៈ និងអឆន្ទៈ។"
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "date": "2017-08-21",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "គ្រប់កុមារទាំងអស់មានសិទ្ធិទទួលបានការរៀនសូត្រ។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់ទំនួលខុសត្រូវផ្នែកសីលធម៌។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើតម្លៃបញ្ញា និងសីលតម្លៃស្ថិតនៅតម្លៃថ្នាក់ណា? ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "មាតាបិតាមានកាតព្វកិច្ចចិញ្ចឹមថែរក្សាកូនចៅជាពលរដ្ឋល្អ។ កូនមានករណីកិច្ចចិញ្ចឹម និងបីបាច់ថែរក្សាមាតាបិតាដែលចាស់ជរា តាមទំនៀមទម្លាប់ខ្មែរ។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "សិស្សជាកម្លាំងមួយដ៏សំខាន់ ក្នុងការចូលរួមប្រឆាំងនឹងអំពើពុករលួយ។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់ពុទ្ធិទស្សនៈវិជ្ជា ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "date": "2016-08-22",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើជំរឿនផ្តល់សារៈសំខាន់អ្វីខ្លះ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់ពាក្យវិមជ្ឈការ និងពាក្យវិសហមជ្ឈការក្នុងក្របខណ្ឌកំណែទម្រង់ រដ្ឋបាល សាធារណៈនៅកម្ពុជា។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ទំនួលខុសត្រូវផ្នែកសីលធម៌មានពីរបែប។ ចូររៀបរាប់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់ពីប្រភពនៃការបំពុលបរិស្ថាន។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរបង្ហាញពីភាពខុសគ្នារវាងគុណធម៌សាមញ្ញ និងគុណកំណើត ដោយលើកឧទាហរណ៍បញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2015,
+      "date": "2015-08-24",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើគំរូមនុស្សថ្លៃថ្នូរមានប៉ុន្មានប្រភេទ? ចូររៀបរាប់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ការប្រឆាំងអំពើពុករលួយកើតចេញពីយើងម្នាក់ៗ។ ចូរពន្យល់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ភាពសុខដុមផ្នែកសាសនា គឺជាគោលការណ៍បង្កើតនូវសុខសន្តិភាពពិតៗ និងយូរអង្វែង។ ចូរពន្យល់ដោយលើកយកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ទំនោររបស់បុគ្គលគឺជាលក្ខណៈចិត្តដែលមានមូលដ្ឋានត្រឹមត្រូវ និងជាស្នូលនៃជីវិតផ្លូវចិត្តរបស់បុគ្គល។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ច្បាប់ និងករណីកិច្ចតាងនូវទិដ្ឋភាពពីរនៃតម្លៃដែលបង្គ្រប់ឲ្យគ្នាទៅវិញទៅមក។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "យើងត្រូវចេះជ្រើសរើសសេចក្តីប្រាថ្នា គោលបំណង និងមធ្យោបាយល្អ និងត្រឹមត្រូវដើម្បីសម្រេចឧត្តមគតិរបស់យើង។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 2,
+      "date": "2014-10-13",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើការចាក់កាកសំណល់ពាសវាលពាសកាល ធ្វើឲ្យប៉ះពាល់ដល់បរិស្ថានយ៉ាងដូចម្តេចខ្លះ? ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "មនុស្សគ្រប់រូបមានសិទ្ធិទទួលការអប់រំ។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "សីលតម្លៃ ជាតម្លៃថ្នាក់ខ្ពស់។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់ពីភាពខុសគ្នារវាងអំពើឆន្ទៈ និងអំពើអឆន្ទៈ។ ចូរលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ការចេះគោរពសិទ្ធិអ្នកដទៃបញ្ជាក់ឲ្យឃើញពីតម្លៃនៃការគោរពជីវិតរបស់មនុស្ស។ ចូរពន្យល់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់ពីបញ្ហាដែលកើតឡើងដោយសារកំណើនប្រជាជនពិភពលោក។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 1,
+      "date": "2014-08-04",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "កិច្ចការក្នុងគ្រួសារ និងការអប់រំចិញ្ចឹមបីបាច់ថែរក្សាកូន ជាភារកិច្ចរបស់បុរសនារី។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើគ្រួសារ សាលារៀន និងសង្គមត្រូវយកចិត្តទុកដាក់ចំពោះកុមារគ្រប់រូបដូចម្តេចខ្លះ ដើម្បីឲ្យកុមារមានការអភិវឌ្ឍពេញលេញ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ជំរឿនបានផ្តល់ទិន្នន័យដ៏មានប្រយោជន៍ និងតម្រង់ទៅរកតម្រូវការចាំបាច់។ តើការធ្វើជំរឿនផ្តល់ប្រយោជន៍អ្វីខ្លះដល់ក្រសួងអប់រំយុវជន និងកីឡា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "បច្ចុប្បន្ន មនុស្សលោកបាននឹងកំពុងបំផ្លិចបំផ្លាញបរិស្ថានយ៉ាងធ្ងន់ធ្ងរ។ ចូរពន្យល់ពីប្រភពនៃការបំពុលខ្យល់ ការបំពុលទឹក និងការបំពុលសូរសំឡេង។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "គុណធម៌ជាអ្វី? គុណធម៌ចែកចេញជាប៉ុន្មានបែប? អ្វីខ្លះ? ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើទំនួលខុសត្រូវមានប៉ុន្មានបែប? អ្វីខ្លះ? ចូរពន្យល់ទំនួលខុសត្រូវផ្នែកសីលធម៌ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        }
+      ]
+    }
+  ]
+}

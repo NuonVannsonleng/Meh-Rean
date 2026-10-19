@@ -1,0 +1,201 @@
+{
+  "comment": "Real BacII papers (Ministry of Education, Youth and Sport), typed by Meh Rean from a copy shared online: the exercises only, never the copy's worked answers. Not yet checked against the Ministry's original papers, so every paper and question is 'needs-review'.",
+  "subjectId": "kh-grade12-social-earth-science",
+  "idPrefix": "bacc2110",
+  "nameEn": "Earth and environmental science",
+  "nameKm": "ផែនដី និងបរិស្ថានវិទ្យា",
+  "trackEn": "social science track",
+  "trackKm": "ថ្នាក់វិទ្យាសាស្ត្រសង្គម",
+  "copies": {
+    "chiep": {
+      "label": "retyped by ជៀប គន្ធា (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    },
+    "chiep2022": {
+      "label": "retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    }
+  },
+  "papers": [
+    {
+      "year": 2022,
+      "date": "2022-12-05",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep2022"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "ក. ដូចម្តេចដែលហៅថា ដំណើរពុកផុយ? តើដំណើរពុកផុយមានប៉ុន្មាន?\nខ. តើកត្តាអ្វីខ្លះដែលនាំឲ្យមានដំណើរពុកផុយនីមួយៗ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ក. តើភពក្នុង និងភពក្រៅនៃប្រព័ន្ធព្រះអាទិត្យមានអ្វីខ្លះ? មានលក្ខណៈខុសគ្នាដូចម្តេច?\nខ. ហេតុអ្វីបានជាគេនិយាយថា ភពផែនដីជាភពតែមួយ គត់ដែលមានជីវិតរស់នៅ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ក. តើឥន្ធនៈអ្វីខ្លះដែលគេចាត់ទុកជាឥន្ធនៈផូស៊ីល?\nខ. ចំហេះឥន្ធនៈផូស៊ីលប៉ះពាល់អ្វីខ្លះដល់ភាវៈមានជីវិតនៅលើផែនដី?"
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "date": "2021-12-27",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "១. តើគេបែងចែកកំណប់រ៉ែនៅប្រទេសកម្ពុជាជាប៉ុន្មានក្រុម? អ្វីខ្លះ?\n២. តើត្បូងមានតម្លៃនិងថ្មរចនាភាគច្រើនមាននៅក្នុងខេត្តណាខ្លះនៃប្រទេសកម្ពុជា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើផែនដីមានចលនាអ្វីខ្លះ? ចូរពណ៌នាពីចលនារបស់ផែនដីដែលបង្កើតឲ្យមានថ្ងៃនិងយប់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "១. តើគេប្រើប្រាស់ដីសម្រាប់ធ្វើអ្វីខ្លះ?\n២. តើត្រូវគិតគូរពីតុល្យភាពរវាងដីសម្រាប់សាងសង់និងដីសម្រាប់កសិកម្មដែរឬទេ? ហេតុអ្វី?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "១. ចូររកឈ្មោះឥន្ធនៈផូស៊ីលសំខាន់ៗដែលអ្នកបានស្គាល់?\n២. តើឥន្ធនៈផូស៊ីលមានគុណសម្បត្តិ និងគុណវិបត្តិអ្វីខ្លះក្នុងជីវភាពរស់នៅប្រចាំថ្ងៃ?"
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "date": "2019-08-19",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើដីមានប៉ុន្មានស្រទាប់? អ្វីខ្លះ? តើស្រទាប់នីមួយៗមានលក្ខណៈខុសគ្នាដោយសារកត្តាអ្វីខ្លះ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "១. តើឥន្ធនៈផូស៊ីលរឹងជាអ្វី? មានប៉ុន្មានប្រភេទ?\n២. ចូររៀបរាប់ពីការកកើតនៃប្រភេទនីមួយៗ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "១. ចូរពណ៌នាពីផលវិជ្ជមាន និងអវិជ្ជមាននៃ «ផលផ្ទះកញ្ចក់»។\n២. តើមានកត្តាអ្វីខ្លះដែលអាចបន្ថយល្បឿននៃការកើនកម្តៅលើផែនដីបាន?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "១. តើពេលណាដែលថ្ងៃវែងជាងយប់ និងយប់វែងជាងថ្ងៃជាងគេ?\n២. តើបាតុភូតនេះកើតឡើងដោយសារមូលហេតុអ្វី?"
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "date": "2018-08-20",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy prints the total as 75 points, but its question points add up to 50, the elective's points; 50 is used.",
+      "questions": [
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "តើហេតុអ្វីបានជាសមាសធាតុផ្សំរបស់ភពសិលាខុសពីសមាសធាតុផ្សំរបស់ភពឧស្ម័ន?"
+        },
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "ចូររាប់ឈ្មោះឧស្ម័នផ្ទះកញ្ចក់សំខាន់ៗឲ្យបានចំនួនបួន។ តើឧស្ម័នផ្ទះកញ្ចក់ទាំងនោះមានប្រភពមកពីណាខ្លះ?"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់ពីភាពខុសគ្នារវាងការផ្ទុះបំបែក និងការលាយថាមពលនុយក្លេអ៊ែ។ តើថាមពលទាំងពីរផ្តល់គុណសម្បត្តិ និងគុណវិបត្តិអ្វីខ្លះ?"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ហេតុអ្វីបានជាគេនិយាយថាសំណល់ជាបញ្ហាធ្ងន់ធ្ងរ ជាពិសេសនៅក្នុងទីក្រុងឬទីប្រជុំជន? តើត្រូវមានវិធានការអ្វីខ្លះដើម្បីកាត់បន្ថយបញ្ហាទាំងនេះ?"
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "date": "2017-08-21",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "ក. នៅកម្ពុជាតើស្ថាប័នណាដែលជាអ្នកទទួលខុសត្រូវក្នុងការគ្រប់គ្រងធនធានរ៉ែនៅក្នុងប្រទេស?\nខ. តើគេបានបែងចែកកំណប់រ៉ែនៅប្រទេសកម្ពុជាជាប៉ុន្មានក្រុម? អ្វីខ្លះ?\nគ. តើការជីកយករ៉ែ និងការធ្វើប្រព្រឹត្តិកម្មរ៉ែបណ្តាលឲ្យមានផលប៉ះពាល់អ្វីខ្លះដល់បរិស្ថាន និងសង្គមជាតិ? ចូររៀបរាប់ដោយសង្ខេប។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ក. ចូលពណ៌នាពីចលនាវង្វិលជុំ និងចលនាវង្វិលខ្លួននៃភពផែនដី និងលទ្ធផលនៃចលនាទាំងពីរ។\nខ. ហេតុអ្វីបានជាគេនិយាយថា ផែនដីជាភពតែមួយគត់នៅក្នុងប្រព័ន្ធព្រះអាទិត្យដែលអាចទ្រទ្រង់ជីវិតបាន?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "នាពេលបច្ចុប្បន្ន សំណល់ត្រូវបានគេប្រមូលកែច្នៃ ហើយប្រើប្រាស់ឡើងវិញ ឬប្រើប្រាស់ក្នុងគោលដៅថ្មីទៀត។ តើការកែច្នៃជាថ្មី និងកំប៉ុស្តកម្មមានសារៈសំខាន់អ្វីខ្លះលើជីវភាពរស់នៅក្នុងសង្គម?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ក. តើដីនៅប្រទេសកម្ពុជាមានប៉ុន្មានប្រភេទ? ប្រភេទអ្វីខ្លះ?\nខ. តើដីប្រភេទណាខ្លះដែលបម្រើឲ្យវិស័យកសិកម្មបានល្អជាងគេ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ក. តើប្រភពថាមពលចម្បងសម្រាប់ការប្រើប្រាស់មនុស្សបច្ចុប្បន្នមានអ្វីខ្លះ?\nខ. តើយើងត្រូវប្រើប្រាស់ប្រភពថាមពលយ៉ាងដូចម្តេច ដើម្បីអភិរក្ស និងបញ្ចៀសផលប៉ះពាល់ទៅលើបរិស្ថាន និងសុខភាពមនុស្ស?"
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "date": "2016-08-22",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy prints the total as 75 points; this elective is out of 50 (as the 2021 and 2022 copies print), so 50 is used. The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើកាឡាក់ស៊ីមានប៉ុន្មានប្រភេទ? អ្វីខ្លះ? ប្រព័ន្ធព្រះអាទិត្យរបស់យើងស្ថិតនៅក្នុងប្រភេទកាឡាក់ស៊ីមួយណា? មានឈ្មោះអ្វី?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើថាមពលព្រះអាទិត្យ ផ្តល់សារៈសំខាន់អ្វីខ្លះដល់ជីវិតនៅលើភពផែនដី?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើដំណើរពុកផុយមានប៉ុន្មានប្រភេទ អ្វីខ្លះ? ចូរបង្ហាញពីមូលហេតុនៃការពុកផុយរបស់ប្រភេទនីមួយៗ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ក. ចូររាប់ឈ្មោះឥន្ធនៈផូស៊ីលសំខាន់ៗដែលអ្នកបានស្គាល់។\nខ. តើការប្រើប្រាស់ឥន្ធនៈផូស៊ីលបង្កឲ្យមានផលប៉ះពាល់អ្វីខ្លះដល់បរិស្ថាន?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើផ្នែកសំខាន់ៗនៃវដ្តទឹកមានអ្វីខ្លះ? ចូរពណ៌នាដោយសង្ខេបពីផ្នែកនីមួយៗនៃវដ្តទឹក។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ក. តើកំណើនផលផ្ទះកញ្ចក់នាំឲ្យមានផលប៉ះពាល់អ្វីខ្លះលើអាកាសធាតុ និងវិស័យកសិកម្ម?\nខ. តើយើងត្រូវធ្វើដូចម្តេចខ្លះដើម្បីកាត់បន្ថយការកើនឡើងនៃកម្តៅនៅលើពិភពលោក?"
+        }
+      ]
+    }
+  ]
+}

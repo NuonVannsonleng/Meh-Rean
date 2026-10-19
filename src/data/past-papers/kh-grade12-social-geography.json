@@ -1,0 +1,295 @@
+{
+  "comment": "Real BacII papers (Ministry of Education, Youth and Sport), typed by Meh Rean from a copy shared online: the exercises only, never the copy's worked answers. Not yet checked against the Ministry's original papers, so every paper and question is 'needs-review'.",
+  "subjectId": "kh-grade12-social-geography",
+  "idPrefix": "bacc2090",
+  "nameEn": "Geography",
+  "nameKm": "ភូមិវិទ្យា",
+  "trackEn": "social science track",
+  "trackKm": "ថ្នាក់វិទ្យាសាស្ត្រសង្គម",
+  "copies": {
+    "chiep": {
+      "label": "retyped by ជៀប គន្ធា (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    },
+    "chiep2022": {
+      "label": "retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    }
+  },
+  "papers": [
+    {
+      "year": 2022,
+      "date": "2022-12-05",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep2022"
+      ],
+      "questions": [
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "តើបម្លាស់លំនៅក្នុងស្រុកនៅកម្ពុជា មានប៉ុន្មានរូបភាព? តើរូបភាពណាមួយដែលមានទំហំធំជាងគេ? ហេតុអ្វី?"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "កម្ពុជាជាប្រទេសមួយដែលពឹងផ្អែកលើកសិកម្ម យ៉ាងសំខាន់។ ចូរពន្យល់។"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ព្រៃឈើគឺជាប្រភពភោគទ្រព្យសម្បត្តិដែលកើតឡើងវិញ? ចូរពន្យល់។"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "ទេសចរណ៍កម្ពុជា ជាទេសចរណ៍វប្បធម៌ និងធម្មជាតិ។ ចូរពន្យល់។"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "វិស័យទេសចរណ៍ បង្កើតការងារ។ ចូរពន្យល់។"
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "date": "2021-12-27",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives points for I, II, IV and V (15 each) but not III, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "ស្រូវជាដំណាំសំខាន់ជាងគេបំផុតនៅកម្ពុជា។ ចូរពន្យល់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "សកម្មភាពទេសចរណ៍ក្នុងស្រុកមានការរីកចម្រើនគួរកត់សម្គាល់។ ចូរពន្យល់ពីបាតុភូតនៃការរីកចម្រើននេះ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "របាយប្រជាជននៅកម្ពុជា គឺមិនស្មើគ្នាទេ។ ចូរពន្យល់ពីមូលហេតុ។\nចូរគណនាដង់ស៊ីតេប្រជាជនកម្ពុជានៅឆ្នាំ១៩៩៨។ ប្រជាជនឆ្នាំ១៩៩៨ មាន ១១ ៤៣៧ ៦៥៦ នាក់។ ផ្ទៃដីមាន ១៨១ ០៣៥ គីឡូម៉ែត្រការ៉េ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "«អភិវឌ្ឍស្ពាន ថ្នល់ គឺកាត់បន្ថយភាពក្រីក្ររបស់ប្រជាជន»។ ចូរពន្យល់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ទេសចរណ៍កម្ពុជា ជាទេសចរណ៍វប្បធម៌ និងធម្មជាតិ។ ចូរពន្យល់។"
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "date": "2019-08-19",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "ផែនការរៀបចំដីធ្លីនៅតំបន់ខ្លះនៅកម្ពុជាត្រូវការរៀបចំឡើងវិញ។ ចូរពន្យល់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើប្រជាពលរដ្ឋកម្ពុជាទទួលបានផលប្រយោជន៍អ្វីខ្លះ តាមរយៈយន្តការ និងចលនា «ភូមិមួយ ផលិតផលមួយ»។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ឧស្សាហកម្មបង្កើតការងារ។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើនៅកម្ពុជាគេបែងចែកប្រភេទរាជធានី-ខេត្តជាប៉ុន្មាន? ចូរពន្យល់ពីខេត្តរឹងមាំ និងខេត្តជាប់ស្រយាល។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរនិយាយពីទំនាក់ទំនងរវាង ការដាំដុះព្រៃឈើ អាជីវកម្មព្រៃឈើ និងការនេសាទ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់ពីតួនាទីនៃវិស័យទេសចរណ៍នៅក្នុងសេដ្ឋកិច្ចជាតិ។"
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "date": "2017-08-21",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "ព្រៃឈើជាប្រភពភោគទ្រព្យធម្មជាតិដែលកើតឡើងវិញ។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់ពីភោគទ្រព្យទេសចរណ៍ប្រវត្តិសាស្ត្រ និងវប្បធម៌របស់កម្ពុជា។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់បាតុភូត «ចំណាកស្រុកស្រែ» និងបាតុភូត «ចំណោលស្រុកស្រែ»។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ផ្នែកឯកជន ជាកម្លាំងដ៏សំខាន់សម្រាប់ការវិនិយោគ និងកំណើនក្នុងប្រទេស។ ចូរពន្យល់ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ការដឹកជញ្ជូន ជាសកម្មភាពមួយដើរតួនាទីយ៉ាងសំខាន់ សម្រាប់ការអភិវឌ្ឍសង្គមសេដ្ឋកិច្ច។ ចូរពន្យល់ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "បណ្តាញគមនាគមន៍កម្ពុជា មានតួនាទីជា «ក្បាលរថភ្លើងនៃកំណើនសេដ្ឋកិច្ច»។ ចូរពន្យល់ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "date": "2016-08-22",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើកង្វះអាហារូបត្ថម្ភ បណ្តាលមកពីកត្តាអ្វីខ្លះ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់ពីផែនការសកម្មភាពសុវត្ថិភាពចរាចរណ៍ផ្លូវគោក។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូរពន្យល់ពីភាពវិជ្ជមាន និងភាពអវិជ្ជមាននៃវិស័យទេសចរណ៍។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ប្រព័ន្ធផលិតស្រូវនៅកម្ពុជាមានលក្ខណៈខុសប្លែកគ្នា។ ចូររៀបរាប់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើវិស័យទេសចរណ៍ បានផ្តល់ការងារអ្វីខ្លះដល់ប្រជាជនកម្ពុជា?"
+        }
+      ]
+    },
+    {
+      "year": 2015,
+      "date": "2015-08-24",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើយុទ្ធនាការឃោសនាផ្សព្វផ្សាយ និងចលនាប្រលងប្រណាំងអ្វីខ្លះ ដែលបានជំរុញឲ្យវិស័យទេសចរណ៍កម្ពុជាមានការរីកចម្រើន?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើគេបែងចែកប្រភេទរាជធានី ខេត្ត នៅកម្ពុជាដោយផ្អែកលើអ្វីខ្លះ? មានប៉ុន្មានប្រភេទ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ការបែងចែកដីធ្លីមានចំណងដ៏រឹងមាំរវាងភាពគ្មានដី និងភាពក្រីក្រ។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ប្រទេសកម្ពុជាបានអនុវត្តប្រព័ន្ធសេដ្ឋកិច្ចទីផ្សារសេរីចាប់ពីឆ្នាំ១៩៩៣។ ចូរពន្យល់ពីអត្ថប្រយោជន៍នៃការអនុវត្តសេដ្ឋកិច្ចទីផ្សារសេរីនេះ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ផ្លូវថ្នល់ចែកចេញជាបួនប្រភេទ។ អ្វីខ្លះ? ចូរពន្យល់ប្រភេទនីមួយៗ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "អត្រាចូលរួមសកម្មភាពសេដ្ឋកិច្ចនៅតំបន់ជនបទខ្ពស់ជាងនៅទីប្រជុំជន។ ចូរពន្យល់ពីមូលហេតុ។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 2,
+      "date": "2014-10-13",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើវិសមភាពចំពោះការអប់រំទាក់ទងទៅនឹងអ្វីខ្លះ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "កំណើននគរូបនីយកម្មមានកម្រិតខ្ពស់នៅកម្ពុជា។ ចូររៀបរាប់ពីកត្តាដែលនាំឲ្យមានកំណើននេះ។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់អំពីទីផ្សារសំខាន់ៗរបស់កម្ពុជា។ តើទីផ្សារណាដែលមានបរិមាណទឹកប្រាក់ច្រើនជាងគេ? ហេតុអ្វី?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "តើបណ្តាញគមនាគមន៍នៅប្រទេសកម្ពុជាមានប៉ុន្មានប្រភេទ? អ្វីខ្លះ? អភិវឌ្ឍស្ពាន ថ្នល់ គឺកាត់បន្ថយភាពក្រីក្ររបស់ប្រជាជន។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 1,
+      "date": "2014-08-04",
+      "minutes": 90,
+      "points": 75,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each question, so none are shown.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "តើការចេះភាសាផ្សេងៗទៀត ក្រៅពីភាសាខ្លួនផ្តល់ផលប្រយោជន៍អ្វីខ្លះចំពោះខ្លួនឯង និងចំពោះសង្គមជាតិ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "នៅកម្ពុជាកសិករផលិតស្រូវមានចំនួនច្រើនជាងគេ។ តើមានការងារអ្វីផ្សេងៗទៀត ក្រៅពីការធ្វើស្រូវវស្សា?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "អភិវឌ្ឍស្ពាន ថ្នល់ គឺកាត់បន្ថយភាពក្រីក្ររបស់ប្រជាជន។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "នៅកម្ពុជាការដាំដុះកៅស៊ូមានការកើនឡើង។ តើដំណាំកៅស៊ូផ្តល់សារៈសំខាន់អ្វីខ្លះ?"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ចូររៀបរាប់ពីសារៈសំខាន់នៃការអនុវត្តនយោបាយបែងចែកដីធ្លីនៅកម្ពុជា។"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "ហេតុអ្វីបានជាគេថា វិស័យទេសចរណ៍ជាឧស្សាហកម្មគ្មានផ្សែង?"
+        }
+      ]
+    }
+  ]
+}

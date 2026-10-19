@@ -380,6 +380,17 @@ timing only in database functions, never in the browser.
   suites pass; `test:past-papers` 7/7 over 4 subjects, 42 papers;
   Playwright 9/9 browser-only and online. No 2023–2025 literature papers
   were found online.
+- **2026-10-19 — Real past papers, part 4: history (both tracks), morals and
+  civics, geography, earth and environmental science, 2014–2022.** 40 papers,
+  195 short-answer and essay questions, typed from the ជៀប គន្ធា / ជៀប គីមឈរ
+  copies (single source). Missing from that collection, so not here: social
+  history 2014 second sitting, geography 2018, earth science before 2016.
+  Where a copy's printed total disagrees with the paper (science history 2017
+  and earth science 2016–2019 print 75 for a 50-point elective; the 2018
+  earth-science questions themselves add up to 50), 50 is used and the paper
+  says so. Points per question are shown only where the copy prints them for
+  every question. Tests: affected suites pass; `test:past-papers` 7/7 over 9
+  subjects, 82 papers, 353 questions; Playwright 10/10 browser-only and online.
 
 ## Blockers and things that need a person
 
