@@ -413,6 +413,10 @@ timing only in database functions, never in the browser.
   local Supabase, then `test:past-papers` (which now checks the parts' size,
   whole transactions and that they hold every question) 7/7. SUPABASE.md
   says to run the parts in order.
+- **2026-10-19 — Production database updated to db4712c** by running
+  `setup-parts/01–03.sql` in order (each hash-checked against the commit).
+  Read-only check: 116 official papers, 485 questions, 13 subjects, 72
+  English and 60 French questions — the same as locally.
 
 ## Blockers and things that need a person
 
