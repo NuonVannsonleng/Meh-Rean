@@ -71,6 +71,7 @@ npm run test:video-quizzes # video quizzes; local Supabase
 npm run test:video-progress # watched-video marks; local Supabase
 npm run test:live        # live quiz games; local Supabase
 npm run test:mastery     # mastery rules; stored estimates with local Supabase
+npm run test:exam-timer  # paper exam timer and BacII paper lengths (no database)
 npm run test:flashcards  # flashcard review rules, privacy and limits; local Supabase
 npm run test:readiness   # exam readiness and analytics calculations (no database)
 npm run test:companion   # study companion without AI: plans and summaries (no database)

@@ -286,6 +286,36 @@ timing only in database functions, never in the browser.
   `npm run test:live` 10/10; UI 8/8 online (host + two phones), 1/1
   browser-only; 320–375 px checked.
 
+- **2026-10-19 — Paper exam timer** (owner request; separate from the live
+  quiz, which is unchanged). `/bacii/timer` ("Paper exam timer ·
+  នាឡិកាប្រឡងលើក្រដាស" on the BacII page, no sign-in): choose the track and
+  subject, or another length; Exam mode cannot pause (like the real exam),
+  Practice mode can; a large countdown with the end time and progress,
+  warnings at 30, 15 and 5 minutes left (English and Khmer, a beep and a
+  vibration), "Time's up — pens down / អស់ម៉ោង — ឈប់សរសេរ" at the end, full
+  screen, the screen kept on (Wake Lock, where allowed), the tab title shows
+  the time. It works from the wall clock and is saved on the device, so a
+  reload, a sleeping phone or a closed tab loses nothing. Afterwards an
+  optional self-marked score (out of the paper's points) and the last 10
+  papers, on this device only — nothing is sent anywhere, so no score is
+  trusted. Paper lengths and points per track are data
+  (`src/data/bacii/exam-timings.json`), **provisional**, researched from
+  news reports of the Ministry's rules and past-paper headers (2017–2025,
+  sources listed on the page); the Ministry's own timetable is published as
+  images that could not be read, so the page tells students to check their
+  year's timetable. Science: mathematics 150 min (125 points), Khmer
+  literature, physics, chemistry, biology 90 (75), history (elective) and a
+  foreign language 60 (50). Social science: Khmer literature 150 (125),
+  mathematics, history, geography, morals-civics 90 (75), earth and
+  environmental science (elective) and a foreign language 60 (50). Fixed
+  while testing: "time used" counted past the end. Tests: `npm run
+  test:exam-timer` 5/5 (data, countdown, no pause in exam mode, pause and
+  resume, warnings once, saved state); Playwright 6/6 browser-only and
+  online with a fake clock (lengths per track and sources, 2:30:00 with no
+  pause, the 30-minute warning, time's up and a saved score, a reload and
+  pausing with the real clock, 320px); lint. Blocker: a teacher or the
+  official timetable to confirm the lengths; the Khmer title is Meh Rean's.
+
 ## Blockers and things that need a person
 
 | Item | Needed for | What is needed |

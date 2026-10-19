@@ -43,6 +43,7 @@
     "test:companion": "node scripts/test-companion.mjs",
     "test:readiness": "node scripts/test-readiness.mjs",
     "test:flashcards": "node scripts/test-flashcards.mjs",
+    "test:exam-timer": "node scripts/test-exam-timer.mjs",
     "build:links-seed": "node scripts/build-links-seed.mjs",
     "build:mastery-seed": "node scripts/build-mastery-seed.mjs",
     "build:setup-sql": "node scripts/build-setup-sql.mjs"

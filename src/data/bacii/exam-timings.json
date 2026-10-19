@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "verification": "provisional",
+  "note": "BacII paper lengths and points per track, from news reports of the Ministry's rules and from past-paper headers. Not checked against an official MoEYS document by Meh Rean: check the Ministry's timetable for your exam year. Electives (history for science, earth and environmental science for social science) have been the same for several years.",
+  "sources": [
+    { "title": "Kley Kley (Sabay): ប្រឡងបាក់ឌុបឆ្នាំនេះ បានពិន្ទុប៉ុន្មានទើបជាប់? — every subject with its length and points, both tracks", "url": "https://kleykley.sabay.com.kh/article/954444", "year": 2017 },
+    { "title": "Thmey Thmey: BacII 2019 morning papers — social science mathematics from 7:30 to 9:00 (90 minutes)", "url": "https://www.thmeythmey.com/detail/81789", "year": 2019 },
+    { "title": "Kampuchea Thmey: pass from 237 points, grade A from 427 to 475", "url": "https://www.kampucheathmey.com/local-news/979046", "year": 2024 },
+    { "title": "Thmey Thmey: electives — history for science, earth and environmental science for social science", "url": "https://thmeythmey.com/detail/148546", "year": 2025 }
+  ],
+  "tracks": [
+    {
+      "id": "science",
+      "nameEn": "Science",
+      "nameKm": "ថ្នាក់វិទ្យាសាស្ត្រ",
+      "subjects": [
+        { "id": "mathematics", "nameEn": "Mathematics", "nameKm": "គណិតវិទ្យា", "minutes": 150, "points": 125 },
+        { "id": "khmer-literature", "nameEn": "Khmer literature", "nameKm": "អក្សរសាស្ត្រខ្មែរ", "minutes": 90, "points": 75 },
+        { "id": "physics", "nameEn": "Physics", "nameKm": "រូបវិទ្យា", "minutes": 90, "points": 75 },
+        { "id": "chemistry", "nameEn": "Chemistry", "nameKm": "គីមីវិទ្យា", "minutes": 90, "points": 75 },
+        { "id": "biology", "nameEn": "Biology", "nameKm": "ជីវវិទ្យា", "minutes": 90, "points": 75 },
+        { "id": "history", "nameEn": "History (elective)", "nameKm": "ប្រវត្តិវិទ្យា (មុខវិជ្ជាជម្រើស)", "minutes": 60, "points": 50, "elective": true },
+        { "id": "foreign-language", "nameEn": "Foreign language (English or French)", "nameKm": "ភាសាបរទេស (អង់គ្លេស ឬបារាំង)", "minutes": 60, "points": 50 }
+      ]
+    },
+    {
+      "id": "social",
+      "nameEn": "Social science",
+      "nameKm": "ថ្នាក់វិទ្យាសាស្ត្រសង្គម",
+      "subjects": [
+        { "id": "khmer-literature", "nameEn": "Khmer literature", "nameKm": "អក្សរសាស្ត្រខ្មែរ", "minutes": 150, "points": 125 },
+        { "id": "mathematics", "nameEn": "Mathematics", "nameKm": "គណិតវិទ្យា", "minutes": 90, "points": 75 },
+        { "id": "history", "nameEn": "History", "nameKm": "ប្រវត្តិវិទ្យា", "minutes": 90, "points": 75 },
+        { "id": "geography", "nameEn": "Geography", "nameKm": "ភូមិវិទ្យា", "minutes": 90, "points": 75 },
+        { "id": "morality-civics", "nameEn": "Morals and civics", "nameKm": "សីលធម៌-ពលរដ្ឋវិជ្ជា", "minutes": 90, "points": 75 },
+        { "id": "earth-science", "nameEn": "Earth and environmental science (elective)", "nameKm": "ផែនដី និងបរិស្ថានវិទ្យា (មុខវិជ្ជាជម្រើស)", "minutes": 60, "points": 50, "elective": true },
+        { "id": "foreign-language", "nameEn": "Foreign language (English or French)", "nameKm": "ភាសាបរទេស (អង់គ្លេស ឬបារាំង)", "minutes": 60, "points": 50 }
+      ]
+    }
+  ],
+  "warningsMinutes": [30, 15, 5],
+  "customMinutes": { "min": 5, "max": 240 }
+}

@@ -32,6 +32,13 @@ const OPTIONS: BaciiOption[] = [
     Icon: FileTextIcon,
   },
   {
+    to: "/bacii/timer",
+    title: t.bacii.timer.optionTitle,
+    titleKm: t.bacii.timer.optionTitleKm,
+    description: t.bacii.timer.optionDescription,
+    Icon: CalendarIcon,
+  },
+  {
     to: "/live",
     title: t.bacii.live.optionTitle,
     titleKm: t.bacii.live.optionTitleKm,

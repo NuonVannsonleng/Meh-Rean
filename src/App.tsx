@@ -22,6 +22,7 @@ const BaciiToday = lazy(() => import("./pages/BaciiToday"));
 const BaciiPlan = lazy(() => import("./pages/BaciiPlan"));
 const BaciiSolve = lazy(() => import("./pages/BaciiSolve"));
 const BaciiMyVideos = lazy(() => import("./pages/BaciiMyVideos"));
+const BaciiTimer = lazy(() => import("./pages/BaciiTimer"));
 const LiveHub = lazy(() => import("./pages/live/LiveHub"));
 const LearningProfilePage = lazy(() => import("./pages/LearningProfilePage"));
 const TopicPage = lazy(() => import("./pages/learning/TopicPage"));
@@ -121,6 +122,7 @@ export default function App() {
             <Route path="/bacii" element={<Bacii />} />
             <Route path="/bacii/videos" element={<BaciiVideos />} />
             <Route path="/bacii/papers" element={<BaciiPapers />} />
+            <Route path="/bacii/timer" element={<BaciiTimer />} />
             <Route path="/bacii/papers/:id" element={<BaciiPaper />} />
             <Route path="/bacii/practice" element={<BaciiPractice />} />
             <Route

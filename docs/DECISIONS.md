@@ -233,3 +233,13 @@ quality.
 Logos not on Wikimedia Commons are loaded live from schools' own sites through
 the wsrv.nl image CDN, never copied into the repository. Why: avoid
 republishing copyrighted files while keeping small, fast images.
+
+## 2026-10-19 — The paper exam timer runs on the device, with provisional lengths
+
+The timer is a personal stopwatch for paper practice: it keeps no score the
+app relies on, so it runs entirely in the browser (from the wall clock,
+saved in `localStorage`) and needs no sign-in or database — unlike mock
+exams, whose timing and marking stay in the database. BacII paper lengths
+are data with their sources and `provisional` status, because the official
+timetable could not be read; a teacher or the Ministry's document should
+confirm them before they are marked verified.
