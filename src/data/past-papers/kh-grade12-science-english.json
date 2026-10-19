@@ -1,0 +1,288 @@
+{
+  "comment": "Real BacII papers (Ministry of Education, Youth and Sport), typed by Meh Rean from a copy shared online: the exercises only, never the copy's worked answers. Not yet checked against the Ministry's original papers, so every paper and question is 'needs-review'.",
+  "subjectId": "kh-grade12-science-english",
+  "idPrefix": "bacc1070",
+  "nameEn": "English",
+  "nameKm": "ភាសាអង់គ្លេស",
+  "trackEn": "science track",
+  "trackKm": "ថ្នាក់វិទ្យាសាស្ត្រ",
+  "language": "en",
+  "copies": {
+    "chiep": {
+      "label": "retyped by ជៀប គន្ធា (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    },
+    "chiep2022": {
+      "label": "retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
+    }
+  },
+  "papers": [
+    {
+      "year": 2022,
+      "date": "2022-12-05",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep2022"
+      ],
+      "note": "Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.",
+      "questions": [
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "Part 1. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n(0) discipline · (1) stricter · ( ) situation · ( ) Punishment · ( ) reputation · ( ) behavior · ( ) control · ( ) conduct · ( ) freedom · ( ) respect · ( ) progressive\n\nIn most countries, schools were much (1) stricter twenty-five years ago than they are today. Many parents are not at all happy with the present (2)……………….. because they feel that teachers have lost the ability to (3)……………… their classes. Some schools in particular have developed a very bad (4)……………….. for the way in which the students (5)……………. themselves. They no longer seem to have any (6) ……………….. for the school or the teachers who work in it. Some experts feel that the reason for these new patterns of (7)………………. in schools is the result of (8) ………………… ideas in education. They feel that (9). ……………… has become weak because students have been given too much (10)….. to choose how they want to spend their time. It is no doubt a good idea that physical (11)…………….. traditional kind of education has vanished in most places. But nowadays in many schools no punishment at all is possible."
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "Part 2: Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct a, h, cord. The first one has been done as an example for you.\nExample: We haven't got….b… money to buy a new car yet.\na. quite  b. too much  b. too many  d. enough\n\n1. Good management……. to the employee.\na. will be finished  b. are listened  c. listen  d. listens\n2. He has got a new friend……..works in the bank.\na. whose  b. where  c. who  d. which\n3. Your mother used to visit you quite often……?\na. didn't she  b. doesn't she  c. wouldn't she  d. hadn't she\n4. I…….. on the bus when I dropped my wallet.\na. am getting  b. get  c. was getting  d. have gotten\n5. More roads…………. every year.\na. was built  b. had built  c. are being built  d. are building"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "Part 3: Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct a, b, c or d. The first one has been done as an example for you.\nExample: What are you going to buy your mother…..for… her birthday.\na. conclude  b. during  c. for  d. at\n\n1. What are you going to do when you……………..school\na. conclude  b. end  c. complete  d. leave\n2. All medicines should be kept out of……….of children.\na. hand  b. touch  c. contact  d. reach\n3. I le ……… to get some cards for his birthday, but none arrived.\na. promised  b. exacted  c. assume  d. supposed\n4. Is it possible to. ……………now for next terms' evening classes?\na. participate  b. join in  c. enroll  d. enter\n5.………… inform you that your grandmother died ten minutes ago.\na. apologies  b. sorry  c. pity  d. regret"
+        },
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "Part 4. Writing\nWrite an essay in English at least 80 words about \"How to reduce road accident in Cambodia?\"."
+        }
+      ]
+    },
+    {
+      "year": 2021,
+      "date": "2021-12-27",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "Part 3's 15 points are from the copy's answer section; the question page does not print them. Both tracks sat the same paper.",
+      "questions": [
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "Part 1. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n(0) economics · ( ) television · ( ) department · ( ) money · ( ) promoted · ( ) waitress · ( ) presenters · ( ) was · ( ) applied · ( ) few months · ( ) job\n\nA working life\nWell I studied (0) … economics at university, and the I was lucky because I got a (1) …….. very quickly as an accountant in a local (2) …….. store. It wasn't exactly what I wanted, but you know, it was a first job. I stayed there for four years altogether. After three year I was (3) …….. to accounts manager, and I decided to leave and I (4) …….. for others jobs in the area. But I had no luck getting a second job at all, and I was very short of (5) ………., so in the end I had to get job working as a (6) ………. in a restaurant. Well it wasn't very successful because I'm quite clumsy you see I kept dropping things. So I after a few weeks they gave me sack. And then, just by chance I met an old friend who I (7) ……… at university with, and he was working in (8) ……… And he got me a job as television researcher on a programme called \"Business Today\". And after a (9)………. really they decided that want younger (10) ……… of the programme, and I got a job and I love it."
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "Part 2. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.\nExample: You must have something to eat before …..b….. to school.\na. go  b. going  c. to go  d. of go\n\n1. Mr. Kingseng can't talk on the phone because he ……… dinner right now.\na. is eating  b. eats  c. has eaten  d. has been eating\n2. That little girl ……….. for the last two days.\na. hasn't eaten  b. doesn't eat  c. isn't eating  d. has eaten\n3. Several trees fell down last night …….. the strong wind.\na. because  b. so  c. since  d. because of\n4. I hope you ………… us when you come here.\na. visited  b. would visit  c. visit  d. will visit\n5. If she doesn't do he homework, she …………. punished.\na. is  b. would be  c. will be  d. will have"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "Part 3. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: He ……c…… that he still lives this daughter.\na. tells  b. speaks  c. says  d. told\n\n1. I'm really ………….. of my child who first prize in the art competition.\na. pleased  b. proud  c. happy  d. delighted\n2. In recent years inflection has almost double the ………… of living.\na. cost  b. expense  c. charge  d. price\n3. The restaurant services are bad, so we should write a ………. to the manager.\na. essay  b. message  c. complaint  d. information\n4. The plane was delayed by fog, and so I ………… my connection.\na. lost  b. abandoned  c. forgot  d. missed\n5. She went to the library to ……….\na. borrow a book  b. lend a book  c. let a book  d. hire a book"
+        },
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "Part 4. Writing\nWrite an essay in English at least 80 words about \"Your goal in the future\"."
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "date": "2019-08-19",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "Part 3's 15 points are from the copy's answer section; the question page does not print them. Both tracks sat the same paper.",
+      "questions": [
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "Part 1. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n( ) discussion · ( ) fire · ( ) to pay · ( ) originally · ( ) sports · ( ) converted · (1) rebuilt · ( ) used · ( ) businessman · ( ) money · ( ) indoors\n\nOpening of New Sport Centre\nThe Champa Sport Centre, which has been completely (1) …rebuilt…, was reopened yesterday by the Minister for Sport. The building was (2)…… used as a market, but was sold to Champa Council in 1981, and then (3) ……into a sports hall. Local schools played football and basketball (4) ……, and keep fit classes were held there. In 2001 the hall was damaged by a (5) ……which broke out in the heating system. The hall could not be used, and remained empty while (6) …… continued about its future. It was then decided that the hall would be rebuilt, and an appeal for (7) ……was launched. Two years ago a local (8) …… offered (9) ……for the building work, and plans were drawn up. The new hall includes a swimming pool, running track and other (10) ……facilities which can be (11) ……by anyone in the Champa area. The Minister made a speech in which he congratulated everyone involved."
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "Part 2. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.\nExample: …b…I go with you to the shops, Mum?\na. Will  b. May  c. Would  d. Won't\n\n1. Samnang works in the Post Office, ………?\na. is he  b. isn't he  c. works he  d. doesn't he\n2. My father ………. in the firm from 1975 to 1989. Now he's retried.\na. has worked  b. worked  c. is working  d. had worked\n3. Which sentence is the correct one?\na. I am a cool  b. I've catched a cold  c. I have cold  d. I have caught a cold\n4. I ……………on a bench in the park when they ran past me.\na. was sitting  b. have sat  c. sat  d. was sat\n5. Thida …………to the cinema if you went with her.\na. will go  b. would go  c. goes  d. went"
+        },
+        {
+          "points": 15,
+          "chapter": "past-papers",
+          "content": "Part 3. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: My parent often does ……d……with people from Korea,\na. affairs  b. finances  c. economy  d. business\n\n1. At …………..time there is always plenty of work to do on a farm.\na. production  b. profit  c. plant  d. harvest\n2. It is against the ………….not to wear seat belt in a plane.\na. rule  b. regulation  c. law  d. order\n3. Everything in the sale has been ……….to half price\na. reduced  b. decreased  c. bargained  d. lowered\n4. I ……….to inform you that your grandmother died ten minutes ago.\na. apologise  b. sorry  c. pity  d. regret\n5. We were unable to reach an agreement because of …………the between the two groups.\na. contact  b. concern  c. connection  d. conflict"
+        },
+        {
+          "points": 10,
+          "chapter": "past-papers",
+          "content": "Part 4. Writing\nWrite an essay \"Studying for Success\" at least 80 words."
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "date": "2018-08-20",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each part. Both tracks sat the same paper.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\neconomic · earnings · disagreed · applications · employee · profitable · (1) advertising · resignation · qualified · unemployed · retirement\n\nLeaving a job\nI recently left my job in an …advertising…agency after disagreement with my boss. She accepted my (2) …. but warned me that because of the (3) ….. situation, I might have to get used to the idea of being (4) ….. for a while. I thought that she was trying to make a point, but after I had made over fifty (5) …… to other companies. O realized that she was right. Although I am a (6) …. designer. I don't receive any offers of a job. After that I tried working from home, but it was not very (7) ……Then I became and (8) ……. in a fast-food restaurant, even though my (9) …… were extremely low. I wish I had accepted early (10) …… from my old job. That is what I (11) ……. with my boss about!"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.\nExample: We saw …b…children in the park.\na. any  b. some  c. much  d. a\n\n1. We haven't got ……. money to buy a new car.\na. quite  b. too much  c. too many  d. enough\n2. The person …… my hair usually does a very good job.\na. who he cuts  b. who cuts  c. cuts  d. cuts it\n3. We ……. to the football game when it started to rain.\na. are driving  b. drives  c. driven  d. were driving\n4. The new bridge ……. before the end of next month.\na. will be completed  b. will complete  c. is completed  d. completes\n5. Their marriage wouldn't be so good if they ……. so well with each other.\na. communicated  b. didn't communicate  c. don't communicate  d. communicate"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: What are you going to do when you …d… school?\na. conclude  b. end  c. complete  d. leave\n\n1. I saw a nasty ……. between two cars this morning.\na. damage  b. danger  c. accident  d. happening\n2. All medicines should be kept out of ……. of children.\na. hand  b. touch  c. contact  d. reach\n3. Everything in the sale has been ……. to half price.\na. reduced  b. decreased  c. bargained  d. lowered\n4. At work, Vuthy always arrives on time, he's so …….\na. timeless  b. punctual  c. boring  d. careful\n5. It'll take you over an hour to get to the city center in ….. hour.\na. rush  b. busy  c. run  d. crowded"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "IV. Writing\nWrite an essay \"Role of women in modern Cambodia society\" at least 80 words."
+        }
+      ]
+    },
+    {
+      "year": 2017,
+      "date": "2017-08-21",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each part. Both tracks sat the same paper.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "Part I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n( ) occupation · ( ) successful · ( ) embarrassment · ( ) hobby · ( ) failure · ( ) solution · (1) evening · ( ) secretarial · ( ) explanation · ( ) frozen · ( ) construction\n\nRecently I decided to go to (1) ……classes twice a week. During the day, I work in a (2) ……agency as a telephonist. It is not a very good interesting (3) ……and I get bored. I also got tired of coming home every evening putting a (4) ……meal in the oven and then watching TV. So, I decided to take up carpentry as a (5) ……. Perhaps I should give you an (6) …… for my choice. Learning a skill is a good (7) ……to the problem of boring work. Also, I felt I was a (8) …… because any time I tried to put up a shelf, for example, it always fell down. Now I am quite a (9) ……wood worker. I am working on the (10) ……of some furniture at the moment. And although there are only few students in the class, I don't feel any (11) ……I've turned out to be the best student in the class!"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "Part 2: Grammar\nThere are four answers after each statement. Only one answer in correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: Have you …b… my new car.\na. see  b. seen  c. seeing  d. saw\n\n1. Girls, you ……say those things about your teachers.\na. mustn't  b. haven't to  c. haven't  d. mustn't to\n2. Have another piece of cake. No, thanks, ……too much.\na. I've ate  b. I ate  c. I eaten  d. I've eaten\n3. I was going to do the washing. But the machine ….. down.\na. broke  b. breaks  c. broken  d. break\n4. My secretary was late, she had never …… late before.\na. was  b. had  c. came  d. been\n5. If you give me some money, I …… to go shopping.\na. can  b. could  c. will be able  d. will can"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "Part 3: Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: They …c… all day swimming and sunbathing at the beach.\na. did  b. used  c. spent  d. occupied\n\n1. Before you begin the exam paper, always read the ……. carefully.\na. orders  b. instructions  c. rules  d. answers\n2. If you put your money in the bank. It will earn percent ……….. .\na. interest  b. profit  c. deposit  d. investment\n3. Most people in the town ……. the idea fi Green and Clean city.\na. agree  b. approve  c. support  d. believe\n4. The plane was delayed by fog, and so I …… my connection.\na. lost  b. abandoned  c. forgot  d. missed\n5. The fans climbed over the fence to …… paying.\na. avoid  b. prevent  c. abandon  d. refuse"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "Part 4: Writing\nWriting an essay. There is too much traffic in the city. \"What do you think the authorities should do about it?\" at least 80 words."
+        }
+      ]
+    },
+    {
+      "year": 2016,
+      "date": "2016-08-22",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each part. Both tracks sat the same paper.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\npracticing · raincoat · change · be able · offered · nothing · (1) tennis · soaked · relaxed · forget · drink\n\nA friend in the rain\nLast week I was walking home after playing (1)…tennis…. when it started raining very heavily. \"Oh no, I will get (2)……. Before I reach home\". I thought. \"I wish I had remembered to bring my (3)…….\" But unfortunately I had left it at home. \"How stupid of me! I always (4)…….. to bring it with me.\" Luckily just then a friend of mine passed in his car and (5)…….. me a lift. \"Are you going home?\" he asked \"or do you want to go for a (6)…….?\" \"I think I'd rather you took me home.\" I said. If I don't (7)…… my clothes, I know I will fall ill, and then I won't (8)….. to play in the tennis tournament next week. And I have been (9) …… hard for the last month. \"I will wait for you to change if you like\", he told me. \"I think it's time you (10)…… for a change\". You have been worrying to much about things lately. And people who worry too much fail ill more easily. It's got (11)…… to do with the rain."
+        },
+        {
+          "chapter": "past-papers",
+          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: We haven't got ….d…. money to buy a new car yet\na. quite  b. too much  c. too many  d. enough\n\n1. You must have something to eat before ……. to school.\na. go  b. going  c. to go  d. of go\n2. You have never seen this before……. you?\na. haven't  b. don't  c. do  d. have\n3. This problem …….. by this clever boy last night.\na. will be solved  b. is solved  c. was solved  d. solved\n4. What ….. you do if you won a lot of money.\na. will  b. must  c. would  d. have\n5. She was cleaning her teeth when the phone…….\na. was going to ring  b. was ringing  c. rang  d. ring"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: On Sunday the children have swimming lessons at the swimming ….d…..\na. tank  b. well  c. bowl  d. pool\n\n1. What are you going to do when you …..school?\na. conclude  b. end  c. compete  d. leave\n2. The hotel services are bad, so we should write a…. to the manager.\na. complaint  b. message  c. information  d. essay\n3. Bopha cried out with ….. at the beautiful present Mr. Kimseng gave her.\na. depress  b. horror  c. anger  d. delight\n4. Is it possible to ….. now for next term's evening classes?\na. send  b. enroll  c. join in  d. enter\n5. Most parents finds it difficult to…… their children nowadays.\na. bring up  b. develop  c. grow up  d. set up"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "IV. Writing\nWrite an essay \"Life in the countryside\" at least 180 words."
+        }
+      ]
+    },
+    {
+      "year": 2015,
+      "date": "2015-08-24",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each part. Both tracks sat the same paper.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\nrecovery · month · treatment · poisonous · weight · disease · (1) doctor · heartened · optimistic · infectious · painful\n\nA visit to the doctor's\nKimseng decided to visit the (1)….doctor…. after his trip to the jungle. He was normally a tall muscular person. but over the past (2)……….. he had lost a lot of (3)………… He had also notices that his ankles and knees had become rather (4)……………. He thought that he might have eaten or drunk something(5)……………. or caught some kinds of (6)………………. disease. The doctor took some blood for tests and told Kimseng felt quite (8)…………. \"Don't worry\" said the doctor, \"It's nothing serious. You haven't caught an incurable (9)………………… or anything terrible like that. It's a simple virus, and you will need some (10)……………. take these tablets twice a day for two weeks, and you'll make a full (11)………………\"."
+        },
+        {
+          "chapter": "past-papers",
+          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: we saw ….d…. children in the park.\na. any  b. much  c. a  d. some\n\n1. Ankor wat temple ……………by thousands of tourists every month.\na. was visited  b. visited  c. are visited  d. is visited\n2. Mr. Sophal can't talk on the phone because he …………… dinner right now.\na. eats  b. is eating  c. has eaten  d. has been eating\n3. I …………. the house before you called.\na. leave  b. has left  c. am leaving  d. had been leaving\n4. If I found a wallet on the street, I ………. it to police station.\na. will take  b. take  c. would take  d. am taking\n5. The tree, ………… behind my house, give a lot of shade.\na. grows.  b. which it grows  c. which grows  d. it grows"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: How ….b…. is it from here to city center?\na. long  b. far  c. near  d. distant\n\n1. How much do they …………for cleaning your room?\na. demand  b. cost  c. charge  d. need\n2. In some countries, smoking in public places is ………… Because many people are hurt of smoke.\na. prohibited  b. increased  c. encourage  d. continued\n3. The movement should …………a law to make computer hacking illegal.\na. allow  b. enter  c. pass  d. bring\n4. The bad weather …………… The flight for several hours.\na. postponed  b. delayed  c. cancelled  d. stopped\n5. In recent years, inflation has almost double the ……….. Of living.\na. price  b. expense  c. charge  d. cost"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "IV. Writing\nWrite an essay \"What make a good parent\" at least 180 words."
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 2,
+      "date": "2014-10-13",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each part. Both tracks sat the same paper.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\ntimetable · help · information · taught · afterwards · memories · heart · waste · look · (1) subject · result · understanding\n\nLearning how to learn\nThere is usually on important (1) …subject… missing from most school (2) ……. Very few students are (3) ………. how to organize their learning, and how to make the best use of their time. Let's take some simple examples. Do you know how to (4) ……. up words in a dictionary, and do you understand all the (5) …….the dictionary contains? Can you make notes quickly, and can you understand them (6) ……..? For some reasons , many school give learners no (7) …….. with this matters. Teachers ask students to (8) ……… pages from books, or tell them to write ten pages, but don't explain how to do it. Learning by (9) ……. Can be useful, but it is more important to have a genuine (10) …….. of a subject. You can (11) …….. a lot of time memorizing books, without understanding anything about the subject."
+        },
+        {
+          "chapter": "past-papers",
+          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: Yesterday she …d… to Siem Reap.\na. go  b. is going  c. goes  d. went\n\n1. We …….. with the prime minister for dinner at the Sunway Hotel tonight.\na. will be met  b. have been met  c. were met  d. are meeting\n2. Mr. Sambath …….. his vacation after the project is completed.\na. will take  b. took  c. has taken  d. taking\n3. Mr. Chantha …….. for the day when the phone call came.\na. has already left  b. already leaves  c. already left  d. had already left\n4. If we keep …….. like this, we should be done before the deadline.\na. working  b. worked  c. to work  d. work\n5. The benefits programme ……… in the next few months.\na. had changed  b. were changed  c. will be changed  d. changed"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: When I was twelve, my father taught me how to ….b….. chess.\na. do  b. play  c. make  d. collect\n\n1. At the age of 60, Mr. Vuth retired and lived off his …… .\na. salary  b. allowance  c. grant  d. pension\n2. Please confirm you reservation in ……….\na. letter  b. writing  c. words  d. paper\n3. Everybody knew Samnang had …….. a crime bit nobody wanted to tell the police.\na. committed  b. done  c. made  d. performed\n4. The researchers ……… many experiments to find to most effective materials.\na. considered  b. confirmed  c. concerned  d. conducted\n5. I ……… on the news that the price of gas is going up again.\na. looked  b. listened  c. heard  d. watched"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "IV. Writing\nWrite an essay \"The value of Higher Education\" at least 180 words."
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "session": 1,
+      "date": "2014-08-04",
+      "minutes": 60,
+      "points": 50,
+      "copies": [
+        "chiep"
+      ],
+      "note": "The copy gives no points for each part. Grammar 3's choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.",
+      "questions": [
+        {
+          "chapter": "past-papers",
+          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\ncandidate · eligible · result · opinion pool · violent · (1) predict · ballot box · polling day · support · election campaign · polling station · winner\n\nElection\nPeople sometimes try to (1) predict ……. the result of an election weeks before it takes place. Several hundred people are asked which party they prefer, and their answers are used to guess the (2)…….. of the coming election. This is called an (3) ………. Meanwhile each party conducts its (4) ………. with meetings, speeches, television commercials and party members going form door to door encouraging people to (5) ……. Their party. In Cambodia everyone over 18 is (6)……… to vote. The place where people go to vote in an election is called a (7) ……… and the day of the election is often known as (8)…………. The voters put their votes in a (9)………. And later they are counted. The (10)……… with the most bites in then declared the (11)………. ."
+        },
+        {
+          "chapter": "past-papers",
+          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: Yesterday she …..went… to Siem Reap.\na. go  b. is going  c. goes  d. went\n\n1. Although Ms. Thida………. reservation, the hotel did not have a room for her.\na. make  b. has make  c. had make  d. makes\n2. I ……….. on the bus when I dropped my wallet.\na. am getting  b. have gotten  c. get  d. was getting\n3. Several trees fell down last night………….. the strong wind.\na. because of  b. since  c. haven't eaten  d. didn't eat\n4. We………….. at that restaurant during the last few months.\na. don't eat  b. won't eat  c. haven't eaten  d. didn't eat\n5. Mr. Dara………… so many accidents if he drove more carefully.\na. would have  b. won't have  c. would have had  d. wouldn't have"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: When I was twelve, my father taught me how to …play…chess.\na. do  b. play  c. make  d. collect\n\n1. I'm really ……… of my son who won first prize is the art competition.\na. pleased  b. proud  c. delighted  d. happy\n2. We all need to ……….. responsibility for improving our local community.\na. have  b. make  c. take  d. give\n3. It's important to set yourself clear ……… so you know what you are aiming for.\na. ambitions  b. opportunities  c. decisions  d. golds\n4. According to the weather…………, there will be rain tomorrow.\na. programme  b. information  c. survey  d. forecast\n5. Many people believe that violent computer games can have a harmful…………. on children.\na. effect  b. affect  c. damage  d. involvement"
+        },
+        {
+          "chapter": "past-papers",
+          "content": "IV. Writing\nWrite an essay \"Advantages and Disadvantages of TV\" at least 180 words."
+        }
+      ]
+    }
+  ]
+}

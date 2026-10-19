@@ -78,6 +78,8 @@ await check("real papers stay official but unchecked, with open questions, no an
     for (const { question } of paper.questions) {
       assert(question.origin === "official-past-paper" && question.verification === "needs-review" && question.year === paper.year, `${question.id}: origin`);
       assert(question.type === "open" && question.solution === null && question.source === paper.source, `${question.id}: type or answer key`);
+      const language = paper.subjectId.endsWith("-english") ? "en" : paper.subjectId.endsWith("-french") ? "fr" : "km";
+      assert(question.language === language, `${question.id}: language ${question.language}, expected ${language}`);
       for (const segment of splitMath(question.content).filter((part) => part.kind === "math")) {
         try {
           katex.renderToString(segment.value, { throwOnError: true, strict: "ignore", displayMode: segment.display });

@@ -397,6 +397,15 @@ timing only in database functions, never in the browser.
   papers and 353 questions over the 9 subjects, the same counts as locally,
   and the questions' 200-point check in place. The live 2019 science
   mathematics paper shows with its notice and timer.
+- **2026-10-19 — Real past papers, part 5: English 2014–2022 and French
+  2014–2021.** Both tracks sat the same language paper (the copies' text is
+  identical), so each sitting is typed once and listed under both tracks
+  (34 papers, 132 parts: reading, grammar, vocabulary, writing). Questions
+  now carry their language (`en`, `fr`) instead of always Khmer; the seed
+  updates it on rerun. Typos in the copies are kept as printed, with a note
+  where a choice is clearly misprinted. No French 2022 paper was in the
+  collection. Tests: all suites; `test:past-papers` also checks each
+  question's language; Playwright 11/11 browser-only and online.
 
 ## Blockers and things that need a person
 

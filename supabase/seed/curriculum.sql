@@ -16,12 +16,16 @@ insert into public.curriculum_subjects (id, track_id, subject_key, name_en, name
   ('kh-grade12-science-mathematics', 'kh-grade12-science', 'mathematics', 'Mathematics', 'គណិតវិទ្យា', 1),
   ('kh-grade12-science-khmer-literature', 'kh-grade12-science', 'khmer-literature', 'Khmer literature', 'អក្សរសាស្ត្រខ្មែរ', 2),
   ('kh-grade12-science-history', 'kh-grade12-science', 'history', 'History', 'ប្រវត្តិវិទ្យា', 3),
+  ('kh-grade12-science-english', 'kh-grade12-science', 'english', 'English', 'ភាសាអង់គ្លេស', 4),
+  ('kh-grade12-science-french', 'kh-grade12-science', 'french', 'French', 'ភាសាបារាំង', 5),
   ('kh-grade12-social-mathematics', 'kh-grade12-social', 'mathematics', 'Mathematics', 'គណិតវិទ្យា', 1),
   ('kh-grade12-social-khmer-literature', 'kh-grade12-social', 'khmer-literature', 'Khmer literature', 'អក្សរសាស្ត្រខ្មែរ', 2),
   ('kh-grade12-social-history', 'kh-grade12-social', 'history', 'History', 'ប្រវត្តិវិទ្យា', 3),
   ('kh-grade12-social-morality-civics', 'kh-grade12-social', 'morality-civics', 'Morals and civics', 'សីលធម៌-ពលរដ្ឋវិជ្ជា', 4),
   ('kh-grade12-social-geography', 'kh-grade12-social', 'geography', 'Geography', 'ភូមិវិទ្យា', 5),
-  ('kh-grade12-social-earth-science', 'kh-grade12-social', 'earth-science', 'Earth and environmental science', 'ផែនដី និងបរិស្ថានវិទ្យា', 6)
+  ('kh-grade12-social-earth-science', 'kh-grade12-social', 'earth-science', 'Earth and environmental science', 'ផែនដី និងបរិស្ថានវិទ្យា', 6),
+  ('kh-grade12-social-english', 'kh-grade12-social', 'english', 'English', 'ភាសាអង់គ្លេស', 7),
+  ('kh-grade12-social-french', 'kh-grade12-social', 'french', 'French', 'ភាសាបារាំង', 8)
 on conflict (id) do update set track_id = excluded.track_id, subject_key = excluded.subject_key, name_en = excluded.name_en, name_km = excluded.name_km, sort = excluded.sort;
 
 insert into public.curriculum_chapters (id, subject_id, number, name_en, name_km, verification, source, updated_at) values
@@ -37,6 +41,8 @@ insert into public.curriculum_chapters (id, subject_id, number, name_en, name_km
   ('kh-grade12-science-mathematics-vectors-space', 'kh-grade12-science-mathematics', 10, 'Vectors and geometry in space', 'វ៉ិចទ័រ និងធរណីមាត្រក្នុងលំហ', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-science-khmer-literature-past-papers', 'kh-grade12-science-khmer-literature', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-science-history-past-papers', 'kh-grade12-science-history', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-science-english-past-papers', 'kh-grade12-science-english', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-science-french-past-papers', 'kh-grade12-science-french', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-social-mathematics-limits-continuity', 'kh-grade12-social-mathematics', 1, 'Limits and continuity', 'លីមីត និងភាពជាប់', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-social-mathematics-function-study', 'kh-grade12-social-mathematics', 2, 'Study of functions and graphs', 'សិក្សាអថេរភាព និងសង់ក្រាបនៃអនុគមន៍', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-social-mathematics-integrals', 'kh-grade12-social-mathematics', 3, 'Integrals', 'អាំងតេក្រាល', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
@@ -46,7 +52,9 @@ insert into public.curriculum_chapters (id, subject_id, number, name_en, name_km
   ('kh-grade12-social-history-past-papers', 'kh-grade12-social-history', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-social-morality-civics-past-papers', 'kh-grade12-social-morality-civics', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-social-geography-past-papers', 'kh-grade12-social-geography', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
-  ('kh-grade12-social-earth-science-past-papers', 'kh-grade12-social-earth-science', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now())
+  ('kh-grade12-social-earth-science-past-papers', 'kh-grade12-social-earth-science', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-social-english-past-papers', 'kh-grade12-social-english', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-social-french-past-papers', 'kh-grade12-social-french', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now())
 on conflict (id) do update set subject_id = excluded.subject_id, number = excluded.number, name_en = excluded.name_en, name_km = excluded.name_km, verification = excluded.verification, source = excluded.source, updated_at = excluded.updated_at;
 
 insert into public.curriculum_topics (id, chapter_id, name_en, name_km, sort, verification) values
@@ -86,6 +94,8 @@ insert into public.curriculum_topics (id, chapter_id, name_en, name_km, sort, ve
   ('kh-grade12-science-mathematics-vectors-space-lines-planes', 'kh-grade12-science-mathematics-vectors-space', 'Lines and planes', 'បន្ទាត់ និងប្លង់ក្នុងលំហ', 3, 'provisional'),
   ('kh-grade12-science-khmer-literature-past-papers-exam-questions', 'kh-grade12-science-khmer-literature-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
   ('kh-grade12-science-history-past-papers-exam-questions', 'kh-grade12-science-history-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
+  ('kh-grade12-science-english-past-papers-exam-questions', 'kh-grade12-science-english-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
+  ('kh-grade12-science-french-past-papers-exam-questions', 'kh-grade12-science-french-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
   ('kh-grade12-social-mathematics-limits-continuity-limits', 'kh-grade12-social-mathematics-limits-continuity', 'Limits of functions', 'លីមីតនៃអនុគមន៍', 1, 'provisional'),
   ('kh-grade12-social-mathematics-limits-continuity-indeterminate-forms', 'kh-grade12-social-mathematics-limits-continuity', 'Indeterminate forms', 'រាងមិនកំណត់', 2, 'provisional'),
   ('kh-grade12-social-mathematics-limits-continuity-asymptotes', 'kh-grade12-social-mathematics-limits-continuity', 'Asymptotes', 'អាស៊ីមតូត', 3, 'provisional'),
@@ -102,7 +112,9 @@ insert into public.curriculum_topics (id, chapter_id, name_en, name_km, sort, ve
   ('kh-grade12-social-history-past-papers-exam-questions', 'kh-grade12-social-history-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
   ('kh-grade12-social-morality-civics-past-papers-exam-questions', 'kh-grade12-social-morality-civics-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
   ('kh-grade12-social-geography-past-papers-exam-questions', 'kh-grade12-social-geography-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
-  ('kh-grade12-social-earth-science-past-papers-exam-questions', 'kh-grade12-social-earth-science-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional')
+  ('kh-grade12-social-earth-science-past-papers-exam-questions', 'kh-grade12-social-earth-science-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
+  ('kh-grade12-social-english-past-papers-exam-questions', 'kh-grade12-social-english-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
+  ('kh-grade12-social-french-past-papers-exam-questions', 'kh-grade12-social-french-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional')
 on conflict (id) do update set chapter_id = excluded.chapter_id, name_en = excluded.name_en, name_km = excluded.name_km, sort = excluded.sort, verification = excluded.verification;
 
 commit;

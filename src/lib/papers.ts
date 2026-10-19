@@ -141,6 +141,8 @@ export interface PastPaperSeed {
   nameKm: string;
   trackEn: string;
   trackKm: string;
+  /** The language the questions are written in; Khmer unless said. */
+  language?: ContentLanguage;
   copies: Record<string, { label: string; url: string }>;
   papers: {
     year: number;
@@ -216,7 +218,7 @@ export function buildPastPapers(seed: PastPaperSeed, chapters: { id: string; sub
         choices: [],
         images: [],
         difficulty: null,
-        language: "km",
+        language: seed.language ?? "km",
         origin: "official-past-paper",
         source,
         verification: "needs-review",
