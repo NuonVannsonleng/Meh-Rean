@@ -4436,9 +4436,8 @@ commit;
 -- answer keys. Run after supabase/schema.sql and supabase/seed/curriculum.sql;
 -- safe to run again.
 
-begin;
 -- kh-grade12-science-english.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1070-2022-4000-8000-000000000000', 'kh-grade12-science-english', 2022, 'BacII 2022: English (science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2022 (2022-12-05), science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -5048,9 +5047,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1070-2014-4100-8000-000000000000', 'bacc1070-2014-4100-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-science-french.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1080-2021-4000-8000-000000000000', 'kh-grade12-science-french', 2021, 'BacII 2021: French (science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2021 (2021-12-27), science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -5570,9 +5570,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1080-2014-4100-8000-000000000000', 'bacc1080-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-science-history.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1060-2022-4000-8000-000000000000', 'kh-grade12-science-history', 2022, 'BacII 2022: History (science track)', 'វិញ្ញាសាប្រវត្តិវិទ្យា បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2022 (2022-12-05), science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -5890,9 +5891,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1060-2014-4100-8000-000000000000', 'bacc1060-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-science-khmer-literature.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1020-2022-4000-8000-000000000000', 'kh-grade12-science-khmer-literature', 2022, 'BacII 2022: Khmer literature (science track)', 'វិញ្ញាសាអក្សរសាស្ត្រខ្មែរ បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2022 (2022-12-05), science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -6000,9 +6002,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1020-2014-4100-8000-000000000000', 'bacc1020-2014-4100-8000-000000000001', 1, 75)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-science-mathematics.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2025-4000-8000-000000000000', 'kh-grade12-science-mathematics', 2025, 'BacII 2025: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២៥ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2025, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -6875,9 +6878,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000005', 5, 45)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-social-earth-science.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2110-2022-4000-8000-000000000000', 'kh-grade12-social-earth-science', 2022, 'BacII 2022: Earth and environmental science (social science track)', 'វិញ្ញាសាផែនដី និងបរិស្ថានវិទ្យា បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2022 (2022-12-05), social science track earth and environmental science, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -7105,9 +7109,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2016-4000-8000-000000000000', 'bacc2110-2016-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-social-english.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2070-2022-4000-8000-000000000000', 'kh-grade12-social-english', 2022, 'BacII 2022: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2022 (2022-12-05), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -7717,9 +7722,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-social-french.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2080-2021-4000-8000-000000000000', 'kh-grade12-social-french', 2021, 'BacII 2021: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -8239,9 +8245,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-social-geography.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2090-2022-4000-8000-000000000000', 'kh-grade12-social-geography', 2022, 'BacII 2022: Geography (social science track)', 'វិញ្ញាសាភូមិវិទ្យា បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2022 (2022-12-05), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -8583,9 +8590,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-social-history.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2060-2022-4000-8000-000000000000', 'kh-grade12-social-history', 2022, 'BacII 2022: History (social science track)', 'វិញ្ញាសាប្រវត្តិវិទ្យា បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2022 (2022-12-05), social science track history, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -8891,9 +8899,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2060-2014-4100-8000-000000000000', 'bacc2060-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-social-khmer-literature.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2020-2022-4000-8000-000000000000', 'kh-grade12-social-khmer-literature', 2022, 'BacII 2022: Khmer literature (social science track)', 'វិញ្ញាសាអក្សរសាស្ត្រខ្មែរ បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2022 (2022-12-05), social science track khmer literature, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -9001,9 +9010,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2020-2014-4100-8000-000000000000', 'bacc2020-2014-4100-8000-000000000001', 1, 125)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-social-mathematics.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2025-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2025, 'BacII 2025: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -9638,9 +9648,10 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+commit;
 
 -- kh-grade12-social-morality-civics.json
-
+begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2100-2022-4000-8000-000000000000', 'kh-grade12-social-morality-civics', 2022, 'BacII 2022: Morals and civics (social science track)', 'វិញ្ញាសាសីលធម៌-ពលរដ្ឋវិជ្ជា បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2022 (2022-12-05), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,

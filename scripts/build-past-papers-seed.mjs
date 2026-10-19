@@ -21,11 +21,12 @@ for (const file of (await readdir(new URL("src/data/curriculum/", ROOT))).filter
   chapters.push(...flattenCurriculum(JSON.parse(await readFile(new URL(`src/data/curriculum/${file}`, ROOT), "utf8"))).chapters);
 }
 
-const statements = [];
+// One transaction per subject, so supabase/setup-parts/ can split between them.
+const blocks = [];
 const counts = { papers: 0, questions: 0 };
 for (const file of (await readdir(new URL("src/data/past-papers/", ROOT))).filter((name) => name.endsWith(".json")).sort()) {
   const papers = buildPastPapers(JSON.parse(await readFile(new URL(`src/data/past-papers/${file}`, ROOT), "utf8")), chapters);
-  statements.push(`-- ${file}`);
+  const statements = [];
   for (const paper of papers) {
     counts.papers += 1;
     statements.push(`insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
@@ -42,6 +43,7 @@ values (${text(paper.id)}, ${text(q.id)}, ${position}, ${num(points)})
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;`);
     }
   }
+  blocks.push(`-- ${file}\nbegin;\n${statements.join("\n\n")}\ncommit;`);
 }
 
 await mkdir(new URL("supabase/seed/", ROOT), { recursive: true });
@@ -53,9 +55,7 @@ await writeFile(
 -- answer keys. Run after supabase/schema.sql and supabase/seed/curriculum.sql;
 -- safe to run again.
 
-begin;
-${statements.join("\n\n")}
-commit;
+${blocks.join("\n\n")}
 `,
 );
 console.log(`Wrote supabase/seed/past-papers.sql: ${counts.papers} papers, ${counts.questions} questions`);

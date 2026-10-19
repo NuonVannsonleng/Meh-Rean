@@ -406,6 +406,13 @@ timing only in database functions, never in the browser.
   where a choice is clearly misprinted. No French 2022 paper was in the
   collection. Tests: all suites; `test:past-papers` also checks each
   question's language; Playwright 11/11 browser-only and online.
+  `setup-all.sql` passed 1 MB, which the Supabase SQL editor refuses, so
+  `npm run build:setup-sql` also writes `supabase/setup-parts/NN.sql`: the
+  same SQL in parts under 600 KB, split only between whole transactions
+  (the past-papers seed is now one transaction per subject). Run in order on
+  local Supabase, then `test:past-papers` (which now checks the parts' size,
+  whole transactions and that they hold every question) 7/7. SUPABASE.md
+  says to run the parts in order.
 
 ## Blockers and things that need a person
 

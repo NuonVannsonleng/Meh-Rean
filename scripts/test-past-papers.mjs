@@ -113,15 +113,22 @@ await check("the builder refuses a paper whose points do not add up, an unknown 
   }
 });
 
-await check("supabase/seed/past-papers.sql and setup-all.sql are up to date with the JSON", async () => {
+await check("supabase/seed/past-papers.sql, setup-all.sql and its editor-sized parts are up to date with the JSON", async () => {
   const seed = read("supabase/seed/past-papers.sql");
   const setup = read("supabase/setup-all.sql");
+  // The SQL editor refuses about 1 MB; each part stays well under, with whole transactions only.
+  const parts = readdirSync(new URL("supabase/setup-parts/", ROOT)).sort().map((name) => read(`supabase/setup-parts/${name}`));
+  for (const [index, part] of parts.entries()) {
+    assert(Buffer.byteLength(part) < 700 * 1024, `setup part ${index + 1} is ${Buffer.byteLength(part)} bytes`);
+    assert((part.match(/^begin;$/gm) ?? []).length === (part.match(/^commit;$/gm) ?? []).length, `setup part ${index + 1} splits a transaction`);
+  }
   for (const paper of papers) {
     assert(seed.includes(`'${paper.id}'`), `${paper.id} missing: run npm run build:past-papers-seed`);
     for (const { question } of paper.questions) {
       const text = question.content.replace(/'/g, "''");
       assert(seed.includes(text), `${question.id} changed: run npm run build:past-papers-seed`);
       assert(setup.includes(text), `${question.id}: run npm run build:setup-sql`);
+      assert(parts.some((part) => part.includes(text)), `${question.id}: not in supabase/setup-parts/ (run npm run build:setup-sql)`);
     }
   }
 });
