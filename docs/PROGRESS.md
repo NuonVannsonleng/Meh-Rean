@@ -603,6 +603,14 @@ timing only in database functions, never in the browser.
   papers, 655 questions. Tests: `test:past-papers` 11/11; setup parts
   01–05 load into local Supabase; the paper and the trimmed geography
   answers checked on a 375px phone in both versions.
+- **2026-10-21 — AI answer key, part 11: geography 2014–2022.** 43
+  answers in Khmer, following the copies' marking keys: the seven types of
+  province, the four kinds of road, the three rice systems, the four forms
+  of internal migration, the seven national parks, and the textbook's own
+  figures, labelled as such (for example 2008 rice yields and tourism
+  income). The 2021 density is worked: 11 437 656 ÷ 181 035 ≈ 63.18
+  people per km². There is no 2018 paper in the source copies. Labelled
+  ai-generated and needs-review. Tests: `test:past-papers` 11/11.
 
 ## Blockers and things that need a person
 

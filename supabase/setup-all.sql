@@ -11965,12 +11965,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2022-4000-8000-000000000000', 'bacc2090-2022-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2022-4000-8000-000000000001', 'បម្លាស់លំនៅក្នុងស្រុកនៅកម្ពុជាមាន ៤ រូបភាព៖ ជនបទទៅទីក្រុង ជនបទទៅជនបទ ទីក្រុងទៅទីក្រុង និងទីក្រុងទៅជនបទ។ រូបភាពធំជាងគេគឺ ជនបទទៅជនបទ', null, null, null, '[{"content":"មូលហេតុ៖ ការឡើងថ្លៃដីធ្លី ធ្វើឲ្យប្រជាជនលក់ដីពីកន្លែងដីថ្លៃ ទៅទិញដីថោកនៅជនបទមួយទៀត; ការស្វែងរកការងារ (កសិកម្មតាមរដូវ ចម្ការ) អសន្តិសុខ ការរៀបការ ការជួបជុំគ្រួសារ កូនកំព្រា និងការបាត់បង់ដីធ្លី ឬលំនៅដ្ឋាន។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2022-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2022, 'open', 'កម្ពុជាជាប្រទេសមួយដែលពឹងផ្អែកលើកសិកម្ម យ៉ាងសំខាន់។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2022-4000-8000-000000000000', 'bacc2090-2022-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2022-4000-8000-000000000002', 'កម្ពុជាពឹងផ្អែកលើកសិកម្មយ៉ាងសំខាន់ ព្រោះកសិកម្មជាប្រភពស្បៀងអាហារ វត្ថុធាតុដើមសម្រាប់កសិ-ឧស្សាហកម្ម ប្រភពចំណូលជាតិពីការនាំចេញ ហើយផ្តល់ការងារដល់ប្រជាជនរហូតដល់ ៧០%', null, null, null, '[{"content":"ប្រភពស្បៀងអាហារសម្រាប់ជីវភាពប្រចាំថ្ងៃ។"},{"content":"ប្រភពផ្គត់ផ្គង់វត្ថុធាតុដើមសម្រាប់កសិ-ឧស្សាហកម្ម និងប្រភពចំណូលជាតិពីការនាំចេញ។"},{"content":"វាដោះស្រាយការងាររបស់ប្រជាជនរហូតដល់ ៧០% ហើយកាត់បន្ថយភាពក្រីក្រ; ធម្មជាតិ (ដី ទឹក អាកាសធាតុ) អនុគ្រោះដល់វិស័យនេះ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2022-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2022, 'open', 'ព្រៃឈើគឺជាប្រភពភោគទ្រព្យសម្បត្តិដែលកើតឡើងវិញ? ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -11979,6 +11989,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2022-4000-8000-000000000000', 'bacc2090-2022-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2022-4000-8000-000000000003', 'ព្រៃឈើជាភោគទ្រព្យធម្មជាតិដែលកើតឡើងវិញ ព្រោះកម្ពុជាមានអាកាសធាតុត្រូពិច (ក្តៅ សើម ភ្លៀងកន្លះឆ្នាំ) ដែលអនុគ្រោះដល់ការលូតលាស់របស់រុក្ខជាតិ ហើយបើមានការការពារ ការគោរពច្បាប់ និងការគ្រប់គ្រងល្អ ព្រៃឈើអាចដុះឡើងវិញ', null, null, null, '[{"content":"អាកាសធាតុ៖ ខ្យល់មូសុង ក្តៅ សើម រដូវភ្លៀង និងរដូវប្រាំង អនុគ្រោះដល់ការលូតលាស់ព្រៃឈើ។"},{"content":"ការគ្រប់គ្រងល្អ៖ ជាប្រយោជន៍សម្រាប់ជំនាន់ក្រោយ ផ្គត់ផ្គង់តម្រូវការប្រជាជន និងប្រាក់ចំណូលជាតិ; បើគ្រប់គ្រងមិនល្អ ធនធាននេះនឹងបាត់បង់ ហើយប៉ះពាល់ប្រព័ន្ធផ្សេងទៀត ដូចជាការនេសាទ។"},{"content":"ឧទាហរណ៍៖ ការដាំដើមឈើក្នុងទិវាជាតិដាំដើមឈើ សហគមន៍ព្រៃឈើនាំគ្នាដាំ និងការពារព្រៃ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2022-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2022, 'open', 'ទេសចរណ៍កម្ពុជា ជាទេសចរណ៍វប្បធម៌ និងធម្មជាតិ។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -11986,12 +12001,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2022-4000-8000-000000000000', 'bacc2090-2022-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2022-4000-8000-000000000004', 'ទេសចរណ៍កម្ពុជាជាទេសចរណ៍វប្បធម៌ និងធម្មជាតិ ព្រោះកម្ពុជាសម្បូរប្រាសាទ និងកន្លែងប្រវត្តិសាស្ត្រ (វប្បធម៌) ព្រមទាំងទេសភាពធម្មជាតិស្រស់ស្អាត ឧទ្យានជាតិ និងតំបន់ការពារធម្មជាតិ (ធម្មជាតិ)', null, null, null, '[{"content":"ទេសចរណ៍វប្បធម៌៖ ប្រាសាទអង្គរវត្ត អង្គរធំ និងប្រាសាទដទៃទៀតជាច្រើន; វត្តភ្នំ សារមន្ទីរជាតិ ទួលស្លែង ជើងឯក ប្រាសាទព្រះវិហារ អង្គរបុរី ភ្នំជីសូ ប្រាសាទនៅទន្លេបាទី ភ្នំបាសិត។"},{"content":"ទេសចរណ៍ធម្មជាតិ៖ សមុទ្រ កោះ ភ្នំ ទឹកជ្រោះ ព្រៃឈើ សត្វព្រៃ; ឧទ្យានជាតិ ៧ កន្លែង (គិរីរម្យ ភ្នំបូកគោ កែប រាម បុទុមសាគរ ភ្នំគូលែន និងវីរៈជ័យ) ដែនជម្រកសត្វព្រៃ ១០ កន្លែង និងតំបន់ធម្មជាតិផ្សេងៗ។"},{"content":"តំបន់អេកូទេសចរណ៍ភូមិភាគឦសាន៖ សត្វផ្សោតទន្លេមេគង្គ ទឹកជ្រោះសុភមិត្រ (ស្ទឹងត្រែង) ទឹកធ្លាក់កំពង់ស្ពឺ និងទន្លេសាប។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2022-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2022, 'open', 'វិស័យទេសចរណ៍ បង្កើតការងារ។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2022-4000-8000-000000000000', 'bacc2090-2022-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2022-4000-8000-000000000005', 'វិស័យទេសចរណ៍បង្កើតការងារ ព្រោះភ្ញៀវទេសចរត្រូវការសេវាជាច្រើន៖ មគ្គុទ្ទេសក៍ ភោជនីយដ្ឋាន ផ្ទះសំណាក់ និងសណ្ឋាគារ ភ្នាក់ងារទេសចរណ៍ ផ្ទះសំណាក់ប្រជាពលរដ្ឋតាមមូលដ្ឋាន សេវាដឹកជញ្ជូន (សាមញ្ញ រទេះគោ រទេះសេះ) សេវាចំណីអាហារ ការលក់វត្ថុអនុស្សាវរីយ៍ (សិប្បកម្ម កសិកម្ម) និងចលនា «ភូមិមួយ ផលិតផលមួយ»', null, null, null, '[{"content":"ការងារទាំងនេះមាននៅគ្រប់ខេត្ត-ក្រុង ក្នុងហេដ្ឋារចនាសម្ព័ន្ធដែលបម្រើវិស័យទេសចរណ៍។"},{"content":"វាជំរុញការងារកសិកម្ម (ផ្គត់ផ្គង់អាហារ) និងសិប្បកម្ម ហើយបង្កើនចំណូលគ្រួសារ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2090-2021-4000-8000-000000000000', 'kh-grade12-social-geography', 2021, 'BacII 2021: Geography (social science track)', 'វិញ្ញាសាភូមិវិទ្យា បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2021 (2021-12-27), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points for I, II, IV and V (15 each) but not III, so none are shown.', 'needs-review')
@@ -12005,12 +12030,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2021-4000-8000-000000000000', 'bacc2090-2021-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2021-4000-8000-000000000001', 'ស្រូវជាដំណាំសំខាន់ជាងគេនៅកម្ពុជា ព្រោះវាដាំលើផ្ទៃដីប្រមាណ ៩០% នៃផ្ទៃដីដាំដុះសរុប កសិករជាង ៨០% ជាអ្នកដាំស្រូវ វាជាអាហារមូលដ្ឋាន ជាផលិតផលនាំចេញ និងវត្ថុធាតុដើមឧស្សាហកម្ម ផ្តល់ការងារ និងកាត់បន្ថយភាពក្រីក្រ', null, null, null, '[{"content":"អាកាសធាតុ និងដីទំនាប (ទន្លេសាប មេគង្គ) អនុគ្រោះច្រើនដល់ដំណាំស្រូវ។"},{"content":"ស្រូវ និងអង្ករជាផលិតផលនាំចេញសំខាន់ទៅទីផ្សារអន្តរជាតិ ហើយជាវត្ថុធាតុដើមសម្រាប់រោងម៉ាស៊ីនកិនស្រូវ។"},{"content":"វាផ្តល់ការងារដល់ប្រជាជននៅមូលដ្ឋានជនបទ កាត់បន្ថយភាពក្រីក្រ និងការធ្វើចំណាកស្រុក។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2021-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2021, 'open', 'សកម្មភាពទេសចរណ៍ក្នុងស្រុកមានការរីកចម្រើនគួរកត់សម្គាល់។ ចូរពន្យល់ពីបាតុភូតនៃការរីកចម្រើននេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points for I, II, IV and V (15 each) but not III, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2021-4000-8000-000000000000', 'bacc2090-2021-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2021-4000-8000-000000000002', 'ទេសចរណ៍ក្នុងស្រុករីកចម្រើន ព្រោះមធ្យោបាយដឹកជញ្ជូន និងហេដ្ឋារចនាសម្ព័ន្ធ (ស្ពាន ថ្នល់) ប្រសើរ ជីវភាពប្រជាជនប្រសើរ ការកម្សាន្តរីកចម្រើន ការយល់ដឹងពីសុខុមាលភាពខ្ពស់ រមណីយដ្ឋានសម្បូរបែប ស្ថិរភាពនយោបាយ និងសន្តិសុខល្អ ហើយមានយុទ្ធនាការ «កម្ពុជា ព្រះរាជាណាចក្រអច្ឆរិយៈ» និង «ទីក្រុងស្អាត រមណីយដ្ឋានស្អាត សេវាល្អ»', null, null, null, '[{"content":"ក្រុមគ្រួសារធ្វើដំណើរកម្សាន្តតាមខេត្ត ជាពិសេសក្នុងបុណ្យភ្ជុំបិណ្ឌ និងចូលឆ្នាំខ្មែរ។"},{"content":"សណ្តាប់ធ្នាប់ អនាម័យ និងសេវាល្អនៅរមណីយដ្ឋាន ទាក់ទាញភ្ញៀវក្នុងស្រុក។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2021-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2021, 'open', 'របាយប្រជាជននៅកម្ពុជា គឺមិនស្មើគ្នាទេ។ ចូរពន្យល់ពីមូលហេតុ។
@@ -12020,6 +12055,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2021-4000-8000-000000000000', 'bacc2090-2021-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2021-4000-8000-000000000003', 'របាយប្រជាជនមិនស្មើគ្នា៖ វាលទំនាប និងតំបន់ទន្លេសាប មានប្រជាជនរស់នៅច្រើន ព្រោះមានដីសម្បូរជីជាតិ ទឹក ត្រី ជាបណ្តុំសេដ្ឋកិច្ច ឧស្សាហកម្ម ទេសចរណ៍ និងហេដ្ឋារចនាសម្ព័ន្ធសង្គម; តំបន់ឆ្នេរ ខ្ពង់រាប និងភ្នំ មានប្រជាជនតិច ព្រោះកត្តាធម្មជាតិមិនសូវអំណោយផល ខ្វះហេដ្ឋារចនាសម្ព័ន្ធ និងការអភិវឌ្ឍនៅមានកម្រិត។ ដង់ស៊ីតេឆ្នាំ១៩៩៨ ≈ ៦៣ នាក់/គម²', null, null, null, '[{"content":"វាលទំនាប-ទន្លេសាប៖ ដីសម្បូរជីជាតិសម្រាប់កសិកម្ម សម្បូរផ្លូវទឹក និងត្រី បណ្តុំសេដ្ឋកិច្ច នយោបាយ វប្បធម៌ និងសេវាកម្ម។"},{"content":"ខ្ពង់រាប និងភ្នំ៖ ទឹក ដី អាកាសធាតុ មិនសូវអំណោយផល ខ្វះហេដ្ឋារចនាសម្ព័ន្ធសង្គម។"},{"content":"ដង់ស៊ីតេ $D=\\dfrac PS=\\dfrac{11\\,437\\,656}{181\\,035}\\approx63.18$ នាក់/គម² ដូច្នេះប្រហែល $63$ នាក់ក្នុងមួយគីឡូម៉ែត្រការ៉េ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2021-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2021, 'open', '«អភិវឌ្ឍស្ពាន ថ្នល់ គឺកាត់បន្ថយភាពក្រីក្ររបស់ប្រជាជន»។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points for I, II, IV and V (15 each) but not III, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -12027,12 +12067,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2021-4000-8000-000000000000', 'bacc2090-2021-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2021-4000-8000-000000000004', 'ការអភិវឌ្ឍស្ពាន ថ្នល់ កាត់បន្ថយភាពក្រីក្រ ព្រោះវាជួយដឹកជញ្ជូនផលិតផលទៅទីផ្សារ ឧស្សាហកម្ម ពាណិជ្ជកម្ម ទេសចរណ៍ និងសុខាភិបាល ចំណេញពេលវេលា និងថវិកា ហើយបង្កើតការងារ', null, null, null, '[{"content":"កសិកម្ម៖ ដោះដូរកសិផល (ស្រូវ អង្ករ ដំឡូង ពោត ផ្លែឈើ សត្វ) ទៅទីផ្សារបានងាយ និងថ្លៃល្អ។"},{"content":"ឧស្សាហកម្ម និងពាណិជ្ជកម្ម៖ ដឹកវត្ថុធាតុដើម និងផលិតផល (កៅស៊ូ សម្លៀកបំពាក់) ទៅរោងចក្រ និងទីផ្សារក្នុង-ក្រៅប្រទេសទាន់ពេល; នាំចេញ-នាំចូលឆាប់រហ័ស ចំណាយតិច។"},{"content":"គមនាគមន៍ ទេសចរណ៍ សុខាភិបាល៖ ផ្លូវល្អទាក់ទាញទេសចរ ផ្តល់ការងារដឹកជញ្ជូន ហើយជួយដឹកអ្នកជំងឺទៅមន្ទីរពេទ្យទាន់ពេល កាត់បន្ថយគ្រោះថ្នាក់ និងការស្លាប់។"},{"content":"ដូច្នេះ ផ្លូវជួយគ្រប់វិស័យឲ្យប្រជាជនមានការងារ ប្រាក់ចំណូល និងជីវភាពប្រសើរ គឺកាត់បន្ថយភាពក្រីក្រ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2021-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2021, 'open', 'ទេសចរណ៍កម្ពុជា ជាទេសចរណ៍វប្បធម៌ និងធម្មជាតិ។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points for I, II, IV and V (15 each) but not III, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2021-4000-8000-000000000000', 'bacc2090-2021-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2021-4000-8000-000000000005', 'ទេសចរណ៍កម្ពុជាជាទេសចរណ៍វប្បធម៌ និងធម្មជាតិ ព្រោះកម្ពុជាសម្បូរប្រាសាទ និងកន្លែងប្រវត្តិសាស្ត្រ (វប្បធម៌) ព្រមទាំងទេសភាពធម្មជាតិស្រស់ស្អាត ឧទ្យានជាតិ និងតំបន់ការពារធម្មជាតិ (ធម្មជាតិ)', null, null, null, '[{"content":"ទេសចរណ៍វប្បធម៌៖ ប្រាសាទអង្គរវត្ត អង្គរធំ និងប្រាសាទដទៃទៀតជាច្រើន; វត្តភ្នំ សារមន្ទីរជាតិ ទួលស្លែង ជើងឯក ប្រាសាទព្រះវិហារ អង្គរបុរី ភ្នំជីសូ ប្រាសាទនៅទន្លេបាទី ភ្នំបាសិត។"},{"content":"ទេសចរណ៍ធម្មជាតិ៖ សមុទ្រ កោះ ភ្នំ ទឹកជ្រោះ ព្រៃឈើ សត្វព្រៃ; ឧទ្យានជាតិ ៧ កន្លែង (គិរីរម្យ ភ្នំបូកគោ កែប រាម បុទុមសាគរ ភ្នំគូលែន និងវីរៈជ័យ) ដែនជម្រកសត្វព្រៃ ១០ កន្លែង និងតំបន់ធម្មជាតិផ្សេងៗ។"},{"content":"តំបន់អេកូទេសចរណ៍ភូមិភាគឦសាន៖ សត្វផ្សោតទន្លេមេគង្គ ទឹកជ្រោះសុភមិត្រ (ស្ទឹងត្រែង) ទឹកធ្លាក់កំពង់ស្ពឺ និងទន្លេសាប។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000000', 'kh-grade12-social-geography', 2019, 'BacII 2019: Geography (social science track)', 'វិញ្ញាសាភូមិវិទ្យា បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12046,12 +12096,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2019-4000-8000-000000000001', 'ការរៀបចំដែនដី គឺប្រព័ន្ធដែលរដ្ឋអនុវត្ត ដើម្បីគ្រប់គ្រងការប្រើប្រាស់ធនធានដី និងដោះស្រាយបញ្ហាសេដ្ឋកិច្ច សង្គម បរិស្ថាន ដែលទាក់ទងនឹងការបែងចែកដីធ្លី; តំបន់ខ្លះត្រូវរៀបចំឡើងវិញ ព្រោះការអភិវឌ្ឍលឿន (ទេសចរណ៍ ទីក្រុង) ធ្វើឲ្យការប្រើដីប្រែប្រួល', null, null, null, '[{"content":"តំបន់ទេសចរណ៍ដែលអភិវឌ្ឍលឿន៖ ភ្នំគូលែន ភ្នំបូកគោ គិរីរម្យ បានលង់ តំបន់ឆ្នេរសមុទ្រ តំបន់ព្រំប្រទល់អូរស្មាច់ ប៉ោយប៉ែត កោះកុង ប៉ៃលិន។"},{"content":"ផែនការប្រើប្រាស់ដីសម្រាប់រាជធានីភ្នំពេញ ជាអាទិភាព មានព្រំដែនរបៀបតាមផ្លូវជាតិ។"},{"content":"ក្រសួងរៀបចំដែនដីពិគ្រោះយោបល់ជាមួយអ្នកពាក់ព័ន្ធ និងចុះធ្វើការផ្ទាល់ (វាស់វែង ប៉ាន់ប្រមាណ) ដើម្បីកំណត់គោលនយោបាយសង្គមកិច្ច ប្រជាសាស្ត្រ និងសេដ្ឋកិច្ច។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2019, 'open', 'តើប្រជាពលរដ្ឋកម្ពុជាទទួលបានផលប្រយោជន៍អ្វីខ្លះ តាមរយៈយន្តការ និងចលនា «ភូមិមួយ ផលិតផលមួយ»។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2019-4000-8000-000000000002', 'តាមរយៈ «ភូមិមួយ ផលិតផលមួយ» ប្រជាជនមានផលិតផលកសិកម្ម និងសិប្បកម្មសម្រាប់ផ្គត់ផ្គង់ភោជនីយដ្ឋាន និងភ្ញៀវទេសចរ ដែលជួយកាត់បន្ថយភាពក្រីក្រ ការធ្វើចំណាកស្រុក និងការហូរចូលទំនិញបរទេស ផ្តល់ការងារ និងជីវភាពប្រសើរ', null, null, null, '[{"content":"ផលិតកម្មកសិកម្ម៖ អង្ករ ទឹកត្នោតជូរ ទឹកត្នោត ត្រសក់ បន្លែបង្ការ ផ្លែឈើ (ស្វាយ ល្ហុង ទុរេន) សាច់ ស៊ុត ត្រី។"},{"content":"ផលិតកម្មសិប្បកម្ម (វត្ថុអនុស្សាវរីយ៍)៖ ស្ករត្នោត ផាមួង ក្រមា សូត្រ ហូល ចម្លាក់ឈើ ស្បែក កន្ទេល មួក។"},{"content":"ផលប្រយោជន៍៖ កាត់បន្ថយភាពក្រីក្រ ការធ្វើចំណាកស្រុក ការហូរចូលទំនិញបរទេស មានការងារ និងជីវភាពប្រសើរ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2019, 'open', 'ឧស្សាហកម្មបង្កើតការងារ។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12060,12 +12120,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2019-4000-8000-000000000003', 'ឧស្សាហកម្មបង្កើតការងារដល់ប្រជាជនប្រមាណ ៨,៥៤% នៃប្រជាជនសកម្ម (ឆ្នាំ២០០៨ តាមសៀវភៅ) ទាំងដោយផ្ទាល់ និងដោយប្រយោល', null, null, null, '[{"content":"ដោយផ្ទាល់៖ ឧស្សាហកម្មកាត់ដេរសម្លៀកបំពាក់ ស្រូបយកពលករប្រមាណ ៤,៩០% នៃប្រជាជនសកម្ម (២០០៨); សហគ្រាសតូច និងសិប្បកម្មអាហារ និងភេសជ្ជៈ ផ្តល់ការងារដល់ប្រជាជនជាច្រើនទៀត។"},{"content":"ដោយប្រយោល៖ ចម្ការកៅស៊ូ ដំឡូងមី ផ្លែឈើ ដែលផ្គត់ផ្គង់វត្ថុធាតុដើមដល់រោងចក្រ និងសេវាដឹកជញ្ជូន អាហារ ផ្ទះជួលជុំវិញរោងចក្រ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2019, 'open', 'តើនៅកម្ពុជាគេបែងចែកប្រភេទរាជធានី-ខេត្តជាប៉ុន្មាន? ចូរពន្យល់ពីខេត្តរឹងមាំ និងខេត្តជាប់ស្រយាល។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2019-4000-8000-000000000004', 'គេបែងចែករាជធានី-ខេត្តនៅកម្ពុជា ដោយផ្អែកលើសារៈសំខាន់នៃសេដ្ឋកិច្ច និងចំនួនប្រជាជន ជា ៧ ប្រភេទ៖ ខេត្តក្រុងប្រភេទទី១ ខេត្តរឹងមាំ ខេត្ត-ក្រុងផ្សារភ្ជាប់នឹងវិស័យទេសចរណ៍ ខេត្ត-ក្រុងផ្សារភ្ជាប់នឹងសកម្មភាពកំពង់ផែ ខេត្ត-ក្រុងផ្សារភ្ជាប់នឹងសេដ្ឋកិច្ចព្រំដែន ខេត្តដែលមានសកម្មភាពសេដ្ឋកិច្ចខ្សោយ និងខេត្តដាច់ស្រយាល', null, null, null, '[{"content":"ខេត្តរឹងមាំ៖ ខេត្តដែលមានសេដ្ឋកិច្ចរីកចម្រើនខ្លាំង និងមានប្រជាជនច្រើន ដូចជាខេត្តកណ្តាល កំពង់ចាម និងបាត់ដំបង។"},{"content":"ខេត្តដាច់ស្រយាល៖ ខេត្តដែលនៅឆ្ងាយពីរាជធានី ជាប់ព្រំដែន ឆ្ងាយពីហេដ្ឋារចនាសម្ព័ន្ធទំនើប សកម្មភាពសេដ្ឋកិច្ចខ្សោយ និងប្រជាជនតិច ដូចជាព្រះវិហារ ស្ទឹងត្រែង រតនគិរី មណ្ឌលគិរី និងក្រចេះ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2019, 'open', 'ចូរនិយាយពីទំនាក់ទំនងរវាង ការដាំដុះព្រៃឈើ អាជីវកម្មព្រៃឈើ និងការនេសាទ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12074,12 +12144,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2019-4000-8000-000000000005', 'ការដាំដុះព្រៃឈើ អាជីវកម្មព្រៃឈើ និងការនេសាទ មានទំនាក់ទំនងគ្នា៖ ព្រៃឈើ (ពិសេសព្រៃលិចទឹក) ជាទីជម្រក និងកន្លែងពងកូនរបស់ត្រី; អាជីវកម្មព្រៃឈើហួសហេតុ បំផ្លាញព្រៃ ប្រែប្រួលអាកាសធាតុ និងធ្វើឲ្យត្រីថយចុះ', null, null, null, '[{"content":"ការដាំដុះព្រៃឈើ និងការនេសាទ ជាភោគទ្រព្យសំខាន់សម្រាប់ជីវភាព និងការអភិវឌ្ឍ។"},{"content":"ដើម្បីផលិតកម្ម និងតម្រូវការផ្សេងៗ មនុស្សកាប់ព្រៃឈើ ធ្វើអាជីវកម្មព្រៃឈើ ដែលធ្វើឲ្យអាកាសធាតុប្រែប្រួល ប៉ះពាល់ជីវិតមនុស្ស សត្វ និងរុក្ខជាតិ។"},{"content":"ការប្រើថ្នាំសម្លាប់សត្វល្អិត និងជីគីមីហួសហេតុក្នុងកសិកម្ម ហូរចូលទឹក បំផ្លាញជីវិត និងពូជត្រី។ ដូច្នេះ បើទាញផលពីធាតុមួយហួសហេតុ ធាតុទាំងបីនឹងវិនាស៖ «មនុស្សជាអ្នកបំផ្លាញខ្លួនឯង»។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2019-4000-8000-000000000006', 'kh-grade12-social-geography-past-papers', null, 2019, 'open', 'ចូររៀបរាប់ពីតួនាទីនៃវិស័យទេសចរណ៍នៅក្នុងសេដ្ឋកិច្ចជាតិ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2019-4000-8000-000000000000', 'bacc2090-2019-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2019-4000-8000-000000000006', 'តួនាទីវិស័យទេសចរណ៍ក្នុងសេដ្ឋកិច្ចជាតិ៖ នាំមកនូវចំណូលច្រើន (ប្រហែល ១ ៥៩៥ លានដុល្លារ ឆ្នាំ២០០៨ តាមសៀវភៅ) រួមចំណែកកសាងសេដ្ឋកិច្ចសង្គម បង្កើតការងារ បង្កើនចំណូលថវិកាជាតិ លើកកម្ពស់ជីវភាព កាត់បន្ថយភាពក្រីក្រ ជំរុញផលិតផលក្នុងស្រុក និងវិស័យផ្សេងៗ', null, null, null, '[{"content":"ចំណូលពីទេសចរណ៍បញ្ចូលទៅក្នុងចរន្តសេដ្ឋកិច្ចជាតិភ្លាមៗ។"},{"content":"វាជំរុញកំណើនផលិតផលក្នុងស្រុកសរុប ធ្វើឲ្យមានលំហូរពាណិជ្ជកម្ម និងជួយវិស័យផ្សេងៗទៀតឲ្យរីកចម្រើន។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000000', 'kh-grade12-social-geography', 2017, 'BacII 2017: Geography (social science track)', 'វិញ្ញាសាភូមិវិទ្យា បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12093,12 +12173,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2017-4000-8000-000000000001', 'ព្រៃឈើជាភោគទ្រព្យធម្មជាតិដែលកើតឡើងវិញ ព្រោះកម្ពុជាមានអាកាសធាតុត្រូពិច (ក្តៅ សើម ភ្លៀងកន្លះឆ្នាំ) ដែលអនុគ្រោះដល់ការលូតលាស់របស់រុក្ខជាតិ ហើយបើមានការការពារ ការគោរពច្បាប់ និងការគ្រប់គ្រងល្អ ព្រៃឈើអាចដុះឡើងវិញ', null, null, null, '[{"content":"អាកាសធាតុ៖ ខ្យល់មូសុង ក្តៅ សើម រដូវភ្លៀង និងរដូវប្រាំង អនុគ្រោះដល់ការលូតលាស់ព្រៃឈើ។"},{"content":"ការគ្រប់គ្រងល្អ៖ ជាប្រយោជន៍សម្រាប់ជំនាន់ក្រោយ ផ្គត់ផ្គង់តម្រូវការប្រជាជន និងប្រាក់ចំណូលជាតិ; បើគ្រប់គ្រងមិនល្អ ធនធាននេះនឹងបាត់បង់ ហើយប៉ះពាល់ប្រព័ន្ធផ្សេងទៀត ដូចជាការនេសាទ។"},{"content":"ឧទាហរណ៍៖ ការដាំដើមឈើក្នុងទិវាជាតិដាំដើមឈើ សហគមន៍ព្រៃឈើនាំគ្នាដាំ និងការពារព្រៃ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2017, 'open', 'ចូររៀបរាប់ពីភោគទ្រព្យទេសចរណ៍ប្រវត្តិសាស្ត្រ និងវប្បធម៌របស់កម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2017-4000-8000-000000000002', 'ភោគទ្រព្យទេសចរណ៍ប្រវត្តិសាស្ត្រ និងវប្បធម៌៖ ប្រាសាទបុរាណ (អង្គរវត្ត បន្ទាយស្រី បាយ័ន ព្រះវិហារ សំបូរព្រៃគុក) សារមន្ទីរជាតិ ព្រះបរមរាជវាំង ជើងឯក ទួលស្លែង វត្តភ្នំ មហោស្រព (របាំបុរាណ ល្ខោនបាសាក់ យីកេ ស្បែកធំ) វត្តអារាម សិប្បកម្ម តន្ត្រី ស្នូលដីកដ្ឋ សិល្បៈអាហារ និងទំនៀមទម្លាប់ប្រពៃណី', null, null, null, '[{"content":"សិប្បកម្ម៖ ចម្លាក់ឈើ ថ្ម ស្បែក។ តម្បាញ៖ ហូល ផាមួង ក្រមា។ ស្នូនដីឥដ្ឋ៖ ក្អម ឆ្នាំង ក្រឡ។"},{"content":"សិប្បកម្មអាហារ៖ ប្រហុក ផ្អក ត្រីងៀត; ទំនៀមទម្លាប់ប្រពៃណីតាមភូមិ ឃុំ ស្រុក ខេត្ត។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2017, 'open', 'ចូរពន្យល់បាតុភូត «ចំណាកស្រុកស្រែ» និងបាតុភូត «ចំណោលស្រុកស្រែ»។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12107,12 +12197,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2017-4000-8000-000000000003', 'ចំណាកស្រុកស្រែ គឺចលនាធ្វើចំណាកស្រុករបស់ប្រជាជន ទៅកាន់ទីកន្លែងផ្សេងៗ ពិសេសទីក្រុង ដោយសារបញ្ហាជីវភាព គ្រោះធម្មជាតិ ស្វែងរកការងារ សិក្សា ឬវិបត្តិនយោបាយ; ចំណោលស្រុកស្រែ គឺការចាកចេញពីស្រុកស្រែ ទៅរកការងារជាអចិន្ត្រៃយ៍នៅទីប្រជុំជន ទីក្រុង ហើយមិនត្រឡប់មកវិញទេ', null, null, null, '[{"content":"មូលហេតុចំណាកស្រុកស្រែ៖ បញ្ហាជីវភាព គ្រោះធម្មជាតិ ស្វែងរកការងារ បន្តការសិក្សា និងវិបត្តិនយោបាយ (ច្រើនជាបណ្តោះអាសន្ន ឬតាមរដូវ)។"},{"content":"មូលហេតុចំណោលស្រុកស្រែ៖ រកការងារនៅទីក្រុង តាមគ្រួសារ ការបាត់បង់ដីធ្លី និងលំនៅដ្ឋាន និងការងារផ្សេងៗ (ការផ្លាស់ទីអចិន្ត្រៃយ៍)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2017, 'open', 'ផ្នែកឯកជន ជាកម្លាំងដ៏សំខាន់សម្រាប់ការវិនិយោគ និងកំណើនក្នុងប្រទេស។ ចូរពន្យល់ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2017-4000-8000-000000000004', 'ផ្នែកឯកជនជាកម្លាំងសំខាន់សម្រាប់ការវិនិយោគ និងកំណើន ព្រោះកម្ពុជាអនុវត្តសេដ្ឋកិច្ចទីផ្សារសេរី ផ្នែកនេះនាំទុន ការងារ បច្ចេកវិទ្យា និងបំពេញបន្ថែមលើការវិនិយោគសាធារណៈ', null, null, null, '[{"content":"កំណែទម្រង់ពីសហគ្រាសរដ្ឋឲ្យក្លាយជាកម្មសិទ្ធិឯកជន ហើយសេដ្ឋកិច្ចទីផ្សារសេរីទាក់ទាញអ្នករកស៊ី និងអ្នកវិនិយោគ។"},{"content":"ឧទាហរណ៍៖ រោងចក្រកាត់ដេរ សណ្ឋាគារ សំណង់ ធនាគារ និងក្រុមហ៊ុនទូរគមនាគមន៍ ភាគច្រើនជាវិនិយោគឯកជន ហើយផ្តល់ការងាររាប់សែននាក់។"},{"content":"ពេលផ្នែកឯកជនរឹងមាំ វាជួយបំពេញបន្ថែមលើវិនិយោគសាធារណៈ ហើយសេដ្ឋកិច្ចកើនឡើង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2017, 'open', 'ការដឹកជញ្ជូន ជាសកម្មភាពមួយដើរតួនាទីយ៉ាងសំខាន់ សម្រាប់ការអភិវឌ្ឍសង្គមសេដ្ឋកិច្ច។ ចូរពន្យល់ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12121,12 +12221,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2017-4000-8000-000000000005', 'ការដឹកជញ្ជូនដើរតួនាទីសំខាន់ក្នុងការអភិវឌ្ឍសង្គមសេដ្ឋកិច្ច ព្រោះវាតភ្ជាប់ផលិតករ ទីផ្សារ និងប្រជាជន ដឹកវត្ថុធាតុដើម និងផលិតផលបានរហ័ស ទាន់ពេល ចំណាយតិច និងសុវត្ថិភាព', null, null, null, '[{"content":"សណ្ឋានដីកម្ពុជាអនុគ្រោះច្រើន (គ្មានឧបសគ្គភ្នំធំ) ហើយមានជំនួយបច្ចេកទេស និងថវិកាពីអន្តរជាតិ ដើម្បីសាងសង់ស្ពាន ថ្នល់។"},{"content":"សំណង់ផ្លូវថ្នល់ ផ្លូវដែក មានសារៈសំខាន់សម្រាប់ដឹកជញ្ជូនផលចំណេញច្រើននាពេលអនាគត។"},{"content":"ឧទាហរណ៍៖ ការដឹកជញ្ជូនទំនិញ ផលិតផល វត្ថុធាតុដើមទៅដល់ទីផ្សារបានរហ័ស ទាន់ពេលវេលា អស់សោហ៊ុយតិច និងប្រកបដោយសុវត្ថិភាព។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2017-4000-8000-000000000006', 'kh-grade12-social-geography-past-papers', null, 2017, 'open', 'បណ្តាញគមនាគមន៍កម្ពុជា មានតួនាទីជា «ក្បាលរថភ្លើងនៃកំណើនសេដ្ឋកិច្ច»។ ចូរពន្យល់ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2017-4000-8000-000000000000', 'bacc2090-2017-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2017-4000-8000-000000000006', 'បណ្តាញគមនាគមន៍មានតួនាទីជា «ក្បាលរថភ្លើង» នៃកំណើនសេដ្ឋកិច្ច ព្រោះដូចក្បាលរថភ្លើងដែលទាញទូជាច្រើនពីក្រោយ វាទាញវិស័យផ្សេងៗ (កសិកម្ម ឧស្សាហកម្ម ទេសចរណ៍ ពាណិជ្ជកម្ម សុខាភិបាល) ឲ្យរីកចម្រើន', null, null, null, '[{"content":"ផ្លូវគោក៖ ផ្លូវដែក ផ្លូវជាតិ ផ្លូវលំ និងផ្លូវរុក្ខាបាល; ផ្លូវទឹក៖ ស្ទឹង បឹង ព្រែក ទន្លេ និងសមុទ្រ; ផ្លូវអាកាស៖ អាកាសយានដ្ឋានក្នុងស្រុក និងអន្តរជាតិ។"},{"content":"ឧទាហរណ៍៖ ជំរុញកសិកម្ម ឧស្សាហកម្ម ទេសចរណ៍ ពាណិជ្ជកម្ម (នាំចេញ-នាំចូល) ឲ្យដំណើរការប្រសើរ; ដឹកអ្នកជំងឺទៅមន្ទីរពេទ្យទាន់ពេល កាត់បន្ថយអត្រាស្លាប់។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2090-2016-4000-8000-000000000000', 'kh-grade12-social-geography', 2016, 'BacII 2016: Geography (social science track)', 'វិញ្ញាសាភូមិវិទ្យា បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2016 (2016-08-22), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12140,12 +12250,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2016-4000-8000-000000000000', 'bacc2090-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2016-4000-8000-000000000001', 'កង្វះអាហារូបត្ថម្ភ បណ្តាលមកពីការខ្វះការយល់ដឹងរបស់មាតាបិតា អាណាព្យាបាល ជីវភាពគ្រួសារលំបាក (ភាពក្រីក្រ) កង្វះសេវាសុខាភិបាល និងទឹកស្អាត អាហារខ្វះសារធាតុចិញ្ចឹម និងកង្វះអនាម័យ', null, null, null, '[{"content":"អាហារខ្វះប្រូតេអ៊ីន វីតាមីន និងជាតិរ៉ែ ជាពិសេសចំពោះកុមារ និងស្ត្រីមានផ្ទៃពោះ។"},{"content":"ជំងឺរាគ និងជំងឺឆ្លង ដោយសារទឹក និងអនាម័យមិនល្អ ធ្វើឲ្យរាងកាយស្រូបចំណីអាហារមិនបាន។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2016-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2016, 'open', 'ចូររៀបរាប់ពីផែនការសកម្មភាពសុវត្ថិភាពចរាចរណ៍ផ្លូវគោក។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2016-4000-8000-000000000000', 'bacc2090-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2016-4000-8000-000000000002', 'ផែនការសកម្មភាពសុវត្ថិភាពចរាចរណ៍ផ្លូវគោក៖ អប់រំផ្សព្វផ្សាយច្បាប់ចរាចរណ៍ ពង្រឹងការអនុវត្តច្បាប់ (ពាក់មួកសុវត្ថិភាព ខ្សែក្រវាត់ ល្បឿន ការបើកបរស្រវឹង) ពង្រឹងគុណភាពសាលាបង្រៀនបើកបរ ត្រួតពិនិត្យលក្ខណៈបច្ចេកទេសយានយន្ត កែលម្អផ្លូវនៅតំបន់គ្រោះថ្នាក់ញឹកញាប់ និងកែលម្អសេវាសង្គ្រោះបន្ទាន់', null, null, null, '[{"content":"អប់រំ៖ ផ្សព្វផ្សាយច្បាប់ចរាចរណ៍ក្នុងសាលា និងប្រព័ន្ធផ្សព្វផ្សាយ។"},{"content":"ច្បាប់៖ ការអនុវត្តច្បាប់ម៉ឺងម៉ាត់ ដោយពិន័យការបំពាន។"},{"content":"ហេដ្ឋារចនាសម្ព័ន្ធ និងយានយន្ត៖ កែលម្អផ្លូវ ស្លាកសញ្ញា ការត្រួតពិនិត្យបច្ចេកទេសយានយន្ត។"},{"content":"សង្គ្រោះ៖ មជ្ឈមណ្ឌលព្យាបាល និងប្រព័ន្ធសង្គ្រោះបន្ទាន់នៅទូទាំងប្រទេស។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2016-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2016, 'open', 'ចូរពន្យល់ពីភាពវិជ្ជមាន និងភាពអវិជ្ជមាននៃវិស័យទេសចរណ៍។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12154,6 +12274,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2016-4000-8000-000000000000', 'bacc2090-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2016-4000-8000-000000000003', 'វិជ្ជមាន៖ បង្កើតការងារ លើកកម្ពស់ជីវភាព កាត់បន្ថយភាពក្រីក្រ និងការធ្វើចំណាកស្រុក បង្កើនចំណូលជាតិ ផ្សព្វផ្សាយវប្បធម៌ បង្កើនសមត្ថភាពភាសាបរទេស និងជំរុញវិស័យផ្សេងៗ; អវិជ្ជមាន៖ ឧក្រិដ្ឋកម្មឆ្លងដែន ពេស្យាចារ ការជួញដូរគ្រឿងញៀន ការកេងប្រវ័ញ្ចផ្លូវភេទលើកុមារ និងបញ្ហាបរិស្ថាន', null, null, null, '[{"content":"វិជ្ជមាន៖ ការងារ ចំណូល ការរីកចម្រើនសេដ្ឋកិច្ច ការផ្សព្វផ្សាយវប្បធម៌ជាតិលើឆាកអន្តរជាតិ ស្ថិរភាពសង្គម។"},{"content":"អវិជ្ជមាន៖ ឧក្រិដ្ឋកម្មឆ្លងដែន ពេស្យាចារ គ្រឿងញៀន ការកេងប្រវ័ញ្ចកុមារ ការបំពុល និងសំរាម។"},{"content":"ដូច្នេះ ត្រូវមានទេសចរណ៍ប្រកបដោយចីរភាព និងការគ្រប់គ្រងល្អ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2016-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2016, 'open', 'ប្រព័ន្ធផលិតស្រូវនៅកម្ពុជាមានលក្ខណៈខុសប្លែកគ្នា។ ចូររៀបរាប់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -12161,12 +12286,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2016-4000-8000-000000000000', 'bacc2090-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2016-4000-8000-000000000004', 'ប្រព័ន្ធផលិតស្រូវនៅកម្ពុជាមាន៖ ស្រូវវស្សា ស្រូវប្រាំង និងស្រូវឡើងទឹក', null, null, null, '[{"content":"ស្រូវវស្សា៖ ដាំទូទាំងប្រទេស ពីខែឧសភា ដល់ខែតុលា លើផ្ទៃប្រមាណ ៨៥–៩០% នៃផ្ទៃដីដាំស្រូវ ទិន្នផលមធ្យមប្រហែល ២,៥៤ តោន/ហិកតា (២០០៨)។"},{"content":"ស្រូវប្រាំង៖ ធ្វើនៅតំបន់ក្បែរបឹង ទន្លេ ស្ទឹង ព្រែក ដោយប្រព័ន្ធធារាសាស្ត្រ និងបញ្ចូលទឹកពេលទឹកស្រក ទិន្នផលមធ្យមប្រហែល ៤,០៣ តោន/ហិកតា (២០០៨)។"},{"content":"ស្រូវឡើងទឹក៖ ស្រូវធ្ងន់ ដាំពី ៦ ទៅ ៩ ខែទើបប្រមូលផល ឡើងតាមទឹកជំនន់ ២–៥ ម៉ែត្រ នៅជុំវិញបឹងទន្លេសាប និងតាមដងទន្លេមេគង្គ (កំពង់ចាម ព្រៃវែង តាកែវ)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2016-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2016, 'open', 'តើវិស័យទេសចរណ៍ បានផ្តល់ការងារអ្វីខ្លះដល់ប្រជាជនកម្ពុជា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2016-4000-8000-000000000000', 'bacc2090-2016-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2016-4000-8000-000000000005', 'វិស័យទេសចរណ៍ផ្តល់ការងារ៖ មគ្គុទ្ទេសក៍ ភោជនីយដ្ឋាន ផ្ទះសំណាក់ និងសណ្ឋាគារ ភ្នាក់ងារទេសចរណ៍ ផ្ទះសំណាក់ប្រជាពលរដ្ឋតាមមូលដ្ឋាន សេវាដឹកជញ្ជូន (សាមញ្ញ រទេះគោ រទេះសេះ) សេវាចំណីអាហារ ការលក់វត្ថុអនុស្សាវរីយ៍ (សិប្បកម្ម កសិកម្ម) និងចលនា «ភូមិមួយ ផលិតផលមួយ»', null, null, null, '[{"content":"ការងារទាំងនេះមាននៅគ្រប់ខេត្ត-ក្រុង ក្នុងហេដ្ឋារចនាសម្ព័ន្ធដែលបម្រើវិស័យទេសចរណ៍។"},{"content":"វាជំរុញការងារកសិកម្ម (ផ្គត់ផ្គង់អាហារ) និងសិប្បកម្ម ហើយបង្កើនចំណូលគ្រួសារ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000000', 'kh-grade12-social-geography', 2015, 'BacII 2015: Geography (social science track)', 'វិញ្ញាសាភូមិវិទ្យា បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12180,12 +12315,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2015-4000-8000-000000000001', 'យុទ្ធនាការឃោសនា «កម្ពុជា ព្រះរាជាណាចក្រអច្ឆរិយៈ» (Kingdom of Wonder) និងចលនាប្រលងប្រណាំង «ទីក្រុងស្អាត រមណីយដ្ឋានស្អាត សេវាល្អ» បានជំរុញទេសចរណ៍កម្ពុជាឲ្យរីកចម្រើន', null, null, null, '[{"content":"យុទ្ធនាការនេះផ្សព្វផ្សាយកម្ពុជាជាគោលដៅទេសចរណ៍ក្នុង និងក្រៅប្រទេស។"},{"content":"ចលនាប្រលងប្រណាំងនេះជំរុញឲ្យខេត្ត-ក្រុងថែរក្សាអនាម័យ ទេសភាព និងគុណភាពសេវា។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2015, 'open', 'តើគេបែងចែកប្រភេទរាជធានី ខេត្ត នៅកម្ពុជាដោយផ្អែកលើអ្វីខ្លះ? មានប៉ុន្មានប្រភេទ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2015-4000-8000-000000000002', 'គេបែងចែករាជធានី-ខេត្តនៅកម្ពុជា ដោយផ្អែកលើសារៈសំខាន់នៃសេដ្ឋកិច្ច និងចំនួនប្រជាជន ជា ៧ ប្រភេទ៖ ខេត្តក្រុងប្រភេទទី១ ខេត្តរឹងមាំ ខេត្ត-ក្រុងផ្សារភ្ជាប់នឹងវិស័យទេសចរណ៍ ខេត្ត-ក្រុងផ្សារភ្ជាប់នឹងសកម្មភាពកំពង់ផែ ខេត្ត-ក្រុងផ្សារភ្ជាប់នឹងសេដ្ឋកិច្ចព្រំដែន ខេត្តដែលមានសកម្មភាពសេដ្ឋកិច្ចខ្សោយ និងខេត្តដាច់ស្រយាល', null, null, null, '[{"content":"ខេត្តរឹងមាំ៖ ខេត្តដែលមានសេដ្ឋកិច្ចរីកចម្រើនខ្លាំង និងមានប្រជាជនច្រើន ដូចជាខេត្តកណ្តាល កំពង់ចាម និងបាត់ដំបង។"},{"content":"ខេត្តដាច់ស្រយាល៖ ខេត្តដែលនៅឆ្ងាយពីរាជធានី ជាប់ព្រំដែន ឆ្ងាយពីហេដ្ឋារចនាសម្ព័ន្ធទំនើប សកម្មភាពសេដ្ឋកិច្ចខ្សោយ និងប្រជាជនតិច ដូចជាព្រះវិហារ ស្ទឹងត្រែង រតនគិរី មណ្ឌលគិរី និងក្រចេះ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2015, 'open', 'ការបែងចែកដីធ្លីមានចំណងដ៏រឹងមាំរវាងភាពគ្មានដី និងភាពក្រីក្រ។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12194,12 +12339,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2015-4000-8000-000000000003', 'ការបែងចែកដីធ្លីមានចំណងរឹងមាំរវាងភាពគ្មានដី និងភាពក្រីក្រ ព្រោះប្រជាជនកសិករភាគច្រើនរស់ដោយដី; ពេលទទួលបានដី ពួកគេមានទីលំនៅ និងធ្វើអាជីវកម្ម ហើយភាពក្រីក្រ និងការធ្វើចំណាកស្រុកថយចុះ', null, null, null, '[{"content":"ប្រជាជនមានដីសង់លំនៅដ្ឋាន និងធ្វើអាជីវកម្ម។"},{"content":"កាត់បន្ថយវិវាទដីធ្លី បន្ទុករដ្ឋបាល និងតុលាការ។"},{"content":"ធ្វើឲ្យទំនាក់ទំនងថ្នាក់មូលដ្ឋានប្រសើរ ហើយកាត់បន្ថយការធ្វើចំណាកស្រុក។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2015, 'open', 'ប្រទេសកម្ពុជាបានអនុវត្តប្រព័ន្ធសេដ្ឋកិច្ចទីផ្សារសេរីចាប់ពីឆ្នាំ១៩៩៣។ ចូរពន្យល់ពីអត្ថប្រយោជន៍នៃការអនុវត្តសេដ្ឋកិច្ចទីផ្សារសេរីនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2015-4000-8000-000000000004', 'សេដ្ឋកិច្ចទីផ្សារសេរី (ចាប់ពីឆ្នាំ១៩៩៣) ផ្តល់អត្ថប្រយោជន៍៖ ទំនាក់ទំនងល្អជាមួយបរទេសតាមពាណិជ្ជកម្ម ការលេចឡើងសហគ្រាសសេរី ការប្រកួតប្រជែងលើទីផ្សារ ការងារ និងការកាត់បន្ថយភាពក្រីក្រ ការកើនផលិតកម្មក្នុងស្រុក និងការនាំចេញ ព្រមទាំងកំណើនសេដ្ឋកិច្ច', null, null, null, '[{"content":"កម្មសិទ្ធិឯកជន និងការប្រកួតប្រជែង ជំរុញគុណភាព និងតម្លៃសមរម្យ។"},{"content":"ការវិនិយោគបរទេសចូលមក (រោងចក្រកាត់ដេរ សំណង់ ទេសចរណ៍) បង្កើតការងារ។"},{"content":"កម្ពុជាចូលអង្គការពាណិជ្ជកម្មពិភពលោក (២០០៤) និងសមាហរណកម្មអាស៊ាន។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2015, 'open', 'ផ្លូវថ្នល់ចែកចេញជាបួនប្រភេទ។ អ្វីខ្លះ? ចូរពន្យល់ប្រភេទនីមួយៗ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12208,12 +12363,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2015-4000-8000-000000000005', 'ផ្លូវថ្នល់ចែកជា ៤ ប្រភេទ៖ ផ្លូវជាតិ ផ្លូវខេត្ត ផ្លូវលំ (ផ្លូវជនបទ) និងផ្លូវរុក្ខាបាល', null, null, null, '[{"content":"ផ្លូវជាតិ៖ សាងសង់ និងថែរក្សាដោយថវិកាជាតិ ចេញពីរាជធានីភ្នំពេញទៅកាន់ខេត្តនានា។"},{"content":"ផ្លូវខេត្ត៖ ផ្លូវដែលកាត់ផ្លូវជាតិ ឬចេញពីទីប្រជុំជន ក្រុងមួយទៅមួយទៀត សាងសង់ និងថែរក្សាដោយថវិកាខេត្ត។"},{"content":"ផ្លូវលំ៖ ផ្លូវតូចៗ គ្មានក្រាលថ្ម (ក្រាលគ្រួសក្រហម) នៅតំបន់ជនបទ កសាងដោយរដ្ឋអំណាចមូលដ្ឋាន ប្រជាជន និងអង្គការក្រៅរដ្ឋាភិបាល ឬសប្បុរសជន។"},{"content":"ផ្លូវរុក្ខាបាល៖ កសាង និងថែរក្សាដោយក្រសួងកសិកម្ម រុក្ខាប្រមាញ់ និងនេសាទ សម្រាប់ដឹកផលិតផលព្រៃឈើ ថែរក្សាព្រៃ និងធ្វើចរាចរធម្មតា។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2015-4000-8000-000000000006', 'kh-grade12-social-geography-past-papers', null, 2015, 'open', 'អត្រាចូលរួមសកម្មភាពសេដ្ឋកិច្ចនៅតំបន់ជនបទខ្ពស់ជាងនៅទីប្រជុំជន។ ចូរពន្យល់ពីមូលហេតុ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2015-4000-8000-000000000000', 'bacc2090-2015-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2015-4000-8000-000000000006', 'អត្រាចូលរួមសកម្មភាពសេដ្ឋកិច្ចនៅជនបទខ្ពស់ជាងនៅទីប្រជុំជន ព្រោះកសិកម្មត្រូវការកម្លាំងពលកម្មច្រើន ហើយមនុស្សស្ទើរគ្រប់វ័យ (ក្មេង ចាស់ ស្ត្រី) ចូលរួមធ្វើស្រែចម្ការ ចំណែកនៅទីប្រជុំជន អ្នកសិក្សាច្រើន និងការងារត្រូវការជំនាញ', null, null, null, '[{"content":"ការចូលរួមកម្លាំងពលកម្មក្នុងការងារស្រែចម្ការមានកម្រិតខ្ពស់។"},{"content":"នៅទីប្រជុំជន មនុស្សភាគច្រើននៅរៀនយូរ ហើយការងារត្រូវការជំនាញ ដូច្នេះសមាមាត្រអ្នកចូលរួមទាបជាង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2090-2014-4200-8000-000000000000', 'kh-grade12-social-geography', 2014, 'BacII 2014, second sitting: Geography (social science track)', 'វិញ្ញាសាភូមិវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12227,12 +12392,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2014-4200-8000-000000000000', 'bacc2090-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2014-4200-8000-000000000001', 'វិសមភាពចំពោះការអប់រំ ទាក់ទងនឹងភេទ និងទីកន្លែងរស់នៅ (ទីប្រជុំជន និងជនបទ)', null, null, null, '[{"content":"តាមភេទ៖ ចាប់ពីមធ្យមសិក្សាឡើងទៅ សិស្សប្រុសច្រើនជាងសិស្សស្រី ព្រោះស្រីជួយការងារផ្ទះ រៀបការឆាប់ ឬត្រូវធ្វើការជួយគ្រួសារ។"},{"content":"ទីប្រជុំជន៖ មាតាបិតាយល់ពីតម្លៃការសិក្សា ជីវភាពធូរធារ សាលាគ្រប់កម្រិត សម្ភារៈសម្បូរ និងសុវត្ថិភាពក្នុងការធ្វើដំណើរ។"},{"content":"ជនបទ៖ ជីវភាពក្រីក្រ សាលានៅឆ្ងាយ ខ្វះមធ្យោបាយធ្វើដំណើរ អសន្តិសុខ មាតាបិតាយល់ដឹងតិច និងការផ្លាស់ទីលំនៅ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4200-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'កំណើននគរូបនីយកម្មមានកម្រិតខ្ពស់នៅកម្ពុជា។ ចូររៀបរាប់ពីកត្តាដែលនាំឲ្យមានកំណើននេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4200-8000-000000000000', 'bacc2090-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2014-4200-8000-000000000002', 'កំណើននគរូបនីយកម្មខ្ពស់នៅកម្ពុជា បណ្តាលមកពីកំណើនប្រជាជន ការកើនតម្រូវការសេវាសាធារណៈ ស្ថិរភាពនយោបាយ និងសន្តិសុខសង្គម គោលនយោបាយរៀបចំទីក្រុង និងនយោបាយដីធ្លី ព្រមទាំងការងារនៅទីក្រុង', null, null, null, '[{"content":"ប្រជាជនពីជនបទមករកការងារនៅរោងចក្រ សំណង់ និងសេវាកម្មក្នុងទីក្រុង។"},{"content":"ទីក្រុងមានសេវាអប់រំ សុខាភិបាល និងហេដ្ឋារចនាសម្ព័ន្ធល្អជាង។"},{"content":"សន្តិភាព និងស្ថិរភាពតាំងពីទសវត្ស ១៩៩០ ជំរុញការវិនិយោគ និងការសាងសង់ទីក្រុង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4200-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'ចូររៀបរាប់អំពីទីផ្សារសំខាន់ៗរបស់កម្ពុជា។ តើទីផ្សារណាដែលមានបរិមាណទឹកប្រាក់ច្រើនជាងគេ? ហេតុអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12241,12 +12416,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2014-4200-8000-000000000000', 'bacc2090-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2014-4200-8000-000000000003', 'ទីផ្សារសំខាន់ៗរបស់កម្ពុជា៖ ទ្វីបអាមេរិក (សហរដ្ឋអាមេរិក) សហគមន៍អឺរ៉ុប ទ្វីបអាហ្វ្រិក ទ្វីបអាស៊ី និងអូសេអានី (រួមទាំងវៀតណាម)។ ទីផ្សារសហរដ្ឋអាមេរិក មានទឹកប្រាក់ច្រើនជាងគេ ដោយសារការអនុគ្រោះពន្ធនាំចូល និងកម្ពុជាជាសមាជិក WTO (តាមទិន្នន័យសៀវភៅ)', null, null, null, '[{"content":"ផលិតផលនាំចេញធំៗ៖ សម្លៀកបំពាក់ ស្បែកជើង អង្ករ កៅស៊ូ។"},{"content":"ចំណាំ៖ តួលេខនេះតាមសៀវភៅសិក្សា; ចំណែកទីផ្សារអាចប្រែប្រួលតាមឆ្នាំ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4200-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'តើបណ្តាញគមនាគមន៍នៅប្រទេសកម្ពុជាមានប៉ុន្មានប្រភេទ? អ្វីខ្លះ? អភិវឌ្ឍស្ពាន ថ្នល់ គឺកាត់បន្ថយភាពក្រីក្ររបស់ប្រជាជន។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4200-8000-000000000000', 'bacc2090-2014-4200-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2014-4200-8000-000000000004', 'បណ្តាញគមនាគមន៍នៅកម្ពុជាមានបីប្រភេទ៖ ផ្លូវគោក (ផ្លូវថ្នល់ និងផ្លូវដែក) ផ្លូវទឹក និងផ្លូវអាកាស', null, null, null, '[{"content":"ការអភិវឌ្ឍផ្លូវថ្នល់កាត់បន្ថយភាពក្រីក្រ ព្រោះវាជួយ៖ កសិកម្មដឹកកសិផល ឧស្សាហកម្មដឹកវត្ថុធាតុដើម និងផលិតផល ពាណិជ្ជកម្មនាំចេញ-នាំចូល ទេសចរណ៍ដឹកភ្ញៀវ និងសុខាភិបាលដឹកអ្នកជំងឺទាន់ពេល។"},{"content":"ដូច្នេះ ផ្លូវជួយគ្រប់វិស័យឲ្យប្រជាជនមានការងារ ប្រាក់ចំណូល និងជីវភាពប្រសើរ គឺកាត់បន្ថយភាពក្រីក្រ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000000', 'kh-grade12-social-geography', 2014, 'BacII 2014, first sitting: Geography (social science track)', 'វិញ្ញាសាភូមិវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12260,12 +12445,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2014-4100-8000-000000000001', 'ការចេះភាសាបរទេស ជួយខ្លួនឯងក្នុងការទំនាក់ទំនង ការសិក្សា ការស្រាវជ្រាវ ការងារ និងបច្ចេកវិទ្យា ហើយជួយសង្គមជាតិក្នុងការផ្លាស់ប្តូរបទពិសោធន៍ ការផ្សព្វផ្សាយវប្បធម៌ ទេសចរណ៍ និងការអភិវឌ្ឍសេដ្ឋកិច្ច', null, null, null, '[{"content":"ចំពោះខ្លួនឯង៖ ងាយទំនាក់ទំនងជាមួយបរទេស (ទេសចរណ៍ ការងារ) ងាយស្រាវជ្រាវឯកសារបរទេស ងាយរៀនសូត្រ និងពង្រីកចំណេះ ងាយរកការងារ និងចាប់យកបច្ចេកវិទ្យាព័ត៌មាន។"},{"content":"ចំពោះសង្គមជាតិ៖ ងាយផ្លាស់ប្តូរបទពិសោធន៍រវាងប្រទេស មានអ្នកមានចំណេះសម្រាប់អភិវឌ្ឍសង្គម ផ្សព្វផ្សាយអរិយធម៌ខ្មែរ ផ្តល់ទីផ្សារការងារក្នុងតំបន់ និងពិភពលោក ហើយសេដ្ឋកិច្ចរីកចម្រើនលឿន។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000002', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'នៅកម្ពុជាកសិករផលិតស្រូវមានចំនួនច្រើនជាងគេ។ តើមានការងារអ្វីផ្សេងៗទៀត ក្រៅពីការធ្វើស្រូវវស្សា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2014-4100-8000-000000000002', 'ក្រៅពីធ្វើស្រូវវស្សា កសិករកម្ពុជាចិញ្ចឹមសត្វ នេសាទ និងវារីវប្បកម្ម ដាំបន្លែ និងដំណាំរួមផ្សំ លក់ដូរ ធ្វើជាកម្មករ (សំណង់ រោងចក្រ) ឡើងត្នោត សិប្បកម្ម រកអនុផលព្រៃឈើ និងធ្វើចំណាកស្រុករកការងារតាមរដូវ', null, null, null, '[{"content":"ចិញ្ចឹមសត្វ៖ មាន់ ទា គោ ក្របី ជ្រូក។ នេសាទ៖ ចាប់ត្រី និងចិញ្ចឹមត្រី។"},{"content":"សិប្បកម្ម៖ តម្បាញ ចម្លាក់ ក្អមឆ្នាំង ជាងដែក កន្ទេល។ អនុផលព្រៃឈើ៖ ជ័រ វល្លិ ផ្តៅ។"},{"content":"ការងារក្រៅកសិកម្ម៖ ការលក់ដូរ (ជំនួញតូចតាច) កម្មករសំណង់ និងរោងចក្រ និងការធ្វើចំណាកស្រុកតាមរដូវ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000003', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'អភិវឌ្ឍស្ពាន ថ្នល់ គឺកាត់បន្ថយភាពក្រីក្ររបស់ប្រជាជន។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12274,12 +12469,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2014-4100-8000-000000000003', 'ការអភិវឌ្ឍស្ពាន ថ្នល់ កាត់បន្ថយភាពក្រីក្រ ព្រោះវាជួយដឹកជញ្ជូនផលិតផលទៅទីផ្សារ ឧស្សាហកម្ម ពាណិជ្ជកម្ម ទេសចរណ៍ និងសុខាភិបាល ចំណេញពេលវេលា និងថវិកា ហើយបង្កើតការងារ', null, null, null, '[{"content":"កសិកម្ម៖ ដោះដូរកសិផល (ស្រូវ អង្ករ ដំឡូង ពោត ផ្លែឈើ សត្វ) ទៅទីផ្សារបានងាយ និងថ្លៃល្អ។"},{"content":"ឧស្សាហកម្ម និងពាណិជ្ជកម្ម៖ ដឹកវត្ថុធាតុដើម និងផលិតផល (កៅស៊ូ សម្លៀកបំពាក់) ទៅរោងចក្រ និងទីផ្សារក្នុង-ក្រៅប្រទេសទាន់ពេល; នាំចេញ-នាំចូលឆាប់រហ័ស ចំណាយតិច។"},{"content":"គមនាគមន៍ ទេសចរណ៍ សុខាភិបាល៖ ផ្លូវល្អទាក់ទាញទេសចរ ផ្តល់ការងារដឹកជញ្ជូន ហើយជួយដឹកអ្នកជំងឺទៅមន្ទីរពេទ្យទាន់ពេល កាត់បន្ថយគ្រោះថ្នាក់ និងការស្លាប់។"},{"content":"ដូច្នេះ ផ្លូវជួយគ្រប់វិស័យឲ្យប្រជាជនមានការងារ ប្រាក់ចំណូល និងជីវភាពប្រសើរ គឺកាត់បន្ថយភាពក្រីក្រ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000004', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'នៅកម្ពុជាការដាំដុះកៅស៊ូមានការកើនឡើង។ តើដំណាំកៅស៊ូផ្តល់សារៈសំខាន់អ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2014-4100-8000-000000000004', 'ដំណាំកៅស៊ូផ្តល់ជ័រសម្រាប់ឧស្សាហកម្ម និងការនាំចេញ ផ្តល់ការងារច្រើន កាត់បន្ថយការធ្វើចំណាកស្រុក និងការកាប់ព្រៃយកអុស ជួយការពារបរិស្ថាន (សំណឹកដី) ផ្តល់ប្រាក់ចំណូលដល់ជាតិ និងប្រជាជន ហើយបង្កើតគម្របព្រៃ', null, null, null, '[{"content":"សេដ្ឋកិច្ច៖ ជ័រកៅស៊ូជាផលិតផលនាំចេញសំខាន់; ឈើកៅស៊ូចាស់ប្រើធ្វើគ្រឿងសង្ហារិម។"},{"content":"សង្គម៖ ការងារកាប់ជ័រ និងថែទាំចម្ការ បង្កើនចំណូលជនបទ។"},{"content":"បរិស្ថាន៖ គម្របដើមឈើជួយការពារសំណឹកដី និងជំនួសការបាត់បង់ព្រៃមួយផ្នែក។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000005', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'ចូររៀបរាប់ពីសារៈសំខាន់នៃការអនុវត្តនយោបាយបែងចែកដីធ្លីនៅកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -12288,12 +12493,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2014-4100-8000-000000000005', 'នយោបាយបែងចែកដីធ្លី ធ្វើឲ្យប្រជាជនមានកម្មសិទ្ធិស្របច្បាប់ ងាយធ្វើអាជីវកម្ម កសិកម្ម និងឧស្សាហកម្ម ចូលរួមកាត់បន្ថយភាពក្រីក្រ ប្រើកម្លាំងពលកម្មបានប្រសិទ្ធភាព កាត់បន្ថយវិវាទដីធ្លី និងបន្ទុកតុលាការ និងគម្លាតរវាងអ្នកមានដី និងអ្នកគ្មានដី', null, null, null, '[{"content":"ប្រជាជនមានដីសង់លំនៅ និងធ្វើអាជីវកម្ម; ការចុះបញ្ជីដីធ្លីការពារកម្មសិទ្ធិ។"},{"content":"កាត់បន្ថយវិវាទដីធ្លី បន្ទុករដ្ឋបាល និងតុលាការ ហើយពង្រឹងទំនាក់ទំនងសង្គមនៅមូលដ្ឋាន។"},{"content":"ធ្វើឲ្យសេដ្ឋកិច្ចជាតិរីកចម្រើន ហើយកាត់បន្ថយការធ្វើចំណាកស្រុក។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2090-2014-4100-8000-000000000006', 'kh-grade12-social-geography-past-papers', null, 2014, 'open', 'ហេតុអ្វីបានជាគេថា វិស័យទេសចរណ៍ជាឧស្សាហកម្មគ្មានផ្សែង?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track geography, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2090-2014-4100-8000-000000000000', 'bacc2090-2014-4100-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2090-2014-4100-8000-000000000006', 'ទេសចរណ៍ត្រូវហៅថា «ឧស្សាហកម្មគ្មានផ្សែង» ព្រោះវាបង្កើតការងារ និងប្រាក់ចំណូលច្រើនដូចឧស្សាហកម្ម ប៉ុន្តែមិនមានរោងចក្របញ្ចេញផ្សែងបំពុលបរិស្ថានទេ', null, null, null, '[{"content":"ការងារទេសចរណ៍៖ សណ្ឋាគារ ផ្ទះសំណាក់ ផ្ទះសំណាក់ប្រជាពលរដ្ឋតាមមូលដ្ឋាន ភោជនីយដ្ឋាន ការលក់វត្ថុអនុស្សាវរីយ៍ មគ្គុទ្ទេសក៍ មធ្យោបាយដឹកជញ្ជូន (ទំនើប រថយន្ត កង់៣ ម៉ូតូឌុប ទូក និងបុរាណ រទេះគោ រទេះសេះ ដំរី)។"},{"content":"វាជំរុញការងារកសិកម្ម (ផ្គត់ផ្គង់ភោជនីយដ្ឋាន) និងសិប្បកម្ម ដូច្នេះប្រជាជនមានការងារ និងប្រាក់ចំណូល ដូចវិស័យឧស្សាហកម្មដែរ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 commit;
 
 -- kh-grade12-social-history.json
