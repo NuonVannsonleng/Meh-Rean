@@ -133,7 +133,12 @@ interface PastPaperSeedQuestion {
   content: string;
   /** Figures cropped from the copy, in public/past-papers/, with a description. */
   images?: { file: string; alt: string }[];
+  /** An AI-written answer key: always shown as AI-generated and unchecked. */
+  ai?: { answer: string; steps: string[] };
 }
+
+/** Who wrote the AI answer keys, shown with every one. */
+export const AI_ANSWER_SOURCE = "Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.";
 
 /** Real BacII papers (src/data/past-papers/*.json), typed from the copies named in `copies`. */
 export interface PastPaperSeed {
@@ -212,8 +217,10 @@ export function buildPastPapers(seed: PastPaperSeed, chapters: { id: string; sub
       if (item.points !== undefined && !(item.points > 0 && item.points <= 200)) problems.push(`${label} Q${index + 1}: points`);
       const images = (item.images ?? []).map(({ file, alt }) => ({ path: `past-papers/${file}`, alt: alt.trim(), url: bundledImageUrl(`past-papers/${file}`) }));
       if (images.length > 6 || images.some((image) => !BUNDLED_IMAGE.test(image.path) || !image.alt || image.alt.length > 300)) problems.push(`${label} Q${index + 1}: images`);
+      if (item.ai && (!item.ai.answer.trim() || item.ai.answer.length > 5000 || item.ai.steps.length > 40 || item.ai.steps.some((step) => !step.trim() || step.length > 5000))) problems.push(`${label} Q${index + 1}: AI answer`);
+      const questionId = `${id.slice(0, -2)}${String(index + 1).padStart(2, "0")}`;
       const question: Question = {
-        id: `${id.slice(0, -2)}${String(index + 1).padStart(2, "0")}`,
+        id: questionId,
         subjectId: seed.subjectId,
         chapterId,
         topicId: null,
@@ -230,7 +237,21 @@ export function buildPastPapers(seed: PastPaperSeed, chapters: { id: string; sub
         verifiedAt: null,
         createdAt: SEEDED_AT,
         updatedAt: SEEDED_AT,
-        solution: null,
+        solution: item.ai
+          ? {
+              questionId,
+              answer: item.ai.answer.trim(),
+              correctChoice: null,
+              numericAnswer: null,
+              numericTolerance: null,
+              steps: item.ai.steps.map((content) => ({ content: content.trim() })),
+              origin: "ai-generated",
+              source: AI_ANSWER_SOURCE,
+              verification: "needs-review",
+              verifiedAt: null,
+              updatedAt: SEEDED_AT,
+            }
+          : null,
       };
       return { position: index + 1, points: item.points ?? null, question };
     });

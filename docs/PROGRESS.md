@@ -461,6 +461,19 @@ timing only in database functions, never in the browser.
   small and used); Playwright 14/14 browser-only and online (the clock stays
   in view while scrolling, zoom, answers hidden during the exam, both answer
   views, the view remembered, 320–375px); all 37 suites; lint, build.
+- **2026-10-21 — AI answer key, part 1: science-track mathematics
+  2014–2025.** 81 worked answers (final answer plus steps, Khmer with LaTeX),
+  written by AI (Claude) and stored as `question_solutions` with origin
+  `ai-generated`, `needs-review`, so the existing "AI-generated, may contain
+  mistakes" warning shows with each. Every numeric result (limits,
+  integrals, probabilities, complex numbers, vectors, differential
+  equations, tangents) was checked with sympy before it was written. The
+  seed updates an AI answer on rerun but never one a teacher has written or
+  checked (tested); the browser-only store refreshes stored past-paper
+  questions the same way. Answers stay hidden during a running mock exam
+  as before. Tests: `test:past-papers` 11/11 (answers labelled, every
+  formula parses, the teacher-answer rule); Playwright 14/14 both versions;
+  all 37 suites; lint, build.
 
 ## Blockers and things that need a person
 

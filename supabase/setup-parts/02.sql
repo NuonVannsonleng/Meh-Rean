@@ -978,6 +978,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2025-4000-8000-000000000001', 'ក. $3$  ខ. $4$  គ. $-\dfrac14$  ឃ. $0$', null, null, null, '[{"content":"ក. $\\sqrt{0}+3=3$ (ពី $x\\to1^+$)។"},{"content":"ខ. $\\dfrac{e^{4x}-1}{e^x-1}=\\dfrac{e^{4x}-1}{4x}\\cdot\\dfrac{x}{e^x-1}\\cdot4\\to4$។"},{"content":"គ. $\\dfrac{2-\\sqrt x}{(\\sqrt x-2)(\\sqrt x+2)}=-\\dfrac1{\\sqrt x+2}\\to-\\dfrac14$។"},{"content":"ឃ. $\\dfrac{0}{1+1}=0$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2025-4000-8000-000000000002', 'kh-grade12-science-mathematics-probability', null, 2025, 'open', 'ក្នុងប្រអប់មួយមានឃ្លីទាំងអស់ចំនួន $4n$ ដែលក្នុងនោះមានកូនឃ្លីចំនួន $2n+1$ មានពណ៌លឿង និង $2n-1$ មានពណ៌បៃតង។ គេចាប់យកកូនឃ្លីពីរព្រមគ្នាពីក្នុងប្រអប់ដោយចៃដន្យ។ ក្នុងសំណួរនេះយើងកំណត់យក $n=10$។ គណនាប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 $A$៖ កូនឃ្លីទាំងពីរដែលចាប់បានមានពណ៌ខុសគ្នា។
@@ -988,12 +993,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2025-4000-8000-000000000002', '$P(A)=\dfrac{133}{260}$, $P(B)=\dfrac{57}{260}$, $P(C)=\dfrac{127}{260}$', null, null, null, '[{"content":"$n=10$៖ ឃ្លី $40$ (លឿង $21$, បៃតង $19$) ⇒ $n(S)=C_{40}^2=780$។"},{"content":"$A$៖ $21\\cdot19=399$ ⇒ $\\dfrac{399}{780}=\\dfrac{133}{260}$។"},{"content":"$B$៖ $C_{19}^2=171$ ⇒ $\\dfrac{171}{780}=\\dfrac{57}{260}$។"},{"content":"$C$៖ $C_{21}^2+C_{19}^2=210+171=381$ ⇒ $\\dfrac{381}{780}=\\dfrac{127}{260}$ (ឬ $1-P(A)$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2025-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2025, 'open', 'គេមានចំនួនកុំផ្លិច $z_1=\sqrt{3}-i$; $z_2=2(1-i)$ និង $Z=\dfrac{z_1^7}{z_2^6}$។ រកម៉ូឌុល និងអាគុយម៉ង់នៃ $z_1$, $z_2$ និង $Z$ រួចសរសេរ $z_1$, $z_2$ និង $Z$ ជាទម្រង់ត្រីកោណមាត្រ។ សរសេរ $Z$ ជាទម្រង់ពីជគណិត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2025-4000-8000-000000000003', '$z_1=2\left(\cos\frac{\pi}{6}-i\sin\frac{\pi}{6}\right)$, $z_2=2\sqrt2\left(\cos\frac{\pi}{4}-i\sin\frac{\pi}{4}\right)$, $Z=\dfrac14\left(\cos\frac{\pi}{3}+i\sin\frac{\pi}{3}\right)=\dfrac18+\dfrac{\sqrt3}{8}i$', null, null, null, '[{"content":"$|z_1|=2$, $\\arg z_1=-\\frac{\\pi}{6}$; $|z_2|=2\\sqrt2$, $\\arg z_2=-\\frac{\\pi}{4}$។"},{"content":"$|Z|=\\dfrac{2^7}{(2\\sqrt2)^6}=\\dfrac{128}{512}=\\dfrac14$; $\\arg Z=7\\left(-\\frac{\\pi}{6}\\right)-6\\left(-\\frac{\\pi}{4}\\right)=\\frac{\\pi}{3}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2025-4000-8000-000000000004', 'kh-grade12-science-mathematics-integrals', null, 2025, 'open', 'គណនាអាំងតេក្រាល $\displaystyle I=\int_0^2\left(x^2+2-x^3\right)dx$។ គណនាអាំងតេក្រាល $\displaystyle J_1=\int_0^1\frac{x\,dx}{1+x^2}$។ គេមាន $\displaystyle J_2=\int_0^1\frac{x^3}{1+x^2}dx$។ គណនា $J_1+J_2$ និងទាញយកតម្លៃនៃ $J_2$។ គណនាអាំងតេក្រាល $\displaystyle K=\int_0^{\frac{\pi}{2}}\left(\sin^2x\cos^4x+\sin^4x\cos^2x\right)dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1002,6 +1017,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2025-4000-8000-000000000004', '$I=\dfrac83$, $J_1=\dfrac{\ln2}{2}$, $J_1+J_2=\dfrac12$, $J_2=\dfrac12-\dfrac{\ln2}{2}$, $K=\dfrac{\pi}{16}$', null, null, null, '[{"content":"$I=\\left[\\dfrac{x^3}{3}+2x-\\dfrac{x^4}{4}\\right]_0^2=\\dfrac83+4-4=\\dfrac83$។"},{"content":"$J_1=\\dfrac12\\left[\\ln(1+x^2)\\right]_0^1=\\dfrac{\\ln2}{2}$; $J_1+J_2=\\int_0^1\\dfrac{x(1+x^2)}{1+x^2}dx=\\dfrac12$។"},{"content":"$\\sin^2x\\cos^4x+\\sin^4x\\cos^2x=\\sin^2x\\cos^2x=\\dfrac{\\sin^22x}{4}=\\dfrac{1-\\cos4x}{8}$ ⇒ $K=\\left[\\dfrac x8-\\dfrac{\\sin4x}{32}\\right]_0^{\\pi/2}=\\dfrac{\\pi}{16}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2025-4000-8000-000000000005', 'kh-grade12-science-mathematics-differential-equations', null, 2025, 'open', 'ក. ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''=3y-2y''$។
 ខ. រកចម្លើយពិសេសមួយនៃសមីការឌីផេរ៉ង់ស្យែល $(E)$ ដែល $y(0)=1$ និង $y''(1)=e$។ ($e$ ជាចំនួនពិតដែល $\ln e=1$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1009,6 +1029,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000005', 5, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2025-4000-8000-000000000005', '$y=Ae^x+Be^{-3x}$; ចម្លើយពិសេស $y=e^x$', null, null, null, '[{"content":"$y''''+2y''-3y=0$ ⇒ $r=1$, $r=-3$។"},{"content":"$A+B=1$, $Ae-3Be^{-3}=e$ ⇒ $A=1$, $B=0$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2025-4000-8000-000000000006', 'kh-grade12-science-mathematics-vectors-space', null, 2025, 'open', 'A. ក្នុងលំហប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $A(1,-2,0)$, $B(-2,0,-1)$, $C(-2,-1,2)$, $D(-2,1,-2)$, $E(2,5,-2)$ និង $F(-1,0,-2)$។
@@ -1019,6 +1044,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000006', 6, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2025-4000-8000-000000000006', '$\overrightarrow{AC}=(-3,1,2)$, $\overrightarrow{AE}=(1,7,-2)$, $\overrightarrow{BD}=(0,1,-1)$, $\overrightarrow{BF}=(1,0,-1)$, $\overrightarrow{DF}=(1,-1,0)$; ប៉ារ៉ាបូល $y^2=8x$, $x_1=8$', null, null, null, '[{"content":"$\\overrightarrow{AC}\\cdot\\overrightarrow{AE}=-3+7-4=0$ ⇒ $ACE$ កែងត្រង់ $A$។"},{"content":"$BD=BF=DF=\\sqrt2$ ⇒ $BDF$ សម័ង្ស។"},{"content":"$y^2=4px$ កាត់តាម $(2,4)$៖ $16=8p$ ⇒ $p=2$ ⇒ $y^2=8x$; $64=8x_1$ ⇒ $x_1=8$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2025-4000-8000-000000000007', 'kh-grade12-science-mathematics-function-study', null, 2025, 'open', 'គេមានអនុគមន៍ $g(x)$ ដែល $g(x)=\ln\left(\dfrac{-x-3}{x-3}\right)$។
@@ -1031,6 +1061,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2025-4000-8000-000000000000', 'bacc1010-2025-4000-8000-000000000007', 7, 40)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2025-4000-8000-000000000007', '$D=(-3,3)$, $g$ ជាអនុគមន៍សេស; $\lim_{-3^+}g=-\infty$, $\lim_{3^-}g=+\infty$, $g$ កើន; $(T): y=\dfrac23x$; $g<0$ លើ $(-3,0)$, $g>0$ លើ $(0,3)$; $h''(x)=g(x)+\dfrac{6x}{9-x^2}$; ផ្ទៃ $=10\ln2-6\ln3\approx0.34$', null, null, null, '[{"content":"$\\dfrac{-x-3}{x-3}=\\dfrac{x+3}{3-x}>0$ ⇔ $-3<x<3$; $g(-x)=\\ln\\dfrac{3-x}{3+x}=-g(x)$។"},{"content":"$g''(x)=\\dfrac1{x+3}+\\dfrac1{3-x}=\\dfrac{6}{9-x^2}>0$; $g(0)=0$, $g''(0)=\\dfrac23$។"},{"content":"$\\int g\\,dx=xg(x)-\\int\\dfrac{6x}{9-x^2}dx=xg(x)+3\\ln(9-x^2)$។"},{"content":"$\\int_0^1g(x)dx=\\left(\\ln2+3\\ln8\\right)-3\\ln9=10\\ln2-6\\ln3$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2024-4000-8000-000000000000', 'kh-grade12-science-mathematics', 2024, 'BacII 2024: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២៤ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2024, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: The copy gives no points for each exercise, so none are shown; the paper is out of 125 like other science-track mathematics papers.', 'needs-review')
@@ -1048,6 +1083,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2024-4000-8000-000000000001', 'ក. $8$  ខ. $a=8$  គ. $0$  ឃ. $\dfrac12$', null, null, null, '[{"content":"ក. $2-0+2+4=8$។"},{"content":"ខ. លីមីតស្មើ $\\dfrac8a=1$ ⇒ $a=8$។"},{"content":"គ. $x+\\sqrt{x^2+9}=\\dfrac{-9}{x-\\sqrt{x^2+9}}\\to0$ ព្រោះភាគបែង $\\to-\\infty$។"},{"content":"ឃ. $\\dfrac{\\sin x(1-\\cos x)}{x^3}=\\dfrac{\\sin x}{x}\\cdot\\dfrac{1-\\cos x}{x^2}\\to1\\cdot\\dfrac12$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2024-4000-8000-000000000002', 'kh-grade12-science-mathematics-probability', null, 2024, 'open', 'ក្នុងថ្នាក់រៀននៃសាលាអន្តរជាតិមួយមានសិស្ស $24$ នាក់ ដែលក្នុងនោះមាន $3$ នាក់ជាជនជាតិអង់គ្លេស $2$ នាក់ជាជនជាតិបារាំង $5$ នាក់ជាជនជាតិចិន $4$ នាក់ជាជនជាតិកូរ៉េ និង $10$ នាក់ជាជនជាតិខ្មែរ។ គេជ្រើសរើសសិស្ស $3$ នាក់ដោយចៃដន្យជាតំណាងថ្នាក់ យកទៅប្រកួតក្នុងកម្មវិធីមួយ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ទាំងបី៖
 ក. «សិស្សទាំង $3$ នាក់ សុទ្ធតែជាជនជាតិនៅទ្វីបអឺរ៉ុប»
@@ -1057,6 +1097,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2024-4000-8000-000000000002', 'ក. $\dfrac{5}{1012}$  ខ. $\dfrac{21}{506}$  គ. $\dfrac{225}{1012}$', null, null, null, '[{"content":"$n(S)=C_{24}^3=2024$; អឺរ៉ុប (អង់គ្លេស+បារាំង) $5$ នាក់, អាស៊ីមិនមែនខ្មែរ (ចិន+កូរ៉េ) $9$ នាក់, ខ្មែរ $10$ នាក់។"},{"content":"ក. $C_5^3=10$ ⇒ $\\dfrac{10}{2024}=\\dfrac5{1012}$។"},{"content":"ខ. $C_9^3=84$ ⇒ $\\dfrac{84}{2024}=\\dfrac{21}{506}$។"},{"content":"គ. $10\\cdot5\\cdot9=450$ ⇒ $\\dfrac{450}{2024}=\\dfrac{225}{1012}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2024-4000-8000-000000000003', 'kh-grade12-science-mathematics-integrals', null, 2024, 'open', 'គណនាអាំងតេក្រាល៖
@@ -1069,6 +1114,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2024-4000-8000-000000000003', '$I=e^2+e-\dfrac32$, $J=2\ln11$, $K=\dfrac{255}{16}$, $L=1$', null, null, null, '[{"content":"$I=\\left[x^2+x+\\dfrac{(\\ln x)^2}{2}\\right]_1^e=\\left(e^2+e+\\dfrac12\\right)-2$។"},{"content":"$6x^2+4x=2(3x^2+2x)=2(x^3+x^2-1)''$ ⇒ $J=2\\left[\\ln|x^3+x^2-1|\\right]_1^2=2\\ln11$។"},{"content":"$K=\\left[\\dfrac{(x^2+1)^8}{16}\\right]_0^1=\\dfrac{256-1}{16}$។"},{"content":"$L=\\left[\\sin2x-\\dfrac{\\sin4x}{4}\\right]_0^{\\pi/4}=1$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2024-4000-8000-000000000004', 'kh-grade12-science-mathematics-complex-numbers', null, 2024, 'open', 'នៅក្នុងសំណុំនៃចំនួនកុំផ្លិច $\mathbb{C}$។
 ក. ដោះស្រាយសមីការ $2z-(1+i)\bar{z}=-1+5i$។ គណនា $i^{2025}$។
@@ -1077,6 +1127,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2024-4000-8000-000000000004', 'ក. $z=1+2i$, $i^{2025}=i$  ខ. $z_1+z_2=-1+i=\sqrt2\left(\cos\frac{3\pi}{4}+i\sin\frac{3\pi}{4}\right)$', null, null, null, '[{"content":"តាង $z=a+bi$៖ $2z-(1+i)\\bar z=(a-b)+(3b-a)i=-1+5i$ ⇒ $a-b=-1$, $3b-a=5$ ⇒ $b=2$, $a=1$។"},{"content":"$2025=4\\cdot506+1$ ⇒ $i^{2025}=i$។"},{"content":"$|-1+i|=\\sqrt2$, អាគុយម៉ង់ $\\frac{3\\pi}{4}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2024-4000-8000-000000000005', 'kh-grade12-science-mathematics-differential-equations', null, 2024, 'open', 'គេមានសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''+y=e^{-x}$។
@@ -1088,6 +1143,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2024-4000-8000-000000000005', '$u$ ជាចម្លើយ; $(E'')$៖ $y=Ce^{-x}$; ចម្លើយ $(E)$៖ $y=(x+C)e^{-x}$', null, null, null, '[{"content":"$u''=e^{-x}-xe^{-x}$ ⇒ $u''+u=e^{-x}$។"},{"content":"$(v-u)''+(v-u)=(v''+v)-e^{-x}$ ស្មើ $0$ លុះត្រាតែ $v$ ជាចម្លើយ $(E)$ ⇒ $v=u+Ce^{-x}=(x+C)e^{-x}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2024-4000-8000-000000000006', 'kh-grade12-science-mathematics-vectors-space', null, 2024, 'open', '១. ក្នុងលំហប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $A(2,0,0)$; $B\left(-1,\sqrt{3},0\right)$ និង $C\left(-1,-\sqrt{3},0\right)$។ រកវ៉ិចទ័រ $\overrightarrow{AB}$; $\overrightarrow{AC}$ និង $\overrightarrow{BC}$។ បង្ហាញថាត្រីកោណ $ABC$ ជាត្រីកោណសម័ង្ស និងរកផ្ទៃក្រឡារបស់វា។
 ២. គេឲ្យសមីការ $(2x-3y)^2=6\left(3y^2-2xy-6\right)$។ បង្ហាញថាសមីការនេះជាសមីការអ៊ីពែបូល។ កំណត់កូអរដោនេនៃកំពូល និងកំណុំរបស់អ៊ីពែបូល។ រកសមីការអាស៊ីមតូតនៃអ៊ីពែបូល។ ចូរសង់អ៊ីពែបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2024, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: The copy gives no points for each exercise, so none are shown; the paper is out of 125 like other science-track mathematics papers.', 'needs-review')
@@ -1095,6 +1155,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2024-4000-8000-000000000006', '$\overrightarrow{AB}=(-3,\sqrt3,0)$, $\overrightarrow{AC}=(-3,-\sqrt3,0)$, $\overrightarrow{BC}=(0,-2\sqrt3,0)$, ជ្រុងទាំងបី $2\sqrt3$ ⇒ សម័ង្ស ផ្ទៃ $3\sqrt3$; អ៊ីពែបូល $\dfrac{y^2}{4}-\dfrac{x^2}{9}=1$', null, null, null, '[{"content":"$|\\overrightarrow{AB}|=\\sqrt{9+3}=2\\sqrt3=|\\overrightarrow{AC}|=|\\overrightarrow{BC}|$; ផ្ទៃ $=\\dfrac{\\sqrt3}{4}(2\\sqrt3)^2=3\\sqrt3$។"},{"content":"$4x^2-12xy+9y^2=18y^2-12xy-36$ ⇔ $9y^2-4x^2=36$ ⇔ $\\dfrac{y^2}{4}-\\dfrac{x^2}{9}=1$។"},{"content":"$a=2$, $b=3$, $c=\\sqrt{13}$៖ កំពូល $(0,\\pm2)$, កំណុំ $(0,\\pm\\sqrt{13})$, អាស៊ីមតូត $y=\\pm\\dfrac23x$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2024-4000-8000-000000000007', 'kh-grade12-science-mathematics-function-study', null, 2024, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $(1,+\infty)$ ដោយ $f(x)=\ln(x+1)-\ln(x-1)-x+2$។ គេតាង $(C)$ ក្រាបរបស់វានៅក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -1106,6 +1171,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2024-4000-8000-000000000000', 'bacc1010-2024-4000-8000-000000000007', 7, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2024-4000-8000-000000000007', '$\lim_{1^+}f=+\infty$, $\lim_{+\infty}f=-\infty$; $f$ ចុះ; $(d): y=-x+2$ អាស៊ីមតូតទ្រេត, $(C)$ នៅលើ $(d)$', null, null, null, '[{"content":"$\\ln(x+1)-\\ln(x-1)=\\ln\\dfrac{x+1}{x-1}$ ⇒ $f(x)=2-x+\\ln\\dfrac{x+1}{x-1}$។"},{"content":"$f''(x)=\\dfrac1{x+1}-\\dfrac1{x-1}-1=-\\dfrac{x^2+1}{(x+1)(x-1)}<0$។"},{"content":"$f(x)-(2-x)=\\ln\\dfrac{x+1}{x-1}\\to0^+$ ⇒ $(d)$ ជាអាស៊ីមតូត ហើយ $(C)$ នៅលើ $(d)$; $x=1$ ជាអាស៊ីមតូតឈរ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2023-4000-8000-000000000000', 'kh-grade12-science-mathematics', 2023, 'BacII 2023: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២៣ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2023, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: the copy prints the fourth point as (6, 6, −1) without its letter; it is written here as D, since part ខ uses triangle BCD.', 'needs-review')
@@ -1122,6 +1192,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2023-4000-8000-000000000001', 'ក. $1$  ខ. $1$  គ. $6$', null, null, null, '[{"content":"ក. តាង $t=\\dfrac1x\\to0^+$៖ $\\dfrac{\\ln(1+t)}{t}\\to1$។"},{"content":"ខ. $\\dfrac{(1-\\sin x)(1+\\sin x)}{2(1+\\sin x)}=\\dfrac{1-\\sin x}{2}\\to\\dfrac{1+1}{2}=1$។"},{"content":"គ. $\\dfrac{(x-3)(x^2+3x+9)(\\sqrt{x+6}+3)}{27(x-3)}\\to\\dfrac{27\\cdot6}{27}=6$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2023-4000-8000-000000000002', 'kh-grade12-science-mathematics-integrals', null, 2023, 'open', 'គណនាអាំងតេក្រាល៖
 ក. $\displaystyle I=\int_0^3(x-1)(x+3)\,dx$
@@ -1132,12 +1207,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2023-4000-8000-000000000002', '$I=9$, $J=\dfrac15$, $K=\dfrac32\ln\dfrac32$', null, null, null, '[{"content":"$I=\\int_0^3(x^2+2x-3)dx=\\left[\\dfrac{x^3}{3}+x^2-3x\\right]_0^3=9$។"},{"content":"$J=\\left[\\dfrac{\\sin^5x}{5}\\right]_0^{\\pi/2}=\\dfrac15$។"},{"content":"$K=\\dfrac32\\left[\\ln(2x+1)\\right]_{1/2}^{1}=\\dfrac32(\\ln3-\\ln2)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2023-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2023, 'open', 'ដោះស្រាយក្នុងសំណុំចំនួនកុំផ្លិចសមីការ $z^2+4z+16=0$។ សរសេរចម្លើយទាំងពីរតាងដោយ $z_1$ និង $z_2$ ជាទម្រង់ត្រីកោណមាត្រ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: the copy prints the fourth point as (6, 6, −1) without its letter; it is written here as D, since part ខ uses triangle BCD.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2023-4000-8000-000000000003', '$z_1=-2+2i\sqrt3=4\left(\cos\frac{2\pi}{3}+i\sin\frac{2\pi}{3}\right)$, $z_2=-2-2i\sqrt3=4\left(\cos\frac{2\pi}{3}-i\sin\frac{2\pi}{3}\right)$', null, null, null, '[{"content":"$\\Delta''=4-16=-12=(2i\\sqrt3)^2$ ⇒ $z=-2\\pm2i\\sqrt3$។"},{"content":"ម៉ូឌុល $=\\sqrt{4+12}=4$; $\\cos\\theta=-\\frac12$ ⇒ $\\theta=\\pm\\frac{2\\pi}{3}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2023-4000-8000-000000000004', 'kh-grade12-science-mathematics-probability', null, 2023, 'open', 'អ្នកលក់បន្ទាត់ម្នាក់ គាត់មានបន្ទាត់សំប៉ែតចំនួន $25$ ដែលក្នុងនោះមានបន្ទាត់ $3$ ដែលឆែបចុង។ គេចាប់យកបន្ទាត់មួយក្នុងចំណោម $25$ ដោយចៃដន្យ។
@@ -1148,6 +1233,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2023-4000-8000-000000000004', '១. $P(A)=\dfrac{22}{25}$  ២. យ៉ាងតិច $10$  ៣. $P(B)=\dfrac{77}{100}$', null, null, null, '[{"content":"១. បន្ទាត់ល្អ $22$ ក្នុង $25$។"},{"content":"២. ករណីអាក្រក់បំផុត គាត់ចាប់បានបន្ទាត់ឆែបទាំង $3$ ⇒ ត្រូវទិញ $7+3=10$។"},{"content":"៣. $\\dfrac{C_{22}^2}{C_{25}^2}=\\dfrac{231}{300}=\\dfrac{77}{100}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2023-4000-8000-000000000005', 'kh-grade12-science-mathematics-vectors-space', null, 2023, 'open', '១. ក្នុងលំហប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $A(5,-5,2)$, $B(-1,1,0)$, $C(0,1,2)$ និង $D(6,6,-1)$។
@@ -1161,6 +1251,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2023-4000-8000-000000000005', '$A,B,C$ មិនរួមបន្ទាត់; $BCD$ កែងត្រង់ $C$ ផ្ទៃ $\dfrac{5\sqrt{14}}{2}$; អេលីប $\dfrac{x^2}{4}+\dfrac{y^2}{9}=1$៖ អ័ក្សធំ $6$, អ័ក្សតូច $4$, កំពូល $(0,\pm3)$', null, null, null, '[{"content":"$\\overrightarrow{AB}\\times\\overrightarrow{AC}=(12,10,-6)\\neq\\vec0$។"},{"content":"$\\overrightarrow{CB}=(-1,0,-2)$, $\\overrightarrow{CD}=(6,5,-3)$ ⇒ $\\overrightarrow{CB}\\cdot\\overrightarrow{CD}=-6+0+6=0$; ផ្ទៃ $=\\dfrac12\\sqrt5\\cdot\\sqrt{70}=\\dfrac{5\\sqrt{14}}{2}$។"},{"content":"$12xy+36-9x^2-12xy-4y^2=0$ ⇔ $9x^2+4y^2=36$ ⇔ $\\dfrac{x^2}{4}+\\dfrac{y^2}{9}=1$, $c=\\sqrt5$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2023-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2023, 'open', 'ក. ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $3y''''=9y-6y''$។
 ខ. រកចម្លើយពិសេសមួយរបស់សមីការឌីផេរ៉ង់ស្យែល $(E)$ ដែល $y(0)=1$ និង $y''(1)=e$។ $(\ln e=1)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: the copy prints the fourth point as (6, 6, −1) without its letter; it is written here as D, since part ខ uses triangle BCD.', 'needs-review')
@@ -1168,6 +1263,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2023-4000-8000-000000000006', '$y=Ae^x+Be^{-3x}$; ចម្លើយពិសេស $y=e^x$', null, null, null, '[{"content":"$3y''''+6y''-9y=0$ ⇔ $y''''+2y''-3y=0$ ⇒ $r=1$, $r=-3$។"},{"content":"$A+B=1$, $Ae-3Be^{-3}=e$ ⇒ $A=1$, $B=0$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2023-4000-8000-000000000007', 'kh-grade12-science-mathematics-function-study', null, 2023, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $\mathbb{R}$ ដោយ $f(x)=4-x-2e^{-x}$។ គេតាង $(C)$ ក្រាបរបស់ $f$។
@@ -1185,6 +1285,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2023-4000-8000-000000000000', 'bacc1010-2023-4000-8000-000000000007', 7, 40)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2023-4000-8000-000000000007', '$\lim_{\pm\infty}f=-\infty$; $D: y=-x+4$ អាស៊ីមតូត, $C$ នៅក្រោម $D$; $f$ កើនលើ $(-\infty,\ln2]$ ចុះលើ $[\ln2,+\infty)$, អតិបរមា $3-\ln2$; $T: y=x+2$; $\beta\in[-1,0]$ តែមួយ', null, null, null, '[{"content":"$f(x)-(-x+4)=-2e^{-x}\\to0^-$ ត្រង់ $+\\infty$។"},{"content":"$x\\to-\\infty$៖ $f=\\dfrac{4e^x-xe^x-2}{e^x}$ ភាគយក $\\to-2$ ⇒ $f\\to-\\infty$។"},{"content":"$f''(x)=-1+2e^{-x}=0$ ⇔ $x=\\ln2$; $f(\\ln2)=3-\\ln2$។"},{"content":"$f(0)=2$, $f''(0)=1$ ⇒ $T: y=x+2$។"},{"content":"$f(-1)=5-2e<0<f(0)=2$ ហើយ $f$ កើនលើ $[-1,0]$ ⇒ $\\beta$ តែមួយ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2022-4000-8000-000000000000', 'kh-grade12-science-mathematics', 2022, 'BacII 2022: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2022 (2022-12-05), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VI: one copy prints 40 points and the other none; 10 points is what makes the paper add up to 125.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -1200,6 +1305,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2022-4000-8000-000000000001', 'ក. $1$  ខ. $\dfrac12$  គ. $-\sqrt3$', null, null, null, '[{"content":"ក. $\\dfrac{1+1}{2}=1$។"},{"content":"ខ. $\\dfrac{\\sqrt{x+3}-2}{\\sqrt x-1}=\\dfrac{(x-1)(\\sqrt x+1)}{(x-1)(\\sqrt{x+3}+2)}\\to\\dfrac24=\\dfrac12$។"},{"content":"គ. តាង $t=x-\\frac{\\pi}{3}$៖ $\\dfrac{-\\sqrt3t}{\\sin t}\\to-\\sqrt3$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2022-4000-8000-000000000002', 'kh-grade12-science-mathematics-integrals', null, 2022, 'open', 'គណនាអាំងតេក្រាល៖
 ក. $\displaystyle I=\int_0^1\left(2-x+2x^2\right)dx$
@@ -1210,6 +1320,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2022-4000-8000-000000000002', '$I=\dfrac{13}{6}$, $J=-\dfrac14$, $K=\dfrac38\ln3$', null, null, null, '[{"content":"$I=\\left[2x-\\dfrac{x^2}{2}+\\dfrac{2x^3}{3}\\right]_0^1=\\dfrac{13}{6}$។"},{"content":"$J=\\dfrac12\\left[\\dfrac{\\sin4x}{4}-\\dfrac{\\sin2x}{2}\\right]_0^{\\pi/4}=-\\dfrac14$។"},{"content":"$\\left(\\dfrac x2+\\dfrac14\\right)(2x-1)-\\dfrac34=x^2-1$ ⇒ រូបមន្តពិត។"},{"content":"$K=\\left[\\dfrac{x^2}{4}+\\dfrac x4-\\dfrac38\\ln|2x-1|\\right]_{-1}^0=\\dfrac38\\ln3$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2022-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2022, 'open', 'គេមានចំនួនកុំផ្លិច $z_1=i(3+2i)(2+i)^2$។
 ក. សរសេរ $z_1$ ជាទម្រង់ពីជគណិត រួចរក $\overline{z_1}$ ចំនួនកុំផ្លិចឆ្លាស់នៃ $z_1$។
@@ -1219,6 +1334,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2022-4000-8000-000000000003', '$z_1=-18+i$, $\overline{z_1}=-18-i$; $z_2=1+i=\sqrt2\left(\cos\frac{\pi}{4}+i\sin\frac{\pi}{4}\right)$, $z_2^4=-4$, $z_2^6=-8i$', null, null, null, '[{"content":"$(2+i)^2=3+4i$; $(3+2i)(3+4i)=1+18i$; $i(1+18i)=-18+i$។"},{"content":"$z_2^4=4(\\cos\\pi+i\\sin\\pi)=-4$; $z_2^6=8\\left(\\cos\\frac{3\\pi}{2}+i\\sin\\frac{3\\pi}{2}\\right)=-8i$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2022-4000-8000-000000000004', 'kh-grade12-science-mathematics-probability', null, 2022, 'open', 'ក្នុងមណ្ឌលសុខភាពមួយមានបុគ្គលិកនារី $9$ នាក់ និងបុគ្គលិកបុរស $5$ នាក់។ គេរៀបចំជាក្រុមការងារមួយក្រុមគ្នា $4$ នាក់ដោយចៃដន្យឲ្យចុះធ្វើការតាមភូមិ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 $A$៖ ក្រុមការងារដែលរៀបចំមានបុគ្គលិកទាំង $4$ នាក់សុទ្ធតែនារី។
@@ -1227,6 +1347,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2022-4000-8000-000000000004', '$P(A)=\dfrac{18}{143}$, $P(B)=\dfrac{360}{1001}$', null, null, null, '[{"content":"បុគ្គលិកសរុប $14$ ⇒ $n(S)=C_{14}^4=1001$។"},{"content":"$A$៖ $C_9^4=126$ ⇒ $\\dfrac{126}{1001}=\\dfrac{18}{143}$។"},{"content":"$B$៖ នារី $2$ បុរស $2$៖ $C_9^2C_5^2=36\\cdot10=360$ ⇒ $\\dfrac{360}{1001}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2022-4000-8000-000000000005', 'kh-grade12-science-mathematics-vectors-space', null, 2022, 'open', '១. ក្នុងលំហប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $M(0,1,1)$, $N(1,2,2)$, $P(0,3,-4)$ និង $Q(-2,1,0)$។
@@ -1238,6 +1363,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2022-4000-8000-000000000005', '$MN=\sqrt3$, $NP=\sqrt{38}$, $NQ=\sqrt{14}$, $PQ=2\sqrt6$; $NPQ$ កែងត្រង់ $Q$, ផ្ទៃ $2\sqrt{21}$; ប៉ារ៉ាបូល កំពូល $(2,-2)$ កំណុំ $(0,-2)$ បន្ទាត់ប្រាប់ទិស $x=4$', null, null, null, '[{"content":"$\\overrightarrow{MN}=(1,1,1)$, $\\overrightarrow{NP}=(-1,1,-6)$, $\\overrightarrow{NQ}=(-3,-1,-2)$, $\\overrightarrow{PQ}=(-2,-2,4)$។"},{"content":"$\\overrightarrow{QN}\\cdot\\overrightarrow{QP}=(3)(2)+(1)(2)+(2)(-4)=0$ ⇒ កែងត្រង់ $Q$; ផ្ទៃ $=\\dfrac12\\sqrt{14}\\cdot\\sqrt{24}=2\\sqrt{21}$។"},{"content":"$(y+2)^2=-8(x-2)$៖ $4p=-8$ ⇒ $p=-2$ (បើកទៅឆ្វេង)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2022-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2022, 'open', 'គេមានសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''+y=2(x+1)e^{-x}$។
 ក. បង្ហាញថាអនុគមន៍ $y_0$ កំណត់លើ $\mathbb{R}$ ដោយ $y_0(x)=\left(x^2+2x\right)e^{-x}$ ជាចម្លើយមួយនៃសមីការឌីផេរ៉ង់ស្យែល $(E)$។
@@ -1246,6 +1376,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2022-4000-8000-000000000006', '$y_0$ ជាចម្លើយ; $(E'')$៖ $y=e^{1-x}$', null, null, null, '[{"content":"$y_0''=(2x+2)e^{-x}-(x^2+2x)e^{-x}$ ⇒ $y_0''+y_0=2(x+1)e^{-x}$។"},{"content":"$y''+y=0$ ⇒ $y=Ce^{-x}$; $y(0)=C=e$ ⇒ $y=e\\cdot e^{-x}=e^{1-x}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2022-4000-8000-000000000007', 'kh-grade12-science-mathematics-function-study', null, 2022, 'open', '១. គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=x-\ln(1+x)$។ យើងតាងដោយ $(C)$ ក្រាបរបស់ $f$។
@@ -1258,6 +1393,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2022-4000-8000-000000000000', 'bacc1010-2022-4000-8000-000000000007', 7, 40)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2022-4000-8000-000000000007', '$D=(-1,+\infty)$, $\lim_{-1^+}f=+\infty$, $\lim_{+\infty}f=+\infty$; $f$ ចុះលើ $(-1,0]$ កើនលើ $[0,+\infty)$, $f(x)\ge0$; $g$ ចុះ, $(C)$ នៅលើ $(P)$ លើ $(-1,0)$ និងនៅក្រោមលើ $(0,+\infty)$', null, null, null, '[{"content":"$f''(x)=1-\\dfrac1{1+x}=\\dfrac{x}{1+x}$ ⇒ អប្បបរមា $f(0)=0$ ⇒ $f(x)\\ge0$ លើ $D$។"},{"content":"$x\\to+\\infty$៖ $f(x)=x\\left(1-\\dfrac{\\ln(1+x)}{x}\\right)\\to+\\infty$។"},{"content":"$g''(x)=\\dfrac{x}{1+x}-x=-\\dfrac{x^2}{1+x}\\le0$ ⇒ $g$ ចុះ ហើយ $g(0)=0$ ⇒ $g>0$ លើ $(-1,0)$, $g<0$ លើ $(0,+\\infty)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2021-4000-8000-000000000000', 'kh-grade12-science-mathematics', 2021, 'BacII 2021: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2021 (2021-12-27), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1274,6 +1414,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2021-4000-8000-000000000001', 'ក. $4$  ខ. $-\sqrt3$  គ. $+\infty$', null, null, null, '[{"content":"ក. $\\sqrt{27-11}=\\sqrt{16}=4$។"},{"content":"ខ. តាង $t=x-\\frac{\\pi}{3}$៖ $\\dfrac{\\sqrt3\\sin t}{-t}\\to-\\sqrt3$។"},{"content":"គ. $2x-7-11\\ln x=x\\left(2-\\dfrac7x-11\\dfrac{\\ln x}{x}\\right)\\to+\\infty$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2021-4000-8000-000000000002', 'kh-grade12-science-mathematics-probability', null, 2021, 'open', 'ក្នុងថង់មួយមានឃ្លីពណ៌ក្រហមចំនួន $2$ ឃ្លីពណ៌ខៀវចំនួន $3$ និងឃ្លីពណ៌សចំនួន $4$។ គេចាប់យកឃ្លីចំនួន $3$ ពីក្នុងថង់ដោយចៃដន្យ។ គណនាប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 ក. ឃ្លីទាំង $3$ មានពណ៌ស
@@ -1282,6 +1427,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2021-4000-8000-000000000002', 'ក. $\dfrac1{21}$  ខ. $\dfrac27$', null, null, null, '[{"content":"ឃ្លីសរុប $9$ ⇒ $n(S)=C_9^3=84$។"},{"content":"ក. $C_4^3=4$ ⇒ $\\dfrac4{84}=\\dfrac1{21}$។"},{"content":"ខ. $2\\cdot3\\cdot4=24$ ⇒ $\\dfrac{24}{84}=\\dfrac27$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2021-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2021, 'open', 'ក. គេមានចំនួនកុំផ្លិច $z_1=\sqrt{2}+i\sqrt{2}$។ រក $\overline{z_1}$ ($\overline{z_1}$ ជាចំនួនកុំផ្លិចឆ្លាស់នៃ $z_1$)។
@@ -1292,6 +1442,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2021-4000-8000-000000000003', '$\overline{z_1}=\sqrt2-i\sqrt2$; $|z_1|=2$, អាគុយម៉ង់ $\frac{\pi}{4}$, $z_1=2\left(\cos\frac{\pi}{4}+i\sin\frac{\pi}{4}\right)$; $\overline{z_1}$ ជាឫស', null, null, null, '[{"content":"សមីការ ⇔ $z^2-2\\sqrt2z+4=0$ ⇒ $\\Delta''=2-4=-2$ ⇒ $z=\\sqrt2\\pm i\\sqrt2$។"},{"content":"ដូចនេះ $\\overline{z_1}=\\sqrt2-i\\sqrt2$ ជាឫសមួយ (ផ្ទៀងផ្ទាត់ដោយជំនួសក៏បាន)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2021-4000-8000-000000000004', 'kh-grade12-science-mathematics-integrals', null, 2021, 'open', 'គណនាអាំងតេក្រាល៖
 $\displaystyle I=\int_0^1\left(3x^2-2x+1\right)dx$; $\displaystyle J=\int_0^1\left(\frac{e^x}{e^x+1}\right)dx$; $\displaystyle K=\int_{\frac{\pi}{4}}^{\frac{\pi}{2}}\left(\sin^3x\cos x\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1299,6 +1454,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2021-4000-8000-000000000004', '$I=1$, $J=\ln\dfrac{e+1}{2}$, $K=\dfrac{3}{16}$', null, null, null, '[{"content":"$I=\\left[x^3-x^2+x\\right]_0^1=1$។"},{"content":"$J=\\left[\\ln(e^x+1)\\right]_0^1=\\ln(e+1)-\\ln2$។"},{"content":"$K=\\left[\\dfrac{\\sin^4x}{4}\\right]_{\\pi/4}^{\\pi/2}=\\dfrac14-\\dfrac1{16}=\\dfrac3{16}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2021-4000-8000-000000000005', 'kh-grade12-science-mathematics-vectors-space', null, 2021, 'open', '១. ក្នុងលំហប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $A(0,-2,0)$, $B(-4,1,2)$, $C(0,3,7)$ និង $D(4,0,5)$។ រកវ៉ិចទ័រ $\overrightarrow{AB}$, $\overrightarrow{BC}$, $\overrightarrow{CD}$ និង $\overrightarrow{AD}$ រួចបង្ហាញថាចតុកោណ $ABCD$ ជាចតុកោណកែង តែមិនមែនជាការេ។
@@ -1308,6 +1468,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2021-4000-8000-000000000005', '$\overrightarrow{AB}=(-4,3,2)$, $\overrightarrow{BC}=(4,2,5)$, $\overrightarrow{CD}=(4,-3,-2)$, $\overrightarrow{AD}=(4,2,5)$ ⇒ ចតុកោណកែង មិនមែនការេ; អេលីប $\dfrac{x^2}{9}+\dfrac{y^2}{25}=1$', null, null, null, '[{"content":"$\\overrightarrow{BC}=\\overrightarrow{AD}$ ⇒ ប្រលេឡូក្រាម; $\\overrightarrow{AB}\\cdot\\overrightarrow{BC}=-16+6+10=0$ ⇒ មុំកែង ⇒ ចតុកោណកែង។"},{"content":"$AB=\\sqrt{29}\\neq BC=\\sqrt{45}$ ⇒ មិនមែនការេ។"},{"content":"$9y^2=225-25x^2$ ⇔ $\\dfrac{x^2}{9}+\\dfrac{y^2}{25}=1$៖ អ័ក្សធំ $10$ (ឈរ), អ័ក្សតូច $6$, កំពូល $(0,\\pm5)$, $c=4$ កំណុំ $(0,\\pm4)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2021-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2021, 'open', 'គេមានសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''=-4y$។
 ក. បង្ហាញថា $y=\lambda\cos2x+\mu\sin2x$ ដែល $\lambda$, $\mu$ ជាចំនួនពិត ជាចម្លើយរបស់សមីការឌីផេរ៉ង់ស្យែល $(E)$។
@@ -1316,6 +1481,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2021-4000-8000-000000000006', '$y=-\dfrac14\cos2x$', null, null, null, '[{"content":"$y''''=-4\\lambda\\cos2x-4\\mu\\sin2x=-4y$ ⇒ ជាចម្លើយ។"},{"content":"$y''''(0)=-4\\lambda=1$ ⇒ $\\lambda=-\\frac14$; $y''(0)=2\\mu=0$ ⇒ $\\mu=0$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2021-4000-8000-000000000007', 'kh-grade12-science-mathematics-function-study', null, 2021, 'open', 'គេមានអនុគមន៍ $f$ ដែល $f(x)=x-2+\dfrac{2(x+1)}{e^x}$។ យើងតាង $(C)$ ក្រាបរបស់អនុគមន៍ $f$ នៅក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -1327,6 +1497,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2021-4000-8000-000000000000', 'bacc1010-2021-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2021-4000-8000-000000000007', '$D=\mathbb{R}$, $\lim_{+\infty}f=+\infty$, $\lim_{-\infty}f=-\infty$; $D: y=x-2$ អាស៊ីមតូតត្រង់ $+\infty$; $f$ កើនលើ $\mathbb{R}$; $\Delta: y=x$ ស្របនឹង $D$', null, null, null, '[{"content":"$f(x)-(x-2)=\\dfrac{2(x+1)}{e^x}\\to0$ ត្រង់ $+\\infty$; សញ្ញាដូច $x+1$៖ $C$ នៅលើ $D$ កាលណា $x>-1$ នៅក្រោមកាលណា $x<-1$ ប្រសព្វត្រង់ $(-1,-3)$។"},{"content":"$f''(x)=1+2e^{-x}-2(x+1)e^{-x}=1-2xe^{-x}=\\dfrac{e^x-2x}{e^x}>0$។"},{"content":"$f(0)=0$, $f''(0)=1$ ⇒ $\\Delta: y=x$ មានមេគុណប្រាប់ទិស $1$ ដូច $D$ ⇒ ស្របគ្នា។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2019-4000-8000-000000000000', 'kh-grade12-science-mathematics', 2019, 'BacII 2019: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2019 (2019-08-19), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1343,6 +1518,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2019-4000-8000-000000000001', 'ក. $0$  ខ. $-2$  គ. $-\dfrac14$', null, null, null, '[{"content":"ក. $\\sqrt{x^2+2x+3}-(x+1)=\\dfrac{2}{\\sqrt{x^2+2x+3}+x+1}\\to0$។"},{"content":"ខ. $1-\\cos^2x=\\sin^2x$ ⇒ $\\dfrac{-2x\\sin x}{\\sin^2x}=\\dfrac{-2x}{\\sin x}\\to-2$។"},{"content":"គ. $\\sin^4x-1=(\\sin x-1)(\\sin x+1)(\\sin^2x+1)$ ⇒ $\\dfrac{1}{(\\sin x-1)(\\sin^2x+1)}\\to\\dfrac{1}{(-2)(2)}=-\\dfrac14$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2019-4000-8000-000000000002', 'kh-grade12-science-mathematics-probability', null, 2019, 'open', 'ក្នុងថង់មួយមានប៊ូល $16$ ដែលសរសេរលេខពី $1$ ដល់ $16$។ គេចាប់យកប៊ូល $3$ ចេញពីថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍៖
 $A$៖ «គេចាប់បានប៊ូលទាំងបីសុទ្ធតែមានលេខចែកដាច់នឹង $4$»
@@ -1353,6 +1533,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2019-4000-8000-000000000002', '$P(A)=\dfrac1{140}$, $P(B)=\dfrac{143}{280}$, $P(C)=\dfrac{33}{70}$', null, null, null, '[{"content":"$n(S)=C_{16}^3=560$។"},{"content":"$A$៖ $4,8,12,16$ ⇒ $C_4^3=4$ ⇒ $\\dfrac{4}{560}=\\dfrac1{140}$។"},{"content":"$B$៖ ពហុគុណ $5$ គឺ $5,10,15$ ⇒ នៅសល់ $13$ ⇒ $C_{13}^3=286$ ⇒ $\\dfrac{286}{560}=\\dfrac{143}{280}$។"},{"content":"$C$៖ $C_4^1C_{12}^2=4\\cdot66=264$ ⇒ $\\dfrac{264}{560}=\\dfrac{33}{70}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2019-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2019, 'open', '១. ដោះស្រាយនៅក្នុងសំណុំចំនួនកុំផ្លិច $\mathbb{C}$ សមីការ $z^2-8z+64=0$។
 ២. គេមានចំនួនកុំផ្លិច $z_1=4+4i\sqrt{3}$ និង $z_2=4-4i\sqrt{3}$។ សរសេរ $\left(2z_1+\overline{z_2}\right)$ ជាទម្រង់ត្រីកោណមាត្រ និងគណនា $\left(2z_1+\overline{z_2}\right)^3$។ (យើងតាងដោយ $\overline{z_2}$ ជាកុំផ្លិចឆ្លាស់នៃ $z_2$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1361,6 +1546,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2019-4000-8000-000000000003', '$z=4\pm4i\sqrt3$; $2z_1+\overline{z_2}=12+12i\sqrt3=24\left(\cos\frac{\pi}{3}+i\sin\frac{\pi}{3}\right)$, $\left(2z_1+\overline{z_2}\right)^3=-13824$', null, null, null, '[{"content":"$\\Delta''=16-64=-48=(4i\\sqrt3)^2$ ⇒ $z=4\\pm4i\\sqrt3$។"},{"content":"$\\overline{z_2}=4+4i\\sqrt3$ ⇒ $2z_1+\\overline{z_2}=12+12i\\sqrt3$, ម៉ូឌុល $=12\\cdot2=24$, អាគុយម៉ង់ $\\frac{\\pi}{3}$។"},{"content":"de Moivre៖ $24^3(\\cos\\pi+i\\sin\\pi)=-13824$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2019-4000-8000-000000000004', 'kh-grade12-science-mathematics-integrals', null, 2019, 'open', 'គណនាអាំងតេក្រាល៖
 $\displaystyle I=\int_0^1\left(x^2+1\right)^2dx$; $\displaystyle J=\int_0^{\ln6}\left(e^x-1\right)dx$; $\displaystyle K=\int_0^{\frac{\pi}{4}}\left[\sin\left(3x+\frac{\pi}{4}\right)+\sin^4x\cos x\right]dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1368,6 +1558,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2019-4000-8000-000000000004', '$I=\dfrac{28}{15}$, $J=5-\ln6$, $K=\dfrac{40+23\sqrt2}{120}$', null, null, null, '[{"content":"$I=\\int_0^1(x^4+2x^2+1)dx=\\dfrac15+\\dfrac23+1=\\dfrac{28}{15}$។"},{"content":"$J=\\left[e^x-x\\right]_0^{\\ln6}=(6-\\ln6)-1=5-\\ln6$។"},{"content":"$\\int_0^{\\pi/4}\\sin\\left(3x+\\frac{\\pi}{4}\\right)dx=\\left[-\\dfrac13\\cos\\left(3x+\\frac{\\pi}{4}\\right)\\right]_0^{\\pi/4}=\\dfrac{2+\\sqrt2}{6}$។"},{"content":"$\\int_0^{\\pi/4}\\sin^4x\\cos x\\,dx=\\left[\\dfrac{\\sin^5x}{5}\\right]_0^{\\pi/4}=\\dfrac{\\sqrt2}{40}$ ⇒ $K=\\dfrac{2+\\sqrt2}{6}+\\dfrac{\\sqrt2}{40}=\\dfrac{40+23\\sqrt2}{120}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2019-4000-8000-000000000005', 'kh-grade12-science-mathematics-vectors-space', null, 2019, 'open', '១. ក្នុងលំហប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $A(1,-1,4)$, $B(7,-1,-2)$ និង $C(1,5,-2)$។
@@ -1382,6 +1577,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2019-4000-8000-000000000005', '$\overrightarrow{AB}=(6,0,-6)$, $\overrightarrow{AC}=(0,6,-6)$, $\overrightarrow{BC}=(-6,6,0)$; ប្លង់ $(ABC)$៖ $x+y+z-4=0$; $AB=AC=BC=6\sqrt2$ (សម័ង្ស); ប៉ារ៉ាបូល $(y+2)^2=8(x+2)$ កំពូល $(-2,-2)$ កំណុំ $(0,-2)$ បន្ទាត់ប្រាប់ទិស $x=-4$', null, null, null, '[{"content":"$\\overrightarrow{AB}\\times\\overrightarrow{AC}=(36,36,36)\\neq\\vec0$ ⇒ $A,B,C$ មិនរួមបន្ទាត់ កំណត់បានប្លង់មួយ។"},{"content":"$\\vec n\\cdot\\overrightarrow{AB}=6-6=0$ និង $\\vec n\\cdot\\overrightarrow{AC}=6-6=0$ ⇒ $\\vec n$ ណរម៉ាល់។"},{"content":"$x+y+z+d=0$ កាត់តាម $A$៖ $1-1+4+d=0$ ⇒ $d=-4$។"},{"content":"$y^2+4y-8x-12=0$ ⇔ $(y+2)^2=8x+16=8(x+2)$ ⇒ $4p=8$, $p=2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2019-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2019, 'open', 'គេមានសមីការឌីផេរ៉ង់ស្យែល៖ $y''''+3y''+3y=2y''+5y$ $(E)$។ ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែលនេះ។
 បង្ហាញថាអនុគមន៍ $y=-e^{-2x}+2e^x$ ជាចម្លើយពិសេសមួយនៃសមីការ $(E)$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1389,6 +1589,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2019-4000-8000-000000000006', '$y=Ae^{x}+Be^{-2x}$; $y=-e^{-2x}+2e^x$ គឺ $A=2$, $B=-1$', null, null, null, '[{"content":"$(E)$ ⇔ $y''''+y''-2y=0$; សមីការសម្គាល់ $r^2+r-2=0$ ⇒ $r=1$, $r=-2$។"},{"content":"ចម្លើយទូទៅ $y=Ae^x+Be^{-2x}$ ($A,B\\in\\mathbb{R}$); យក $A=2$, $B=-1$ បាន $y=-e^{-2x}+2e^x$ ជាចម្លើយពិសេស។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2019-4000-8000-000000000007', 'kh-grade12-science-mathematics-function-study', null, 2019, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $(0,+\infty)$ ដោយ $f(x)=\dfrac{x^2-2}{x}-\ln x$។ គេតាង $(C)$ ក្រាបរបស់អនុគមន៍ $f$ នៅក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -1403,6 +1608,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2019-4000-8000-000000000000', 'bacc1010-2019-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2019-4000-8000-000000000007', '$\lim_{0^+}f=-\infty$, $\lim_{+\infty}f=+\infty$; $f''(x)=\dfrac{x^2-x+2}{x^2}>0$ ⇒ $f$ កើនលើ $(0,+\infty)$; បន្ទាត់ប៉ះត្រង់ $A$៖ $y=2x-3$; $B(2,1-\ln2)$ បន្ទាត់ប៉ះ $y=x-1-\ln2$', null, null, null, '[{"content":"$f(x)=x-\\dfrac2x-\\ln x=x\\left(1-\\dfrac{\\ln x}{x}-\\dfrac{2}{x^2}\\right)=\\dfrac1x\\left(x^2-x\\ln x-2\\right)$។"},{"content":"$x\\to0^+$៖ $x\\ln x\\to0$ ⇒ $x^2-x\\ln x-2\\to-2$ ⇒ $f\\to-\\infty$; $x\\to+\\infty$៖ វង់ក្រចក $\\to1$ ⇒ $f\\to+\\infty$។"},{"content":"$f''(x)=1+\\dfrac{2}{x^2}-\\dfrac1x=\\dfrac{x^2-x+2}{x^2}$; $\\Delta=1-8<0$ ⇒ $x^2-x+2>0$។"},{"content":"$f(1)=-1$, $f''(1)=2$ ⇒ $y=2x-3$។"},{"content":"$f''(x)=1$ ⇔ $-x+2=0$ ⇔ $x=2$; $f(2)=1-\\ln2\\approx0.3$ ⇒ $y=x-1-\\ln2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2018-4000-8000-000000000000', 'kh-grade12-science-mathematics', 2018, 'BacII 2018: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2018 (2018-08-20), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1419,6 +1629,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2018-4000-8000-000000000001', '$P(A)=\dfrac1{30}$, $P(B)=\dfrac13$, $P(C)=\dfrac4{15}$', null, null, null, '[{"content":"ឃ្លីសរុប $10$ ⇒ $n(S)=C_{10}^3=120$។"},{"content":"$A$៖ $C_4^3=4$ ⇒ $\\dfrac4{120}=\\dfrac1{30}$។"},{"content":"$B$៖ $C_4^2C_6^1+C_4^3=36+4=40$ ⇒ $\\dfrac{40}{120}=\\dfrac13$។"},{"content":"$C$៖ $2\\cdot4\\cdot4=32$ ⇒ $\\dfrac{32}{120}=\\dfrac4{15}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2018-4000-8000-000000000002', 'kh-grade12-science-mathematics-limits-continuity', null, 2018, 'open', 'គណនាលីមីត៖
 ក. $\displaystyle\lim_{x\to1}\frac{x^2(x-2)+x^2+x-1}{1-x}$
@@ -1428,6 +1643,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2018-4000-8000-000000000002', 'ក. $-2$  ខ. $-\dfrac23$  គ. $-\dfrac13$', null, null, null, '[{"content":"ក. ភាគយក $=x^3-x^2+x-1=(x-1)(x^2+1)$ ⇒ $\\dfrac{(x-1)(x^2+1)}{1-x}=-(x^2+1)\\to-2$។"},{"content":"ខ. $\\dfrac{-2x}{\\sin3x}=-\\dfrac23\\cdot\\dfrac{3x}{\\sin3x}\\to-\\dfrac23$។"},{"content":"គ. $\\sin x-\\sqrt3\\cos x=2\\sin\\left(x-\\frac{\\pi}{3}\\right)$ និង $\\pi-3x=-3\\left(x-\\frac{\\pi}{3}\\right)$ ⇒ $\\dfrac{2\\sin t}{-6t}\\to-\\dfrac13$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2018-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2018, 'open', 'គេមានចំនួនកុំផ្លិច $z_1=3+3i\sqrt{3}$ និង $z_2=\sqrt{3}+i$។
@@ -1439,6 +1659,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2018-4000-8000-000000000003', '$z_1z_2=12i$, $\dfrac{z_1}{z_2}=\dfrac{3\sqrt3}{2}+\dfrac32i$; $z_1z_2=12\left(\cos\frac{\pi}{2}+i\sin\frac{\pi}{2}\right)$, $\left(\dfrac{z_1}{z_2}\right)^2=9\left(\cos\frac{\pi}{3}+i\sin\frac{\pi}{3}\right)$; $\left(\dfrac{z_1}{z_2}\right)^3=27i$', null, null, null, '[{"content":"$z_1=6\\left(\\cos\\frac{\\pi}{3}+i\\sin\\frac{\\pi}{3}\\right)$, $z_2=2\\left(\\cos\\frac{\\pi}{6}+i\\sin\\frac{\\pi}{6}\\right)$។"},{"content":"$z_1z_2=12\\left(\\cos\\frac{\\pi}{2}+i\\sin\\frac{\\pi}{2}\\right)=12i$; $\\dfrac{z_1}{z_2}=3\\left(\\cos\\frac{\\pi}{6}+i\\sin\\frac{\\pi}{6}\\right)$។"},{"content":"$\\left(\\dfrac{z_1}{z_2}\\right)^3=27\\left(\\cos\\frac{\\pi}{2}+i\\sin\\frac{\\pi}{2}\\right)=27i$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2018-4000-8000-000000000004', 'kh-grade12-science-mathematics-integrals', null, 2018, 'open', 'គណនាអាំងតេក្រាល៖
 $\displaystyle I=\int_1^2\left(2-x+x^2\right)dx$; $\displaystyle J=\int_0^{\frac{\pi}{4}}\left(\cos2x-\frac{1}{2}\cos4x\right)dx$; $\displaystyle K=\int_2^3\left(3x-2+\frac{1}{x-1}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1446,6 +1671,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2018-4000-8000-000000000004', '$I=\dfrac{17}{6}$, $J=\dfrac12$, $K=\dfrac{11}{2}+\ln2$', null, null, null, '[{"content":"$I=\\left[2x-\\dfrac{x^2}{2}+\\dfrac{x^3}{3}\\right]_1^2=\\dfrac{14}{3}-\\dfrac{11}{6}=\\dfrac{17}{6}$។"},{"content":"$J=\\left[\\dfrac{\\sin2x}{2}-\\dfrac{\\sin4x}{8}\\right]_0^{\\pi/4}=\\dfrac12$។"},{"content":"$K=\\left[\\dfrac32x^2-2x+\\ln(x-1)\\right]_2^3=\\left(\\dfrac{27}{2}-6+\\ln2\\right)-(6-4)=\\dfrac{11}{2}+\\ln2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2018-4000-8000-000000000005', 'kh-grade12-science-mathematics-vectors-space', null, 2018, 'open', '១. ក្នុងលំហប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $A(1,2,3)$; $B(3,0,1)$; $C(-1,0,1)$ និង $D(2,1,2)$។
@@ -1458,6 +1688,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2018-4000-8000-000000000005', '$\overrightarrow{AB}=(2,-2,-2)$, $\overrightarrow{AC}=(-2,-2,-2)$, $\overrightarrow{AD}=(1,-1,-1)$, $\overrightarrow{BC}=(-4,0,0)$; អេលីប $\dfrac{x^2}{9}+\dfrac{y^2}{4}=1$៖ អ័ក្សធំ $6$, អ័ក្សតូច $4$, កំពូល $(\pm3,0)$', null, null, null, '[{"content":"$\\overrightarrow{AB}\\times\\overrightarrow{AC}=(0,8,-8)\\neq\\vec0$ ⇒ $A,B,C$ មិននៅលើបន្ទាត់តែមួយ។"},{"content":"$\\vec n\\cdot\\overrightarrow{AB}=0-2+2=0$, $\\vec n\\cdot\\overrightarrow{AC}=0-2+2=0$ ⇒ $\\vec n(0,1,-1)$ ណរម៉ាល់នឹង $(ABC)$។"},{"content":"$(2x+3y)^2=12xy+36$ ⇔ $4x^2+9y^2=36$ ⇔ $\\dfrac{x^2}{9}+\\dfrac{y^2}{4}=1$; $c=\\sqrt5$ (កំណុំ $(\\pm\\sqrt5,0)$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2018-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2018, 'open', '១. ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''+4y''=5y$។
 ២. រកចម្លើយពិសេសមួយនៃសមីការឌីផេរ៉ង់ស្យែល $(E)$ បើគេដឹងថាក្រាប $(C)$ នៃអនុគមន៍ចម្លើយនេះកាត់តាមចំណុច $(0,3)$ ហើយបន្ទាត់ប៉ះនឹងក្រាប $(C)$ ត្រង់ចំណុចនេះមានមេគុណប្រាប់ទិសស្មើ $-3$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1465,6 +1700,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2018-4000-8000-000000000006', '$y=Ae^x+Be^{-5x}$; ចម្លើយពិសេស $y=2e^x+e^{-5x}$', null, null, null, '[{"content":"$y''''+4y''-5y=0$ ⇒ $r^2+4r-5=0$ ⇒ $r=1$, $r=-5$។"},{"content":"$y(0)=A+B=3$ និង $y''(0)=A-5B=-3$ ⇒ $B=1$, $A=2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2018-4000-8000-000000000007', 'kh-grade12-science-mathematics-function-study', null, 2018, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $(1,+\infty)$ ដោយ $f(x)=-x+4+\ln\left(\dfrac{x+1}{x-1}\right)$។ គេតាងដោយ $(C)$ ក្រាបរបស់វានៅក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -1478,6 +1718,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2018-4000-8000-000000000000', 'bacc1010-2018-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2018-4000-8000-000000000007', '$\lim_{1^+}f=+\infty$, $\lim_{+\infty}f=-\infty$; $f$ ចុះលើ $(1,+\infty)$; $d_1: y=-x+4$ អាស៊ីមតូត, $C$ នៅលើ $d_1$; ចំណុច $(2,2+\ln3)$, $d_2: y=-\dfrac53x+\dfrac{16}{3}+\ln3$', null, null, null, '[{"content":"$f''(x)=-1+\\dfrac1{x+1}-\\dfrac1{x-1}=-1-\\dfrac{2}{x^2-1}=-\\dfrac{x^2+1}{(x+1)(x-1)}<0$។"},{"content":"$f(x)-(-x+4)=\\ln\\dfrac{x+1}{x-1}\\to\\ln1=0$ ហើយ $\\dfrac{x+1}{x-1}>1$ ⇒ $\\ln>0$ ⇒ $C$ នៅលើ $d_1$។"},{"content":"$-\\dfrac{x^2+1}{x^2-1}=-\\dfrac53$ ⇔ $3x^2+3=5x^2-5$ ⇔ $x^2=4$ ⇒ $x=2$; $f(2)=2+\\ln3$។"},{"content":"$d_2: y=-\\dfrac53(x-2)+2+\\ln3$ ហើយ $x=1$ ជាអាស៊ីមតូតឈរ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2017-4000-8000-000000000000', 'kh-grade12-science-mathematics', 2017, 'BacII 2017: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2017 (2017-08-21), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII: one copy prints f(x) = x + (1+3eˣ)/(1+eˣ), which does not match part 1; this page follows the other copy, x + (1−3eˣ)/(1+eˣ).', 'needs-review')
@@ -1494,6 +1739,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2017-4000-8000-000000000001', 'ក. $-1$  ខ. $-3$  គ. $\dfrac{\sqrt2}{2}$', null, null, null, '[{"content":"ក. $\\dfrac{-(x-1)(x+1)}{(x-1)(x^2+1)}\\to-\\dfrac22=-1$។"},{"content":"ខ. $\\dfrac{\\sin3x}{-x}=-3\\cdot\\dfrac{\\sin3x}{3x}\\to-3$។"},{"content":"គ. $\\sqrt{2+x}-\\sqrt{2-x}=\\dfrac{2x}{\\sqrt{2+x}+\\sqrt{2-x}}$ ⇒ $\\dfrac{2}{2\\sqrt2}\\cdot\\dfrac{x}{\\sin x}\\to\\dfrac{\\sqrt2}{2}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2017-4000-8000-000000000002', 'kh-grade12-science-mathematics-probability', null, 2017, 'open', 'ក្នុងថ្នាក់រៀនមួយមានសិស្ស $10$ នាក់ ដែលក្នុងនោះ $4$ នាក់ជាសិស្សស្រី និង $6$ នាក់ជាសិស្សប្រុស។ គេរៀបចំសិស្សជាក្រុមក្នុងមួយក្រុមមានសិស្ស $4$ នាក់ដោយចៃដន្យ យកទៅប្រកួតជាមួយក្រុមសិស្សនៃថ្នាក់ដទៃ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 $A$៖ «ក្រុមសិស្សដែលជ្រើសរើសបានសុទ្ធតែស្រី»
@@ -1503,6 +1753,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2017-4000-8000-000000000002', '$P(A)=\dfrac1{210}$, $P(B)=\dfrac1{14}$, $P(C)=\dfrac37$', null, null, null, '[{"content":"$n(S)=C_{10}^4=210$។"},{"content":"$A$៖ $C_4^4=1$; $B$៖ $C_6^4=15$ ⇒ $\\dfrac{15}{210}=\\dfrac1{14}$។"},{"content":"$C$៖ ប្រុស $2$ ស្រី $2$៖ $C_6^2C_4^2=15\\cdot6=90$ ⇒ $\\dfrac{90}{210}=\\dfrac37$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2017-4000-8000-000000000003', 'kh-grade12-science-mathematics-complex-numbers', null, 2017, 'open', 'គេមានចំនួនកុំផ្លិច $z_1=1+i\sqrt{3}$ និង $z_2=6\left(\cos\dfrac{\pi}{4}-i\sin\dfrac{\pi}{4}\right)$។
@@ -1514,6 +1769,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2017-4000-8000-000000000003', '$z_1=2\left(\cos\frac{\pi}{3}+i\sin\frac{\pi}{3}\right)$; $z_1^3=-8$ (ម៉ូឌុល $8$, អាគុយម៉ង់ $\pi$); $z_1z_2=(3\sqrt2+3\sqrt6)+(3\sqrt6-3\sqrt2)i$', null, null, null, '[{"content":"$|z_1|=2$, $\\cos\\theta=\\frac12$, $\\sin\\theta=\\frac{\\sqrt3}{2}$ ⇒ $\\theta=\\frac{\\pi}{3}$។"},{"content":"$z_1^3=8(\\cos\\pi+i\\sin\\pi)=-8$។"},{"content":"$z_2=3\\sqrt2-3\\sqrt2\\,i$ ⇒ $z_1z_2=3\\sqrt2(1+i\\sqrt3)(1-i)=3\\sqrt2\\left[(1+\\sqrt3)+(\\sqrt3-1)i\\right]$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2017-4000-8000-000000000004', 'kh-grade12-science-mathematics-vectors-space', null, 2017, 'open', '១. ក្នុងតម្រុយ $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $A(-2,1,0)$, $B(0,1,1)$, $C(1,2,2)$ និង $D(0,3,-4)$។
 ក. រកវ៉ិចទ័រ $\overrightarrow{AB}$, $\overrightarrow{AC}$, $\overrightarrow{AD}$, $\overrightarrow{BC}$, $\overrightarrow{BD}$, $\overrightarrow{CD}$។
@@ -1524,6 +1784,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000004', 4, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2017-4000-8000-000000000004', '$\overrightarrow{AB}=(2,0,1)$, $\overrightarrow{AC}=(3,1,2)$, $\overrightarrow{AD}=(2,2,-4)$, $\overrightarrow{BC}=(1,1,1)$, $\overrightarrow{BD}=(0,2,-5)$, $\overrightarrow{CD}=(-1,1,-6)$; $AB=\sqrt5$, $AC=\sqrt{14}$, $AD=2\sqrt6$, $BD=\sqrt{29}$, $CD=\sqrt{38}$; អ៊ីពែបូល $\dfrac{y^2}{16}-\dfrac{x^2}{9}=1$', null, null, null, '[{"content":"$\\overrightarrow{AB}\\cdot\\overrightarrow{AD}=4+0-4=0$ (ឬ $AB^2+AD^2=5+24=29=BD^2$) ⇒ $ABD$ កែងត្រង់ $A$។"},{"content":"$\\overrightarrow{AC}\\cdot\\overrightarrow{AD}=6+2-8=0$ (ឬ $14+24=38=CD^2$) ⇒ $ACD$ កែងត្រង់ $A$។"},{"content":"$9y^2-16x^2=144$ ⇔ $\\dfrac{y^2}{16}-\\dfrac{x^2}{9}=1$៖ $a=4$, $b=3$, $c=5$; កំពូល $(0,\\pm4)$, កំណុំ $(0,\\pm5)$, អាស៊ីមតូត $y=\\pm\\dfrac43x$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2017-4000-8000-000000000005', 'kh-grade12-science-mathematics-integrals', null, 2017, 'open', 'គណនាអាំងតេក្រាល៖ $\displaystyle I=\int_1^3\left(x-2+3x^2\right)dx$; $\displaystyle J=\int_0^{\frac{\pi}{4}}\left(\sin2x-\cos x\right)dx$។
 គណនាអាំងតេក្រាល៖ $\displaystyle K=\int_0^1\frac{x^3+(x+1)^2}{x^2+1}dx$ ដើម្បីគណនា $K$ យើងត្រូវបង្ហាញថា $\dfrac{x^3+(x+1)^2}{x^2+1}=x+1+\dfrac{x}{x^2+1}$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII: one copy prints f(x) = x + (1+3eˣ)/(1+eˣ), which does not match part 1; this page follows the other copy, x + (1−3eˣ)/(1+eˣ).', 'needs-review')
@@ -1532,6 +1797,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2017-4000-8000-000000000005', '$I=26$, $J=\dfrac12-\dfrac{\sqrt2}{2}$, $K=\dfrac32+\dfrac{\ln2}{2}$', null, null, null, '[{"content":"$I=\\left[\\dfrac{x^2}{2}-2x+x^3\\right]_1^3=\\left(\\dfrac92-6+27\\right)-\\left(\\dfrac12-2+1\\right)=26$។"},{"content":"$J=\\left[-\\dfrac{\\cos2x}{2}-\\sin x\\right]_0^{\\pi/4}=\\left(0-\\dfrac{\\sqrt2}{2}\\right)-\\left(-\\dfrac12\\right)=\\dfrac12-\\dfrac{\\sqrt2}{2}$។"},{"content":"$(x+1)(x^2+1)+x=x^3+x^2+2x+1=x^3+(x+1)^2$ ⇒ $K=\\left[\\dfrac{x^2}{2}+x+\\dfrac12\\ln(x^2+1)\\right]_0^1=\\dfrac32+\\dfrac{\\ln2}{2}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2017-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2017, 'open', 'ក. ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''-3y''+2y=0$។
 ខ. រកចម្លើយពិសេសមួយនៃសមីការឌីផេរ៉ង់ស្យែល $(E)$ ដែល $y(0)=1$ និង $y''(1)=2e^2$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII: one copy prints f(x) = x + (1+3eˣ)/(1+eˣ), which does not match part 1; this page follows the other copy, x + (1−3eˣ)/(1+eˣ).', 'needs-review')
@@ -1539,6 +1809,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2017-4000-8000-000000000006', '$y=Ae^x+Be^{2x}$; ចម្លើយពិសេស $y=e^{2x}$', null, null, null, '[{"content":"$r^2-3r+2=0$ ⇒ $r=1$, $r=2$។"},{"content":"$A+B=1$ និង $Ae+2Be^2=2e^2$ ⇒ $A=0$, $B=1$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2017-4000-8000-000000000007', 'kh-grade12-science-mathematics-function-study', null, 2017, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $\mathbb{R}$ ដោយ $f(x)=x+\dfrac{1-3e^x}{1+e^x}$។ គេតាងដោយ $(C)$ ក្រាបរបស់វានៅក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -1550,6 +1825,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2017-4000-8000-000000000000', 'bacc1010-2017-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2017-4000-8000-000000000007', '$d_1: y=x+1$ ត្រង់ $-\infty$ ($C$ នៅក្រោម), $d_2: y=x-3$ ត្រង់ $+\infty$ ($C$ នៅលើ); $f''(x)=\left(\dfrac{e^x-1}{e^x+1}\right)^2\ge0$ ⇒ $f$ កើនលើ $\mathbb{R}$; $f(0)=-1$', null, null, null, '[{"content":"$\\dfrac{1-3e^x}{1+e^x}=\\dfrac{1+e^x-4e^x}{1+e^x}=1-\\dfrac{4e^x}{1+e^x}$ ⇒ $f(x)=x+1-\\dfrac{4e^x}{1+e^x}$។"},{"content":"$x\\to-\\infty$៖ $f\\to-\\infty$, $f-(x+1)=-\\dfrac{4e^x}{1+e^x}\\to0^-$។"},{"content":"$x\\to+\\infty$៖ $f\\to+\\infty$, $f-(x-3)=\\dfrac{4}{1+e^x}\\to0^+$។"},{"content":"$f''(x)=1-\\dfrac{4e^x}{(1+e^x)^2}=\\dfrac{(e^x-1)^2}{(e^x+1)^2}$ សូន្យត្រង់ $x=0$ (បន្ទាត់ប៉ះដេកត្រង់ $(0,-1)$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2016-4000-8000-000000000000', 'kh-grade12-science-mathematics', 2016, 'BacII 2016: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2016 (2016-08-22), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII.2: one copy prints f′(x) = ((eˣ−3)/(eˣ−3))², a typo; this page follows the other, ((eˣ−3)/(eˣ+3))², which is what differentiating f gives.', 'needs-review')
@@ -1566,6 +1846,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2016-4000-8000-000000000001', 'ក. $2$  ខ. $\dfrac{1}{162}$  គ. $25$', null, null, null, '[{"content":"ក. $\\dfrac{(1-x)(1+x)}{(x-1)(x-2)}=-\\dfrac{1+x}{x-2}\\to-\\dfrac{2}{-1}=2$។"},{"content":"ខ. $\\dfrac{\\sqrt{x+6}-3}{x^3-27}=\\dfrac{x-3}{(\\sqrt{x+6}+3)(x-3)(x^2+3x+9)}\\to\\dfrac{1}{6\\cdot27}=\\dfrac1{162}$។"},{"content":"គ. $\\dfrac{5\\sin5x}{x}=25\\cdot\\dfrac{\\sin5x}{5x}\\to25$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2016-4000-8000-000000000002', 'kh-grade12-science-mathematics-complex-numbers', null, 2016, 'open', 'គេមានចំនួនកុំផ្លិច $z_1=\sqrt{3}-i$; $z_2=\left(1-\sqrt{3}\right)+\left(1-\sqrt{3}\right)i$ និង $z_3=-\dfrac{1}{2}$។
 គណនា $z_1+z_2$, $(z_1+z_2)\times z_3$។
@@ -1574,6 +1859,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2016-4000-8000-000000000002', '$z_1+z_2=1-i\sqrt3$, $Z=(z_1+z_2)z_3=-\dfrac12+\dfrac{\sqrt3}{2}i=\cos\frac{2\pi}{3}+i\sin\frac{2\pi}{3}$, $Z^3=1$', null, null, null, '[{"content":"$z_1+z_2=\\left(\\sqrt3+1-\\sqrt3\\right)+\\left(-1+1-\\sqrt3\\right)i=1-i\\sqrt3$។"},{"content":"$Z=-\\dfrac12(1-i\\sqrt3)=-\\dfrac12+\\dfrac{\\sqrt3}{2}i$; $|Z|=1$, អាគុយម៉ង់ $\\frac{2\\pi}{3}$។"},{"content":"$Z^3=\\cos2\\pi+i\\sin2\\pi=1$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2016-4000-8000-000000000003', 'kh-grade12-science-mathematics-integrals', null, 2016, 'open', 'គណនាអាំងតេក្រាល $\displaystyle I=\int_0^2\left(6x^2-3x-1\right)dx$, $\displaystyle J=\int_0^{\frac{\pi}{4}}\left(1-2\sin^2x\right)dx$។
@@ -1584,6 +1874,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2016-4000-8000-000000000003', '$I=8$, $J=\dfrac12$, $K=-4+\dfrac{2}{e}$', null, null, null, '[{"content":"$I=\\left[2x^3-\\dfrac32x^2-x\\right]_0^2=16-6-2=8$។"},{"content":"$1-2\\sin^2x=\\cos2x$ ⇒ $J=\\left[\\dfrac{\\sin2x}{2}\\right]_0^{\\pi/4}=\\dfrac12$។"},{"content":"$-2\\cdot\\dfrac{x+1}{x^2}=-\\dfrac2x-\\dfrac2{x^2}$ ⇒ $K=\\left[-2\\ln x+\\dfrac2x\\right]_1^e=\\left(-2+\\dfrac2e\\right)-2=-4+\\dfrac2e$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2016-4000-8000-000000000004', 'kh-grade12-science-mathematics-probability', null, 2016, 'open', 'ក្នុងថង់មួយមានប៊ូល $15$ ដែលចែកជាប៊ូលពណ៌បៃតងចំនួន $7$ និងគេសរសេរលើប៊ូលទាំង $7$ នេះតាមលេខរៀងពី $1$ ដល់ $7$ រួចប៊ូលខៀវចំនួន $5$ និងគេសរសេរលើប៊ូលទាំង $5$ នេះតាមលេខរៀងពី $1$ ដល់ $5$ ចុងក្រោយប៊ូលពណ៌ក្រហមចំនួន $3$ និងគេសរសេរលើប៊ូលទាំង $3$ នេះតាមលេខរៀងពី $1$ ដល់ $3$។ គេចាប់យកប៊ូលមួយចេញពីក្នុងថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 ក. $A$៖ ប៊ូលដែលចាប់បានមានពណ៌បៃតង។
@@ -1593,6 +1888,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2016-4000-8000-000000000004', '$P(A)=\dfrac7{15}$, $P(B)=\dfrac35$, $P(C)=\dfrac4{15}$', null, null, null, '[{"content":"ប៊ូលសរុប $15$ ចាប់ $1$ ⇒ $n(S)=15$។"},{"content":"$B$៖ លេខសេស បៃតង $1,3,5,7$ ($4$), ខៀវ $1,3,5$ ($3$), ក្រហម $1,3$ ($2$) ⇒ $9$ ⇒ $\\dfrac9{15}=\\dfrac35$។"},{"content":"$C$៖ បៃតង និងលេខសេស $4$ ⇒ $\\dfrac4{15}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2016-4000-8000-000000000005', 'kh-grade12-science-mathematics-conics', null, 2016, 'open', '១. គេមានសមីការ $18x^2+10y^2=90$។
@@ -1606,6 +1906,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2016-4000-8000-000000000005', 'អេលីប $\dfrac{x^2}{5}+\dfrac{y^2}{9}=1$៖ អ័ក្សធំ $6$ (អ័ក្សឈរ), អ័ក្សតូច $2\sqrt5$, កំពូល $(0,\pm3)$; $\overrightarrow{MN}=\overrightarrow{QP}=(1,2,2)$ ⇒ $MNPQ$ ប្រលេឡូក្រាម', null, null, null, '[{"content":"ចែកនឹង $90$៖ $\\dfrac{x^2}{5}+\\dfrac{y^2}{9}=1$ ជាអេលីប $a=3$, $b=\\sqrt5$, $c=\\sqrt{9-5}=2$ (កំណុំ $(0,\\pm2)$)។"},{"content":"$\\overrightarrow{MN}=(3-2,5-3,6-4)=(1,2,2)$, $\\overrightarrow{QP}=(4-3,6-4,7-5)=(1,2,2)$ ⇒ $\\overrightarrow{MN}=\\overrightarrow{QP}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2016-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2016, 'open', 'ក. ដោះស្រាយសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''+2y''-3y=0$។
 ខ. រកចម្លើយពិសេសមួយនៃសមីការឌីផេរ៉ង់ស្យែល $(E)$ ដែល $y(0)=1$, $y''(1)=e$។ ($e$ ជាចំនួនពិតដែល $\ln e=1$)', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: VII.2: one copy prints f′(x) = ((eˣ−3)/(eˣ−3))², a typo; this page follows the other, ((eˣ−3)/(eˣ+3))², which is what differentiating f gives.', 'needs-review')
@@ -1613,6 +1918,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2016-4000-8000-000000000006', '$y=Ae^x+Be^{-3x}$; ចម្លើយពិសេស $y=e^x$', null, null, null, '[{"content":"$r^2+2r-3=0$ ⇒ $r=1$, $r=-3$។"},{"content":"$y(0)=A+B=1$ និង $y''(1)=Ae-3Be^{-3}=e$ ⇒ $B=0$, $A=1$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2016-4000-8000-000000000007', 'kh-grade12-science-mathematics-function-study', null, 2016, 'open', 'គេឲ្យអនុគមន៍ $f$ កំណត់លើ $\mathbb{R}$ ដោយ $f(x)=x+2-\dfrac{4e^x}{e^x+3}$។ គេតាង $C$ ជាក្រាបរបស់វានៅក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -1629,6 +1939,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2016-4000-8000-000000000000', 'bacc1010-2016-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2016-4000-8000-000000000007', '$\lim_{-\infty}f=-\infty$, $\lim_{+\infty}f=+\infty$; $C$ នៅក្រោម $d_1$; $f''(x)=\left(\dfrac{e^x-3}{e^x+3}\right)^2\ge0$ ⇒ $f$ កើន; $d_2: y=\ln3$ ប៉ះត្រង់ $I(\ln3,\ln3)$ (ចំណុចរបត់); $d_3: y=\dfrac14x+1$', null, null, null, '[{"content":"$f(x)-(x+2)=-\\dfrac{4e^x}{e^x+3}<0$ ⇒ $C$ នៅក្រោម $d_1$ (ហើយ $\\to0$ ត្រង់ $-\\infty$)។"},{"content":"$f''(x)=1-\\dfrac{12e^x}{(e^x+3)^2}=\\dfrac{(e^x+3)^2-12e^x}{(e^x+3)^2}=\\dfrac{(e^x-3)^2}{(e^x+3)^2}$។"},{"content":"$f''(\\ln3)=0$, $f(\\ln3)=\\ln3+2-2=\\ln3$ ⇒ $d_2: y=\\ln3$ (ដេក); $f$ កើន ⇒ $C$ នៅក្រោម $d_2$ កាលណា $x<\\ln3$ និងនៅលើកាលណា $x>\\ln3$។"},{"content":"$f(0)=1$, $f''(0)=\\dfrac{4}{16}=\\dfrac14$ ⇒ $y=\\dfrac14x+1$។"},{"content":"ត្រង់ $+\\infty$៖ $f(x)-(x-2)=\\dfrac{12}{e^x+3}\\to0$ ⇒ $y=x-2$ ក៏ជាអាស៊ីមតូតដែរ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2015-4000-8000-000000000000', 'kh-grade12-science-mathematics', 2015, 'BacII 2015: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2015 (2015-08-24), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for u×u and u×v, the other for w×u and w×v; this page follows the second, as w is otherwise unused.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -1643,6 +1958,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2015-4000-8000-000000000001', '$z_1+z_2=0$, $z_1-z_2=-2+2i\sqrt3$, $z_1z_2=2+2i\sqrt3$; $z_1-z_2=4\left(\cos\frac{2\pi}{3}+i\sin\frac{2\pi}{3}\right)$, $z_1z_2=4\left(\cos\frac{\pi}{3}+i\sin\frac{\pi}{3}\right)$', null, null, null, '[{"content":"$z_2=-z_1$ ⇒ $z_1+z_2=0$ និង $z_1-z_2=2z_1$។"},{"content":"$z_1z_2=(-1+i\\sqrt3)(1-i\\sqrt3)=-1+i\\sqrt3+i\\sqrt3+3=2+2i\\sqrt3$។"},{"content":"ម៉ូឌុលទាំងពីរ $=\\sqrt{4+12}=4$; អាគុយម៉ង់ $\\frac{2\\pi}{3}$ និង $\\frac{\\pi}{3}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2015-4000-8000-000000000002', 'kh-grade12-science-mathematics-limits-continuity', null, 2015, 'open', 'គណនាលីមីត៖
 ក. $\displaystyle\lim_{x\to2}\frac{x^3-8}{\sqrt{x+2}-2}$
@@ -1653,6 +1973,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2015-4000-8000-000000000002', 'ក. $48$  ខ. $-\dfrac12$  គ. $9$', null, null, null, '[{"content":"ក. $\\dfrac{x^3-8}{\\sqrt{x+2}-2}=\\dfrac{(x-2)(x^2+2x+4)(\\sqrt{x+2}+2)}{x-2}\\to12\\cdot4=48$។"},{"content":"ខ. $\\dfrac{\\cos x-1}{\\sin^2x}=\\dfrac{-(1-\\cos x)}{(1-\\cos x)(1+\\cos x)}=-\\dfrac1{1+\\cos x}\\to-\\dfrac12$។"},{"content":"គ. $\\dfrac{3\\sin3x}{x}=9\\cdot\\dfrac{\\sin3x}{3x}\\to9$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2015-4000-8000-000000000003', 'kh-grade12-science-mathematics-probability', null, 2015, 'open', 'ក្នុងស្បោងមួយមានប៊ូលពណ៌ស $3$ ប៊ូលពណ៌ខៀវ $3$ និងប៊ូលពណ៌ក្រហម $2$។ គេចាប់យកប៊ូលម្តង $3$ ក្នុងពេលតែមួយចេញពីស្បោងដោយចៃដន្យ។ គេសន្និដ្ឋានថាប្រូបាបដែលចាប់បានប៊ូលនីមួយៗជាសមប្រូបាប។ គណនាប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 ក. $A$៖ «យ៉ាងតិចមានប៊ូល $2$ ពណ៌ខៀវ»
@@ -1662,6 +1987,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2015-4000-8000-000000000003', 'ក. $P(A)=\dfrac27$  ខ. $P(B)=\dfrac{9}{28}$', null, null, null, '[{"content":"ប៊ូលសរុប $8$ ⇒ $n(S)=C_8^3=56$។"},{"content":"ក. $C_3^2C_5^1+C_3^3=15+1=16$ ⇒ $\\dfrac{16}{56}=\\dfrac27$។"},{"content":"ខ. $3\\cdot3\\cdot2=18$ ⇒ $\\dfrac{18}{56}=\\dfrac9{28}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2015-4000-8000-000000000004', 'kh-grade12-science-mathematics-integrals', null, 2015, 'open', 'ក. គណនាអាំងតេក្រាល $\displaystyle I=\int_1^2\left(\frac{x^2}{3}-\frac{x}{2}+3\right)dx$។
 ខ. គេមានអនុគមន៍ $f(x)=-\dfrac{2-x}{(x-1)^2}$។ បង្ហាញថា $f(x)=-\dfrac{1}{(x-1)^2}+\dfrac{1}{x-1}$។ គណនា $\displaystyle K=\int_{-1}^0f(x)\,dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for u×u and u×v, the other for w×u and w×v; this page follows the second, as w is otherwise unused.', 'needs-review')
@@ -1669,6 +1999,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2015-4000-8000-000000000004', 'ក. $I=\dfrac{109}{36}$  ខ. $K=-\dfrac12-\ln2$', null, null, null, '[{"content":"$I=\\left[\\dfrac{x^3}{9}-\\dfrac{x^2}{4}+3x\\right]_1^2=\\left(\\dfrac89+5\\right)-\\left(\\dfrac19+\\dfrac{11}{4}\\right)=\\dfrac{109}{36}$។"},{"content":"$-\\dfrac1{(x-1)^2}+\\dfrac1{x-1}=\\dfrac{-1+x-1}{(x-1)^2}=\\dfrac{x-2}{(x-1)^2}=-\\dfrac{2-x}{(x-1)^2}$។"},{"content":"$K=\\left[\\dfrac{1}{x-1}+\\ln|x-1|\\right]_{-1}^{0}=(-1+0)-\\left(-\\dfrac12+\\ln2\\right)=-\\dfrac12-\\ln2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2015-4000-8000-000000000005', 'kh-grade12-science-mathematics-vectors-space', null, 2015, 'open', '១. គេមានវ៉ិចទ័រ $\vec{u}=\vec{i}-\vec{j}+2\vec{k}$, $\vec{v}=-\vec{i}+2\vec{j}+2\vec{k}$, $\vec{w}=\vec{i}+\vec{j}-2\vec{k}$។ រកវ៉ិចទ័រ៖ ក. $\vec{u}+\vec{v}$ ខ. $\vec{w}\times\vec{u}$ គ. $\vec{w}\times\vec{v}$។
@@ -1678,6 +2013,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000005', 5, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2015-4000-8000-000000000005', '$\vec u+\vec v=(0,1,4)$, $\vec w\times\vec u=(0,-4,-2)$, $\vec w\times\vec v=(6,0,3)$; អេលីប៖ $\dfrac{x^2}{9}+\dfrac{y^2}{8}=1$', null, null, null, '[{"content":"$\\vec w\\times\\vec u=(1\\cdot2-(-2)(-1),\\ (-2)(1)-1\\cdot2,\\ 1\\cdot(-1)-1\\cdot1)=(0,-4,-2)$។"},{"content":"$\\vec w\\times\\vec v=(1\\cdot2-(-2)\\cdot2,\\ (-2)(-1)-1\\cdot2,\\ 1\\cdot2-1\\cdot(-1))=(6,0,3)$។"},{"content":"កំពូល $(\\pm3,0)$ ⇒ $a=3$; កំណុំ $(-1,0)$ ⇒ $c=1$; $b^2=a^2-c^2=8$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2015-4000-8000-000000000006', 'kh-grade12-science-mathematics-differential-equations', null, 2015, 'open', 'គេមានសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''+2y=2\dfrac{e^{-x}}{1+2e^x}$។
 ១. ផ្ទៀងផ្ទាត់ថាអនុគមន៍ $f$ ដែល $f(x)=e^{-2x}\ln\left(1+2e^x\right)$ ជាចម្លើយនៃ $(E)$។
@@ -1686,6 +2026,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000006', 6, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2015-4000-8000-000000000006', '$f$ ផ្ទៀងផ្ទាត់ $(E)$; $\varphi$ ជាចម្លើយ $(E)$ ⇔ $\varphi-f$ ជាចម្លើយ $y''+2y=0$', null, null, null, '[{"content":"$f''(x)=-2e^{-2x}\\ln(1+2e^x)+e^{-2x}\\dfrac{2e^x}{1+2e^x}$ ⇒ $f''+2f=\\dfrac{2e^{-x}}{1+2e^x}$។"},{"content":"$(\\varphi-f)''+2(\\varphi-f)=(\\varphi''+2\\varphi)-(f''+2f)$ ស្មើ $0$ លុះត្រាតែ $\\varphi''+2\\varphi=\\dfrac{2e^{-x}}{1+2e^x}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2015-4000-8000-000000000007', 'kh-grade12-science-mathematics-function-study', null, 2015, 'open', 'A. គេមានអនុគមន៍ $g$ កំណត់លើ $(0,+\infty)$ ដោយ $g(x)=x^2+\ln x$។
@@ -1704,6 +2049,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2015-4000-8000-000000000000', 'bacc1010-2015-4000-8000-000000000007', 7, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2015-4000-8000-000000000007', '$g$ កើនដាច់ខាត, $g(1)=1$; $x^2+\ln x-1<0$ លើ $]0,1[$ និង $>0$ លើ $]1,+\infty[$; $\lim_{0^+}f=\lim_{+\infty}f=+\infty$; $f$ ចុះលើ $]0,1]$ កើនលើ $[1,+\infty[$ អប្បបរមា $f(1)=2$; $\Delta:y=x+1$ ជាអាស៊ីមតូត, $I(1,2)$', null, null, null, '[{"content":"$g''(x)=2x+\\dfrac1x>0$ ⇒ $g$ កើន ហើយ $g(1)=1$ ⇒ $x\\ge1\\Rightarrow g(x)\\ge1$ និង $0<x\\le1\\Rightarrow g(x)\\le1$។"},{"content":"$f''(x)=1-\\dfrac{1-\\ln x}{x^2}=\\dfrac{x^2+\\ln x-1}{x^2}$ មានសញ្ញាដូច $g(x)-1$។"},{"content":"$x\\to0^+$៖ $-\\dfrac{\\ln x}{x}\\to+\\infty$ ⇒ $f\\to+\\infty$ (អាស៊ីមតូតឈរ $x=0$)។"},{"content":"$f(x)-(x+1)=-\\dfrac{\\ln x}{x}\\to0$ ⇒ $\\Delta$ ជាអាស៊ីមតូត; លើ $]0,1[$ $C$ នៅលើ $\\Delta$, លើ $]1,+\\infty[$ $C$ នៅក្រោម, ប្រសព្វ $I(1,2)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2014-4200-8000-000000000000', 'kh-grade12-science-mathematics', 2014, 'BacII 2014, second sitting: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
@@ -1721,6 +2071,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000001', 1, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2014-4200-8000-000000000001', 'ក. $2$  ខ. $-2$  គ. $\dfrac12$  ឃ. $1$  ង. $\dfrac14$', null, null, null, '[{"content":"ក. $x^3-x^2+x-1=(x-1)(x^2+1)$ ⇒ $\\lim=x^2+1\\to2$។"},{"content":"ខ. $\\dfrac{\\sin^2x-1}{1+\\sin x}=\\sin x-1\\to-1-1=-2$។"},{"content":"គ. $\\sqrt{x^2+x}-x=\\dfrac{x}{\\sqrt{x^2+x}+x}\\to\\dfrac12$។"},{"content":"ឃ. $\\dfrac{\\sin^2x}{x^2}\\to1$ និង $\\dfrac{e^{-x}+e^x}{2}\\to1$ ⇒ $1$។"},{"content":"ង. $\\ln\\dfrac{x+2}{x}\\to\\ln1=0$ និង $\\dfrac{2}{x+2}\\to0$ ⇒ $\\dfrac14$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2014-4200-8000-000000000002', 'kh-grade12-science-mathematics-complex-numbers', null, 2014, 'open', '១. គេមានចំនួនកុំផ្លិច $z_1=\sqrt{2}$, $z_2=-i\sqrt{2}$, $z_3=+i\sqrt{2}$។
 ក. គណនា $z_1+z_2$, $z_1+z_3$, $(z_1+z_2)(z_1+z_3)$។
@@ -1731,6 +2086,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000002', 2, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2014-4200-8000-000000000002', '$z_1+z_2=\sqrt2-i\sqrt2$, $z_1+z_3=\sqrt2+i\sqrt2$, ផលគុណ $=4$; ម៉ូឌុល $2$, អាគុយម៉ង់ $-\frac{\pi}{4}$ និង $\frac{\pi}{4}$; $\left(\frac{z_1+z_3}{z_1+z_2}\right)^2=-1$ (ម៉ូឌុល $1$ អាគុយម៉ង់ $\pi$); $i^{2015}-i^{2014}=1-i$', null, null, null, '[{"content":"$(\\sqrt2-i\\sqrt2)(\\sqrt2+i\\sqrt2)=2+2=4$។"},{"content":"$\\dfrac{z_1+z_3}{z_1+z_2}=\\dfrac{1+i}{1-i}=i$ ⇒ ការេ $=i^2=-1$។"},{"content":"$i^{4k}=1$, $i^{4k+1}=i$, $i^{4k+2}=-1$, $i^{4k+3}=-i$។"},{"content":"$2015=4\\cdot503+3$ ⇒ $i^{2015}=-i$; $2014=4\\cdot503+2$ ⇒ $i^{2014}=-1$ ⇒ $-i+1=1-i$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2014-4200-8000-000000000003', 'kh-grade12-science-mathematics-probability', null, 2014, 'open', 'ក្នុងថ្នាក់រៀនមួយមានសិស្សអាស៊ី $4$ នាក់ សិស្សអាហ្វ្រិក $2$ នាក់ និងសិស្សអឺរ៉ុប $3$ នាក់។ គេរៀបចំសិស្សជាក្រុមស្វ័យសិក្សា ក្នុងមួយក្រុមមានសិស្ស $3$ នាក់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ដូចខាងក្រោម៖
 ក. «យ៉ាងតិចមានសិស្ស $2$ នាក់ ជាសិស្សអាស៊ី»។
@@ -1740,6 +2100,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2014-4200-8000-000000000003', 'ក. $\dfrac{17}{42}$  ខ. $\dfrac{19}{84}$  គ. $\dfrac27$', null, null, null, '[{"content":"សិស្សសរុប $9$ នាក់ ⇒ $n(S)=C_9^3=84$។"},{"content":"ក. $C_4^2C_5^1+C_4^3=30+4=34$ ⇒ $\\dfrac{34}{84}=\\dfrac{17}{42}$។"},{"content":"ខ. $C_3^2C_6^1+C_3^3=18+1=19$ ⇒ $\\dfrac{19}{84}$។"},{"content":"គ. $4\\cdot2\\cdot3=24$ ⇒ $\\dfrac{24}{84}=\\dfrac27$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2014-4200-8000-000000000004', 'kh-grade12-science-mathematics-function-study', null, 2014, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $I=]0,+\infty[$ ដោយ $f(x)=\dfrac{x+\ln x}{x^2}$។
@@ -1753,6 +2118,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000004', 4, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2014-4200-8000-000000000004', '$h(1)=0$, $h$ ចុះ; $\lim_{0^+}f=-\infty$, $\lim_{+\infty}f=0$; $f''(x)=\dfrac{h(x)}{x^3}$; $f$ កើនលើ $]0,1]$ ចុះលើ $[1,+\infty[$, អតិបរមា $f(1)=1$', null, null, null, '[{"content":"$h''(x)=-1-\\dfrac2x<0$ ⇒ $h$ ចុះដាច់ខាត; $h(1)=0$ ⇒ $h>0$ លើ $]0,1[$, $h<0$ លើ $]1,+\\infty[$។"},{"content":"$x\\to0^+$៖ $x+\\ln x\\to-\\infty$, $x^2\\to0^+$ ⇒ $-\\infty$ (អាស៊ីមតូតឈរ $x=0$); $x\\to+\\infty$៖ $\\dfrac1x+\\dfrac{\\ln x}{x^2}\\to0$ (អាស៊ីមតូតដេក $y=0$)។"},{"content":"$f''(x)=\\dfrac{(1+\\frac1x)x^2-2x(x+\\ln x)}{x^4}=\\dfrac{-x+1-2\\ln x}{x^3}=\\dfrac{h(x)}{x^3}$ ហើយ $x^3>0$។"},{"content":"$f$ កាត់អ័ក្ស $Ox$ ត្រង់ $x+\\ln x=0$ គឺ $x\\approx0.57$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2014-4200-8000-000000000005', 'kh-grade12-science-mathematics-differential-equations', null, 2014, 'open', 'គេមានសមីការឌីផេរ៉ង់ស្យែល $(E)$៖ $y''''+4y=x^2+2x-1$។
 ១. រកអនុគមន៍ $f_1(x)=ax^2+bx+c$ ជាចម្លើយរបស់សមីការ $(E)$។
@@ -1762,6 +2132,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2014-4200-8000-000000000005', '$f_1(x)=\dfrac14x^2+\dfrac12x-\dfrac38$', null, null, null, '[{"content":"$f_1''''=2a$ ⇒ $2a+4ax^2+4bx+4c=x^2+2x-1$។"},{"content":"ផ្ទឹមមេគុណ៖ $4a=1$, $4b=2$, $2a+4c=-1$ ⇒ $a=\\frac14$, $b=\\frac12$, $c=-\\frac38$។"},{"content":"$(f-f_1)''''+4(f-f_1)=(x^2+2x-1)-(x^2+2x-1)=0$ ដូចនេះ $g$ ជាចម្លើយនៃ $y''''+4y=0$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2014-4200-8000-000000000006', 'kh-grade12-science-mathematics-vectors-space', null, 2014, 'open', '១. ក្នុងតម្រុយអរតូណរម៉ាល់មានទិសដៅវិជ្ជមាន $\left(O,\vec{i},\vec{j},\vec{k}\right)$ គេមានចំណុច $A(2,2,1)$, $B(4,-2,0)$, $C(3,1,1)$, $D(1,5,2)$។ បង្ហាញថា $ABCD$ ជាប្រលេឡូក្រាម រួចគណនាផ្ទៃក្រឡាប្រលេឡូក្រាមនេះ។
 ២. រកសមីការប៉ារ៉ាម៉ែតនៃបន្ទាត់ ដែលកាត់តាមចំណុច $A(2,2,1)$ និង $B(4,-2,0)$។
@@ -1770,6 +2145,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4200-8000-000000000000', 'bacc1010-2014-4200-8000-000000000006', 6, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2014-4200-8000-000000000006', '$\overrightarrow{AB}=\overrightarrow{DC}=(2,-4,-1)$ ⇒ ប្រលេឡូក្រាម, ផ្ទៃ $\sqrt6$; បន្ទាត់ $AB$៖ $x=2+2t, y=2-4t, z=1-t$; ប្លង់ $ABD$៖ $x+y-2z-2=0$', null, null, null, '[{"content":"$\\overrightarrow{AD}=(-1,3,1)$; $\\overrightarrow{AB}\\times\\overrightarrow{AD}=(-1,-1,2)$ ⇒ ផ្ទៃ $=\\sqrt{1+1+4}=\\sqrt6$។"},{"content":"ប្លង់មានវ៉ិចទ័រណរម៉ាល់ $(-1,-1,2)$ កាត់តាម $A(2,2,1)$៖ $-(x-2)-(y-2)+2(z-1)=0$ ⇔ $x+y-2z-2=0$ (ផ្ទៀងផ្ទាត់ $B$, $D$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1010-2014-4100-8000-000000000000', 'kh-grade12-science-mathematics', 2014, 'BacII 2014, first sitting: Mathematics (science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 150, 'Printed on the paper: រយៈពេល ១៥០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007807). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1787,6 +2167,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2014-4100-8000-000000000001', 'ក. $-2$  ខ. $20\sqrt{5}$  គ. $-\dfrac{9}{2}$  ឃ. គ្មានលីមីត (ឆ្វេង $1$ ស្តាំ $-1$)', null, null, null, '[{"content":"ក. តាង $t=x-\\frac{\\pi}{4}\\to0$៖ $\\dfrac{2\\sin t}{-t}\\to-2$។"},{"content":"ខ. គុណនឹងកន្សោមឆ្លាស់៖ $\\sqrt5-\\sqrt{x+5}=\\dfrac{-x}{\\sqrt5+\\sqrt{x+5}}$ ដូចនេះ $\\dfrac{-2\\sin5x}{\\sqrt5-\\sqrt{x+5}}=\\dfrac{2\\sin5x}{x}\\left(\\sqrt5+\\sqrt{x+5}\\right)\\to10\\cdot2\\sqrt5=20\\sqrt5$។"},{"content":"គ. $1-\\cos^2 3x=\\sin^2 3x$ ហើយ $\\dfrac{\\sin^2 3x}{x^2}\\to9$ ដូចនេះលីមីតស្មើ $-\\dfrac92$។"},{"content":"ឃ. $x\\to0^+$៖ $\\dfrac{x^2-x}{x}=x-1\\to-1$; $x\\to0^-$៖ $\\dfrac{x^2-x}{-x}=1-x\\to1$។ លីមីតឆ្វេង និងស្តាំខុសគ្នា ដូចនេះគ្មានលីមីត។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2014-4100-8000-000000000002', 'kh-grade12-science-mathematics-complex-numbers', null, 2014, 'open', 'គេឲ្យចំនួនកុំផ្លិច $z_1=-1+i\sqrt{3}$ និង $z_2=-1-i\sqrt{3}$។
 ១. គណនា $z_1+z_2$, $z_1-z_2$, $z_1z_2$។
@@ -1797,6 +2182,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2014-4100-8000-000000000002', '$z_1+z_2=-2$, $z_1-z_2=2i\sqrt3$, $z_1z_2=4$; $z_1=2\left(\cos\frac{2\pi}{3}+i\sin\frac{2\pi}{3}\right)$, $z_2=2\left(\cos\frac{2\pi}{3}-i\sin\frac{2\pi}{3}\right)$', null, null, null, '[{"content":"$z_1z_2=(-1)^2-(i\\sqrt3)^2=1+3=4$។"},{"content":"$|z_1|=|z_2|=\\sqrt{1+3}=2$; $\\cos\\theta=-\\frac12$, $\\sin\\theta=\\pm\\frac{\\sqrt3}{2}$ ⇒ $\\theta=\\pm\\frac{2\\pi}{3}$។"},{"content":"ដោយ de Moivre៖ $z_1^3=2^3\\left(\\cos2\\pi+i\\sin2\\pi\\right)=8$ និង $z_2^3=8\\left(\\cos(-2\\pi)+i\\sin(-2\\pi)\\right)=8$ ដូចនេះ $z_1^3-8=z_2^3-8=0$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2014-4100-8000-000000000003', 'kh-grade12-science-mathematics-probability', null, 2014, 'open', 'នៅក្នុងធុងមួយគេមានប៊ូល $12$ ដែលមានសរសេរលេខពី $1$ ដល់ $12$។ គេចាប់យកប៊ូល $3$ ពីក្នុងធុងព្រមគ្នាដោយចៃដន្យ។ រកប្រូបាបដែល៖
 ១. «គេចាប់បានប៊ូលទាំងបីមានលេខសុទ្ធតែចែកដាច់នឹង $3$»
@@ -1806,6 +2196,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2014-4100-8000-000000000003', '១. $\dfrac{1}{55}$  ២. $\dfrac{28}{55}$  ៣. $\dfrac{3}{110}$', null, null, null, '[{"content":"$n(S)=C_{12}^3=220$។ លេខចែកដាច់នឹង $3$៖ $3,6,9,12$ (មាន $4$)។"},{"content":"១. $C_4^3=4$ ⇒ $P=\\dfrac{4}{220}=\\dfrac1{55}$។"},{"content":"២. $C_4^1\\cdot C_8^2=4\\cdot28=112$ ⇒ $P=\\dfrac{112}{220}=\\dfrac{28}{55}$។"},{"content":"៣. ស្វ៊ីត $(a,a+3,a+6)$ ដែល $a+6\\le12$ ⇒ $a=1,\\dots,6$ គឺ $6$ ករណី ⇒ $P=\\dfrac{6}{220}=\\dfrac{3}{110}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2014-4100-8000-000000000004', 'kh-grade12-science-mathematics-function-study', null, 2014, 'open', '$f$ ជាអនុគមន៍កំណត់លើ $]0,+\infty[$ ដោយ $f(x)=x-5+\dfrac{8\ln x}{x}+\dfrac{9}{x}$ និង $C$ ក្រាបរបស់វា។
@@ -1819,6 +2214,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000004', 4, 35)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2014-4100-8000-000000000004', '$\lim_{x\to+\infty}f=+\infty$, $\lim_{x\to0^+}f=-\infty$, $\Delta: y=x-5$ ជាអាស៊ីមតូត, ចំណុចប្រសព្វ $x=e^{-9/8}$, $f''(x)=\dfrac{x^2-1-8\ln x}{x^2}$; $f$ កើនលើ $]0,1]$ និង $[\alpha,+\infty[$ ចុះលើ $[1,\alpha]$', null, null, null, '[{"content":"$f(x)-(x-5)=\\dfrac{8\\ln x+9}{x}\\to0$ កាលណា $x\\to+\\infty$ ដូចនេះ $\\Delta$ ជាអាស៊ីមតូតទ្រេត។"},{"content":"កាលណា $x\\to0^+$៖ $8\\ln x+9\\to-\\infty$ ហើយចែកនឹង $x\\to0^+$ ⇒ $f\\to-\\infty$។"},{"content":"ប្រសព្វ៖ $8\\ln x+9=0$ ⇒ $x=e^{-9/8}$។"},{"content":"$f''(x)=1+\\dfrac{8(1-\\ln x)}{x^2}-\\dfrac{9}{x^2}=\\dfrac{x^2-1-8\\ln x}{x^2}$ ដូចនេះ $g(x)=x^2-1-8\\ln x$។"},{"content":"$g''(x)=2x-\\dfrac8x$ សូន្យត្រង់ $x=2$; $g(1)=0$, $g(2)=3-8\\ln2<0$ ⇒ $g>0$ លើ $]0,1[$, $g<0$ លើ $]1,\\alpha[$, $g>0$ លើ $]\\alpha,+\\infty[$ ($\\alpha\\approx3.22$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1010-2014-4100-8000-000000000005', 'kh-grade12-science-mathematics-function-study', null, 2014, 'open', '$f$ ជាអនុគមន៍កំណត់លើ $\mathbb{R}$ ដោយ $f(x)=4-x-2e^{-x}$។ គេតាងដោយ $C$ ជាក្រាបរបស់វា។
@@ -1834,6 +2234,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1010-2014-4100-8000-000000000000', 'bacc1010-2014-4100-8000-000000000005', 5, 45)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1010-2014-4100-8000-000000000005', '$\lim_{+\infty}f=-\infty$, $\lim_{-\infty}f=-\infty$, $C$ នៅក្រោម $D$, អតិបរមា $f(\ln2)=3-\ln2$, បន្ទាត់ប៉ះត្រង់ $A$៖ $y=x+2$, $\beta\in[-1,0]$ តែមួយ', null, null, null, '[{"content":"$f(x)-(-x+4)=-2e^{-x}\\to0$ កាលណា $x\\to+\\infty$ ⇒ $D$ ជាអាស៊ីមតូត ហើយ $-2e^{-x}<0$ ⇒ $C$ នៅក្រោម $D$។"},{"content":"$f(x)=\\dfrac{4e^x-xe^x-2}{e^x}$; កាលណា $x\\to-\\infty$ ភាគយក $\\to-2$ ភាគបែង $\\to0^+$ ⇒ $f\\to-\\infty$។"},{"content":"$f''(x)=-1+2e^{-x}$ សូន្យត្រង់ $x=\\ln2$; $f$ កើនលើ $]-\\infty,\\ln2]$ ចុះលើ $[\\ln2,+\\infty[$; $f(\\ln2)=4-\\ln2-1=3-\\ln2$។"},{"content":"$f(0)=2$, $f''(0)=1$ ⇒ $y=x+2$។"},{"content":"$f(-1)=5-2e\\approx-0.44<0$, $f(0)=2>0$ ហើយ $f$ កើនដាច់ខាតលើ $[-1,0]$ ⇒ មានចម្លើយតែមួយ $\\beta$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 commit;
 
 -- ===== supabase/seed/past-papers.sql (9/17) =====
@@ -2564,1143 +2969,5 @@ values ('bacc2110-2016-4000-8000-000000000006', 'kh-grade12-social-earth-science
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2110-2016-4000-8000-000000000000', 'bacc2110-2016-4000-8000-000000000006', 6, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-commit;
-
--- ===== supabase/seed/past-papers.sql (11/17) =====
--- kh-grade12-social-english.json
-begin;
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2070-2022-4000-8000-000000000000', 'kh-grade12-social-english', 2022, 'BacII 2022: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2022 (2022-12-05), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2022-4000-8000-000000000001', 'kh-grade12-social-english-past-papers', null, 2022, 'open', 'Part 1. Reading
-Read the text and fill the gaps with the words in the box. Gap one has been done as an example.
-
-(0) discipline · (1) stricter · ( ) situation · ( ) Punishment · ( ) reputation · ( ) behavior · ( ) control · ( ) conduct · ( ) freedom · ( ) respect · ( ) progressive
-
-In most countries, schools were much (1) stricter twenty-five years ago than they are today. Many parents are not at all happy with the present (2)……………….. because they feel that teachers have lost the ability to (3)……………… their classes. Some schools in particular have developed a very bad (4)……………….. for the way in which the students (5)……………. themselves. They no longer seem to have any (6) ……………….. for the school or the teachers who work in it. Some experts feel that the reason for these new patterns of (7)………………. in schools is the result of (8) ………………… ideas in education. They feel that (9). ……………… has become weak because students have been given too much (10)….. to choose how they want to spend their time. It is no doubt a good idea that physical (11)…………….. traditional kind of education has vanished in most places. But nowadays in many schools no punishment at all is possible.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000001', 1, 10)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2022-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2022, 'open', 'Part 2: Grammar
-There are four answers after each statement. Only one answer is correct. Choose the correct a, h, cord. The first one has been done as an example for you.
-Example: We haven''t got….b… money to buy a new car yet.
-a. quite  b. too much  b. too many  d. enough
-
-1. Good management……. to the employee.
-a. will be finished  b. are listened  c. listen  d. listens
-2. He has got a new friend……..works in the bank.
-a. whose  b. where  c. who  d. which
-3. Your mother used to visit you quite often……?
-a. didn''t she  b. doesn''t she  c. wouldn''t she  d. hadn''t she
-4. I…….. on the bus when I dropped my wallet.
-a. am getting  b. get  c. was getting  d. have gotten
-5. More roads…………. every year.
-a. was built  b. had built  c. are being built  d. are building', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000002', 2, 15)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2022-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2022, 'open', 'Part 3: Vocabulary
-There are four answers after each statement. Only one answer is correct. Choose the correct a, b, c or d. The first one has been done as an example for you.
-Example: What are you going to buy your mother…..for… her birthday.
-a. conclude  b. during  c. for  d. at
-
-1. What are you going to do when you……………..school
-a. conclude  b. end  c. complete  d. leave
-2. All medicines should be kept out of……….of children.
-a. hand  b. touch  c. contact  d. reach
-3. I le ……… to get some cards for his birthday, but none arrived.
-a. promised  b. exacted  c. assume  d. supposed
-4. Is it possible to. ……………now for next terms'' evening classes?
-a. participate  b. join in  c. enroll  d. enter
-5.………… inform you that your grandmother died ten minutes ago.
-a. apologies  b. sorry  c. pity  d. regret', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000003', 3, 15)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2022-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2022, 'open', 'Part 4. Writing
-Write an essay in English at least 80 words about "How to reduce road accident in Cambodia?".', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000004', 4, 10)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2070-2021-4000-8000-000000000000', 'kh-grade12-social-english', 2021, 'BacII 2021: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2021 (2021-12-27), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2021-4000-8000-000000000001', 'kh-grade12-social-english-past-papers', null, 2021, 'open', 'Part 1. Reading
-Read the text and fill the gaps with the words in the box. Gap one has been done as an example.
-
-(0) economics · ( ) television · ( ) department · ( ) money · ( ) promoted · ( ) waitress · ( ) presenters · ( ) was · ( ) applied · ( ) few months · ( ) job
-
-A working life
-Well I studied (0) … economics at university, and the I was lucky because I got a (1) …….. very quickly as an accountant in a local (2) …….. store. It wasn''t exactly what I wanted, but you know, it was a first job. I stayed there for four years altogether. After three year I was (3) …….. to accounts manager, and I decided to leave and I (4) …….. for others jobs in the area. But I had no luck getting a second job at all, and I was very short of (5) ………., so in the end I had to get job working as a (6) ………. in a restaurant. Well it wasn''t very successful because I''m quite clumsy you see I kept dropping things. So I after a few weeks they gave me sack. And then, just by chance I met an old friend who I (7) ……… at university with, and he was working in (8) ……… And he got me a job as television researcher on a programme called "Business Today". And after a (9)………. really they decided that want younger (10) ……… of the programme, and I got a job and I love it.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000001', 1, 10)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2021-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2021, 'open', 'Part 2. Grammar
-There are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.
-Example: You must have something to eat before …..b….. to school.
-a. go  b. going  c. to go  d. of go
-
-1. Mr. Kingseng can''t talk on the phone because he ……… dinner right now.
-a. is eating  b. eats  c. has eaten  d. has been eating
-2. That little girl ……….. for the last two days.
-a. hasn''t eaten  b. doesn''t eat  c. isn''t eating  d. has eaten
-3. Several trees fell down last night …….. the strong wind.
-a. because  b. so  c. since  d. because of
-4. I hope you ………… us when you come here.
-a. visited  b. would visit  c. visit  d. will visit
-5. If she doesn''t do he homework, she …………. punished.
-a. is  b. would be  c. will be  d. will have', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000002', 2, 15)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2021-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2021, 'open', 'Part 3. Vocabulary
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: He ……c…… that he still lives this daughter.
-a. tells  b. speaks  c. says  d. told
-
-1. I''m really ………….. of my child who first prize in the art competition.
-a. pleased  b. proud  c. happy  d. delighted
-2. In recent years inflection has almost double the ………… of living.
-a. cost  b. expense  c. charge  d. price
-3. The restaurant services are bad, so we should write a ………. to the manager.
-a. essay  b. message  c. complaint  d. information
-4. The plane was delayed by fog, and so I ………… my connection.
-a. lost  b. abandoned  c. forgot  d. missed
-5. She went to the library to ……….
-a. borrow a book  b. lend a book  c. let a book  d. hire a book', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000003', 3, 15)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2021-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2021, 'open', 'Part 4. Writing
-Write an essay in English at least 80 words about "Your goal in the future".', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000004', 4, 10)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2070-2019-4000-8000-000000000000', 'kh-grade12-social-english', 2019, 'BacII 2019: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2019 (2019-08-19), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2019-4000-8000-000000000001', 'kh-grade12-social-english-past-papers', null, 2019, 'open', 'Part 1. Reading
-Read the text and fill the gaps with the words in the box. Gap one has been done as an example.
-
-( ) discussion · ( ) fire · ( ) to pay · ( ) originally · ( ) sports · ( ) converted · (1) rebuilt · ( ) used · ( ) businessman · ( ) money · ( ) indoors
-
-Opening of New Sport Centre
-The Champa Sport Centre, which has been completely (1) …rebuilt…, was reopened yesterday by the Minister for Sport. The building was (2)…… used as a market, but was sold to Champa Council in 1981, and then (3) ……into a sports hall. Local schools played football and basketball (4) ……, and keep fit classes were held there. In 2001 the hall was damaged by a (5) ……which broke out in the heating system. The hall could not be used, and remained empty while (6) …… continued about its future. It was then decided that the hall would be rebuilt, and an appeal for (7) ……was launched. Two years ago a local (8) …… offered (9) ……for the building work, and plans were drawn up. The new hall includes a swimming pool, running track and other (10) ……facilities which can be (11) ……by anyone in the Champa area. The Minister made a speech in which he congratulated everyone involved.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000001', 1, 10)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2019-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2019, 'open', 'Part 2. Grammar
-There are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.
-Example: …b…I go with you to the shops, Mum?
-a. Will  b. May  c. Would  d. Won''t
-
-1. Samnang works in the Post Office, ………?
-a. is he  b. isn''t he  c. works he  d. doesn''t he
-2. My father ………. in the firm from 1975 to 1989. Now he''s retried.
-a. has worked  b. worked  c. is working  d. had worked
-3. Which sentence is the correct one?
-a. I am a cool  b. I''ve catched a cold  c. I have cold  d. I have caught a cold
-4. I ……………on a bench in the park when they ran past me.
-a. was sitting  b. have sat  c. sat  d. was sat
-5. Thida …………to the cinema if you went with her.
-a. will go  b. would go  c. goes  d. went', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000002', 2, 15)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2019-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2019, 'open', 'Part 3. Vocabulary
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: My parent often does ……d……with people from Korea,
-a. affairs  b. finances  c. economy  d. business
-
-1. At …………..time there is always plenty of work to do on a farm.
-a. production  b. profit  c. plant  d. harvest
-2. It is against the ………….not to wear seat belt in a plane.
-a. rule  b. regulation  c. law  d. order
-3. Everything in the sale has been ……….to half price
-a. reduced  b. decreased  c. bargained  d. lowered
-4. I ……….to inform you that your grandmother died ten minutes ago.
-a. apologise  b. sorry  c. pity  d. regret
-5. We were unable to reach an agreement because of …………the between the two groups.
-a. contact  b. concern  c. connection  d. conflict', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000003', 3, 15)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2019-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2019, 'open', 'Part 4. Writing
-Write an essay "Studying for Success" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000004', 4, 10)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2070-2018-4000-8000-000000000000', 'kh-grade12-social-english', 2018, 'BacII 2018: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2018 (2018-08-20), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2018-4000-8000-000000000001', 'kh-grade12-social-english-past-papers', null, 2018, 'open', 'I. Reading
-Read the text and fill the gaps with the words in the box. Gap one has been done as an example.
-
-economic · earnings · disagreed · applications · employee · profitable · (1) advertising · resignation · qualified · unemployed · retirement
-
-Leaving a job
-I recently left my job in an …advertising…agency after disagreement with my boss. She accepted my (2) …. but warned me that because of the (3) ….. situation, I might have to get used to the idea of being (4) ….. for a while. I thought that she was trying to make a point, but after I had made over fifty (5) …… to other companies. O realized that she was right. Although I am a (6) …. designer. I don''t receive any offers of a job. After that I tried working from home, but it was not very (7) ……Then I became and (8) ……. in a fast-food restaurant, even though my (9) …… were extremely low. I wish I had accepted early (10) …… from my old job. That is what I (11) ……. with my boss about!', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2018-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2018, 'open', 'II. Grammar
-There are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.
-Example: We saw …b…children in the park.
-a. any  b. some  c. much  d. a
-
-1. We haven''t got ……. money to buy a new car.
-a. quite  b. too much  c. too many  d. enough
-2. The person …… my hair usually does a very good job.
-a. who he cuts  b. who cuts  c. cuts  d. cuts it
-3. We ……. to the football game when it started to rain.
-a. are driving  b. drives  c. driven  d. were driving
-4. The new bridge ……. before the end of next month.
-a. will be completed  b. will complete  c. is completed  d. completes
-5. Their marriage wouldn''t be so good if they ……. so well with each other.
-a. communicated  b. didn''t communicate  c. don''t communicate  d. communicate', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2018-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2018, 'open', 'III. Vocabulary
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: What are you going to do when you …d… school?
-a. conclude  b. end  c. complete  d. leave
-
-1. I saw a nasty ……. between two cars this morning.
-a. damage  b. danger  c. accident  d. happening
-2. All medicines should be kept out of ……. of children.
-a. hand  b. touch  c. contact  d. reach
-3. Everything in the sale has been ……. to half price.
-a. reduced  b. decreased  c. bargained  d. lowered
-4. At work, Vuthy always arrives on time, he''s so …….
-a. timeless  b. punctual  c. boring  d. careful
-5. It''ll take you over an hour to get to the city center in ….. hour.
-a. rush  b. busy  c. run  d. crowded', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2018-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2018, 'open', 'IV. Writing
-Write an essay "Role of women in modern Cambodia society" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2070-2017-4000-8000-000000000000', 'kh-grade12-social-english', 2017, 'BacII 2017: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2017 (2017-08-21), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2017-4000-8000-000000000001', 'kh-grade12-social-english-past-papers', null, 2017, 'open', 'Part I. Reading
-Read the text and fill the gaps with the words in the box. Gap one has been done as an example.
-
-( ) occupation · ( ) successful · ( ) embarrassment · ( ) hobby · ( ) failure · ( ) solution · (1) evening · ( ) secretarial · ( ) explanation · ( ) frozen · ( ) construction
-
-Recently I decided to go to (1) ……classes twice a week. During the day, I work in a (2) ……agency as a telephonist. It is not a very good interesting (3) ……and I get bored. I also got tired of coming home every evening putting a (4) ……meal in the oven and then watching TV. So, I decided to take up carpentry as a (5) ……. Perhaps I should give you an (6) …… for my choice. Learning a skill is a good (7) ……to the problem of boring work. Also, I felt I was a (8) …… because any time I tried to put up a shelf, for example, it always fell down. Now I am quite a (9) ……wood worker. I am working on the (10) ……of some furniture at the moment. And although there are only few students in the class, I don''t feel any (11) ……I''ve turned out to be the best student in the class!', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2017-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2017, 'open', 'Part 2: Grammar
-There are four answers after each statement. Only one answer in correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: Have you …b… my new car.
-a. see  b. seen  c. seeing  d. saw
-
-1. Girls, you ……say those things about your teachers.
-a. mustn''t  b. haven''t to  c. haven''t  d. mustn''t to
-2. Have another piece of cake. No, thanks, ……too much.
-a. I''ve ate  b. I ate  c. I eaten  d. I''ve eaten
-3. I was going to do the washing. But the machine ….. down.
-a. broke  b. breaks  c. broken  d. break
-4. My secretary was late, she had never …… late before.
-a. was  b. had  c. came  d. been
-5. If you give me some money, I …… to go shopping.
-a. can  b. could  c. will be able  d. will can', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2017-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2017, 'open', 'Part 3: Vocabulary
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: They …c… all day swimming and sunbathing at the beach.
-a. did  b. used  c. spent  d. occupied
-
-1. Before you begin the exam paper, always read the ……. carefully.
-a. orders  b. instructions  c. rules  d. answers
-2. If you put your money in the bank. It will earn percent ……….. .
-a. interest  b. profit  c. deposit  d. investment
-3. Most people in the town ……. the idea fi Green and Clean city.
-a. agree  b. approve  c. support  d. believe
-4. The plane was delayed by fog, and so I …… my connection.
-a. lost  b. abandoned  c. forgot  d. missed
-5. The fans climbed over the fence to …… paying.
-a. avoid  b. prevent  c. abandon  d. refuse', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2017-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2017, 'open', 'Part 4: Writing
-Writing an essay. There is too much traffic in the city. "What do you think the authorities should do about it?" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2070-2016-4000-8000-000000000000', 'kh-grade12-social-english', 2016, 'BacII 2016: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2016 (2016-08-22), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2016-4000-8000-000000000001', 'kh-grade12-social-english-past-papers', null, 2016, 'open', 'I. Reading
-Read the text and fill the gaps with the words in the box. Gap one has been done as an example.
-
-practicing · raincoat · change · be able · offered · nothing · (1) tennis · soaked · relaxed · forget · drink
-
-A friend in the rain
-Last week I was walking home after playing (1)…tennis…. when it started raining very heavily. "Oh no, I will get (2)……. Before I reach home". I thought. "I wish I had remembered to bring my (3)……." But unfortunately I had left it at home. "How stupid of me! I always (4)…….. to bring it with me." Luckily just then a friend of mine passed in his car and (5)…….. me a lift. "Are you going home?" he asked "or do you want to go for a (6)…….?" "I think I''d rather you took me home." I said. If I don''t (7)…… my clothes, I know I will fall ill, and then I won''t (8)….. to play in the tennis tournament next week. And I have been (9) …… hard for the last month. "I will wait for you to change if you like", he told me. "I think it''s time you (10)…… for a change". You have been worrying to much about things lately. And people who worry too much fail ill more easily. It''s got (11)…… to do with the rain.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2016-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2016, 'open', 'II. Grammar
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: We haven''t got ….d…. money to buy a new car yet
-a. quite  b. too much  c. too many  d. enough
-
-1. You must have something to eat before ……. to school.
-a. go  b. going  c. to go  d. of go
-2. You have never seen this before……. you?
-a. haven''t  b. don''t  c. do  d. have
-3. This problem …….. by this clever boy last night.
-a. will be solved  b. is solved  c. was solved  d. solved
-4. What ….. you do if you won a lot of money.
-a. will  b. must  c. would  d. have
-5. She was cleaning her teeth when the phone…….
-a. was going to ring  b. was ringing  c. rang  d. ring', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2016-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2016, 'open', 'III. Vocabulary
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: On Sunday the children have swimming lessons at the swimming ….d…..
-a. tank  b. well  c. bowl  d. pool
-
-1. What are you going to do when you …..school?
-a. conclude  b. end  c. compete  d. leave
-2. The hotel services are bad, so we should write a…. to the manager.
-a. complaint  b. message  c. information  d. essay
-3. Bopha cried out with ….. at the beautiful present Mr. Kimseng gave her.
-a. depress  b. horror  c. anger  d. delight
-4. Is it possible to ….. now for next term''s evening classes?
-a. send  b. enroll  c. join in  d. enter
-5. Most parents finds it difficult to…… their children nowadays.
-a. bring up  b. develop  c. grow up  d. set up', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2016-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2016, 'open', 'IV. Writing
-Write an essay "Life in the countryside" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2070-2015-4000-8000-000000000000', 'kh-grade12-social-english', 2015, 'BacII 2015: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2015 (2015-08-24), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2015-4000-8000-000000000001', 'kh-grade12-social-english-past-papers', null, 2015, 'open', 'I. Reading
-Read the text and fill the gaps with the words in the box. Gap one has been done as an example.
-
-recovery · month · treatment · poisonous · weight · disease · (1) doctor · heartened · optimistic · infectious · painful
-
-A visit to the doctor''s
-Kimseng decided to visit the (1)….doctor…. after his trip to the jungle. He was normally a tall muscular person. but over the past (2)……….. he had lost a lot of (3)………… He had also notices that his ankles and knees had become rather (4)……………. He thought that he might have eaten or drunk something(5)……………. or caught some kinds of (6)………………. disease. The doctor took some blood for tests and told Kimseng felt quite (8)…………. "Don''t worry" said the doctor, "It''s nothing serious. You haven''t caught an incurable (9)………………… or anything terrible like that. It''s a simple virus, and you will need some (10)……………. take these tablets twice a day for two weeks, and you''ll make a full (11)………………".', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2015-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2015, 'open', 'II. Grammar
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: we saw ….d…. children in the park.
-a. any  b. much  c. a  d. some
-
-1. Ankor wat temple ……………by thousands of tourists every month.
-a. was visited  b. visited  c. are visited  d. is visited
-2. Mr. Sophal can''t talk on the phone because he …………… dinner right now.
-a. eats  b. is eating  c. has eaten  d. has been eating
-3. I …………. the house before you called.
-a. leave  b. has left  c. am leaving  d. had been leaving
-4. If I found a wallet on the street, I ………. it to police station.
-a. will take  b. take  c. would take  d. am taking
-5. The tree, ………… behind my house, give a lot of shade.
-a. grows.  b. which it grows  c. which grows  d. it grows', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2015-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2015, 'open', 'III. Vocabulary
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: How ….b…. is it from here to city center?
-a. long  b. far  c. near  d. distant
-
-1. How much do they …………for cleaning your room?
-a. demand  b. cost  c. charge  d. need
-2. In some countries, smoking in public places is ………… Because many people are hurt of smoke.
-a. prohibited  b. increased  c. encourage  d. continued
-3. The movement should …………a law to make computer hacking illegal.
-a. allow  b. enter  c. pass  d. bring
-4. The bad weather …………… The flight for several hours.
-a. postponed  b. delayed  c. cancelled  d. stopped
-5. In recent years, inflation has almost double the ……….. Of living.
-a. price  b. expense  c. charge  d. cost', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2015-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2015, 'open', 'IV. Writing
-Write an essay "What make a good parent" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2070-2014-4200-8000-000000000000', 'kh-grade12-social-english', 2014, 'BacII 2014, second sitting: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2014-4200-8000-000000000001', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'I. Reading
-Read the text and fill the gaps with the words in the box. Gap one has been done as an example.
-
-timetable · help · information · taught · afterwards · memories · heart · waste · look · (1) subject · result · understanding
-
-Learning how to learn
-There is usually on important (1) …subject… missing from most school (2) ……. Very few students are (3) ………. how to organize their learning, and how to make the best use of their time. Let''s take some simple examples. Do you know how to (4) ……. up words in a dictionary, and do you understand all the (5) …….the dictionary contains? Can you make notes quickly, and can you understand them (6) ……..? For some reasons , many school give learners no (7) …….. with this matters. Teachers ask students to (8) ……… pages from books, or tell them to write ten pages, but don''t explain how to do it. Learning by (9) ……. Can be useful, but it is more important to have a genuine (10) …….. of a subject. You can (11) …….. a lot of time memorizing books, without understanding anything about the subject.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2014-4200-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'II. Grammar
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: Yesterday she …d… to Siem Reap.
-a. go  b. is going  c. goes  d. went
-
-1. We …….. with the prime minister for dinner at the Sunway Hotel tonight.
-a. will be met  b. have been met  c. were met  d. are meeting
-2. Mr. Sambath …….. his vacation after the project is completed.
-a. will take  b. took  c. has taken  d. taking
-3. Mr. Chantha …….. for the day when the phone call came.
-a. has already left  b. already leaves  c. already left  d. had already left
-4. If we keep …….. like this, we should be done before the deadline.
-a. working  b. worked  c. to work  d. work
-5. The benefits programme ……… in the next few months.
-a. had changed  b. were changed  c. will be changed  d. changed', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2014-4200-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'III. Vocabulary
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: When I was twelve, my father taught me how to ….b….. chess.
-a. do  b. play  c. make  d. collect
-
-1. At the age of 60, Mr. Vuth retired and lived off his …… .
-a. salary  b. allowance  c. grant  d. pension
-2. Please confirm you reservation in ……….
-a. letter  b. writing  c. words  d. paper
-3. Everybody knew Samnang had …….. a crime bit nobody wanted to tell the police.
-a. committed  b. done  c. made  d. performed
-4. The researchers ……… many experiments to find to most effective materials.
-a. considered  b. confirmed  c. concerned  d. conducted
-5. I ……… on the news that the price of gas is going up again.
-a. looked  b. listened  c. heard  d. watched', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2014-4200-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'IV. Writing
-Write an essay "The value of Higher Education" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2070-2014-4100-8000-000000000000', 'kh-grade12-social-english', 2014, 'BacII 2014, first sitting: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2014-4100-8000-000000000001', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'I. Reading
-Read the text and fill the gaps with the words in the box. Gap one has been done as an example.
-
-candidate · eligible · result · opinion pool · violent · (1) predict · ballot box · polling day · support · election campaign · polling station · winner
-
-Election
-People sometimes try to (1) predict ……. the result of an election weeks before it takes place. Several hundred people are asked which party they prefer, and their answers are used to guess the (2)…….. of the coming election. This is called an (3) ………. Meanwhile each party conducts its (4) ………. with meetings, speeches, television commercials and party members going form door to door encouraging people to (5) ……. Their party. In Cambodia everyone over 18 is (6)……… to vote. The place where people go to vote in an election is called a (7) ……… and the day of the election is often known as (8)…………. The voters put their votes in a (9)………. And later they are counted. The (10)……… with the most bites in then declared the (11)………. .', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2014-4100-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'II. Grammar
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: Yesterday she …..went… to Siem Reap.
-a. go  b. is going  c. goes  d. went
-
-1. Although Ms. Thida………. reservation, the hotel did not have a room for her.
-a. make  b. has make  c. had make  d. makes
-2. I ……….. on the bus when I dropped my wallet.
-a. am getting  b. have gotten  c. get  d. was getting
-3. Several trees fell down last night………….. the strong wind.
-a. because of  b. since  c. haven''t eaten  d. didn''t eat
-4. We………….. at that restaurant during the last few months.
-a. don''t eat  b. won''t eat  c. haven''t eaten  d. didn''t eat
-5. Mr. Dara………… so many accidents if he drove more carefully.
-a. would have  b. won''t have  c. would have had  d. wouldn''t have', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2014-4100-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'III. Vocabulary
-There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
-Example: When I was twelve, my father taught me how to …play…chess.
-a. do  b. play  c. make  d. collect
-
-1. I''m really ……… of my son who won first prize is the art competition.
-a. pleased  b. proud  c. delighted  d. happy
-2. We all need to ……….. responsibility for improving our local community.
-a. have  b. make  c. take  d. give
-3. It''s important to set yourself clear ……… so you know what you are aiming for.
-a. ambitions  b. opportunities  c. decisions  d. golds
-4. According to the weather…………, there will be rain tomorrow.
-a. programme  b. information  c. survey  d. forecast
-5. Many people believe that violent computer games can have a harmful…………. on children.
-a. effect  b. affect  c. damage  d. involvement', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2070-2014-4100-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'IV. Writing
-Write an essay "Advantages and Disadvantages of TV" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-commit;
-
--- ===== supabase/seed/past-papers.sql (12/17) =====
--- kh-grade12-social-french.json
-begin;
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2021-4000-8000-000000000000', 'kh-grade12-social-french', 2021, 'BacII 2021: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2021-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'I. Compréhension écrite.
-Complétez le texte avec les mots: copain, parents, maison, bizarre, bruits.
-Moi, j''ai peur de rester seul à la ………. ! Quand mes ……… sortent, je ne sais pas quoi faire. J''essaie d''inviter un …….. à la maison ou d''aller chez quelqu''un, mais ce n''est pas toujours possible. Quand je suis seul, je ne peux me concentrer sur rien, je commence à entendre des ………. J''ai honte, parce qu''à 15 ans, c''est un peu …….., non ? Mais je ne peux pas l''éviter.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2021-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'II. Vocabulaire
-Soulignez les intrus.
-Example : argent · cuivre · or · fer · agent
-1. matinée · journée · musée · idée · rentrée
-2. dimanche · printemps · été · automne · hiver
-3. boulangerie · boucherie · pâtisserie · librairie · charcuterie
-4. rapidement · développement · lentement · calmement · doucement
-5. père · mère · frère · sœur · voisin
-6. Laos · Russie · Cambodge · Thaïlande · Vietnam
-7. poitrine · tête · bras · docteur · jambe', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2021-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'III. Grammaire
-A. Répondez par "Si", "Oui" ou "Non".
-Example: Vous n''être pas fatiqués?. - ………, nous sommes très fatiqués. → - Si, nous sommes très fatiqués.
-1. Tu es Francais, - ………., je suis Cambodgien.
-2. Tu ne mange pas de riz ? - …………, je mange du riz.
-3. Est-ce que tes parents sont à Phnom Penh. - ………, ils sont à Phnom Penh,
-
-B. Reliez les phrases A et B selon l''exemple
-A:
-1. Elle a mal à la gorge.
-2. Elle a mal à la main.
-3. Elle a mal au pied.
-4. Elle a mal aux yeux.
-5. Elle a mal à la fesse.
-6. Elle a mal à la tête.
-B:
-a. Elle ne peut pas marcher.
-b. Elle ne peut pas s''assoir.
-c. Elle ne peut pas réfléchir.
-d. Elle ne peut pas manger.
-e. Elle ne peut pas écrite.
-f. Elle ne peut pas courir.
-g. Elle ne peut pas lire
-C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2021-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'IV. Expression écrite. (10 points)
-Après l''examen du baccalauréat, qu''est-ce que vous faites ? Ecrivez environ 70 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2019-4000-8000-000000000000', 'kh-grade12-social-french', 2019, 'BacII 2019: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2019-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'I. Compréhension écrite.
-Complétez les phrases avec : l''impression, avis, semble, ne crois pas, demande, pensez.
-1. A mon (1) ….avis…, c''est une bonne idée.
-2. Je (2)………… que ce soit facile.
-3. Qu''est-ce que vous (3) ……….. de ce projet ?
-4. Je me (4) ………… si ce n''est pas inutile d''organiser une réunion.
-5. Il me (6) ………… que c''est intéressant.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2019-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'II. Vocabulaire
-Soulignez les intrus.
-Example : jambes · bras · _thermomètre_ · bouche · tête
-1. développement · pauvrement · courageusement · contentement · librement
-2. porc · mouton · durian · bœuf · buffle
-3. parler · écouter · aller · regarder · manger
-4. le nord · le fond · le sud · l''est · l''ouest
-5. Cambodge · Vietnam · Laos · France · Thaïlande
-6. docteur · professeur · ventilateur · ingénieur · présentateur
-7. bananier · infirmier · caféier · pommier · cerisier', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2019-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'III. Grammaire
-A. Complétez les phrases avec : "c''est pourquoi", "donc", "aussi".
-Example: Ma sœur ne connaît pas encore … elle demande le chemin au policier. → Ma sœur ne connaît pas encore Paris, c''est pourquoi elle demande le chemin au policier.
-1. Il n''a pas le permis, ………. il ne peut pas conduire.
-2. Vous avez trop mangé, ………….. Vous êtes malade.
-3. Le pneu de sa moto est crevé, ……. faut-il le réparé.
-
-B. Reliez les phrases A et B selon l''exemple.
-A:
-1. Si nous ne partons pas maintenant,
-2. Je veux me promener. Il pleut
-3. Il a mal à la tête.
-4. Les touristes viendront au Cambodge pour
-5. Le Mont Everest est
-6. Le professeur expliquer pour que
-B:
-a. visiter Angkor.
-b. une des plus hautes montages du monde.
-c. Il ne peut pas réfléchir.
-d. nous allons être en retard
-e. tant pis, je resterai à la maison.
-f. les élèves comprennent bien.
-C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2019-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'IV. Expression écrite. (10 points)
-Vous avez assisté à l''anniversaire (de naissance) d''un (e) ami(e). Racontez ce que vous avez fait, vu et entendu pendant la fête.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2018-4000-8000-000000000000', 'kh-grade12-social-french', 2018, 'BacII 2018: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2018-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'I. Compréhension écrite.
-Replacez les expressions suivantes dans le dialogue : choisir, le ticket, échange, elle ne l''aura pas, échanger, elle a déjà.
-1. Bonjour, monsieur. Voilà, j''ai acheté ce livre pour une amie, mais (1) _elle a déjà_.
-Est-ce que je pourrais l'' (2) …………. pour un autre.
-2. Oui, bien sûr, monsieur. Vous avez (3) …………. de caisse ?
-3. Oui, le voilà.
-4. Très bien. Vous préférez un remboursement ou un (4) ………. ?
-5. Un échange. Je vais (5) …………. un autre livre. J''espère qu'' (6) …………., celui-là.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000001', 1, 10)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2018-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'II. Vocabulaire
-Soulignez les intrus.
-Exemple : règle · gomme · crayon · stylo · rayon
-1. chaleur · voyageur · promeneur · opérateur · animateur
-2. fièvre · diarrhée · lièvre · grippe · tuberculose
-3. Cambodge · Vietnam · Chine · Laos · France
-4. carré · cirque · triangle · cercle · rectangle
-5. collège · faculté · université · égalité · lycée
-6. amoureusement · facilement · pauvrement · appartement · librement
-7. Birmanie · Phnom Penh · Bangkok · Vientiane · Hanoi
-8. marcher · habiter · oranger · demander · jouer', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000002', 2, 16)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2018-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'III. Grammaire.
-A. (06 points) Répondez aux questions en remplaçant les mots soulignés par « le, la, les, lui ».
-Exemple : Tu vois mon _livre_ ? → Oui je le vois. → Non, je ne le vois pas.
-1- Il regarde _la télévision_ ?
-→ Oui, ……………………
-2- Vous préférez _les voitures de couleur rouge_ ?
-→ Non, …………………..
-3- Tu parles _à ton professeur_ ?
-→ Oui, ………………………
-
-B. (08 points) Reliez les phrases A et B selon l''exemple.
-A:
-1. Elle ne sait
-2. Il va se coucher
-3. Puisque l''eau manque,
-4. Comme le prix du riz augmente
-5. Cette élève travaille bien,
-B:
-a. les gens ne sont pas contents.
-b. les touristes veulent le visiter.
-c. ni le français ni le chinois.
-d. donc elle réussira le bac.
-e. sans rien manger.
-f. elle ne réussira pas le baccalauréat:
-C: 1 → c · 2 → … · 3 → … · 4 → … · 5 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000003', 3, 14)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2018-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'IV. Expression écrite.
-Pour réussir le baccalauréat, qu''est-ce-que vous avez appris au lycée ? Et à la maison, qu''est-ce-que vous avez fait ? (environ 100 mots)', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000004', 4, 10)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2017-4000-8000-000000000000', 'kh-grade12-social-french', 2017, 'BacII 2017: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2017-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'I. Compréhension écrite.
-Complétez les mots « vraiment, mère, bus, accident, étudiante » dans le texte.
-
-Avez-vous votre permis de conduire ?
-- Yann : Chez, nous, c''est une tradition, on ne conduit pas, Mon père n''avait pas son permis de conduire, Ma (1) ……. si, mais elle n''avait pas de voiture …….. Moi je l''ai passé à 18 ans mais j''ai eu un (2) ……. quelques mois plus tard, alors je n''ai plus conduit. J''ai eu trop peur. Non, moi, maintenant, je prends le taxi, le (3) ……. Ou bien je loue une voiture aven un chauffeur pour partir en week-end.
-- Marie : Non, je n''ai pas encore le permis, Je suis (4) ……… et je n''ai pas beaucoup d''argent, Je passerai le permis quand je travaillerai dans deux ou trois ans ! De toute façon, je n''en ai pas (5) ……. besoin. J''ai un scooter et ça me convient très bien.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2017-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'II. Vocabulaire
-Soulignez les intrus.
-Exemple : père · frère · sœur · mer · mère
-1. Chemise · veste · chemin · chemiser · robe
-2. Rose · verre · noir · bleu · vert
-3. Boulanger · essayer · adorer · aimer · couter
-4. Bras · ventre · langue · genou · thermomètre
-5. Pharmacie · mairie · boucherie · boulangerie · librairie
-6. Amoureusement · vêtement · librement · pauvrement · contrairement
-7. Framboisier · olivier · collier · bananier · caféier
-8. Laos · Malaisie · Thaïlande · Vietnam · France', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2017-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'III. Grammaire.
-A. Répondez aux questions en utilisant « Si », « Oui », « Non ».
-Exemple : Tu ne bois pas de café ? - ……, un verre par jour. → Si, un verre par jour.
-1. Vous n''allez pas au marché ? -……, je n''y vais pas.
-2. Tu apprends le français ? - ……, j''apprends le français.
-3. Ta sœur n''aime pas faire des courses ? - ……, quand elle reste seule à la maison et elle n''a rien pour manger.
-
-B. Reliez les phrases A et B selon l''exemple.
-A:
-1. Sa moto est on panne,
-2. On coupe beaucoup de forêts.
-3. Comme le Cambodge a des patrimoines mondiaux,
-4. Ma mère n''a pas de bonne mine
-5. Puisque l''examen s''approche,
-B:
-a. C''est pourquoi il y a des inondations.
-b. les touristes veulent le visiter.
-c. parce qu''elle est très fatiguée.
-d. aussi faut-il le faire la réparer.
-e. je m''amuse.
-f. je révise mes leçons
-C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2017-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'IV. Expression écrite.
-Depuis combien de temps apprenez-vous le français ? Pourquoi apprenez-vous cette langue ? Rédigez le texte au minimum 80 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2016-4000-8000-000000000000', 'kh-grade12-social-french', 2016, 'BacII 2016: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2016-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'I. Compréhension écrite
-Complétez les mots « copine, coquillage, parents, montage, mer » dans le texte
-Pendant les vacances, avec mes ………., on allait toujours au bord de la …….. en Brergane. Là-bas, je retrouvais ma ……….Alice. Le matin, on ramassait des ……… et l''après-midi, quand l''eau était plus chaude, on se baignait, On était toujours ensemble. Maintenant, mes parents vont à la ……… mais moi, je vais chez Alice.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2016-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'II. Vocabulaire
-Soulignez les intrus :
-Exemple : père · frère · sœur · mer · mère
-1. chemise · veste · chemin · chemisier · robe
-2. rose · verre · noir · bleu · vert
-3. boulanger · essayer · adorer · aimer · coûter
-4. bras · ventre · langue · genou · thermomètre
-5. pharmacie · mairie · boucherie · boulangerie · librairie
-6. tête · fièvre · main · jambe · bouche
-7. durian · orange · coco · mangue · poisson', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2016-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'III. Grammaire
-A. Refaites des phrases en utilisant « sans » selon l''exemple.
-Exemple : Il va au lycée. Il n''a pas d''argent. → Il va au lycée sans argent.
-1. Visal lit le texte. Il ne comprend rien.
-2. Écoutez ! Ne répétez pas !
-3. Mon frère passe le bac. Il n''a pas de documents.
-4. Madame Dany regarde les marchandises. Elle n''achète rien.
-
-B. Utilisez les double négations « …ne….ni….ni » ou « ….ni….ni….ne ».
-Exemple : Cette élève ne lit pas de brouillons, elles en lit pas de corrigé. → Cette élève ne lit ni brouillons ni corrigé.
-1. Le professeur n''aime pas les retardataires, il n''aime pas les paresseux.
-2. Il ne sait pas expliquer, il ne sait pas discuter.
-3. Paul n''est pas timide. Marie n''est pas timide.
-4. Ma sœur ne bois pas de bière, elle ne boit pas de vin.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2016-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'IV. Expression écrite
-Après avoir fini vos études, quel métier préférez-vous ? Pourquoi ? Donnez vos raisons en écrivant un texte de 80 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2015-4000-8000-000000000000', 'kh-grade12-social-french', 2015, 'BacII 2015: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2015-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'I. Compréhension écrite
-Remplacez les mots suivant dans le dialogue.
-Mal – grave – docteur – le – médicament – soir – jours – temps – trois – ventre – malade
-- Bonjour, (1) docteur, Ma fille est (2) ………
-- Alors, où as -tu (3) ………
-- J''ai mal au (4) ……….
-- Je vais regarder ça. Tu as mal depuis combien de (5) ……..
-- Depuis deux (6) ……
-- Ce n''est pas très (7) ……. Tu vas prendre ce (8) ……. Pendant une semaine.
-- Je (9) ……. Prends combien de fois par jour ?
-- Te le prends (10) ……. Fois par jour, le matin, à midi et le (11)', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2015-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'II. Vocabulaire
-Soulignez les intrus :
-Exemple : librement · pauvrement · courageusement · contentement · commencement
-1. difficilement · facilement · développement · lentement · rapidement
-2. bouche · gorge · ventre · langue · sirop
-3. ce · cet · cette · ses · ces
-4. Albanie · Asie · Algérie · Allemagne · Arménie
-5. le nord · le fond · le sud · l''est · l''ouest
-6. fraisier · policier · citronnier · pommier · palmier
-7. Cambodge · Laos · Vietnam · Bangkok · Malaisie', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2015-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'III. Grammaire
-A. Répondez aux questions en utilisant « Si », « Oui » ou « Non ».
-1. Tu n''as pas mal au dos ?
-………, j''ai mal à la poitrine.
-2. Vous ne manges pas de pain.
-………, je mange de riz.
-3. Tu bois de l''eau le matin ?
-………, un verre d''eau avant le petit déjeuner.
-4. Tu n''apprends pas le français ?
-………., deux heure par semaine.
-5. Vous allez chez le médecin ?
-…………, j''y vais
-
-B. Reliez les deux phrase en employant « comme or parce que ».
-Exemple : Tévi a de mauvaises notes à ses devoirs. Elle fait ses devoirs en regardant la télé. → Tévi a de mauvaises notes à ses devoirs parce qu''elle fait ses devoirs en regardant la télé.
-1. Bopha est arrivée en retard. Elle a eu un accident.
-2. Vuth ne va pas se promener. Il est malade.
-3. Neary est fatiguée. Elle a beaucoup travaillé.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2015-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'IV. Expression écrite
-Entre la ville et la campagne, où armeriez-vous habiter ? Pourquoi ? Racontez en 80 monts.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2014-4200-8000-000000000000', 'kh-grade12-social-french', 2014, 'BacII 2014, second sitting: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4200-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'I. Vocabulaire
-A. Utilisez les double négations « …ne…ni…ni » ou « …ni…ni…ne ».
-Exemple : Cette élève ne lit pas de brouillon, elle ne lit pas de corrigé. → Cette élève ne lit ni brouillon ni corrigé.
-1. Le professeur n''aime pas les retardataires, il n''aime pas les paresseux.
-2. Il ne sait pas expliquer, il ne sait pas discuter.
-3. Paul n''est pas timide, Marie n''est pas timide.
-
-B. Soulignez les intrus :
-Exemple : coûter · acheter · louer · aller · demander
-1. marcher · oranger · regarder · manger · préparer
-2. ordinateur · chercheur · ventilateur · réfrigérateur · générateur
-3. fièvre · tuberculose · grippe · stéthoscope · rougeole
-4. Brunei · Rangoon · Vientiane · Jakarta · Manille
-5. Suisse · France · Hollande · Belgique · Cambodge', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4200-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'II. Grammaire
-A. Complétez les phrases par : « C''est pourquoi », « donc », « aussi ».
-Exemple : Le pneu de son vélo est crevé, ……..faut-il le réparer. → Le pneu de son vélo est crevé aussi faut-il le réparer.
-1. Il trop travaillé ………..il est malade.
-2. La route n''est pas bonne, ………faut-il conduire prudemment.
-3. Elle est sérieuse, ………..elle réussira à l''examen.
-
-B. Réécrite ces phrases en remplaçant les mots soulignés par les pronoms « le, la, y, en ».
-Exemple : Elle vent du thé → Elle en veut.
-1. Je ne regarde pas _la télévision_.
-2. Mon père voudrait _un café_
-3. Mon amie adore _le football_.
-4. Le cuisinier va _au supermarché_.
-5. Narith boit _du lait_.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4200-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'III. Expression écrite
-Vous apprenez le français depuis le niveau collégien. D''après vous, quels sont les avantages de l''apprentissage de la langue française. Écrivez un texte de 100 à 120 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2014-4100-8000-000000000000', 'kh-grade12-social-french', 2014, 'BacII 2014, first sitting: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4100-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'I. Vocabulaire
-A. Reliez les phrases en utilisant « sans » selon le modèle.
-Exemple : Il est venu, Il n''a pas d''argent. → Il est venu sans argent.
-1. Ma grand-mère peut lire des journaux. Elle n''a pas de lunettes.
-2. Elle écoute. Elle ne dit rien.
-3. C''est la nuit. Il n''y a pas d''étoiles.
-
-B. Soulignez les intrus :
-Exemple : ventre · genou · bras · vent · pied
-1. infirmier · dentiste · pharmacien · docteur · médicament
-2. séjourner · se baisser · se laver · se reposer · se relever
-3. bon · mauvais · fatigue · fort · faible
-4. Singapour · Birmanie · Cambodge · Brunie · Canada
-5. France · Phnom Penh · Laos · Vietnam · Chine', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4100-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'II. Grammaire
-A. Répondez aux questions en utilisant « Si », « Oui » ou « Non ».
-1. Tu ne manges pas de pain ?
-…………, je mange du riz.
-2. Vous ne buvez pas d''eau le matin ?
-…………, un verre d''eau avant le petit déjeuner.
-3. Vous apprenez le français ?
-…………, deux heures par semaine.
-
-B. Transformez les phrases selon le modèle.
-Exemple : Montrez votre photo a Dara. → Montrez-la-lui
-1. Donnez ces médicaments à ta sœur.
-2. Rendez la monnaie à Neary
-3. Montre le chemin à cet enfant.
-4. Envoyez de lettres à vos parents.
-5. Laisse vos sacs dans la voiture.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4100-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'III. Expression écrite
-Décrivez une ville touristique du Cambodge ou d''autre pays que vous aimez bien. Écrive un texte 100 à 120 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 commit;

@@ -18,7 +18,7 @@ import { flattenCurriculum } from "../src/lib/curriculum.ts";
 import { buildPastPapers } from "../src/lib/papers.ts";
 import { splitMath } from "../src/lib/mathText.ts";
 import katex from "katex";
-import { accounts, assert, localTarget, reporter } from "./lib/local-supabase.mjs";
+import { accounts, assert, localTarget, reporter, sql } from "./lib/local-supabase.mjs";
 
 const ROOT = new URL("../", import.meta.url);
 const { check, skip, finish } = reporter();
@@ -71,13 +71,27 @@ await check("each paper keeps its printed length, which matches the BacII paper 
   }
 });
 
-await check("real papers stay official but unchecked, with open questions, no answer key, every formula readable, and their copies named", async () => {
+await check("real papers stay official but unchecked, with open questions, only an AI answer key (labelled), every formula readable, and their copies named", async () => {
   for (const paper of papers) {
     assert(paper.origin === "official" && paper.verification === "needs-review", `${paper.id}: origin or verification`);
     assert(/Typed by Meh Rean from/.test(paper.source) && /Not yet checked/.test(paper.source) && paper.source.length <= 500, `${paper.id}: source`);
     for (const { question } of paper.questions) {
       assert(question.origin === "official-past-paper" && question.verification === "needs-review" && question.year === paper.year, `${question.id}: origin`);
-      assert(question.type === "open" && question.solution === null && question.source === paper.source, `${question.id}: type or answer key`);
+      assert(question.type === "open" && question.source === paper.source, `${question.id}: type`);
+      // The only answer key is the AI's, always labelled and unchecked.
+      if (question.solution) {
+        const s = question.solution;
+        assert(s.origin === "ai-generated" && s.verification === "needs-review" && /written by AI/.test(s.source) && s.answer.trim() && s.correctChoice === null && s.numericAnswer === null, `${question.id}: AI answer key`);
+        for (const text of [s.answer, ...s.steps.map((step) => step.content)]) {
+          for (const segment of splitMath(text).filter((part) => part.kind === "math")) {
+            try {
+              katex.renderToString(segment.value, { throwOnError: true, strict: "ignore", displayMode: segment.display });
+            } catch (error) {
+              throw new Error(`${question.id} answer: ${String(error.message).split("\n")[0]}`);
+            }
+          }
+        }
+      }
       const language = paper.subjectId.endsWith("-english") ? "en" : paper.subjectId.endsWith("-french") ? "fr" : "km";
       assert(question.language === language, `${question.id}: language ${question.language}, expected ${language}`);
       for (const segment of splitMath(question.content).filter((part) => part.kind === "math")) {
@@ -175,7 +189,7 @@ const { anon } = people;
 const admin = await people.create("a", { admin: true });
 const sample = papers.find((paper) => paper.id === "bacc1010-2019-4000-8000-000000000000");
 
-await check("anyone can read a real paper with its questions in order, its printed length, and no answer key", async () => {
+await check("anyone can read a real paper with its questions in order, its printed length, and at most the labelled AI answer key", async () => {
   const { data, error } = await anon
     .from("exam_papers")
     .select("id, year, origin, verification, duration_minutes, entries:exam_paper_questions(position, points, question:questions(id, type, origin, content))")
@@ -187,8 +201,8 @@ await check("anyone can read a real paper with its questions in order, its print
   assert(JSON.stringify(ordered.map((entry) => entry.question.id)) === JSON.stringify(sample.questions.map((entry) => entry.question.id)), "order");
   assert(ordered.reduce((sum, entry) => sum + Number(entry.points), 0) === 125, "points");
   assert(ordered.every((entry) => entry.question.type === "open" && entry.question.origin === "official-past-paper"), "types");
-  const keys = await anon.from("question_solutions").select("question_id").in("question_id", ordered.map((entry) => entry.question.id));
-  assert(!keys.data?.length, "an answer key exists");
+  const keys = await anon.from("question_solutions").select("question_id, origin, verification").in("question_id", ordered.map((entry) => entry.question.id));
+  assert((keys.data ?? []).every((row) => row.origin === "ai-generated" && row.verification === "needs-review"), "an answer key that is not the labelled AI one");
 });
 
 await check("an official paper refuses a question from another year or a demo question, even from an admin", async () => {
@@ -212,6 +226,27 @@ await check("a figure path must name an image shipped in public/past-papers/; an
   for (const path of ["past-papers/../secret.png", "past-papers/x.svg", "https://example.com/x.png", "/past-papers/x.png"]) {
     const { error } = await admin.client.from("questions").update({ images: [{ path, alt: "a test figure" }] }).eq("id", withFigure.id);
     assert(error, `accepted ${path}`);
+  }
+});
+
+await check("rerunning the seed updates the AI answer key but never a teacher's answer", async () => {
+  const seedSql = read("supabase/seed/past-papers.sql");
+  const withAnswer = papers.flatMap((paper) => paper.questions).find(({ question }) => question.solution)?.question;
+  if (!withAnswer) return "no AI answers yet";
+  const start = seedSql.indexOf(`insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('${withAnswer.id}'`);
+  const end = seedSql.indexOf("verification <> 'verified';", start);
+  const statement = start >= 0 && end > start ? seedSql.slice(start, end + "verification <> 'verified';".length) : null;
+  assert(statement, "the seed has no answer statement");
+  try {
+    sql(`update public.question_solutions set origin = 'teacher', answer = 'teacher answer' where question_id = '${withAnswer.id}'`);
+    sql(statement);
+    assert(sql(`select answer from public.question_solutions where question_id = '${withAnswer.id}'`) === "teacher answer", "the seed replaced a teacher's answer");
+    sql(`update public.question_solutions set origin = 'ai-generated', answer = 'old' where question_id = '${withAnswer.id}'`);
+    sql(statement);
+    assert(sql(`select answer from public.question_solutions where question_id = '${withAnswer.id}'`) !== "old", "the seed did not update the AI answer");
+  } finally {
+    sql(statement.replace("where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified'", "where true").replace("do update set answer", "do update set origin = 'ai-generated', verification = 'needs-review', answer"));
   }
 });
 

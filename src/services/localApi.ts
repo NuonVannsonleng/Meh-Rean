@@ -1242,7 +1242,25 @@ async function loadQuestions(): Promise<DbState> {
   const missing = loadPapers()
     .flatMap((paper) => paper.questions.map((entry) => entry.question))
     .filter((question) => !seeded.has(question.id));
-  if (missing.length) {
+  // A new AI answer key reaches past-paper questions this browser stored
+  // earlier, as the seed does online; an admin's own answer is kept.
+  let refreshed = false;
+  const seededPast = new Map(
+    loadPapers()
+      .flatMap((paper) => paper.questions.map((entry) => entry.question))
+      .filter((question) => question.origin === "official-past-paper" && question.solution)
+      .map((question) => [question.id, question]),
+  );
+  for (const stored of db.questions) {
+    const fresh = seededPast.get(stored.id);
+    if (!fresh?.solution) continue;
+    const mine = stored.solution;
+    if ((!mine || (mine.origin === "ai-generated" && mine.verification !== "verified")) && JSON.stringify(mine) !== JSON.stringify(fresh.solution)) {
+      stored.solution = structuredClone(fresh.solution);
+      refreshed = true;
+    }
+  }
+  if (missing.length || refreshed) {
     const present = new Set(db.questions.map((question) => question.id));
     db.questions.push(...structuredClone(missing.filter((question) => !present.has(question.id))));
     db.seededDemoQuestions = [...seeded, ...missing.map((question) => question.id)];
