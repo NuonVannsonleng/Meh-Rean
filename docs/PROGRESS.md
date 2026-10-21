@@ -582,6 +582,16 @@ timing only in database functions, never in the browser.
   Timor-Leste joining ASEAN in October 2025, after these papers. Labelled
   ai-generated and needs-review. The setup SQL now splits into 5 parts.
   Tests: `test:past-papers` 11/11.
+- **2026-10-21 — AI answer key, part 10: morality and civics 2014–2022.**
+  49 answers in Khmer, with the textbook's own classifications as the
+  copies' marking keys give them: the two kinds of virtue, of moral
+  responsibility, the high values (moral value highest), the stages of a
+  voluntary act, the three models of noble people, the three
+  anti-corruption measures (do not want, cannot, do not dare), common,
+  scientific and philosophical knowledge, analysis and synthesis,
+  induction and deduction. A topic asked in several years gets one
+  consistent answer. Labelled ai-generated and needs-review. Tests:
+  `test:past-papers` 11/11.
 
 ## Blockers and things that need a person
 

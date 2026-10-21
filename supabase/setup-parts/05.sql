@@ -950,12 +950,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2022-4000-8000-000000000000', 'bacc2100-2022-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2022-4000-8000-000000000001', 'ការបង្កើតថ្មី គឺផលិតផលដែលមិនធ្លាប់មានពីមុន ដែលមនុស្សបង្កើតឡើងដោយផ្សំធាតុ ឬមធ្យោបាយចាស់ៗ ដើម្បីសម្រេចគោលដៅថ្មី; របកគំហើញ គឺអ្វីដែលមានស្រាប់ក្នុងធម្មជាតិ ហើយត្រូវបានគេរកឃើញ', null, null, null, '[{"content":"ឧទាហរណ៍ការបង្កើតថ្មី៖ ម៉ាស៊ីនកុំព្យូទ័រ ទូរសព្ទ ទូរទស្សន៍ ដែលកាន់តែមានគុណភាព និងងាយស្រួលប្រើ។"},{"content":"ឧទាហរណ៍របកគំហើញ៖ ការរកឃើញឧស្ម័នអុកស៊ីសែនក្នុងខ្យល់ ការរកឃើញទ្វីបអាមេរិករបស់កូឡុំប (១៤៩២)។"},{"content":"ភាពខុសគ្នា៖ ការបង្កើតថ្មីបង្កើតអ្វីដែលមិនទាន់មាន; របកគំហើញបង្ហាញអ្វីដែលមានស្រាប់ តែមិនទាន់ស្គាល់។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2022-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2022, 'open', 'ចូរបង្ហាញពីទំនាក់ទំនងរវាង អនុមានញែក និង អនុមានរួម។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2022-4000-8000-000000000000', 'bacc2100-2022-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2022-4000-8000-000000000002', 'អនុមានញែក (ពីច្បាប់ទូទៅ ទៅករណីពិសេស) និងអនុមានរួម (ពីករណីពិសេសច្រើន ទៅរកច្បាប់ទូទៅ) ជាចលនាពីររបស់គំនិត ដែលផ្ទុយគ្នា តែបំពេញឲ្យគ្នា', null, null, null, '[{"content":"អនុមានរួម ផ្តល់មូលដ្ឋានឲ្យអនុមានញែក ព្រោះវាស្វែងរកច្បាប់ទូទៅក្នុងវិទ្យាសាស្ត្រពិសោធន៍។"},{"content":"អនុមានញែក មានលក្ខណៈត្រឹមត្រូវតាមតក្កវិជ្ជា ហើយជួយដឹកនាំ និងត្រួតពិនិត្យអនុមានរួម (ឧ. ក្នុងគណិតវិទ្យា)។"},{"content":"ឧទាហរណ៍៖ ពិសោធឃើញលោហៈជាច្រើនរីកពេលក្តៅ → លោហៈទាំងអស់រីកពេលក្តៅ (អនុមានរួម); លោហៈទាំងអស់រីកពេលក្តៅ ដែកជាលោហៈ → ដែករីកពេលក្តៅ (អនុមានញែក)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2022-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2022, 'open', 'សីលតម្លៃ ជាតម្លៃថ្នាក់ខ្ពស់របស់មនុស្ស។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -964,6 +974,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2022-4000-8000-000000000000', 'bacc2100-2022-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2022-4000-8000-000000000003', 'សីលតម្លៃ ជាតម្លៃថ្នាក់ខ្ពស់របស់មនុស្ស ព្រោះវាជាតម្លៃនៃការប្រព្រឹត្តល្អ ត្រឹមត្រូវ និងកុសល ក្នុងឥរិយាបថបុគ្គល និងសង្គម ដែលនាំឲ្យមនុស្ស និងសង្គមរីកចម្រើនឆ្ពោះទៅរកឧត្តមគតិ', null, null, null, '[{"content":"សីលតម្លៃ៖ តម្លៃដែលគេជួបប្រទះក្នុងឥរិយាបថបុគ្គល ឬសង្គមដែលគោរពភាពត្រឹមត្រូវ កុសល ឬការរីកចម្រើននៃឧត្តមគតិ។ ឧ. ចរិតល្អ បំណងល្អ គុណធម៌។ អ្នកប្រកាន់ខ្ជាប់សីលតម្លៃ កសាងសង្គមឲ្យមានអរិយធម៌។"},{"content":"សីលតម្លៃ ធ្វើឲ្យមនុស្សខុសពីសត្វ ហើយជាមូលដ្ឋាននៃទំនុកចិត្ត និងសុខសន្តិភាពក្នុងសង្គម។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2022-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2022, 'open', 'ចូរពន្យល់ពីសុខដុមនៃផ្នែកសាសនា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -971,12 +986,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2022-4000-8000-000000000000', 'bacc2100-2022-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2022-4000-8000-000000000004', 'ភាពសុខដុមផ្នែកសាសនា គឺការគោរព និងរស់នៅជាមួយគ្នាដោយសន្តិភាពរវាងអ្នកកាន់សាសនាផ្សេងៗ; វាជាគោលការណ៍បង្កើតសុខសន្តិភាពពិត និងយូរអង្វែង ព្រោះវាលុបបំបាត់ឫសគល់នៃសង្គ្រាមដែលកើតពីការរើសអើង និងភាពជ្រុលនិយម', null, null, null, '[{"content":"មនុស្ស និងប្រជាជាតិ ត្រូវជម្រុះចោល៖ ចំណង់សុខតួ លោភៈ ទោសៈ មោហៈ ភាពក្រអឺតក្រទម ការប្រកាន់ពូជសាសន៍ និងតណ្ហាអត្តទត្តភាព។"},{"content":"សាសនាទាំងអស់អប់រំឲ្យធ្វើល្អ មេត្តា ការអត់ឱន; ការគោរពសាសនាអ្នកដទៃ ជៀសវាងជម្លោះ។"},{"content":"ឧទាហរណ៍៖ នៅកម្ពុជា ពុទ្ធសាសនិក មូស្លីម និងគ្រិស្តសាសនិក រស់នៅជាមួយគ្នាដោយសុខដុម; អ្នកដឹកនាំសាសនាជួបពិភាក្សាគ្នាដើម្បីសន្តិភាព។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2022-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2022, 'open', 'សិស្សគឺជាកម្លាំងមួយដ៏រឹងមាំ ក្នុងការចូលរួមប្រយុទ្ធប្រឆាំងនឹងអំពើពុករលួយ។ ពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2022-4000-8000-000000000000', 'bacc2100-2022-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2022-4000-8000-000000000005', 'សិស្សជាកម្លាំងដ៏សំខាន់ក្នុងការប្រឆាំងអំពើពុករលួយ ព្រោះសិស្សមានចំណេះដឹង ហើយជាទំពាំងស្នងឫស្សី; ការបណ្តុះផ្នត់គំនិតប្រឆាំងអំពើពុករលួយត្រូវចាប់ផ្តើមពីសិស្ស', null, null, null, '[{"content":"ចូលរួមទិវាជាតិប្រយុទ្ធប្រឆាំងអំពើពុករលួយ និងសកម្មភាពអប់រំសង្គម។"},{"content":"កុំចូលរួមក្នុងអំពើពុករលួយ (ឧ. មិនផ្តល់លុយដើម្បីបានពិន្ទុ ឬចម្លងក្នុងការប្រឡង)។"},{"content":"ណែនាំសមាជិកគ្រួសារពីផលវិបាក និងកុំឲ្យប្រព្រឹត្តអំពើពុករលួយ; ចូលរួមឃ្លាំមើល និងរាយការណ៍ ដើម្បីឲ្យអាជ្ញាធរមានសមត្ថកិច្ចចាត់វិធានការ។"},{"content":"ផ្សព្វផ្សាយសារប្រឆាំងអំពើពុករលួយ តាមរយៈមិត្តអប់រំមិត្ត ហើយបង្កើតគំនិតផ្តួចផ្តើមថ្មីៗ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2100-2021-4000-8000-000000000000', 'kh-grade12-social-morality-civics', 2021, 'BacII 2021: Morals and civics (social science track)', 'វិញ្ញាសាសីលធម៌-ពលរដ្ឋវិជ្ជា បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2021 (2021-12-27), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -990,12 +1015,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2021-4000-8000-000000000000', 'bacc2100-2021-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2021-4000-8000-000000000001', 'សភាវគតិ ជាអាកប្បកិរិយាពីកំណើតដដែលៗ របស់សត្វមានជីវិតតាមប្រភេទនីមួយៗ ដោយមិនចាំបាច់រៀន', null, null, null, '[{"content":"លក្ខណៈ៖ ឯកទេស និងចង្អៀតចង្អល់ (ប្រភេទសត្វនីមួយៗមានរបស់ខ្លួន) រឹងត្អឹង មិនចេះពិចារណា មិនរីកចម្រើន គឺធ្វើដូចគ្នាជានិច្ច និងមិនចេះដោះស្រាយបញ្ហាថ្មី។"},{"content":"ឧទាហរណ៍៖ ចាបធ្វើសំបុក ឃ្មុំធ្វើសំបុក ពីងពាងតម្បាញសំណាញ់ ទារកចេះបៅដោះពីកំណើត។"},{"content":"មនុស្សមានសភាវគតិតិចជាងសត្វ ហើយអាចប្រើបញ្ញា ដើម្បីគ្រប់គ្រងសភាវគតិរបស់ខ្លួន។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2021-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2021, 'open', 'ចូរបង្ហាញពីទំនាក់ទំនងរវាងវិភាគ និងសំយោគ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2021-4000-8000-000000000000', 'bacc2100-2021-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2021-4000-8000-000000000002', 'វិភាគ និងសំយោគ ជាសកម្មភាពពីររបស់ចិត្ត ដែលត្រូវការគ្នាទៅវិញទៅមក៖ វិភាគគឺញែកវត្ថុជាផ្នែកៗ ដើម្បីស្គាល់ធាតុផ្សំ; សំយោគគឺភ្ជាប់ធាតុទាំងនោះមកវិញជាទាំងមូល ដើម្បីយល់ពីអត្ថន័យរួម', null, null, null, '[{"content":"វិភាគមិនអាចប្រព្រឹត្តទៅដោយគ្មានសំយោគ ហើយសំយោគក៏ដូចគ្នា; គេមិនអាចធ្វើសំយោគដោយមិនទាន់ស្គាល់ធាតុផ្សំជាមុនទេ។"},{"content":"វិភាគ និងសំយោគមិនធ្វើក្នុងពេលតែមួយទេ តែឆ្លាស់គ្នា៖ ដំបូងយើងឃើញវត្ថុជាទាំងមូល (សំយោគដុល) បន្ទាប់មកវិភាគលម្អិត ហើយចុងក្រោយសំយោគវាយតម្លៃវត្ថុនោះឡើងវិញ (សំយោគ-វិភាគ-សំយោគ)។"},{"content":"ឧទាហរណ៍៖ ពេលសិក្សាមេរៀន យើងអានទាំងមូល វិភាគចំណុចនីមួយៗ ហើយសង្ខេបជាគំនិតរួម។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2021-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2021, 'open', 'ចូរពន្យល់តម្លៃសម្ភារៈ និងតម្លៃពីធម្មជាតិ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1004,6 +1039,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2021-4000-8000-000000000000', 'bacc2100-2021-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2021-4000-8000-000000000003', 'តម្លៃសម្ភារៈ ជាតម្លៃនៃវត្ថុដែលកើតឡើងដោយសារទំនាក់ទំនងរបស់វាជាមួយវត្ថុផ្សេង (ប្រើសម្រាប់ធ្វើអ្វីមួយ) ចំណែកតម្លៃធម្មជាតិ ជាតម្លៃដែលជាប់នឹងគុណភាព ឬលក្ខណៈដែលវត្ថុមានស្រាប់', null, null, null, '[{"content":"តម្លៃសម្ភារៈ៖ ឧ. គ្រូបង្រៀន អគារសិក្សា តុ កៅអី សៀវភៅ និងសម្ភារៈសិក្សា មានតម្លៃព្រោះវារួមចំណែកបណ្តុះធនធានមនុស្ស។"},{"content":"ឧទាហរណ៍៖ វិជ្ជាជាទ្រព្យដ៏មហាសាលរបស់មនុស្សគ្រប់រូប; សច្ចភាពជាតម្លៃដែលគ្មានសង្គមណាអាចខ្វះបាន។"},{"content":"តម្លៃធម្មជាតិ ដូចជាភាពស្រស់ស្អាត ពុទ្ធិ សច្ចភាព សុភមង្គល មិត្តភាព និងស្នាដៃសិល្បៈ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2021-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2021, 'open', 'ចូរពន្យល់ ការសម្រេចចិត្ត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -1011,12 +1051,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2021-4000-8000-000000000000', 'bacc2100-2021-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2021-4000-8000-000000000004', 'ការសម្រេចចិត្ត គឺការជ្រើសយកគោលបំណង ល្បិច និងមធ្យោបាយណាមួយជាកំណត់ ដើម្បីឈានទៅសម្រេចគោលដៅ ក្រោយពីការតស៊ូរវាងបុព្វហេតុ ឬហេតុផលផ្សេងៗដែលផុសចេញក្នុងខ្លួនមនុស្ស', null, null, null, '[{"content":"វាជាលំនាំនៃការតស៊ូខាងក្នុង ដែលអាចងាយ ឬពិបាក យូរ ឬឆាប់; ក្នុងចំណោមបុព្វហេតុទាំងឡាយ មានតែមួយដែលសំខាន់បំផុត និងដើរតួជាអ្នកកំណត់។"},{"content":"ការសម្រេចចិត្តជាដំណាក់កាលមួយនៃអំពើឆន្ទៈ (បញ្ញត្តិកម្ម ការពិចារណា ការសម្រេចចិត្ត ការប្រតិបត្តិ)។"},{"content":"ឧទាហរណ៍៖ ក្រោយពីថ្លឹងថ្លែងសមត្ថភាព និងជីវភាព សិស្សម្នាក់សម្រេចចិត្តប្រឡងចូលសាកលវិទ្យាល័យមួយ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2021-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2021, 'open', 'ចូរបង្ហាញវិធានការគន្លឹះ ដែលធ្វើឲ្យបុគ្គលិកម្នាក់ៗមិនចង់ពុករលួយ មិនអាចពុករលួយ និងមិនហ៊ានពុករលួយ ក្នុងបរិបទនៃការប្រឆាំងអំពើពុករលួយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2021-4000-8000-000000000000', 'bacc2100-2021-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2021-4000-8000-000000000005', 'វិធានការគន្លឹះបី៖ អប់រំ (ឲ្យមិនចង់ពុករលួយ) បង្ការ និងទប់ស្កាត់ (ឲ្យមិនអាចពុករលួយ) និងអនុវត្តច្បាប់ (ឲ្យមិនហ៊ានពុករលួយ)', null, null, null, '[{"content":"អប់រំ៖ ផ្សព្វផ្សាយ និងបង្កើនការយល់ដឹងពីអំពើពុករលួយ ផលវិបាក មូលហេតុ និងច្បាប់ ដើម្បីឲ្យម្នាក់ៗមិនចង់ពុករលួយ។"},{"content":"បង្ការ និងទប់ស្កាត់៖ ដាក់ចេញវិធានការការពារ រារាំងភាពអន្តរាយ ឬការខូចខាត (ប្រព័ន្ធត្រួតពិនិត្យ ការប្រកាសទ្រព្យ តម្លាភាពសេវា) ដើម្បីឲ្យមិនអាចពុករលួយ។"},{"content":"អនុវត្តច្បាប់ (បង្ក្រាប)៖ ចាប់ និងបញ្ជូនជនល្មើសទៅតុលាការ ដើម្បីឲ្យម្នាក់ៗមិនហ៊ានពុករលួយ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2100-2019-4000-8000-000000000000', 'kh-grade12-social-morality-civics', 2019, 'BacII 2019: Morals and civics (social science track)', 'វិញ្ញាសាសីលធម៌-ពលរដ្ឋវិជ្ជា បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2019 (2019-08-19), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1030,12 +1080,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2019-4000-8000-000000000000', 'bacc2100-2019-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2019-4000-8000-000000000001', 'ពុទ្ធិសាមញ្ញ ជាពុទ្ធិធម្មតាដែលអ្នកផងមានគ្រប់គ្នា កើតពីការឮតៗគ្នា ឬការឃើញផ្ទាល់ មិនច្បាស់លាស់ និងងាយខុស; ពុទ្ធិស្បង់ ជាពុទ្ធិមានភាពជាក់លាក់ កើតពីការត្រិះរិះ វិភាគ ពិសោធន៍ មានលក្ខណៈទូទៅ និងត្រឹមត្រូវ (វិទ្យាសាស្ត្រ)', null, null, null, '[{"content":"ពុទ្ធិសាមញ្ញ៖ គ្មានការត្រួតពិនិត្យច្បាស់លាស់ ហើយច្រើនផ្អែកលើបទពិសោធន៍ ឬជំនឿ។ ឧ. «ផ្គរលាន់មិនដែលភ្លៀង ឆ្កែព្រុសមិនដែលខាំ»។"},{"content":"ពុទ្ធិស្បង់៖ គាស់កកាយទំនាក់ទំនងថេរ (ច្បាប់) ក្នុងបាតុភូត ហើយបង្ហាញថាភាពដល់មនុស្សទាំងអស់។ ឧ. ទឹកពុះនៅ $100^\\circ C$ និងកកនៅ $0^\\circ C$ (ក្រោមសម្ពាធធម្មតា)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2019-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2019, 'open', 'ការបណ្តុះបណ្តាលឲ្យពលរដ្ឋមានទំនោរផ្នែកវិជ្ជាជីវៈគឺត្រូវប្រកបដោយសីលធម៌ ស្មេរភាព កម្លាំងរឹងមាំ និងប្រសិទ្ធភាពខ្ពស់។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2019-4000-8000-000000000000', 'bacc2100-2019-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2019-4000-8000-000000000002', 'ការបណ្តុះពលរដ្ឋឲ្យមានទំនោរផ្នែកវិជ្ជាជីវៈ ប្រកបដោយសីលធម៌ ស្ថិរភាព កម្លាំងរឹងមាំ និងប្រសិទ្ធភាពខ្ពស់ គឺចាំបាច់ ព្រោះទំនោរនេះជំរុញឲ្យមនុស្សស្ទាត់ជំនាញ និងចង់អភិវឌ្ឍការងារ ហើយលុះត្រាតែប្រកាន់ខ្ជាប់សីលធម៌ ទើបការងារមានស្ថិរភាព និងប្រសិទ្ធភាព', null, null, null, '[{"content":"ទំនោរ ជាផ្នែកមួយនៃចរិតលក្ខណៈ ដែលជំរុញមនុស្សឲ្យចង់ធ្វើ និងអភិវឌ្ឍខ្លួនក្នុងមុខរបរណាមួយ ដោយកម្លាំងចលករខ្លាំង។"},{"content":"វិជ្ជាជីវៈប្រកបដោយសីលធម៌៖ ប្រកបមុខរបរត្រឹមត្រូវ សុចរិត មិនកេងប្រវ័ញ្ច មិនពុករលួយ និងស្របច្បាប់។"},{"content":"ស្ថិរភាពរឹងមាំ៖ មិនរារែក មិនប្រែប្រួលតាមការអូសទាញ ការប្តេជ្ញាចិត្ត និងសុខភាពមាំមួន។ ប្រសិទ្ធភាពខ្ពស់៖ លទ្ធផលល្អ និងជោគជ័យ ដែលជួយអភិវឌ្ឍធនធានមនុស្ស និងសង្គម។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2019-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2019, 'open', 'ច្បាប់និងករណីយកិច្ចតាមទិដ្ឋភាពនៃតម្លៃគឺមានទំនាក់ទំនងគ្នាទៅវិញទៅមក។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -1044,6 +1104,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2019-4000-8000-000000000000', 'bacc2100-2019-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2019-4000-8000-000000000003', 'ច្បាប់ និងករណីយកិច្ច ជាទិដ្ឋភាពពីរនៃតម្លៃ ដែលបំពេញឲ្យគ្នាទៅវិញទៅមក៖ ច្បាប់កំណត់សិទ្ធិ និងកាតព្វកិច្ចពលរដ្ឋ ហើយការគោរពច្បាប់ និងការបំពេញករណីយកិច្ច ធ្វើឲ្យប្រទេសរីកចម្រើន; កាតព្វកិច្ចរបស់អ្នកដទៃចំពោះខ្ញុំ ជាការឆ្លើយតបនឹងសិទ្ធិរបស់ខ្ញុំ ហើយផ្ទុយមកវិញ', null, null, null, '[{"content":"ច្បាប់ជាបទប្បញ្ញត្តិ (សិទ្ធិ កាតព្វកិច្ច ការហាមឃាត់ និងទោស) ដែលសភាអនុម័ត ដើម្បីគ្រប់គ្រង ធានាសន្តិសុខ សណ្តាប់ធ្នាប់ និងការរីកចម្រើន។ ករណីយកិច្ច ជាកិច្ចការដែលត្រូវតែធ្វើ។"},{"content":"ឧទាហរណ៍៖ កម្មករមានសិទ្ធិទាមទារប្រាក់ខែ និងការឈប់សម្រាក ប៉ុន្តែនិយោជកក៏មានសិទ្ធិតម្រូវឲ្យកម្មករធ្វើការតាមម៉ោង និងច្បាប់ការងារ។"},{"content":"ឧទាហរណ៍៖ ច្បាប់ចែងឲ្យមានការបោះឆ្នោត ពលរដ្ឋមានករណីយកិច្ចទៅបោះឆ្នោត; ច្បាប់តម្រូវឲ្យបង់ពន្ធ ពលរដ្ឋមានករណីយកិច្ចបង់ពន្ធ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2019-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2019, 'open', 'តម្លៃបញ្ញា ជាប្រភេទនៃតម្លៃថ្នាក់ខ្ពស់។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -1051,12 +1116,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2019-4000-8000-000000000000', 'bacc2100-2019-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2019-4000-8000-000000000004', 'តម្លៃបញ្ញា ជាប្រភេទតម្លៃថ្នាក់ខ្ពស់ ដែលគេជួបប្រទះក្នុងការពេញចិត្តចង់ចេះ ចង់ដឹង ដោយសុភវិនិច្ឆ័យ និងការប្រើប្រាស់ស្មារតីប្រកបដោយបញ្ញា', null, null, null, '[{"content":"មានតែមនុស្សដែលមានបញ្ញា ទើបមានតម្លៃប្រភេទនេះ; វាជាបញ្ហាទូលំទូលាយគ្មានព្រំដែន។"},{"content":"វាជួយមនុស្សរំដោះខ្លួនពីសភាវគតិ និងទម្លាប់ ហើយកែច្នៃធម្មជាតិ បំពេញតម្រូវការរស់រានរបស់ខ្លួន។"},{"content":"ឧ. ពុទ្ធិ សច្ចភាព ការស្រាវជ្រាវវិទ្យាសាស្ត្រ ការរៀនសូត្រ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2019-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2019, 'open', 'តើត្រូវមានវិធានអ្វីខ្លះ ដើម្បីឲ្យបុគ្គលម្នាក់ៗមិនចង់ពុករលួយ និងមិនហ៊ានពុករលួយនៅកម្ពុជា? ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2019-4000-8000-000000000000', 'bacc2100-2019-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2019-4000-8000-000000000005', 'វិធានការគន្លឹះបី៖ អប់រំ (ឲ្យមិនចង់ពុករលួយ) បង្ការ និងទប់ស្កាត់ (ឲ្យមិនអាចពុករលួយ) និងអនុវត្តច្បាប់ (ឲ្យមិនហ៊ានពុករលួយ)', null, null, null, '[{"content":"អប់រំ៖ ផ្សព្វផ្សាយ និងបង្កើនការយល់ដឹងពីអំពើពុករលួយ ផលវិបាក មូលហេតុ និងច្បាប់ ដើម្បីឲ្យម្នាក់ៗមិនចង់ពុករលួយ។"},{"content":"បង្ការ និងទប់ស្កាត់៖ ដាក់ចេញវិធានការការពារ រារាំងភាពអន្តរាយ ឬការខូចខាត (ប្រព័ន្ធត្រួតពិនិត្យ ការប្រកាសទ្រព្យ តម្លាភាពសេវា) ដើម្បីឲ្យមិនអាចពុករលួយ។"},{"content":"អនុវត្តច្បាប់ (បង្ក្រាប)៖ ចាប់ និងបញ្ជូនជនល្មើសទៅតុលាការ ដើម្បីឲ្យម្នាក់ៗមិនហ៊ានពុករលួយ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2100-2018-4000-8000-000000000000', 'kh-grade12-social-morality-civics', 2018, 'BacII 2018: Morals and civics (social science track)', 'វិញ្ញាសាសីលធម៌-ពលរដ្ឋវិជ្ជា បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2018 (2018-08-20), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1070,12 +1145,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2018-4000-8000-000000000000', 'bacc2100-2018-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2018-4000-8000-000000000001', 'តម្លៃធម្មជាតិ ជាតម្លៃដែលជាប់ទាក់ទងនឹងគុណភាព ឬលក្ខណៈដែលវត្ថុមួយមានស្រាប់; វាខុសពីតម្លៃសម្ភារៈ ហើយតម្លៃធម្មជាតិរួមមាន ភាពស្រស់ស្អាត ពុទ្ធិ ចំណេះដឹង សច្ចភាព សុភមង្គល សេចក្តីរីករាយ មិត្តភាព សេចក្តីគោរព ស្នាដៃសិល្បៈ', null, null, null, '[{"content":"ឧទាហរណ៍៖ វិជ្ជាជាទ្រព្យដ៏មហាសាលរបស់មនុស្សគ្រប់រូប; សច្ចភាពជាតម្លៃដែលគ្មានសង្គមណាអាចខ្វះបាន។"},{"content":"តម្លៃធម្មជាតិ គួរឲ្យចូលចិត្តជាងតម្លៃសម្ភារៈ ព្រោះវាមិនត្រូវការប្រៀបធៀបនឹងវត្ថុផ្សេង។"},{"content":"បើគ្មានសច្ចភាព សង្គមនឹងប្រឡូកប្រឡាំ ហើយភាពអយុត្តិធម៌កើតឡើង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2018-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2018, 'open', 'ផលប្រយោជន៍ការប្រឆាំងអំពើពុករលួយប្រកបដោយប្រសិទ្ធភាព។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2018-4000-8000-000000000000', 'bacc2100-2018-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2018-4000-8000-000000000002', 'ការប្រឆាំងអំពើពុករលួយប្រកបដោយប្រសិទ្ធភាព ធ្វើឲ្យសង្គមរឹងមាំ យុត្តិធម៌ សមភាព តម្លាភាព គណនេយ្យភាព កាត់បន្ថយភាពក្រីក្រ និងគម្លាតអ្នកមាន-អ្នកក្រ ទាក់ទាញការវិនិយោគ សេវាសាធារណៈមានប្រសិទ្ធភាព និងនីតិរដ្ឋរឹងមាំ', null, null, null, '[{"content":"សង្គម៖ យុត្តិធម៌ និងសមភាពក្នុងការរស់នៅ; ស្ថិរភាព; ការផ្តល់សេវាសាធារណៈ (អប់រំ សុខាភិបាល) មានគុណភាព និងស្មើភាព។"},{"content":"សេដ្ឋកិច្ច៖ ថវិកាជាតិមិនបាត់បង់ ការវិនិយោគកើន ភាពក្រីក្រថយ។"},{"content":"នយោបាយ៖ អភិបាលកិច្ចល្អ ទំនុកចិត្តរបស់ប្រជាជន និងនីតិរដ្ឋរឹងមាំ; ធនធានធម្មជាតិមិនត្រូវបំផ្លាញដោយអំពើពុករលួយ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2018-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2018, 'open', 'ពហុសាសនាពុំមែនជាប្រភពទំនាស់។ ចូរពន្យល់និងឧទាហរណ៍។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1084,6 +1169,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2018-4000-8000-000000000000', 'bacc2100-2018-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2018-4000-8000-000000000003', 'ពហុសាសនាមិនមែនជាប្រភពទំនាស់ទេ ព្រោះសាសនាទាំងអស់អប់រំមនុស្សឲ្យធ្វើល្អ លើកតម្លៃសីលធម៌ គុណធម៌ ការសហការ និងការលុបបំបាត់អំពើអាក្រក់ ដើម្បីរកសុខសន្តិភាព', null, null, null, '[{"content":"គោលការណ៍ចម្បងនៃការអប់រំសាសនាទាំងអស់ គឺការលុបបំបាត់អំពើអាក្រក់ ពង្រីកអំពើល្អ និងមេត្តាករុណារវាងមនុស្ស។"},{"content":"សាសនាទាំងអស់អប់រំសាសនិកឲ្យចេះសហការ សាមគ្គីភាព ការអធ្យាស្រ័យ និងការចែករំលែក។"},{"content":"ឧទាហរណ៍៖ ព្រះពុទ្ធសាសនា និងគ្រិស្តសាសនា ធ្វើជំនួបធម្មយាត្រាសន្តិភាពរួមគ្នា; ទំនាស់ភាគច្រើនកើតពីការប្រើសាសនាខុសគោលបំណង មិនមែនពីសាសនាផ្ទាល់ទេ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2018-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2018, 'open', 'ភាពខុសគ្នារវាងសីលញ្ញាណ និងចិត្តញ្ញាណ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -1091,12 +1181,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2018-4000-8000-000000000000', 'bacc2100-2018-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2018-4000-8000-000000000004', 'សីលញ្ញាណ ជាញ្ញាណប្រាប់ឲ្យដឹងខ្លួន និងបំពេញករណីយកិច្ច ណែនាំឲ្យធ្វើល្អ ជាចៅក្រម និងសាក្សីវិនិច្ឆ័យតម្លៃសីលធម៌នៃអំពើយើង (ល្អ ឬអាក្រក់); ចិត្តញ្ញាណ ជាញ្ញាណប្រាប់ការពិតដែលកើតក្នុងចិត្ត ដូចជាសញ្ចេតនា និងអំពើ ដោយមិនវិនិច្ឆ័យថាល្អ ឬអាក្រក់', null, null, null, '[{"content":"សីលញ្ញាណ៖ ជាតុលាការនៃញាណ ដែលធ្វើឲ្យស្គាល់កុសល ហើយចៀសផុតពីអកុសល។"},{"content":"ចិត្តញ្ញាណ៖ ប្រាប់ថាខ្ញុំកំពុងគិត ឬមានអារម្មណ៍អ្វី ជាអ្នកទស្សនា និងវិនិច្ឆ័យតាមការពិត ប៉ុន្តែមិនណែនាំពីកុសល ឬអកុសលឡើយ។"},{"content":"ឧទាហរណ៍៖ ចិត្តញ្ញាណប្រាប់ថា «ខ្ញុំខឹង»; សីលញ្ញាណប្រាប់ថា «ការវាយគេដោយសារខឹង ជាអំពើខុស»។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2018-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2018, 'open', 'ឆន្ទៈជាអ្វី? ចូរពន្យល់អំពីឆន្ទៈ និងអឆន្ទៈ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2018-4000-8000-000000000000', 'bacc2100-2018-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2018-4000-8000-000000000005', 'ឆន្ទៈ គឺកម្លាំងចិត្តដែលជំរុញមនុស្សឲ្យធ្វើសកម្មភាពប្រកបដោយការគិតពិចារណា ហើយជាសមត្ថភាពគ្រប់គ្រងគំនិត និងអំពើ ដើម្បីសម្រេចអ្វីដែលចង់ធ្វើ', null, null, null, '[{"content":"ឆន្ទៈជាអំពើដែលព្រាងទុកមុន និងប្រកបដោយបំណង។"},{"content":"អំពើឆន្ទៈ៖ ស្តែងឡើងដោយការកំណត់គោលដៅ ជ្រើសរើសមធ្យោបាយ និងល្បិចក្នុងការប្រតិបត្តិ។ ឧ. ចង់បន្តការសិក្សានៅសាកលវិទ្យាល័យ៖ ១) គិតពីសមត្ថភាព ២) ពិចារណាជ្រើសសាលា ៣) សម្រេចចិត្ត ៤) ប្រតិបត្តិ (ដាក់ពាក្យ និងប្រឡង)។"},{"content":"អំពើអឆន្ទៈ៖ ជាឆ្លុះ ឬទម្លាប់ ដូចជាការក្អក កណ្តាស់ ការព្រិចភ្នែក ការដកដៃចេញពេលប៉ះភ្លើង ឬមុខឡើងក្រហមពេលខ្មាស។ ពេលខ្លះអំពើដែលធ្លាប់ជាឆន្ទៈ ក្លាយជាអឆន្ទៈ ពេលវាក្លាយជាទម្លាប់។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000000', 'kh-grade12-social-morality-civics', 2017, 'BacII 2017: Morals and civics (social science track)', 'វិញ្ញាសាសីលធម៌-ពលរដ្ឋវិជ្ជា បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1110,12 +1210,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2017-4000-8000-000000000001', 'កុមារគ្រប់រូបមានសិទ្ធិទទួលការរៀនសូត្រ ដោយឥតបង់ថ្លៃនៅសាលាសាធារណៈ គ្មានការរើសអើង ហើយយ៉ាងហោចណាស់ត្រូវរៀនចប់បឋមសិក្សា', null, null, null, '[{"content":"កុមារមានសិទ្ធិចូលរៀនចាប់ពីអាយុ ៦ ឆ្នាំ (ឬ ៧០ ខែ) ដោយឥតគិតថ្លៃ។"},{"content":"គ្រប់កុមារមានសិទ្ធិរៀនដោយស្មើភាព គ្មានការរើសអើងភេទ ជាតិសាសន៍ ឬជីវភាព។"},{"content":"កុមារមានសិទ្ធិទទួលការបណ្តុះបណ្តាលចំណេះទូទៅ ដោយសេរីភាព ដើម្បីអភិវឌ្ឍសមត្ថភាព សីលធម៌ និងផ្នែកសង្គម; គ្រួសារ សាលា និងរដ្ឋ ត្រូវធានាសិទ្ធិនេះ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2017, 'open', 'ចូរពន្យល់ទំនួលខុសត្រូវផ្នែកសីលធម៌។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2017-4000-8000-000000000002', 'ទំនួលខុសត្រូវផ្នែកសីលធម៌ គឺការហ៊ានទទួលសារភាពដោយស្មោះត្រង់ និងផ្ទាល់ចំពោះមុខខ្លួនឯង នូវអំពើដែលខ្លួនបានធ្វើ ដោយគ្មានការបង្ខិតបង្ខំ ហើយមានពីរបែប៖ ប្រកបដោយវិចារណញ្ញាណ និងដោយខ្វះវិចារណញ្ញាណ', null, null, null, '[{"content":"ទំនួលខុសត្រូវផ្នែកសីលធម៌មានពីរប្រភេទ៖ (ក) ប្រកបដោយវិចារណញ្ញាណ៖ អ្នកប្រព្រឹត្តដឹងមុនថាអ្វីគួរ អ្វីមិនគួរ អ្វីជាកុសល ឬអកុសល ហើយធ្វើដោយសេរី។ ឧ. កុមារម្នាក់ទទួលស្គាល់កំហុស ហើយសារភាពពីមូលហេតុ។"},{"content":"(ខ) ដោយខ្វះវិចារណញ្ញាណ៖ អំពើធ្វើក្រោមការបង្ខិតបង្ខំ ការគំរាម ឬពេលគ្មានសេរីភាព និងគ្មានលទ្ធភាពជ្រើសរើស ឬពេលស្មារតីមិនប្រក្រតី។ ឧ. កុមារម្នាក់ធ្វើខុសពេលរងឥទ្ធិពលថ្នាំញៀនដែលគេបង្ខំ។"},{"content":"ដូច្នេះ ទំនួលខុសត្រូវផ្នែកសីលធម៌ ទាមទារពុទ្ធិ (ការដឹងតម្លៃ) និងសេរីភាព។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2017, 'open', 'តើតម្លៃបញ្ញា និងសីលតម្លៃស្ថិតនៅតម្លៃថ្នាក់ណា? ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1124,12 +1234,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2017-4000-8000-000000000003', 'តម្លៃបញ្ញា និងសីលតម្លៃ ស្ថិតក្នុងតម្លៃថ្នាក់ខ្ពស់', null, null, null, '[{"content":"តម្លៃបញ្ញា៖ ការចង់ដឹង ចង់ចេះ ដោយសុភវិនិច្ឆ័យ និងស្មារតីប្រកបដោយបញ្ញា ឧ. ពុទ្ធិ សច្ចភាព។"},{"content":"សីលតម្លៃ៖ តម្លៃដែលគេជួបប្រទះក្នុងឥរិយាបថបុគ្គល ឬសង្គមដែលគោរពភាពត្រឹមត្រូវ កុសល ឬការរីកចម្រើននៃឧត្តមគតិ ឧ. តម្លៃនៃចរិតលក្ខណៈ និងបំណងល្អ ឬគុណធម៌។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2017, 'open', 'មាតាបិតាមានកាតព្វកិច្ចចិញ្ចឹមថែរក្សាកូនចៅជាពលរដ្ឋល្អ។ កូនមានករណីកិច្ចចិញ្ចឹម និងបីបាច់ថែរក្សាមាតាបិតាដែលចាស់ជរា តាមទំនៀមទម្លាប់ខ្មែរ។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2017-4000-8000-000000000004', 'តាមទំនៀមទម្លាប់ខ្មែរ មាតាបិតាមានកាតព្វកិច្ចចិញ្ចឹមថែរក្សា និងអប់រំកូនឲ្យក្លាយជាពលរដ្ឋល្អ ហើយកូនមានករណីយកិច្ចតបស្នងគុណ ដោយចិញ្ចឹម និងថែរក្សាមាតាបិតាពេលចាស់ជរា', null, null, null, '[{"content":"មាតាបិតា៖ ចិញ្ចឹមថែរក្សាកូនដោយព្រហ្មវិហារធម៌; អប់រំឲ្យប្រព្រឹត្តល្អ សច្ចៈ ទៀងត្រង់; ឲ្យចេះគោរពចាស់ទុំ គ្រូ; ធ្វើជាគំរូល្អ និងផ្តល់ភាពកក់ក្តៅ; ផ្តល់ចំណេះដឹង ទ្រព្យ និងរៀបចំអនាគតឲ្យកូន។"},{"content":"កូន៖ ជាអ្នកកតញ្ញូកតវេទី; ធ្វើកិច្ចការជំនួស; ថែរក្សាកេរ្តិ៍ឈ្មោះ និងវង្សត្រកូល; ថែរក្សាមាតាបិតាពេលចាស់ឈឺ; ធ្វើបុណ្យឧទ្ទិសកុសលពេលលោកចែកឋាន។"},{"content":"ទំនាក់ទំនងនេះ ធ្វើឲ្យគ្រួសារខ្មែររឹងមាំ និងរក្សាប្រពៃណីកតញ្ញុតាធម៌។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2017, 'open', 'សិស្សជាកម្លាំងមួយដ៏សំខាន់ ក្នុងការចូលរួមប្រឆាំងនឹងអំពើពុករលួយ។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1138,12 +1258,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2017-4000-8000-000000000005', 'សិស្សជាកម្លាំងដ៏សំខាន់ក្នុងការប្រឆាំងអំពើពុករលួយ ព្រោះសិស្សមានចំណេះដឹង ហើយជាទំពាំងស្នងឫស្សី; ការបណ្តុះផ្នត់គំនិតប្រឆាំងអំពើពុករលួយត្រូវចាប់ផ្តើមពីសិស្ស', null, null, null, '[{"content":"ចូលរួមទិវាជាតិប្រយុទ្ធប្រឆាំងអំពើពុករលួយ និងសកម្មភាពអប់រំសង្គម។"},{"content":"កុំចូលរួមក្នុងអំពើពុករលួយ (ឧ. មិនផ្តល់លុយដើម្បីបានពិន្ទុ ឬចម្លងក្នុងការប្រឡង)។"},{"content":"ណែនាំសមាជិកគ្រួសារពីផលវិបាក និងកុំឲ្យប្រព្រឹត្តអំពើពុករលួយ; ចូលរួមឃ្លាំមើល និងរាយការណ៍ ដើម្បីឲ្យអាជ្ញាធរមានសមត្ថកិច្ចចាត់វិធានការ។"},{"content":"ផ្សព្វផ្សាយសារប្រឆាំងអំពើពុករលួយ តាមរយៈមិត្តអប់រំមិត្ត ហើយបង្កើតគំនិតផ្តួចផ្តើមថ្មីៗ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2017-4000-8000-000000000006', 'kh-grade12-social-morality-civics-past-papers', null, 2017, 'open', 'ចូរពន្យល់ពុទ្ធិទស្សនៈវិជ្ជា ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2017-4000-8000-000000000000', 'bacc2100-2017-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2017-4000-8000-000000000006', 'ពុទ្ធិទស្សនវិជ្ជា ជាពុទ្ធិកើតពីការត្រិះរិះពិចារណា និងសំយោគ មានលក្ខណៈជ្រាលជ្រៅជាងពុទ្ធិសាមញ្ញ និងពុទ្ធិស្បង់ (វិទ្យាសាស្ត្រ) ព្រោះវាវាយតម្លៃ និងតម្រង់ទិសលើបញ្ហាដែលវិទ្យាសាស្ត្ររកមិនឃើញ ដូចជាអាទិទេព និងព្រលឹង', null, null, null, '[{"content":"ពុទ្ធិទស្សនវិជ្ជា ស្វែងរកអត្ថន័យ និងតម្លៃនៃជីវិត ហើយមានលក្ខណៈសុក្រឹតប្រកបដោយគុណធម៌ និងតម្លៃសីលវិជ្ជា។"},{"content":"ឧទាហរណ៍៖ ពុទ្ធវចនៈ «មានរូបគឺមានទុក្ខ» ជាការយល់ឃើញទស្សនវិជ្ជាពីជីវិត។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2100-2016-4000-8000-000000000000', 'kh-grade12-social-morality-civics', 2016, 'BacII 2016: Morals and civics (social science track)', 'វិញ្ញាសាសីលធម៌-ពលរដ្ឋវិជ្ជា បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2016 (2016-08-22), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1157,12 +1287,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2016-4000-8000-000000000000', 'bacc2100-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2016-4000-8000-000000000001', 'ជំរឿនផ្តល់ទិន្នន័យសំខាន់ៗពីប្រជាជន (ចំនួន អាយុ ភេទ កំណើន ការអប់រំ ការងារ លំនៅដ្ឋាន ចំណាកស្រុក) ដើម្បីឲ្យរដ្ឋ និងអង្គការធ្វើផែនការអភិវឌ្ឍបានត្រឹមត្រូវ', null, null, null, '[{"content":"ជួយវិភាគស្ថានភាពសេដ្ឋកិច្ច-សង្គម ហើយព្យាករណ៍តម្រូវការពលរដ្ឋនាពេលអនាគត។"},{"content":"ជួយកសាងផែនការអភិវឌ្ឍ (អប់រំ សុខាភិបាល ការងារ ការកាត់បន្ថយភាពក្រីក្រ) ឲ្យច្បាស់លាស់។"},{"content":"ផ្តល់ព័ត៌មានដល់ដៃគូអន្តរជាតិ និងអ្នកវិនិយោគ ហើយតាមដានលទ្ធផលនៃគោលនយោបាយ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2016-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2016, 'open', 'ចូរពន្យល់ពាក្យវិមជ្ឈការ និងពាក្យវិសហមជ្ឈការក្នុងក្របខណ្ឌកំណែទម្រង់ រដ្ឋបាល សាធារណៈនៅកម្ពុជា។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2016-4000-8000-000000000000', 'bacc2100-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2016-4000-8000-000000000002', 'វិមជ្ឈការ គឺការផ្ទេរអំណាច ភារកិច្ច និងធនធាន ពីរដ្ឋបាលកណ្តាលទៅឲ្យក្រុមប្រឹក្សាដែលជាប់ឆ្នោតនៅថ្នាក់ក្រោមជាតិ (ឃុំ សង្កាត់ ក្រុង ស្រុក ខណ្ឌ រាជធានី ខេត្ត) ដើម្បីឆ្លើយតបនឹងតម្រូវការមូលដ្ឋាន; វិសហមជ្ឈការ គឺការប្រគល់ភារកិច្ចពីក្រសួង ឬស្ថាប័នថ្នាក់ជាតិ ទៅឲ្យអង្គភាពក្រោមឱវាទ ឬក្រុមប្រឹក្សា ដើម្បីធ្វើជំនួសក្នុងនាមក្រសួង', null, null, null, '[{"content":"វិមជ្ឈការ៖ ប្រគល់បុគ្គលភាពគតិយុត្តិ និងស្វ័យភាពឲ្យដែនដីមូលដ្ឋាន ឲ្យប្រជាជនចូលរួមរៀបចំការអភិវឌ្ឍនៅមូលដ្ឋានខ្លួន។"},{"content":"វិសហមជ្ឈការ៖ អង្គភាពទទួលភារកិច្ចធ្វើតំណាងក្រសួង ដោយប្រើអំណាច និងធនធានដែលក្រសួងផ្តល់ឲ្យ ហើយនៅតែរាយការណ៍ទៅក្រសួង។"},{"content":"គោលបំណងរួម៖ ធ្វើឲ្យសេវាសាធារណៈនៅជិតប្រជាជន មានប្រសិទ្ធភាព តម្លាភាព និងគណនេយ្យភាព។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2016-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2016, 'open', 'ទំនួលខុសត្រូវផ្នែកសីលធម៌មានពីរបែប។ ចូររៀបរាប់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1171,6 +1311,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2016-4000-8000-000000000000', 'bacc2100-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2016-4000-8000-000000000003', 'ទំនួលខុសត្រូវផ្នែកសីលធម៌ គឺការហ៊ានទទួលសារភាពដោយស្មោះត្រង់ និងផ្ទាល់ចំពោះមុខខ្លួនឯង នូវអំពើដែលខ្លួនបានធ្វើ ដោយគ្មានការបង្ខិតបង្ខំ ហើយមានពីរបែប៖ ប្រកបដោយវិចារណញ្ញាណ និងដោយខ្វះវិចារណញ្ញាណ', null, null, null, '[{"content":"ទំនួលខុសត្រូវផ្នែកសីលធម៌មានពីរប្រភេទ៖ (ក) ប្រកបដោយវិចារណញ្ញាណ៖ អ្នកប្រព្រឹត្តដឹងមុនថាអ្វីគួរ អ្វីមិនគួរ អ្វីជាកុសល ឬអកុសល ហើយធ្វើដោយសេរី។ ឧ. កុមារម្នាក់ទទួលស្គាល់កំហុស ហើយសារភាពពីមូលហេតុ។"},{"content":"(ខ) ដោយខ្វះវិចារណញ្ញាណ៖ អំពើធ្វើក្រោមការបង្ខិតបង្ខំ ការគំរាម ឬពេលគ្មានសេរីភាព និងគ្មានលទ្ធភាពជ្រើសរើស ឬពេលស្មារតីមិនប្រក្រតី។ ឧ. កុមារម្នាក់ធ្វើខុសពេលរងឥទ្ធិពលថ្នាំញៀនដែលគេបង្ខំ។"},{"content":"ដូច្នេះ ទំនួលខុសត្រូវផ្នែកសីលធម៌ ទាមទារពុទ្ធិ (ការដឹងតម្លៃ) និងសេរីភាព។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2016-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2016, 'open', 'ចូររៀបរាប់ពីប្រភពនៃការបំពុលបរិស្ថាន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -1178,12 +1323,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2016-4000-8000-000000000000', 'bacc2100-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2016-4000-8000-000000000004', 'ប្រភពការបំពុល៖ ខ្យល់ (ផ្សែងយានយន្ត រោងចក្រ ការដុតសំរាម និងព្រៃ សារធាតុគីមី) ទឹក (កាកសំណល់រោងចក្រ និងលំនៅដ្ឋាន ជីគីមី ថ្នាំសម្លាប់សត្វល្អិត ការលេចប្រេង) និងសូរសំឡេង (យានយន្ត គ្រឿងចក្រ ការដ្ឋានសំណង់ ឧបករណ៍បំពងសំឡេង)', null, null, null, '[{"content":"ការបំពុលខ្យល់៖ ចំហេះឥន្ធនៈក្នុងយានយន្ត និងរោងចក្រ ការដុតកាកសំណល់ ឧស្ម័នពុលពីការប្រើសារធាតុគីមី និងម៉ាស៊ីនត្រជាក់ ធ្វើឲ្យខ្យល់ខ្វះគុណភាព និងបង្កជំងឺផ្លូវដង្ហើម។"},{"content":"ការបំពុលទឹក៖ ការបង្ហូរកាកសំណល់ពីលំនៅដ្ឋាន ឧស្សាហកម្ម និងកសិកម្ម (ជី ថ្នាំ) ការលេចប្រេងពីនាវា ធ្វើឲ្យទឹកខ្វះអុកស៊ីសែន និងពុល។"},{"content":"ការបំពុលសូរសំឡេង៖ សំឡេងខ្លាំងលើសតម្រូវការស្តាប់ ពីយានយន្ត គ្រឿងចក្រ ការដ្ឋានសំណង់ និងឧបករណ៍បំពងសំឡេង ធ្វើឲ្យតប់ប្រមល់ អស់កម្លាំង និងខូចការស្តាប់។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2016-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2016, 'open', 'ចូរបង្ហាញពីភាពខុសគ្នារវាងគុណធម៌សាមញ្ញ និងគុណកំណើត ដោយលើកឧទាហរណ៍បញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2016-4000-8000-000000000000', 'bacc2100-2016-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2016-4000-8000-000000000005', 'គុណធម៌ ជាសីលតម្លៃ ឬកម្លាំងមនោសញ្ចេតនាប្រកបដោយកុសលជាប់លាប់របស់បុគ្គល ចំពោះសង្គមដែលខ្លួនរស់នៅ។ វាចែកជាពីរ៖ គុណធម៌សាមញ្ញ (បានពីការហ្វឹកហាត់ និងអប់រំ) និងគុណធម៌ពីកំណើត', null, null, null, '[{"content":"គុណធម៌សាមញ្ញ៖ កើតពីការហ្វឹកហាត់ និងការអប់រំ ឧ. ការទៀងពេល ការចេះប្រមាណ ភក្តីភាព ការខ្ជាប់ខ្ជួន ការគួរសម។"},{"content":"គុណធម៌ពីកំណើត៖ មនុស្សទទួលបានពីកំណើត ឧ. សន្តានចិត្តល្អ ចិត្តសណ្តោស ចិត្តមេត្តា ការលះបង់ ការបរិច្ចាគ។"},{"content":"ភាពខុសគ្នា៖ គុណធម៌សាមញ្ញត្រូវរៀន និងហ្វឹកហាត់ទើបមាន ចំណែកគុណធម៌ពីកំណើតមានស្រាប់ តែត្រូវថែរក្សា និងពង្រឹង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000000', 'kh-grade12-social-morality-civics', 2015, 'BacII 2015: Morals and civics (social science track)', 'វិញ្ញាសាសីលធម៌-ពលរដ្ឋវិជ្ជា បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1197,12 +1352,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2015-4000-8000-000000000001', 'គំរូមនុស្សថ្លៃថ្នូរមានបីប្រភេទ៖ បណ្ឌិត វិរបុរស និងសន្តបុគ្គល', null, null, null, '[{"content":"បណ្ឌិត៖ មនុស្សមានចំណេះដឹងខ្ពស់ ពុទ្ធិសកល ឈ្លាសវៃ វិនិច្ឆ័យត្រឹមត្រូវ និងរស់នៅប្រកបដោយគុណធម៌។"},{"content":"វិរបុរស៖ មនុស្សអង់អាចក្លាហាន ហ៊ានពលីជីវិត (ផ្លូវកាយ និងផ្លូវចិត្ត) ដើម្បីជាតិមាតុភូមិ អធិបតេយ្យភាព និងបូរណភាពទឹកដី។"},{"content":"សន្តបុគ្គល៖ មនុស្សមានចិត្តអធ្យាស្រ័យ អត់ឱន មេត្តាករុណា និងជំនឿជាក់ ស្វែងរកសុភមង្គលពិតដោយភាពស្ងប់ និងសុក្រឹតភាពនៃជីវិត។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2015, 'open', 'ការប្រឆាំងអំពើពុករលួយកើតចេញពីយើងម្នាក់ៗ។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2015-4000-8000-000000000002', 'ការប្រឆាំងអំពើពុករលួយកើតចេញពីយើងម្នាក់ៗ ព្រោះមនុស្សជាអ្នកប្រព្រឹត្ត ដូច្នេះម្នាក់ៗត្រូវប្រកាន់គំនិត «មិនចង់ មិនហ៊ាន មិនអាច» ពុករលួយ ហើយចាប់ផ្តើមពីខ្លួនឯង ទើបសង្គមស្អាតស្អំ', null, null, null, '[{"content":"មិនចង់ពុករលួយ៖ តាមរយៈការអប់រំ និងផ្សព្វផ្សាយ ឲ្យម្នាក់ៗមានផ្នត់គំនិតមិនចង់ពុករលួយ។"},{"content":"មិនហ៊ានពុករលួយ៖ តាមរយៈការអនុវត្តច្បាប់ និងការបញ្ជូនជនល្មើសទៅតុលាការ។"},{"content":"មិនអាចពុករលួយ៖ តាមរយៈការបង្ការ និងទប់ស្កាត់ (ប្រព័ន្ធត្រួតពិនិត្យ តម្លាភាព)។"},{"content":"យើងម្នាក់ៗ ត្រូវមិនផ្តល់ និងមិនទទួលសំណូក ហើយទាមទារឲ្យគ្រប់គ្នាចូលរួម។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2015, 'open', 'ភាពសុខដុមផ្នែកសាសនា គឺជាគោលការណ៍បង្កើតនូវសុខសន្តិភាពពិតៗ និងយូរអង្វែង។ ចូរពន្យល់ដោយលើកយកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1211,12 +1376,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2015-4000-8000-000000000003', 'ភាពសុខដុមផ្នែកសាសនា គឺការគោរព និងរស់នៅជាមួយគ្នាដោយសន្តិភាពរវាងអ្នកកាន់សាសនាផ្សេងៗ; វាជាគោលការណ៍បង្កើតសុខសន្តិភាពពិត និងយូរអង្វែង ព្រោះវាលុបបំបាត់ឫសគល់នៃសង្គ្រាមដែលកើតពីការរើសអើង និងភាពជ្រុលនិយម', null, null, null, '[{"content":"មនុស្ស និងប្រជាជាតិ ត្រូវជម្រុះចោល៖ ចំណង់សុខតួ លោភៈ ទោសៈ មោហៈ ភាពក្រអឺតក្រទម ការប្រកាន់ពូជសាសន៍ និងតណ្ហាអត្តទត្តភាព។"},{"content":"សាសនាទាំងអស់អប់រំឲ្យធ្វើល្អ មេត្តា ការអត់ឱន; ការគោរពសាសនាអ្នកដទៃ ជៀសវាងជម្លោះ។"},{"content":"ឧទាហរណ៍៖ នៅកម្ពុជា ពុទ្ធសាសនិក មូស្លីម និងគ្រិស្តសាសនិក រស់នៅជាមួយគ្នាដោយសុខដុម; អ្នកដឹកនាំសាសនាជួបពិភាក្សាគ្នាដើម្បីសន្តិភាព។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2015, 'open', 'ទំនោររបស់បុគ្គលគឺជាលក្ខណៈចិត្តដែលមានមូលដ្ឋានត្រឹមត្រូវ និងជាស្នូលនៃជីវិតផ្លូវចិត្តរបស់បុគ្គល។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2015-4000-8000-000000000004', 'ទំនោររបស់បុគ្គល គឺលក្ខណៈចិត្តដែលមានមូលដ្ឋានត្រឹមត្រូវ និងជាស្នូលនៃជីវិតផ្លូវចិត្ត ដែលស្តែងឲ្យឃើញតាមរយៈតម្រូវការ ចំណង់ចំណូលចិត្ត ឧត្តមគតិ និងលោកទស្សនៈ', null, null, null, '[{"content":"តម្រូវការ៖ អាហារ សម្លៀកបំពាក់ ទីជម្រក ការសិក្សា និងតម្រូវការផ្សេងៗ។"},{"content":"ចំណង់ចំណូលចិត្ត៖ ឥរិយាបថរបស់បុគ្គលចំពោះវត្ថុដែលគេយល់ថាសំខាន់ ហើយផ្តល់ការពេញចិត្ត។"},{"content":"ឧត្តមគតិ៖ ការឆ្លុះបញ្ចាំងក្នុងមនសិការពីគំរូដ៏ល្អឥតខ្ចោះដែលគេប្រាថ្នា។ លោកទស្សនៈ៖ សំណុំគំនិតរបស់បុគ្គលលើធម្មជាតិ សង្គម និងសកម្មភាពរបស់ខ្លួន។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2015, 'open', 'ច្បាប់ និងករណីកិច្ចតាងនូវទិដ្ឋភាពពីរនៃតម្លៃដែលបង្គ្រប់ឲ្យគ្នាទៅវិញទៅមក។ ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1225,12 +1400,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2015-4000-8000-000000000005', 'ច្បាប់ និងករណីយកិច្ច ជាទិដ្ឋភាពពីរនៃតម្លៃ ដែលបំពេញឲ្យគ្នាទៅវិញទៅមក៖ ច្បាប់កំណត់សិទ្ធិ និងកាតព្វកិច្ចពលរដ្ឋ ហើយការគោរពច្បាប់ និងការបំពេញករណីយកិច្ច ធ្វើឲ្យប្រទេសរីកចម្រើន; កាតព្វកិច្ចរបស់អ្នកដទៃចំពោះខ្ញុំ ជាការឆ្លើយតបនឹងសិទ្ធិរបស់ខ្ញុំ ហើយផ្ទុយមកវិញ', null, null, null, '[{"content":"ច្បាប់ជាបទប្បញ្ញត្តិ (សិទ្ធិ កាតព្វកិច្ច ការហាមឃាត់ និងទោស) ដែលសភាអនុម័ត ដើម្បីគ្រប់គ្រង ធានាសន្តិសុខ សណ្តាប់ធ្នាប់ និងការរីកចម្រើន។ ករណីយកិច្ច ជាកិច្ចការដែលត្រូវតែធ្វើ។"},{"content":"ឧទាហរណ៍៖ កម្មករមានសិទ្ធិទាមទារប្រាក់ខែ និងការឈប់សម្រាក ប៉ុន្តែនិយោជកក៏មានសិទ្ធិតម្រូវឲ្យកម្មករធ្វើការតាមម៉ោង និងច្បាប់ការងារ។"},{"content":"ឧទាហរណ៍៖ ច្បាប់ចែងឲ្យមានការបោះឆ្នោត ពលរដ្ឋមានករណីយកិច្ចទៅបោះឆ្នោត; ច្បាប់តម្រូវឲ្យបង់ពន្ធ ពលរដ្ឋមានករណីយកិច្ចបង់ពន្ធ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2015-4000-8000-000000000006', 'kh-grade12-social-morality-civics-past-papers', null, 2015, 'open', 'យើងត្រូវចេះជ្រើសរើសសេចក្តីប្រាថ្នា គោលបំណង និងមធ្យោបាយល្អ និងត្រឹមត្រូវដើម្បីសម្រេចឧត្តមគតិរបស់យើង។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2015-4000-8000-000000000000', 'bacc2100-2015-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2015-4000-8000-000000000006', 'ដើម្បីសម្រេចឧត្តមគតិ យើងត្រូវជ្រើសរើសសេចក្តីប្រាថ្នា គោលបំណង និងមធ្យោបាយឲ្យល្អ និងត្រឹមត្រូវ ព្រោះសេចក្តីប្រាថ្នា និងគោលបំណង ជំរុញឲ្យរកល្បិច និងមធ្យោបាយ ហើយមធ្យោបាយខុសនាំទៅរកលទ្ធផលខុស', null, null, null, '[{"content":"ការជ្រើសរើសដែលល្អ គឺការតស៊ូផ្នែកខាងក្នុងរបស់មនុស្ស ថ្លឹងថ្លែងហេតុ និងផល ហើយជ្រើសយកហេតុផលត្រឹមត្រូវ។"},{"content":"ឧទាហរណ៍៖ សិស្សប្រាថ្នាប្រឡងជាប់ (គោលបំណងល្អ) ត្រូវជ្រើសមធ្យោបាយត្រឹមត្រូវ គឺរៀនសូត្រខ្លាំង មិនមែនចម្លង ឬសូកប៉ាន់ទេ។"},{"content":"បើមនុស្សខ្វះការជ្រើសរើសសេចក្តីប្រាថ្នា គោលបំណង និងមធ្យោបាយត្រឹមត្រូវ គេមិនអាចសម្រេចឧត្តមគតិរបស់ខ្លួនបានឡើយ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000000', 'kh-grade12-social-morality-civics', 2014, 'BacII 2014, second sitting: Morals and civics (social science track)', 'វិញ្ញាសាសីលធម៌-ពលរដ្ឋវិជ្ជា បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1244,12 +1429,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4200-8000-000000000001', 'ការចាក់កាកសំណល់ពាសវាលពាសកាល បំពុលខ្យល់ (ក្លិនស្អុយ ឧស្ម័ន) បំពុលទឹក (ទឹកខ្មៅ ក្អុក ជំងឺឆ្លង) និងបំពុលដី (ដីពុល ខូចគុណភាព) ហើយប៉ះពាល់ដល់សុខភាព និងសេដ្ឋកិច្ច', null, null, null, '[{"content":"ខ្យល់៖ ក្លិន និងឧស្ម័នពីសំរាមរលួយ ឬដុត បង្កជំងឺផ្លូវដង្ហើម (ក្អក ហឺត)។"},{"content":"ទឹក៖ សំរាម និងទឹកស្អុយហូរចូលប្រឡាយ ទន្លេ ធ្វើឲ្យទឹកកខ្វក់ បង្កជំងឺរាគ អាសន្នរោគ ហើយត្រី និងសត្វងាប់។"},{"content":"ដី៖ ប្លាស្ទិក និងសារធាតុពុលធ្វើឲ្យដីខូចគុណភាព បន្ថយទិន្នផលកសិកម្ម។ ដូច្នេះ យើងត្រូវទុកដាក់សំរាមតាមការណែនាំ បែងចែក និងកែច្នៃ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'មនុស្សគ្រប់រូបមានសិទ្ធិទទួលការអប់រំ។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4200-8000-000000000002', 'មនុស្សគ្រប់រូបមានសិទ្ធិទទួលការអប់រំ ដោយគ្មានការរើសអើង ព្រោះការអប់រំជាគន្លឹះនៃការអភិវឌ្ឍបុគ្គល និងជាតិ; ការអប់រំបឋមសិក្សាត្រូវឥតគិតថ្លៃ និងជាកាតព្វកិច្ច', null, null, null, '[{"content":"ការអប់រំបឋមសិក្សា និងមូលដ្ឋាន ត្រូវឥតបង់ថ្លៃ និងជាកាតព្វកិច្ច; ការអប់រំបច្ចេកទេស និងវិជ្ជាជីវៈ ត្រូវមានជាទូទៅ។"},{"content":"ការអប់រំត្រូវសំដៅលើការរីកលូតលាស់ពេញលេញនៃបុគ្គលិកលក្ខណៈ ការគោរពសិទ្ធិមនុស្ស និងសេរីភាព ការអត់ឱន និងមិត្តភាពរវាងជាតិ សាសន៍ និងសាសនា ហើយគាំទ្រសកម្មភាពថែរក្សាសន្តិភាព។"},{"content":"មាតាបិតាមានសិទ្ធិជ្រើសរើសប្រភេទការអប់រំសម្រាប់កូន។ ការអប់រំធ្វើឲ្យមនុស្សមានចំណេះ ការងារ និងចូលរួមកសាងសង្គម។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'សីលតម្លៃ ជាតម្លៃថ្នាក់ខ្ពស់។ ចូរពន្យល់ឲ្យបានក្បោះក្បាយ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1258,12 +1453,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4200-8000-000000000003', 'តម្លៃថ្នាក់ខ្ពស់រួមមាន តម្លៃបញ្ញា តម្លៃសោភ័ណ តម្លៃសាសនា និងសីលតម្លៃ (តម្លៃសីលធម៌)។ សីលតម្លៃ ត្រូវចាត់ទុកជាតម្លៃថ្នាក់ខ្ពស់បំផុត ព្រោះវាជាតម្លៃនៃការប្រព្រឹត្តល្អ និងកុសល ក្នុងឥរិយាបថបុគ្គល និងសង្គម', null, null, null, '[{"content":"តម្លៃបញ្ញា៖ ការចង់ដឹង ចង់ចេះ ដោយសុភវិនិច្ឆ័យ និងស្មារតីប្រកបដោយបញ្ញា ឧ. ពុទ្ធិ សច្ចភាព។"},{"content":"តម្លៃសោភ័ណ៖ ការដឹងគុណតម្លៃនៃភាពស្រស់ស្អាតនៃធម្មជាតិ និងសិល្បៈ។ តម្លៃសាសនា៖ ភាពពិសិដ្ឋ និងការគោរពសាសនា។"},{"content":"សីលតម្លៃ៖ តម្លៃដែលគេជួបប្រទះក្នុងឥរិយាបថបុគ្គល ឬសង្គមដែលគោរពភាពត្រឹមត្រូវ កុសល ឬការរីកចម្រើននៃឧត្តមគតិ។ ឧ. ចរិតល្អ បំណងល្អ គុណធម៌។ អ្នកប្រកាន់ខ្ជាប់សីលតម្លៃ កសាងសង្គមឲ្យមានអរិយធម៌។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'ចូរពន្យល់ពីភាពខុសគ្នារវាងអំពើឆន្ទៈ និងអំពើអឆន្ទៈ។ ចូរលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4200-8000-000000000004', 'អំពើឆន្ទៈ ជាអំពើដែលធ្វើដោយការដឹងខ្លួន ពិចារណា និងសម្រេចចិត្តជាមុន (បញ្ញត្តិកម្ម ការពិចារណា ការសម្រេចចិត្ត ការប្រតិបត្តិ) ចំណែកអំពើអឆន្ទៈ ជាអំពើស្វ័យប្រវត្តិ ដែលកើតឡើងដោយគ្មានការពិចារណា ឬការសម្រេចចិត្ត', null, null, null, '[{"content":"អំពើឆន្ទៈ៖ ស្តែងឡើងដោយការកំណត់គោលដៅ ជ្រើសរើសមធ្យោបាយ និងល្បិចក្នុងការប្រតិបត្តិ។ ឧ. ចង់បន្តការសិក្សានៅសាកលវិទ្យាល័យ៖ ១) គិតពីសមត្ថភាព ២) ពិចារណាជ្រើសសាលា ៣) សម្រេចចិត្ត ៤) ប្រតិបត្តិ (ដាក់ពាក្យ និងប្រឡង)។"},{"content":"អំពើអឆន្ទៈ៖ ជាឆ្លុះ ឬទម្លាប់ ដូចជាការក្អក កណ្តាស់ ការព្រិចភ្នែក ការដកដៃចេញពេលប៉ះភ្លើង ឬមុខឡើងក្រហមពេលខ្មាស។ ពេលខ្លះអំពើដែលធ្លាប់ជាឆន្ទៈ ក្លាយជាអឆន្ទៈ ពេលវាក្លាយជាទម្លាប់។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'ការចេះគោរពសិទ្ធិអ្នកដទៃបញ្ជាក់ឲ្យឃើញពីតម្លៃនៃការគោរពជីវិតរបស់មនុស្ស។ ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1272,12 +1477,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4200-8000-000000000005', 'ការគោរពសិទ្ធិអ្នកដទៃ បង្ហាញពីការគោរពតម្លៃជីវិតមនុស្ស ព្រោះសិទ្ធិមនុស្សជាសេចក្តីត្រូវការចាំបាច់ដែលមនុស្សគ្រប់រូបមានតាំងពីកំណើត ដើម្បីរស់នៅប្រកបដោយគុណធម៌ និងសេចក្តីថ្លៃថ្នូរ', null, null, null, '[{"content":"សិទ្ធិមនុស្សរួមមាន៖ សិទ្ធិរស់រាន សិទ្ធិធ្វើការ សិទ្ធិទទួលព័ត៌មាន ចំណេះដឹង សិទ្ធិសេរីភាពបញ្ចេញមតិ ចូលរួមនយោបាយ បោះឆ្នោត រៀបការ និងសិទ្ធិស្មើគ្នាចំពោះមុខច្បាប់។"},{"content":"ការគោរពសិទ្ធិ ធានាឲ្យអ្នកកាន់អំណាច និងអ្នកគ្មានអំណាច រស់នៅជាមួយគ្នាដោយសន្តិភាព។"},{"content":"ពេលយើងគោរពសិទ្ធិអ្នកដទៃ យើងទទួលស្គាល់ថាគេជាមនុស្សមានតម្លៃស្មើយើង ហើយអ្នកដទៃក៏គោរពសិទ្ធិយើងវិញ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4200-8000-000000000006', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'ចូររៀបរាប់ពីបញ្ហាដែលកើតឡើងដោយសារកំណើនប្រជាជនពិភពលោក។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4200-8000-000000000000', 'bacc2100-2014-4200-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4200-8000-000000000006', 'កំណើនប្រជាជនពិភពលោក បង្កបញ្ហា៖ ជីវភាព និងចំណូលថយចុះ ការប៉ះពាល់បរិស្ថាន ខ្វះអាហារ ទឹកស្អាត និងថាមពល ការបំពុល ការកាប់បំផ្លាញព្រៃ ភាពក្រីក្រ ជំងឺ ឧក្រិដ្ឋកម្ម និងទំនាស់ដណ្តើមធនធាន', null, null, null, '[{"content":"សេដ្ឋកិច្ច៖ ប្រាក់ចំណូលក្នុងមនុស្សម្នាក់ថយ ភាពអត់ការងារ និងភាពក្រីក្រកើន។"},{"content":"បរិស្ថាន៖ ខ្វះទឹកស្អាត ការបំពុលខ្យល់ ទឹក ដី និងសំឡេង ការកាប់ព្រៃឈើ ធ្វើឲ្យខូចតុល្យភាពអុកស៊ីសែន-កាបូនិច។"},{"content":"សង្គម៖ ជំងឺ អាយុសង្ឃឹមរស់ទាប ឧក្រិដ្ឋកម្ម គ្រឿងញៀន ការជួញដូរមនុស្ស ការរើសអើង និងទំនាស់ដណ្តើមធនធាន; ការប្រើជី និងថ្នាំកសិកម្មហួសហេតុ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000000', 'kh-grade12-social-morality-civics', 2014, 'BacII 2014, first sitting: Morals and civics (social science track)', 'វិញ្ញាសាសីលធម៌-ពលរដ្ឋវិជ្ជា បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1291,12 +1506,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4100-8000-000000000001', 'កិច្ចការផ្ទះ និងការចិញ្ចឹមបីបាច់អប់រំកូន ជាភារកិច្ចរួមរបស់ប្តី និងប្រពន្ធ ដោយស្មើភាព (អនុសញ្ញាលុបបំបាត់ការរើសអើងប្រឆាំងនារី មាត្រា៥) មិនមែនជាការងាររបស់ស្ត្រីតែម្នាក់ឯងទេ', null, null, null, '[{"content":"ភារកិច្ចរួម៖ ផ្តល់កំណើត និងថែរក្សាជីវិតកូន; រកចំណូលផ្គត់ផ្គង់គ្រួសារ; ធានាសុវត្ថិភាព និងចៀសវាងអំពើហិង្សាក្នុងគ្រួសារ; បញ្ជូនកូនទៅសាលារៀន; អប់រំសីលធម៌ ការគោរពច្បាប់ និងប្រពៃណី; ជួយលើកទឹកចិត្ត និងផ្តល់សិទ្ធិឲ្យកូនចូលរួមសម្រេចចិត្ត។"},{"content":"ឧទាហរណ៍៖ ឪពុក និងម្តាយជួយគ្នាចម្អិនអាហារ បោកគក់ យកកូនទៅសាលា ថែកូនពេលឈឺ និងពិភាក្សាគ្នាពីអនាគតកូន ដោយគ្មានការរើសអើងភេទ។"},{"content":"ការចែករំលែកការងារស្មើគ្នា ធ្វើឲ្យគ្រួសារមានសុភមង្គល ស្ត្រីមានពេលចូលរួមការងារសង្គម ហើយកូនឃើញគំរូនៃសមភាព។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000002', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'តើគ្រួសារ សាលារៀន និងសង្គមត្រូវយកចិត្តទុកដាក់ចំពោះកុមារគ្រប់រូបដូចម្តេចខ្លះ ដើម្បីឲ្យកុមារមានការអភិវឌ្ឍពេញលេញ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4100-8000-000000000002', 'ដើម្បីឲ្យកុមារអភិវឌ្ឍពេញលេញ គ្រួសារ សាលារៀន និងសង្គម ត្រូវសហការគ្នា៖ គ្រួសារចិញ្ចឹម ថែរក្សា និងអប់រំ សាលាផ្តល់ចំណេះ និងជំនាញ ហើយសង្គមការពារសិទ្ធិ សុវត្ថិភាព និងឱកាសរបស់កុមារ', null, null, null, '[{"content":"គ្រួសារ៖ ផ្តល់អាហារ សុខភាព ក្តីស្រឡាញ់ ការលើកទឹកចិត្ត និងការអប់រំសីលធម៌ ការគោរពអ្នកដទៃ និងប្រពៃណី។"},{"content":"សាលារៀន៖ ផ្តល់ចំណេះដឹង ជំនាញជីវិត និងវិជ្ជាជីវៈ អប់រំឲ្យមានឥរិយាបថល្អ និងសហការជាមួយមាតាបិតា។"},{"content":"សង្គម៖ គាំទ្រការអប់រំ និងសុខាភិបាល ការពារកុមារពីអំពើហិង្សា ការកេងប្រវ័ញ្ច ការងារកុមារ និងការរើសអើង ហើយផ្តល់ការងារដល់យុវជនក្រោយបញ្ចប់ការសិក្សា។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000003', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'ជំរឿនបានផ្តល់ទិន្នន័យដ៏មានប្រយោជន៍ និងតម្រង់ទៅរកតម្រូវការចាំបាច់។ តើការធ្វើជំរឿនផ្តល់ប្រយោជន៍អ្វីខ្លះដល់ក្រសួងអប់រំយុវជន និងកីឡា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1305,12 +1530,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4100-8000-000000000003', 'ជំរឿនផ្តល់ទិន្នន័យដល់ក្រសួងអប់រំ យុវជន និងកីឡា ពីចំនួនកុមារតាមអាយុ កុមារដែលចូលរៀន និងមិនចូលរៀន គ្រូ សាលា បន្ទប់រៀន និងស្ថានភាពជីវភាពតាមតំបន់ ដើម្បីរៀបចំផែនការអប់រំ', null, null, null, '[{"content":"ដឹងចំនួនកុមារអាយុចូលរៀន ធៀបនឹងប្រជាជនសរុប និងតំបន់ដែលកុមារនៅក្រៅសាលាច្រើន។"},{"content":"ដឹងសមាមាត្រគ្រូ-សិស្ស ចំនួនសាលា និងបន្ទប់រៀនតាមមូលដ្ឋាន ដើម្បីសាងសង់ និងចាត់តាំងគ្រូឲ្យត្រូវ។"},{"content":"ដឹងកម្រិតជីវភាពប្រជាជន ដើម្បីផ្តល់អាហារូបករណ៍ និងជំនួយ។ ដូច្នេះ ក្រសួងអាចបង្កើនការចូលរៀន និងគុណភាពអប់រំ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000004', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'បច្ចុប្បន្ន មនុស្សលោកបាននឹងកំពុងបំផ្លិចបំផ្លាញបរិស្ថានយ៉ាងធ្ងន់ធ្ងរ។ ចូរពន្យល់ពីប្រភពនៃការបំពុលខ្យល់ ការបំពុលទឹក និងការបំពុលសូរសំឡេង។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4100-8000-000000000004', 'ប្រភពការបំពុល៖ ខ្យល់ (ផ្សែងយានយន្ត រោងចក្រ ការដុតសំរាម និងព្រៃ សារធាតុគីមី) ទឹក (កាកសំណល់រោងចក្រ និងលំនៅដ្ឋាន ជីគីមី ថ្នាំសម្លាប់សត្វល្អិត ការលេចប្រេង) និងសូរសំឡេង (យានយន្ត គ្រឿងចក្រ ការដ្ឋានសំណង់ ឧបករណ៍បំពងសំឡេង)', null, null, null, '[{"content":"ការបំពុលខ្យល់៖ ចំហេះឥន្ធនៈក្នុងយានយន្ត និងរោងចក្រ ការដុតកាកសំណល់ ឧស្ម័នពុលពីការប្រើសារធាតុគីមី និងម៉ាស៊ីនត្រជាក់ ធ្វើឲ្យខ្យល់ខ្វះគុណភាព និងបង្កជំងឺផ្លូវដង្ហើម។"},{"content":"ការបំពុលទឹក៖ ការបង្ហូរកាកសំណល់ពីលំនៅដ្ឋាន ឧស្សាហកម្ម និងកសិកម្ម (ជី ថ្នាំ) ការលេចប្រេងពីនាវា ធ្វើឲ្យទឹកខ្វះអុកស៊ីសែន និងពុល។"},{"content":"ការបំពុលសូរសំឡេង៖ សំឡេងខ្លាំងលើសតម្រូវការស្តាប់ ពីយានយន្ត គ្រឿងចក្រ ការដ្ឋានសំណង់ និងឧបករណ៍បំពងសំឡេង ធ្វើឲ្យតប់ប្រមល់ អស់កម្លាំង និងខូចការស្តាប់។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000005', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'គុណធម៌ជាអ្វី? គុណធម៌ចែកចេញជាប៉ុន្មានបែប? អ្វីខ្លះ? ចូរពន្យល់ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -1319,12 +1554,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4100-8000-000000000005', 'គុណធម៌ ជាសីលតម្លៃ ឬកម្លាំងមនោសញ្ចេតនាប្រកបដោយកុសលជាប់លាប់របស់បុគ្គល ចំពោះសង្គមដែលខ្លួនរស់នៅ។ វាចែកជាពីរ៖ គុណធម៌សាមញ្ញ (បានពីការហ្វឹកហាត់ និងអប់រំ) និងគុណធម៌ពីកំណើត', null, null, null, '[{"content":"គុណធម៌សាមញ្ញ៖ កើតពីការហ្វឹកហាត់ និងការអប់រំ ឧ. ការទៀងពេល ការចេះប្រមាណ ភក្តីភាព ការខ្ជាប់ខ្ជួន ការគួរសម។"},{"content":"គុណធម៌ពីកំណើត៖ មនុស្សទទួលបានពីកំណើត ឧ. សន្តានចិត្តល្អ ចិត្តសណ្តោស ចិត្តមេត្តា ការលះបង់ ការបរិច្ចាគ។"},{"content":"ភាពខុសគ្នា៖ គុណធម៌សាមញ្ញត្រូវរៀន និងហ្វឹកហាត់ទើបមាន ចំណែកគុណធម៌ពីកំណើតមានស្រាប់ តែត្រូវថែរក្សា និងពង្រឹង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000006', 'kh-grade12-social-morality-civics-past-papers', null, 2014, 'open', 'តើទំនួលខុសត្រូវមានប៉ុន្មានបែប? អ្វីខ្លះ? ចូរពន្យល់ទំនួលខុសត្រូវផ្នែកសីលធម៌ ដោយលើកឧទាហរណ៍មកបញ្ជាក់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track morals and civics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2100-2014-4100-8000-000000000000', 'bacc2100-2014-4100-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2100-2014-4100-8000-000000000006', 'ទំនួលខុសត្រូវមានពីរបែប៖ ទំនួលខុសត្រូវផ្នែកសីលធម៌ និងទំនួលខុសត្រូវផ្នែកសង្គម (ច្បាប់)។ ទំនួលខុសត្រូវផ្នែកសីលធម៌ គឺការហ៊ានទទួលស្គាល់អំពើរបស់ខ្លួនចំពោះមនសិការផ្ទាល់ ដោយស្មោះត្រង់ និងគ្មានការបង្ខិតបង្ខំ', null, null, null, '[{"content":"ទំនួលខុសត្រូវផ្នែកសីលធម៌មានពីរប្រភេទ៖ (ក) ប្រកបដោយវិចារណញ្ញាណ៖ អ្នកប្រព្រឹត្តដឹងមុនថាអ្វីគួរ អ្វីមិនគួរ អ្វីជាកុសល ឬអកុសល ហើយធ្វើដោយសេរី។ ឧ. កុមារម្នាក់ទទួលស្គាល់កំហុស ហើយសារភាពពីមូលហេតុ។"},{"content":"(ខ) ដោយខ្វះវិចារណញ្ញាណ៖ អំពើធ្វើក្រោមការបង្ខិតបង្ខំ ការគំរាម ឬពេលគ្មានសេរីភាព និងគ្មានលទ្ធភាពជ្រើសរើស ឬពេលស្មារតីមិនប្រក្រតី។ ឧ. កុមារម្នាក់ធ្វើខុសពេលរងឥទ្ធិពលថ្នាំញៀនដែលគេបង្ខំ។"},{"content":"ទំនួលខុសត្រូវផ្នែកសង្គម គឺការទទួលខុសត្រូវចំពោះច្បាប់ និងសង្គម ដែលអាចត្រូវផ្តន្ទាទោស ឬសងការខូចខាត។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 commit;
 
 -- ===== supabase/seed/concept-links.sql =====
