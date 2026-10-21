@@ -592,6 +592,17 @@ timing only in database functions, never in the browser.
   induction and deduction. A topic asked in several years gets one
   consistent answer. Labelled ai-generated and needs-review. Tests:
   `test:past-papers` 11/11.
+- **2026-10-21 — Fix: the 2014 second-sitting social-track history paper
+  was missing.** The copy bundles it into its geography file (pages 4–7),
+  so the split filed its paper and key as extra geography answer pages and
+  the paper never reached the history list. Geography 2014 (second
+  sitting) now shows only its own three answer pages; history gains the
+  real paper (13 October 2014, 90 minutes, 75 points, three questions:
+  Jayavarman VII, world food security, why the Khmer Rouge leaders were
+  tried) with its printed page, the copy's key and an AI answer key. 144
+  papers, 655 questions. Tests: `test:past-papers` 11/11; setup parts
+  01–05 load into local Supabase; the paper and the trimmed geography
+  answers checked on a 375px phone in both versions.
 
 ## Blockers and things that need a person
 
