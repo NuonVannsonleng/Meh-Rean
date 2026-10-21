@@ -18,12 +18,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000001', 1, 5)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000001', 'រសជាតិមូលដ្ឋាន $4$៖ ផ្អែម ប្រៃ ជូរ និងល្វីង (វិទ្យាសាស្ត្រថ្មីបន្ថែមរសឆ្ងាញ់ អ៊ូម៉ាមិ)', null, null, null, '[{"content":"ពន្លករសជាតិលើអណ្តាតទទួលសារធាតុរលាយក្នុងទឹកមាត់ ហើយបញ្ជូនអាំងភ្លុចទៅខួរក្បាល។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2022-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'តើប្រព័ន្ធប្រសាទមនុស្សមាននាទីអ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000002', 2, 5)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000002', 'ទទួលភ្ញោចពីខាងក្នុង និងខាងក្រៅ បកស្រាយព័ត៌មាន និងសម្រេចចិត្ត ហើយសម្របសម្រួល និងបញ្ជាសកម្មភាពសរីរាង្គ (សាច់ដុំ ក្រពេញ) រក្សាលំនឹងរាងកាយ ព្រមទាំងការគិត ការចងចាំ និងអារម្មណ៍', null, null, null, '[{"content":"ប្រព័ន្ធប្រសាទធ្វើការជាមួយប្រព័ន្ធអង់ដូគ្រីន ដើម្បីរក្សាលំនឹងក្នុង (ហូមេអូស្តាស៊ី)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2022-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'តើផូស៊ីលមានសារៈសំខាន់ដូចម្តេចខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -32,6 +42,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000003', 'ផូស៊ីលជាភស្តុតាងនៃការវិវត្ត បង្ហាញអាយុស្រទាប់ថ្ម និងប្រវត្តិផែនដី បរិស្ថាន និងអាកាសធាតុពីបុរាណ និងជួយរកប្រេង ធ្យូងថ្ម', null, null, null, '[{"content":"វាបង្ហាញភាវៈរស់ដែលផុតពូជ និងទម្រង់អន្តរកាល (ឧ. អាខេអូប្ទេរីក្ស)។"},{"content":"ផូស៊ីលសន្ទស្សន៍ជួយកំណត់អាយុស្រទាប់ថ្ម; ធ្យូងថ្ម និងប្រេងកាតក៏កើតពីសំណល់ភាវៈរស់បុរាណ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2022-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'ចូររកលក្ខណៈខុសគ្នារវាងរុក្ខជាតិម៉ូណូកូទីលេដុន និងរុក្ខជាតិឌីកូទីលេដុន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -39,12 +54,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000004', 'ម៉ូណូ៖ កូទីលេដុង $1$ សរសៃស្លឹកស្រប ឫសសរសៃ ផ្កាពហុគុណ $3$ បាច់ស្បៀងរាយប៉ាយ; ឌីកូ៖ កូទីលេដុង $2$ សរសៃស្លឹកសំណាញ់ ឫសកែវ ផ្កាពហុគុណ $4$ ឬ $5$ បាច់ស្បៀងជារង្វង់', null, null, null, '[{"content":"ចំនួនស្លឹកកូទីលេដុង៖ ម៉ូណូកូទីលេដុនមាន $1$; ឌីកូទីលេដុនមាន $2$។"},{"content":"សរសៃស្លឹក៖ ម៉ូណូស្របគ្នា; ឌីកូជាសំណាញ់។"},{"content":"ឫស៖ ម៉ូណូជាឫសសរសៃ (ឫសចង្កោម); ឌីកូមានឫសកែវ។"},{"content":"ផ្កា៖ ផ្នែកផ្កាម៉ូណូជាពហុគុណនៃ $3$; ឌីកូជាពហុគុណនៃ $4$ ឬ $5$។"},{"content":"ដើម៖ ម៉ូណូមានបាច់ស្បៀងរាយប៉ាយ គ្មានកាំប្យូម (មិនធំទំហំ); ឌីកូមានបាច់ស្បៀងរៀបជារង្វង់ និងមានកាំប្យូម។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2022-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'តើកត្តាអ្វីខ្លះ ដែលបង្កាក់ការបង្កើតទម្រង់ និងនាទីរបស់ប្រូតេអ៊ីន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000005', 5, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000005', 'សីតុណ្ហភាពខ្ពស់ $pH$ ខ្លាំង អ៊ីយ៉ុងលោហៈធ្ងន់ អាល់កុល អំបិលខាប់ កាំរស្មី និងមុយតាស្យុងសែន (លំដាប់អាស៊ីតអាមីនេខុស)', null, null, null, '[{"content":"សីតុណ្ហភាពខ្ពស់ (ជាធម្មតាលើស $45$–$60^\\circ C$)។"},{"content":"$pH$ ខ្លាំងពេក (អាស៊ីត ឬបាសខ្លាំង)។"},{"content":"អ៊ីយ៉ុងលោហៈធ្ងន់ ($\\mathrm{Hg^{2+}}$, $\\mathrm{Pb^{2+}}$, $\\mathrm{Ag^+}$) អាល់កុល អាសេតូន អំបិលខាប់ ឬអ៊ុយរេ។"},{"content":"កាំរស្មី (UV, X) និងការក្រឡុកខ្លាំង។"},{"content":"មុយតាស្យុងក្នុងសែនប្តូរលំដាប់អាស៊ីតអាមីនេ ដូចនេះប្រូតេអ៊ីនបត់ខុសទម្រង់ ហើយបាត់នាទី។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2022-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'ម៉ូលេគុល ADN មួយមាន $3000$ នុយក្លេអូទីតនិងមាននុយក្លេអូទីតប្រភេទ អាដេនីនស្មើ $20\%$ នៃចំនួននុយក្លេអូទីតសរុប។
@@ -55,6 +80,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000006', 6, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000006', 'ក. $3900$ សម្ព័ន្ធអ៊ីដ្រូសែន  ខ. $21\,000$ នុយក្លេអូទីតសេរី', null, null, null, '[{"content":"ក. $A=T=20\\%\\times3000=600$, $G=C=900$ ⇒ $H=2\\times600+3\\times900=3900$។"},{"content":"ខ. ស្វ័យដំឡើងទ្វេ $3$ ដង៖ $3000\\left(2^3-1\\right)=21\\,000$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2022-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2022, 'open', 'សែនមួយមាននុយក្លេអូទីតសរុប $480$ និងមាននុយក្លេអូទីត $A=100$។ $\mathrm{ARN_m}$ ដែលសំយោគចេញពីសែននេះ មានរីបូនុយក្លេអូទីត $U=50$ និង $C=60$។
 ក. រកចំនួនរីបូនុយក្លេអូទីតប្រភេទផ្សេងៗទៀតរបស់ $\mathrm{ARN_m}$ នេះ។
@@ -63,6 +93,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2022-4000-8000-000000000000', 'bacc1050-2022-4000-8000-000000000007', 7, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2022-4000-8000-000000000007', 'ក. $A=50$, $G=80$  ខ. $U\approx20.83\%$, $A\approx20.83\%$, $C=25\%$, $G\approx33.33\%$', null, null, null, '[{"content":"សែន៖ $A=T=100$, $G=C=140$; ARNm មាន $240$ រីបូនុយក្លេអូទីត។"},{"content":"ក. $A_m=100-U_m=50$; $G_m=140-C_m=80$។"},{"content":"ខ. $U=\\dfrac{50}{240}\\approx20.83\\%$, $A\\approx20.83\\%$, $C=25\\%$, $G\\approx33.33\\%$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1050-2021-4000-8000-000000000000', 'kh-grade12-science-biology', 2021, 'BacII 2021: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2021 (2021-12-27), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -76,6 +111,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000001', 'ផ្កាឌីកូទីលេដុនមានផ្នែក (ស្រទាប់ផ្កា ត្របកផ្កា កេសរឈ្មោល កេសរញី) ជាពហុគុណនៃ $4$ ឬ $5$; ផ្កាជាសរីរាង្គបន្តពូជ ផលិតកាម៉េត ធ្វើដំណើរលម្អង និងការបង្ករកំណើត ហើយបង្កើតផ្លែ និងគ្រាប់', null, null, null, '[{"content":"កេសរឈ្មោល (អង់ទែរ) ផលិតគ្រាប់លម្អង; កេសរញី (អូវែ) មានអូវុល។"},{"content":"ត្របកផ្កាដែលមានពណ៌ និងក្លិន ទាក់ទាញសត្វល្អិតឲ្យធ្វើដំណើរលម្អង; ក្រោយការបង្ករកំណើត អូវែទៅជាផ្លែ អូវុលទៅជាគ្រាប់។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2021-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2021, 'open', 'ចូរពន្យល់ពី៖
 ក. អង្គស៊ីលីយែ
@@ -85,6 +125,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000002', 'ក. អង្គស៊ីលីយែ ជារង្វង់សាច់ដុំក្នុងភ្នែក ជុំវិញកែវភ្នែក ភ្ជាប់ដោយសរសៃចង កន្ត្រាក់ ឬបន្ធូរ ដើម្បីប្តូរកំណោងកែវភ្នែក  ខ. ការសម្របភ្នែក (អាកូម៉ូដាស្យុង)៖ កែវភ្នែកប្តូរកម្រាស់ ឲ្យរូបភាពវត្ថុជិត ឬឆ្ងាយធ្លាក់ចំរេទីណា', null, null, null, '[{"content":"ក. អង្គស៊ីលីយែក៏ផលិតទឹកភ្នែកខាងមុខ (អាគុយអឺ)។"},{"content":"ខ. មើលឆ្ងាយ៖ សាច់ដុំស៊ីលីយែបន្ធូរ សរសៃចងតឹង កែវភ្នែកស្តើង (ប៉ោងតិច)។"},{"content":"មើលជិត៖ សាច់ដុំស៊ីលីយែកន្ត្រាក់ សរសៃចងធូរ កែវភ្នែកក្រាស់ (ប៉ោងច្រើន) ដូចនេះរូបភាពនៅតែច្បាស់លើរេទីណា។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2021-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2021, 'open', 'ក. ហេតុអ្វីបានជាសកម្មភាពអង់ស៊ីមត្រូវបាត់បង់គុណភាពទៅសីតុណ្ហភាពលើសពី $45^{o}C$។
 ខ. តើលក្ខខណ្ឌអ្វីខ្លះដែលធ្វើឲ្យប្រូតេអ៊ីនបាត់បង់គុណភាពបាន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -93,12 +138,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000003', 'ក. ព្រោះអង់ស៊ីមជាប្រូតេអ៊ីន; កម្តៅលើស $45^\circ C$ ផ្តាច់សម្ព័ន្ធខ្សោយ (សម្ព័ន្ធអ៊ីដ្រូសែន) ដែលរក្សាទម្រង់លំហ ទីតាំងសកម្មខូចទម្រង់ ស៊ុបស្ត្រាតភ្ជាប់មិនបាន  ខ. សីតុណ្ហភាពខ្ពស់ $pH$ ខ្លាំង លោហៈធ្ងន់ អាល់កុល កាំរស្មី និងការក្រឡុកខ្លាំង', null, null, null, '[{"content":"ក. ការខូចទម្រង់ (ដេណាទុយរ៉ាស្យុង) នេះភាគច្រើនមិនត្រឡប់វិញទេ ដូចនេះអង់ស៊ីមបាត់សកម្មភាព។"},{"content":"សីតុណ្ហភាពខ្ពស់ (ជាធម្មតាលើស $45$–$60^\\circ C$)។"},{"content":"$pH$ ខ្លាំងពេក (អាស៊ីត ឬបាសខ្លាំង)។"},{"content":"អ៊ីយ៉ុងលោហៈធ្ងន់ ($\\mathrm{Hg^{2+}}$, $\\mathrm{Pb^{2+}}$, $\\mathrm{Ag^+}$) អាល់កុល អាសេតូន អំបិលខាប់ ឬអ៊ុយរេ។"},{"content":"កាំរស្មី (UV, X) និងការក្រឡុកខ្លាំង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2021-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2021, 'open', 'តើវិស្វកម្មសេនេទិចផ្តល់ផលល្អ និងផលអាក្រក់អ្វីខ្លះដល់មនុស្ស?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000004', 'ផលល្អ៖ ផលិតឱសថ (អាំងស៊ុយលីន អរម៉ូនលូតលាស់ វ៉ាក់សាំង) ព្យាបាលដោយសែន រុក្ខជាតិទិន្នផលខ្ពស់ និងធន់នឹងសត្វល្អិត ស្នាមម្រាមដៃ ADN; ផលអាក្រក់៖ ហានិភ័យអាឡែស៊ី ឬជាតិពុលពីអាហារ GMO សែនរាលដាលទៅរុក្ខជាតិព្រៃ បាត់ជីវចម្រុះ បញ្ហាសីលធម៌ និងអាវុធជីវសាស្ត្រ', null, null, null, '[{"content":"ផលល្អ៖ ផលិតអាំងស៊ុយលីន អរម៉ូនលូតលាស់ អាំងទែហ្វេរ៉ុង និងវ៉ាក់សាំងដោយបាក់តេរី; ព្យាបាលជំងឺតំណពូជដោយសែន; ធ្វើរោគវិនិច្ឆ័យ។"},{"content":"ផលល្អ (បន្ត)៖ រុក្ខជាតិ និងសត្វកែច្នៃសែន ទិន្នផលខ្ពស់ ធន់នឹងសត្វល្អិត ជំងឺ និងរាំងស្ងួត; ស្នាមម្រាមដៃ ADN ក្នុងយុត្តិធម៌។"},{"content":"ផលអាក្រក់៖ អាហារ GMO អាចបង្កអាឡែស៊ី ឬជាតិពុល; សែនរាលដាលទៅរុក្ខជាតិព្រៃ (ស្មៅធន់ថ្នាំ) សត្វល្អិតធន់ និងការបាត់បង់ជីវចម្រុះ។"},{"content":"ផលអាក្រក់ (បន្ត)៖ បញ្ហាសីលធម៌ (ក្លូនមនុស្ស កែសែនកូន) ការប្រើធ្វើអាវុធជីវសាស្ត្រ និងការពឹងផ្អែកលើក្រុមហ៊ុនគ្រាប់ពូជ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2021-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2021, 'open', 'ម៉ូលេគុល ADN មួយមាន $3\times10^3$ នុយក្លេអូទីត
@@ -109,6 +164,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000005', 'ក. $3900$ សម្ព័ន្ធអ៊ីដ្រូសែន  ខ. $45\,000$ នុយក្លេអូទីតសេរី', null, null, null, '[{"content":"ក. $C=G=30\\%\\times3000=900$, $A=T=600$ ⇒ $H=2A+3G=1200+2700=3900$។"},{"content":"ខ. ស្វ័យដំឡើងទ្វេ $4$ ដង៖ $3000\\left(2^4-1\\right)=45\\,000$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2021-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2021, 'open', 'សែនមួយមាននុយក្លេអូទីតសរុប $480$ និងនុយក្លេអូទីតប្រភេទអាដេនីនស្មើ $100$។ $\mathrm{ARN_m}$ ដែលសំយោគចេញពីសែននេះមានរីបូនុយក្លេអូទីតប្រភេទអ៊ុយ៉ាស៊ីលស្មើ $50$ និងស៊ីតូស៊ីនស្មើ $60$។
 ក. រកប្រវែង $\mathrm{ARN_m}$ ដែលសមយោគចេញពីសែននេះ។
@@ -118,6 +178,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2021-4000-8000-000000000000', 'bacc1050-2021-4000-8000-000000000006', 6, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2021-4000-8000-000000000006', 'ក. $81.6\,nm$  ខ. $A=50$, $G=80$  គ. $U\approx20.83\%$, $A\approx20.83\%$, $C=25\%$, $G\approx33.33\%$', null, null, null, '[{"content":"សែន៖ $A=T=100$, $G=C=\\dfrac{480}{2}-100=140$; ARNm មាន $240$ រីបូនុយក្លេអូទីត។"},{"content":"ក. $\\ell=240\\times0.34=81.6\\,nm$។"},{"content":"ខ. $A_{សែន}=A_m+U_m$ ⇒ $A_m=100-50=50$; $G_{សែន}=G_m+C_m$ ⇒ $G_m=140-60=80$។"},{"content":"គ. $U=\\dfrac{50}{240}\\approx20.83\\%$, $A\\approx20.83\\%$, $C=\\dfrac{60}{240}=25\\%$, $G=\\dfrac{80}{240}\\approx33.33\\%$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1050-2019-4000-8000-000000000000', 'kh-grade12-science-biology', 2019, 'BacII 2019: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -131,6 +196,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000001', 1, 5)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000001', 'ដំណើរលម្អងសិប្បនិម្មិត គឺមនុស្សយកលម្អងពីអង់ទែរទៅដាក់លើកែវមេដោយដៃ ឬឧបករណ៍; គេធ្វើវាដើម្បីធានាការកកើតផ្លែ ពេលខ្វះភ្នាក់ងារដំណើរលម្អង និងដើម្បីបង្កាត់ពូជតាមចិត្ត បង្កើនទិន្នផល', null, null, null, '[{"content":"ឧទាហរណ៍៖ ដំណើរលម្អងដូងទុំ វ៉ានីឡា ពោត និងការបង្កើតពូជកូនកាត់ដែលមានលក្ខណៈល្អ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2019-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ចូរពន្យល់ពី៖
 ក. ដំណើរឆ្លងកាត់ស៊ីណាប់របស់អាំងភ្លុចប្រសាទ។
@@ -140,12 +210,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000002', 'ក. អាំងភ្លុចឆ្លងស៊ីណាប់ដោយសារធាតុបញ្ជូនសរសៃប្រសាទ  ខ. ពុម្ពក្រៅកើតពេលភាវៈរស់កប់ក្នុងល្បាប់ រលួយ ឬរលាយបាត់ ហើយសល់តែប្រហោងរាងខាងក្រៅរបស់វាក្នុងថ្ម', null, null, null, '[{"content":"អាំងភ្លុចមកដល់ចុងអាក់សូន (ប៊ូតុងស៊ីណាប់) ធ្វើឲ្យអ៊ីយ៉ុង $\\mathrm{Ca^{2+}}$ ចូល ហើយថង់តូចៗបញ្ចេញសារធាតុបញ្ជូនសរសៃប្រសាទ (ឧ. អាសេទីលកូលីន) ទៅក្នុងចន្លោះស៊ីណាប់។"},{"content":"សារធាតុនេះភ្ជាប់នឹងអ្នកទទួលលើភ្នាសក្រោយស៊ីណាប់ បើកច្រកអ៊ីយ៉ុង ($\\mathrm{Na^+}$ ចូល) ហើយបង្កើតអាំងភ្លុចថ្មីក្នុងណឺរ៉ូនបន្ទាប់។"},{"content":"បន្ទាប់មកអង់ស៊ីម (ឧ. អាសេទីលកូលីនអេស្តេរ៉ាស) បំបែកសារធាតុបញ្ជូន ដើម្បីកុំឲ្យភ្ញោចជាប់រហូត។ អាំងភ្លុចឆ្លងស៊ីណាប់បានតែទិសម្ខាងប៉ុណ្ណោះ។"},{"content":"ខ. ល្បាប់ជុំវិញរឹងទៅជាថ្ម ហើយរក្សារាងសំបក ឬរាងកាយខាងក្រៅ (ពុម្ពក្រៅ); បើរ៉ែចាក់ពេញប្រហោងនោះ បានពុម្ពក្នុង (ចម្លង)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2019-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ចូរពណ៌នាពីលក្ខណៈរបស់អង់ស៊ីម?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000003', 'អង់ស៊ីមជាប្រូតេអ៊ីន ជាកាតាលីករជីវសាស្ត្រ មានភាពជាក់លាក់ ប្រើបរិមាណតិច មិនខូចក្រោយប្រតិកម្ម ហើយរងឥទ្ធិពលសីតុណ្ហភាព និង $pH$', null, null, null, '[{"content":"ជាក់លាក់៖ អង់ស៊ីមនីមួយៗមានអំពើលើស៊ុបស្ត្រាតមួយ (ទីតាំងសកម្ម ដូចសោ និងកូនសោ)។"},{"content":"សីតុណ្ហភាពល្អប្រសើរប្រហែល $37^\\circ C$; ក្តៅពេកវាខូចទម្រង់។ $pH$ ល្អប្រសើរខុសគ្នា (ប៉ិបស៊ីន $pH\\approx2$, អាមីឡាសទឹកមាត់ $pH\\approx7$)។"},{"content":"វាបង្កើនល្បឿនប្រតិកម្មខ្លាំង ហើយអាចត្រូវរារាំងដោយសារធាតុមួយចំនួន។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2019-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'តើអរម៉ូនដែលបញ្ចេញដោយកោសិកា $(\beta)$ និងកោសិកាអាល់ហ្វា $(\alpha)$ របស់លំពែងមានសកម្មភាពដូចម្តេចខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -154,6 +234,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000004', 'កោសិកា $\beta$ បញ្ចេញអាំងស៊ុយលីន ដែលបន្ថយជាតិស្ករក្នុងឈាម; កោសិកា $\alpha$ បញ្ចេញគ្លុយកាហ្គុន ដែលបង្កើនជាតិស្ករក្នុងឈាម', null, null, null, '[{"content":"អាំងស៊ុយលីន៖ ជួយកោសិកាស្រូបគ្លុយកូស ថ្លើម និងសាច់ដុំបំប្លែងគ្លុយកូសជាគ្លីកូសែន (ក្រោយញ៉ាំ)។"},{"content":"គ្លុយកាហ្គុន៖ ភ្ញោចថ្លើមឲ្យបំបែកគ្លីកូសែនជាគ្លុយកូស បញ្ចេញចូលឈាម (ពេលឃ្លាន)។"},{"content":"អរម៉ូនទាំងពីរមានអំពើផ្ទុយគ្នា ដើម្បីរក្សាជាតិស្ករក្នុងឈាមឲ្យថេរ (ប្រហែល $1\\,g/L$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2019-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ចូរប្រៀបធៀប ADN និងប្រូតេអ៊ីន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -161,14 +246,24 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000005', 5, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000005', 'ADN៖ អាស៊ីតនុយក្លេអ៊ិច ឯកតានុយក្លេអូទីត ($4$ ប្រភេទ) ច្រវាក់ទ្វេវង្វេល នៅក្នុងណ្វៃយ៉ូ ផ្ទុក និងបញ្ជូនព័ត៌មានតំណពូជ ស្វ័យដំឡើងទ្វេបាន; ប្រូតេអ៊ីន៖ ឯកតាអាស៊ីតអាមីនេ ($20$ ប្រភេទ) ភ្ជាប់ដោយសម្ព័ន្ធប៉ិបទីត មាននាទីសាងសង់ អង់ស៊ីម អរម៉ូន ការពារ និងដឹកជញ្ជូន', null, null, null, '[{"content":"ដូចគ្នា៖ ទាំងពីរជាម៉ាក្រូម៉ូលេគុល (ប៉ូលីមែ) ដែលលំដាប់ឯកតាកំណត់លក្ខណៈរបស់វា។"},{"content":"ធាតុ៖ ADN មាន C, H, O, N, P; ប្រូតេអ៊ីនមាន C, H, O, N (និង S)។"},{"content":"ADN កំណត់លំដាប់អាស៊ីតអាមីនេនៃប្រូតេអ៊ីន (តាម ARNm) ហើយប្រូតេអ៊ីនមិនអាចចម្លងខ្លួនឯងបានទេ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc1050-2019-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ម៉ូលេគុល ADN មួយមានចំនួនវង្វេល $10^5$។ ដោយការនៃផលសងនុយក្លេអូទីត A និងនុយក្លេអូទីត C ស្មើ $4\times10^{10}$។
+values ('bacc1050-2019-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ម៉ូលេគុល ADN មួយមានចំនួនវង្វេល $10^5$។ ដោយការេនៃផលសងនុយក្លេអូទីត A និងនុយក្លេអូទីត C ស្មើ $4\times10^{10}$។
 ក. រកចំនួននុយក្លេអូទីតប្រភេទនីមួយៗរបស់ ADN។
 ខ. តើ ADN នេះស្វ័យដំឡើងទ្វេប៉ុន្មានលើក? បើក្រោយស្វ័យដំឡើងទ្វេរួច ADN មានកូននុយក្លេអូទីត A ស្មើ $48\times10^5$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000006', 6, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000006', 'ក. $A=T=6\times10^5$, $G=C=4\times10^5$  ខ. $3$ លើក', null, null, null, '[{"content":"ប្រធានដែលបោះពុម្ព៖ «ការេនៃផលសង» $A$ និង $C$ ស្មើ $4\\times10^{10}$ ⇒ $(A-C)^2=4\\times10^{10}$ ⇒ $A-C=2\\times10^5$។"},{"content":"មួយវង្វេលមាន $10$ គូ ⇒ $N=20\\times10^5$ ⇒ $A+C=\\dfrac N2=10^6$។"},{"content":"ក. $A=\\dfrac{10\\times10^5+2\\times10^5}{2}=6\\times10^5=T$, $C=G=4\\times10^5$។"},{"content":"ខ. $A\\times2^n=48\\times10^5$ ⇒ $2^n=8$ ⇒ $n=3$ លើក។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2019-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2019, 'open', 'ច្រវាក់ម្ខាងនៃសែនមួយមាននុយក្លេអូទីត $C=\dfrac{1}{2}$ និង $A=\dfrac{1}{3}$ និង $T=\dfrac{1}{6}$។ $\mathrm{ARN_m}$ មួយចម្លងក្រមចេញពីច្រវាក់ម្ខាងនៃសែននេះមានរីបូនុយក្លេអូទីត $750$។
@@ -178,6 +273,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2019-4000-8000-000000000000', 'bacc1050-2019-4000-8000-000000000007', 7, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2019-4000-8000-000000000007', 'ក. ARNm៖ $U=250$, $A=125$, $G=375$, $C=0$  ខ. $1875$ សម្ព័ន្ធអ៊ីដ្រូសែន', null, null, null, '[{"content":"ច្រវាក់គំរូមាន $750$ នុយក្លេអូទីត៖ $C_1=\\dfrac12\\times750=375$, $A_1=\\dfrac13\\times750=250$, $T_1=\\dfrac16\\times750=125$, $G_1=750-750=0$។"},{"content":"ក. ARNm បំពេញនឹងច្រវាក់គំរូ៖ $U=A_1=250$, $A=T_1=125$, $G=C_1=375$, $C=G_1=0$។"},{"content":"ខ. សែន៖ $A=T=A_1+T_1=375$, $G=C=C_1+G_1=375$ ⇒ $H=2\\times375+3\\times375=1875$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1050-2018-4000-8000-000000000000', 'kh-grade12-science-biology', 2018, 'BacII 2018: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -191,6 +291,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000001', 1, 6)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000001', 'អាំងភ្លុចប្រសាទ គឺសញ្ញាអគ្គិសនី-គីមី (ប៉ូតង់ស្យែលសកម្ម) ដែលរាលដាលតាមភ្នាសណឺរ៉ូន ដោយសារការប្រែប្រួលប៉ូលភាពនៃភ្នាស ($\mathrm{Na^+}$ ចូល $\mathrm{K^+}$ ចេញ); វាឆ្លងស៊ីណាប់ដោយសារធាតុបញ្ជូនសរសៃប្រសាទ', null, null, null, '[{"content":"អាំងភ្លុចមកដល់ចុងអាក់សូន (ប៊ូតុងស៊ីណាប់) ធ្វើឲ្យអ៊ីយ៉ុង $\\mathrm{Ca^{2+}}$ ចូល ហើយថង់តូចៗបញ្ចេញសារធាតុបញ្ជូនសរសៃប្រសាទ (ឧ. អាសេទីលកូលីន) ទៅក្នុងចន្លោះស៊ីណាប់។"},{"content":"សារធាតុនេះភ្ជាប់នឹងអ្នកទទួលលើភ្នាសក្រោយស៊ីណាប់ បើកច្រកអ៊ីយ៉ុង ($\\mathrm{Na^+}$ ចូល) ហើយបង្កើតអាំងភ្លុចថ្មីក្នុងណឺរ៉ូនបន្ទាប់។"},{"content":"បន្ទាប់មកអង់ស៊ីម (ឧ. អាសេទីលកូលីនអេស្តេរ៉ាស) បំបែកសារធាតុបញ្ជូន ដើម្បីកុំឲ្យភ្ញោចជាប់រហូត។ អាំងភ្លុចឆ្លងស៊ីណាប់បានតែទិសម្ខាងប៉ុណ្ណោះ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2018-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'តើរលកសូរមានឥទ្ធិពលទៅលើផ្នែកផ្សេងៗនៃត្រចៀកយ៉ាងដូចម្តេច?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -198,12 +303,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000002', 2, 8)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000002', 'ស្លឹកត្រចៀកប្រមូលរលកសូរ ធ្វើឲ្យភ្នាសត្រចៀករំញ័រ ឆ្អឹងតូចៗ (ញញួរ ទ្រនាប់ កន្លាស់) ពង្រីក និងបញ្ជូនរំញ័រទៅបង្អួចរាងពងក្រពើ អង្គធាតុរាវក្នុងកូក្លេរំញ័រ កោសិការោមបង្កើតអាំងភ្លុច នាំតាមសរសៃប្រសាទសោតវិញ្ញាណទៅខួរក្បាល', null, null, null, '[{"content":"ត្រចៀកក្រៅ៖ ស្លឹកត្រចៀក និងបំពង់ត្រចៀក នាំរលកសូរទៅភ្នាសត្រចៀក។"},{"content":"ត្រចៀកកណ្តាល៖ ភ្នាសត្រចៀក និងឆ្អឹងតូចៗបីពង្រីករំញ័រ; បំពង់អឺស្តាស្យូសរក្សាសម្ពាធស្មើ។"},{"content":"ត្រចៀកក្នុង៖ រំញ័រក្នុងអង្គធាតុរាវនៃកូក្លេ ពត់រោមនៃកោសិកាក្នុងសរីរាង្គកូរទី បង្កើតអាំងភ្លុចទៅខួរក្បាល (តំបន់ស្តាប់) ហើយយើងឮ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2018-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'តើវិស្វកម្មសេនេទិចផ្តល់ផលល្អនិងផលអាក្រក់អ្វីខ្លះដល់មនុស្ស?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000003', 3, 9)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000003', 'ផលល្អ៖ ផលិតឱសថ (អាំងស៊ុយលីន អរម៉ូនលូតលាស់ វ៉ាក់សាំង) ព្យាបាលដោយសែន រុក្ខជាតិទិន្នផលខ្ពស់ និងធន់នឹងសត្វល្អិត ស្នាមម្រាមដៃ ADN; ផលអាក្រក់៖ ហានិភ័យអាឡែស៊ី ឬជាតិពុលពីអាហារ GMO សែនរាលដាលទៅរុក្ខជាតិព្រៃ បាត់ជីវចម្រុះ បញ្ហាសីលធម៌ និងអាវុធជីវសាស្ត្រ', null, null, null, '[{"content":"ផលល្អ៖ ផលិតអាំងស៊ុយលីន អរម៉ូនលូតលាស់ អាំងទែហ្វេរ៉ុង និងវ៉ាក់សាំងដោយបាក់តេរី; ព្យាបាលជំងឺតំណពូជដោយសែន; ធ្វើរោគវិនិច្ឆ័យ។"},{"content":"ផលល្អ (បន្ត)៖ រុក្ខជាតិ និងសត្វកែច្នៃសែន ទិន្នផលខ្ពស់ ធន់នឹងសត្វល្អិត ជំងឺ និងរាំងស្ងួត; ស្នាមម្រាមដៃ ADN ក្នុងយុត្តិធម៌។"},{"content":"ផលអាក្រក់៖ អាហារ GMO អាចបង្កអាឡែស៊ី ឬជាតិពុល; សែនរាលដាលទៅរុក្ខជាតិព្រៃ (ស្មៅធន់ថ្នាំ) សត្វល្អិតធន់ និងការបាត់បង់ជីវចម្រុះ។"},{"content":"ផលអាក្រក់ (បន្ត)៖ បញ្ហាសីលធម៌ (ក្លូនមនុស្ស កែសែនកូន) ការប្រើធ្វើអាវុធជីវសាស្ត្រ និងការពឹងផ្អែកលើក្រុមហ៊ុនគ្រាប់ពូជ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2018-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'ចូររកលក្ខណៈខុសគ្នារវាង៖
@@ -214,6 +329,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000004', 'ក. ម៉ូណូ៖ កូទីលេដុង $1$ សរសៃស្លឹកស្រប ឫសសរសៃ ផ្កាពហុគុណ $3$; ឌីកូ៖ កូទីលេដុង $2$ សរសៃស្លឹកសំណាញ់ ឫសកែវ ផ្កាពហុគុណ $4$ ឬ $5$  ខ. បង្កាត់ជិត៖ រវាងបុគ្គលសាច់ញាតិជិត បានពូជសុទ្ធ តែខ្សោយ; បង្កាត់ឆ្ងាយ៖ រវាងពូជខុសគ្នា បានកូនកាត់ខ្លាំង (ហេតេរ៉ូស៊ីស)', null, null, null, '[{"content":"ចំនួនស្លឹកកូទីលេដុង៖ ម៉ូណូកូទីលេដុនមាន $1$; ឌីកូទីលេដុនមាន $2$។"},{"content":"សរសៃស្លឹក៖ ម៉ូណូស្របគ្នា; ឌីកូជាសំណាញ់។"},{"content":"ឫស៖ ម៉ូណូជាឫសសរសៃ (ឫសចង្កោម); ឌីកូមានឫសកែវ។"},{"content":"ផ្កា៖ ផ្នែកផ្កាម៉ូណូជាពហុគុណនៃ $3$; ឌីកូជាពហុគុណនៃ $4$ ឬ $5$។"},{"content":"ដើម៖ ម៉ូណូមានបាច់ស្បៀងរាយប៉ាយ គ្មានកាំប្យូម (មិនធំទំហំ); ឌីកូមានបាច់ស្បៀងរៀបជារង្វង់ និងមានកាំប្យូម។"},{"content":"ខ. ការបង្កាត់ជិត៖ ថេរលក្ខណៈ បានខ្សែពូជសុទ្ធ ប៉ុន្តែកម្លាំងថយ ហើយជំងឺតំណពូជ (សែនរេសេស៊ីប) លេចឡើង។"},{"content":"ការបង្កាត់ឆ្ងាយ៖ បង្កើនភាពចម្រុះសេនេទិច កូនកាត់មានកម្លាំង និងទិន្នផលខ្ពស់ជាងមេបា។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2018-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'ក. (៥ពិន្ទុ) តើអាំងស៊ុយលីនជាអ្វី? បើកង្វះអរម៉ូនអាំងស៊ុយលីនបណ្តាលឲ្យមានផលវិបាកអ្វី?
 ខ. (៦ពិន្ទុ) ចូរបកស្រាយពីរបៀបផលិតអរម៉ូនអាំងស៊ុយលីនដោយវិស្វកម្មសេនេទិច?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -221,6 +341,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000005', 5, 11)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000005', 'ក. អាំងស៊ុយលីនជាអរម៉ូនប្រូតេអ៊ីនពីកោសិកា $\beta$ នៃកោះឡង់ហ្គឺហាន់ (លំពែង) ដែលបន្ថយជាតិស្ករក្នុងឈាម; កង្វះវាបណ្តាលឲ្យជំងឺទឹកនោមផ្អែម  ខ. កាត់សែនអាំងស៊ុយលីនមនុស្ស បញ្ចូលក្នុងប្លាស្មីតបាក់តេរី ដាក់ក្នុង E. coli ចិញ្ចឹមឲ្យកើនច្រើន ហើយចម្រាញ់អាំងស៊ុយលីន', null, null, null, '[{"content":"ក. អាំងស៊ុយលីនជួយកោសិកាស្រូបគ្លុយកូស ហើយថ្លើម និងសាច់ដុំបំប្លែងគ្លុយកូសជាគ្លីកូសែន។ កង្វះ៖ ស្ករក្នុងឈាមខ្ពស់ ស្ករក្នុងទឹកនោម នោមញឹក ស្រេកទឹក ស្គម និងផលវិបាកភ្នែក តម្រងនោម សរសៃប្រសាទ។"},{"content":"ខ. ១) ញែកសែនអាំងស៊ុយលីនពីកោសិកាមនុស្ស (ឬបង្កើតពី ARNm ដោយអង់ស៊ីមរេវែសត្រង់ស្ក្រីបតាស)។ ២) កាត់សែន និងប្លាស្មីតដោយអង់ស៊ីមកាត់ (រេស្ទ្រីកស្យុង) ដូចគ្នា។"},{"content":"៣) តភ្ជាប់សែនចូលប្លាស្មីតដោយអង់ស៊ីមលីហ្គាស បាន ADN ផ្សំថ្មី។ ៤) បញ្ចូលប្លាស្មីតទៅក្នុងបាក់តេរី E. coli ហើយជ្រើសរើសបាក់តេរីដែលទទួលបាន។"},{"content":"៥) ចិញ្ចឹមបាក់តេរីក្នុងធុងបណ្តុះធំ វាចម្លងសែន ហើយផលិតអាំងស៊ុយលីន។ ៦) ចម្រាញ់ និងបន្សុទ្ធអាំងស៊ុយលីនសម្រាប់អ្នកជំងឺ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2018-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'ក. (៣ពិន្ទុ) ចូររៀបរាប់ពីតួនាទីរបស់អង់ស៊ីម ARN ប៉ូលីមេរ៉ាស។
@@ -232,6 +357,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000006', 6, 11)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000006', 'ក. ARN ប៉ូលីមេរ៉ាសភ្ជាប់នឹងប្រូម៉ូទ័រ ពន្លាត ADN ហើយសំយោគ ARN ដោយដាក់រីបូនុយក្លេអូទីតបំពេញនឹងច្រវាក់គំរូ រហូតដល់ចំណុចបញ្ចប់  ខ. ADN៖ $A=T=12.5\%$, $G=C=37.5\%$', null, null, null, '[{"content":"ខ. $A=4U$, $G=5U$, $C=2G=10U$ ⇒ $A+U+G+C=20U=100\\%$ ⇒ $U=5\\%$, $A=20\\%$, $G=25\\%$, $C=50\\%$ (ក្នុង ARNm)។"},{"content":"អង្កត់ ADN៖ $A=T=\\dfrac{A+U}{2}=12.5\\%$, $G=C=\\dfrac{G+C}{2}=37.5\\%$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2018-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2018, 'open', 'ម៉ូលេគុល ADN មួយ មាននុយក្លេអូទីតប្រភេទ $C=35\%$ នៃនុយក្លេអូទីតសរុប ហើយនុយក្លេអូទីតប្រភេទ C លើសនុយក្លេអូទីតប្រភេទ A ចំនួន $4400$។
 ក. (១០ពិន្ទុ) គណនាចំនួននុយក្លេអូទីតប្រភេទនីមួយៗរបស់ ADN។
@@ -241,6 +371,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2018-4000-8000-000000000000', 'bacc1050-2018-4000-8000-000000000007', 7, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2018-4000-8000-000000000007', 'ក. $A=T=3300$, $G=C=7700$  ខ. $1100$ ជំហាន  គ. $330\,000$ នុយក្លេអូទីតសេរី', null, null, null, '[{"content":"ក. $C=35\\%$ ⇒ $A=15\\%$; $C-A=20\\%N=4400$ ⇒ $N=22\\,000$ ⇒ $C=G=7700$, $A=T=3300$។"},{"content":"ខ. មួយជំហាន (វង្វេល) មាន $10$ គូនុយក្លេអូទីត ⇒ $\\dfrac{22\\,000}{20}=1100$ ជំហាន។"},{"content":"គ. ស្វ័យដំឡើងទ្វេ $4$ ដង៖ $N\\left(2^4-1\\right)=22\\,000\\times15=330\\,000$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1050-2017-4000-8000-000000000000', 'kh-grade12-science-biology', 2017, 'BacII 2017: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -254,12 +389,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000001', 'តាមស៊ុបស្ត្រាតដែលវាមានអំពើ និងប្រភេទប្រតិកម្មដែលវាកាតាលីស ដោយបន្ថែមបច្ច័យ «-អាស»', null, null, null, '[{"content":"ឧ. ម៉ាល់តាស (ម៉ាល់តូស) លីប៉ាស (លីពីដ) ប្រូតេអាស (ប្រូតេអ៊ីន) អាមីឡាស (អាមីដុង)។"},{"content":"តាមប្រភេទប្រតិកម្ម៖ អ៊ីដ្រូឡាស អុកស៊ីដាស ដេអ៊ីដ្រូសែណាស។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2017-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'តើពោតជារុក្ខជាតិម៉ូណូកូទីលេដុន ឬឌីកូទីលេដុន? ហេតុអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000002', 'ពោតជារុក្ខជាតិម៉ូណូកូទីលេដុន ព្រោះគ្រាប់មានស្លឹកកូទីលេដុងមួយ សរសៃស្លឹកស្របគ្នា ឫសសរសៃ និងបាច់ស្បៀងរាយប៉ាយក្នុងដើម', null, null, null, '[{"content":"ផ្នែកផ្ការបស់វាជាពហុគុណនៃ $3$ ហើយដើមមិនធំទំហំ (គ្មានកាំប្យូម)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2017-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'តើមានបាតុភូតអ្វីកើតឡើងនៅពេលដែលរីបូសូមលោតដល់កូដុងស្តុប?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -268,12 +413,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000003', 'គ្មាន $\mathrm{ARN_t}$ ណាផ្គូរនឹងកូដុងស្តុបទេ; កត្តាបញ្ចេញភ្ជាប់ ច្រវាក់ប៉ូលីប៉ិបទីតត្រូវផ្តាច់ចេញ ហើយរីបូសូមបំបែកចេញពី ARNm បញ្ចប់ការសំយោគ', null, null, null, '[{"content":"កូដុងស្តុប (UAA, UAG, UGA) មិនកំណត់អាស៊ីតអាមីនេ។"},{"content":"ប្រូតេអ៊ីនដែលផ្តាច់ចេញ បត់ជាទម្រង់លំហ (មេទីយ៉ូនីនផ្តើមអាចត្រូវកាត់ចេញ) ហើយអនុឯកតារីបូសូមបែកពីគ្នា អាចប្រើម្តងទៀត។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2017-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'តើកត្តាអ្វីខ្លះដែលបណ្តាលឲ្យកើតភាវៈរស់ប្រភេទថ្មី? ចូររៀបរាប់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000004', 'បម្លែងសេនេទិច (មុយតាស្យុងសែន និងក្រូម៉ូសូម) ការផ្សំថ្មីនៃសែន (បង្កាត់) ជម្រើសធម្មជាតិ និងការញែកដាច់ (ភូមិសាស្ត្រ ការបន្តពូជ)', null, null, null, '[{"content":"មុយតាស្យុងបង្កើតលក្ខណៈថ្មី; ការបង្កាត់ និងការផ្សំថ្មីក្នុងមេយ៉ូស បង្កើតបន្សំថ្មី។"},{"content":"ជម្រើសធម្មជាតិរក្សាលក្ខណៈដែលសម្របនឹងបរិស្ថាន; ការញែកដាច់រារាំងការបង្កាត់ជាមួយក្រុមដើម ដូចនេះក្រុមនីមួយៗវិវត្តទៅជាប្រភេទថ្មី។"},{"content":"មនុស្សក៏បង្កើតពូជថ្មីដោយជម្រើសសិប្បនិម្មិត និងវិស្វកម្មសេនេទិច។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2017-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'ប្រៀបធៀបក្រពេញអិចសូគ្រីន និងក្រពេញអង់ដូគ្រីន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -282,6 +437,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000005', 'អិចសូគ្រីនមានបំពង់ បញ្ចេញសារធាតុ (ញើស ទឹករំលាយអាហារ) ទៅលើផ្ទៃ ឬក្នុងប្រហោង; អង់ដូគ្រីនគ្មានបំពង់ បញ្ចេញអរម៉ូនចូលឈាមផ្ទាល់ មានអំពើលើសរីរាង្គគោលដៅឆ្ងាយ', null, null, null, '[{"content":"អិចសូគ្រីន៖ ក្រពេញញើស ក្រពេញទឹកមាត់ ក្រពេញក្រពះ។ អង់ដូគ្រីន៖ ទីរ៉ូអ៊ីត ពីទុយទែរ ក្រពេញលើតម្រងនោម។"},{"content":"លំពែងជាក្រពេញចម្រុះ៖ បញ្ចេញទឹកលំពែង (អិចសូ) និងអាំងស៊ុយលីន គ្លុយកាហ្គុន (អង់ដូ)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2017-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'ក. ដូចម្តេចដែលហៅថាអាំងភ្លុចប្រសាទ?
 ខ. ហេតុអ្វីបានជាពេលដែលមានរបួសដោយវត្ថុមុតស្រួចធ្វើឲ្យយើងមានការឈឺចាប់?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -289,6 +449,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000006', 'ក. អាំងភ្លុចប្រសាទ គឺសញ្ញាអគ្គិសនី-គីមី (ប៉ូតង់ស្យែលសកម្ម) ដែលរាលដាលតាមភ្នាសណឺរ៉ូន ដោយសារការប្រែប្រួលប៉ូលភាពនៃភ្នាស ($\mathrm{Na^+}$ ចូល $\mathrm{K^+}$ ចេញ)  ខ. វត្ថុមុតបំផ្លាញជាលិកា ហើយភ្ញោចអ្នកទទួលការឈឺចាប់ក្នុងស្បែក ដែលបង្កើតអាំងភ្លុចនាំតាមណឺរ៉ូនវិញ្ញាណទៅខួរក្បាល ទើបយើងដឹងថាឈឺ', null, null, null, '[{"content":"ក. នៅពេលសម្រាក ភ្នាសមានប៉ូលភាព (ខាងក្នុងអវិជ្ជមាន); ភ្ញោចធ្វើឲ្យ $\\mathrm{Na^+}$ ចូល (ដេប៉ូលភាព) រួច $\\mathrm{K^+}$ ចេញ (រេប៉ូលភាព) ហើយរលកនេះរាលដាលតាមអាក់សូន។"},{"content":"ខ. កោសិកាដែលរបួសក៏បញ្ចេញសារធាតុគីមីភ្ញោចចុងសរសៃប្រសាទសេរី; អាំងភ្លុចឆ្លងខួរឆ្អឹងខ្នងទៅតំបន់វិញ្ញាណនៃខួរធំ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2017-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'ម៉ូលេគុល ADN មួយមានសម្ព័ន្ធអ៊ីដ្រូសែនសរុប $16\times10^4$។ នុយក្លេអូទីតប្រភេទ C ច្រើនជាងនុយក្លេអូទីតប្រភេទ A ចំនួនពីរដង។
@@ -299,6 +464,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000007', 7, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000007', 'ក. $A=T=20\,000$, $G=C=40\,000$  ខ. $A=T=140\,000$, $G=C=280\,000$ (សរុប $840\,000$)', null, null, null, '[{"content":"ក. $C=2A$ និង $G=C$ ⇒ $H=2A+3G=2A+6A=8A=160\\,000$ ⇒ $A=T=20\\,000$, $G=C=40\\,000$ ($N=120\\,000$)។"},{"content":"ខ. ស្វ័យដំឡើងទ្វេ $3$ ដង ⇒ ប្រភេទនីមួយៗ $\\times\\left(2^3-1\\right)=7$៖ $A=T=140\\,000$, $G=C=280\\,000$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2017-4000-8000-000000000008', 'kh-grade12-science-biology-past-papers', null, 2017, 'open', 'ម៉ូលេគុល ARN នាំសារមួយមានសមាមាត្រជាភាគរយនៃនុយក្លេអូទីត $U=20\%$ $C=20\%$ $A=28\%$។
 ក. រកសមាមាត្រជាភាគរយនៃនុយក្លេអូទីតនីមួយៗនៃអង្កត់ ADN ដែលបានសំយោគម៉ូលេគុល ARN នាំសាខាងលើ។
@@ -307,6 +477,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2017-4000-8000-000000000000', 'bacc1050-2017-4000-8000-000000000008', 8, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2017-4000-8000-000000000008', 'ក. ADN៖ $A=T=24\%$, $G=C=26\%$ (ច្រវាក់គំរូ $A=20\%$, $T=28\%$, $G=20\%$, $C=32\%$)  ខ. $3060\,nm$', null, null, null, '[{"content":"ARNm៖ $G=100-(20+20+28)=32\\%$។"},{"content":"ច្រវាក់គំរូ៖ $A=U_m=20\\%$, $T=A_m=28\\%$, $G=C_m=20\\%$, $C=G_m=32\\%$។"},{"content":"ក. អង្កត់ ADN (ពីរច្រវាក់)៖ $A=T=\\dfrac{A_m+U_m}{2}=24\\%$, $G=C=\\dfrac{G_m+C_m}{2}=26\\%$។"},{"content":"ខ. $U=1800=20\\%$ ⇒ ARNm មាន $9000$ រីបូនុយក្លេអូទីត ⇒ $\\ell=9000\\times0.34=3060\\,nm$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1050-2016-4000-8000-000000000000', 'kh-grade12-science-biology', 2016, 'BacII 2016: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -320,12 +495,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000001', 'អេពីដែមខាងលើ មេសូភីលសសរ មេសូភីលរន្ធ សរសៃស្លឹក (ស៊ីឡែម និងផ្លូអែម) និងអេពីដែមខាងក្រោមមានស្តូម៉ាត', null, null, null, '[{"content":"អេពីដែម (មានគុយទីគុល)៖ ការពារ និងកាត់បន្ថយការបាត់ទឹក។"},{"content":"មេសូភីលសសរ៖ កោសិកាបញ្ឈរមានក្លរ៉ូប្លាសច្រើន ធ្វើរស្មីសំយោគសំខាន់។ មេសូភីលរន្ធ៖ កោសិការលុងមានចន្លោះខ្យល់ សម្រាប់ផ្លាស់ប្តូរឧស្ម័ន។"},{"content":"សរសៃស្លឹក៖ ស៊ីឡែមនាំទឹក និងអំបិលរ៉ែ; ផ្លូអែមនាំស្ករចេញពីស្លឹក។"},{"content":"ស្តូម៉ាត (កោសិកាយាម)៖ គ្រប់គ្រងការផ្លាស់ប្តូរ $\\mathrm{CO_2}$, $\\mathrm{O_2}$ និងការបញ្ចេញចំហាយទឹក។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2016-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'ហេតុអ្វីបានជាគេនិយាយថាអង់ស៊ីមជាប្រូតេអ៊ីនដែលមានសកម្មភាពខ្លាំងក្លា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000002', 'ព្រោះអង់ស៊ីមជាកាតាលីករជីវសាស្ត្រ ដែលបង្កើនល្បឿនប្រតិកម្មរាប់លានដង ក្នុងបរិមាណតិចតួច នៅសីតុណ្ហភាពរាងកាយ ហើយមិនខូចក្រោយប្រតិកម្ម', null, null, null, '[{"content":"ម៉ូលេគុលអង់ស៊ីមមួយអាចបំប្លែងស៊ុបស្ត្រាតរាប់ពាន់ម៉ូលេគុលក្នុងមួយវិនាទី។"},{"content":"វាមានទីតាំងសកម្មជាក់លាក់ ដែលកាត់បន្ថយថាមពលសកម្មកម្ម ហើយប្រើបានម្តងហើយម្តងទៀត។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2016-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'ចូរប្រៀបធៀបប្រព័ន្ធប្រសាទសត្វឥតឆ្អឹងកង និងប្រព័ន្ធប្រសាទសត្វឆ្អឹងកង។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -334,12 +519,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000003', 'សត្វឥតឆ្អឹងកង៖ ប្រព័ន្ធសាមញ្ញ (បណ្តាញប្រសាទ ឬខ្សែក្រពេញប្រសាទ) នៅផ្នែកពោះ មិនមានឆ្អឹងការពារ; សត្វឆ្អឹងកង៖ ខួរក្បាល និងខួរឆ្អឹងខ្នងនៅខ្នង ការពារដោយលលាដ៍ និងឆ្អឹងកង ខួរក្បាលវិវត្តខ្លាំង', null, null, null, '[{"content":"ឥតឆ្អឹងកង៖ ឧ. បណ្តាញប្រសាទ (ហ៊ីដ្រា) ឬក្រពេញប្រសាទតភ្ជាប់ជាខ្សែពីរនៅពោះ (ដង្កូវ សត្វល្អិត); ប្រតិកម្មសាមញ្ញ។"},{"content":"ឆ្អឹងកង៖ ប្រព័ន្ធប្រសាទកណ្តាល (ខួរក្បាល ខួរឆ្អឹងខ្នង) នៅខ្នង និងប្រព័ន្ធខាងក្រៅ (សរសៃប្រសាទ); ខួរធំវិវត្ត អាចរៀន ចងចាំ ប្រតិកម្មស្មុគស្មាញ និងលឿន។"},{"content":"ចំណុចដូចគ្នា៖ ទាំងពីរមានណឺរ៉ូន និងបញ្ជូនអាំងភ្លុចប្រសាទ ដើម្បីទទួល និងឆ្លើយតបនឹងភ្ញោច។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2016-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'តើវិស្វកម្មសេនេទិចជួយដល់រុក្ខជាតិដូចម្តេចខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000004', 'បង្កើតរុក្ខជាតិកែច្នៃសែន ធន់នឹងសត្វល្អិត ជំងឺ វីរុស ថ្នាំសម្លាប់ស្មៅ រាំងស្ងួត និងប្រៃ ទិន្នផល និងគុណភាពអាហារខ្ពស់', null, null, null, '[{"content":"ឧ. ពោត និងកប្បាស Bt ធន់នឹងដង្កូវ; ស្រូវមាសមានវីតាមីន A; ផ្លែឈើទុកបានយូរ។"},{"content":"អាចប្រើរុក្ខជាតិផលិតឱសថ ឬវ៉ាក់សាំង និងកាត់បន្ថយការប្រើថ្នាំគីមី។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2016-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'ក្រោយពេលដំឡើងទ្វេហើយ ហេតុអ្វីបានជាម៉ូលេគុល ADN កូនដូចគ្នាបេះបិទទៅនឹងម៉ូលេគុល ADN មេ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -348,12 +543,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000005', 'ព្រោះការស្វ័យដំឡើងទ្វេមានលក្ខណៈពាក់កណ្តាលអភិរក្ស៖ ADN កូននីមួយៗមានច្រវាក់ចាស់មួយ (គំរូ) និងច្រវាក់ថ្មីមួយ ដែលសាងសង់តាមគោលការណ៍បំពេញបាស (A–T, G–C)', null, null, null, '[{"content":"ច្រវាក់ទាំងពីរនៃ ADN មេរបើកចេញ ហើយនីមួយៗជាគំរូពុម្ព។"},{"content":"អង់ស៊ីម ADN ប៉ូលីមេរ៉ាសដាក់នុយក្លេអូទីតសេរីបំពេញនឹងគំរូ ដូចនេះលំដាប់នុយក្លេអូទីតត្រូវចម្លងដូចបេះបិទ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2016-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'ហេតុអ្វីបានជាអរម៉ូនភ្ញោចតែកោសិកាគោលដៅ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000006', 'ព្រោះមានតែកោសិកាគោលដៅទេ ដែលមានអ្នកទទួល (រេសេបទ័រ) ជាក់លាក់ ដែលផ្គូរនឹងអរម៉ូននោះ', null, null, null, '[{"content":"អ្នកទទួលជាប្រូតេអ៊ីននៅលើភ្នាសកោសិកា ឬក្នុងកោសិកា ដែលមានទម្រង់ផ្គូរនឹងអរម៉ូនតែមួយ (ដូចសោ និងកូនសោ)។"},{"content":"កោសិកាផ្សេងទៀតគ្មានអ្នកទទួលនេះ ដូចនេះអរម៉ូនឆ្លងកាត់វាដោយគ្មានឥទ្ធិពល។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2016-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'ម៉ូលេគុល ADN មួយមាននុយក្លេអូទីតប្រភេទ $C=180000$ ដែលមានសមាមាត្រ $30$ នៃ$\%$នុយក្លេអូទីតទាំងអស់។
@@ -365,6 +570,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000007', 7, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000007', 'ក. $A=T=20\%$, $G=C=30\%$  ខ. $102\,\mu m$  គ. $780\,000$ សម្ព័ន្ធអ៊ីដ្រូសែន', null, null, null, '[{"content":"ក. $C=G=30\\%$ ⇒ $A=T=50\\%-30\\%=20\\%$។"},{"content":"$N=\\dfrac{180\\,000}{0.30}=600\\,000$ ⇒ $A=T=120\\,000$, $G=C=180\\,000$។"},{"content":"ខ. $\\ell=\\dfrac{600\\,000}{2}\\times0.34\\,nm=102\\,000\\,nm=102\\,\\mu m$។"},{"content":"គ. $H=2A+3G=240\\,000+540\\,000=780\\,000$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2016-4000-8000-000000000008', 'kh-grade12-science-biology-past-papers', null, 2016, 'open', 'សែនមួយមានប្រវែង $680\,nm$។ សែននេះកំណត់សំយោគ ARNm មួយដែលមានទំនាក់ទំនងរីបូនុយក្លេអូទីត $2A-3C=3G-2U$។
 ក. គណនាចំនួននុយក្លេអូទីតប្រភេទនីមួយៗរបស់សែននេះ។
@@ -373,6 +583,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2016-4000-8000-000000000000', 'bacc1050-2016-4000-8000-000000000008', 8, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2016-4000-8000-000000000008', 'ក. សែន $A=T=1200$, $G=C=800$  ខ. ARNm $A=900$, $U=300$, $C=600$, $G=200$', null, null, null, '[{"content":"សែន $N=\\dfrac{2\\times680}{0.34}=4000$ ⇒ ARNm មាន $2000$ រីបូនុយក្លេអូទីត។"},{"content":"$2A-3C=3G-2U$ ⇒ $2(A+U)=3(G+C)$ ហើយ $A+U+G+C=2000$ ⇒ $A+U=1200$, $G+C=800$ (ក្នុង ARNm)។"},{"content":"ក. សែន៖ $A=T=A_m+U_m=1200$, $G=C=G_m+C_m=800$។"},{"content":"ខ. $A-U=600$ ⇒ $A=900$, $U=300$; $C-G=400$ ⇒ $C=600$, $G=200$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1050-2015-4000-8000-000000000000', 'kh-grade12-science-biology', 2015, 'BacII 2015: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -386,12 +601,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000001', 'ប្រព័ន្ធប្រសាទកណ្តាល (ខួរក្បាល និងខួរឆ្អឹងខ្នង) និងប្រព័ន្ធប្រសាទខាងក្រៅ (សរសៃប្រសាទក្បាល សរសៃប្រសាទខ្នង និងក្រពេញប្រសាទ)', null, null, null, '[{"content":"ខួរក្បាលមាន៖ ខួរធំ ខួរតូច និងដើមខួរ (ខួរសន្ទះ)។ ខួរឆ្អឹងខ្នងនៅក្នុងឆ្អឹងកង។"},{"content":"ប្រព័ន្ធខាងក្រៅចែកជាប្រព័ន្ធសូម៉ាទិក (សាច់ដុំគ្រោងឆ្អឹង) និងប្រព័ន្ធស្វ័យប្រវត្តិ (ស៊ីមប៉ាទិច និងប៉ារ៉ាស៊ីមប៉ាទិច)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2015-4000-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', 'ដូចម្តេចដែលហៅថាពន្លកជីវវិញ្ញាណ? ចូររៀបរាប់ទីតាំងនៃរសជាតិទាំង៤របស់អណ្តាត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000002', 'ពន្លកជីវវិញ្ញាណ (ពន្លករសជាតិ) ជាក្រុមកោសិកាទទួលរសជាតិនៅលើអណ្តាត; ផ្អែម៖ ចុងអណ្តាត, ប្រៃ៖ គែមខាងមុខ, ជូរ៖ គែមខាងក្រោយ, ល្វីង៖ គល់អណ្តាត', null, null, null, '[{"content":"ពន្លកនីមួយៗមានកោសិកាវិញ្ញាណ ដែលភ្ញោចដោយសារធាតុរលាយក្នុងទឹកមាត់ ហើយបញ្ជូនអាំងភ្លុចតាមសរសៃប្រសាទទៅខួរក្បាល។"},{"content":"ទីតាំងនេះតាមផែនទីអណ្តាតក្នុងសៀវភៅ; វិទ្យាសាស្ត្រថ្មីបង្ហាញថាគ្រប់តំបន់អាចរួសរសជាតិទាំងអស់បាន តែកម្រិតខុសគ្នា។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2015-4000-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', '១. ចូរសរសេររូបមន្តទូទៅរបស់អាស៊ីតអាមីនេ។
@@ -404,6 +629,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000003', '១. $\mathrm{H_2N-CH(R)-COOH}$  ២. អាឡានីន $\mathrm{H_2N-CH(CH_3)-COOH}$, សេរីន $\mathrm{H_2N-CH(CH_2OH)-COOH}$  ៣. $\mathrm{H_2N-CH(CH_3)-CO-}$ $\mathrm{NH-CH(CH_2OH)-COOH}$', null, null, null, '[{"content":"២. ជំនួស R ដោយ $\\mathrm{CH_3}$ (អាឡានីន) និង $\\mathrm{CH_2OH}$ (សេរីន)។"},{"content":"៣. បង្គុំ $\\mathrm{-COOH}$ នៃអាស៊ីតមួយ និងបង្គុំ $\\mathrm{-NH_2}$ នៃអាស៊ីតមួយទៀត បាត់ម៉ូលេគុលទឹកមួយ បង្កើតសម្ព័ន្ធប៉ិបទីត $\\mathrm{-CO-NH-}$៖ អាឡានីល-សេរីន $\\mathrm{H_2N-CH(CH_3)-CO-}$ $\\mathrm{NH-CH(CH_2OH)-COOH}$ ($+\\mathrm{H_2O}$)។"},{"content":"ឌីប៉ិបទីតមួយទៀត (សេរីល-អាឡានីន)៖ $\\mathrm{H_2N-CH(CH_2OH)-CO-}$ $\\mathrm{NH-CH(CH_3)-COOH}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2015-4000-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', 'តើផូស៊ីលជាអ្វី? ការកកើតផូស៊ីលមានប៉ុន្មានរបៀប? អ្វីខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -411,12 +641,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000004', 'ផូស៊ីល គឺសំណល់ ឬស្នាមនៃភាវៈរស់ពីបុរាណ (ឆ្អឹង សំបក ស្លាកស្នាម ស្នាមជើង) ដែលរក្សាទុកក្នុងស្រទាប់ថ្ម ឬក្នុងជ័រ ទឹកកក; វាកកើតតាមរបៀបសំខាន់ៗ៖ ការប្រែជាថ្ម (រ៉ែជំនួសជាលិកា) ពុម្ព និងស្នាម ការរក្សាទុកទាំងមូលក្នុងជ័រ ទឹកកក ឬកៅស៊ូធម្មជាតិ និងការប្រែជាកាបូន', null, null, null, '[{"content":"ការប្រែជាថ្ម៖ រ៉ែក្នុងទឹកក្រោមដីជ្រាបចូល ហើយជំនួសជាលិការឹង (ឆ្អឹង ឈើ) បន្តិចម្តងៗ។"},{"content":"ពុម្ព និងស្នាម៖ ភាវៈរស់កប់ក្នុងល្បាប់ រលួយបាត់ សល់តែស្នាមរាង (ពុម្ពក្រៅ) ឬរ៉ែចាក់ពេញពុម្ព។"},{"content":"ការរក្សាទាំងមូល៖ សត្វល្អិតក្នុងជ័រឈើ (អំពិល) ដំរីម៉ាម៉ុតក្នុងទឹកកក។ ការប្រែជាកាបូន៖ ស្លឹកឈើសល់ជាស្រទាប់កាបូនស្តើង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2015-4000-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', 'ហេតុអ្វីបានជាគេចាត់ ក្រពះ និងពោះវៀនតូចជាក្រពេញអង់ដូគ្រីន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000005', 'ព្រោះក្រៅពីទឹករំលាយអាហារ កោសិកាខ្លះនៃក្រពះ និងពោះវៀនតូចបញ្ចេញអរម៉ូនចូលឈាមផ្ទាល់ (ក្រពះ៖ ហ្គាស្ទ្រីន; ពោះវៀនតូច៖ សេក្រេទីន និងកូលេស៊ីស្តូគីនីន)', null, null, null, '[{"content":"ហ្គាស្ទ្រីនភ្ញោចការបញ្ចេញទឹករំលាយក្រពះ។"},{"content":"សេក្រេទីនភ្ញោចលំពែងឲ្យបញ្ចេញទឹកលំពែងមាន $\\mathrm{HCO_3^-}$; កូលេស៊ីស្តូគីនីនភ្ញោចការបញ្ចេញអង់ស៊ីមលំពែង និងទឹកប្រមាត់។"},{"content":"ការបញ្ចេញអរម៉ូនចូលឈាមដោយគ្មានបំពង់ ជាលក្ខណៈក្រពេញអង់ដូគ្រីន។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2015-4000-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', 'សែនមួយមានផលបូកនុយក្លេអូទីតប្រភេទ A និង T ស្មើនឹង $25\%$ នៃនុយក្លេអូទីតទាំងអស់ ហើយមានចំនួនសម្ព័ន្ធអ៊ីដ្រូសែនសរុប $1287$។
@@ -427,6 +667,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000006', 'ក. $A=T=117$, $G=C=351$  ខ. C–G៖ $1053$ សម្ព័ន្ធ, T–A៖ $234$ សម្ព័ន្ធ', null, null, null, '[{"content":"$A+T=25\\%$ ⇒ $A=T=12.5\\%N$, $G=C=37.5\\%N$។"},{"content":"$H=2A+3G=N(0.25+1.125)=1.375N=1287$ ⇒ $N=936$ ⇒ $A=T=117$, $G=C=351$។"},{"content":"ខ. C–G ភ្ជាប់ដោយសម្ព័ន្ធ $3$៖ $3\\times351=1053$; T–A ភ្ជាប់ដោយ $2$៖ $2\\times117=234$ (សរុប $1287$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2015-4000-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2015, 'open', 'សែនមួយបាននុយក្លេអូទីតសរុប $14400$។
 ក. រកប្រវែងរបស់សែនគិតជាមីក្រូម៉ែត?
@@ -436,6 +681,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2015-4000-8000-000000000000', 'bacc1050-2015-4000-8000-000000000007', 7, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2015-4000-8000-000000000007', 'ក. $2.448\,\mu m$  ខ. $2398$ អាស៊ីតអាមីនេ  គ. $30.6\,nm$/នាទី ($0.51\,nm/s$)', null, null, null, '[{"content":"ក. $\\ell=\\dfrac{14400}{2}\\times0.34\\,nm=2448\\,nm=2.448\\,\\mu m$។"},{"content":"ខ. កូដុង $\\dfrac{14400}{6}=2400$; ដកកូដុងស្តុប និងអាស៊ីតអាមីនេផ្តើម (មេទីយ៉ូនីន) ចេញ៖ $2400-2=2398$ អាស៊ីតអាមីនេ។"},{"content":"គ. ARNm វែង $2448\\,nm$ ត្រូវរីបូសូមរត់អស់ $80$ នាទី ⇒ $v=\\dfrac{2448}{80}=30.6\\,nm$/នាទី $\\approx0.51\\,nm/s$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1050-2014-4200-8000-000000000000', 'kh-grade12-science-biology', 2014, 'BacII 2014, second sitting: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -449,12 +699,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000001', 'ក្រពេញញើសបញ្ចេញញើស ដើម្បីបញ្ចេញកាកសំណល់ (ទឹក អំបិល អ៊ុយរេ) និងរក្សាលំនឹងសីតុណ្ហភាពរាងកាយ', null, null, null, '[{"content":"ញើសហួតលើស្បែក យកកម្តៅចេញ ធ្វើឲ្យរាងកាយត្រជាក់ពេលក្តៅ ឬហាត់ប្រាណ។"},{"content":"ញើសក៏ជួយរក្សាស្បែកឲ្យសើម និងបញ្ចេញសារធាតុមិនត្រូវការខ្លះ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4200-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'តើអង់ទីប៊្យូទិចជាអ្វី?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000002', 'អង់ទីប៊្យូទិច គឺសារធាតុដែលផលិតដោយអតិសុខុមប្រាណ (ផ្សិត បាក់តេរី) ឬសំយោគ ដែលសម្លាប់ ឬរារាំងការលូតលាស់នៃបាក់តេរី', null, null, null, '[{"content":"ឧទាហរណ៍៖ ប៉េនីស៊ីលីន (ពីផ្សិត Penicillium) ស្ត្រិបតូមីស៊ីន។"},{"content":"គេប្រើវាជាឱសថព្យាបាលជំងឺឆ្លងដោយបាក់តេរី; វាមិនមានប្រសិទ្ធភាពលើវីរុសទេ ហើយការប្រើខុសធ្វើឲ្យបាក់តេរីធន់។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4200-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ដូចម្តេចដែលហៅថាក្រពេញប៉ារ៉ាទីរ៉ូអ៊ីត? វាមាននាទីដូចម្តេច?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -463,12 +723,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000003', 'ក្រពេញប៉ារ៉ាទីរ៉ូអ៊ីត ជាក្រពេញអង់ដូគ្រីនតូចៗ $4$ នៅខាងក្រោយក្រពេញទីរ៉ូអ៊ីត; វាបញ្ចេញអរម៉ូនប៉ារ៉ាតូម៉ូន ដែលបង្កើនកាល់ស្យូមក្នុងឈាម', null, null, null, '[{"content":"ប៉ារ៉ាតូម៉ូនទាញ $\\mathrm{Ca}$ ពីឆ្អឹង បង្កើនការស្រូប $\\mathrm{Ca}$ នៅពោះវៀន និងការស្រូបវិញនៅតម្រងនោម ហើយគ្រប់គ្រងមេតាបូលីសកាល់ស្យូម-ផូស្វ័រ។"},{"content":"កង្វះអរម៉ូននេះ ធ្វើឲ្យ $\\mathrm{Ca}$ ក្នុងឈាមថយ បណ្តាលឲ្យសាច់ដុំកន្ត្រាក់ (តេតានី)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4200-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'តើហេតុអ្វីបានជាគេថាគ្រាប់លម្អងមិនមែនជាកាម៉េតឈ្មោល? ចូរពន្យល់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000004', 'គ្រាប់លម្អងមិនមែនជាកាម៉េតឈ្មោលទេ ព្រោះវាជាហ្គាមេតូហ្វីតឈ្មោល ដែលផ្ទុកកោសិកាបង្កើត; កាម៉េតឈ្មោលពីរកើតពីកោសិកានេះ ពេលគ្រាប់លម្អងដុះបំពង់លម្អង', null, null, null, '[{"content":"គ្រាប់លម្អងមានកោសិកាបំពង់ និងកោសិកាបង្កើត។ ពេលធ្លាក់លើកែវមេ វាដុះជាបំពង់លម្អង ហើយកោសិកាបង្កើតបែងចែកជាកាម៉េតឈ្មោល (ស្ពែម៉ាតូហ្ស៊ីត) ពីរ។"},{"content":"មានតែកាម៉េតទាំងនេះទេដែលរួមនឹងស្វ៊ែ និងណ្វៃយ៉ូកណ្តាល (ការបង្ករកំណើតទ្វេ)។ ដូចនេះគ្រាប់លម្អងជាអ្នកផលិត និងនាំកាម៉េតឈ្មោល មិនមែនកាម៉េតខ្លួនឯងទេ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4200-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'តើចលនាការស្វ័យដំឡើងទ្វេ ADN មានសារៈសំខាន់ដូចម្តេចខ្លះ?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -477,12 +747,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000005', 'ការស្វ័យដំឡើងទ្វេ ADN ធ្វើឲ្យកោសិកាកូននីមួយៗទទួលបានព័ត៌មានសេនេទិចដូចកោសិកាមេ និងបញ្ជូនលក្ខណៈតំណពូជពីមេបាទៅកូន', null, null, null, '[{"content":"មុនពេលបែងចែកកោសិកា ADN ត្រូវចម្លង ដើម្បីឲ្យកោសិកាកូនទាំងពីរមាន ADN ដូចគ្នាបេះបិទ (ការលូតលាស់ ការជួសជុលជាលិកា)។"},{"content":"តាមរយៈកាម៉េត ព័ត៌មានតំណពូជបញ្ជូនទៅជំនាន់ក្រោយ ហើយរក្សាស្ថិរភាពលក្ខណៈប្រភេទ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4200-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ហេតុអ្វីចាំបាច់ត្រូវមាន $\mathrm{ARN_t}$ (ARN ដឹកនាំ) ក្នុងការសំយោគប្រូតេអ៊ីន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000006', 'ព្រោះអាស៊ីតអាមីនេមិនអាចស្គាល់កូដុងបានដោយខ្លួនឯង; $\mathrm{ARN_t}$ ដឹកអាស៊ីតអាមីនេជាក់លាក់មួយ ហើយមានអង់ទីកូដុងផ្គូរនឹងកូដុងនៃ ARNm ដូចនេះអាស៊ីតអាមីនេត្រូវដាក់តាមលំដាប់ត្រឹមត្រូវ', null, null, null, '[{"content":"$\\mathrm{ARN_t}$ ជាអ្នកបកប្រែ (អាដាប់ទ័រ) រវាងភាសានុយក្លេអូទីត និងភាសាអាស៊ីតអាមីនេ។"},{"content":"វាដឹកអាស៊ីតអាមីនេពីស៊ីតូប្លាសទៅរីបូសូម ហើយអង់ទីកូដុងរបស់វាផ្គូរនឹងកូដុង ARNm តាមគោលការណ៍បំពេញបាស។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4200-8000-000000000007', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'រាល់ម៉ូលេគុល ADN ក្នុងកោសិកាមនុស្សមាន $6\times10^9$ នុយក្លេអូទីត។
@@ -493,6 +773,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000007', 7, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000007', 'ក. $1020\,mm$  ខ. ADN រុំជាវង្វេលទ្វេ ហើយរួញខ្លាំងជាមួយប្រូតេអ៊ីនអ៊ីស្តូន ទៅជាក្រូម៉ាទីន និងក្រូម៉ូសូម', null, null, null, '[{"content":"ក. $\\ell=\\dfrac{6\\times10^9}{2}\\times0.34\\,nm=1.02\\times10^9\\,nm=1020\\,mm$។"},{"content":"ខ. ADN មានរូបរាងជាវង្វេលទ្វេ ហើយរុំជុំវិញប្រូតេអ៊ីនអ៊ីស្តូន (នុយក្លេអូសូម) រួចរមួលច្រើនជាន់ទៀត (សរសៃក្រូម៉ាទីន ក្រូម៉ូសូម) ដូចនេះវារួញតូចរាប់ពាន់ដង ហើយដាក់ចូលក្នុងណ្វៃយ៉ូតូចបាន។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4200-8000-000000000008', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ច្រវាក់ទោលមួយនៃម៉ូលេគុល ADN មាន $3\times10^4$ នុយក្លេអូទីត។
 ១. កាលណាម៉ូលេគុល ADN នេះធ្វើស្វ័យដំឡើងទ្វេ២លើក តើវាត្រូវការនុយក្លេអូទីតសេរីចំនួនប៉ុន្មាន?
@@ -502,6 +787,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2014-4200-8000-000000000000', 'bacc1050-2014-4200-8000-000000000008', 8, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4200-8000-000000000008', '១. $1.8\times10^5$ នុយក្លេអូទីតសេរី  ២. $A=T=21\,600$, $G=C=8\,400$  ៣. $3$ ម៉ូលេគុល ARNm', null, null, null, '[{"content":"១. $N=2\\times3\\times10^4=6\\times10^4$ ⇒ ស្វ័យដំឡើងទ្វេ $2$ លើក៖ $N\\left(2^2-1\\right)=1.8\\times10^5$។"},{"content":"២. $C=G=14\\%\\times6\\times10^4=8\\,400$; $A=T=\\dfrac{6\\times10^4}{2}-8\\,400=21\\,600$ (ឯកសារសរសេរខុស $C=G=21\\,600$)។"},{"content":"៣. ARNm ចម្លងពីច្រវាក់ម្ខាង $3\\times10^4$ នុយក្លេអូទីត ⇒ $\\dfrac{3\\times10^4}{10^4}=3$ ម៉ូលេគុល។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1050-2014-4100-8000-000000000000', 'kh-grade12-science-biology', 2014, 'BacII 2014, first sitting: Biology (science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Every question is kept as printed. VI.២ is incomplete in the copy ("ARNm … មាន។" with the value missing), so check it against the original. The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -516,6 +806,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000001', '១. ឌីកូទីលេដុងមានស្លឹកកូទីលេដុងពីរ សរសៃស្លឹកជាសំណាញ់ ឫសកែវ ផ្នែកផ្កាជាពហុគុណនៃ $4$ ឬ $5$ និងបាច់ស្បៀងរៀបជារង្វង់  ២. ការបង្ករកំណើត គឺការរួមគ្នានៃកាម៉េតឈ្មោល និងកាម៉េតញី បង្កើតជាស៊ីហ្គោត ($2n$)', null, null, null, '[{"content":"ចំនួនស្លឹកកូទីលេដុង៖ ម៉ូណូកូទីលេដុនមាន $1$; ឌីកូទីលេដុនមាន $2$។"},{"content":"ឌីកូទីលេដុង៖ សរសៃស្លឹកជាសំណាញ់ ឫសកែវ ផ្នែកផ្កាជាពហុគុណនៃ $4$ ឬ $5$ ហើយដើមមានបាច់ស្បៀងជារង្វង់ និងកាំប្យូម (ធំទំហំបាន)។"},{"content":"ការបង្ករកំណើត៖ ណ្វៃយ៉ូនៃកាម៉េតឈ្មោល ($n$) និងកាម៉េតញី ($n$) រួមគ្នា បានស៊ីហ្គោត ($2n$) ដែលលូតលាស់ទៅជាអំប្រ៊ីយ៉ុង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4100-8000-000000000002', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ការពិសោធន៍អំពីអត្តសញ្ញាណប្រូតេអ៊ីន៖
 គេដាក់សូលុយស្យុងសូដ្យូមអ៊ីដ្រុកស៊ីត ($\mathrm{NaOH}$) $10\%$ និងសូលុយស្យុងទង់ដែងស៊ុលផាត ($\mathrm{CuSO_4}$) $0.5\%$ ចំណុះ $3\,ml$ ដូចគ្នាទៅក្នុងកែវដែលមានសូលុយស្យុងអាល់ប៊ុយមីនចំណុះ $3\,ml$ ដែររួចក្រឡុកឲ្យសព្វ។
@@ -526,6 +821,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000002', '១. ពណ៌ស្វាយ (ប្រតិកម្មប៊ីយូរ៉េ)  ២. $\mathrm{NaOH}$ ធ្វើឲ្យមជ្ឈដ្ឋានជាបាស ហើយ $\mathrm{Cu^{2+}}$ នៃ $\mathrm{CuSO_4}$ ផ្សំនឹងសម្ព័ន្ធប៉ិបទីត ដើម្បីបង្ហាញអត្តសញ្ញាណប្រូតេអ៊ីន', null, null, null, '[{"content":"អាល់ប៊ុយមីន (ស ពងមាន់) ជាប្រូតេអ៊ីន។ ក្នុងមជ្ឈដ្ឋានបាស អ៊ីយ៉ុង $\\mathrm{Cu^{2+}}$ ផ្សំនឹងសម្ព័ន្ធប៉ិបទីត ($\\mathrm{-CO-NH-}$) បង្កើតកំផ្លិចពណ៌ស្វាយ។"},{"content":"ដូចនេះ ល្បាយ $\\mathrm{NaOH}$ $10\\%$ និង $\\mathrm{CuSO_4}$ $0.5\\%$ (រ៉េអាក់ទីបប៊ីយូរ៉េ) ប្រើសម្រាប់រកមើលវត្តមានប្រូតេអ៊ីន៖ ឃើញពណ៌ស្វាយ មានប្រូតេអ៊ីន។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4100-8000-000000000003', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', '១. តើនុយក្លេអូទីតជាអ្វី? តើវាផ្សំឡើងពីធាតុអ្វីខ្លះ?
 ២. នុយក្លេអូទីតមានតែ៤ប្រភេទ ហេតុអ្វីបានជាអាចបង្កើតម៉ូលេគុល ADN ខុសគ្នាច្រើន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Every question is kept as printed. VI.២ is incomplete in the copy ("ARNm … មាន។" with the value missing), so check it against the original. The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -534,12 +834,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000003', '១. នុយក្លេអូទីតជាឯកតារបស់អាស៊ីតនុយក្លេអ៊ិច ផ្សំពីអាស៊ីតផូស្វរិច ស្ករ $5$ កាបូន (ដេអុកស៊ីរីបូស) និងបាសអាសូត (A, T, G, C)  ២. ព្រោះ ADN ខុសគ្នាតាមចំនួន សមាសភាព និងលំដាប់នៃនុយក្លេអូទីត', null, null, null, '[{"content":"១. នុយក្លេអូទីតជាម៉ូណូមែ (ឯកតា) នៃ ADN និង ARN៖ មួយក្រុមផូស្វាត ស្ករ $5$ កាបូន មួយ និងបាសអាសូតមួយ។"},{"content":"២. ម៉ូលេគុល ADN វែងណាស់ ហើយនុយក្លេអូទីត $4$ ប្រភេទអាចរៀបតាមលំដាប់ផ្សេងៗ ($4^n$ របៀប សម្រាប់ $n$ គូ) ព្រមទាំងខុសគ្នាដោយចំនួន និងសមាមាត្រ ដូចនេះកើតបាន ADN ខុសគ្នាច្រើនឥតគណនា។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4100-8000-000000000004', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ពេលឮទូរសព្ទរោទិ៍ អ្នកលើកទូរសព្ទឡើងដើម្បីឆ្លើយតប។ ក្នុងករណីនេះ តើមានណឺរ៉ូនអ្វីខ្លះដែលចូលរួម? ចូររៀបរាប់ពីនាទីរបស់ណឺរ៉ូននីមួយៗ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Every question is kept as printed. VI.២ is incomplete in the copy ("ARNm … មាន។" with the value missing), so check it against the original. The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000004', 'ណឺរ៉ូនវិញ្ញាណ ណឺរ៉ូនភ្ជាប់ (អន្តរ) និងណឺរ៉ូនចលករ', null, null, null, '[{"content":"ណឺរ៉ូនវិញ្ញាណ៖ នាំអាំងភ្លុចពីអ្នកទទួលក្នុងត្រចៀក (សំឡេងទូរសព្ទ) ទៅមជ្ឈមណ្ឌលប្រសាទ (ខួរក្បាល)។"},{"content":"ណឺរ៉ូនភ្ជាប់ (អន្តរណឺរ៉ូន)៖ ក្នុងខួរក្បាល និងខួរឆ្អឹងខ្នង បកស្រាយព័ត៌មាន ហើយបញ្ជូនបញ្ជាទៅណឺរ៉ូនចលករ។"},{"content":"ណឺរ៉ូនចលករ៖ នាំបញ្ជាពីមជ្ឈមណ្ឌលប្រសាទទៅសរីរាង្គប្រតិកម្ម (សាច់ដុំដៃ) ឲ្យលើកទូរសព្ទឆ្លើយ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4100-8000-000000000005', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ម៉ូលេគុល ADN មួយមាននុយក្លេអូទីត $T=640000$ និងមានចំនួននុយក្លេអូទីត $C=50\%$ នៃនុយក្លេអូទីតទីមីន។
@@ -551,6 +861,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000005', '១. $N=1\,920\,000$  ២. $13\,440\,000$ នុយក្លេអូទីតសេរី  ៣. សម្ព័ន្ធគីមី (ផូស្វូឌីអេស្ទែ) $N-2=1\,919\,998$', null, null, null, '[{"content":"១. $C=50\\%\\times T=320\\,000$; $A=T$, $G=C$ ⇒ $N=2(640\\,000+320\\,000)=1\\,920\\,000$។"},{"content":"២. ស្វ័យដំឡើងទ្វេ $3$ លើក បាន ADN កូន $2^3$ ⇒ នុយក្លេអូទីតសេរី $N\\left(2^3-1\\right)=1\\,920\\,000\\times7=13\\,440\\,000$។"},{"content":"៣. ដូចឯកសារ យកសម្ព័ន្ធគីមីរវាងនុយក្លេអូទីតក្នុងច្រវាក់នីមួយៗ៖ $2\\left(\\dfrac N2-1\\right)=N-2=1\\,919\\,998$ សម្ព័ន្ធ (ឯកសារសរសេរខុសជា $1\\,929\\,998$)។"},{"content":"(សម្ព័ន្ធអ៊ីដ្រូសែនរវាងច្រវាក់ទាំងពីរ៖ $2A+3G=1\\,280\\,000+960\\,000=2\\,240\\,000$។)"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1050-2014-4100-8000-000000000006', 'kh-grade12-science-biology-past-papers', null, 2014, 'open', 'ម៉ូលេគុលប្រូតេអ៊ីនមួយមាន $178$ អាស៊ីតអាមីនេ។
 ១. គណនាប្រវែងម៉ូលេគុល ARNm ដែលចម្លងចេញពីសែនខាងលើ។
@@ -560,6 +875,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1050-2014-4100-8000-000000000000', 'bacc1050-2014-4100-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1050-2014-4100-8000-000000000006', '១. $183.6\,nm$  ២. សែន $A=T=370$, $G=C=170$; ច្រវាក់ទី១ $A_1=250$, $T_1=120$, $G_1=60$, $C_1=110$ (ច្រវាក់ទី២ ផ្ទុយគ្នា)  ៣. $A\approx22.22\%$, $U\approx46.30\%$, $G\approx20.37\%$, $C\approx11.11\%$', null, null, null, '[{"content":"១. ចំនួនអាស៊ីតអាមីនេ $=\\dfrac m3-2$ (កូដុងផ្តើម និងកូដុងស្តុប) ⇒ $m=3(178+2)=540$ រីបូនុយក្លេអូទីត ⇒ $\\ell=540\\times0.34=183.6\\,nm$។"},{"content":"២. សែន $N=2m=1080$ ⇒ $A+G=540$ និង $A-G=200$ ⇒ $A=T=370$, $G=C=170$។"},{"content":"ប្រធានក្នុងឯកសារខ្វះទិន្នន័យ ARNm; ដំណោះស្រាយក្នុងឯកសារយក $U=250$, $C=60$ ហើយ ARNm ចម្លងពីច្រវាក់ទី១៖ $A_1=U=250$, $G_1=C=60$, $T_1=370-250=120$, $C_1=170-60=110$; ច្រវាក់ទី២៖ $T_2=250$, $A_2=120$, $C_2=60$, $G_2=110$។"},{"content":"៣. ARNm៖ $A=T_1=120$, $U=250$, $G=C_1=110$, $C=60$ (សរុប $540$) ⇒ $A=\\dfrac{120}{540}\\approx22.22\\%$, $U\\approx46.30\\%$, $G\\approx20.37\\%$, $C\\approx11.11\\%$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 commit;
 
 -- kh-grade12-science-chemistry.json

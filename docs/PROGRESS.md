@@ -532,6 +532,16 @@ timing only in database functions, never in the browser.
   depends on what the local database already holds. Tests:
   `test:past-papers` 11/11; setup parts 01–04 load into local Supabase;
   every answered paper checked on a 375px phone for clipped formulas.
+- **2026-10-21 — AI answer key, part 5: science-track biology
+  2014–2022.** 64 answers (theory in Khmer, DNA and RNA calculations),
+  ai-generated and needs-review. Calculations follow the copy's conventions
+  (0.34 nm per nucleotide pair, amino acids = codons − 2) and were
+  rechecked; the copy's own slips are corrected and named (2014-1 Q5 bond
+  count, 2014-2 Q8 C = G). 2014-1 Q6 lacks the mRNA data in print, so the
+  answer uses the copy's U = 250, C = 60 and says so. 2019 Q6 was typed as
+  "ការ" where the paper prints "ការេ" (the square of A − C); the question
+  text is corrected. Tests: `test:past-papers` 11/11; every biology key
+  checked on a 375px phone (no clipped formulas).
 
 ## Blockers and things that need a person
 
