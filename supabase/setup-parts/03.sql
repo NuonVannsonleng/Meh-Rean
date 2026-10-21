@@ -2309,6 +2309,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2022-4000-8000-000000000001', '(2) situation · (3) control · (4) reputation · (5) conduct · (6) respect · (7) behavior · (8) progressive · (9) discipline · (10) freedom · (11) punishment', null, null, null, '[{"content":"Completed: (2) situation, (3) control, (4) reputation, (5) conduct, (6) respect, (7) behavior, (8) progressive, (9) discipline, (10) freedom, (11) punishment."},{"content":"(5) \"the way the students conduct themselves\" = how they behave; (11) \"physical punishment\"."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2022-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2022, 'open', 'Part 2: Grammar
 There are four answers after each statement. Only one answer is correct. Choose the correct a, h, cord. The first one has been done as an example for you.
@@ -2329,6 +2334,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2022-4000-8000-000000000002', '1. d. listens · 2. c. who · 3. a. didn''t she · 4. c. was getting · 5. c. are being built', null, null, null, '[{"content":"1. d. listens: good management (singular) listens."},{"content":"2. c. who: who for a person (a friend who works in the bank)."},{"content":"3. a. didn''t she: used to → tag didn''t she."},{"content":"4. c. was getting: past continuous interrupted by dropping the wallet."},{"content":"5. c. are being built: present continuous passive: roads are being built."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2022-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2022, 'open', 'Part 3: Vocabulary
@@ -2351,6 +2361,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2022-4000-8000-000000000003', '1. d. leave · 2. d. reach · 3. b. exacted (expected) · 4. c. enroll · 5. d. regret', null, null, null, '[{"content":"1. d. leave: leave school."},{"content":"2. d. reach: out of reach of children."},{"content":"3. b. exacted (expected): he expected to get cards (\"exacted\" is a misprint)."},{"content":"4. c. enroll: enrol for classes."},{"content":"5. d. regret: I regret to inform you."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2022-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2022, 'open', 'Part 4. Writing
 Write an essay in English at least 80 words about "How to reduce road accident in Cambodia?".', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2022 (2022-12-05), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Grammar 1: the copy drops the letter a. before the first choice; it is written here. Both tracks sat the same paper.', 'needs-review')
@@ -2358,6 +2373,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2022-4000-8000-000000000000', 'bacc2070-2022-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2022-4000-8000-000000000004', 'Model essay (AI): "How to Reduce Road Accidents in Cambodia" — the problem, actions for road users, actions for the authorities, conclusion. Tap Show the working to read it.', null, null, null, '[{"content":"Plan: the problem, actions for road users, actions for the authorities, conclusion."},{"content":"Road accidents kill thousands of people in Cambodia every year, and many of them could be prevented."},{"content":"Road users can make the biggest difference. Drivers and riders should always wear a helmet or seat belt, keep to the speed limit, never drink and drive, and not use their phone while driving. Parents should not let young children ride motorbikes."},{"content":"The authorities also have a role. They should enforce the traffic law fairly, improve roads, lights and signs, and teach road safety in schools and on TV."},{"content":"If everyone respects the rules, our roads will be much safer for all."},{"content":"Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2070-2021-4000-8000-000000000000', 'kh-grade12-social-english', 2021, 'BacII 2021: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2021 (2021-12-27), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
@@ -2376,6 +2396,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2021-4000-8000-000000000001', '(1) job · (2) department · (3) promoted · (4) applied · (5) money · (6) waitress · (7) was · (8) television · (9) few months · (10) presenters', null, null, null, '[{"content":"Completed: (1) job, (2) department, (3) promoted, (4) applied, (5) money, (6) waitress, (7) was, (8) television, (9) few months, (10) presenters."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2021-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2021, 'open', 'Part 2. Grammar
@@ -2398,6 +2423,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2021-4000-8000-000000000002', '1. a. is eating · 2. a. hasn''t eaten · 3. d. because of · 4. d. will visit · 5. c. will be', null, null, null, '[{"content":"1. a. is eating: an action happening right now."},{"content":"2. a. hasn''t eaten: present perfect with \"for the last two days\"."},{"content":"3. d. because of: because of + noun phrase."},{"content":"4. d. will visit: hope + will for the future."},{"content":"5. c. will be: first conditional: if she doesn''t…, she will be punished."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2021-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2021, 'open', 'Part 3. Vocabulary
 There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
@@ -2419,6 +2449,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2021-4000-8000-000000000003', '1. b. proud · 2. a. cost · 3. c. complaint · 4. d. missed · 5. a. borrow a book', null, null, null, '[{"content":"1. b. proud: proud of my child."},{"content":"2. a. cost: the cost of living."},{"content":"3. c. complaint: write a complaint."},{"content":"4. d. missed: miss a connection."},{"content":"5. a. borrow a book: you borrow a book from a library."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2021-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2021, 'open', 'Part 4. Writing
 Write an essay in English at least 80 words about "Your goal in the future".', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
@@ -2426,6 +2461,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2021-4000-8000-000000000000', 'bacc2070-2021-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2021-4000-8000-000000000004', 'Model essay (AI): "My Goal in the Future" — my goal, why, how I will reach it, conclusion. Tap Show the working to read it.', null, null, null, '[{"content":"Plan: my goal, why, how I will reach it, conclusion."},{"content":"My goal in the future is to become a doctor and work in my home province."},{"content":"I chose this goal because many people in the countryside cannot get good medical care. When my grandmother was ill, we had to travel a long way to the hospital, and I saw how important a good doctor is."},{"content":"To reach my goal, I will study hard for the BacII exam, especially biology and chemistry, and then apply to the University of Health Sciences. I will also improve my English so that I can read medical books and research."},{"content":"It will take many years, but I believe that with patience and hard work I can make my dream come true and help my community."},{"content":"Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2070-2019-4000-8000-000000000000', 'kh-grade12-social-english', 2019, 'BacII 2019: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2019 (2019-08-19), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
@@ -2444,6 +2484,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2019-4000-8000-000000000001', '(2) originally · (3) converted · (4) indoors · (5) fire · (6) discussion · (7) money · (8) businessman · (9) to pay · (10) sports · (11) used', null, null, null, '[{"content":"Completed: (2) originally, (3) converted, (4) indoors, (5) fire, (6) discussion, (7) money, (8) businessman, (9) to pay, (10) sports, (11) used."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2019-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2019, 'open', 'Part 2. Grammar
@@ -2466,6 +2511,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2019-4000-8000-000000000002', '1. d. doesn''t he · 2. b. worked · 3. d. I have caught a cold · 4. a. was sitting · 5. b. would go', null, null, null, '[{"content":"1. d. doesn''t he: question tag for a positive present simple sentence."},{"content":"2. b. worked: past simple for a finished period (1975 to 1989)."},{"content":"3. d. I have caught a cold: catch a cold, present perfect: I have caught a cold."},{"content":"4. a. was sitting: past continuous interrupted by the action of running past."},{"content":"5. b. would go: second conditional: would go if you went."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2019-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2019, 'open', 'Part 3. Vocabulary
 There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
@@ -2487,6 +2537,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2019-4000-8000-000000000003', '1. d. harvest · 2. b. regulation · 3. a. reduced · 4. d. regret · 5. d. conflict', null, null, null, '[{"content":"1. d. harvest: harvest time on a farm."},{"content":"2. b. regulation: on a plane, safety rules are regulations (\"against the regulations\")."},{"content":"3. a. reduced: reduced to half price."},{"content":"4. d. regret: I regret to inform you (formal bad news)."},{"content":"5. d. conflict: a conflict between two groups."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2019-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2019, 'open', 'Part 4. Writing
 Write an essay "Studying for Success" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Part 3''s 15 points are from the copy''s answer section; the question page does not print them. Both tracks sat the same paper.', 'needs-review')
@@ -2494,6 +2549,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2019-4000-8000-000000000000', 'bacc2070-2019-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2019-4000-8000-000000000004', 'Model essay (AI): "Studying for Success" — introduction, plan and habits, method, health, conclusion. Tap Show the working to read it.', null, null, null, '[{"content":"Plan: introduction, plan and habits, method, health, conclusion."},{"content":"Success at school does not come from luck but from good study habits."},{"content":"First, students should make a timetable and study a little every day instead of trying to learn everything the night before an exam. Second, they should study actively: take notes in their own words, practise past exam papers, and ask the teacher or friends when they do not understand. Studying in a quiet place without phone distractions also helps."},{"content":"Finally, health matters. Enough sleep, good food and some exercise keep the mind fresh."},{"content":"In short, students who plan, practise regularly and look after themselves will be ready to succeed."},{"content":"Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2070-2018-4000-8000-000000000000', 'kh-grade12-social-english', 2018, 'BacII 2018: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2018 (2018-08-20), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -2512,6 +2572,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2018-4000-8000-000000000001', '(2) resignation · (3) economic · (4) unemployed · (5) applications · (6) qualified · (7) profitable · (8) employee · (9) earnings · (10) retirement · (11) disagreed', null, null, null, '[{"content":"Completed: (2) resignation, (3) economic, (4) unemployed, (5) applications, (6) qualified, (7) profitable, (8) employee, (9) earnings, (10) retirement, (11) disagreed."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2018-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2018, 'open', 'II. Grammar
@@ -2534,6 +2599,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2018-4000-8000-000000000002', '1. d. enough · 2. b. who cuts · 3. d. were driving · 4. a. will be completed · 5. b. didn''t communicate', null, null, null, '[{"content":"1. d. enough: enough money to buy."},{"content":"2. b. who cuts: relative clause: the person who cuts my hair."},{"content":"3. d. were driving: past continuous interrupted by the rain."},{"content":"4. a. will be completed: future passive."},{"content":"5. b. didn''t communicate: second conditional: wouldn''t be… if they didn''t communicate."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2018-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2018, 'open', 'III. Vocabulary
 There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
@@ -2555,6 +2625,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2018-4000-8000-000000000003', '1. c. accident · 2. d. reach · 3. a. reduced · 4. b. punctual · 5. a. rush', null, null, null, '[{"content":"1. c. accident: a car accident."},{"content":"2. d. reach: out of reach of children."},{"content":"3. a. reduced: reduced to half price."},{"content":"4. b. punctual: punctual = always on time."},{"content":"5. a. rush: the rush hour."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2018-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2018, 'open', 'IV. Writing
 Write an essay "Role of women in modern Cambodia society" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -2562,6 +2637,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2018-4000-8000-000000000000', 'bacc2070-2018-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2018-4000-8000-000000000004', 'Model essay (AI): "The Role of Women in Modern Cambodian Society" — introduction, family, work and economy, public life, conclusion. Tap Show the working to read it.', null, null, null, '[{"content":"Plan: introduction, family, work and economy, public life, conclusion."},{"content":"In the past, Cambodian women were expected to stay at home. Today their role has grown far beyond the family."},{"content":"Women are still at the heart of the family: they care for children and elderly parents and often manage the household money. At the same time, many women now work outside the home. They run businesses in markets, work in garment factories, banks and schools, and send money home from abroad, so they are a major force in the economy."},{"content":"Women are also more active in public life. More girls finish school and go to university, and women serve as doctors, teachers, officials and members of parliament."},{"content":"However, women still face challenges such as lower pay and violence. With equal education and opportunities, they can contribute even more to the development of Cambodia."},{"content":"Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2070-2017-4000-8000-000000000000', 'kh-grade12-social-english', 2017, 'BacII 2017: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2017 (2017-08-21), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -2579,6 +2659,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2017-4000-8000-000000000001', '(2) secretarial · (3) occupation · (4) frozen · (5) hobby · (6) explanation · (7) solution · (8) failure · (9) successful · (10) construction · (11) embarrassment', null, null, null, '[{"content":"Completed: (2) secretarial, (3) occupation, (4) frozen, (5) hobby, (6) explanation, (7) solution, (8) failure, (9) successful, (10) construction, (11) embarrassment."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2017-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2017, 'open', 'Part 2: Grammar
@@ -2601,6 +2686,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2017-4000-8000-000000000002', '1. a. mustn''t · 2. d. I''ve eaten · 3. a. broke · 4. d. been · 5. c. will be able', null, null, null, '[{"content":"1. a. mustn''t: mustn''t + verb for something not allowed."},{"content":"2. d. I''ve eaten: present perfect: I have eaten too much."},{"content":"3. a. broke: past simple: the machine broke down."},{"content":"4. d. been: had never been late before."},{"content":"5. c. will be able: first conditional: if you give me…, I will be able to…"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2017-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2017, 'open', 'Part 3: Vocabulary
 There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
@@ -2622,6 +2712,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2017-4000-8000-000000000003', '1. b. instructions · 2. a. interest · 3. c. support · 4. d. missed · 5. a. avoid', null, null, null, '[{"content":"1. b. instructions: read the instructions."},{"content":"2. a. interest: money in the bank earns interest."},{"content":"3. c. support: support an idea (\"fi\" is a misprint of \"of\")."},{"content":"4. d. missed: miss a connection (a connecting flight)."},{"content":"5. a. avoid: avoid paying."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2017-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2017, 'open', 'Part 4: Writing
 Writing an essay. There is too much traffic in the city. "What do you think the authorities should do about it?" at least 80 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -2629,6 +2724,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2017-4000-8000-000000000000', 'bacc2070-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2017-4000-8000-000000000004', 'Model essay (AI): "Too Much Traffic in the City" — the problem, three actions for the authorities, conclusion. Tap Show the working to read it.', null, null, null, '[{"content":"Plan: the problem, three actions for the authorities, conclusion."},{"content":"Traffic jams in Phnom Penh waste time, burn fuel and pollute the air. The authorities should act in several ways."},{"content":"First, they should improve public transport, with more city buses on clear routes, so that people can leave their cars and motorbikes at home. Second, they should enforce traffic laws strictly, especially against illegal parking on roads and pavements, which blocks the traffic. Third, they should plan the city better: build ring roads, fix traffic lights and move some offices, schools and markets away from the centre."},{"content":"If these steps are taken and people follow the rules, the city will become safer, cleaner and easier to live in."},{"content":"Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2070-2016-4000-8000-000000000000', 'kh-grade12-social-english', 2016, 'BacII 2016: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2016 (2016-08-22), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -2647,6 +2747,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2016-4000-8000-000000000001', '(2) soaked · (3) raincoat · (4) forget · (5) offered · (6) drink · (7) change · (8) be able · (9) practicing · (10) relaxed · (11) nothing', null, null, null, '[{"content":"Completed: (2) soaked, (3) raincoat, (4) forget, (5) offered, (6) drink, (7) change, (8) be able, (9) practicing, (10) relaxed, (11) nothing."},{"content":"(10) \"it''s time you relaxed\" (it''s time + past tense); (11) \"It''s got nothing to do with the rain\"."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2016-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2016, 'open', 'II. Grammar
@@ -2669,6 +2774,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2016-4000-8000-000000000002', '1. b. going · 2. d. have · 3. c. was solved · 4. c. would · 5. c. rang', null, null, null, '[{"content":"1. b. going: before + -ing."},{"content":"2. d. have: question tag: you have never seen…, have you?"},{"content":"3. c. was solved: past passive with \"last night\"."},{"content":"4. c. would: second conditional: if you won, what would you do?"},{"content":"5. c. rang: past simple for the short action that interrupted."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2016-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2016, 'open', 'III. Vocabulary
 There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
@@ -2690,6 +2800,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2016-4000-8000-000000000003', '1. d. leave · 2. a. complaint · 3. d. delight · 4. b. enroll · 5. a. bring up', null, null, null, '[{"content":"1. d. leave: leave school (finish your studies)."},{"content":"2. a. complaint: write a complaint to the manager."},{"content":"3. d. delight: cry out with delight at a beautiful present."},{"content":"4. b. enroll: enrol for classes."},{"content":"5. a. bring up: bring up (raise) children."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2016-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2016, 'open', 'IV. Writing
 Write an essay "Life in the countryside" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -2697,6 +2812,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2016-4000-8000-000000000000', 'bacc2070-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2016-4000-8000-000000000004', 'Model essay (AI): "Life in the Countryside" — introduction, advantages, disadvantages, conclusion. Tap Show the working to read it.', null, null, null, '[{"content":"Plan: introduction, advantages, disadvantages, conclusion."},{"content":"Most Cambodians were born in the countryside or have family there. Life in a village is very different from life in Phnom Penh, and it has both strong points and weak points."},{"content":"One great advantage of country life is the clean and peaceful environment. The air is fresh, there is little traffic and people can enjoy green rice fields, rivers and quiet evenings. Food is also fresh and cheap because many families grow their own vegetables and raise animals. In addition, villagers usually know and help each other, so there is a strong sense of community."},{"content":"On the other hand, the countryside has some disadvantages. There are fewer jobs, so many young people move to the city or abroad to earn money. Schools, hospitals and markets may be far away, and roads can be poor in the rainy season. Some villages still lack clean water, electricity or internet."},{"content":"In conclusion, life in the countryside is calm and healthy, but it offers fewer opportunities. If the government improves roads, schools and services, more people will be happy to stay and build their future there."},{"content":"Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2070-2015-4000-8000-000000000000', 'kh-grade12-social-english', 2015, 'BacII 2015: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2015 (2015-08-24), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -2715,6 +2835,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2015-4000-8000-000000000001', '(2) month(s) · (3) weight · (4) painful · (5) poisonous · (6) infectious · (7) optimistic · (8) heartened · (9) disease · (10) treatment · (11) recovery', null, null, null, '[{"content":"Completed: (2) month(s), (3) weight, (4) painful, (5) poisonous, (6) infectious, (7) optimistic, (8) heartened, (9) disease, (10) treatment, (11) recovery."},{"content":"Gap (7) is missing from the copy''s text; \"optimistic\" (the doctor was optimistic) is the word left that fits before Kimseng felt (8) heartened."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2015-4000-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2015, 'open', 'II. Grammar
@@ -2737,6 +2862,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2015-4000-8000-000000000002', '1. d. is visited · 2. b. is eating · 3. d. had been leaving · 4. c. would take · 5. c. which grows', null, null, null, '[{"content":"1. d. is visited: present passive with \"every month\"."},{"content":"2. b. is eating: an action happening right now."},{"content":"3. d. had been leaving: the only past perfect choice for an action before you called (\"had left\" would be best)."},{"content":"4. c. would take: second conditional: if + past, would + verb."},{"content":"5. c. which grows: a relative clause: which grows behind my house."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2015-4000-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2015, 'open', 'III. Vocabulary
 There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
@@ -2758,6 +2888,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2015-4000-8000-000000000003', '1. c. charge · 2. a. prohibited · 3. c. pass · 4. b. delayed · 5. d. cost', null, null, null, '[{"content":"1. c. charge: charge (money) for a service."},{"content":"2. a. prohibited: smoking is prohibited (not allowed)."},{"content":"3. c. pass: pass a law."},{"content":"4. b. delayed: the weather delayed the flight."},{"content":"5. d. cost: the cost of living."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2015-4000-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2015, 'open', 'IV. Writing
 Write an essay "What make a good parent" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -2765,6 +2900,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2015-4000-8000-000000000000', 'bacc2070-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2015-4000-8000-000000000004', 'Model essay (AI): "What Makes a Good Parent" — introduction, love and time, guidance and example, support for education, conclusion. Tap Show the working to read it.', null, null, null, '[{"content":"Plan: introduction, love and time, guidance and example, support for education, conclusion."},{"content":"Being a parent is one of the most important jobs in the world, but there is no school that teaches it. In my view, a good parent has several qualities."},{"content":"First of all, a good parent gives love and time. Children need to feel safe and valued. Parents who listen to their children, play with them and talk about their problems help them grow up happy and confident."},{"content":"Secondly, a good parent guides children and sets a good example. Children copy what they see, so parents should be honest, polite and hard-working themselves. They should also set clear rules and explain why the rules matter, rather than simply punishing."},{"content":"Thirdly, a good parent supports their children''s education. This does not only mean paying for school, but also encouraging them to study, showing interest in their progress and helping them choose their future path."},{"content":"In conclusion, good parents are not perfect people. They are people who love their children, guide them patiently and help them become responsible adults. Their reward is to see their sons and daughters grow into kind, confident and useful members of society."},{"content":"Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2070-2014-4200-8000-000000000000', 'kh-grade12-social-english', 2014, 'BacII 2014, second sitting: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -2783,6 +2923,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2014-4200-8000-000000000001', '(2) timetable(s) · (3) taught · (4) look · (5) information · (6) afterwards · (7) help · (8) memorise (printed "memories") · (9) heart · (10) understanding · (11) waste', null, null, null, '[{"content":"Completed: (2) timetable(s), (3) taught, (4) look, (5) information, (6) afterwards, (7) help, (8) memorise (printed \"memories\"), (9) heart, (10) understanding, (11) waste."},{"content":"Word not needed: result."},{"content":"(9) \"learning by heart\" means memorising; (11) \"waste a lot of time\"."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2014-4200-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'II. Grammar
@@ -2805,6 +2950,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2014-4200-8000-000000000002', '1. d. are meeting · 2. a. will take · 3. d. had already left · 4. a. working · 5. c. will be changed', null, null, null, '[{"content":"1. d. are meeting: present continuous for a fixed future arrangement (tonight)."},{"content":"2. a. will take: future: after the project is completed."},{"content":"3. d. had already left: past perfect: he left before the call came."},{"content":"4. a. working: keep + -ing."},{"content":"5. c. will be changed: future passive: the programme will be changed."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2014-4200-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'III. Vocabulary
 There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
@@ -2826,6 +2976,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2014-4200-8000-000000000003', '1. d. pension · 2. b. writing · 3. a. committed · 4. d. conducted · 5. c. heard', null, null, null, '[{"content":"1. d. pension: retired people live off a pension."},{"content":"2. b. writing: confirm in writing."},{"content":"3. a. committed: commit a crime."},{"content":"4. d. conducted: conduct experiments."},{"content":"5. c. heard: hear something on the news."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2014-4200-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'IV. Writing
 Write an essay "The value of Higher Education" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -2833,6 +2988,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4200-8000-000000000000', 'bacc2070-2014-4200-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2014-4200-8000-000000000004', 'Model essay (AI): "The Value of Higher Education" — introduction, better jobs, personal growth, benefits to the country, conclusion. Tap Show the working to read it.', null, null, null, '[{"content":"Plan: introduction, better jobs, personal growth, benefits to the country, conclusion."},{"content":"After finishing high school, many young Cambodians wonder whether they should continue to university. In my opinion, higher education has great value, both for the individual and for society."},{"content":"First, a university degree opens the door to better jobs. Employers look for people with specialist knowledge and skills, so graduates usually find work more easily and earn higher salaries. This helps them support their families and improve their standard of living."},{"content":"Second, higher education helps people grow. Students learn to think critically, solve problems, work in teams and express their ideas clearly. They also meet people from different backgrounds and become more confident and independent."},{"content":"Finally, educated citizens are important for the development of the country. Cambodia needs doctors, engineers, teachers and business leaders to build a strong economy and a fair society. Graduates can also share what they have learned with their families and communities, so the benefits spread far beyond the university."},{"content":"In conclusion, higher education is an investment that brings rewards for a whole lifetime. Students who have the chance to study further should take it and work hard."},{"content":"Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2070-2014-4100-8000-000000000000', 'kh-grade12-social-english', 2014, 'BacII 2014, first sitting: English (social science track)', 'វិញ្ញាសាភាសាអង់គ្លេស បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
@@ -2851,6 +3011,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2014-4100-8000-000000000001', '(2) result · (3) opinion poll · (4) election campaign · (5) support · (6) eligible · (7) polling station · (8) polling day · (9) ballot box · (10) candidate · (11) winner', null, null, null, '[{"content":"Completed: (2) result, (3) opinion poll, (4) election campaign, (5) support, (6) eligible, (7) polling station, (8) polling day, (9) ballot box, (10) candidate, (11) winner."},{"content":"Word not needed: violent."},{"content":"The box prints \"opinion pool\"; the phrase is \"opinion poll\"."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2014-4100-8000-000000000002', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'II. Grammar
@@ -2873,6 +3038,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2014-4100-8000-000000000002', '1. c. had make (had made) · 2. d. was getting · 3. a. because of · 4. c. haven''t eaten · 5. d. wouldn''t have', null, null, null, '[{"content":"1. c. had make (had made): she had made the booking before she arrived (past perfect; the paper misprints \"made\")."},{"content":"2. d. was getting: past continuous for an action in progress when something happened."},{"content":"3. a. because of: \"because of\" + a noun (the strong wind)."},{"content":"4. c. haven''t eaten: present perfect with \"during the last few months\"."},{"content":"5. d. wouldn''t have: second conditional: if + past, would/wouldn''t + verb."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2014-4100-8000-000000000003', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'III. Vocabulary
 There are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.
@@ -2894,6 +3064,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2014-4100-8000-000000000003', '1. b. proud · 2. c. take · 3. d. golds (goals) · 4. d. forecast · 5. a. effect', null, null, null, '[{"content":"1. b. proud: proud of someone."},{"content":"2. c. take: take responsibility for."},{"content":"3. d. golds (goals): set yourself clear goals (\"golds\" is a misprint)."},{"content":"4. d. forecast: the weather forecast."},{"content":"5. a. effect: a harmful effect on (noun; \"affect\" is a verb)."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2070-2014-4100-8000-000000000004', 'kh-grade12-social-english-past-papers', null, 2014, 'open', 'IV. Writing
 Write an essay "Advantages and Disadvantages of TV" at least 180 words.', '[]'::jsonb, '[]'::jsonb, null, 'en', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track english, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Grammar 3''s choices c and d repeat those of question 4 in the copy; they are kept as printed. Both tracks sat the same paper.', 'needs-review')
@@ -2901,528 +3076,9 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2070-2014-4100-8000-000000000000', 'bacc2070-2014-4100-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-commit;
 
--- ===== supabase/seed/past-papers.sql (12/17) =====
--- kh-grade12-social-french.json
-begin;
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2021-4000-8000-000000000000', 'kh-grade12-social-french', 2021, 'BacII 2021: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2021-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'I. Compréhension écrite.
-Complétez le texte avec les mots: copain, parents, maison, bizarre, bruits.
-Moi, j''ai peur de rester seul à la ………. ! Quand mes ……… sortent, je ne sais pas quoi faire. J''essaie d''inviter un …….. à la maison ou d''aller chez quelqu''un, mais ce n''est pas toujours possible. Quand je suis seul, je ne peux me concentrer sur rien, je commence à entendre des ………. J''ai honte, parce qu''à 15 ans, c''est un peu …….., non ? Mais je ne peux pas l''éviter.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2021-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'II. Vocabulaire
-Soulignez les intrus.
-Example : argent · cuivre · or · fer · agent
-1. matinée · journée · musée · idée · rentrée
-2. dimanche · printemps · été · automne · hiver
-3. boulangerie · boucherie · pâtisserie · librairie · charcuterie
-4. rapidement · développement · lentement · calmement · doucement
-5. père · mère · frère · sœur · voisin
-6. Laos · Russie · Cambodge · Thaïlande · Vietnam
-7. poitrine · tête · bras · docteur · jambe', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2021-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'III. Grammaire
-A. Répondez par "Si", "Oui" ou "Non".
-Example: Vous n''être pas fatiqués?. - ………, nous sommes très fatiqués. → - Si, nous sommes très fatiqués.
-1. Tu es Francais, - ………., je suis Cambodgien.
-2. Tu ne mange pas de riz ? - …………, je mange du riz.
-3. Est-ce que tes parents sont à Phnom Penh. - ………, ils sont à Phnom Penh,
-
-B. Reliez les phrases A et B selon l''exemple
-A:
-1. Elle a mal à la gorge.
-2. Elle a mal à la main.
-3. Elle a mal au pied.
-4. Elle a mal aux yeux.
-5. Elle a mal à la fesse.
-6. Elle a mal à la tête.
-B:
-a. Elle ne peut pas marcher.
-b. Elle ne peut pas s''assoir.
-c. Elle ne peut pas réfléchir.
-d. Elle ne peut pas manger.
-e. Elle ne peut pas écrite.
-f. Elle ne peut pas courir.
-g. Elle ne peut pas lire
-C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2021-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'IV. Expression écrite. (10 points)
-Après l''examen du baccalauréat, qu''est-ce que vous faites ? Ecrivez environ 70 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2019-4000-8000-000000000000', 'kh-grade12-social-french', 2019, 'BacII 2019: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2019-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'I. Compréhension écrite.
-Complétez les phrases avec : l''impression, avis, semble, ne crois pas, demande, pensez.
-1. A mon (1) ….avis…, c''est une bonne idée.
-2. Je (2)………… que ce soit facile.
-3. Qu''est-ce que vous (3) ……….. de ce projet ?
-4. Je me (4) ………… si ce n''est pas inutile d''organiser une réunion.
-5. Il me (6) ………… que c''est intéressant.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2019-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'II. Vocabulaire
-Soulignez les intrus.
-Example : jambes · bras · _thermomètre_ · bouche · tête
-1. développement · pauvrement · courageusement · contentement · librement
-2. porc · mouton · durian · bœuf · buffle
-3. parler · écouter · aller · regarder · manger
-4. le nord · le fond · le sud · l''est · l''ouest
-5. Cambodge · Vietnam · Laos · France · Thaïlande
-6. docteur · professeur · ventilateur · ingénieur · présentateur
-7. bananier · infirmier · caféier · pommier · cerisier', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2019-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'III. Grammaire
-A. Complétez les phrases avec : "c''est pourquoi", "donc", "aussi".
-Example: Ma sœur ne connaît pas encore … elle demande le chemin au policier. → Ma sœur ne connaît pas encore Paris, c''est pourquoi elle demande le chemin au policier.
-1. Il n''a pas le permis, ………. il ne peut pas conduire.
-2. Vous avez trop mangé, ………….. Vous êtes malade.
-3. Le pneu de sa moto est crevé, ……. faut-il le réparé.
-
-B. Reliez les phrases A et B selon l''exemple.
-A:
-1. Si nous ne partons pas maintenant,
-2. Je veux me promener. Il pleut
-3. Il a mal à la tête.
-4. Les touristes viendront au Cambodge pour
-5. Le Mont Everest est
-6. Le professeur expliquer pour que
-B:
-a. visiter Angkor.
-b. une des plus hautes montages du monde.
-c. Il ne peut pas réfléchir.
-d. nous allons être en retard
-e. tant pis, je resterai à la maison.
-f. les élèves comprennent bien.
-C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2019-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'IV. Expression écrite. (10 points)
-Vous avez assisté à l''anniversaire (de naissance) d''un (e) ami(e). Racontez ce que vous avez fait, vu et entendu pendant la fête.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2018-4000-8000-000000000000', 'kh-grade12-social-french', 2018, 'BacII 2018: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2018-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'I. Compréhension écrite.
-Replacez les expressions suivantes dans le dialogue : choisir, le ticket, échange, elle ne l''aura pas, échanger, elle a déjà.
-1. Bonjour, monsieur. Voilà, j''ai acheté ce livre pour une amie, mais (1) _elle a déjà_.
-Est-ce que je pourrais l'' (2) …………. pour un autre.
-2. Oui, bien sûr, monsieur. Vous avez (3) …………. de caisse ?
-3. Oui, le voilà.
-4. Très bien. Vous préférez un remboursement ou un (4) ………. ?
-5. Un échange. Je vais (5) …………. un autre livre. J''espère qu'' (6) …………., celui-là.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000001', 1, 10)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2018-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'II. Vocabulaire
-Soulignez les intrus.
-Exemple : règle · gomme · crayon · stylo · rayon
-1. chaleur · voyageur · promeneur · opérateur · animateur
-2. fièvre · diarrhée · lièvre · grippe · tuberculose
-3. Cambodge · Vietnam · Chine · Laos · France
-4. carré · cirque · triangle · cercle · rectangle
-5. collège · faculté · université · égalité · lycée
-6. amoureusement · facilement · pauvrement · appartement · librement
-7. Birmanie · Phnom Penh · Bangkok · Vientiane · Hanoi
-8. marcher · habiter · oranger · demander · jouer', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000002', 2, 16)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2018-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'III. Grammaire.
-A. (06 points) Répondez aux questions en remplaçant les mots soulignés par « le, la, les, lui ».
-Exemple : Tu vois mon _livre_ ? → Oui je le vois. → Non, je ne le vois pas.
-1- Il regarde _la télévision_ ?
-→ Oui, ……………………
-2- Vous préférez _les voitures de couleur rouge_ ?
-→ Non, …………………..
-3- Tu parles _à ton professeur_ ?
-→ Oui, ………………………
-
-B. (08 points) Reliez les phrases A et B selon l''exemple.
-A:
-1. Elle ne sait
-2. Il va se coucher
-3. Puisque l''eau manque,
-4. Comme le prix du riz augmente
-5. Cette élève travaille bien,
-B:
-a. les gens ne sont pas contents.
-b. les touristes veulent le visiter.
-c. ni le français ni le chinois.
-d. donc elle réussira le bac.
-e. sans rien manger.
-f. elle ne réussira pas le baccalauréat:
-C: 1 → c · 2 → … · 3 → … · 4 → … · 5 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000003', 3, 14)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2018-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'IV. Expression écrite.
-Pour réussir le baccalauréat, qu''est-ce-que vous avez appris au lycée ? Et à la maison, qu''est-ce-que vous avez fait ? (environ 100 mots)', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000004', 4, 10)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2017-4000-8000-000000000000', 'kh-grade12-social-french', 2017, 'BacII 2017: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2017-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'I. Compréhension écrite.
-Complétez les mots « vraiment, mère, bus, accident, étudiante » dans le texte.
-
-Avez-vous votre permis de conduire ?
-- Yann : Chez, nous, c''est une tradition, on ne conduit pas, Mon père n''avait pas son permis de conduire, Ma (1) ……. si, mais elle n''avait pas de voiture …….. Moi je l''ai passé à 18 ans mais j''ai eu un (2) ……. quelques mois plus tard, alors je n''ai plus conduit. J''ai eu trop peur. Non, moi, maintenant, je prends le taxi, le (3) ……. Ou bien je loue une voiture aven un chauffeur pour partir en week-end.
-- Marie : Non, je n''ai pas encore le permis, Je suis (4) ……… et je n''ai pas beaucoup d''argent, Je passerai le permis quand je travaillerai dans deux ou trois ans ! De toute façon, je n''en ai pas (5) ……. besoin. J''ai un scooter et ça me convient très bien.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2017-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'II. Vocabulaire
-Soulignez les intrus.
-Exemple : père · frère · sœur · mer · mère
-1. Chemise · veste · chemin · chemiser · robe
-2. Rose · verre · noir · bleu · vert
-3. Boulanger · essayer · adorer · aimer · couter
-4. Bras · ventre · langue · genou · thermomètre
-5. Pharmacie · mairie · boucherie · boulangerie · librairie
-6. Amoureusement · vêtement · librement · pauvrement · contrairement
-7. Framboisier · olivier · collier · bananier · caféier
-8. Laos · Malaisie · Thaïlande · Vietnam · France', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2017-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'III. Grammaire.
-A. Répondez aux questions en utilisant « Si », « Oui », « Non ».
-Exemple : Tu ne bois pas de café ? - ……, un verre par jour. → Si, un verre par jour.
-1. Vous n''allez pas au marché ? -……, je n''y vais pas.
-2. Tu apprends le français ? - ……, j''apprends le français.
-3. Ta sœur n''aime pas faire des courses ? - ……, quand elle reste seule à la maison et elle n''a rien pour manger.
-
-B. Reliez les phrases A et B selon l''exemple.
-A:
-1. Sa moto est on panne,
-2. On coupe beaucoup de forêts.
-3. Comme le Cambodge a des patrimoines mondiaux,
-4. Ma mère n''a pas de bonne mine
-5. Puisque l''examen s''approche,
-B:
-a. C''est pourquoi il y a des inondations.
-b. les touristes veulent le visiter.
-c. parce qu''elle est très fatiguée.
-d. aussi faut-il le faire la réparer.
-e. je m''amuse.
-f. je révise mes leçons
-C: 1 → d · 2 → … · 3 → … · 4 → … · 5 → …', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2017-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'IV. Expression écrite.
-Depuis combien de temps apprenez-vous le français ? Pourquoi apprenez-vous cette langue ? Rédigez le texte au minimum 80 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2016-4000-8000-000000000000', 'kh-grade12-social-french', 2016, 'BacII 2016: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2016-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'I. Compréhension écrite
-Complétez les mots « copine, coquillage, parents, montage, mer » dans le texte
-Pendant les vacances, avec mes ………., on allait toujours au bord de la …….. en Brergane. Là-bas, je retrouvais ma ……….Alice. Le matin, on ramassait des ……… et l''après-midi, quand l''eau était plus chaude, on se baignait, On était toujours ensemble. Maintenant, mes parents vont à la ……… mais moi, je vais chez Alice.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2016-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'II. Vocabulaire
-Soulignez les intrus :
-Exemple : père · frère · sœur · mer · mère
-1. chemise · veste · chemin · chemisier · robe
-2. rose · verre · noir · bleu · vert
-3. boulanger · essayer · adorer · aimer · coûter
-4. bras · ventre · langue · genou · thermomètre
-5. pharmacie · mairie · boucherie · boulangerie · librairie
-6. tête · fièvre · main · jambe · bouche
-7. durian · orange · coco · mangue · poisson', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2016-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'III. Grammaire
-A. Refaites des phrases en utilisant « sans » selon l''exemple.
-Exemple : Il va au lycée. Il n''a pas d''argent. → Il va au lycée sans argent.
-1. Visal lit le texte. Il ne comprend rien.
-2. Écoutez ! Ne répétez pas !
-3. Mon frère passe le bac. Il n''a pas de documents.
-4. Madame Dany regarde les marchandises. Elle n''achète rien.
-
-B. Utilisez les double négations « …ne….ni….ni » ou « ….ni….ni….ne ».
-Exemple : Cette élève ne lit pas de brouillons, elles en lit pas de corrigé. → Cette élève ne lit ni brouillons ni corrigé.
-1. Le professeur n''aime pas les retardataires, il n''aime pas les paresseux.
-2. Il ne sait pas expliquer, il ne sait pas discuter.
-3. Paul n''est pas timide. Marie n''est pas timide.
-4. Ma sœur ne bois pas de bière, elle ne boit pas de vin.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2016-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'IV. Expression écrite
-Après avoir fini vos études, quel métier préférez-vous ? Pourquoi ? Donnez vos raisons en écrivant un texte de 80 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2015-4000-8000-000000000000', 'kh-grade12-social-french', 2015, 'BacII 2015: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2015-4000-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'I. Compréhension écrite
-Remplacez les mots suivant dans le dialogue.
-Mal – grave – docteur – le – médicament – soir – jours – temps – trois – ventre – malade
-- Bonjour, (1) docteur, Ma fille est (2) ………
-- Alors, où as -tu (3) ………
-- J''ai mal au (4) ……….
-- Je vais regarder ça. Tu as mal depuis combien de (5) ……..
-- Depuis deux (6) ……
-- Ce n''est pas très (7) ……. Tu vas prendre ce (8) ……. Pendant une semaine.
-- Je (9) ……. Prends combien de fois par jour ?
-- Te le prends (10) ……. Fois par jour, le matin, à midi et le (11)', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2015-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'II. Vocabulaire
-Soulignez les intrus :
-Exemple : librement · pauvrement · courageusement · contentement · commencement
-1. difficilement · facilement · développement · lentement · rapidement
-2. bouche · gorge · ventre · langue · sirop
-3. ce · cet · cette · ses · ces
-4. Albanie · Asie · Algérie · Allemagne · Arménie
-5. le nord · le fond · le sud · l''est · l''ouest
-6. fraisier · policier · citronnier · pommier · palmier
-7. Cambodge · Laos · Vietnam · Bangkok · Malaisie', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2015-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'III. Grammaire
-A. Répondez aux questions en utilisant « Si », « Oui » ou « Non ».
-1. Tu n''as pas mal au dos ?
-………, j''ai mal à la poitrine.
-2. Vous ne manges pas de pain.
-………, je mange de riz.
-3. Tu bois de l''eau le matin ?
-………, un verre d''eau avant le petit déjeuner.
-4. Tu n''apprends pas le français ?
-………., deux heure par semaine.
-5. Vous allez chez le médecin ?
-…………, j''y vais
-
-B. Reliez les deux phrase en employant « comme or parce que ».
-Exemple : Tévi a de mauvaises notes à ses devoirs. Elle fait ses devoirs en regardant la télé. → Tévi a de mauvaises notes à ses devoirs parce qu''elle fait ses devoirs en regardant la télé.
-1. Bopha est arrivée en retard. Elle a eu un accident.
-2. Vuth ne va pas se promener. Il est malade.
-3. Neary est fatiguée. Elle a beaucoup travaillé.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2015-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'IV. Expression écrite
-Entre la ville et la campagne, où armeriez-vous habiter ? Pourquoi ? Racontez en 80 monts.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000004', 4, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2014-4200-8000-000000000000', 'kh-grade12-social-french', 2014, 'BacII 2014, second sitting: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4200-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'I. Vocabulaire
-A. Utilisez les double négations « …ne…ni…ni » ou « …ni…ni…ne ».
-Exemple : Cette élève ne lit pas de brouillon, elle ne lit pas de corrigé. → Cette élève ne lit ni brouillon ni corrigé.
-1. Le professeur n''aime pas les retardataires, il n''aime pas les paresseux.
-2. Il ne sait pas expliquer, il ne sait pas discuter.
-3. Paul n''est pas timide, Marie n''est pas timide.
-
-B. Soulignez les intrus :
-Exemple : coûter · acheter · louer · aller · demander
-1. marcher · oranger · regarder · manger · préparer
-2. ordinateur · chercheur · ventilateur · réfrigérateur · générateur
-3. fièvre · tuberculose · grippe · stéthoscope · rougeole
-4. Brunei · Rangoon · Vientiane · Jakarta · Manille
-5. Suisse · France · Hollande · Belgique · Cambodge', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4200-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'II. Grammaire
-A. Complétez les phrases par : « C''est pourquoi », « donc », « aussi ».
-Exemple : Le pneu de son vélo est crevé, ……..faut-il le réparer. → Le pneu de son vélo est crevé aussi faut-il le réparer.
-1. Il trop travaillé ………..il est malade.
-2. La route n''est pas bonne, ………faut-il conduire prudemment.
-3. Elle est sérieuse, ………..elle réussira à l''examen.
-
-B. Réécrite ces phrases en remplaçant les mots soulignés par les pronoms « le, la, y, en ».
-Exemple : Elle vent du thé → Elle en veut.
-1. Je ne regarde pas _la télévision_.
-2. Mon père voudrait _un café_
-3. Mon amie adore _le football_.
-4. Le cuisinier va _au supermarché_.
-5. Narith boit _du lait_.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4200-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'III. Expression écrite
-Vous apprenez le français depuis le niveau collégien. D''après vous, quels sont les avantages de l''apprentissage de la langue française. Écrivez un texte de 100 à 120 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
-values ('bacc2080-2014-4100-8000-000000000000', 'kh-grade12-social-french', 2014, 'BacII 2014, first sitting: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
-  duration_source = excluded.duration_source, source = excluded.source;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4100-8000-000000000001', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'I. Vocabulaire
-A. Reliez les phrases en utilisant « sans » selon le modèle.
-Exemple : Il est venu, Il n''a pas d''argent. → Il est venu sans argent.
-1. Ma grand-mère peut lire des journaux. Elle n''a pas de lunettes.
-2. Elle écoute. Elle ne dit rien.
-3. C''est la nuit. Il n''y a pas d''étoiles.
-
-B. Soulignez les intrus :
-Exemple : ventre · genou · bras · vent · pied
-1. infirmier · dentiste · pharmacien · docteur · médicament
-2. séjourner · se baisser · se laver · se reposer · se relever
-3. bon · mauvais · fatigue · fort · faible
-4. Singapour · Birmanie · Cambodge · Brunie · Canada
-5. France · Phnom Penh · Laos · Vietnam · Chine', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000001', 1, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4100-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'II. Grammaire
-A. Répondez aux questions en utilisant « Si », « Oui » ou « Non ».
-1. Tu ne manges pas de pain ?
-…………, je mange du riz.
-2. Vous ne buvez pas d''eau le matin ?
-…………, un verre d''eau avant le petit déjeuner.
-3. Vous apprenez le français ?
-…………, deux heures par semaine.
-
-B. Transformez les phrases selon le modèle.
-Exemple : Montrez votre photo a Dara. → Montrez-la-lui
-1. Donnez ces médicaments à ta sœur.
-2. Rendez la monnaie à Neary
-3. Montre le chemin à cet enfant.
-4. Envoyez de lettres à vos parents.
-5. Laisse vos sacs dans la voiture.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000002', 2, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
-
-insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
-values ('bacc2080-2014-4100-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'III. Expression écrite
-Décrivez une ville touristique du Cambodge ou d''autre pays que vous aimez bien. Écrive un texte 100 à 120 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
-on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
-insert into public.exam_paper_questions (paper_id, question_id, position, points)
-values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000003', 3, null)
-on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2070-2014-4100-8000-000000000004', 'Model essay (AI): "Advantages and Disadvantages of TV" — introduction, advantages, disadvantages, conclusion. Tap Show the working to read it.', null, null, null, '[{"content":"Plan: introduction, advantages, disadvantages, conclusion."},{"content":"Television is found in almost every home in Cambodia today. Like most inventions, it brings both benefits and problems, so it is worth looking at both sides."},{"content":"First, TV is an important source of news and information. People can follow what is happening in the country and around the world, learn about health, farming or the weather, and watch educational programmes that help students with their lessons. Moreover, TV is a cheap form of entertainment: after a long day, families can relax together and enjoy films, music and sport."},{"content":"However, television also has disadvantages. Many people, especially children, spend too many hours in front of the screen instead of studying, playing outside or talking with their family. This can harm their health and their results at school. In addition, some programmes show violence or advertisements that encourage people to buy things they do not need."},{"content":"In conclusion, TV is neither good nor bad in itself. If we choose useful programmes and limit the time we spend watching, it can be a valuable tool for learning and relaxing. Parents in particular should guide their children and switch the TV off at homework time."},{"content":"Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 commit;

@@ -542,6 +542,16 @@ timing only in database functions, never in the browser.
   "ការ" where the paper prints "ការេ" (the square of A − C); the question
   text is corrected. Tests: `test:past-papers` 11/11; every biology key
   checked on a 375px phone (no clipped formulas).
+- **2026-10-21 — AI answer key, part 6: English 2014–2022 (both
+  tracks).** The two tracks sit the same English paper, so one key of 36
+  answers serves both: the reading gap-fills (with the word left over),
+  grammar and vocabulary choices with a one-line reason each, and a model
+  essay for every writing task that meets the paper's word count (180 words
+  to 2016, 80 after). Misprints in the copy are named where they matter
+  (for example "opinion pool", "golds", "exacted"); 2015's text lost
+  gap (7), and the answer says which word is left for it. Labelled
+  ai-generated and needs-review like the rest. Tests: `test:past-papers`
+  11/11; checked on a 375px phone.
 
 ## Blockers and things that need a person
 

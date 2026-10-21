@@ -15,6 +15,10 @@
     "chiep2022": {
       "label": "retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii)",
       "url": "https://github.com/HELMAB/bacii"
+    },
+    "pen": {
+      "label": "compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
     }
   },
   "papers": [
@@ -31,22 +35,60 @@
         {
           "points": 10,
           "chapter": "past-papers",
-          "content": "Part 1. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n(0) discipline · (1) stricter · ( ) situation · ( ) Punishment · ( ) reputation · ( ) behavior · ( ) control · ( ) conduct · ( ) freedom · ( ) respect · ( ) progressive\n\nIn most countries, schools were much (1) stricter twenty-five years ago than they are today. Many parents are not at all happy with the present (2)……………….. because they feel that teachers have lost the ability to (3)……………… their classes. Some schools in particular have developed a very bad (4)……………….. for the way in which the students (5)……………. themselves. They no longer seem to have any (6) ……………….. for the school or the teachers who work in it. Some experts feel that the reason for these new patterns of (7)………………. in schools is the result of (8) ………………… ideas in education. They feel that (9). ……………… has become weak because students have been given too much (10)….. to choose how they want to spend their time. It is no doubt a good idea that physical (11)…………….. traditional kind of education has vanished in most places. But nowadays in many schools no punishment at all is possible."
+          "content": "Part 1. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n(0) discipline · (1) stricter · ( ) situation · ( ) Punishment · ( ) reputation · ( ) behavior · ( ) control · ( ) conduct · ( ) freedom · ( ) respect · ( ) progressive\n\nIn most countries, schools were much (1) stricter twenty-five years ago than they are today. Many parents are not at all happy with the present (2)……………….. because they feel that teachers have lost the ability to (3)……………… their classes. Some schools in particular have developed a very bad (4)……………….. for the way in which the students (5)……………. themselves. They no longer seem to have any (6) ……………….. for the school or the teachers who work in it. Some experts feel that the reason for these new patterns of (7)………………. in schools is the result of (8) ………………… ideas in education. They feel that (9). ……………… has become weak because students have been given too much (10)….. to choose how they want to spend their time. It is no doubt a good idea that physical (11)…………….. traditional kind of education has vanished in most places. But nowadays in many schools no punishment at all is possible.",
+          "ai": {
+            "answer": "(2) situation · (3) control · (4) reputation · (5) conduct · (6) respect · (7) behavior · (8) progressive · (9) discipline · (10) freedom · (11) punishment",
+            "steps": [
+              "Completed: (2) situation, (3) control, (4) reputation, (5) conduct, (6) respect, (7) behavior, (8) progressive, (9) discipline, (10) freedom, (11) punishment.",
+              "(5) \"the way the students conduct themselves\" = how they behave; (11) \"physical punishment\"."
+            ]
+          }
         },
         {
           "points": 15,
           "chapter": "past-papers",
-          "content": "Part 2: Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct a, h, cord. The first one has been done as an example for you.\nExample: We haven't got….b… money to buy a new car yet.\na. quite  b. too much  b. too many  d. enough\n\n1. Good management……. to the employee.\na. will be finished  b. are listened  c. listen  d. listens\n2. He has got a new friend……..works in the bank.\na. whose  b. where  c. who  d. which\n3. Your mother used to visit you quite often……?\na. didn't she  b. doesn't she  c. wouldn't she  d. hadn't she\n4. I…….. on the bus when I dropped my wallet.\na. am getting  b. get  c. was getting  d. have gotten\n5. More roads…………. every year.\na. was built  b. had built  c. are being built  d. are building"
+          "content": "Part 2: Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct a, h, cord. The first one has been done as an example for you.\nExample: We haven't got….b… money to buy a new car yet.\na. quite  b. too much  b. too many  d. enough\n\n1. Good management……. to the employee.\na. will be finished  b. are listened  c. listen  d. listens\n2. He has got a new friend……..works in the bank.\na. whose  b. where  c. who  d. which\n3. Your mother used to visit you quite often……?\na. didn't she  b. doesn't she  c. wouldn't she  d. hadn't she\n4. I…….. on the bus when I dropped my wallet.\na. am getting  b. get  c. was getting  d. have gotten\n5. More roads…………. every year.\na. was built  b. had built  c. are being built  d. are building",
+          "ai": {
+            "answer": "1. d. listens · 2. c. who · 3. a. didn't she · 4. c. was getting · 5. c. are being built",
+            "steps": [
+              "1. d. listens: good management (singular) listens.",
+              "2. c. who: who for a person (a friend who works in the bank).",
+              "3. a. didn't she: used to → tag didn't she.",
+              "4. c. was getting: past continuous interrupted by dropping the wallet.",
+              "5. c. are being built: present continuous passive: roads are being built."
+            ]
+          }
         },
         {
           "points": 15,
           "chapter": "past-papers",
-          "content": "Part 3: Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct a, b, c or d. The first one has been done as an example for you.\nExample: What are you going to buy your mother…..for… her birthday.\na. conclude  b. during  c. for  d. at\n\n1. What are you going to do when you……………..school\na. conclude  b. end  c. complete  d. leave\n2. All medicines should be kept out of……….of children.\na. hand  b. touch  c. contact  d. reach\n3. I le ……… to get some cards for his birthday, but none arrived.\na. promised  b. exacted  c. assume  d. supposed\n4. Is it possible to. ……………now for next terms' evening classes?\na. participate  b. join in  c. enroll  d. enter\n5.………… inform you that your grandmother died ten minutes ago.\na. apologies  b. sorry  c. pity  d. regret"
+          "content": "Part 3: Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct a, b, c or d. The first one has been done as an example for you.\nExample: What are you going to buy your mother…..for… her birthday.\na. conclude  b. during  c. for  d. at\n\n1. What are you going to do when you……………..school\na. conclude  b. end  c. complete  d. leave\n2. All medicines should be kept out of……….of children.\na. hand  b. touch  c. contact  d. reach\n3. I le ……… to get some cards for his birthday, but none arrived.\na. promised  b. exacted  c. assume  d. supposed\n4. Is it possible to. ……………now for next terms' evening classes?\na. participate  b. join in  c. enroll  d. enter\n5.………… inform you that your grandmother died ten minutes ago.\na. apologies  b. sorry  c. pity  d. regret",
+          "ai": {
+            "answer": "1. d. leave · 2. d. reach · 3. b. exacted (expected) · 4. c. enroll · 5. d. regret",
+            "steps": [
+              "1. d. leave: leave school.",
+              "2. d. reach: out of reach of children.",
+              "3. b. exacted (expected): he expected to get cards (\"exacted\" is a misprint).",
+              "4. c. enroll: enrol for classes.",
+              "5. d. regret: I regret to inform you."
+            ]
+          }
         },
         {
           "points": 10,
           "chapter": "past-papers",
-          "content": "Part 4. Writing\nWrite an essay in English at least 80 words about \"How to reduce road accident in Cambodia?\"."
+          "content": "Part 4. Writing\nWrite an essay in English at least 80 words about \"How to reduce road accident in Cambodia?\".",
+          "ai": {
+            "answer": "Model essay (AI): \"How to Reduce Road Accidents in Cambodia\" — the problem, actions for road users, actions for the authorities, conclusion. Tap Show the working to read it.",
+            "steps": [
+              "Plan: the problem, actions for road users, actions for the authorities, conclusion.",
+              "Road accidents kill thousands of people in Cambodia every year, and many of them could be prevented.",
+              "Road users can make the biggest difference. Drivers and riders should always wear a helmet or seat belt, keep to the speed limit, never drink and drive, and not use their phone while driving. Parents should not let young children ride motorbikes.",
+              "The authorities also have a role. They should enforce the traffic law fairly, improve roads, lights and signs, and teach road safety in schools and on TV.",
+              "If everyone respects the rules, our roads will be much safer for all.",
+              "Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."
+            ]
+          }
         }
       ]
     },
@@ -63,22 +105,59 @@
         {
           "points": 10,
           "chapter": "past-papers",
-          "content": "Part 1. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n(0) economics · ( ) television · ( ) department · ( ) money · ( ) promoted · ( ) waitress · ( ) presenters · ( ) was · ( ) applied · ( ) few months · ( ) job\n\nA working life\nWell I studied (0) … economics at university, and the I was lucky because I got a (1) …….. very quickly as an accountant in a local (2) …….. store. It wasn't exactly what I wanted, but you know, it was a first job. I stayed there for four years altogether. After three year I was (3) …….. to accounts manager, and I decided to leave and I (4) …….. for others jobs in the area. But I had no luck getting a second job at all, and I was very short of (5) ………., so in the end I had to get job working as a (6) ………. in a restaurant. Well it wasn't very successful because I'm quite clumsy you see I kept dropping things. So I after a few weeks they gave me sack. And then, just by chance I met an old friend who I (7) ……… at university with, and he was working in (8) ……… And he got me a job as television researcher on a programme called \"Business Today\". And after a (9)………. really they decided that want younger (10) ……… of the programme, and I got a job and I love it."
+          "content": "Part 1. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n(0) economics · ( ) television · ( ) department · ( ) money · ( ) promoted · ( ) waitress · ( ) presenters · ( ) was · ( ) applied · ( ) few months · ( ) job\n\nA working life\nWell I studied (0) … economics at university, and the I was lucky because I got a (1) …….. very quickly as an accountant in a local (2) …….. store. It wasn't exactly what I wanted, but you know, it was a first job. I stayed there for four years altogether. After three year I was (3) …….. to accounts manager, and I decided to leave and I (4) …….. for others jobs in the area. But I had no luck getting a second job at all, and I was very short of (5) ………., so in the end I had to get job working as a (6) ………. in a restaurant. Well it wasn't very successful because I'm quite clumsy you see I kept dropping things. So I after a few weeks they gave me sack. And then, just by chance I met an old friend who I (7) ……… at university with, and he was working in (8) ……… And he got me a job as television researcher on a programme called \"Business Today\". And after a (9)………. really they decided that want younger (10) ……… of the programme, and I got a job and I love it.",
+          "ai": {
+            "answer": "(1) job · (2) department · (3) promoted · (4) applied · (5) money · (6) waitress · (7) was · (8) television · (9) few months · (10) presenters",
+            "steps": [
+              "Completed: (1) job, (2) department, (3) promoted, (4) applied, (5) money, (6) waitress, (7) was, (8) television, (9) few months, (10) presenters."
+            ]
+          }
         },
         {
           "points": 15,
           "chapter": "past-papers",
-          "content": "Part 2. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.\nExample: You must have something to eat before …..b….. to school.\na. go  b. going  c. to go  d. of go\n\n1. Mr. Kingseng can't talk on the phone because he ……… dinner right now.\na. is eating  b. eats  c. has eaten  d. has been eating\n2. That little girl ……….. for the last two days.\na. hasn't eaten  b. doesn't eat  c. isn't eating  d. has eaten\n3. Several trees fell down last night …….. the strong wind.\na. because  b. so  c. since  d. because of\n4. I hope you ………… us when you come here.\na. visited  b. would visit  c. visit  d. will visit\n5. If she doesn't do he homework, she …………. punished.\na. is  b. would be  c. will be  d. will have"
+          "content": "Part 2. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.\nExample: You must have something to eat before …..b….. to school.\na. go  b. going  c. to go  d. of go\n\n1. Mr. Kingseng can't talk on the phone because he ……… dinner right now.\na. is eating  b. eats  c. has eaten  d. has been eating\n2. That little girl ……….. for the last two days.\na. hasn't eaten  b. doesn't eat  c. isn't eating  d. has eaten\n3. Several trees fell down last night …….. the strong wind.\na. because  b. so  c. since  d. because of\n4. I hope you ………… us when you come here.\na. visited  b. would visit  c. visit  d. will visit\n5. If she doesn't do he homework, she …………. punished.\na. is  b. would be  c. will be  d. will have",
+          "ai": {
+            "answer": "1. a. is eating · 2. a. hasn't eaten · 3. d. because of · 4. d. will visit · 5. c. will be",
+            "steps": [
+              "1. a. is eating: an action happening right now.",
+              "2. a. hasn't eaten: present perfect with \"for the last two days\".",
+              "3. d. because of: because of + noun phrase.",
+              "4. d. will visit: hope + will for the future.",
+              "5. c. will be: first conditional: if she doesn't…, she will be punished."
+            ]
+          }
         },
         {
           "points": 15,
           "chapter": "past-papers",
-          "content": "Part 3. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: He ……c…… that he still lives this daughter.\na. tells  b. speaks  c. says  d. told\n\n1. I'm really ………….. of my child who first prize in the art competition.\na. pleased  b. proud  c. happy  d. delighted\n2. In recent years inflection has almost double the ………… of living.\na. cost  b. expense  c. charge  d. price\n3. The restaurant services are bad, so we should write a ………. to the manager.\na. essay  b. message  c. complaint  d. information\n4. The plane was delayed by fog, and so I ………… my connection.\na. lost  b. abandoned  c. forgot  d. missed\n5. She went to the library to ……….\na. borrow a book  b. lend a book  c. let a book  d. hire a book"
+          "content": "Part 3. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: He ……c…… that he still lives this daughter.\na. tells  b. speaks  c. says  d. told\n\n1. I'm really ………….. of my child who first prize in the art competition.\na. pleased  b. proud  c. happy  d. delighted\n2. In recent years inflection has almost double the ………… of living.\na. cost  b. expense  c. charge  d. price\n3. The restaurant services are bad, so we should write a ………. to the manager.\na. essay  b. message  c. complaint  d. information\n4. The plane was delayed by fog, and so I ………… my connection.\na. lost  b. abandoned  c. forgot  d. missed\n5. She went to the library to ……….\na. borrow a book  b. lend a book  c. let a book  d. hire a book",
+          "ai": {
+            "answer": "1. b. proud · 2. a. cost · 3. c. complaint · 4. d. missed · 5. a. borrow a book",
+            "steps": [
+              "1. b. proud: proud of my child.",
+              "2. a. cost: the cost of living.",
+              "3. c. complaint: write a complaint.",
+              "4. d. missed: miss a connection.",
+              "5. a. borrow a book: you borrow a book from a library."
+            ]
+          }
         },
         {
           "points": 10,
           "chapter": "past-papers",
-          "content": "Part 4. Writing\nWrite an essay in English at least 80 words about \"Your goal in the future\"."
+          "content": "Part 4. Writing\nWrite an essay in English at least 80 words about \"Your goal in the future\".",
+          "ai": {
+            "answer": "Model essay (AI): \"My Goal in the Future\" — my goal, why, how I will reach it, conclusion. Tap Show the working to read it.",
+            "steps": [
+              "Plan: my goal, why, how I will reach it, conclusion.",
+              "My goal in the future is to become a doctor and work in my home province.",
+              "I chose this goal because many people in the countryside cannot get good medical care. When my grandmother was ill, we had to travel a long way to the hospital, and I saw how important a good doctor is.",
+              "To reach my goal, I will study hard for the BacII exam, especially biology and chemistry, and then apply to the University of Health Sciences. I will also improve my English so that I can read medical books and research.",
+              "It will take many years, but I believe that with patience and hard work I can make my dream come true and help my community.",
+              "Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."
+            ]
+          }
         }
       ]
     },
@@ -95,22 +174,59 @@
         {
           "points": 10,
           "chapter": "past-papers",
-          "content": "Part 1. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n( ) discussion · ( ) fire · ( ) to pay · ( ) originally · ( ) sports · ( ) converted · (1) rebuilt · ( ) used · ( ) businessman · ( ) money · ( ) indoors\n\nOpening of New Sport Centre\nThe Champa Sport Centre, which has been completely (1) …rebuilt…, was reopened yesterday by the Minister for Sport. The building was (2)…… used as a market, but was sold to Champa Council in 1981, and then (3) ……into a sports hall. Local schools played football and basketball (4) ……, and keep fit classes were held there. In 2001 the hall was damaged by a (5) ……which broke out in the heating system. The hall could not be used, and remained empty while (6) …… continued about its future. It was then decided that the hall would be rebuilt, and an appeal for (7) ……was launched. Two years ago a local (8) …… offered (9) ……for the building work, and plans were drawn up. The new hall includes a swimming pool, running track and other (10) ……facilities which can be (11) ……by anyone in the Champa area. The Minister made a speech in which he congratulated everyone involved."
+          "content": "Part 1. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n( ) discussion · ( ) fire · ( ) to pay · ( ) originally · ( ) sports · ( ) converted · (1) rebuilt · ( ) used · ( ) businessman · ( ) money · ( ) indoors\n\nOpening of New Sport Centre\nThe Champa Sport Centre, which has been completely (1) …rebuilt…, was reopened yesterday by the Minister for Sport. The building was (2)…… used as a market, but was sold to Champa Council in 1981, and then (3) ……into a sports hall. Local schools played football and basketball (4) ……, and keep fit classes were held there. In 2001 the hall was damaged by a (5) ……which broke out in the heating system. The hall could not be used, and remained empty while (6) …… continued about its future. It was then decided that the hall would be rebuilt, and an appeal for (7) ……was launched. Two years ago a local (8) …… offered (9) ……for the building work, and plans were drawn up. The new hall includes a swimming pool, running track and other (10) ……facilities which can be (11) ……by anyone in the Champa area. The Minister made a speech in which he congratulated everyone involved.",
+          "ai": {
+            "answer": "(2) originally · (3) converted · (4) indoors · (5) fire · (6) discussion · (7) money · (8) businessman · (9) to pay · (10) sports · (11) used",
+            "steps": [
+              "Completed: (2) originally, (3) converted, (4) indoors, (5) fire, (6) discussion, (7) money, (8) businessman, (9) to pay, (10) sports, (11) used."
+            ]
+          }
         },
         {
           "points": 15,
           "chapter": "past-papers",
-          "content": "Part 2. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.\nExample: …b…I go with you to the shops, Mum?\na. Will  b. May  c. Would  d. Won't\n\n1. Samnang works in the Post Office, ………?\na. is he  b. isn't he  c. works he  d. doesn't he\n2. My father ………. in the firm from 1975 to 1989. Now he's retried.\na. has worked  b. worked  c. is working  d. had worked\n3. Which sentence is the correct one?\na. I am a cool  b. I've catched a cold  c. I have cold  d. I have caught a cold\n4. I ……………on a bench in the park when they ran past me.\na. was sitting  b. have sat  c. sat  d. was sat\n5. Thida …………to the cinema if you went with her.\na. will go  b. would go  c. goes  d. went"
+          "content": "Part 2. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.\nExample: …b…I go with you to the shops, Mum?\na. Will  b. May  c. Would  d. Won't\n\n1. Samnang works in the Post Office, ………?\na. is he  b. isn't he  c. works he  d. doesn't he\n2. My father ………. in the firm from 1975 to 1989. Now he's retried.\na. has worked  b. worked  c. is working  d. had worked\n3. Which sentence is the correct one?\na. I am a cool  b. I've catched a cold  c. I have cold  d. I have caught a cold\n4. I ……………on a bench in the park when they ran past me.\na. was sitting  b. have sat  c. sat  d. was sat\n5. Thida …………to the cinema if you went with her.\na. will go  b. would go  c. goes  d. went",
+          "ai": {
+            "answer": "1. d. doesn't he · 2. b. worked · 3. d. I have caught a cold · 4. a. was sitting · 5. b. would go",
+            "steps": [
+              "1. d. doesn't he: question tag for a positive present simple sentence.",
+              "2. b. worked: past simple for a finished period (1975 to 1989).",
+              "3. d. I have caught a cold: catch a cold, present perfect: I have caught a cold.",
+              "4. a. was sitting: past continuous interrupted by the action of running past.",
+              "5. b. would go: second conditional: would go if you went."
+            ]
+          }
         },
         {
           "points": 15,
           "chapter": "past-papers",
-          "content": "Part 3. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: My parent often does ……d……with people from Korea,\na. affairs  b. finances  c. economy  d. business\n\n1. At …………..time there is always plenty of work to do on a farm.\na. production  b. profit  c. plant  d. harvest\n2. It is against the ………….not to wear seat belt in a plane.\na. rule  b. regulation  c. law  d. order\n3. Everything in the sale has been ……….to half price\na. reduced  b. decreased  c. bargained  d. lowered\n4. I ……….to inform you that your grandmother died ten minutes ago.\na. apologise  b. sorry  c. pity  d. regret\n5. We were unable to reach an agreement because of …………the between the two groups.\na. contact  b. concern  c. connection  d. conflict"
+          "content": "Part 3. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: My parent often does ……d……with people from Korea,\na. affairs  b. finances  c. economy  d. business\n\n1. At …………..time there is always plenty of work to do on a farm.\na. production  b. profit  c. plant  d. harvest\n2. It is against the ………….not to wear seat belt in a plane.\na. rule  b. regulation  c. law  d. order\n3. Everything in the sale has been ……….to half price\na. reduced  b. decreased  c. bargained  d. lowered\n4. I ……….to inform you that your grandmother died ten minutes ago.\na. apologise  b. sorry  c. pity  d. regret\n5. We were unable to reach an agreement because of …………the between the two groups.\na. contact  b. concern  c. connection  d. conflict",
+          "ai": {
+            "answer": "1. d. harvest · 2. b. regulation · 3. a. reduced · 4. d. regret · 5. d. conflict",
+            "steps": [
+              "1. d. harvest: harvest time on a farm.",
+              "2. b. regulation: on a plane, safety rules are regulations (\"against the regulations\").",
+              "3. a. reduced: reduced to half price.",
+              "4. d. regret: I regret to inform you (formal bad news).",
+              "5. d. conflict: a conflict between two groups."
+            ]
+          }
         },
         {
           "points": 10,
           "chapter": "past-papers",
-          "content": "Part 4. Writing\nWrite an essay \"Studying for Success\" at least 80 words."
+          "content": "Part 4. Writing\nWrite an essay \"Studying for Success\" at least 80 words.",
+          "ai": {
+            "answer": "Model essay (AI): \"Studying for Success\" — introduction, plan and habits, method, health, conclusion. Tap Show the working to read it.",
+            "steps": [
+              "Plan: introduction, plan and habits, method, health, conclusion.",
+              "Success at school does not come from luck but from good study habits.",
+              "First, students should make a timetable and study a little every day instead of trying to learn everything the night before an exam. Second, they should study actively: take notes in their own words, practise past exam papers, and ask the teacher or friends when they do not understand. Studying in a quiet place without phone distractions also helps.",
+              "Finally, health matters. Enough sleep, good food and some exercise keep the mind fresh.",
+              "In short, students who plan, practise regularly and look after themselves will be ready to succeed.",
+              "Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."
+            ]
+          }
         }
       ]
     },
@@ -126,19 +242,56 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\neconomic · earnings · disagreed · applications · employee · profitable · (1) advertising · resignation · qualified · unemployed · retirement\n\nLeaving a job\nI recently left my job in an …advertising…agency after disagreement with my boss. She accepted my (2) …. but warned me that because of the (3) ….. situation, I might have to get used to the idea of being (4) ….. for a while. I thought that she was trying to make a point, but after I had made over fifty (5) …… to other companies. O realized that she was right. Although I am a (6) …. designer. I don't receive any offers of a job. After that I tried working from home, but it was not very (7) ……Then I became and (8) ……. in a fast-food restaurant, even though my (9) …… were extremely low. I wish I had accepted early (10) …… from my old job. That is what I (11) ……. with my boss about!"
+          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\neconomic · earnings · disagreed · applications · employee · profitable · (1) advertising · resignation · qualified · unemployed · retirement\n\nLeaving a job\nI recently left my job in an …advertising…agency after disagreement with my boss. She accepted my (2) …. but warned me that because of the (3) ….. situation, I might have to get used to the idea of being (4) ….. for a while. I thought that she was trying to make a point, but after I had made over fifty (5) …… to other companies. O realized that she was right. Although I am a (6) …. designer. I don't receive any offers of a job. After that I tried working from home, but it was not very (7) ……Then I became and (8) ……. in a fast-food restaurant, even though my (9) …… were extremely low. I wish I had accepted early (10) …… from my old job. That is what I (11) ……. with my boss about!",
+          "ai": {
+            "answer": "(2) resignation · (3) economic · (4) unemployed · (5) applications · (6) qualified · (7) profitable · (8) employee · (9) earnings · (10) retirement · (11) disagreed",
+            "steps": [
+              "Completed: (2) resignation, (3) economic, (4) unemployed, (5) applications, (6) qualified, (7) profitable, (8) employee, (9) earnings, (10) retirement, (11) disagreed."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.\nExample: We saw …b…children in the park.\na. any  b. some  c. much  d. a\n\n1. We haven't got ……. money to buy a new car.\na. quite  b. too much  c. too many  d. enough\n2. The person …… my hair usually does a very good job.\na. who he cuts  b. who cuts  c. cuts  d. cuts it\n3. We ……. to the football game when it started to rain.\na. are driving  b. drives  c. driven  d. were driving\n4. The new bridge ……. before the end of next month.\na. will be completed  b. will complete  c. is completed  d. completes\n5. Their marriage wouldn't be so good if they ……. so well with each other.\na. communicated  b. didn't communicate  c. don't communicate  d. communicate"
+          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct one letter a, b, c or d. The first one was done as an example for you.\nExample: We saw …b…children in the park.\na. any  b. some  c. much  d. a\n\n1. We haven't got ……. money to buy a new car.\na. quite  b. too much  c. too many  d. enough\n2. The person …… my hair usually does a very good job.\na. who he cuts  b. who cuts  c. cuts  d. cuts it\n3. We ……. to the football game when it started to rain.\na. are driving  b. drives  c. driven  d. were driving\n4. The new bridge ……. before the end of next month.\na. will be completed  b. will complete  c. is completed  d. completes\n5. Their marriage wouldn't be so good if they ……. so well with each other.\na. communicated  b. didn't communicate  c. don't communicate  d. communicate",
+          "ai": {
+            "answer": "1. d. enough · 2. b. who cuts · 3. d. were driving · 4. a. will be completed · 5. b. didn't communicate",
+            "steps": [
+              "1. d. enough: enough money to buy.",
+              "2. b. who cuts: relative clause: the person who cuts my hair.",
+              "3. d. were driving: past continuous interrupted by the rain.",
+              "4. a. will be completed: future passive.",
+              "5. b. didn't communicate: second conditional: wouldn't be… if they didn't communicate."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: What are you going to do when you …d… school?\na. conclude  b. end  c. complete  d. leave\n\n1. I saw a nasty ……. between two cars this morning.\na. damage  b. danger  c. accident  d. happening\n2. All medicines should be kept out of ……. of children.\na. hand  b. touch  c. contact  d. reach\n3. Everything in the sale has been ……. to half price.\na. reduced  b. decreased  c. bargained  d. lowered\n4. At work, Vuthy always arrives on time, he's so …….\na. timeless  b. punctual  c. boring  d. careful\n5. It'll take you over an hour to get to the city center in ….. hour.\na. rush  b. busy  c. run  d. crowded"
+          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: What are you going to do when you …d… school?\na. conclude  b. end  c. complete  d. leave\n\n1. I saw a nasty ……. between two cars this morning.\na. damage  b. danger  c. accident  d. happening\n2. All medicines should be kept out of ……. of children.\na. hand  b. touch  c. contact  d. reach\n3. Everything in the sale has been ……. to half price.\na. reduced  b. decreased  c. bargained  d. lowered\n4. At work, Vuthy always arrives on time, he's so …….\na. timeless  b. punctual  c. boring  d. careful\n5. It'll take you over an hour to get to the city center in ….. hour.\na. rush  b. busy  c. run  d. crowded",
+          "ai": {
+            "answer": "1. c. accident · 2. d. reach · 3. a. reduced · 4. b. punctual · 5. a. rush",
+            "steps": [
+              "1. c. accident: a car accident.",
+              "2. d. reach: out of reach of children.",
+              "3. a. reduced: reduced to half price.",
+              "4. b. punctual: punctual = always on time.",
+              "5. a. rush: the rush hour."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "IV. Writing\nWrite an essay \"Role of women in modern Cambodia society\" at least 80 words."
+          "content": "IV. Writing\nWrite an essay \"Role of women in modern Cambodia society\" at least 80 words.",
+          "ai": {
+            "answer": "Model essay (AI): \"The Role of Women in Modern Cambodian Society\" — introduction, family, work and economy, public life, conclusion. Tap Show the working to read it.",
+            "steps": [
+              "Plan: introduction, family, work and economy, public life, conclusion.",
+              "In the past, Cambodian women were expected to stay at home. Today their role has grown far beyond the family.",
+              "Women are still at the heart of the family: they care for children and elderly parents and often manage the household money. At the same time, many women now work outside the home. They run businesses in markets, work in garment factories, banks and schools, and send money home from abroad, so they are a major force in the economy.",
+              "Women are also more active in public life. More girls finish school and go to university, and women serve as doctors, teachers, officials and members of parliament.",
+              "However, women still face challenges such as lower pay and violence. With equal education and opportunities, they can contribute even more to the development of Cambodia.",
+              "Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."
+            ]
+          }
         }
       ]
     },
@@ -154,19 +307,55 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "Part I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n( ) occupation · ( ) successful · ( ) embarrassment · ( ) hobby · ( ) failure · ( ) solution · (1) evening · ( ) secretarial · ( ) explanation · ( ) frozen · ( ) construction\n\nRecently I decided to go to (1) ……classes twice a week. During the day, I work in a (2) ……agency as a telephonist. It is not a very good interesting (3) ……and I get bored. I also got tired of coming home every evening putting a (4) ……meal in the oven and then watching TV. So, I decided to take up carpentry as a (5) ……. Perhaps I should give you an (6) …… for my choice. Learning a skill is a good (7) ……to the problem of boring work. Also, I felt I was a (8) …… because any time I tried to put up a shelf, for example, it always fell down. Now I am quite a (9) ……wood worker. I am working on the (10) ……of some furniture at the moment. And although there are only few students in the class, I don't feel any (11) ……I've turned out to be the best student in the class!"
+          "content": "Part I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\n( ) occupation · ( ) successful · ( ) embarrassment · ( ) hobby · ( ) failure · ( ) solution · (1) evening · ( ) secretarial · ( ) explanation · ( ) frozen · ( ) construction\n\nRecently I decided to go to (1) ……classes twice a week. During the day, I work in a (2) ……agency as a telephonist. It is not a very good interesting (3) ……and I get bored. I also got tired of coming home every evening putting a (4) ……meal in the oven and then watching TV. So, I decided to take up carpentry as a (5) ……. Perhaps I should give you an (6) …… for my choice. Learning a skill is a good (7) ……to the problem of boring work. Also, I felt I was a (8) …… because any time I tried to put up a shelf, for example, it always fell down. Now I am quite a (9) ……wood worker. I am working on the (10) ……of some furniture at the moment. And although there are only few students in the class, I don't feel any (11) ……I've turned out to be the best student in the class!",
+          "ai": {
+            "answer": "(2) secretarial · (3) occupation · (4) frozen · (5) hobby · (6) explanation · (7) solution · (8) failure · (9) successful · (10) construction · (11) embarrassment",
+            "steps": [
+              "Completed: (2) secretarial, (3) occupation, (4) frozen, (5) hobby, (6) explanation, (7) solution, (8) failure, (9) successful, (10) construction, (11) embarrassment."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "Part 2: Grammar\nThere are four answers after each statement. Only one answer in correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: Have you …b… my new car.\na. see  b. seen  c. seeing  d. saw\n\n1. Girls, you ……say those things about your teachers.\na. mustn't  b. haven't to  c. haven't  d. mustn't to\n2. Have another piece of cake. No, thanks, ……too much.\na. I've ate  b. I ate  c. I eaten  d. I've eaten\n3. I was going to do the washing. But the machine ….. down.\na. broke  b. breaks  c. broken  d. break\n4. My secretary was late, she had never …… late before.\na. was  b. had  c. came  d. been\n5. If you give me some money, I …… to go shopping.\na. can  b. could  c. will be able  d. will can"
+          "content": "Part 2: Grammar\nThere are four answers after each statement. Only one answer in correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: Have you …b… my new car.\na. see  b. seen  c. seeing  d. saw\n\n1. Girls, you ……say those things about your teachers.\na. mustn't  b. haven't to  c. haven't  d. mustn't to\n2. Have another piece of cake. No, thanks, ……too much.\na. I've ate  b. I ate  c. I eaten  d. I've eaten\n3. I was going to do the washing. But the machine ….. down.\na. broke  b. breaks  c. broken  d. break\n4. My secretary was late, she had never …… late before.\na. was  b. had  c. came  d. been\n5. If you give me some money, I …… to go shopping.\na. can  b. could  c. will be able  d. will can",
+          "ai": {
+            "answer": "1. a. mustn't · 2. d. I've eaten · 3. a. broke · 4. d. been · 5. c. will be able",
+            "steps": [
+              "1. a. mustn't: mustn't + verb for something not allowed.",
+              "2. d. I've eaten: present perfect: I have eaten too much.",
+              "3. a. broke: past simple: the machine broke down.",
+              "4. d. been: had never been late before.",
+              "5. c. will be able: first conditional: if you give me…, I will be able to…"
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "Part 3: Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: They …c… all day swimming and sunbathing at the beach.\na. did  b. used  c. spent  d. occupied\n\n1. Before you begin the exam paper, always read the ……. carefully.\na. orders  b. instructions  c. rules  d. answers\n2. If you put your money in the bank. It will earn percent ……….. .\na. interest  b. profit  c. deposit  d. investment\n3. Most people in the town ……. the idea fi Green and Clean city.\na. agree  b. approve  c. support  d. believe\n4. The plane was delayed by fog, and so I …… my connection.\na. lost  b. abandoned  c. forgot  d. missed\n5. The fans climbed over the fence to …… paying.\na. avoid  b. prevent  c. abandon  d. refuse"
+          "content": "Part 3: Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: They …c… all day swimming and sunbathing at the beach.\na. did  b. used  c. spent  d. occupied\n\n1. Before you begin the exam paper, always read the ……. carefully.\na. orders  b. instructions  c. rules  d. answers\n2. If you put your money in the bank. It will earn percent ……….. .\na. interest  b. profit  c. deposit  d. investment\n3. Most people in the town ……. the idea fi Green and Clean city.\na. agree  b. approve  c. support  d. believe\n4. The plane was delayed by fog, and so I …… my connection.\na. lost  b. abandoned  c. forgot  d. missed\n5. The fans climbed over the fence to …… paying.\na. avoid  b. prevent  c. abandon  d. refuse",
+          "ai": {
+            "answer": "1. b. instructions · 2. a. interest · 3. c. support · 4. d. missed · 5. a. avoid",
+            "steps": [
+              "1. b. instructions: read the instructions.",
+              "2. a. interest: money in the bank earns interest.",
+              "3. c. support: support an idea (\"fi\" is a misprint of \"of\").",
+              "4. d. missed: miss a connection (a connecting flight).",
+              "5. a. avoid: avoid paying."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "Part 4: Writing\nWriting an essay. There is too much traffic in the city. \"What do you think the authorities should do about it?\" at least 80 words."
+          "content": "Part 4: Writing\nWriting an essay. There is too much traffic in the city. \"What do you think the authorities should do about it?\" at least 80 words.",
+          "ai": {
+            "answer": "Model essay (AI): \"Too Much Traffic in the City\" — the problem, three actions for the authorities, conclusion. Tap Show the working to read it.",
+            "steps": [
+              "Plan: the problem, three actions for the authorities, conclusion.",
+              "Traffic jams in Phnom Penh waste time, burn fuel and pollute the air. The authorities should act in several ways.",
+              "First, they should improve public transport, with more city buses on clear routes, so that people can leave their cars and motorbikes at home. Second, they should enforce traffic laws strictly, especially against illegal parking on roads and pavements, which blocks the traffic. Third, they should plan the city better: build ring roads, fix traffic lights and move some offices, schools and markets away from the centre.",
+              "If these steps are taken and people follow the rules, the city will become safer, cleaner and easier to live in.",
+              "Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."
+            ]
+          }
         }
       ]
     },
@@ -182,19 +371,57 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\npracticing · raincoat · change · be able · offered · nothing · (1) tennis · soaked · relaxed · forget · drink\n\nA friend in the rain\nLast week I was walking home after playing (1)…tennis…. when it started raining very heavily. \"Oh no, I will get (2)……. Before I reach home\". I thought. \"I wish I had remembered to bring my (3)…….\" But unfortunately I had left it at home. \"How stupid of me! I always (4)…….. to bring it with me.\" Luckily just then a friend of mine passed in his car and (5)…….. me a lift. \"Are you going home?\" he asked \"or do you want to go for a (6)…….?\" \"I think I'd rather you took me home.\" I said. If I don't (7)…… my clothes, I know I will fall ill, and then I won't (8)….. to play in the tennis tournament next week. And I have been (9) …… hard for the last month. \"I will wait for you to change if you like\", he told me. \"I think it's time you (10)…… for a change\". You have been worrying to much about things lately. And people who worry too much fail ill more easily. It's got (11)…… to do with the rain."
+          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\npracticing · raincoat · change · be able · offered · nothing · (1) tennis · soaked · relaxed · forget · drink\n\nA friend in the rain\nLast week I was walking home after playing (1)…tennis…. when it started raining very heavily. \"Oh no, I will get (2)……. Before I reach home\". I thought. \"I wish I had remembered to bring my (3)…….\" But unfortunately I had left it at home. \"How stupid of me! I always (4)…….. to bring it with me.\" Luckily just then a friend of mine passed in his car and (5)…….. me a lift. \"Are you going home?\" he asked \"or do you want to go for a (6)…….?\" \"I think I'd rather you took me home.\" I said. If I don't (7)…… my clothes, I know I will fall ill, and then I won't (8)….. to play in the tennis tournament next week. And I have been (9) …… hard for the last month. \"I will wait for you to change if you like\", he told me. \"I think it's time you (10)…… for a change\". You have been worrying to much about things lately. And people who worry too much fail ill more easily. It's got (11)…… to do with the rain.",
+          "ai": {
+            "answer": "(2) soaked · (3) raincoat · (4) forget · (5) offered · (6) drink · (7) change · (8) be able · (9) practicing · (10) relaxed · (11) nothing",
+            "steps": [
+              "Completed: (2) soaked, (3) raincoat, (4) forget, (5) offered, (6) drink, (7) change, (8) be able, (9) practicing, (10) relaxed, (11) nothing.",
+              "(10) \"it's time you relaxed\" (it's time + past tense); (11) \"It's got nothing to do with the rain\"."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: We haven't got ….d…. money to buy a new car yet\na. quite  b. too much  c. too many  d. enough\n\n1. You must have something to eat before ……. to school.\na. go  b. going  c. to go  d. of go\n2. You have never seen this before……. you?\na. haven't  b. don't  c. do  d. have\n3. This problem …….. by this clever boy last night.\na. will be solved  b. is solved  c. was solved  d. solved\n4. What ….. you do if you won a lot of money.\na. will  b. must  c. would  d. have\n5. She was cleaning her teeth when the phone…….\na. was going to ring  b. was ringing  c. rang  d. ring"
+          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: We haven't got ….d…. money to buy a new car yet\na. quite  b. too much  c. too many  d. enough\n\n1. You must have something to eat before ……. to school.\na. go  b. going  c. to go  d. of go\n2. You have never seen this before……. you?\na. haven't  b. don't  c. do  d. have\n3. This problem …….. by this clever boy last night.\na. will be solved  b. is solved  c. was solved  d. solved\n4. What ….. you do if you won a lot of money.\na. will  b. must  c. would  d. have\n5. She was cleaning her teeth when the phone…….\na. was going to ring  b. was ringing  c. rang  d. ring",
+          "ai": {
+            "answer": "1. b. going · 2. d. have · 3. c. was solved · 4. c. would · 5. c. rang",
+            "steps": [
+              "1. b. going: before + -ing.",
+              "2. d. have: question tag: you have never seen…, have you?",
+              "3. c. was solved: past passive with \"last night\".",
+              "4. c. would: second conditional: if you won, what would you do?",
+              "5. c. rang: past simple for the short action that interrupted."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: On Sunday the children have swimming lessons at the swimming ….d…..\na. tank  b. well  c. bowl  d. pool\n\n1. What are you going to do when you …..school?\na. conclude  b. end  c. compete  d. leave\n2. The hotel services are bad, so we should write a…. to the manager.\na. complaint  b. message  c. information  d. essay\n3. Bopha cried out with ….. at the beautiful present Mr. Kimseng gave her.\na. depress  b. horror  c. anger  d. delight\n4. Is it possible to ….. now for next term's evening classes?\na. send  b. enroll  c. join in  d. enter\n5. Most parents finds it difficult to…… their children nowadays.\na. bring up  b. develop  c. grow up  d. set up"
+          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: On Sunday the children have swimming lessons at the swimming ….d…..\na. tank  b. well  c. bowl  d. pool\n\n1. What are you going to do when you …..school?\na. conclude  b. end  c. compete  d. leave\n2. The hotel services are bad, so we should write a…. to the manager.\na. complaint  b. message  c. information  d. essay\n3. Bopha cried out with ….. at the beautiful present Mr. Kimseng gave her.\na. depress  b. horror  c. anger  d. delight\n4. Is it possible to ….. now for next term's evening classes?\na. send  b. enroll  c. join in  d. enter\n5. Most parents finds it difficult to…… their children nowadays.\na. bring up  b. develop  c. grow up  d. set up",
+          "ai": {
+            "answer": "1. d. leave · 2. a. complaint · 3. d. delight · 4. b. enroll · 5. a. bring up",
+            "steps": [
+              "1. d. leave: leave school (finish your studies).",
+              "2. a. complaint: write a complaint to the manager.",
+              "3. d. delight: cry out with delight at a beautiful present.",
+              "4. b. enroll: enrol for classes.",
+              "5. a. bring up: bring up (raise) children."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "IV. Writing\nWrite an essay \"Life in the countryside\" at least 180 words."
+          "content": "IV. Writing\nWrite an essay \"Life in the countryside\" at least 180 words.",
+          "ai": {
+            "answer": "Model essay (AI): \"Life in the Countryside\" — introduction, advantages, disadvantages, conclusion. Tap Show the working to read it.",
+            "steps": [
+              "Plan: introduction, advantages, disadvantages, conclusion.",
+              "Most Cambodians were born in the countryside or have family there. Life in a village is very different from life in Phnom Penh, and it has both strong points and weak points.",
+              "One great advantage of country life is the clean and peaceful environment. The air is fresh, there is little traffic and people can enjoy green rice fields, rivers and quiet evenings. Food is also fresh and cheap because many families grow their own vegetables and raise animals. In addition, villagers usually know and help each other, so there is a strong sense of community.",
+              "On the other hand, the countryside has some disadvantages. There are fewer jobs, so many young people move to the city or abroad to earn money. Schools, hospitals and markets may be far away, and roads can be poor in the rainy season. Some villages still lack clean water, electricity or internet.",
+              "In conclusion, life in the countryside is calm and healthy, but it offers fewer opportunities. If the government improves roads, schools and services, more people will be happy to stay and build their future there.",
+              "Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."
+            ]
+          }
         }
       ]
     },
@@ -210,19 +437,58 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\nrecovery · month · treatment · poisonous · weight · disease · (1) doctor · heartened · optimistic · infectious · painful\n\nA visit to the doctor's\nKimseng decided to visit the (1)….doctor…. after his trip to the jungle. He was normally a tall muscular person. but over the past (2)……….. he had lost a lot of (3)………… He had also notices that his ankles and knees had become rather (4)……………. He thought that he might have eaten or drunk something(5)……………. or caught some kinds of (6)………………. disease. The doctor took some blood for tests and told Kimseng felt quite (8)…………. \"Don't worry\" said the doctor, \"It's nothing serious. You haven't caught an incurable (9)………………… or anything terrible like that. It's a simple virus, and you will need some (10)……………. take these tablets twice a day for two weeks, and you'll make a full (11)………………\"."
+          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\nrecovery · month · treatment · poisonous · weight · disease · (1) doctor · heartened · optimistic · infectious · painful\n\nA visit to the doctor's\nKimseng decided to visit the (1)….doctor…. after his trip to the jungle. He was normally a tall muscular person. but over the past (2)……….. he had lost a lot of (3)………… He had also notices that his ankles and knees had become rather (4)……………. He thought that he might have eaten or drunk something(5)……………. or caught some kinds of (6)………………. disease. The doctor took some blood for tests and told Kimseng felt quite (8)…………. \"Don't worry\" said the doctor, \"It's nothing serious. You haven't caught an incurable (9)………………… or anything terrible like that. It's a simple virus, and you will need some (10)……………. take these tablets twice a day for two weeks, and you'll make a full (11)………………\".",
+          "ai": {
+            "answer": "(2) month(s) · (3) weight · (4) painful · (5) poisonous · (6) infectious · (7) optimistic · (8) heartened · (9) disease · (10) treatment · (11) recovery",
+            "steps": [
+              "Completed: (2) month(s), (3) weight, (4) painful, (5) poisonous, (6) infectious, (7) optimistic, (8) heartened, (9) disease, (10) treatment, (11) recovery.",
+              "Gap (7) is missing from the copy's text; \"optimistic\" (the doctor was optimistic) is the word left that fits before Kimseng felt (8) heartened."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: we saw ….d…. children in the park.\na. any  b. much  c. a  d. some\n\n1. Ankor wat temple ……………by thousands of tourists every month.\na. was visited  b. visited  c. are visited  d. is visited\n2. Mr. Sophal can't talk on the phone because he …………… dinner right now.\na. eats  b. is eating  c. has eaten  d. has been eating\n3. I …………. the house before you called.\na. leave  b. has left  c. am leaving  d. had been leaving\n4. If I found a wallet on the street, I ………. it to police station.\na. will take  b. take  c. would take  d. am taking\n5. The tree, ………… behind my house, give a lot of shade.\na. grows.  b. which it grows  c. which grows  d. it grows"
+          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: we saw ….d…. children in the park.\na. any  b. much  c. a  d. some\n\n1. Ankor wat temple ……………by thousands of tourists every month.\na. was visited  b. visited  c. are visited  d. is visited\n2. Mr. Sophal can't talk on the phone because he …………… dinner right now.\na. eats  b. is eating  c. has eaten  d. has been eating\n3. I …………. the house before you called.\na. leave  b. has left  c. am leaving  d. had been leaving\n4. If I found a wallet on the street, I ………. it to police station.\na. will take  b. take  c. would take  d. am taking\n5. The tree, ………… behind my house, give a lot of shade.\na. grows.  b. which it grows  c. which grows  d. it grows",
+          "ai": {
+            "answer": "1. d. is visited · 2. b. is eating · 3. d. had been leaving · 4. c. would take · 5. c. which grows",
+            "steps": [
+              "1. d. is visited: present passive with \"every month\".",
+              "2. b. is eating: an action happening right now.",
+              "3. d. had been leaving: the only past perfect choice for an action before you called (\"had left\" would be best).",
+              "4. c. would take: second conditional: if + past, would + verb.",
+              "5. c. which grows: a relative clause: which grows behind my house."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: How ….b…. is it from here to city center?\na. long  b. far  c. near  d. distant\n\n1. How much do they …………for cleaning your room?\na. demand  b. cost  c. charge  d. need\n2. In some countries, smoking in public places is ………… Because many people are hurt of smoke.\na. prohibited  b. increased  c. encourage  d. continued\n3. The movement should …………a law to make computer hacking illegal.\na. allow  b. enter  c. pass  d. bring\n4. The bad weather …………… The flight for several hours.\na. postponed  b. delayed  c. cancelled  d. stopped\n5. In recent years, inflation has almost double the ……….. Of living.\na. price  b. expense  c. charge  d. cost"
+          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: How ….b…. is it from here to city center?\na. long  b. far  c. near  d. distant\n\n1. How much do they …………for cleaning your room?\na. demand  b. cost  c. charge  d. need\n2. In some countries, smoking in public places is ………… Because many people are hurt of smoke.\na. prohibited  b. increased  c. encourage  d. continued\n3. The movement should …………a law to make computer hacking illegal.\na. allow  b. enter  c. pass  d. bring\n4. The bad weather …………… The flight for several hours.\na. postponed  b. delayed  c. cancelled  d. stopped\n5. In recent years, inflation has almost double the ……….. Of living.\na. price  b. expense  c. charge  d. cost",
+          "ai": {
+            "answer": "1. c. charge · 2. a. prohibited · 3. c. pass · 4. b. delayed · 5. d. cost",
+            "steps": [
+              "1. c. charge: charge (money) for a service.",
+              "2. a. prohibited: smoking is prohibited (not allowed).",
+              "3. c. pass: pass a law.",
+              "4. b. delayed: the weather delayed the flight.",
+              "5. d. cost: the cost of living."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "IV. Writing\nWrite an essay \"What make a good parent\" at least 180 words."
+          "content": "IV. Writing\nWrite an essay \"What make a good parent\" at least 180 words.",
+          "ai": {
+            "answer": "Model essay (AI): \"What Makes a Good Parent\" — introduction, love and time, guidance and example, support for education, conclusion. Tap Show the working to read it.",
+            "steps": [
+              "Plan: introduction, love and time, guidance and example, support for education, conclusion.",
+              "Being a parent is one of the most important jobs in the world, but there is no school that teaches it. In my view, a good parent has several qualities.",
+              "First of all, a good parent gives love and time. Children need to feel safe and valued. Parents who listen to their children, play with them and talk about their problems help them grow up happy and confident.",
+              "Secondly, a good parent guides children and sets a good example. Children copy what they see, so parents should be honest, polite and hard-working themselves. They should also set clear rules and explain why the rules matter, rather than simply punishing.",
+              "Thirdly, a good parent supports their children's education. This does not only mean paying for school, but also encouraging them to study, showing interest in their progress and helping them choose their future path.",
+              "In conclusion, good parents are not perfect people. They are people who love their children, guide them patiently and help them become responsible adults. Their reward is to see their sons and daughters grow into kind, confident and useful members of society.",
+              "Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."
+            ]
+          }
         }
       ]
     },
@@ -239,19 +505,59 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\ntimetable · help · information · taught · afterwards · memories · heart · waste · look · (1) subject · result · understanding\n\nLearning how to learn\nThere is usually on important (1) …subject… missing from most school (2) ……. Very few students are (3) ………. how to organize their learning, and how to make the best use of their time. Let's take some simple examples. Do you know how to (4) ……. up words in a dictionary, and do you understand all the (5) …….the dictionary contains? Can you make notes quickly, and can you understand them (6) ……..? For some reasons , many school give learners no (7) …….. with this matters. Teachers ask students to (8) ……… pages from books, or tell them to write ten pages, but don't explain how to do it. Learning by (9) ……. Can be useful, but it is more important to have a genuine (10) …….. of a subject. You can (11) …….. a lot of time memorizing books, without understanding anything about the subject."
+          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\ntimetable · help · information · taught · afterwards · memories · heart · waste · look · (1) subject · result · understanding\n\nLearning how to learn\nThere is usually on important (1) …subject… missing from most school (2) ……. Very few students are (3) ………. how to organize their learning, and how to make the best use of their time. Let's take some simple examples. Do you know how to (4) ……. up words in a dictionary, and do you understand all the (5) …….the dictionary contains? Can you make notes quickly, and can you understand them (6) ……..? For some reasons , many school give learners no (7) …….. with this matters. Teachers ask students to (8) ……… pages from books, or tell them to write ten pages, but don't explain how to do it. Learning by (9) ……. Can be useful, but it is more important to have a genuine (10) …….. of a subject. You can (11) …….. a lot of time memorizing books, without understanding anything about the subject.",
+          "ai": {
+            "answer": "(2) timetable(s) · (3) taught · (4) look · (5) information · (6) afterwards · (7) help · (8) memorise (printed \"memories\") · (9) heart · (10) understanding · (11) waste",
+            "steps": [
+              "Completed: (2) timetable(s), (3) taught, (4) look, (5) information, (6) afterwards, (7) help, (8) memorise (printed \"memories\"), (9) heart, (10) understanding, (11) waste.",
+              "Word not needed: result.",
+              "(9) \"learning by heart\" means memorising; (11) \"waste a lot of time\"."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: Yesterday she …d… to Siem Reap.\na. go  b. is going  c. goes  d. went\n\n1. We …….. with the prime minister for dinner at the Sunway Hotel tonight.\na. will be met  b. have been met  c. were met  d. are meeting\n2. Mr. Sambath …….. his vacation after the project is completed.\na. will take  b. took  c. has taken  d. taking\n3. Mr. Chantha …….. for the day when the phone call came.\na. has already left  b. already leaves  c. already left  d. had already left\n4. If we keep …….. like this, we should be done before the deadline.\na. working  b. worked  c. to work  d. work\n5. The benefits programme ……… in the next few months.\na. had changed  b. were changed  c. will be changed  d. changed"
+          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: Yesterday she …d… to Siem Reap.\na. go  b. is going  c. goes  d. went\n\n1. We …….. with the prime minister for dinner at the Sunway Hotel tonight.\na. will be met  b. have been met  c. were met  d. are meeting\n2. Mr. Sambath …….. his vacation after the project is completed.\na. will take  b. took  c. has taken  d. taking\n3. Mr. Chantha …….. for the day when the phone call came.\na. has already left  b. already leaves  c. already left  d. had already left\n4. If we keep …….. like this, we should be done before the deadline.\na. working  b. worked  c. to work  d. work\n5. The benefits programme ……… in the next few months.\na. had changed  b. were changed  c. will be changed  d. changed",
+          "ai": {
+            "answer": "1. d. are meeting · 2. a. will take · 3. d. had already left · 4. a. working · 5. c. will be changed",
+            "steps": [
+              "1. d. are meeting: present continuous for a fixed future arrangement (tonight).",
+              "2. a. will take: future: after the project is completed.",
+              "3. d. had already left: past perfect: he left before the call came.",
+              "4. a. working: keep + -ing.",
+              "5. c. will be changed: future passive: the programme will be changed."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: When I was twelve, my father taught me how to ….b….. chess.\na. do  b. play  c. make  d. collect\n\n1. At the age of 60, Mr. Vuth retired and lived off his …… .\na. salary  b. allowance  c. grant  d. pension\n2. Please confirm you reservation in ……….\na. letter  b. writing  c. words  d. paper\n3. Everybody knew Samnang had …….. a crime bit nobody wanted to tell the police.\na. committed  b. done  c. made  d. performed\n4. The researchers ……… many experiments to find to most effective materials.\na. considered  b. confirmed  c. concerned  d. conducted\n5. I ……… on the news that the price of gas is going up again.\na. looked  b. listened  c. heard  d. watched"
+          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: When I was twelve, my father taught me how to ….b….. chess.\na. do  b. play  c. make  d. collect\n\n1. At the age of 60, Mr. Vuth retired and lived off his …… .\na. salary  b. allowance  c. grant  d. pension\n2. Please confirm you reservation in ……….\na. letter  b. writing  c. words  d. paper\n3. Everybody knew Samnang had …….. a crime bit nobody wanted to tell the police.\na. committed  b. done  c. made  d. performed\n4. The researchers ……… many experiments to find to most effective materials.\na. considered  b. confirmed  c. concerned  d. conducted\n5. I ……… on the news that the price of gas is going up again.\na. looked  b. listened  c. heard  d. watched",
+          "ai": {
+            "answer": "1. d. pension · 2. b. writing · 3. a. committed · 4. d. conducted · 5. c. heard",
+            "steps": [
+              "1. d. pension: retired people live off a pension.",
+              "2. b. writing: confirm in writing.",
+              "3. a. committed: commit a crime.",
+              "4. d. conducted: conduct experiments.",
+              "5. c. heard: hear something on the news."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "IV. Writing\nWrite an essay \"The value of Higher Education\" at least 180 words."
+          "content": "IV. Writing\nWrite an essay \"The value of Higher Education\" at least 180 words.",
+          "ai": {
+            "answer": "Model essay (AI): \"The Value of Higher Education\" — introduction, better jobs, personal growth, benefits to the country, conclusion. Tap Show the working to read it.",
+            "steps": [
+              "Plan: introduction, better jobs, personal growth, benefits to the country, conclusion.",
+              "After finishing high school, many young Cambodians wonder whether they should continue to university. In my opinion, higher education has great value, both for the individual and for society.",
+              "First, a university degree opens the door to better jobs. Employers look for people with specialist knowledge and skills, so graduates usually find work more easily and earn higher salaries. This helps them support their families and improve their standard of living.",
+              "Second, higher education helps people grow. Students learn to think critically, solve problems, work in teams and express their ideas clearly. They also meet people from different backgrounds and become more confident and independent.",
+              "Finally, educated citizens are important for the development of the country. Cambodia needs doctors, engineers, teachers and business leaders to build a strong economy and a fair society. Graduates can also share what they have learned with their families and communities, so the benefits spread far beyond the university.",
+              "In conclusion, higher education is an investment that brings rewards for a whole lifetime. Students who have the chance to study further should take it and work hard.",
+              "Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."
+            ]
+          }
         }
       ]
     },
@@ -268,19 +574,58 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\ncandidate · eligible · result · opinion pool · violent · (1) predict · ballot box · polling day · support · election campaign · polling station · winner\n\nElection\nPeople sometimes try to (1) predict ……. the result of an election weeks before it takes place. Several hundred people are asked which party they prefer, and their answers are used to guess the (2)…….. of the coming election. This is called an (3) ………. Meanwhile each party conducts its (4) ………. with meetings, speeches, television commercials and party members going form door to door encouraging people to (5) ……. Their party. In Cambodia everyone over 18 is (6)……… to vote. The place where people go to vote in an election is called a (7) ……… and the day of the election is often known as (8)…………. The voters put their votes in a (9)………. And later they are counted. The (10)……… with the most bites in then declared the (11)………. ."
+          "content": "I. Reading\nRead the text and fill the gaps with the words in the box. Gap one has been done as an example.\n\ncandidate · eligible · result · opinion pool · violent · (1) predict · ballot box · polling day · support · election campaign · polling station · winner\n\nElection\nPeople sometimes try to (1) predict ……. the result of an election weeks before it takes place. Several hundred people are asked which party they prefer, and their answers are used to guess the (2)…….. of the coming election. This is called an (3) ………. Meanwhile each party conducts its (4) ………. with meetings, speeches, television commercials and party members going form door to door encouraging people to (5) ……. Their party. In Cambodia everyone over 18 is (6)……… to vote. The place where people go to vote in an election is called a (7) ……… and the day of the election is often known as (8)…………. The voters put their votes in a (9)………. And later they are counted. The (10)……… with the most bites in then declared the (11)………. .",
+          "ai": {
+            "answer": "(2) result · (3) opinion poll · (4) election campaign · (5) support · (6) eligible · (7) polling station · (8) polling day · (9) ballot box · (10) candidate · (11) winner",
+            "steps": [
+              "Completed: (2) result, (3) opinion poll, (4) election campaign, (5) support, (6) eligible, (7) polling station, (8) polling day, (9) ballot box, (10) candidate, (11) winner.",
+              "Word not needed: violent.",
+              "The box prints \"opinion pool\"; the phrase is \"opinion poll\"."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: Yesterday she …..went… to Siem Reap.\na. go  b. is going  c. goes  d. went\n\n1. Although Ms. Thida………. reservation, the hotel did not have a room for her.\na. make  b. has make  c. had make  d. makes\n2. I ……….. on the bus when I dropped my wallet.\na. am getting  b. have gotten  c. get  d. was getting\n3. Several trees fell down last night………….. the strong wind.\na. because of  b. since  c. haven't eaten  d. didn't eat\n4. We………….. at that restaurant during the last few months.\na. don't eat  b. won't eat  c. haven't eaten  d. didn't eat\n5. Mr. Dara………… so many accidents if he drove more carefully.\na. would have  b. won't have  c. would have had  d. wouldn't have"
+          "content": "II. Grammar\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: Yesterday she …..went… to Siem Reap.\na. go  b. is going  c. goes  d. went\n\n1. Although Ms. Thida………. reservation, the hotel did not have a room for her.\na. make  b. has make  c. had make  d. makes\n2. I ……….. on the bus when I dropped my wallet.\na. am getting  b. have gotten  c. get  d. was getting\n3. Several trees fell down last night………….. the strong wind.\na. because of  b. since  c. haven't eaten  d. didn't eat\n4. We………….. at that restaurant during the last few months.\na. don't eat  b. won't eat  c. haven't eaten  d. didn't eat\n5. Mr. Dara………… so many accidents if he drove more carefully.\na. would have  b. won't have  c. would have had  d. wouldn't have",
+          "ai": {
+            "answer": "1. c. had make (had made) · 2. d. was getting · 3. a. because of · 4. c. haven't eaten · 5. d. wouldn't have",
+            "steps": [
+              "1. c. had make (had made): she had made the booking before she arrived (past perfect; the paper misprints \"made\").",
+              "2. d. was getting: past continuous for an action in progress when something happened.",
+              "3. a. because of: \"because of\" + a noun (the strong wind).",
+              "4. c. haven't eaten: present perfect with \"during the last few months\".",
+              "5. d. wouldn't have: second conditional: if + past, would/wouldn't + verb."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: When I was twelve, my father taught me how to …play…chess.\na. do  b. play  c. make  d. collect\n\n1. I'm really ……… of my son who won first prize is the art competition.\na. pleased  b. proud  c. delighted  d. happy\n2. We all need to ……….. responsibility for improving our local community.\na. have  b. make  c. take  d. give\n3. It's important to set yourself clear ……… so you know what you are aiming for.\na. ambitions  b. opportunities  c. decisions  d. golds\n4. According to the weather…………, there will be rain tomorrow.\na. programme  b. information  c. survey  d. forecast\n5. Many people believe that violent computer games can have a harmful…………. on children.\na. effect  b. affect  c. damage  d. involvement"
+          "content": "III. Vocabulary\nThere are four answers after each statement. Only one answer is correct. Choose the correct letter a, b, c or d. The first one was done as an example for you.\nExample: When I was twelve, my father taught me how to …play…chess.\na. do  b. play  c. make  d. collect\n\n1. I'm really ……… of my son who won first prize is the art competition.\na. pleased  b. proud  c. delighted  d. happy\n2. We all need to ……….. responsibility for improving our local community.\na. have  b. make  c. take  d. give\n3. It's important to set yourself clear ……… so you know what you are aiming for.\na. ambitions  b. opportunities  c. decisions  d. golds\n4. According to the weather…………, there will be rain tomorrow.\na. programme  b. information  c. survey  d. forecast\n5. Many people believe that violent computer games can have a harmful…………. on children.\na. effect  b. affect  c. damage  d. involvement",
+          "ai": {
+            "answer": "1. b. proud · 2. c. take · 3. d. golds (goals) · 4. d. forecast · 5. a. effect",
+            "steps": [
+              "1. b. proud: proud of someone.",
+              "2. c. take: take responsibility for.",
+              "3. d. golds (goals): set yourself clear goals (\"golds\" is a misprint).",
+              "4. d. forecast: the weather forecast.",
+              "5. a. effect: a harmful effect on (noun; \"affect\" is a verb)."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "IV. Writing\nWrite an essay \"Advantages and Disadvantages of TV\" at least 180 words."
+          "content": "IV. Writing\nWrite an essay \"Advantages and Disadvantages of TV\" at least 180 words.",
+          "ai": {
+            "answer": "Model essay (AI): \"Advantages and Disadvantages of TV\" — introduction, advantages, disadvantages, conclusion. Tap Show the working to read it.",
+            "steps": [
+              "Plan: introduction, advantages, disadvantages, conclusion.",
+              "Television is found in almost every home in Cambodia today. Like most inventions, it brings both benefits and problems, so it is worth looking at both sides.",
+              "First, TV is an important source of news and information. People can follow what is happening in the country and around the world, learn about health, farming or the weather, and watch educational programmes that help students with their lessons. Moreover, TV is a cheap form of entertainment: after a long day, families can relax together and enjoy films, music and sport.",
+              "However, television also has disadvantages. Many people, especially children, spend too many hours in front of the screen instead of studying, playing outside or talking with their family. This can harm their health and their results at school. In addition, some programmes show violence or advertisements that encourage people to buy things they do not need.",
+              "In conclusion, TV is neither good nor bad in itself. If we choose useful programmes and limit the time we spend watching, it can be a valuable tool for learning and relaxing. Parents in particular should guide their children and switch the TV off at homework time.",
+              "Check: an introduction, one idea per paragraph with examples, linking words (first, moreover, however, in conclusion) and a short conclusion."
+            ]
+          }
         }
       ]
     }
