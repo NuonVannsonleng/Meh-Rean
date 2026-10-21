@@ -611,6 +611,15 @@ timing only in database functions, never in the browser.
   income). The 2021 density is worked: 11 437 656 ÷ 181 035 ≈ 63.18
   people per km². There is no 2018 paper in the source copies. Labelled
   ai-generated and needs-review. Tests: `test:past-papers` 11/11.
+- **2026-10-21 — AI answer key, part 12: earth and environmental science
+  2016–2022.** 26 answers in Khmer (galaxies, the Sun, weathering, fossil
+  fuels, the water cycle, the greenhouse effect, Earth's motions and the
+  solstices, planets, soils, minerals, energy, waste), with the
+  Cambodia-specific lists from the copies' marking keys (four mineral
+  groups, five soil types, gem provinces). With this every past-paper
+  question has an AI answer key: 655 of 655, all ai-generated and
+  needs-review. Tests: `test:past-papers` 11/11; every earth-science key
+  checked on a 375px phone.
 
 ## Blockers and things that need a person
 
