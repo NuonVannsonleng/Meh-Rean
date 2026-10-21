@@ -571,6 +571,17 @@ timing only in database functions, never in the browser.
   well-known facts about them; each essay reminds students to check names
   and authors against their textbook. Labelled ai-generated and
   needs-review. Tests: `test:past-papers` 11/11.
+- **2026-10-21 — AI answer key, part 9: history 2014–2022 (both
+  tracks).** 77 answers in Khmer (science 39, social 38) built from one
+  shared bank, so a topic asked in both tracks (the 1970 coup, the
+  protectorate, ASEAN, the win-win policy, 7 January 1979…) gets the same
+  answer. They follow the curriculum the copies' marking keys reflect, with
+  the established dates and names (for example 11 August 1863, 9 November
+  1953, 18 March 1970, 2 December 1978, 23 October 1991, 29 December
+  1998, ASEAN on 30 April 1999), avoid disputed figures, and note
+  Timor-Leste joining ASEAN in October 2025, after these papers. Labelled
+  ai-generated and needs-review. The setup SQL now splits into 5 parts.
+  Tests: `test:past-papers` 11/11.
 
 ## Blockers and things that need a person
 
