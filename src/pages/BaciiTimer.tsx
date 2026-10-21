@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowLeftIcon } from "../components/Icons";
+import { ArrowLeftIcon, FileTextIcon } from "../components/Icons";
 import PaperViews from "../components/PaperViews";
 import examTimings from "../data/bacii/exam-timings.json";
 import { t } from "../i18n/en";
-import { crossedWarnings, elapsedMs, formatClock, isFinished, pauseTimer, readTimer, remainingMs, resumeTimer, startTimer, warningsFor, type TimerState } from "../lib/examTimer";
+import { crossedWarnings, elapsedMs, formatClock, isFinished, isStale, pauseTimer, readTimer, remainingMs, resumeTimer, startTimer, warningsFor, type TimerState } from "../lib/examTimer";
 import { getExamPaper } from "../services/api";
 import type { ExamPaperDetail } from "../types";
 
@@ -88,7 +88,10 @@ export default function BaciiTimer() {
   const [subjectId, setSubjectId] = useState(tracks[0].subjects[0].id);
   const [customMinutes, setCustomMinutes] = useState(60);
   const [mode, setMode] = useState<TimerState["mode"]>("exam");
-  const [timer, setTimer] = useState<TimerState | null>(() => readTimer(store.get(TIMER_KEY)));
+  const [timer, setTimer] = useState<TimerState | null>(() => {
+    const saved = readTimer(store.get(TIMER_KEY));
+    return saved && isStale(saved, Date.now()) ? null : saved;
+  });
   const [now, setNow] = useState(() => Date.now());
   const [alert, setAlert] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>(readHistory);
@@ -99,8 +102,13 @@ export default function BaciiTimer() {
   const recorded = useRef(false);
   const [paper, setPaper] = useState<ExamPaperDetail | null>(null);
   const [paperFailed, setPaperFailed] = useState(false);
-  // The running paper wins over the link, so a reload keeps the same paper.
-  const paperId = paperIdOf(timer?.subjectKey) ?? (timer ? null : params.get("paper"));
+  const linkPaper = params.get("paper");
+  const autoStart = params.get("start");
+  const startLink = linkPaper && (autoStart === "exam" || autoStart === "practice") ? linkPaper : null;
+  // Start on a paper replaces a saved timer, unless it is that same paper still running.
+  const replacing = Boolean(startLink && timer && !(paperIdOf(timer.subjectKey) === startLink && !isFinished(timer, now)));
+  // Otherwise the running paper wins over the link, so a reload keeps the same paper.
+  const paperId = replacing ? startLink : (paperIdOf(timer?.subjectKey) ?? (timer ? null : linkPaper));
 
   useEffect(() => {
     if (!paperId) {
@@ -178,6 +186,8 @@ export default function BaciiTimer() {
   useEffect(() => {
     if (!timer || !isFinished(timer, now) || recorded.current) return;
     recorded.current = true;
+    // Already in the list from an earlier visit.
+    if (readHistory().some((item) => item.subjectKey === timer.subjectKey && item.at >= timer.startedAt)) return;
     const item: HistoryItem = { subjectKey: timer.subjectKey, usedMs: elapsedMs(timer, now), at: Date.now(), ...(timedPaper && { label: timedPaper.titleKm }) };
     const list = [item, ...readHistory()].slice(0, 10);
     store.set(HISTORY_KEY, JSON.stringify(list));
@@ -207,10 +217,16 @@ export default function BaciiTimer() {
     begin(mode);
   };
   // "Start" on a paper goes straight into the sitting: no second screen to tap through.
-  const autoStart = params.get("start");
   useEffect(() => {
-    if (timer || !timedPaper?.durationMinutes || (autoStart !== "exam" && autoStart !== "practice")) return;
-    begin(autoStart);
+    if (!startLink) return;
+    if (timer && !replacing) {
+      // That paper is already running: carry on with it.
+    } else if (paperFailed) {
+      // A broken link: fall back to choosing a subject.
+      setTimer(null);
+    } else if (timedPaper?.durationMinutes) {
+      begin(autoStart as TimerState["mode"]);
+    } else return;
     setParams(
       (current) => {
         const next = new URLSearchParams(current);
@@ -219,7 +235,7 @@ export default function BaciiTimer() {
       },
       { replace: true },
     );
-  }, [timedPaper, autoStart]);
+  }, [timedPaper, startLink, replacing, paperFailed]);
   const finishEarly = () => {
     if (!timer || !window.confirm(copy.finishConfirm)) return;
     // Ends the sitting now: the time used is what was spent.
@@ -310,7 +326,9 @@ export default function BaciiTimer() {
         {copy.title} <span className="text-ink-500 text-base font-normal" lang="km">{`· ${copy.titleKm}`}</span>
       </h1>
 
-      {!timer && paperSetup ? (
+      {replacing ? (
+        <p className="text-ink-500 mt-4 text-sm">{copy.paper.loading}</p>
+      ) : !timer && paperSetup ? (
         !timedPaper ? (
           <p className="text-ink-500 mt-4 text-sm">{copy.paper.loading}</p>
         ) : (
@@ -355,6 +373,16 @@ export default function BaciiTimer() {
               {copy.paper.missing}
             </p>
           )}
+          {/* Most students time a real paper: it shows under the clock. */}
+          <Link to="/bacii/papers" className="card press mt-4 flex items-center gap-3 p-4 hover:border-brand-600">
+            <FileTextIcon className="text-accent h-6 w-6 shrink-0" />
+            <span className="min-w-0 flex-1">
+              <span className="text-ink-900 block font-semibold">{copy.realPaper}</span>
+              <span className="text-ink-500 block text-sm">{copy.realPaperHint}</span>
+            </span>
+            <ArrowLeftIcon className="text-ink-500 h-4 w-4 shrink-0 rotate-180" />
+          </Link>
+          <h2 className="text-ink-900 mt-6 text-base font-bold">{copy.ownPaper}</h2>
           <p className="text-ink-700 mt-1 mb-4 text-sm">{copy.intro}</p>
           <form onSubmit={start} className="space-y-5">
             <fieldset>

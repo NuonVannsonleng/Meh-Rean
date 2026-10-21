@@ -491,6 +491,17 @@ timing only in database functions, never in the browser.
   Tests: Playwright 8/8 browser-only and online (the new flow end to end,
   320–375px) and the timer suite 6/6; `test:past-papers` 11/11,
   `test:exam-timer` 5/5; lint, build.
+- **2026-10-21 — Fix: Start showed an old timer instead of the paper**
+  (owner report). A timer saved on the device (here a subject timer that
+  had ended) took priority over the paper a student tapped Start on, so the
+  page showed "00:00" with no paper. Start on a paper now replaces a saved
+  timer unless it is that same paper still running; a sitting that ended
+  over 3 hours ago is no longer shown again (the history keeps it); and an
+  ended sitting is not added to the history again on each visit. The Exam
+  timer page now offers "Do a real past paper" first, since a subject timer
+  has no paper. Tests: `test:exam-timer` 6/6; Playwright 10/10 both
+  versions (the new steps fail on the old page with "00:00"); timer 6/6;
+  lint, build.
 
 ## Blockers and things that need a person
 

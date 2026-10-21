@@ -32,6 +32,13 @@ export function remainingMs(state: TimerState, now: number): number {
 
 export const isFinished = (state: TimerState, now: number) => remainingMs(state, now) === 0;
 
+/** A sitting that ended hours ago: the history keeps it, the timer screen should not. */
+export function isStale(state: TimerState, now: number, hours = 3): boolean {
+  if (!isFinished(state, now)) return false;
+  const endedAt = state.startedAt + state.pausedMs + state.minutes * MINUTE;
+  return now - endedAt > hours * 60 * MINUTE;
+}
+
 /** Only practice timers pause; pausing a finished or paused timer changes nothing. */
 export function pauseTimer(state: TimerState, now: number): TimerState {
   if (state.mode !== "practice" || state.pausedAt !== null || isFinished(state, now)) return state;

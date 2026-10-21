@@ -7,7 +7,7 @@
  */
 
 import { readFileSync } from "node:fs";
-import { crossedWarnings, elapsedMs, formatClock, isFinished, pauseTimer, readTimer, remainingMs, resumeTimer, startTimer, warningsFor } from "../src/lib/examTimer.ts";
+import { crossedWarnings, elapsedMs, formatClock, isFinished, isStale, pauseTimer, readTimer, remainingMs, resumeTimer, startTimer, warningsFor } from "../src/lib/examTimer.ts";
 import { assert, reporter } from "./lib/local-supabase.mjs";
 
 const { check, finish } = reporter();
@@ -61,6 +61,15 @@ await check("a saved timer is read back, and anything odd is ignored", async () 
   const timer = startTimer("social:khmer-literature", 150, "exam", T0);
   assert(JSON.stringify(readTimer(JSON.stringify(timer))) === JSON.stringify(timer), "round trip");
   for (const bad of [null, "", "{", "[]", JSON.stringify({ ...timer, minutes: -1 }), JSON.stringify({ ...timer, mode: "x" }), JSON.stringify({ ...timer, startedAt: "now" })]) assert(readTimer(bad) === null, `accepted ${bad}`);
+});
+
+await check("a sitting that ended over 3 hours ago is stale; a running or recently ended one is not", async () => {
+  const timer = startTimer("science:mathematics", 150, "exam", T0);
+  assert(!isStale(timer, T0 + 60 * 60_000), "running");
+  assert(!isStale(timer, T0 + (150 + 179) * 60_000), "ended 179 minutes ago");
+  assert(isStale(timer, T0 + (150 + 181) * 60_000), "ended 181 minutes ago");
+  const paused = pauseTimer({ ...timer, mode: "practice" }, T0 + 10 * 60_000);
+  assert(!isStale(paused, T0 + 24 * 60 * 60_000), "a paused sitting is never stale");
 });
 
 finish();
