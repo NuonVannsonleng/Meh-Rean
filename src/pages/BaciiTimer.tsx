@@ -184,8 +184,7 @@ export default function BaciiTimer() {
     setHistory(list);
   }, [timer, now, timedPaper]);
 
-  const start = (event: FormEvent) => {
-    event.preventDefault();
+  const begin = (chosenMode: TimerState["mode"]) => {
     const forPaper = paperId && timedPaper?.durationMinutes ? timedPaper : null;
     const minutes = forPaper ? forPaper.durationMinutes! : chosen ? chosen.minutes : Math.round(customMinutes);
     if (!(minutes >= examTimings.customMinutes.min && minutes <= examTimings.customMinutes.max)) return;
@@ -201,8 +200,26 @@ export default function BaciiTimer() {
     setAlert(null);
     setSaved(null);
     setScoreText("");
-    setTimer(startTimer(forPaper ? `${PAPER_PREFIX}${forPaper.id}` : chosen ? `${trackId}:${chosen.id}` : "custom", minutes, mode, Date.now()));
+    setTimer(startTimer(forPaper ? `${PAPER_PREFIX}${forPaper.id}` : chosen ? `${trackId}:${chosen.id}` : "custom", minutes, chosenMode, Date.now()));
   };
+  const start = (event: FormEvent) => {
+    event.preventDefault();
+    begin(mode);
+  };
+  // "Start" on a paper goes straight into the sitting: no second screen to tap through.
+  const autoStart = params.get("start");
+  useEffect(() => {
+    if (timer || !timedPaper?.durationMinutes || (autoStart !== "exam" && autoStart !== "practice")) return;
+    begin(autoStart);
+    setParams(
+      (current) => {
+        const next = new URLSearchParams(current);
+        next.delete("start");
+        return next;
+      },
+      { replace: true },
+    );
+  }, [timedPaper, autoStart]);
   const finishEarly = () => {
     if (!timer || !window.confirm(copy.finishConfirm)) return;
     // Ends the sitting now: the time used is what was spent.
@@ -240,7 +257,6 @@ export default function BaciiTimer() {
   const endsAt = useMemo(() => (timer && timer.pausedAt === null ? new Date(now + left).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" }) : null), [timer, now, left]);
   const timedSubject = timer ? subjectOf(timer.subjectKey).subject : null;
   const timedPoints = timedPaper ? paperPoints(timedPaper) : timedSubject?.points;
-  const timedSubjectKey = timedPaper ? (/^kh-grade12-(?:science|social)-(.+)$/.exec(timedPaper.subjectId)?.[1] ?? "") : "";
   const timedName = timer ? (timedPaper ? timedPaper.titleKm : paperIdOf(timer.subjectKey) ? copy.paper.loading : subjectName(timer.subjectKey)) : "";
   const leavePaper = () =>
     setParams(
@@ -289,7 +305,8 @@ export default function BaciiTimer() {
         <ArrowLeftIcon className="h-4 w-4" />
         {t.bacii.title}
       </Link>
-      <h1 className="text-ink-900 text-2xl sm:text-3xl">
+      {/* While a paper runs, the paper and the clock get the space. */}
+      <h1 className={timer && timedPaper ? "sr-only" : "text-ink-900 text-2xl sm:text-3xl"}>
         {copy.title} <span className="text-ink-500 text-base font-normal" lang="km">{`· ${copy.titleKm}`}</span>
       </h1>
 
@@ -513,7 +530,7 @@ export default function BaciiTimer() {
             </section>
           )}
           <div className="mt-4">
-            <PaperViews paper={timedPaper} answersOpen={left === 0} subjectKey={timedSubjectKey} />
+            <PaperViews paper={timedPaper} answersOpen={left === 0} answersFirst={left === 0} />
           </div>
           {left > 0 && <p className="text-ink-500 mt-4 text-xs">{timer.mode === "exam" ? copy.noPause : ""} {copy.keepAwake}</p>}
         </>

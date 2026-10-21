@@ -3,7 +3,6 @@ import { t } from "../i18n/en";
 import type { ExamPaperDetail } from "../types";
 import MathText from "./MathText";
 import QuestionImage from "./QuestionImage";
-import SolutionSteps from "./SolutionSteps";
 
 const copy = t.bacii.paperView;
 type View = "scan" | "typed";
@@ -103,6 +102,48 @@ function ScanPages({ files, title, testId }: { files: string[]; title: string; t
   );
 }
 
+/** One AI answer: the answer at once, the working one tap away. */
+function AiAnswer({ position, question }: { position: number; question: ExamPaperDetail["questions"][number]["question"] }) {
+  const [working, setWorking] = useState(false);
+  const solution = question.solution;
+  return (
+    <li className="card p-4">
+      <div className="mb-2 flex items-baseline justify-between gap-3">
+        <h3 className="text-ink-900 text-sm font-bold">{copy.question(position)}</h3>
+        <details className="text-right">
+          <summary className="text-accent cursor-pointer text-xs font-medium">{copy.showQuestion}</summary>
+          <MathText text={question.content} className="text-ink-700 mt-1 text-left text-sm" />
+        </details>
+      </div>
+      {solution?.origin === "ai-generated" ? (
+        <>
+          <div className="bg-brand-50 rounded-md px-3 py-2" data-testid="ai-answer">
+            <MathText text={solution.answer} className="text-ink-900 text-sm font-medium" />
+          </div>
+          {solution.steps.length > 0 && (
+            <>
+              <button type="button" onClick={() => setWorking((open) => !open)} className="btn-ghost mt-2 h-8 px-2 text-sm" aria-expanded={working}>
+                {working ? copy.hideWorking : copy.showWorking}
+              </button>
+              {working && (
+                <ol className="divide-line mt-1 divide-y">
+                  {solution.steps.map((step, index) => (
+                    <li key={index} className="py-2">
+                      <MathText text={step.content} className="text-ink-900 text-sm" />
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </>
+          )}
+        </>
+      ) : (
+        <p className="text-ink-500 text-sm">{copy.aiMissing}</p>
+      )}
+    </li>
+  );
+}
+
 function TypedQuestions({ paper }: { paper: ExamPaperDetail }) {
   return (
     <ol id="timer-question-list" className="space-y-3">
@@ -134,14 +175,15 @@ function TypedQuestions({ paper }: { paper: ExamPaperDetail }) {
 export default function PaperViews({
   paper,
   answersOpen,
-  subjectKey,
   onToggleAnswers,
+  answersFirst = false,
 }: {
   paper: ExamPaperDetail;
   answersOpen: boolean;
-  subjectKey: string;
   /** Outside a timed sitting the student opens and closes the answers themselves. */
   onToggleAnswers?: () => void;
+  /** After a timed sitting the answers come first, so there is nothing to scroll past. */
+  answersFirst?: boolean;
 }) {
   const scans = usePaperScans(paper.id);
   const [view, setView] = useState<View>(() => remembered(VIEW_KEY, ["scan", "typed"] as const, "scan"));
@@ -150,8 +192,8 @@ export default function PaperViews({
   const shown: View = hasScans ? view : "typed";
   const aiCount = paper.questions.filter((entry) => entry.question.solution?.origin === "ai-generated").length;
 
-  return (
-    <div className="space-y-4">
+  const paperPart = (
+    <>
       <div className="flex flex-wrap items-center gap-2">
         <Segmented
           label={copy.viewLabel}
@@ -175,69 +217,72 @@ export default function PaperViews({
           <TypedQuestions paper={paper} />
         </>
       )}
+    </>
+  );
 
-      <section aria-labelledby="paper-answers" className="border-line border-t pt-4">
-        <h2 id="paper-answers" className="text-ink-900 mb-2 text-lg font-bold">
-          {copy.answersTitle} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${copy.answersTitleKm}`}</span>
-        </h2>
-        {onToggleAnswers && (
-          <button type="button" onClick={onToggleAnswers} className={answersOpen ? "btn-ghost mb-3 h-9 px-3 text-sm" : "btn-secondary h-9 px-3 text-sm"} aria-expanded={answersOpen}>
-            {answersOpen ? copy.hideAnswers : copy.showAnswers}
-          </button>
-        )}
-        {!answersOpen ? (
-          !onToggleAnswers && <p className="text-ink-500 text-sm">{copy.answersLocked}</p>
-        ) : (
-          <div className="space-y-3">
-            <Segmented
-              label={copy.answerLabel}
-              name="paper-answer-view"
-              value={answerView}
-              onChange={(value) => {
-                setAnswerView(value);
-                remember(ANSWER_KEY, value);
-              }}
-              options={(["copy", "ai"] as const).map((value) => ({ value, en: copy.answerViews[value], km: copy.answerViewsKm[value] }))}
-            />
-            {answerView === "copy" ? (
-              scans?.answers.length ? (
-                <>
-                  <p role="note" className="bg-ribbon-50 text-ribbon-fg rounded-md px-3 py-2 text-xs">
-                    {copy.copyNote(scans.answersBy)}
-                  </p>
-                  <ScanPages files={scans.answers} title={`${paper.titleKm} · ${copy.answersTitleKm}`} testId="answer-scans" />
-                </>
-              ) : (
-                <p className="text-ink-500 text-sm">{copy.noCopy}</p>
-              )
-            ) : aiCount === 0 ? (
-              <p className="text-ink-500 text-sm">{copy.noAi}</p>
-            ) : (
+  const answersPart = (
+    <section aria-labelledby="paper-answers" className={answersFirst ? "" : "border-line border-t pt-4"}>
+      <h2 id="paper-answers" className="text-ink-900 mb-2 text-lg font-bold">
+        {copy.answersTitle} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${copy.answersTitleKm}`}</span>
+      </h2>
+      {onToggleAnswers && (
+        <button type="button" onClick={onToggleAnswers} className={answersOpen ? "btn-ghost mb-3 h-9 px-3 text-sm" : "btn-secondary h-9 px-3 text-sm"} aria-expanded={answersOpen}>
+          {answersOpen ? copy.hideAnswers : copy.showAnswers}
+        </button>
+      )}
+      {!answersOpen ? (
+        !onToggleAnswers && <p className="text-ink-500 text-sm">{copy.answersLocked}</p>
+      ) : (
+        <div className="space-y-3">
+          <Segmented
+            label={copy.answerLabel}
+            name="paper-answer-view"
+            value={answerView}
+            onChange={(value) => {
+              setAnswerView(value);
+              remember(ANSWER_KEY, value);
+            }}
+            options={(["copy", "ai"] as const).map((value) => ({ value, en: copy.answerViews[value], km: copy.answerViewsKm[value] }))}
+          />
+          {answerView === "copy" ? (
+            scans?.answers.length ? (
               <>
-                <p role="note" className="bg-danger-bg text-danger-fg rounded-md px-3 py-2 text-xs font-medium">
-                  {copy.aiNote}
+                <p role="note" className="bg-ribbon-50 text-ribbon-fg rounded-md px-3 py-2 text-xs">
+                  {copy.copyNote(scans.answersBy)}
                 </p>
-                <ol className="space-y-3" data-testid="ai-answers">
-                  {paper.questions.map((entry) => (
-                    <li key={entry.question.id} className="card p-4">
-                      <p className="text-ink-900 mb-1 text-sm font-bold">{copy.question(entry.position)}</p>
-                      <details className="text-ink-700 mb-1 text-sm">
-                        <summary className="text-ink-500 cursor-pointer text-xs">{t.bacii.timer.paper.questionsTitle}</summary>
-                        <MathText text={entry.question.content} className="mt-1 text-sm" />
-                      </details>
-                      {entry.question.solution?.origin === "ai-generated" ? (
-                        <SolutionSteps solution={entry.question.solution} questionText={entry.question.content} subjectKey={subjectKey} chapterKm={null} />
-                      ) : (
-                        <p className="text-ink-500 text-sm">{copy.aiMissing}</p>
-                      )}
-                    </li>
-                  ))}
-                </ol>
+                <ScanPages files={scans.answers} title={`${paper.titleKm} · ${copy.answersTitleKm}`} testId="answer-scans" />
               </>
-            )}
-          </div>
-        )}
-      </section>
+            ) : (
+              <p className="text-ink-500 text-sm">{copy.noCopy}</p>
+            )
+          ) : aiCount === 0 ? (
+            <p className="text-ink-500 text-sm">{copy.noAi}</p>
+          ) : (
+            <>
+              <p role="note" className="bg-danger-bg text-danger-fg rounded-md px-3 py-2 text-xs font-medium">
+                {copy.aiNote}
+              </p>
+              <ol className="space-y-3" data-testid="ai-answers">
+                {paper.questions.map((entry) => (
+                  <AiAnswer key={entry.question.id} position={entry.position} question={entry.question} />
+                ))}
+              </ol>
+            </>
+          )}
+        </div>
+      )}
+    </section>
+  );
+
+  return answersFirst ? (
+    <div className="space-y-4">
+      {answersPart}
+      <div className="border-line space-y-4 border-t pt-4">{paperPart}</div>
+    </div>
+  ) : (
+    <div className="space-y-4">
+      {paperPart}
+      {answersPart}
     </div>
   );
 }

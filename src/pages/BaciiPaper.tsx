@@ -139,34 +139,41 @@ export default function BaciiPaper() {
           {copy.demoBanner}
         </p>
       )}
-      {paper.origin === "official" && paper.verification !== "verified" && (
-        <p role="note" className="bg-ribbon-50 text-ribbon-fg mb-5 rounded-md px-4 py-3 text-sm">
-          {copy.officialBanner}
-        </p>
-      )}
-      {paper.durationMinutes && paper.durationSource && (
-        <div className="card mb-3 flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
+      {paper.durationMinutes && paper.durationSource ? (
+        // One tap starts the real thing; the other ways are small links under it.
+        <div className="mb-5">
+          <Link to={`/bacii/timer?paper=${encodeURIComponent(paper.id)}&start=exam`} className="btn-primary h-12 w-full text-base sm:w-auto sm:px-8">
+            {copy.startTimed(paper.durationMinutes)}
+          </Link>
+          <p className="text-ink-500 mt-1.5 text-xs">{copy.startTimedHint}</p>
+          <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+            <Link to={`/bacii/timer?paper=${encodeURIComponent(paper.id)}&start=practice`} className="link">
+              {copy.practiceInstead}
+            </Link>
+            <Link to={user ? `/bacii/papers/${paper.id}/exam` : `/login?next=${encodeURIComponent(`/bacii/papers/${paper.id}/exam`)}`} className="link">
+              {copy.mockInstead}
+            </Link>
+          </p>
+        </div>
+      ) : (
+        <div className="card mb-5 flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
           <div className="min-w-0 flex-1">
-            <p className="text-ink-900 text-sm font-semibold">{copy.timed.title}</p>
-            <p className="text-ink-500 text-xs">{copy.timed.hint(paper.durationMinutes)}</p>
+            <p className="text-ink-900 text-sm font-semibold">{t.bacii.exam.take}</p>
+            <p className="text-ink-500 text-xs">{t.bacii.exam.takeHint}</p>
           </div>
-          <Link to={`/bacii/timer?paper=${encodeURIComponent(paper.id)}`} className="btn-primary">
-            {copy.timed.start}
+          <Link to={user ? `/bacii/papers/${paper.id}/exam` : `/login?next=${encodeURIComponent(`/bacii/papers/${paper.id}/exam`)}`} className="btn-primary">
+            {t.bacii.exam.take}
           </Link>
         </div>
       )}
-      <div className="card mb-5 flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
-        <div className="min-w-0 flex-1">
-          <p className="text-ink-900 text-sm font-semibold">{t.bacii.exam.take}</p>
-          <p className="text-ink-500 text-xs">{t.bacii.exam.takeHint}</p>
-        </div>
-        <Link
-          to={user ? `/bacii/papers/${paper.id}/exam` : `/login?next=${encodeURIComponent(`/bacii/papers/${paper.id}/exam`)}`}
-          className={paper.durationMinutes && paper.durationSource ? "btn-secondary" : "btn-primary"}
-        >
-          {t.bacii.exam.take}
-        </Link>
-      </div>
+      {paper.origin === "official" && paper.verification !== "verified" && (
+        <details className="bg-ribbon-50 text-ribbon-fg mb-5 rounded-md px-4 py-2 text-xs">
+          <summary className="cursor-pointer font-semibold">
+            {copy.needsReview} · {copy.moreAbout}
+          </summary>
+          <p className="mt-1 text-sm">{copy.officialBanner}</p>
+        </details>
+      )}
       {attempts.length > 0 && (
         <section className="mb-5" aria-labelledby="attempts-title">
           <h2 id="attempts-title" className="text-ink-900 mb-2 text-sm font-bold">
@@ -197,7 +204,7 @@ export default function BaciiPaper() {
         </section>
       )}
       {paper.origin === "official" ? (
-        <PaperViews paper={paper} answersOpen={showAnswers} subjectKey={subject?.subjectKey ?? ""} onToggleAnswers={() => setShowAnswers((open) => !open)} />
+        <PaperViews paper={paper} answersOpen={showAnswers} onToggleAnswers={() => setShowAnswers((open) => !open)} />
       ) : (
         <ol className="space-y-3">
           {paper.questions.map((entry) => (

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import EmptyState from "../components/EmptyState";
 import ErrorState from "../components/ErrorState";
@@ -22,126 +22,163 @@ export function PaperOriginBadge({ paper }: { paper: Pick<ExamPaper, "origin" | 
   );
 }
 
-/** BacII → Past papers: browse by track, subject and year. */
+/** The sitting (2014 had two), read from the paper's title. */
+const sittingOf = (paper: ExamPaper) => (/first sitting/.test(paper.titleEn) ? 1 : /second sitting/.test(paper.titleEn) ? 2 : 0);
+
+function Chip({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`press shrink-0 rounded-full border px-3.5 py-2 text-sm font-medium whitespace-nowrap ${active ? "border-brand-600 bg-brand-600 text-white" : "border-line text-ink-700 hover:border-ink-400 bg-surface"}`}
+    >
+      {children}
+    </button>
+  );
+}
+
+/** One paper: tap the row to open it, or Start to go straight into the timed exam. */
+function PaperRow({ paper }: { paper: ExamPaper }) {
+  const sitting = sittingOf(paper);
+  const timed = paper.durationMinutes !== null && Boolean(paper.durationSource);
+  return (
+    <li className="card flex items-center gap-2 p-2 pl-4">
+      <Link to={`/bacii/papers/${paper.id}`} className="press flex min-w-0 flex-1 items-center gap-3 py-1.5" aria-label={paper.titleEn}>
+        <span className="font-display text-ink-900 w-14 shrink-0 text-xl font-bold tabular-nums">{paper.year}</span>
+        <span className="min-w-0 flex-1">
+          {/* The subject is chosen above, so a real paper's row only needs its sitting, length and points. */}
+          {paper.origin === "demo" && (
+            <span className="text-ink-900 block truncate text-sm font-semibold" lang="km">
+              {paper.titleKm}
+            </span>
+          )}
+          <span className={paper.origin === "demo" ? "text-ink-500 block text-xs" : "text-ink-700 block text-sm"}>
+            {[sitting ? copy.sitting(sitting) : "", paper.durationMinutes ? copy.minutesShort(paper.durationMinutes) : "", paper.totalPoints !== null ? copy.pointsShort(paper.totalPoints) : copy.questions(paper.questionCount)]
+              .filter(Boolean)
+              .join(" · ")}
+          </span>
+        </span>
+        {paper.origin === "demo" && <PaperOriginBadge paper={paper} />}
+      </Link>
+      {timed && (
+        <Link to={`/bacii/timer?paper=${encodeURIComponent(paper.id)}&start=exam`} className="btn-primary h-10 shrink-0 px-4 text-sm" aria-label={copy.startLabel(paper.titleEn)}>
+          {copy.start}
+        </Link>
+      )}
+    </li>
+  );
+}
+
+/** BacII → Past papers: pick a track and a subject (one tap each), then a year. */
 export default function BaciiPapers() {
   const [params, setParams] = useSearchParams();
-  const track = params.get("track") ?? "";
-  const subject = params.get("subject") ?? "";
-  const year = Number(params.get("year")) || 0;
   const [subjects, setSubjects] = useState<CurriculumSubject[]>([]);
   const [papers, setPapers] = useState<ExamPaper[] | null>(null);
-  const [allYears, setAllYears] = useState<number[]>([]);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     document.title = `${copy.title} · ${t.bacii.title} · ${t.common.appName}`;
     getCurriculumSubjects().then(setSubjects).catch(() => setSubjects([]));
-    getExamPapers()
-      .then((list) => setAllYears([...new Set(list.map((paper) => paper.year))].sort((a, b) => b - a)))
-      .catch(() => setAllYears([]));
   }, []);
 
+  // All papers at once (a few hundred rows): changing subject is then instant.
   useEffect(() => {
     let active = true;
     setPapers(null);
     setFailed(false);
-    getExamPapers({ trackKey: track || undefined, subjectId: subject || undefined, year: year || undefined })
+    getExamPapers()
       .then((list) => active && setPapers(list))
       .catch(() => active && setFailed(true));
     return () => {
       active = false;
     };
-  }, [track, subject, year, attempt]);
+  }, [attempt]);
 
-  const tracks = useMemo(() => [...new Map(subjects.map((s) => [s.trackKey, s])).values()], [subjects]);
   const subjectOf = useMemo(() => new Map(subjects.map((s) => [s.id, s])), [subjects]);
+  // Only subjects that have papers, in curriculum order.
+  const withPapers = useMemo(() => subjects.filter((s) => papers?.some((paper) => paper.subjectId === s.id)), [subjects, papers]);
+  const tracks = useMemo(() => [...new Map(withPapers.map((s) => [s.trackKey, s])).values()], [withPapers]);
 
-  const setFilter = (key: "track" | "subject" | "year", value: string) =>
+  const asked = params.get("subject") ?? "";
+  const track = params.get("track") || subjectOf.get(asked)?.trackKey || tracks[0]?.trackKey || "";
+  const trackSubjects = withPapers.filter((s) => s.trackKey === track);
+  const subject = trackSubjects.some((s) => s.id === asked) ? asked : (trackSubjects[0]?.id ?? "");
+  const year = Number(params.get("year")) || 0;
+
+  const shown = (papers ?? []).filter((paper) => paper.subjectId === subject && (!year || paper.year === year));
+  const real = shown.filter((paper) => paper.origin !== "demo");
+  const demo = shown.filter((paper) => paper.origin === "demo");
+
+  const choose = (next: { track?: string; subject?: string }) =>
     setParams(
       (current) => {
-        const next = new URLSearchParams(current);
-        if (value) next.set(key, value);
-        else next.delete(key);
-        if (key === "track") next.delete("subject");
-        return next;
+        const out = new URLSearchParams(current);
+        out.delete("year");
+        if (next.track) {
+          out.set("track", next.track);
+          out.delete("subject");
+        }
+        if (next.subject) out.set("subject", next.subject);
+        return out;
       },
       { replace: true },
     );
 
   return (
-    <div className="container-page max-w-4xl py-6 sm:py-8">
-      <Link to="/bacii" className="text-ink-500 hover:text-ink-900 mb-4 inline-flex items-center gap-1.5 text-sm font-medium">
+    <div className="container-page max-w-3xl py-6 sm:py-8">
+      <Link to="/bacii" className="text-ink-500 hover:text-ink-900 mb-3 inline-flex items-center gap-1.5 text-sm font-medium">
         <ArrowLeftIcon className="h-4 w-4" />
         {t.bacii.title}
       </Link>
-      <header className="mb-4">
-        <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm">{copy.optionTitleKm}</p>
-        <p className="text-ink-700 mt-2 text-sm">{copy.subtitle}</p>
+      <header className="mb-3">
+        <h1 className="text-ink-900 text-2xl sm:text-3xl">
+          {copy.title} <span className="text-ink-500 text-base font-normal" lang="km">{`· ${copy.optionTitleKm}`}</span>
+        </h1>
+        <p className="text-ink-500 mt-1 text-xs">{copy.shortNotice}</p>
       </header>
-      <p className="bg-ribbon-50 text-ribbon-fg mb-5 rounded-md px-4 py-3 text-sm">{copy.demoNotice}</p>
-
-      <div className="mb-4 grid gap-2 sm:flex sm:flex-wrap">
-        <select aria-label={copy.track} value={track} onChange={(event) => setFilter("track", event.target.value)} className="input h-10 cursor-pointer sm:w-auto">
-          <option value="">{copy.allTracks}</option>
-          {tracks.map((item) => (
-            <option key={item.trackKey} value={item.trackKey}>
-              {`${item.trackNameKm} — ${item.trackNameEn}`}
-            </option>
-          ))}
-        </select>
-        <select aria-label={copy.subject} value={subject} onChange={(event) => setFilter("subject", event.target.value)} className="input h-10 cursor-pointer sm:w-auto">
-          <option value="">{copy.allSubjects}</option>
-          {subjects
-            .filter((item) => !track || item.trackKey === track)
-            .map((item) => (
-              <option key={item.id} value={item.id}>
-                {`${item.nameKm} — ${item.nameEn}`}
-              </option>
-            ))}
-        </select>
-        <select aria-label={copy.year} value={year || ""} onChange={(event) => setFilter("year", event.target.value)} className="input h-10 cursor-pointer sm:w-auto">
-          <option value="">{copy.allYears}</option>
-          {allYears.map((value) => (
-            <option key={value} value={value}>
-              {value}
-            </option>
-          ))}
-        </select>
-      </div>
 
       {failed ? (
         <ErrorState onRetry={() => setAttempt((count) => count + 1)} />
-      ) : !papers ? (
-        <LoadingState count={3} />
-      ) : papers.length === 0 ? (
+      ) : !papers || !subjects.length ? (
+        <LoadingState count={4} />
+      ) : !tracks.length ? (
         <EmptyState icon={<FileTextIcon className="h-6 w-6" />} title={copy.none} body={copy.noneHint} />
       ) : (
         <>
-          <p className="text-ink-500 mb-2 text-xs">{copy.count(papers.length)}</p>
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {papers.map((paper) => {
-              const item = subjectOf.get(paper.subjectId);
-              return (
-                <li key={paper.id}>
-                  <Link to={`/bacii/papers/${paper.id}`} className="card press hover:border-brand-500 flex h-full flex-col gap-2 p-4 transition-colors">
-                    <span className="flex items-center justify-between gap-2">
-                      <span className="font-display text-ink-900 text-2xl font-bold">{paper.year}</span>
-                      <PaperOriginBadge paper={paper} />
-                    </span>
-                    <span className="text-ink-900 text-sm font-semibold">{paper.titleKm}</span>
-                    <span className="text-ink-500 text-xs">{paper.titleEn}</span>
-                    {item && <span className="text-ink-700 text-xs">{`${item.nameKm} — ${item.nameEn} · ${item.trackNameEn}`}</span>}
-                    <span className="text-ink-500 mt-auto text-xs">
-                      {copy.questions(paper.questionCount)}
-                      {paper.totalPoints !== null && ` · ${copy.points(paper.totalPoints)}`}
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
+          <div role="group" aria-label={copy.track} className="mb-2 flex gap-2">
+            {tracks.map((item) => (
+              <Chip key={item.trackKey} active={item.trackKey === track} onClick={() => choose({ track: item.trackKey })}>
+                <span lang="km">{item.trackNameKm}</span>
+              </Chip>
+            ))}
+          </div>
+          {/* Subjects scroll sideways on a phone rather than wrapping into many lines. */}
+          <div role="group" aria-label={copy.subject} className="-mx-4 mb-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
+            {trackSubjects.map((item) => (
+              <Chip key={item.id} active={item.id === subject} onClick={() => choose({ subject: item.id })}>
+                <span lang="km">{item.nameKm}</span> <span className="opacity-75">· {item.nameEn}</span>
+              </Chip>
+            ))}
+          </div>
+
+          <p className="text-ink-500 mb-2 text-xs">{copy.count(real.length)}</p>
+          <ul className="space-y-2">
+            {real.map((paper) => (
+              <PaperRow key={paper.id} paper={paper} />
+            ))}
           </ul>
+          {demo.length > 0 && (
+            <>
+              <h2 className="text-ink-700 mt-6 mb-2 text-sm font-semibold">{copy.demoHeading}</h2>
+              <ul className="space-y-2">
+                {demo.map((paper) => (
+                  <PaperRow key={paper.id} paper={paper} />
+                ))}
+              </ul>
+            </>
+          )}
         </>
       )}
     </div>

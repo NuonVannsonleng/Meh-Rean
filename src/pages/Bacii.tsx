@@ -18,18 +18,18 @@ interface BaciiOption {
 /** Everything in the BacII section; a new tool is one more entry here. */
 const OPTIONS: BaciiOption[] = [
   {
-    to: "/bacii/practice",
-    title: t.bacii.practice.optionTitle,
-    titleKm: t.bacii.practice.optionTitleKm,
-    description: t.bacii.practice.optionDescription,
-    Icon: BulbIcon,
-  },
-  {
     to: "/bacii/papers",
     title: t.bacii.papers.optionTitle,
     titleKm: t.bacii.papers.optionTitleKm,
     description: t.bacii.papers.optionDescription,
     Icon: FileTextIcon,
+  },
+  {
+    to: "/bacii/practice",
+    title: t.bacii.practice.optionTitle,
+    titleKm: t.bacii.practice.optionTitleKm,
+    description: t.bacii.practice.optionDescription,
+    Icon: BulbIcon,
   },
   {
     to: "/bacii/timer",
@@ -145,21 +145,24 @@ export default function Bacii() {
       )}
 
       <nav aria-label={t.bacii.optionsLabel}>
-        <ul className="grid gap-4 sm:grid-cols-2">
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4">
           {OPTIONS.map(({ to, title, titleKm, description, Icon }) => (
             <li key={to}>
               <Link
                 to={to}
-                className="card press group hover:border-brand-500 flex h-full flex-col gap-3 p-5 transition-colors"
+                className="card press group hover:border-brand-500 flex h-full flex-col gap-2 p-3 transition-colors sm:gap-3 sm:p-5"
               >
-                <span className="bg-brand-50 text-accent flex h-11 w-11 items-center justify-center rounded-xl">
-                  <Icon className="h-5.5 w-5.5" />
+                <span className="bg-brand-50 text-accent flex h-10 w-10 items-center justify-center rounded-xl sm:h-11 sm:w-11">
+                  <Icon className="h-5 w-5 sm:h-5.5 sm:w-5.5" />
                 </span>
                 <span>
-                  <span className="font-display text-ink-900 group-hover:text-accent block text-lg font-bold">{title}</span>
-                  <span className="text-ink-500 block text-sm">{titleKm}</span>
+                  <span className="font-display text-ink-900 group-hover:text-accent block text-base leading-snug font-bold sm:text-lg">{title}</span>
+                  <span className="text-ink-500 block text-xs sm:text-sm" lang="km">
+                    {titleKm}
+                  </span>
                 </span>
-                <span className="text-ink-700 text-sm leading-relaxed">{description}</span>
+                {/* On a phone the title says enough; the longer line is for wider screens. */}
+                <span className="text-ink-700 hidden text-sm leading-relaxed sm:block">{description}</span>
               </Link>
             </li>
           ))}

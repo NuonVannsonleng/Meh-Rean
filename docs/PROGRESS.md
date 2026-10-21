@@ -474,6 +474,23 @@ timing only in database functions, never in the browser.
   as before. Tests: `test:past-papers` 11/11 (answers labelled, every
   formula parses, the teacher-answer rule); Playwright 14/14 both versions;
   all 37 suites; lint, build.
+- **2026-10-21 — Past papers: fewer taps** (owner request: easier to use).
+  From the BacII page to a running timed paper is now 2 taps (Past papers,
+  then Start on a year), at most 4 for another subject; it was 6 plus two
+  dropdowns and a setup screen. Past papers is the first BacII tile, and the
+  tiles are a compact 2-column grid. The list picks a track and a subject
+  with one tap each (Khmer chips, subjects scroll sideways on a phone),
+  opens on the first subject, and shows each sitting as one short row
+  (year, sitting, minutes, points) with its own Start button; demo sets are
+  listed apart. Start (also on the paper page, now one main button, with
+  practice mode and the mock exam as small links) starts the exam timer
+  straight away. While the paper runs the page heading is hidden so the
+  paper sits right under the clock. When the time is up the answers come
+  first, and the AI key shows each final answer at once with the working
+  one tap away. The copy notes on a paper fold into "About this copy".
+  Tests: Playwright 8/8 browser-only and online (the new flow end to end,
+  320–375px) and the timer suite 6/6; `test:past-papers` 11/11,
+  `test:exam-timer` 5/5; lint, build.
 
 ## Blockers and things that need a person
 
