@@ -239,6 +239,8 @@ values ('${withAnswer.id}'`);
   const statement = start >= 0 && end > start ? seedSql.slice(start, end + "verification <> 'verified';".length) : null;
   assert(statement, "the seed has no answer statement");
   try {
+    // The row may be newer than the local database: write it first.
+    sql(statement);
     sql(`update public.question_solutions set origin = 'teacher', answer = 'teacher answer' where question_id = '${withAnswer.id}'`);
     sql(statement);
     assert(sql(`select answer from public.question_solutions where question_id = '${withAnswer.id}'`) === "teacher answer", "the seed replaced a teacher's answer");

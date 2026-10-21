@@ -518,6 +518,20 @@ timing only in database functions, never in the browser.
   (2019 Q6c: 5000 J against 50000 J) the key follows the paper and says so.
   Tests: `test:past-papers` 11/11; every physics paper's key checked on a
   375px phone (no overflow, no formula errors).
+- **2026-10-21 — AI answer key, part 4: science-track chemistry
+  2014–2022.** 48 answers (equations, ionic equations, calculations),
+  ai-generated and needs-review, every number recomputed and compared with
+  the copy's worked answers. Where the printed question and the copy's
+  answer differ, the key says so: 2015 Q3 prints ammonium sulfate (no
+  precipitate, as printed) while the copy answers for the sulfide (CdS);
+  2022 Q4 prints an ester mass of 2.29 with no unit, which fits no formula,
+  and the copy uses 2.2 g. Long chemical equations are split at their + and
+  arrows so they wrap on a phone instead of running off the screen (one
+  social-maths derivative likewise). `test:past-papers` now writes its
+  answer row before testing the teacher-answer rule, so it no longer
+  depends on what the local database already holds. Tests:
+  `test:past-papers` 11/11; setup parts 01–04 load into local Supabase;
+  every answered paper checked on a 375px phone for clipped formulas.
 
 ## Blockers and things that need a person
 
