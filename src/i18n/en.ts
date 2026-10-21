@@ -901,6 +901,32 @@ export const en = {
         hide: "Hide",
       },
     },
+    /** Shared by the paper page and the paper timer. */
+    paperView: {
+      viewLabel: "How to see the paper",
+      views: { scan: "Real paper", typed: "One by one" },
+      viewsKm: { scan: "ក្រដាសប្រឡង", typed: "មួយៗ" },
+      scanNote: "The pages as printed in the copy this paper was typed from. Pinch or tap a page to zoom.",
+      scanAlt: (title: string, page: number, pages: number) => `${title}, page ${page} of ${pages}`,
+      noScan: "No page images for this paper yet; here it is one question at a time.",
+      zoomOut: "Close",
+      answersTitle: "Answers",
+      answersTitleKm: "ចម្លើយ",
+      answersLocked: "The answers open when the time is up or you finish, like the real exam.",
+      showAnswers: "Show the answers",
+      hideAnswers: "Hide the answers",
+      answerLabel: "Which answers",
+      answerViews: { copy: "Answers in the copy", ai: "AI answer key" },
+      answerViewsKm: { copy: "ចម្លើយក្នុងឯកសារ", ai: "ចម្លើយដោយ AI" },
+      copyNote: (by: string) =>
+        `The worked answers printed in the copy (${by}). They were written by the copy's compiler, not the Ministry, and have not been checked by Meh Rean or a teacher, so a step may be wrong.`,
+      noCopy: "The copy of this paper has no answers.",
+      aiNote:
+        "Written by AI for Meh Rean and not checked by a teacher. Use it to check your thinking, not as the official answer; where it disagrees with your teacher or the copy, ask.",
+      noAi: "No AI answer key for this subject yet.",
+      aiMissing: "No AI answer for this question yet.",
+      question: (number: number) => `Question ${number}`,
+    },
     live: {
       optionTitle: "Live quiz",
       optionTitleKm: "កម្រងសំណួរផ្ទាល់",

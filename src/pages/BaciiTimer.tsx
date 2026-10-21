@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeftIcon } from "../components/Icons";
-import MathText from "../components/MathText";
-import QuestionImage from "../components/QuestionImage";
+import PaperViews from "../components/PaperViews";
 import examTimings from "../data/bacii/exam-timings.json";
 import { t } from "../i18n/en";
 import { crossedWarnings, elapsedMs, formatClock, isFinished, pauseTimer, readTimer, remainingMs, resumeTimer, startTimer, warningsFor, type TimerState } from "../lib/examTimer";
@@ -100,7 +99,6 @@ export default function BaciiTimer() {
   const recorded = useRef(false);
   const [paper, setPaper] = useState<ExamPaperDetail | null>(null);
   const [paperFailed, setPaperFailed] = useState(false);
-  const [showQuestions, setShowQuestions] = useState(true);
   // The running paper wins over the link, so a reload keeps the same paper.
   const paperId = paperIdOf(timer?.subjectKey) ?? (timer ? null : params.get("paper"));
 
@@ -242,6 +240,7 @@ export default function BaciiTimer() {
   const endsAt = useMemo(() => (timer && timer.pausedAt === null ? new Date(now + left).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" }) : null), [timer, now, left]);
   const timedSubject = timer ? subjectOf(timer.subjectKey).subject : null;
   const timedPoints = timedPaper ? paperPoints(timedPaper) : timedSubject?.points;
+  const timedSubjectKey = timedPaper ? (/^kh-grade12-(?:science|social)-(.+)$/.exec(timedPaper.subjectId)?.[1] ?? "") : "";
   const timedName = timer ? (timedPaper ? timedPaper.titleKm : paperIdOf(timer.subjectKey) ? copy.paper.loading : subjectName(timer.subjectKey)) : "";
   const leavePaper = () =>
     setParams(
@@ -431,6 +430,93 @@ export default function BaciiTimer() {
 
           {historySection}
         </>
+      ) : timedPaper ? (
+        <>
+          {/* A real paper: the clock stays on top while the paper scrolls under it, like the exam-room clock. */}
+          <section className="bg-surface/95 border-line sticky top-14 z-30 -mx-4 mt-3 border-b px-4 py-2 backdrop-blur-md sm:top-16 sm:mx-0 sm:rounded-b-lg sm:border-x" aria-labelledby="timer-subject">
+            <div className="flex items-center gap-3">
+              <div className="min-w-0 flex-1">
+                <h2 id="timer-subject" className="text-ink-900 truncate text-sm font-bold" lang="km">
+                  {timedName}
+                </h2>
+                <p className="text-ink-500 truncate text-xs">
+                  {copy.modes[timer.mode].name} · {left > 0 ? (timer.pausedAt !== null ? copy.paused : endsAt ? copy.endsAt(endsAt) : copy.left) : copy.used(formatClock(elapsedMs(timer, now)))}
+                </p>
+              </div>
+              <p role="timer" aria-live="off" className={`font-display text-3xl font-bold tabular-nums sm:text-4xl ${left === 0 ? "text-danger-fg" : left <= 5 * 60_000 ? "text-ribbon-fg" : "text-ink-900"}`} data-testid="timer-clock">
+                {formatClock(left)}
+              </p>
+            </div>
+            <div role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)} aria-label={copy.left} className="bg-surface-hover mt-2 h-1.5 overflow-hidden rounded-full">
+              <div className="bg-brand-600 h-full" style={{ width: `${progress}%` }} />
+            </div>
+            {alert && (
+              <p role="alert" className={`mt-2 rounded-md px-3 py-1.5 text-sm font-bold ${left === 0 ? "bg-danger-bg text-danger-fg" : "bg-ribbon-50 text-ribbon-fg"}`}>
+                {alert}
+                {left === 0 && (
+                  <span className="ml-1 font-normal" lang="km">
+                    {copy.timeUpKm}
+                  </span>
+                )}
+              </p>
+            )}
+            {left > 0 && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                {timer.mode === "practice" &&
+                  (timer.pausedAt === null ? (
+                    <button type="button" onClick={() => setTimer(pauseTimer(timer, Date.now()))} className="btn-secondary h-8 px-3 text-xs">
+                      {copy.pause}
+                    </button>
+                  ) : (
+                    <button type="button" onClick={() => setTimer(resumeTimer(timer, Date.now()))} className="btn-primary h-8 px-3 text-xs">
+                      {copy.resume}
+                    </button>
+                  ))}
+                <button type="button" onClick={() => void document.documentElement.requestFullscreen?.().catch(() => {})} className="btn-secondary h-8 px-3 text-xs">
+                  {copy.fullScreen}
+                </button>
+                <button type="button" onClick={finishEarly} className="btn-ghost h-8 px-3 text-xs">
+                  {copy.finishEarly}
+                </button>
+              </div>
+            )}
+          </section>
+          {left === 0 && (
+            <section className="card mt-4 p-4">
+              {timedPoints !== undefined && (
+                <form onSubmit={saveScore} className="space-y-2">
+                  <h3 className="text-ink-900 text-sm font-bold">{copy.scoreTitle}</h3>
+                  <label className="text-ink-700 block text-sm">
+                    {copy.scoreLabel(timedPoints)}
+                    <span className="mt-1 flex gap-2">
+                      <input value={scoreText} onChange={(event) => setScoreText(event.target.value)} inputMode="decimal" className="input h-9 w-24" />
+                      <button type="submit" className="btn-secondary h-9 px-3 text-sm">
+                        {copy.saveScore}
+                      </button>
+                    </span>
+                  </label>
+                  {saved && (
+                    <p role="status" className="text-accent text-sm font-medium">
+                      {saved}
+                    </p>
+                  )}
+                </form>
+              )}
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Link to={`/bacii/papers/${timedPaper.id}`} className="btn-secondary">
+                  {copy.paper.back}
+                </Link>
+                <button type="button" onClick={reset} className="btn-primary">
+                  {copy.another}
+                </button>
+              </div>
+            </section>
+          )}
+          <div className="mt-4">
+            <PaperViews paper={timedPaper} answersOpen={left === 0} subjectKey={timedSubjectKey} />
+          </div>
+          {left > 0 && <p className="text-ink-500 mt-4 text-xs">{timer.mode === "exam" ? copy.noPause : ""} {copy.keepAwake}</p>}
+        </>
       ) : (
         <section className="card mt-4 p-5 text-center sm:p-8" aria-labelledby="timer-subject">
           <h2 id="timer-subject" className="text-ink-900 text-lg font-bold" lang="km">
@@ -496,11 +582,6 @@ export default function BaciiTimer() {
                   )}
                 </form>
               )}
-              {timedPaper && (
-                <Link to={`/bacii/papers/${timedPaper.id}`} className="btn-secondary mt-4 w-full">
-                  {copy.paper.back}
-                </Link>
-              )}
               <button type="button" onClick={reset} className="btn-primary mt-4 w-full">
                 {copy.another}
               </button>
@@ -510,38 +591,6 @@ export default function BaciiTimer() {
         </section>
       )}
 
-      {timer && timedPaper && (
-        <section className="mt-5" aria-labelledby="timer-questions">
-          <div className="mb-2 flex items-center justify-between gap-3">
-            <h2 id="timer-questions" className="text-ink-900 text-sm font-bold">
-              {copy.paper.questionsTitle}
-            </h2>
-            <button type="button" onClick={() => setShowQuestions((shown) => !shown)} className="btn-ghost h-8 px-2 text-sm" aria-expanded={showQuestions} aria-controls="timer-question-list">
-              {showQuestions ? copy.paper.hide : copy.paper.show}
-            </button>
-          </div>
-          {showQuestions && (
-            <ol id="timer-question-list" className="space-y-3">
-              {timedPaper.questions.map((entry) => (
-                <li key={entry.question.id} className="card p-4">
-                  <p className="text-ink-900 mb-1 text-sm font-bold">
-                    {t.bacii.papers.question(entry.position)}
-                    {entry.points !== null && <span className="text-ink-500 font-normal">{` · ${t.bacii.papers.questionPoints(entry.points)}`}</span>}
-                  </p>
-                  <MathText text={entry.question.content} className="text-ink-900 text-base" />
-                  {entry.question.images.length > 0 && (
-                    <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                      {entry.question.images.map((image) => (
-                        <QuestionImage key={image.path} image={image} className="max-h-72 w-full" />
-                      ))}
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ol>
-          )}
-        </section>
-      )}
     </div>
   );
 }

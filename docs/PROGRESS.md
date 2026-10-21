@@ -444,6 +444,23 @@ timing only in database functions, never in the browser.
   With this every subject in the collection is in: 16 subjects, 143
   papers, 652 questions. Tests: all 37 suites; `test:past-papers` 9/9;
   Playwright 12/12 browser-only and online.
+- **2026-10-21 — Past papers as the real paper, with the copy's answers**
+  (owner request). A paper (on its page and under the paper timer) now has
+  a **Real paper / One by one** switch: the pages as printed in the copy it
+  was typed from (872 images in `public/past-papers/scans/`, 4-shade
+  grayscale lossless WebP, 900 px wide, about 20 KB each, 19.6 MB in all;
+  tap to zoom), or the typed questions. Under the paper timer the clock is a
+  slim bar that stays on top while the paper scrolls. **Answers** open when
+  the time is up or the student finishes (on the paper page, behind a
+  button), with an **Answers in the copy / AI answer key** switch: the
+  copy's own worked-answer pages, labelled as the compiler's and unchecked,
+  or the AI key (next task). Where each copy's answers begin was found from
+  its centred answer heading and checked by eye on every paper (8 set by
+  hand). The view choices are remembered on the device. Tests:
+  `test:past-papers` 10/10 (every paper has its pages, every file present,
+  small and used); Playwright 14/14 browser-only and online (the clock stays
+  in view while scrolling, zoom, answers hidden during the exam, both answer
+  views, the view remembered, 320–375px); all 37 suites; lint, build.
 
 ## Blockers and things that need a person
 

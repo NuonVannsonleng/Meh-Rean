@@ -93,7 +93,7 @@ await check("real papers stay official but unchecked, with open questions, no an
 
 await check("figures: every one is a small image shipped in public/past-papers/, described, and every file there is used", async () => {
   const used = papers.flatMap((paper) => paper.questions.flatMap(({ question }) => question.images));
-  const files = readdirSync(new URL("public/past-papers/", ROOT));
+  const files = readdirSync(new URL("public/past-papers/", ROOT), { withFileTypes: true }).filter((entry) => entry.isFile()).map((entry) => entry.name);
   for (const image of used) {
     const file = image.path.replace(/^past-papers\//, "");
     assert(files.includes(file), `${image.path} is missing`);
@@ -102,6 +102,24 @@ await check("figures: every one is a small image shipped in public/past-papers/,
   }
   for (const file of files) assert(used.some((image) => image.path === `past-papers/${file}`), `public/past-papers/${file} is not used`);
   return `${used.length} figures`;
+});
+
+await check("page images: every paper has its printed pages and the copy's answers, each file present, small and used", async () => {
+  const scans = JSON.parse(read("src/data/bacii/past-paper-scans.json"));
+  const files = new Set(readdirSync(new URL("public/past-papers/scans/", ROOT)));
+  const used = new Set();
+  for (const paper of papers) {
+    const entry = scans[paper.id];
+    assert(entry && entry.paper.length >= 1 && entry.answers.length >= 1 && entry.answersBy, `${paper.id}: page images`);
+    for (const file of [...entry.paper, ...entry.answers]) {
+      assert(/^[a-z0-9-]+\.webp$/.test(file) && files.has(file), `${paper.id}: ${file} missing`);
+      assert(statSync(new URL(`public/past-papers/scans/${file}`, ROOT)).size < 250 * 1024, `${file} is too large`);
+      used.add(file);
+    }
+  }
+  assert(Object.keys(scans).length === papers.length, "scans for papers that do not exist");
+  for (const file of files) assert(used.has(file), `public/past-papers/scans/${file} is not used`);
+  return `${used.size} page images`;
 });
 
 await check("the builder refuses a paper whose points do not add up, an unknown chapter or copy, and a bad date", async () => {

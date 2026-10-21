@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "../components/Icons";
 import LoadingState from "../components/LoadingState";
 import MathText from "../components/MathText";
+import PaperViews from "../components/PaperViews";
 import QuestionImage from "../components/QuestionImage";
 import SolutionSteps from "../components/SolutionSteps";
 import { t } from "../i18n/en";
@@ -67,6 +68,7 @@ export default function BaciiPaper() {
   const [missing, setMissing] = useState(false);
   const [subject, setSubject] = useState<CurriculumSubject | null>(null);
   const [chapters, setChapters] = useState<CurriculumChapter[]>([]);
+  const [showAnswers, setShowAnswers] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -194,16 +196,20 @@ export default function BaciiPaper() {
           </ul>
         </section>
       )}
-      <ol className="space-y-3">
-        {paper.questions.map((entry) => (
-          <PaperQuestion
-            key={entry.question.id}
-            entry={entry}
-            chapter={chapterOf.get(entry.question.chapterId)}
-            subjectKey={subject?.subjectKey ?? ""}
-          />
-        ))}
-      </ol>
+      {paper.origin === "official" ? (
+        <PaperViews paper={paper} answersOpen={showAnswers} subjectKey={subject?.subjectKey ?? ""} onToggleAnswers={() => setShowAnswers((open) => !open)} />
+      ) : (
+        <ol className="space-y-3">
+          {paper.questions.map((entry) => (
+            <PaperQuestion
+              key={entry.question.id}
+              entry={entry}
+              chapter={chapterOf.get(entry.question.chapterId)}
+              subjectKey={subject?.subjectKey ?? ""}
+            />
+          ))}
+        </ol>
+      )}
       {paper.source && <p className="text-ink-500 mt-6 text-xs">{copy.source(paper.source)}</p>}
     </div>
   );
