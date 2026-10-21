@@ -502,6 +502,13 @@ timing only in database functions, never in the browser.
   has no paper. Tests: `test:exam-timer` 6/6; Playwright 10/10 both
   versions (the new steps fail on the old page with "00:00"); timer 6/6;
   lint, build.
+- **2026-10-21 — AI answer key, part 2: social-track mathematics
+  2014–2025.** 59 worked answers in the same form as part 1 (Khmer with
+  LaTeX, ai-generated, needs-review); every limit, integral, probability,
+  conic and function study checked with sympy, and every formula parses.
+  Where the paper is ambiguous (2023 Q1c writes $x	oinfty$) both limits
+  are given. Tests: `test:past-papers` 11/11; answers checked on a 375px
+  phone (no overflow, no formula errors).
 
 ## Blockers and things that need a person
 

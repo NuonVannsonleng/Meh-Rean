@@ -1926,6 +1926,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2025-4000-8000-000000000001', 'a. $0$  b. $-2$  c. $-\dfrac14$  d. $0$', null, null, null, '[{"content":"a. $7-5-2=0$។"},{"content":"b. $\\dfrac{(\\ln x-1)(\\ln x+1)}{-(\\ln x-1)}=-(\\ln x+1)\\to-(1+1)=-2$។"},{"content":"c. $\\dfrac{2-\\sqrt x}{\\left(\\sqrt x-2\\right)\\left(\\sqrt x+2\\right)}=\\dfrac{-1}{\\sqrt x+2}\\to-\\dfrac14$។"},{"content":"d. $\\dfrac{0}{1+1}=0$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2025-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2025, 'open', 'គណនាអាំងតេក្រាល៖
 ក. $\displaystyle I=\int_{-1}^1\left(2x^3-x^2+2x-1\right)dx$
@@ -1935,6 +1940,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2025-4000-8000-000000000002', 'ក. $I=-\dfrac83$  ខ. $J=e^e-e+2$  គ. $K=-\dfrac12-\ln2$', null, null, null, '[{"content":"ក. តួសេស $2x^3$ និង $2x$ ផ្តល់ $0$ លើ $[-1,1]$៖ $I=\\int_{-1}^1\\left(-x^2-1\\right)dx=-\\dfrac23-2=-\\dfrac83$។"},{"content":"ខ. $J=\\left[2\\ln x+e^x\\right]_1^e=(2+e^e)-(0+e)=e^e-e+2$។"},{"content":"គ. $K=\\left[\\ln|x-1|+\\dfrac1{x-1}\\right]_{-1}^0=(0-1)-\\left(\\ln2-\\dfrac12\\right)=-\\dfrac12-\\ln2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2025-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2025, 'open', 'ពេលប្រឡងបញ្ចប់ឆ្នាំសិក្សា ត្រូវបានរៀបចំប្រឡងជាសំណួរផ្ទាល់មាត់ ដោយបានរៀបសំណួរចំនួន $10$ សំណួរ ដែលចែកជា $5$ សំណួរដកចេញពីមេរៀនក្នុងត្រីមាសទី $1$ $3$ សំណួរដកចេញពីមេរៀនក្នុងត្រីមាសទី $2$ និង $2$ សំណួរដកចេញពីមេរៀនក្នុងត្រីមាសទី $3$ ដាក់ក្នុងប្រអប់មួយ។ លោកគ្រូបានហៅសិស្សម្នាក់មកចាប់យក $3$ សំណួរព្រមគ្នាដោយចៃដន្យពីក្នុងប្រអប់។ ចូររកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
@@ -1946,12 +1956,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2025-4000-8000-000000000003', '$P(A)=\dfrac1{12}$, $P(B)=\dfrac14$, $P(C)=\dfrac{11}{120}$', null, null, null, '[{"content":"$n(S)=C_{10}^3=120$។"},{"content":"$A$៖ $C_5^3=10$ ⇒ $\\dfrac{10}{120}=\\dfrac1{12}$។"},{"content":"$B$៖ មួយពីត្រីមាសនីមួយៗ៖ $5\\cdot3\\cdot2=30$ ⇒ $\\dfrac{30}{120}=\\dfrac14$។"},{"content":"$C$៖ ត្រីមាសដូចគ្នា៖ $C_5^3+C_3^3=10+1=11$ (ត្រីមាសទី $3$ មានតែ $2$ សំណួរ) ⇒ $\\dfrac{11}{120}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2025-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2025, 'open', 'គេមានប៉ារ៉ាបូលដែលមានសមីការទូទៅ៖ $y^2+4y-2x=0$។ ចូរបំប្លែងសមីការនេះជាទម្រង់សមីការស្តង់ដានៃប៉ារ៉ាបូល។ ចូររកកូអរដោនេនៃកំពូល កំណុំ និងសមីការបន្ទាត់ប្រាប់ទិសរបស់ប៉ារ៉ាបូលនេះ រួចសង់ប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2025, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2025-4000-8000-000000000004', '$(y+2)^2=2(x+2)$; កំពូល $(-2,-2)$ កំណុំ $\left(-\dfrac32,-2\right)$ បន្ទាត់ប្រាប់ទិស $x=-\dfrac52$', null, null, null, '[{"content":"$y^2+4y=2x\\Leftrightarrow(y+2)^2-4=2x\\Leftrightarrow(y+2)^2=2(x+2)$។"},{"content":"កំពូល $(-2,-2)$; $4p=2$ ⇒ $p=\\dfrac12$ ប៉ារ៉ាបូលបើកទៅស្តាំ។"},{"content":"កំណុំ $\\left(-2+\\dfrac12,-2\\right)=\\left(-\\dfrac32,-2\\right)$ បន្ទាត់ប្រាប់ទិស $x=-2-\\dfrac12=-\\dfrac52$។ ក្រាបកាត់តាម $O(0,0)$ និង $(0,-4)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2025-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2025, 'open', 'គេមានអនុគមន៍ $f$ ដែល $f(x)=\dfrac{2-x-2x^2}{-1-x}$។ តាង $(C)$ ជាក្រាបនៃ $f(x)$ ក្នុងតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -1964,6 +1984,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2025-4000-8000-000000000000', 'bacc2010-2025-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2025-4000-8000-000000000005', '$D=\mathbb{R}\setminus\{-1\}$; $f(x)=2x-1-\dfrac1{x+1}$ ($a=2$, $b=-1$, $c=-1$); $f$ កើនលើ $]-\infty,-1[$ និង $]-1,+\infty[$', null, null, null, '[{"content":"ក. $-1-x\\neq0$ ⇒ $D=\\mathbb{R}\\setminus\\{-1\\}$។"},{"content":"ខ. $f(x)=\\dfrac{2x^2+x-2}{x+1}$ ហើយ $(2x-1)(x+1)-1=2x^2+x-2$ ដូចនេះ $f(x)=2x-1-\\dfrac1{x+1}$។"},{"content":"គ. $f(x)-(2x-1)=-\\dfrac1{x+1}\\to0$ ត្រង់ $\\pm\\infty$ ដូចនេះ $(d): y=2x-1$ ជាអាស៊ីមតូតទ្រេត។"},{"content":"ឃ. $-\\dfrac1{x+1}<0$ ពេល $x>-1$ ⇒ $(C)$ នៅក្រោម $(d)$; $-\\dfrac1{x+1}>0$ ពេល $x<-1$ ⇒ $(C)$ នៅលើ $(d)$។"},{"content":"ង. $f''(x)=2+\\dfrac1{(x+1)^2}>0$ ដូចនេះ $f$ កើន។ $\\lim_{x\\to-1^+}f=-\\infty$, $\\lim_{x\\to-1^-}f=+\\infty$ ($x=-1$ អាស៊ីមតូតឈរ); $\\lim_{x\\to\\pm\\infty}f=\\pm\\infty$; $f(0)=-2$; $f(x)=0\\Leftrightarrow x=\\dfrac{-1\\pm\\sqrt{17}}{4}$។ សង់ក្រាបដោយប្រើអាស៊ីមតូត តារាងអថេរភាព និងចំណុចប្រសព្វខាងលើ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2024-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2024, 'BacII 2024: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២៤ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2024, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: The copy gives points for I–III (10 each) but not IV and V, so none are shown. III.គ: the copy prints the upper bound as j; it is written here as e.', 'needs-review')
@@ -1981,6 +2006,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2024-4000-8000-000000000001', '១. $0$  ២. $+\infty$  ៣. $-\dfrac{21}{25}$  ៤. $\dfrac14$', null, null, null, '[{"content":"១. $\\dfrac{(x-2)(x+2)}{x+2}=x-2\\to0$។"},{"content":"២. $(\\ln x)^2-2\\ln x+1=(\\ln x-1)^2$ ហើយ $\\ln x\\to-\\infty$ កាលណា $x\\to0^+$ ដូចនេះលីមីតស្មើ $+\\infty$។"},{"content":"៣. $\\dfrac{6-27}{9+15+1}=-\\dfrac{21}{25}$។"},{"content":"៤. $\\dfrac{(x+3)-4}{(x-1)\\left(\\sqrt{x+3}+2\\right)}=\\dfrac1{\\sqrt{x+3}+2}\\to\\dfrac14$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2024-4000-8000-000000000002', 'kh-grade12-social-mathematics-probability', null, 2024, 'open', 'ក្នុងប្រអប់មួយមានកូនបាល់ចំនួន $40$ គ្រាប់ ក្នុងនោះមានកូនបាល់ពណ៌បៃតងចំនួន $19$ និងពណ៌លឿងចំនួន $21$។ គេចាប់យកកូនបាល់ម្តង $2$ ព្រមគ្នាចេញពីថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 ក. កូនបាល់ទាំងពីរមានពណ៌ខុសគ្នា។
@@ -1990,6 +2020,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2024-4000-8000-000000000002', 'ក. $\dfrac{133}{260}$  ខ. $\dfrac{57}{260}$  គ. $\dfrac{127}{260}$', null, null, null, '[{"content":"$n(S)=C_{40}^2=780$។"},{"content":"ក. $19\\cdot21=399$ ⇒ $\\dfrac{399}{780}=\\dfrac{133}{260}$។"},{"content":"ខ. $C_{19}^2=171$ ⇒ $\\dfrac{171}{780}=\\dfrac{57}{260}$។"},{"content":"គ. $C_{19}^2+C_{21}^2=171+210=381$ ⇒ $\\dfrac{381}{780}=\\dfrac{127}{260}$ (ឬ $1-\\dfrac{133}{260}$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2024-4000-8000-000000000003', 'kh-grade12-social-mathematics-integrals', null, 2024, 'open', 'គណនាអាំងតេក្រាល៖
@@ -2001,6 +2036,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2024-4000-8000-000000000003', 'ក. $-\dfrac12$  ខ. $5-\ln6$  គ. $\dfrac12$', null, null, null, '[{"content":"ក. $\\left[\\dfrac{x^2}{2}-3x\\right]_2^3=\\left(\\dfrac92-9\\right)-(2-6)=-\\dfrac12$។"},{"content":"ខ. $\\left[e^x-x\\right]_0^{\\ln6}=(6-\\ln6)-1=5-\\ln6$។"},{"content":"គ. $\\left[\\dfrac{(\\ln x)^2}{2}\\right]_1^e=\\dfrac12$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2024-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2024, 'open', 'គេមានសមីការ $(4x+3y)^2-144=24xy$។
 ១. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច ប្រវែងអ័ក្សធំ កូអរដោនេនៃកំពូលទាំងពីរ និងកូអរដោនេនៃកំណុំទាំងពីររបស់អេលីប។
@@ -2009,6 +2049,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2024-4000-8000-000000000004', '$\dfrac{x^2}{9}+\dfrac{y^2}{16}=1$; អ័ក្សតូច $6$ អ័ក្សធំ $8$; កំពូល $(0,\pm4)$; កំណុំ $\left(0,\pm\sqrt7\right)$', null, null, null, '[{"content":"១. $(4x+3y)^2-144=24xy\\Leftrightarrow16x^2+24xy+9y^2-144=24xy\\Leftrightarrow16x^2+9y^2=144$។"},{"content":"ចែកនឹង $144$៖ $\\dfrac{x^2}{9}+\\dfrac{y^2}{16}=1$ ជាអេលីបមានអ័ក្សធំលើ $Oy$ ($a=4$, $b=3$)។"},{"content":"អ័ក្សតូច $2b=6$ អ័ក្សធំ $2a=8$; កំពូល $(0,\\pm4)$; $c=\\sqrt{16-9}=\\sqrt7$ កំណុំ $\\left(0,\\pm\\sqrt7\\right)$។"},{"content":"២. សង់តាមកំពូល $(0,\\pm4)$ និងចុងអ័ក្សតូច $(\\pm3,0)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2024-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2024, 'open', 'គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\dfrac{-x^2+x+3}{x+1}$។ យើងតាង $(C)$ ជាក្រាបរបស់អនុគមន៍ ក្នុងតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -2021,6 +2066,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2024-4000-8000-000000000000', 'bacc2010-2024-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2024-4000-8000-000000000005', '$D=\mathbb{R}\setminus\{-1\}$; អាស៊ីមតូតឈរ $x=-1$ អាស៊ីមតូតទ្រេត $y=-x+2$; $f$ ចុះលើ $]-\infty,-1[$ និង $]-1,+\infty[$', null, null, null, '[{"content":"ក. $x+1\\neq0$ ⇒ $D=\\mathbb{R}\\setminus\\{-1\\}$។"},{"content":"ខ. $(-x+2)(x+1)+1=-x^2+x+2+1=-x^2+x+3$ ដូចនេះ $f(x)=-x+2+\\dfrac1{x+1}$។"},{"content":"គ. $\\lim_{x\\to-\\infty}f=+\\infty$, $\\lim_{x\\to+\\infty}f=-\\infty$, $\\lim_{x\\to-1^+}f=+\\infty$, $\\lim_{x\\to-1^-}f=-\\infty$។"},{"content":"ឃ. $x=-1$ ជាអាស៊ីមតូតឈរ ហើយ $f(x)-(-x+2)=\\dfrac1{x+1}\\to0$ ដូចនេះ $y=-x+2$ ជាអាស៊ីមតូតទ្រេត។"},{"content":"ង. $f''(x)=-1-\\dfrac1{(x+1)^2}<0$ ដូចនេះ $f$ ចុះលើចន្លោះនីមួយៗ។ $f(0)=3$; $f(x)=0\\Leftrightarrow x=\\dfrac{1\\pm\\sqrt{13}}{2}$។ សង់ក្រាបដោយប្រើអាស៊ីមតូត តារាងអថេរភាព និងចំណុចប្រសព្វខាងលើ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2023-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2023, 'BacII 2023: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២៣ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -2037,6 +2087,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2023-4000-8000-000000000001', 'ក. $+\infty$  ខ. $-\dfrac14$  គ. $-\infty$ ត្រង់ $+\infty$ ($0$ ត្រង់ $-\infty$)', null, null, null, '[{"content":"ក. $3x^2-x=x(3x-1)\\to+\\infty$។"},{"content":"ខ. $\\dfrac{4\\left(\\sqrt{x+2}-2\\right)}{4-x^2}=\\dfrac{4(x-2)}{\\left(\\sqrt{x+2}+2\\right)(2-x)(2+x)}=\\dfrac{-4}{\\left(\\sqrt{x+2}+2\\right)(2+x)}\\to\\dfrac{-4}{4\\cdot4}=-\\dfrac14$។"},{"content":"គ. ក្រដាសសរសេរ $x\\to\\infty$៖ ត្រង់ $+\\infty$ $e^x\\to+\\infty$ និង $-x^2+\\dfrac1x\\to-\\infty$ ⇒ លីមីត $-\\infty$។ ត្រង់ $-\\infty$ $x^2e^x\\to0$ និង $\\dfrac{e^x}{x}\\to0$ ⇒ លីមីត $0$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2023-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2023, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
 ក. $\displaystyle\int_0^1\left(1-x+x^2\right)dx$
@@ -2047,6 +2102,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2023-4000-8000-000000000002', 'ក. $\dfrac56$  ខ. $\ln\dfrac{e+1}{2}$  គ. $1$', null, null, null, '[{"content":"ក. $\\left[x-\\dfrac{x^2}{2}+\\dfrac{x^3}{3}\\right]_0^1=1-\\dfrac12+\\dfrac13=\\dfrac56$។"},{"content":"ខ. $\\left(e^x+1\\right)''=e^x$ ដូចនេះ $\\left[\\ln\\left(e^x+1\\right)\\right]_0^1=\\ln(e+1)-\\ln2=\\ln\\dfrac{e+1}{2}$។"},{"content":"គ. $\\dfrac{e^x}{e^x+1}+\\dfrac1{1+e^x}=1$ ដូចនេះអាំងតេក្រាលស្មើ $\\int_0^1dx=1$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2023-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2023, 'open', 'ក្នុងថង់មួយមានប៊ូលពណ៌ក្រហមចំនួន $4$ និងប៊ូលពណ៌ខ្មៅចំនួន $5$។
 ក. គេចាប់យកប៊ូល $2$ ពីក្នុងថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ដែលប៊ូលចាប់បានមកទាំងពីរ មានមួយពណ៌ក្រហម និងមួយពណ៌ខ្មៅ។
@@ -2056,12 +2116,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2023-4000-8000-000000000003', 'ក. $\dfrac59$  ខ. $\dfrac{20}{81}$', null, null, null, '[{"content":"ក. $n(S)=C_9^2=36$ ហើយក្រហមមួយខ្មៅមួយ $4\\cdot5=20$ ⇒ $\\dfrac{20}{36}=\\dfrac59$។"},{"content":"ខ. ចាប់ហើយដាក់វិញ៖ លើកដំបូងខ្មៅ $\\dfrac59$ លើកទីពីរក្រហម $\\dfrac49$ ⇒ $\\dfrac59\\cdot\\dfrac49=\\dfrac{20}{81}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2023-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2023, 'open', 'រកសមីការស្តង់ដាប៉ារ៉ាបូលដែលមានកំណុំ $F(0,-2)$ និងបន្ទាត់ប្រាប់ទិសមានសមីការ $y=2$។ ចូរសង់ប៉ារ៉ាបូលនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2023, social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2023-4000-8000-000000000004', '$x^2=-8y$', null, null, null, '[{"content":"កំណុំ $F(0,-2)$ និងបន្ទាត់ប្រាប់ទិស $y=2$ ⇒ កំពូលជាចំណុចកណ្តាល $O(0,0)$ និង $p=-2$។"},{"content":"$x^2=4py=-8y$។ ប៉ារ៉ាបូលបើកចុះក្រោម កាត់តាម $(\\pm4,-2)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2023-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2023, 'open', 'គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\dfrac{3x-1}{(x-1)^2}$ និងគេតាងក្រាប $(C)$។
@@ -2073,6 +2143,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2023-4000-8000-000000000000', 'bacc2010-2023-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2023-4000-8000-000000000005', '$D=\mathbb{R}\setminus\{1\}$; អាស៊ីមតូតឈរ $x=1$ អាស៊ីមតូតដេក $y=0$; $f$ ចុះលើ $\left]-\infty,-\dfrac13\right]$ និង $]1,+\infty[$ កើនលើ $\left[-\dfrac13,1\right[$; អប្បបរមា $f\left(-\dfrac13\right)=-\dfrac98$', null, null, null, '[{"content":"ក. $(x-1)^2\\neq0$ ⇒ $D=\\mathbb{R}\\setminus\\{1\\}$។"},{"content":"ខ. $\\lim_{x\\to1}f=+\\infty$ (ភាគយក $\\to2>0$ ភាគបែង $\\to0^+$); $\\lim_{x\\to\\pm\\infty}f=0$។ ដូចនេះ $x=1$ ជាអាស៊ីមតូតឈរ និង $y=0$ ជាអាស៊ីមតូតដេក។"},{"content":"គ. $f''(x)=\\dfrac{3(x-1)^2-(3x-1)\\cdot2(x-1)}{(x-1)^4}=\\dfrac{3(x-1)-2(3x-1)}{(x-1)^3}=\\dfrac{-3x-1}{(x-1)^3}=-\\dfrac{3x+1}{(x-1)^3}$។"},{"content":"ឃ. $f''<0$ ពេល $x<-\\dfrac13$ ឬ $x>1$ ហើយ $f''>0$ ពេល $-\\dfrac13<x<1$។ $f\\left(-\\dfrac13\\right)=\\dfrac{-2}{16/9}=-\\dfrac98$; $f(0)=-1$; $f(x)=0\\Leftrightarrow x=\\dfrac13$។ សង់ក្រាបដោយប្រើអាស៊ីមតូត តារាងអថេរភាព និងចំណុចប្រសព្វខាងលើ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2022-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2022, 'BacII 2022: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2022 (2022-12-05), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints f(x) = (4−x²)/(x−4), which does not match part ខ; this page follows the other, (4−x²)/(1−x).', 'needs-review')
@@ -2089,6 +2164,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2022-4000-8000-000000000001', 'ក. $0$  ខ. $\dfrac14$  គ. $-\dfrac12$', null, null, null, '[{"content":"ក. $e^{2x}-2e^x+1=\\left(e^x-1\\right)^2\\to0$។"},{"content":"ខ. $\\dfrac{\\sqrt x-2}{\\left(\\sqrt x-2\\right)\\left(\\sqrt x+2\\right)}=\\dfrac1{\\sqrt x+2}\\to\\dfrac14$។"},{"content":"គ. តួខ្ពស់បំផុត៖ $\\dfrac{-x}{2x}=-\\dfrac12$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2022-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2022, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
 ក. $\displaystyle A=\int_0^1\left[\left(x^2-3x+1\right)+(2x+1)\right]dx$
@@ -2097,6 +2177,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2022-4000-8000-000000000002', 'ក. $A=\dfrac{11}{6}$  ខ. $B=\ln2+\dfrac16$', null, null, null, '[{"content":"ក. $A=\\int_0^1\\left(x^2-x+2\\right)dx=\\dfrac13-\\dfrac12+2=\\dfrac{11}{6}$។"},{"content":"ខ. $B=\\left[\\ln(x-1)-\\dfrac1x\\right]_2^3=\\left(\\ln2-\\dfrac13\\right)-\\left(0-\\dfrac12\\right)=\\ln2+\\dfrac16$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2022-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2022, 'open', 'ក្នុងអាងចិញ្ចឹមត្រីមួយមានត្រីឈ្មោលចំនួន $4$ និងញីចំនួន $6$។ គេចាប់យកត្រី $3$ មកដាក់នៅអាងថ្មីមួយដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
@@ -2107,6 +2192,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2022-4000-8000-000000000003', 'ក. $\dfrac1{30}$  ខ. $\dfrac12$', null, null, null, '[{"content":"$n(S)=C_{10}^3=120$។"},{"content":"ក. $C_4^3=4$ ⇒ $\\dfrac4{120}=\\dfrac1{30}$។"},{"content":"ខ. $C_6^2\\cdot C_4^1=60$ ⇒ $\\dfrac{60}{120}=\\dfrac12$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2022-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2022, 'open', 'គេមានសមីការ $12y^2=300-75x^2$។
 ក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច អ័ក្សធំ កូអរដោនេនៃកំពូលទាំងពីរ និងកំណុំទាំងពីររបស់អេលីបនេះ។
@@ -2115,6 +2205,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2022-4000-8000-000000000004', '$\dfrac{x^2}{4}+\dfrac{y^2}{25}=1$; អ័ក្សតូច $4$ អ័ក្សធំ $10$; កំពូល $(0,\pm5)$; កំណុំ $\left(0,\pm\sqrt{21}\right)$', null, null, null, '[{"content":"ក. $75x^2+12y^2=300$ ចែកនឹង $300$៖ $\\dfrac{x^2}{4}+\\dfrac{y^2}{25}=1$ ជាអេលីបមានអ័ក្សធំលើ $Oy$ ($a=5$, $b=2$)។"},{"content":"ប្រវែងអ័ក្សតូច $2b=4$ អ័ក្សធំ $2a=10$; កំពូល $(0,\\pm5)$; $c=\\sqrt{25-4}=\\sqrt{21}$ កំណុំ $\\left(0,\\pm\\sqrt{21}\\right)$។"},{"content":"ខ. សង់តាមកំពូល $(0,\\pm5)$ និងចុងអ័ក្សតូច $(\\pm2,0)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2022-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2022, 'open', 'គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\dfrac{4-x^2}{1-x}$ និងតាង $(C)$ ជាក្រាបរបស់អនុគមន៍ $f$។
@@ -2126,6 +2221,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2022-4000-8000-000000000000', 'bacc2010-2022-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2022-4000-8000-000000000005', '$D=\mathbb{R}\setminus\{1\}$; អាស៊ីមតូតឈរ $x=1$ អាស៊ីមតូតទ្រេត $y=x+1$; $f$ កើនលើ $]-\infty,1[$ និង $]1,+\infty[$', null, null, null, '[{"content":"ក. $1-x\\neq0$ ⇒ $D=\\mathbb{R}\\setminus\\{1\\}$។"},{"content":"ខ. $(x+1)(1-x)+3=1-x^2+3=4-x^2$ ដូចនេះ $f(x)=x+1+\\dfrac3{1-x}$។"},{"content":"គ. $\\lim_{x\\to1^+}f=-\\infty$, $\\lim_{x\\to1^-}f=+\\infty$, $\\lim_{x\\to+\\infty}f=+\\infty$, $\\lim_{x\\to-\\infty}f=-\\infty$។ ដូចនេះ $x=1$ ជាអាស៊ីមតូតឈរ ហើយដោយ $\\dfrac3{1-x}\\to0$ បន្ទាត់ $y=x+1$ ជាអាស៊ីមតូតទ្រេត។"},{"content":"ឃ. $f''(x)=1+\\dfrac3{(1-x)^2}>0$ ដូចនេះ $f$ កើនលើចន្លោះនីមួយៗ។ $f(0)=4$ និង $f(x)=0\\Leftrightarrow x=\\pm2$។ សង់ក្រាបដោយប្រើអាស៊ីមតូត តារាងអថេរភាព និងចំណុចប្រសព្វខាងលើ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2021-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2021, 'BacII 2021: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
@@ -2142,6 +2242,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2021-4000-8000-000000000001', 'ក. $0$  ខ. $-2$  គ. $-\infty$', null, null, null, '[{"content":"ក. $-(-1)^3+(-1)^2-2(-1)-4=1+1+2-4=0$។"},{"content":"ខ. តួខ្ពស់បំផុត៖ $\\dfrac{2x}{-x}=-2$។"},{"content":"គ. $e^x\\to+\\infty$ និង $-x^2+\\dfrac1x\\to-\\infty$ ដូចនេះផលគុណ $\\to-\\infty$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2021-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2021, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
 ១. $\displaystyle I=\int_0^1\left(x^2+x+1\right)dx$
@@ -2150,6 +2255,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2021-4000-8000-000000000002', '១. $I=\dfrac{11}{6}$  ២. $J=2$', null, null, null, '[{"content":"១. $I=\\left[\\dfrac{x^3}{3}+\\dfrac{x^2}{2}+x\\right]_0^1=\\dfrac13+\\dfrac12+1=\\dfrac{11}{6}$។"},{"content":"២. $J=\\left[-\\dfrac4x\\right]_1^2=-2+4=2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2021-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2021, 'open', 'ក្នុងប្រអប់មួយមានឃ្លីពណ៌ក្រហមចំនួន $5$ និងឃ្លីពណ៌ខ្មៅចំនួន $3$។ គេចាប់យកឃ្លីម្តង $3$ ដោយចៃដន្យ។ គេសន្និដ្ឋានថាប្រូបាបដែលចាប់បានឃ្លីនីមួយៗជាសមប្រូបាប។ គណនាប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
@@ -2160,12 +2270,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2021-4000-8000-000000000003', '$P(A)=\dfrac5{28}$, $P(B)=\dfrac{15}{28}$', null, null, null, '[{"content":"$n(S)=C_8^3=56$។"},{"content":"$A$៖ $C_5^3=10$ ⇒ $\\dfrac{10}{56}=\\dfrac5{28}$។"},{"content":"$B$៖ $C_5^2\\cdot C_3^1=30$ ⇒ $\\dfrac{30}{56}=\\dfrac{15}{28}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2021-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2021, 'open', 'រកសមីការស្តង់ដានៃអេលីបដែលមានកំណុំមួយជាចំណុច $(2,0)$ និងចំណុចកំពូលទាំងពីរមានកូអរដោនេ $(-3,0)$ និង $(3,0)$។ សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V: one copy prints the denominator of f(x) as 20x, a misprint; this page follows the other, 2 − x, which part ខ needs.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2021-4000-8000-000000000004', '$\dfrac{x^2}{9}+\dfrac{y^2}{5}=1$', null, null, null, '[{"content":"កំពូល $(\\pm3,0)$ ⇒ $a=3$; កំណុំ $(2,0)$ ⇒ $c=2$; $b^2=9-4=5$។"},{"content":"ដើម្បីសង់៖ កំពូល $(\\pm3,0)$ ចុងអ័ក្សតូច $\\left(0,\\pm\\sqrt5\\right)$ កំណុំ $(\\pm2,0)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2021-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2021, 'open', 'គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\dfrac{x^2-5x+7}{2-x}$។ យើងតាង $(C)$ ជាក្រាបរបស់អនុគមន៍ $f$ ក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -2178,6 +2298,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2021-4000-8000-000000000000', 'bacc2010-2021-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2021-4000-8000-000000000005', '$D=\mathbb{R}\setminus\{2\}$; អាស៊ីមតូតឈរ $x=2$ អាស៊ីមតូតទ្រេត $y=-x+3$; $f$ ចុះលើ $]-\infty,1]$ និង $[3,+\infty[$ កើនលើ $[1,2[$ និង $]2,3]$; $f(1)=3$ អប្បបរមាធៀប $f(3)=-1$ អតិបរមាធៀប', null, null, null, '[{"content":"ក. $2-x\\neq0$ ⇒ $D=\\mathbb{R}\\setminus\\{2\\}$។"},{"content":"ខ. $(3-x)(2-x)+1=x^2-5x+6+1=x^2-5x+7$ ដូចនេះ $f(x)=3-x+\\dfrac1{2-x}$។"},{"content":"គ. $\\lim_{x\\to-\\infty}f=+\\infty$, $\\lim_{x\\to+\\infty}f=-\\infty$, $\\lim_{x\\to2^-}f=+\\infty$, $\\lim_{x\\to2^+}f=-\\infty$។"},{"content":"ឃ. $x=2$ ជាអាស៊ីមតូតឈរ ហើយ $f(x)-(3-x)=\\dfrac1{2-x}\\to0$ ដូចនេះ $y=-x+3$ ជាអាស៊ីមតូតទ្រេត។"},{"content":"ង. $f''(x)=-1+\\dfrac1{(2-x)^2}=-\\dfrac{(x-1)(x-3)}{(x-2)^2}$។ $f$ ចុះលើ $]-\\infty,1]$ កើនលើ $[1,2[$ និង $]2,3]$ ហើយចុះលើ $[3,+\\infty[$; $f(1)=3$, $f(3)=-1$; $f(0)=\\dfrac72$។ សង់ក្រាបដោយប្រើអាស៊ីមតូត តារាងអថេរភាព និងចំណុចប្រសព្វខាងលើ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2019-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2019, 'BacII 2019: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -2195,6 +2320,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2019-4000-8000-000000000001', '១. $\dfrac14$  ២. $\dfrac12$  ៣. $0$  ៤. $-\dfrac12$', null, null, null, '[{"content":"១. $\\dfrac{x-1}{2(x-1)(x+1)}=\\dfrac1{2(x+1)}\\to\\dfrac14$។"},{"content":"២. តួខ្ពស់បំផុត៖ $\\dfrac{x^2}{2x^2}=\\dfrac12$។"},{"content":"៣. $\\dfrac{1-1}{2}=0$។"},{"content":"៤. $\\dfrac{1-\\sqrt x}{\\left(\\sqrt x-1\\right)\\left(\\sqrt x+1\\right)}=\\dfrac{-1}{\\sqrt x+1}\\to-\\dfrac12$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2019-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2019, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
 $\displaystyle I=\int_0^1\left(2-3x+x^2\right)dx$; $\displaystyle J=\int_0^2\left[2x-\frac{1}{x+e}\right]dx$; $\displaystyle K=\int_{-1}^0\left(2-\frac{1}{(x-1)^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -2202,6 +2332,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2019-4000-8000-000000000002', '$I=\dfrac56$, $J=5-\ln(2+e)$, $K=\dfrac32$', null, null, null, '[{"content":"$I=\\left[2x-\\dfrac{3x^2}{2}+\\dfrac{x^3}{3}\\right]_0^1=2-\\dfrac32+\\dfrac13=\\dfrac56$។"},{"content":"$J=\\left[x^2-\\ln(x+e)\\right]_0^2=4-\\ln(2+e)+\\ln e=5-\\ln(2+e)$។"},{"content":"$K=\\left[2x+\\dfrac1{x-1}\\right]_{-1}^0=(0-1)-\\left(-2-\\dfrac12\\right)=\\dfrac32$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2019-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2019, 'open', 'ក្នុងថង់មួយមានប៊ូល $10$ ដែលមានក្នុងនោះប៊ូល $5$ មានពណ៌លឿង ហើយគេសរសេរលេខពី $1$ ដល់ $5$ ប៊ូល $3$ មានពណ៌ក្រហម ហើយគេសរសេរលេខពី $1$ ដល់ $3$ និងប៊ូលពីរមានពណ៌ស ហើយគេសរសេរលេខពី $1$ ដល់ $2$។ គេចាប់យកប៊ូលមួយពីក្នុងថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
@@ -2213,6 +2348,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2019-4000-8000-000000000003', '$P(A)=\dfrac12$, $P(B)=\dfrac3{10}$, $P(C)=\dfrac1{10}$', null, null, null, '[{"content":"$n(S)=10$។"},{"content":"$A$៖ ប៊ូលលឿង $5$ ⇒ $\\dfrac5{10}=\\dfrac12$។"},{"content":"$B$៖ លេខ $2$ មានម្តងក្នុងពណ៌នីមួយៗ (លឿង ក្រហម ស) ⇒ $\\dfrac3{10}$។"},{"content":"$C$៖ ក្រហមលេខ $1$ មានតែមួយ ⇒ $\\dfrac1{10}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2019-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2019, 'open', 'គេមានសមីការ $25x^2+9y^2-225=0$។
 ក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សធំ អ័ក្សតូច កូអរដោនេនៃកំពូលទាំងពីរ និងកូអរដោនេនៃកំណុំទាំងពីរនៃអេលីបនេះ។
@@ -2221,6 +2361,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2019-4000-8000-000000000004', '$\dfrac{x^2}{9}+\dfrac{y^2}{25}=1$; អ័ក្សធំ $10$ អ័ក្សតូច $6$; កំពូល $(0,\pm5)$; កំណុំ $(0,\pm4)$', null, null, null, '[{"content":"ក. $25x^2+9y^2=225$ ចែកនឹង $225$៖ $\\dfrac{x^2}{9}+\\dfrac{y^2}{25}=1$ ជាអេលីបមានអ័ក្សធំលើ $Oy$ ($a=5$, $b=3$)។"},{"content":"ប្រវែងអ័ក្សធំ $2a=10$ អ័ក្សតូច $2b=6$; កំពូល $(0,-5)$ និង $(0,5)$; $c=\\sqrt{25-9}=4$ កំណុំ $(0,-4)$ និង $(0,4)$។"},{"content":"ខ. សង់តាមកំពូល $(0,\\pm5)$ និងចុងអ័ក្សតូច $(\\pm3,0)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2019-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2019, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $D=\mathbb{R}\setminus\{-1\}$ ដោយ $f(x)=\dfrac{x^2+2x-2}{x+1}$។ យើងតាងក្រាប $(C)$ របស់អនុគមន៍នេះក្នុងប្លង់ប្រដាប់ដោយតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -2231,6 +2376,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2019-4000-8000-000000000000', 'bacc2010-2019-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2019-4000-8000-000000000005', 'អាស៊ីមតូតឈរ $x=-1$ អាស៊ីមតូតទ្រេត $y=x+1$; $f$ កើនលើ $]-\infty,-1[$ និង $]-1,+\infty[$', null, null, null, '[{"content":"១. $(x+1)^2-3=x^2+2x+1-3=x^2+2x-2$ ដូចនេះ $f(x)=x+1-\\dfrac3{x+1}$។"},{"content":"២. $\\lim_{x\\to-1^+}f=-\\infty$ និង $\\lim_{x\\to-1^-}f=+\\infty$ ⇒ $x=-1$ ជាអាស៊ីមតូតឈរ។ $f(x)-(x+1)=-\\dfrac3{x+1}\\to0$ ⇒ $y=x+1$ ជាអាស៊ីមតូតទ្រេត។"},{"content":"៣. $f''(x)=1+\\dfrac3{(x+1)^2}>0$ ដូចនេះ $f$ កើនលើចន្លោះនីមួយៗ; $\\lim_{x\\to\\pm\\infty}f=\\pm\\infty$។"},{"content":"ចំណុចប្រសព្វ៖ $f(0)=-2$ និង $f(x)=0\\Leftrightarrow x=-1\\pm\\sqrt3$។ សង់ក្រាបដោយប្រើអាស៊ីមតូត តារាងអថេរភាព និងចំណុចប្រសព្វខាងលើ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2018-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2018, 'BacII 2018: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -2247,6 +2397,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2018-4000-8000-000000000001', 'ក. $10$  ខ. $0$  គ. $+\infty$', null, null, null, '[{"content":"ក. $\\dfrac{81+18+1}{9+1}=10$។"},{"content":"ខ. ដឺក្រេភាគយក $1$ តូចជាងដឺក្រេភាគបែង $2$ ដូចនេះលីមីតស្មើ $0$។"},{"content":"គ. $x^2+2-\\ln x=x^2\\left(1+\\dfrac2{x^2}-\\dfrac{\\ln x}{x^2}\\right)$ ហើយ $\\dfrac{\\ln x}{x^2}\\to0$ ដូចនេះលីមីតស្មើ $+\\infty$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2018-4000-8000-000000000002', 'kh-grade12-social-mathematics-probability', null, 2018, 'open', 'ក្នុងថ្នាក់រៀនមួយមានសិស្ស $15$ នាក់ ក្នុងនោះមានសិស្សប្រុស $9$ នាក់ និងសិស្សស្រី $6$ នាក់។ គេជ្រើសរើសសិស្ស $3$ នាក់ដោយចៃដន្យជាតំណាងយកទៅសម្ភាសន៍។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 $A$៖ «ក្រុមសិស្សទាំង $3$ នាក់ សុទ្ធតែជាសិស្សស្រី»
@@ -2257,6 +2412,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2018-4000-8000-000000000002', '$P(A)=\dfrac4{91}$, $P(B)=\dfrac{12}{65}$, $P(C)=\dfrac{27}{91}$', null, null, null, '[{"content":"$n(S)=C_{15}^3=455$។"},{"content":"$A$៖ $C_6^3=20$ ⇒ $\\dfrac{20}{455}=\\dfrac4{91}$។ $B$៖ $C_9^3=84$ ⇒ $\\dfrac{84}{455}=\\dfrac{12}{65}$។"},{"content":"$C$៖ ស្រី $2$ ប្រុស $1$៖ $C_6^2\\cdot C_9^1=135$ ⇒ $\\dfrac{135}{455}=\\dfrac{27}{91}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2018-4000-8000-000000000003', 'kh-grade12-social-mathematics-integrals', null, 2018, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
 $\displaystyle I=\int_1^2\left(3x^2-2x+3\right)dx$; $\displaystyle J=\int_0^1\left(e^{2x}-e^x+1\right)dx$; $\displaystyle K=\int_1^2\left(\frac{1}{x+3}+\frac{1}{x^2}\right)dx$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -2264,6 +2424,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2018-4000-8000-000000000003', '$I=7$, $J=\dfrac{e^2}{2}-e+\dfrac32$, $K=\ln\dfrac54+\dfrac12$', null, null, null, '[{"content":"$I=\\left[x^3-x^2+3x\\right]_1^2=10-3=7$។"},{"content":"$J=\\left[\\dfrac{e^{2x}}{2}-e^x+x\\right]_0^1=\\left(\\dfrac{e^2}{2}-e+1\\right)-\\left(\\dfrac12-1\\right)=\\dfrac{e^2}{2}-e+\\dfrac32$។"},{"content":"$K=\\left[\\ln(x+3)-\\dfrac1x\\right]_1^2=\\left(\\ln5-\\dfrac12\\right)-(\\ln4-1)=\\ln\\dfrac54+\\dfrac12$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2018-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2018, 'open', 'គេមានប៉ារ៉ាបូលមួយដែលមានកំពូលជាចំណុច $O(0,0)$ និងកំណុំ $F$ ស្ថិតនៅលើអ័ក្សអាប់ស៊ីស។
@@ -2273,6 +2438,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2018-4000-8000-000000000004', 'ក. $y^2=6x$  ខ. $F\left(\dfrac32,0\right)$, បន្ទាត់ប្រាប់ទិស $x=-\dfrac32$', null, null, null, '[{"content":"ក. កំពូល $O$ និងកំណុំលើ $Ox$ ⇒ $y^2=4px$។ $A\\left(\\dfrac32,-3\\right)$៖ $9=6p$ ⇒ $p=\\dfrac32$ ដូចនេះ $y^2=6x$។"},{"content":"ខ. កំណុំ $F(p,0)=\\left(\\dfrac32,0\\right)$ បន្ទាត់ប្រាប់ទិស $x=-\\dfrac32$។ ប៉ារ៉ាបូលបើកទៅស្តាំ កាត់តាម $\\left(\\dfrac32,\\pm3\\right)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2018-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2018, 'open', 'គេមានអនុគមន៍ $f$ កំណត់ដោយ $f(x)=\dfrac{2x^2-7x+5}{x^2-5x+7}$។ យើងតាងដោយ $(C)$ ក្រាបរបស់វាលើតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -2285,6 +2455,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2018-4000-8000-000000000000', 'bacc2010-2018-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2018-4000-8000-000000000005', '$D=\mathbb{R}$; អាស៊ីមតូត $y=2$; $f$ ចុះលើ $]-\infty,2]$ និង $[4,+\infty[$ កើនលើ $[2,4]$; $f(2)=-1$ អប្បបរមាធៀប $f(4)=3$ អតិបរមាធៀប', null, null, null, '[{"content":"១. $x^2-5x+7$ មាន $\\Delta=25-28<0$ ដូចនេះមិនដែលសូន្យ ហើយ $D=\\mathbb{R}$។"},{"content":"២. $\\lim_{x\\to\\pm\\infty}f=\\dfrac21=2$ ដូចនេះ $d: y=2$ ជាអាស៊ីមតូតដេកត្រង់ $\\pm\\infty$។"},{"content":"៣ក. $f''(x)=\\dfrac{(4x-7)(x^2-5x+7)-(2x^2-7x+5)(2x-5)}{(x^2-5x+7)^2}=\\dfrac{-3x^2+18x-24}{(x^2-5x+7)^2}=\\dfrac{-3\\left(x^2-6x+8\\right)}{(x^2-5x+7)^2}$។"},{"content":"៣ខ. $x^2-6x+8=(x-2)(x-4)$៖ $f''<0$ លើ $]-\\infty,2[$ និង $]4,+\\infty[$ ហើយ $f''>0$ លើ $]2,4[$។ $f(2)=\\dfrac{-1}{1}=-1$, $f(4)=\\dfrac93=3$។"},{"content":"៣គ. ចំណុចប្រសព្វ៖ $f(x)=0\\Leftrightarrow x=1$ ឬ $x=\\dfrac52$; $f(0)=\\dfrac57$។ សង់ក្រាបដោយប្រើអាស៊ីមតូត តារាងអថេរភាព និងចំណុចប្រសព្វខាងលើ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2017-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2017, 'BacII 2017: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2017 (2017-08-21), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: V.1: one copy asks for the limits at −∞ and +∞ only, the other also at 2; this page follows the second.', 'needs-review')
@@ -2301,6 +2476,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2017-4000-8000-000000000001', 'ក. $1$  ខ. $162$  គ. $1$', null, null, null, '[{"content":"ក. ចែកភាគយក និងភាគបែងនឹង $x^2$៖ $\\dfrac{1+\\frac1x+\\frac1{x^2}}{1+\\frac1{x^2}}\\to1$។"},{"content":"ខ. $\\dfrac{(x-3)(x^2+3x+9)\\left(\\sqrt{x+6}+3\\right)}{x-3}=(x^2+3x+9)\\left(\\sqrt{x+6}+3\\right)\\to27\\cdot6=162$។"},{"content":"គ. $\\dfrac{e^0+e^0}{2}=1$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2017-4000-8000-000000000002', 'kh-grade12-social-mathematics-probability', null, 2017, 'open', 'ក្នុងថង់មួយមានប៊ូលពណ៌សចំនួន $3$ និងប៊ូលពណ៌ក្រហមចំនួន $6$។ គេចាប់យកប៊ូល $3$ ក្នុងពេលតែមួយចេញពីថង់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 $A$៖ «ប៊ូលទាំងបីមានពណ៌ស»
@@ -2310,6 +2490,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2017-4000-8000-000000000002', '$P(A)=\dfrac1{84}$, $P(B)=\dfrac5{21}$, $P(C)=\dfrac3{14}$', null, null, null, '[{"content":"ប៊ូលសរុប $9$ ចាប់ $3$៖ $n(S)=C_9^3=84$។"},{"content":"$A$៖ $C_3^3=1$ ⇒ $\\dfrac1{84}$។ $B$៖ $C_6^3=20$ ⇒ $\\dfrac{20}{84}=\\dfrac5{21}$។"},{"content":"$C$៖ ក្រហម $1$ និងស $2$៖ $C_6^1\\cdot C_3^2=18$ ⇒ $\\dfrac{18}{84}=\\dfrac3{14}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2017-4000-8000-000000000003', 'kh-grade12-social-mathematics-integrals', null, 2017, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
@@ -2321,6 +2506,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2017-4000-8000-000000000003', 'ក. $I=36$  ខ. $J=2e-3$  គ. $K=2$', null, null, null, '[{"content":"ក. $I=\\left[x^3+x^2+x\\right]_1^3=39-3=36$។"},{"content":"ខ. $J=\\left[2e^x-x\\right]_0^1=(2e-1)-2=2e-3$។"},{"content":"គ. $K=\\left[\\dfrac{x^2}{2}-\\dfrac1x\\right]_1^2=\\left(2-\\dfrac12\\right)-\\left(\\dfrac12-1\\right)=2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2017-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2017, 'open', 'គេមានសមីការ $9x^2+25y^2=225$។
 ក. បង្ហាញថាសមីការនេះជាសមីការអេលីប។ រកប្រវែងអ័ក្សតូច ប្រវែងអ័ក្សធំ និងកូអរដោនេនៃកំពូលទាំងពីរ។
@@ -2329,6 +2519,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2017-4000-8000-000000000004', '$\dfrac{x^2}{25}+\dfrac{y^2}{9}=1$; អ័ក្សធំ $10$ អ័ក្សតូច $6$; កំពូល $(\pm5,0)$', null, null, null, '[{"content":"ក. ចែកនឹង $225$៖ $\\dfrac{x^2}{25}+\\dfrac{y^2}{9}=1$ ជាអេលីប ដែល $a=5$, $b=3$។"},{"content":"ប្រវែងអ័ក្សធំ $2a=10$ អ័ក្សតូច $2b=6$; កំពូល $(-5,0)$ និង $(5,0)$; $c=\\sqrt{25-9}=4$ កំណុំ $(\\pm4,0)$។"},{"content":"ខ. សង់តាមកំពូល $(\\pm5,0)$ និងចុងអ័ក្សតូច $(0,\\pm3)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2017-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2017, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $\mathbb{R}\setminus\{2\}$ ដោយ $f(x)=\dfrac{x^2-x-1}{x-2}$។ យើងតាង $C$ ក្រាបរបស់វាលើតម្រុយអរតូណរម៉ាល់ $\left(O,\vec{i},\vec{j}\right)$។
@@ -2341,6 +2536,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2017-4000-8000-000000000000', 'bacc2010-2017-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2017-4000-8000-000000000005', '$a=1$, $b=1$, $c=1$; $f$ កើនលើ $]-\infty,1]$ និង $[3,+\infty[$ ចុះលើ $[1,2[$ និង $]2,3]$; $f(1)=1$ អតិបរមាធៀប $f(3)=5$ អប្បបរមាធៀប', null, null, null, '[{"content":"១. $\\lim_{x\\to-\\infty}f=-\\infty$, $\\lim_{x\\to+\\infty}f=+\\infty$, $\\lim_{x\\to2^-}f=-\\infty$, $\\lim_{x\\to2^+}f=+\\infty$ (ភាគយកត្រង់ $2$ ស្មើ $1>0$)។"},{"content":"២. $f''(x)=\\dfrac{(2x-1)(x-2)-(x^2-x-1)}{(x-2)^2}=\\dfrac{x^2-4x+3}{(x-2)^2}=\\dfrac{(x-1)(x-3)}{(x-2)^2}$។ $f$ កើនលើ $]-\\infty,1]$ ចុះលើ $[1,2[$ និង $]2,3]$ ហើយកើនលើ $[3,+\\infty[$; $f(1)=1$, $f(3)=5$។"},{"content":"៣ក. $(x+1)(x-2)+1=x^2-x-1$ ដូចនេះ $f(x)=x+1+\\dfrac1{x-2}$ ហើយ $a=b=c=1$។"},{"content":"៣ខ. $f(x)-(x+1)=\\dfrac1{x-2}\\to0$ ត្រង់ $\\pm\\infty$ ដូចនេះ $d$ ជាអាស៊ីមតូត។ $C$ នៅលើ $d$ ពេល $x>2$ និងនៅក្រោម $d$ ពេល $x<2$។"},{"content":"៣គ. សង់ក្រាបដោយប្រើអាស៊ីមតូត តារាងអថេរភាព និងចំណុចប្រសព្វខាងលើ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2016-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2016, 'BacII 2016: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2016 (2016-08-22), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -2357,6 +2557,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2016-4000-8000-000000000001', 'ក. $-1$  ខ. $48$  គ. $-\infty$', null, null, null, '[{"content":"ក. $3-4=-1$។"},{"content":"ខ. $\\dfrac{(x-2)(x^2+2x+4)\\left(\\sqrt{x+2}+2\\right)}{(x+2)-4}=(x^2+2x+4)\\left(\\sqrt{x+2}+2\\right)\\to12\\cdot4=48$។"},{"content":"គ. $\\ln x-x^2=x^2\\left(\\dfrac{\\ln x}{x^2}-1\\right)$ ហើយ $\\dfrac{\\ln x}{x^2}\\to0$ ដូចនេះលីមីតស្មើ $-\\infty$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2016-4000-8000-000000000002', 'kh-grade12-social-mathematics-integrals', null, 2016, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
 ក. $\displaystyle I=\int_1^2\left(1-3x^2\right)dx$
@@ -2366,6 +2571,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2016-4000-8000-000000000002', 'ក. $I=-6$  ខ. $J=\dfrac16$  គ. $K=\ln(1+e)-2$', null, null, null, '[{"content":"ក. $I=\\left[x-x^3\\right]_1^2=(2-8)-(1-1)=-6$។"},{"content":"ខ. $J=\\left[-\\dfrac1x\\right]_2^3=-\\dfrac13+\\dfrac12=\\dfrac16$។"},{"content":"គ. $K=\\left[\\ln(x+e)-x\\right]_0^1=\\ln(1+e)-1-\\ln e=\\ln(1+e)-2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2016-4000-8000-000000000003', 'kh-grade12-social-mathematics-probability', null, 2016, 'open', 'ក្នុងប្រអប់មួយមានឃ្លីពណ៌ក្រហមចំនួន $3$ និងឃ្លីពណ៌ខៀវចំនួន $5$។ គេចាប់យកឃ្លី $2$ ក្នុងពេលតែមួយចេញពីប្រអប់ដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
@@ -2377,12 +2587,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2016-4000-8000-000000000003', '$P(A)=\dfrac3{28}$, $P(B)=\dfrac5{14}$, $P(C)=\dfrac{15}{28}$', null, null, null, '[{"content":"ឃ្លីសរុប $8$ ចាប់ $2$៖ $n(S)=C_8^2=28$។"},{"content":"$A$៖ $C_3^2=3$ ⇒ $\\dfrac3{28}$។ $B$៖ $C_5^2=10$ ⇒ $\\dfrac{10}{28}=\\dfrac5{14}$។ $C$៖ $3\\cdot5=15$ ⇒ $\\dfrac{15}{28}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2016-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2016, 'open', 'រកសមីការស្តង់ដានៃអេលីបដែលមានកំណុំ $F_1(-2,0)$ និងកំពូលពីរនៅត្រង់ចំណុច $A(-3,0)$ និង $B(3,0)$។ សង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2016-4000-8000-000000000004', '$\dfrac{x^2}{9}+\dfrac{y^2}{5}=1$', null, null, null, '[{"content":"កំពូល $(\\pm3,0)$ ⇒ $a=3$; កំណុំ $(-2,0)$ ⇒ $c=2$; $b^2=9-4=5$។"},{"content":"ដើម្បីសង់៖ កំពូល $(\\pm3,0)$ ចុងអ័ក្សតូច $\\left(0,\\pm\\sqrt5\\right)$ កំណុំ $(\\pm2,0)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2016-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2016, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $\mathbb{R}\setminus\{-2,2\}$ ដោយ $f(x)=\dfrac{2x^2}{x^2-4}$។
@@ -2393,6 +2613,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2016-4000-8000-000000000000', 'bacc2010-2016-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2016-4000-8000-000000000005', 'អាស៊ីមតូតដេក $y=2$ អាស៊ីមតូតឈរ $x=-2$, $x=2$; $f$ កើនលើ $]-\infty,-2[$ និង $]-2,0]$ ចុះលើ $[0,2[$ និង $]2,+\infty[$; អតិបរមាធៀប $f(0)=0$', null, null, null, '[{"content":"១. $\\lim_{x\\to\\pm\\infty}f=2$ ⇒ $y=2$ ជាអាស៊ីមតូតដេក។"},{"content":"$\\lim_{x\\to-2^-}f=+\\infty$, $\\lim_{x\\to-2^+}f=-\\infty$, $\\lim_{x\\to2^-}f=-\\infty$, $\\lim_{x\\to2^+}f=+\\infty$ ⇒ $x=-2$ និង $x=2$ ជាអាស៊ីមតូតឈរ (ភាគយក $2x^2\\to8>0$ ហើយសញ្ញានៃ $x^2-4$ កំណត់សញ្ញា)។"},{"content":"២. $f''(x)=\\dfrac{4x(x^2-4)-2x^2\\cdot2x}{(x^2-4)^2}=\\dfrac{-16x}{(x^2-4)^2}$ មានសញ្ញាផ្ទុយពី $x$។ $f$ កើនពេល $x<0$ ($x\\neq-2$) និងចុះពេល $x>0$ ($x\\neq2$); $f(0)=0$ ជាអតិបរមាធៀប។"},{"content":"៣. ក្រាបឆ្លុះធៀបនឹង $Oy$ ($f$ ជាអនុគមន៍គូ)។ សង់ក្រាបដោយប្រើអាស៊ីមតូត តារាងអថេរភាព និងចំណុចប្រសព្វខាងលើ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2015-4000-8000-000000000000', 'kh-grade12-social-mathematics', 2015, 'BacII 2015: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2015 (2015-08-24), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -2408,6 +2633,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2015-4000-8000-000000000001', 'ក. $\dfrac{5}{14}$  ខ. $\dfrac{15}{28}$', null, null, null, '[{"content":"ឃ្លីសរុប $8$ ចាប់ $2$៖ $n(S)=C_8^2=28$។"},{"content":"ក. ខៀវទាំងពីរ៖ $C_5^2=10$ ⇒ $P=\\dfrac{10}{28}=\\dfrac5{14}$។"},{"content":"ខ. មួយក្នុងមួយពណ៌៖ $3\\cdot5=15$ ⇒ $P=\\dfrac{15}{28}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2015-4000-8000-000000000002', 'kh-grade12-social-mathematics-limits-continuity', null, 2015, 'open', 'គណនាលីមីតខាងក្រោម៖
 ក. $\displaystyle\lim_{x\to1}\frac{x^2-1}{x^2-3x+2}$
@@ -2416,6 +2646,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2015-4000-8000-000000000002', 'ក. $-2$  ខ. $2$', null, null, null, '[{"content":"ក. $\\dfrac{(x-1)(x+1)}{(x-1)(x-2)}=\\dfrac{x+1}{x-2}\\to\\dfrac{2}{-1}=-2$។"},{"content":"ខ. $x-1=\\left(\\sqrt x-1\\right)\\left(\\sqrt x+1\\right)$ ដូចនេះ $\\dfrac{x-1}{\\sqrt x-1}=\\sqrt x+1\\to2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2015-4000-8000-000000000003', 'kh-grade12-social-mathematics-integrals', null, 2015, 'open', 'គណនាអាំងតេក្រាលខាងក្រោម៖
@@ -2426,6 +2661,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000003', 3, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2015-4000-8000-000000000003', 'ក. $I=\dfrac{51}{2}$  ខ. $J=-4\ln2$', null, null, null, '[{"content":"ក. $I=\\left[x^3+\\dfrac{3x^2}{2}-x\\right]_2^3=\\dfrac{75}{2}-12=\\dfrac{51}{2}$។"},{"content":"ខ. ភាគបែង $x^2-4x+4-x=x^2-5x+4=(1-x)(4-x)$។ $\\dfrac1{1-x}-\\dfrac3{4-x}=\\dfrac{(4-x)-3(1-x)}{(1-x)(4-x)}=\\dfrac{1+2x}{(1-x)(4-x)}=f(x)$។"},{"content":"$J=\\left[-\\ln|1-x|+3\\ln|4-x|\\right]_2^3=(-\\ln2+0)-(0+3\\ln2)=-4\\ln2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2015-4000-8000-000000000004', 'kh-grade12-social-mathematics-conics', null, 2015, 'open', 'គេមានប៉ារ៉ាបូលមួយមានកំពូលនៅត្រង់ចំណុច $O(0,0)$ និងកំណុំ $F$ ស្ថិតនៅលើអ័ក្សអរដោនេ។
 ក. រកសមីការស្តង់ដានៃប៉ារ៉ាបូលនេះ បើគេដឹងថាវាកាត់តាមចំណុច $A(2,6)$។
@@ -2434,6 +2674,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2015-4000-8000-000000000004', 'ក. $x^2=\dfrac23y$  ខ. $x_1=\pm1$', null, null, null, '[{"content":"ក. កំពូល $O$ និងកំណុំលើ $Oy$ ⇒ $x^2=4py$។ $A(2,6)$៖ $4=24p$ ⇒ $p=\\dfrac16$ ដូចនេះ $x^2=\\dfrac23y$។"},{"content":"ខ. $x_1^2=\\dfrac23\\cdot\\dfrac32=1$ ⇒ $x_1=1$ ឬ $x_1=-1$។"},{"content":"ដើម្បីសង់៖ កំណុំ $F\\left(0,\\dfrac16\\right)$ បន្ទាត់ប្រាប់ទិស $y=-\\dfrac16$ ហើយក្រាបកាត់តាម $(\\pm2,6)$ និង $\\left(\\pm1,\\dfrac32\\right)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2015-4000-8000-000000000005', 'kh-grade12-social-mathematics-function-study', null, 2015, 'open', 'គេមានអនុគមន៍ $f$ ដែល $f(x)=\dfrac{x^2-x-3}{x+1}$ និងគេតាងដោយ $(C)$ ក្រាបនៃអនុគមន៍ $f$។
@@ -2445,6 +2690,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2015-4000-8000-000000000000', 'bacc2010-2015-4000-8000-000000000005', 5, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2015-4000-8000-000000000005', '$D=\mathbb{R}\setminus\{-1\}$; $f$ កើនលើ $]-\infty,-1[$ និង $]-1,+\infty[$; អាស៊ីមតូតឈរ $x=-1$ អាស៊ីមតូតទ្រេត $y=x-2$', null, null, null, '[{"content":"ក. $x+1\\neq0$ ⇒ $D=\\mathbb{R}\\setminus\\{-1\\}$។"},{"content":"ខ. $(x-2)(x+1)-1=x^2-x-2-1=x^2-x-3$ ដូចនេះ $f(x)=x-2-\\dfrac1{x+1}$។"},{"content":"គ. $f(x)-(x-2)=-\\dfrac1{x+1}\\to0$ ត្រង់ $\\pm\\infty$ ដូចនេះ $y=x-2$ ជាអាស៊ីមតូតទ្រេត។ ក្រាបនៅក្រោមបន្ទាត់ពេល $x>-1$ និងនៅលើពេល $x<-1$។"},{"content":"ឃ. $f''(x)=1+\\dfrac1{(x+1)^2}>0$ ដូចនេះ $f$ កើនលើចន្លោះនីមួយៗ។ $\\lim_{x\\to-1^+}f=-\\infty$, $\\lim_{x\\to-1^-}f=+\\infty$, $\\lim_{x\\to\\pm\\infty}f=\\pm\\infty$; $x=-1$ ជាអាស៊ីមតូតឈរ។"},{"content":"ចំណុចប្រសព្វ៖ $f(0)=-3$ និង $f(x)=0\\Leftrightarrow x=\\dfrac{1\\pm\\sqrt{13}}{2}$។ សង់ក្រាបដោយប្រើអាស៊ីមតូត តារាងអថេរភាព និងចំណុចប្រសព្វខាងលើ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2014-4200-8000-000000000000', 'kh-grade12-social-mathematics', 2014, 'BacII 2014, second sitting: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
@@ -2462,6 +2712,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2014-4200-8000-000000000001', 'ក. $0$  ខ. $0$  គ. $\dfrac{\sqrt2}{2}$  ឃ. $+\infty$', null, null, null, '[{"content":"ក. $\\dfrac{(x+3)^2}{(x+3)(x+1)}=\\dfrac{x+3}{x+1}\\to\\dfrac{0}{-2}=0$។"},{"content":"ខ. $\\dfrac{\\sin^2x}{-3x}=-\\dfrac13\\cdot\\dfrac{\\sin x}{x}\\cdot\\sin x\\to-\\dfrac13\\cdot1\\cdot0=0$។"},{"content":"គ. គុណនឹងកន្សោមឆ្លាស់៖ $\\dfrac{(2+x)-(2-x)}{x\\left(\\sqrt{2+x}+\\sqrt{2-x}\\right)}=\\dfrac{2}{\\sqrt{2+x}+\\sqrt{2-x}}\\to\\dfrac{2}{2\\sqrt2}=\\dfrac{\\sqrt2}{2}$។"},{"content":"ឃ. $2e^x\\to+\\infty$ និង $2x-2\\to+\\infty$ ដូចនេះលីមីតស្មើ $+\\infty$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2014-4200-8000-000000000002', 'kh-grade12-social-mathematics-probability', null, 2014, 'open', 'ក្នុងអាងចិញ្ចឹមត្រីមួយមានត្រីពណ៌ក្រហម $4$ និងត្រីពណ៌ស $3$។ គេចាប់ត្រី $2$ មកដាក់ក្នុងអាងថ្មីដោយចៃដន្យ។ រកប្រូបាបនៃព្រឹត្តិការណ៍ខាងក្រោម៖
 ក. «ត្រីពណ៌ក្រហមទាំងពីរ»
@@ -2471,6 +2726,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2014-4200-8000-000000000002', 'ក. $\dfrac27$  ខ. $\dfrac17$  គ. $\dfrac47$', null, null, null, '[{"content":"ត្រីសរុប $7$ ចាប់ $2$៖ $n(S)=C_7^2=21$។"},{"content":"ក. $C_4^2=6$ ⇒ $P=\\dfrac{6}{21}=\\dfrac27$។"},{"content":"ខ. $C_3^2=3$ ⇒ $P=\\dfrac{3}{21}=\\dfrac17$។"},{"content":"គ. $C_4^1\\cdot C_3^1=12$ ⇒ $P=\\dfrac{12}{21}=\\dfrac47$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2014-4200-8000-000000000003', 'kh-grade12-social-mathematics-function-study', null, 2014, 'open', 'គេមានអនុគមន៍ $f(x)=\dfrac{(x+2)(x-2)}{(1-x)}$។
@@ -2482,6 +2742,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000003', 3, 25)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2014-4200-8000-000000000003', '$D=\mathbb{R}\setminus\{1\}$; $f$ ចុះលើ $]-\infty,1[$ និង $]1,+\infty[$; អាស៊ីមតូតឈរ $x=1$ អាស៊ីមតូតទ្រេត $y=-x-1$', null, null, null, '[{"content":"ក. $1-x\\neq0$ ⇒ $D=\\mathbb{R}\\setminus\\{1\\}$។"},{"content":"ខ. $(-x-1)(x-1)+3=-x^2+1+3=4-x^2$ ហើយ $\\dfrac{4-x^2}{x-1}=\\dfrac{(x+2)(x-2)}{1-x}$ ដូចនេះ $f(x)=-x-1+\\dfrac3{x-1}$។"},{"content":"គ. លីមីត៖ $\\lim_{x\\to1^+}f=+\\infty$, $\\lim_{x\\to1^-}f=-\\infty$, $\\lim_{x\\to+\\infty}f=-\\infty$, $\\lim_{x\\to-\\infty}f=+\\infty$។ ដោយ $\\dfrac3{x-1}\\to0$ ត្រង់ $\\pm\\infty$ បន្ទាត់ $y=-x-1$ ជាអាស៊ីមតូតទ្រេត ហើយ $x=1$ ជាអាស៊ីមតូតឈរ។"},{"content":"$f''(x)=-1-\\dfrac{3}{(x-1)^2}<0$ ដូចនេះ $f$ ចុះលើ $]-\\infty,1[$ និងលើ $]1,+\\infty[$។"},{"content":"ចំណុចប្រសព្វ៖ $f(x)=0\\Leftrightarrow x=\\pm2$; $f(0)=-4$។ សង់ក្រាបដោយប្រើអាស៊ីមតូត តារាងអថេរភាព និងចំណុចប្រសព្វខាងលើ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2014-4200-8000-000000000004', 'kh-grade12-social-mathematics-integrals', null, 2014, 'open', 'គណនាអាំងតេក្រាលនៃអនុគមន៍ខាងក្រោម៖
 ក. $\displaystyle I=\int_1^3\left(2x^2-3x+1\right)dx$
@@ -2492,12 +2757,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2014-4200-8000-000000000004', 'ក. $I=\dfrac{22}{3}$  ខ. $J=-4\ln2$  គ. $f''(x)=\ln x+1$, $K=1$', null, null, null, '[{"content":"ក. $I=\\left[\\dfrac{2x^3}{3}-\\dfrac{3x^2}{2}+x\\right]_1^3=\\left(18-\\dfrac{27}{2}+3\\right)-\\left(\\dfrac23-\\dfrac32+1\\right)=\\dfrac{15}{2}-\\dfrac16=\\dfrac{22}{3}$។"},{"content":"ខ. $\\dfrac{-1}{x-1}+\\dfrac{3}{x-4}=\\dfrac{-(x-4)+3(x-1)}{(x-1)(x-4)}=\\dfrac{2x+1}{x^2-5x+4}$។ $J=\\left[-\\ln|x-1|+3\\ln|x-4|\\right]_2^3=(-\\ln2+0)-(0+3\\ln2)=-4\\ln2$។"},{"content":"គ. $f''(x)=\\ln x+x\\cdot\\dfrac1x=\\ln x+1$ ដូចនេះ $\\ln x=f''(x)-1$ ហើយ $K=\\left[x\\ln x-x\\right]_1^e=(e-e)-(0-1)=1$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2014-4200-8000-000000000005', 'kh-grade12-social-mathematics-conics', null, 2014, 'open', 'រកសមីការស្តង់ដានៃអេលីប ដែលមានកំពូលទាំងពីរជាចំណុច $(4,0)$ និង $(-4,0)$ និងមានកំណុំមួយនៅត្រង់ចំណុច $(3,0)$ រួចសង់អេលីបនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii) and compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808). Not yet checked against the Ministry''s original. Note: III.ខ is printed as both copies have it; worked out from f(x) = (x+2)(x−2)/(1−x) it gives −x−1−3/(x−1), so check this part with your teacher.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4200-8000-000000000000', 'bacc2010-2014-4200-8000-000000000005', 5, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2014-4200-8000-000000000005', '$\dfrac{x^2}{16}+\dfrac{y^2}{7}=1$', null, null, null, '[{"content":"កំពូល $(\\pm4,0)$ ⇒ អ័ក្សធំលើ $Ox$ និង $a=4$។ កំណុំ $(3,0)$ ⇒ $c=3$។"},{"content":"$b^2=a^2-c^2=16-9=7$ ដូចនេះ $\\dfrac{x^2}{16}+\\dfrac{y^2}{7}=1$។"},{"content":"ដើម្បីសង់៖ កំពូល $(\\pm4,0)$ ចុងអ័ក្សតូច $\\left(0,\\pm\\sqrt7\\right)$ កំណុំ $(\\pm3,0)$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2010-2014-4100-8000-000000000000', 'kh-grade12-social-mathematics', 2014, 'BacII 2014, first sitting: Mathematics (social science track)', 'វិញ្ញាសាគណិតវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808) and the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -2514,6 +2789,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000001', 1, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2014-4100-8000-000000000001', 'ក. $1$  ខ. $-\dfrac18$  គ. $0$', null, null, null, '[{"content":"ក. តួខ្ពស់បំផុត៖ $\\dfrac{2x^2\\cdot(-x)}{2x\\cdot(-x^2)}=1$។"},{"content":"ខ. គុណនឹងកន្សោមឆ្លាស់៖ $\\dfrac{2-\\sqrt{x+3}}{x^2-1}=\\dfrac{1-x}{(2+\\sqrt{x+3})(x-1)(x+1)}=\\dfrac{-1}{(2+\\sqrt{x+3})(x+1)}\\to\\dfrac{-1}{4\\cdot2}=-\\dfrac18$។"},{"content":"គ. $\\dfrac{x+1}{x-1}\\to1$ ដូចនេះ $\\ln\\dfrac{x+1}{x-1}\\to\\ln1=0$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2014-4100-8000-000000000002', 'kh-grade12-social-mathematics-probability', null, 2014, 'open', 'ក្នុងធុងមួយគេមានប៊ូលក្រហម $4$ ប៊ូលស $3$ និងប៊ូលខៀវ $1$។ គេចាប់យកប៊ូល $3$ ក្នុងពេលតែមួយចេញពីធុងដោយចៃដន្យ។
 ក. រកប្រូបាបដែល «គេចាប់បានប៊ូលក្រហមពីរ និងមួយទៀតមិនក្រហម»។
@@ -2523,6 +2803,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000002', 2, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2014-4100-8000-000000000002', 'ក. $\dfrac37$  ខ. $\dfrac1{14}$  គ. $\dfrac12$', null, null, null, '[{"content":"ប៊ូលសរុប $8$ ចាប់ $3$៖ $n(S)=C_8^3=56$។"},{"content":"ក. ក្រហម $2$ និងមិនក្រហម $1$៖ $C_4^2\\cdot C_4^1=24$ ⇒ $P=\\dfrac{24}{56}=\\dfrac37$។"},{"content":"ខ. ក្រហមទាំងបី៖ $C_4^3=4$ ⇒ $P=\\dfrac{4}{56}=\\dfrac1{14}$។"},{"content":"គ. យ៉ាងតិចក្រហមពីរ = ក្រហមពីរពិត ឬក្រហមបី៖ $P=\\dfrac{24+4}{56}=\\dfrac12$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2014-4100-8000-000000000003', 'kh-grade12-social-mathematics-function-study', null, 2014, 'open', 'គេមានអនុគមន៍ $f$ កំណត់លើ $\mathbb{R}$ ដោយ $f(x)=\dfrac{1}{1+e^x}+\dfrac{2}{9}x$ និង $C$ តាងក្រាបរបស់ $f$។
@@ -2537,6 +2822,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000003', 3, 30)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2014-4100-8000-000000000003', '$g(x)>0$ ពេល $x<-\ln2$ ឬ $x>\ln2$, $g(x)<0$ ពេល $-\ln2<x<\ln2$; $\lim_{+\infty}f=+\infty$, $\lim_{-\infty}f=-\infty$; $f$ កើនលើ $]-\infty,-\ln2]$ និង $[\ln2,+\infty[$ ចុះលើ $[-\ln2,\ln2]$', null, null, null, '[{"content":"១ក. $\\left(2e^x-1\\right)\\left(e^x-2\\right)=2e^{2x}-4e^x-e^x+2=2e^{2x}-5e^x+2=g(x)$។"},{"content":"១ខ. $2e^x-1=0\\Leftrightarrow x=-\\ln2$ និង $e^x-2=0\\Leftrightarrow x=\\ln2$។ ដូចនេះ $g(x)>0$ ពេល $x<-\\ln2$ ឬ $x>\\ln2$ ហើយ $g(x)<0$ ពេល $-\\ln2<x<\\ln2$។"},{"content":"២ក. $x\\to+\\infty$៖ $\\dfrac1{1+e^x}\\to0$ និង $\\dfrac29x\\to+\\infty$ ⇒ $f\\to+\\infty$។ $x\\to-\\infty$៖ $\\dfrac1{1+e^x}\\to1$ និង $\\dfrac29x\\to-\\infty$ ⇒ $f\\to-\\infty$។"},{"content":"២ខ. $f''(x)=-\\dfrac{e^x}{(1+e^x)^2}+\\dfrac29=\\dfrac{2(1+e^x)^2-9e^x}{9(1+e^x)^2}=\\dfrac{2e^{2x}-5e^x+2}{9(1+e^x)^2}=\\dfrac{g(x)}{9(1+e^x)^2}$។ ភាគបែងវិជ្ជមាន ដូចនេះ $f''(x)$ និង $g(x)$ មានសញ្ញាដូចគ្នា។"},{"content":"២គ. $f$ កើនលើ $]-\\infty,-\\ln2]$ ចុះលើ $[-\\ln2,\\ln2]$ ហើយកើនលើ $[\\ln2,+\\infty[$។ អតិបរមាធៀប $f(-\\ln2)=\\dfrac23-\\dfrac{2\\ln2}{9}$ អប្បបរមាធៀប $f(\\ln2)=\\dfrac13+\\dfrac{2\\ln2}{9}$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2010-2014-4100-8000-000000000004', 'kh-grade12-social-mathematics-integrals', null, 2014, 'open', 'ក. គណនាអាំងតេក្រាល $\displaystyle I=\int_1^5\left(x^2+2x-3\right)dx$។
 ខ. បង្ហាញថាគ្រប់ចំនួនពិត $x$; $x\neq1$ គេបាន $\dfrac{2x^2-3x+2}{x-1}=2x-1+\dfrac{1}{x-1}$ រួចទាញរក $\displaystyle I=\int_2^3\frac{2x^2-3x+2}{x-1}dx$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track mathematics, Ministry of Education, Youth and Sport. Typed by Meh Rean from two copies: compiled by ខែម ឫទ្ធី, Edu Plus (sala.moeys.gov.kh/kh/library/00007808) and the worked answers retyped by ជៀប គន្ធា, which restate each exercise (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -2544,6 +2834,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2010-2014-4100-8000-000000000000', 'bacc2010-2014-4100-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2010-2014-4100-8000-000000000004', 'ក. $I=\dfrac{160}{3}$  ខ. $I=4+\ln2$', null, null, null, '[{"content":"ក. $I=\\left[\\dfrac{x^3}{3}+x^2-3x\\right]_1^5=\\left(\\dfrac{125}{3}+25-15\\right)-\\left(\\dfrac13+1-3\\right)=\\dfrac{155}{3}+\\dfrac53=\\dfrac{160}{3}$។"},{"content":"ខ. $(2x-1)(x-1)+1=2x^2-3x+1+1=2x^2-3x+2$ ដូចនេះ $\\dfrac{2x^2-3x+2}{x-1}=2x-1+\\dfrac1{x-1}$។"},{"content":"$I=\\left[x^2-x+\\ln(x-1)\\right]_2^3=(6+\\ln2)-(2+0)=4+\\ln2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 commit;
 
 -- ===== supabase/seed/past-papers.sql (17/17) =====
