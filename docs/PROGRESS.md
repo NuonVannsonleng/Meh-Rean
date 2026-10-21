@@ -509,6 +509,15 @@ timing only in database functions, never in the browser.
   Where the paper is ambiguous (2023 Q1c writes $x	oinfty$) both limits
   are given. Tests: `test:past-papers` 11/11; answers checked on a 375px
   phone (no overflow, no formula errors).
+- **2026-10-21 — AI answer key, part 3: science-track physics
+  2014–2022.** 55 answers (theory in Khmer, calculations with LaTeX),
+  ai-generated and needs-review. Every number recomputed and compared with
+  the copy's own worked answers; where the copy's question is incomplete
+  (2014-1 Q6b, 2016 Q7, 2019 Q5, 2022 Q2 and Q4) the answer says what it
+  assumes, and where the copy's answer disagrees with the printed paper
+  (2019 Q6c: 5000 J against 50000 J) the key follows the paper and says so.
+  Tests: `test:past-papers` 11/11; every physics paper's key checked on a
+  375px phone (no overflow, no formula errors).
 
 ## Blockers and things that need a person
 

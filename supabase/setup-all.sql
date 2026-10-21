@@ -8366,6 +8366,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000001', '១. បំលែងទែម៉ូឌីណាមិច គឺការប្រែប្រួលភាពនៃប្រព័ន្ធពីភាពដើមមួយទៅភាពចុងមួយ ដែលអថេរភាព $P$, $V$, $T$ ប្រែប្រួល  ២. អូតូអាំងឌុចស្យុងកើតមាននៅពេលចរន្តដែលឆ្លងកាត់បូប៊ីនមួយប្រែប្រួល (ពេលបិទ ឬបើកកុងតាក់ ឬចរន្តប្រែប្រួលតម្លៃ)', null, null, null, '[{"content":"ឧទាហរណ៍៖ បំលែងអ៊ីសូទែម ($T$ ថេរ) អ៊ីសូបារ ($P$ ថេរ) អ៊ីសូកូរ ($V$ ថេរ) និងអាដ្យាបាទិច (គ្មានការផ្លាស់ប្តូរកម្តៅ)។"},{"content":"ចរន្តប្រែប្រួលធ្វើឲ្យភ្លុចម៉ាញេទិចផ្ទាល់ខ្លួនរបស់បូប៊ីនប្រែប្រួល ហើយបង្កើតកម្លាំងអគ្គិសនីចលករអាំងឌុី $e=-L\\dfrac{\\Delta i}{\\Delta t}$ ក្នុងបូប៊ីននោះផ្ទាល់ ដែលទប់នឹងការប្រែប្រួលនោះ។"},{"content":"ឧទាហរណ៍៖ ក្នុងសៀគ្វីមានបូប៊ីនស៊េរីនឹងអំពូល ពេលបិទកុងតាក់ អំពូលភ្លឺយឺតៗទើបភ្លឺពេញ; ពេលបើកកុងតាក់ មានផ្កាភ្លើងនៅកុងតាក់។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2022-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2022, 'open', 'បម្លាស់ទីរលកមួយឲ្យដោយសមីការ $y=0.50-\sin(0.40x-0.40t)\ (m)$
 គណនាអំព្លីនៃរលក ចំនួនរលក ខួបនៃរលក និងល្បឿនដំណាលនៃរលក។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: IV is kept as the copy prints it; its wording looks incomplete (it does not say what to calculate), so check it against the original.', 'needs-review')
@@ -8374,6 +8379,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000002', '$a=0.50\,m$, $k=0.40\,rad/m$, $T\approx15.7\,s$, $v=1.0\,m/s$', null, null, null, '[{"content":"សមីការក្នុងឯកសារមានសញ្ញា «−» ខុស; អានជា $y=0.50\\sin(0.40x-0.40t)$ ដូចដំណោះស្រាយក្នុងឯកសារ។"},{"content":"$a=0.50\\,m$, $k=0.40\\,rad/m$, $\\omega=0.40\\,rad/s$។"},{"content":"$T=\\dfrac{2\\pi}{\\omega}=5\\pi\\approx15.7\\,s$; $\\lambda=\\dfrac{2\\pi}{k}\\approx15.7\\,m$; $v=\\dfrac{\\omega}{k}=1.0\\,m/s$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2022-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2022, 'open', 'គណនាមាឌធុងដែលផ្ទុកអុកស៊ីសែន $16\,g$ នៅសម្ពាធ $1\,atm$ និងសីតុណ្ហភាព $27^{\circ}C$។ គេឲ្យថេរសកលឧស្ម័ន $R=8.31\,J/mol.K$ និងម៉ាសម៉ូលអុកស៊ីសែន $32\,g/mol$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: IV is kept as the copy prints it; its wording looks incomplete (it does not say what to calculate), so check it against the original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -8381,12 +8391,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000003', '$V\approx1.23\times10^{-2}\,m^3\ (\approx12.3\,L)$', null, null, null, '[{"content":"$n=\\dfrac{16}{32}=0.5\\,mol$, $T=300\\,K$, $P=1\\,atm\\approx1.013\\times10^5\\,Pa$។"},{"content":"$V=\\dfrac{nRT}{P}=\\dfrac{0.5\\times8.31\\times300}{1.013\\times10^5}\\approx1.23\\times10^{-2}\\,m^3$ (បើយក $1\\,atm=10^5\\,Pa$ បាន $1.25\\times10^{-2}\\,m^3$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2022-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2022, 'open', 'ឧស្ម័នបរិសុទ្ធ $2.0\,mol$ មានសីតុណ្ហភាពថេរ $27^{\circ}C$ ក្នុងរយៈពេលបម្រែបម្រួលមាឌនោះ។ គេឲ្យ $\ln\left(\dfrac{10.0}{3.68}\right)=1$ និងថេរសកលឧស្ម័ន $R=8.31\,J/mol.K$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: IV is kept as the copy prints it; its wording looks incomplete (it does not say what to calculate), so check it against the original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000004', '$W\approx4986\,J$', null, null, null, '[{"content":"ប្រធានក្នុងឯកសារខ្វះសំណួរ; តាម $\\ln\\dfrac{10.0}{3.68}=1$ និងដំណោះស្រាយក្នុងឯកសារ គេសួរកម្មន្តដែលឧស្ម័នធ្វើពេលមាឌប្រែពី $3.68\\,L$ ទៅ $10.0\\,L$ ដោយសីតុណ្ហភាពថេរ។"},{"content":"បំលែងអ៊ីសូទែម៖ $W=nRT\\ln\\dfrac{V_2}{V_1}=2.0\\times8.31\\times300\\times1=4986\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2022-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2022, 'open', 'ម៉ាស៊ីនមួយមានទិន្នផលកម្តៅ $50\%$ ហើយវាស្រូបបរិមាណកម្តៅ $5000\,J$។ គណនា៖
@@ -8398,12 +8418,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000005', 'ក. $W=2500\,J$  ខ. $Q_2=2500\,J$  គ. $W_u=2000\,J$', null, null, null, '[{"content":"ក. $W=0.50\\times5000=2500\\,J$។"},{"content":"ខ. $Q_2=5000-2500=2500\\,J$។"},{"content":"គ. $W_u=0.80\\times2500=2000\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2022-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2022, 'open', 'នៅក្នុងសៀគ្វីអីដេអាល់ $(L,C)$ មួយដែលមានជាសៀគ្វីលំយោលមិនចយ តង់ស្យុងរវាងគោលនៃកុងដង់សាទ័រមានតម្លៃ $V_1=200\,V$ កាលណាអាំងតង់ស៊ីតេចរន្តក្នុងបូប៊ីនស្មើសូន្យ។ គណនាអាំងតង់ស៊ីតេចរន្ត កាលណាតង់ស្យុងរវាងគោលនៃកុងដង់សាទ័រមានតម្លៃ $V_2=100\,V$។ គេឲ្យកាប៉ាស៊ីតេនៃកុងដង់សាទ័រ $C=1\,\mu F$ និងអាំងតង់ស៊ីតេចរន្តនៃបូប៊ីន $L=0.5\,H$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2022 (2022-12-05), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: IV is kept as the copy prints it; its wording looks incomplete (it does not say what to calculate), so check it against the original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2022-4000-8000-000000000000', 'bacc1030-2022-4000-8000-000000000006', 6, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2022-4000-8000-000000000006', '$i\approx0.245\,A$', null, null, null, '[{"content":"ថាមពលសរុបនៃសៀគ្វី $LC$ រក្សា៖ $\\dfrac12CV_1^2=\\dfrac12CV_2^2+\\dfrac12Li^2$។"},{"content":"$i=\\sqrt{\\dfrac{C\\left(V_1^2-V_2^2\\right)}{L}}=\\sqrt{\\dfrac{10^{-6}\\times(40000-10000)}{0.5}}=\\sqrt{0.06}\\approx0.245\\,A$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1030-2021-4000-8000-000000000000', 'kh-grade12-science-physics', 2021, 'BacII 2021: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០២១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2021 (2021-12-27), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -8418,12 +8448,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000001', '១. រលក គឺការរាលដាលនៃរំញ័រ (ការរំខាន) ក្នុងមជ្ឈដ្ឋាន ឬក្នុងលំហ ដែលដឹកនាំថាមពល ដោយមិនដឹកនាំរូបធាតុ  ២. ប្រភពដែនម៉ាញេទិច៖ មេដែក ផែនដី និងចរន្តអគ្គិសនី (ខ្សែចម្លង បូប៊ីន អេឡិចត្រូម៉ាញេទិច) ឬបន្ទុកដែលផ្លាស់ទី', null, null, null, '[{"content":"រលកមានពីរប្រភេទធំៗ៖ រលកមេកានិច (ត្រូវការមជ្ឈដ្ឋាន) និងរលកអេឡិចត្រូម៉ាញេទិច (រាលដាលក្នុងសុញ្ញាកាសបាន)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2021-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2021, 'open', 'គណនាមាឌអាសូត $28\,g$ ដែលផ្ទុកក្នុងធុងសម្ពាធ $1\,atm$ និងសីតុណ្ហភាព $127^{\circ}C$។ គេឲ្យ $R=8.31\,J/mol.K$ និងម៉ាសម៉ូលអាសូត $28\,g/mol$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000002', '$V\approx3.28\times10^{-2}\,m^3\ (\approx32.8\,L)$', null, null, null, '[{"content":"$n=\\dfrac{28}{28}=1\\,mol$, $T=127+273=400\\,K$, $P=1\\,atm\\approx1.013\\times10^5\\,Pa$។"},{"content":"$V=\\dfrac{nRT}{P}=\\dfrac{1\\times8.31\\times400}{1.013\\times10^5}\\approx3.28\\times10^{-2}\\,m^3$ (បើយក $1\\,atm=10^5\\,Pa$ បាន $3.32\\times10^{-2}\\,m^3$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2021-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2021, 'open', 'សូលេណូអ៊ីតមួយមានប្រវែង $3.14\,m$ និងមាន $500$ ស្ពៀ ផ្ទុកថាមពលម៉ាញេទិច $0.25\,J$ នៅពេលមានចរន្តអគ្គិសនី $10\,A$ ឆ្លងកាត់វា។ គេឲ្យ $\mu_o=4\pi\times10^{-7}\,T.m/A$
@@ -8433,6 +8473,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000003', 'ក. $L=5\times10^{-3}\,H$  ខ. $S\approx5.0\times10^{-2}\,m^2$', null, null, null, '[{"content":"ក. $E=\\dfrac12LI^2$ ⇒ $L=\\dfrac{2\\times0.25}{10^2}=5\\times10^{-3}\\,H$។"},{"content":"ខ. $L=\\mu_0\\dfrac{N^2S}{\\ell}$ ⇒ $S=\\dfrac{L\\ell}{\\mu_0N^2}=\\dfrac{5\\times10^{-3}\\times3.14}{4\\pi\\times10^{-7}\\times500^2}\\approx5.0\\times10^{-2}\\,m^2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2021-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2021, 'open', 'ចូរគណនាថាមពលក្នុងរបស់ប្រព័ន្ធមួយ៖
@@ -8445,6 +8490,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000004', 'ក. $3400\,J$  ខ. $3360\,J$  គ. $-10080\,J$', null, null, null, '[{"content":"តាមច្បាប់ទី១ទែម៉ូឌីណាមិច $Q=\\Delta U+W$ ⇒ $\\Delta U=Q-W$ ($Q>0$ ពេលស្រូបកម្តៅ, $W>0$ ពេលប្រព័ន្ធធ្វើកម្មន្ត, $W<0$ ពេលទទួលកម្មន្ត)។"},{"content":"ក. $Q=1000\\times4.2=4200\\,J$ ⇒ $\\Delta U=4200-800=3400\\,J$។"},{"content":"ខ. $Q=600\\times4.2=2520\\,J$, $W=-840\\,J$ ⇒ $\\Delta U=2520+840=3360\\,J$។"},{"content":"គ. $Q=-2400\\times4.2=-10080\\,J$, $W=0$ ⇒ $\\Delta U=-10080\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2021-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2021, 'open', 'ម៉ាស៊ីននៃរថយន្តទំនើបមួយមានទិន្នផលកម្តៅ $0.50$ យើងវាស្រូបបរិមាណកម្តៅ $5.0\,MJ$។ គណនា៖
 ក. កម្មន្តមេកានិចដែលបានពីពីស្តុង
@@ -8455,12 +8505,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000005', 'ក. $W=2.5\,MJ$  ខ. $Q_2=2.5\,MJ$  គ. $W_u=2.25\,MJ$', null, null, null, '[{"content":"ក. $W=0.50\\times5.0=2.5\\,MJ$។"},{"content":"ខ. $Q_2=5.0-2.5=2.5\\,MJ$។"},{"content":"គ. $W_u=0.90\\times2.5=2.25\\,MJ$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2021-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2021, 'open', 'ខ្សែចម្លងត្រង់មួយមានប្រវែង $\ell=30\,cm$ ឆ្លងកាត់ដោយចរន្តអគ្គិសនី $5.0\,A$ ត្រូវបានគេយកទៅដាក់ក្នុងដែនម៉ាញេទិចឯកសណ្ឋានមួយដែលមានអាំងឌុចស្យុង $B=3.0\,T$។ គណនា កម្លាំងអេឡិចត្រូម៉ាញេទិចដែលមានអំពើលើរបារក្នុងករណីដែលខ្សែចម្លងផ្គុំបានមុំ $\theta_1=0^{o},\theta_2=30^{o},\theta_3=60^{o},\theta_4=90^{o},\theta_5=180^{o}$ ជាមួយអាំងឌុចស្យុង ម៉ាញេទិច។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2021 (2021-12-27), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2021-4000-8000-000000000000', 'bacc1030-2021-4000-8000-000000000006', 6, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2021-4000-8000-000000000006', '$F_1=0$, $F_2=2.25\,N$, $F_3\approx3.90\,N$, $F_4=4.5\,N$, $F_5=0$', null, null, null, '[{"content":"$F=BI\\ell\\sin\\theta=3.0\\times5.0\\times0.30\\times\\sin\\theta=4.5\\sin\\theta\\ (N)$។"},{"content":"$\\theta=0^\\circ$៖ $0$; $30^\\circ$៖ $2.25\\,N$; $60^\\circ$៖ $4.5\\times\\dfrac{\\sqrt3}{2}\\approx3.90\\,N$; $90^\\circ$៖ $4.5\\,N$; $180^\\circ$៖ $0$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1030-2019-4000-8000-000000000000', 'kh-grade12-science-physics', 2019, 'BacII 2019: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2019 (2019-08-19), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 10, 10, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown.', 'needs-review')
@@ -8475,6 +8535,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000001', '១. បំលែងទែម៉ូឌីណាមិច គឺការប្រែប្រួលភាពនៃប្រព័ន្ធពីភាពដើមមួយទៅភាពចុងមួយ ដែលអថេរភាព $P$, $V$, $T$ ប្រែប្រួល  ២. ច្បាប់ឡង់៖ ចរន្តអាំងឌុីមានទិសដៅដែលដែនម៉ាញេទិចរបស់វាប្រឆាំងនឹងបម្រែបម្រួលភ្លុចដែលបង្កើតវា', null, null, null, '[{"content":"ឧទាហរណ៍៖ បំលែងអ៊ីសូទែម ($T$ ថេរ) អ៊ីសូបារ ($P$ ថេរ) អ៊ីសូកូរ ($V$ ថេរ) និងអាដ្យាបាទិច (គ្មានការផ្លាស់ប្តូរកម្តៅ)។"},{"content":"ច្បាប់ឡង់៖ ពេលភ្លុចកើន ចរន្តអាំងឌុីបង្កើតដែនផ្ទុយទិស; ពេលភ្លុចថយ វាបង្កើតដែនទិសដូចគ្នា ដើម្បីទប់ការប្រែប្រួល។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2019-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2019, 'open', 'គណនាតម្លៃមធ្យមនៃថាមពលស៊ីនេទិចនៃម៉ូលេគុលឧស្ម័ននៅសីតុណ្ហភាព $931^{\circ}C$។ គេឲ្យ $R=8.31\,J/mol.K$ និង $N_A=6.02\times10^{23}$ ម៉ូលេគុល/mol។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 10, 10, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -8482,12 +8547,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000002', '$\overline{E_c}\approx2.49\times10^{-20}\,J$', null, null, null, '[{"content":"$T=931+273=1204\\,K$; $k=\\dfrac{8.31}{6.02\\times10^{23}}\\approx1.38\\times10^{-23}\\,J/K$។"},{"content":"$\\overline{E_c}=\\dfrac32kT=\\dfrac32\\times1.38\\times10^{-23}\\times1204\\approx2.49\\times10^{-20}\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2019-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2019, 'open', 'ម៉ាស៊ីនកកណ្តុរមានប្រភពត្រជាក់មានសីតុណ្ហភាព $17.0^{\circ}C$ ហើយមានទិន្នផលកម្តៅ $50\%$។ តើសីតុណ្ហភាពនៃប្រភពក្តៅកើនឡើងបានប៉ុន្មានអង្សា? ប្រសិនបើគេចង់បង្កើនទិន្នផលកម្តៅម៉ាស៊ីននេះឲ្យឡើងដល់ $80\%$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 10, 10, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000003', 'ត្រូវតម្លើងសីតុណ្ហភាពប្រភពក្តៅ $870\,K$ (ពី $580\,K$ ទៅ $1450\,K$)', null, null, null, '[{"content":"ទិន្នផលកាណូ $e=1-\\dfrac{T_2}{T_1}$ ជាមួយ $T_2=17+273=290\\,K$។"},{"content":"$e=0.50$ ⇒ $T_1=\\dfrac{290}{0.50}=580\\,K$; $e=0.80$ ⇒ $T_1''=\\dfrac{290}{0.20}=1450\\,K$។"},{"content":"កើន $1450-580=870\\,K$ (ឬ $870^\\circ C$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2019-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2019, 'open', 'ក. គេផ្ទុកកុងដង់សាទ័រមួយដែលមាន $C=1\,\mu F$ ក្រោមតង់ស្យុង $E=V=1\,V$។ គណនាថាមពលដែលស្តុកទុកក្នុងកុងដង់សាទ័រនៅពេលផ្ទុក។
@@ -8497,12 +8572,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000004', 'ក. $W=5\times10^{-7}\,J$  ខ. $i_m\approx3.16\times10^{-3}\,A$', null, null, null, '[{"content":"ក. $W=\\dfrac12CV^2=\\dfrac12\\times10^{-6}\\times1^2=5\\times10^{-7}\\,J$។"},{"content":"ខ. ថាមពលរក្សា៖ $\\dfrac12Li_m^2=\\dfrac12CV^2$ ⇒ $i_m=V\\sqrt{\\dfrac CL}=\\sqrt{\\dfrac{10^{-6}}{0.1}}\\approx3.16\\times10^{-3}\\,A$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2019-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2019, 'open', 'ទម្រខ្សែចម្លងពីរដាក់ស្របគ្នាក្នុងប្លង់ដេកដែលចុងទាំងពីររបស់វាភ្ជាប់គ្នាដោយរេស៊ីស្តង់ $R=4\,\Omega$ ហើយទម្រនេះឃ្លាតពីគ្នា $10\,cm$។ របារលោហៈ $MN$ មួយដាក់ផ្គុំកែងលើទម្រទាំងពីរ។ ប្លង់ទម្រកែងនឹងដែនម៉ាញេទិចឯកសណ្ឋានមានអាំងឌុចស្យុង $B=0.05\,T$។ គេរុញរបារ $MN$ ឲ្យផ្លាស់ទីលើទម្រទាំងពីរដោយល្បឿន $40\,m/s$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2019 (2019-08-19), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy''s points per question (10, 10, 10, 15, 15, 20) add up to 80, not the paper''s 75, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000005', '$e=0.2\,V$, $I=0.05\,A$', null, null, null, '[{"content":"ប្រធានក្នុងឯកសារមិនបញ្ជាក់ថាត្រូវគណនាអ្វី; ដូចឯកសារ យើងគណនាកម្លាំងអគ្គិសនីចលករ និងចរន្តអាំងឌុី។"},{"content":"$e=B\\ell v=0.05\\times0.10\\times40=0.2\\,V$។"},{"content":"$I=\\dfrac eR=\\dfrac{0.2}{4}=0.05\\,A$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2019-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2019, 'open', 'ប្រព័ន្ធទែម៉ូឌីណាមិចបានធ្វើបំលែងដូចខាងក្រោម។ ចូរគណនាបម្រែបម្រួលថាមពលក្នុងរបស់ប្រព័ន្ធ។
@@ -8513,6 +8598,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2019-4000-8000-000000000000', 'bacc1030-2019-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2019-4000-8000-000000000006', 'ក. $2500\,J$  ខ. $1100\,J$  គ. $-50000\,J$', null, null, null, '[{"content":"តាមច្បាប់ទី១ទែម៉ូឌីណាមិច $Q=\\Delta U+W$ ⇒ $\\Delta U=Q-W$ ($Q>0$ ពេលស្រូបកម្តៅ, $W>0$ ពេលប្រព័ន្ធធ្វើកម្មន្ត, $W<0$ ពេលទទួលកម្មន្ត)។"},{"content":"ក. $\\Delta U=2000-(-500)=2500\\,J$។"},{"content":"ខ. $\\Delta U=1500-400=1100\\,J$។"},{"content":"គ. មាឌថេរ $W=0$ ⇒ $\\Delta U=Q=-50000\\,J$ (ដំណោះស្រាយក្នុងឯកសារសរសេរ $5000\\,J$ តែប្រធានដែលបោះពុម្ពមាន $50000\\,J$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1030-2018-4000-8000-000000000000', 'kh-grade12-science-physics', 2018, 'BacII 2018: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2018 (2018-08-20), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -8526,6 +8616,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000001', 'ទ្រឹស្តីស៊ីនេទិច៖ ម៉ូលេគុលឧស្ម័នធ្វើចលនាឥតឈប់ឈរ គ្មានសណ្តាប់ធ្នាប់ ហើយ $\overline{E_c}=\dfrac32kT$។ ច្បាប់ទី១៖ $Q=\Delta U+W$', null, null, null, '[{"content":"ឧស្ម័នផ្សំឡើងពីម៉ូលេគុលច្រើនឥតគណនា ដែលធ្វើចលនាឥតឈប់ឈរ និងគ្មានសណ្តាប់ធ្នាប់។"},{"content":"ទំហំម៉ូលេគុលតូចណាស់បើធៀបនឹងចម្ងាយរវាងវា (ចាត់ទុកជាចំណុចរូបធាតុ) ហើយគ្មានកម្លាំងអន្តរកម្មក្រៅពីពេលទង្គិច។"},{"content":"ទង្គិចរវាងម៉ូលេគុល និងជាមួយជញ្ជាំងធុងជាទង្គិចខ្ទាត; សម្ពាធឧស្ម័នកើតពីទង្គិចទាំងនេះ។"},{"content":"ថាមពលស៊ីនេទិចមធ្យមនៃម៉ូលេគុលសមាមាត្រនឹងសីតុណ្ហភាពដាច់ខាត៖ $\\overline{E_c}=\\dfrac32kT$។"},{"content":"ច្បាប់ទី១ទែម៉ូឌីណាមិច៖ បរិមាណកម្តៅដែលប្រព័ន្ធស្រូប ស្មើនឹងបម្រែបម្រួលថាមពលក្នុង បូកនឹងកម្មន្តដែលប្រព័ន្ធធ្វើ៖ $Q=\\Delta U+W$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2018-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2018, 'open', 'គណនាមាឌឧស្ម័នអុកស៊ីសែន $3.2\,g$ ដែលផ្ទុកក្នុងធុងនៅសម្ពាធ $1.0\times10^5\,Pa$ និងសីតុណ្ហភាព $27^{o}C$។ គេឲ្យ $R=8.31\,J/mol.K$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -8533,12 +8628,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000002', 2, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000002', '$V\approx2.49\times10^{-3}\,m^3$', null, null, null, '[{"content":"$n=\\dfrac{3.2}{32}=0.1\\,mol$ (ម៉ាសម៉ូល $O_2$ $32\\,g/mol$), $T=27+273=300\\,K$។"},{"content":"$V=\\dfrac{nRT}{P}=\\dfrac{0.1\\times8.31\\times300}{1.0\\times10^5}=2.49\\times10^{-3}\\,m^3$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2018-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2018, 'open', 'គេធ្វើកម្មន្ត $20\,KJ$ លើប្រព័ន្ធឧស្ម័នបិទជិតមួយ។ ក្រោយមកកម្តៅ $1\,kcal$ បានភាយចេញពីប្រព័ន្ធ។ គណនាបម្រែបម្រួលថាមពលក្នុងនៃប្រព័ន្ធ។ $(1\,kcal=4186\,J)$', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2018 (2018-08-20), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000003', 3, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000003', '$\Delta U\approx1.58\times10^4\,J$', null, null, null, '[{"content":"ប្រព័ន្ធទទួលកម្មន្ត $W=-20000\\,J$ ហើយបញ្ចេញកម្តៅ $Q=-4186\\,J$។"},{"content":"$\\Delta U=Q-W=-4186+20000=15814\\,J\\approx1.58\\times10^4\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2018-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2018, 'open', 'ម៉ាស៊ីនមួយមានទិន្នផលកម្តៅ $0.40$ ហើយវាស្រូបបរិមាណកម្តៅ $5.0\,MJ$។ គណនា៖
@@ -8550,6 +8655,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000004', 'ក. $W=2.0\,MJ$  ខ. $Q_2=3.0\,MJ$  គ. $W_u=1.6\,MJ$', null, null, null, '[{"content":"ក. $W=0.40\\times5.0=2.0\\,MJ$។"},{"content":"ខ. $Q_2=5.0-2.0=3.0\\,MJ$។"},{"content":"គ. $W_u=0.80\\times2.0=1.6\\,MJ$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2018-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2018, 'open', 'ខ្សែចម្លងវែងពីរស្របគ្នានៅចម្ងាយ $10\,cm$ ពីគ្នា ហើយឆ្លងកាត់ដោយចរន្ត $6.0\,A$ និង $4.0\,A$។ ជម្រាបម៉ាញេទិចនៃខ្យល់ ឬសុញ្ញកាស $\mu_o=4\pi\times10^{-7}\,T.m/A$
 គណនាវ៉ិចទ័រកម្លាំងដែលមានអំពើលើខ្សែចម្លង $D$ ប្រវែង $1.0\,m$ (ដូចរូបខាងស្តាំ) ប្រសិនបើ៖
@@ -8560,6 +8670,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000005', '$F=4.8\times10^{-5}\,N$; ក. កែងនឹង $D$ ទៅរក $C$ (ទាញចូល)  ខ. កែងនឹង $D$ ចេញពី $C$ (ច្រានចេញ)', null, null, null, '[{"content":"$F=\\dfrac{\\mu_0I_1I_2\\ell}{2\\pi a}=\\dfrac{4\\pi\\times10^{-7}\\times6.0\\times4.0\\times1.0}{2\\pi\\times0.10}=4.8\\times10^{-5}\\,N$។"},{"content":"ក. ចរន្តស្របទិសគ្នា ខ្សែទាញគ្នា៖ វ៉ិចទ័រកម្លាំងលើ $D$ កែងនឹង $D$ ក្នុងប្លង់ខ្សែទាំងពីរ ហើយមានទិសទៅរក $C$។"},{"content":"ខ. ចរន្តផ្ទុយទិសគ្នា ខ្សែច្រានគ្នា៖ វ៉ិចទ័រកម្លាំងលើ $D$ មានទិសចេញឆ្ងាយពី $C$ ទំហំដដែល $4.8\\times10^{-5}\\,N$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2018-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2018, 'open', 'សូលេណូអ៊ីតមួយមានប្រវែង $1.5\,m$ និងមាន $470$ ស្ពៀក្នុង $1.0\,m$ ផ្ទុកថាមពលម៉ាញេទិច $0.31\,J$ នៅពេលមានចរន្តអគ្គិសនី $12\,A$ ឆ្លងកាត់។ គេឲ្យ $\mu_o=4\pi\times10^{-7}\,T.m/A$
 ក. គណនាអាំងឌុចតង់របស់សូលេណូអ៊ីត។
@@ -8568,6 +8683,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2018-4000-8000-000000000000', 'bacc1030-2018-4000-8000-000000000006', 6, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2018-4000-8000-000000000006', 'ក. $L\approx4.31\times10^{-3}\,H$  ខ. $S\approx1.03\times10^{-2}\,m^2$', null, null, null, '[{"content":"ក. $E=\\dfrac12LI^2$ ⇒ $L=\\dfrac{2E}{I^2}=\\dfrac{2\\times0.31}{12^2}\\approx4.31\\times10^{-3}\\,H$។"},{"content":"ខ. $L=\\mu_0n^2\\ell S$ ($n=470$ ស្ពៀ/m) ⇒ $S=\\dfrac{L}{\\mu_0n^2\\ell}=\\dfrac{4.31\\times10^{-3}}{4\\pi\\times10^{-7}\\times470^2\\times1.5}\\approx1.03\\times10^{-2}\\,m^2$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1030-2017-4000-8000-000000000000', 'kh-grade12-science-physics', 2017, 'BacII 2017: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2017 (2017-08-21), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -8581,12 +8701,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000001', '$\overline{E_c}\approx4.15\times10^{-20}\,J$', null, null, null, '[{"content":"$T=1727+273=2000\\,K$; $k=\\dfrac{R}{N_A}=\\dfrac{8.30}{6.00\\times10^{23}}\\approx1.38\\times10^{-23}\\,J/K$។"},{"content":"$\\overline{E_c}=\\dfrac32kT=\\dfrac32\\times1.383\\times10^{-23}\\times2000\\approx4.15\\times10^{-20}\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2017-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2017, 'open', 'បម្លាស់ទីនៃរលកមួយឲ្យដោយសមីការ $y=0.30\sin\left(0.20x-0.20t\right)(m)$។ គណនា៖ អំព្លីទុតនៃរលក ចំនួនរលក ជំហាននៃរលក ខួបនៃរលក និងល្បឿនដំណាលរលក។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000002', '$a=0.30\,m$, $k=0.20\,rad/m$, $\lambda\approx31.4\,m$, $T\approx31.4\,s$, $v=1.0\,m/s$', null, null, null, '[{"content":"ផ្ទឹមជាមួយ $y=a\\sin(kx-\\omega t)$៖ $a=0.30\\,m$, $k=0.20\\,rad/m$, $\\omega=0.20\\,rad/s$។"},{"content":"$\\lambda=\\dfrac{2\\pi}{k}=10\\pi\\approx31.4\\,m$; $T=\\dfrac{2\\pi}{\\omega}=10\\pi\\approx31.4\\,s$; $v=\\dfrac{\\omega}{k}=\\dfrac{\\lambda}{T}=1.0\\,m/s$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2017-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2017, 'open', 'គណនាបម្រែបម្រួលថាមពលក្នុងរបស់ប្រព័ន្ធ៖
@@ -8596,6 +8726,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000003', 'ក. $\Delta U=-500\,J$  ខ. $\Delta U=+1000\,J$', null, null, null, '[{"content":"អាដ្យាបាទិច ⇒ $Q=0$ ហើយ $\\Delta U=-W$។"},{"content":"ក. ប្រព័ន្ធធ្វើកម្មន្ត $W=500\\,J$ ⇒ $\\Delta U=-500\\,J$ (ឧស្ម័នត្រជាក់ចុះ)។"},{"content":"ខ. ប្រព័ន្ធទទួលកម្មន្ត $W=-1000\\,J$ ⇒ $\\Delta U=+1000\\,J$ (ឧស្ម័នក្តៅឡើង)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2017-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2017, 'open', 'ម៉ាស៊ីនម៉ាសូតនៃរថយន្តមួយដែលមានទិន្នផលកម្តៅ $0.40$ ហើយវាស្រូបបរិមាណកម្តៅ $6.0\times10^6\,J$។ គណនា៖
@@ -8607,6 +8742,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000004', 'ក. $W=2.4\times10^6\,J$  ខ. $Q_2=3.6\times10^6\,J$  គ. $W_u=1.92\times10^6\,J$', null, null, null, '[{"content":"ក. $W=0.40\\times6.0\\times10^6=2.4\\times10^6\\,J$។"},{"content":"ខ. $Q_2=6.0\\times10^6-2.4\\times10^6=3.6\\times10^6\\,J$។"},{"content":"គ. $W_u=0.80\\times2.4\\times10^6=1.92\\times10^6\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2017-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2017, 'open', 'គណនាម៉ាសនៃផង់ផ្ទុកបន្ទុកអគ្គិសនី $1.6\times10^{-19}\,C$ មួយដែលផ្លាស់ទីដោយល្បឿន $5.0\times10^5\,m/s$ ហើយមានកាំកំណោង $2.0\times10^{-2}\,m$ នៅពេលវាផ្លាស់ទីចូលក្នុងដែនម៉ាញេទិច ហើយមានទិសដៅកែងនឹងដែនម៉ាញេទិច $B=0.26\,T$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -8614,12 +8754,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000005', '$m\approx1.66\times10^{-27}\,kg$', null, null, null, '[{"content":"កម្លាំងឡូរិនជាកម្លាំងចូលផ្ចិត៖ $qvB=\\dfrac{mv^2}{r}$ ⇒ $m=\\dfrac{qBr}{v}$។"},{"content":"$m=\\dfrac{1.6\\times10^{-19}\\times0.26\\times2.0\\times10^{-2}}{5.0\\times10^5}\\approx1.66\\times10^{-27}\\,kg$ (ប្រហែលម៉ាសប្រូតុង)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2017-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2017, 'open', 'របារអង្គធាតុចម្លងពីររាងជាស៊ីឡាំងត្រូវបានដាក់ឲ្យស្របគ្នាក្នុងប្លង់ដេកដែលចុងទាំងពីររបស់វាភ្ជាប់គ្នាដោយរេស៊ីស្តង់ $R=6.0\,\Omega$ ហើយរបារទាំងពីរនៅឃ្លាតពីគ្នាចម្ងាយ $30\,cm$។ របារលោហៈ $MN$ មួយដាក់ឲ្យកែងលើរបារអង្គធាតុចម្លងទាំងពីរ។ ប្លង់នៃរបារអង្គធាតុចម្លងទាំងពីរកែងនឹងដែនម៉ាញេទិចឯកសណ្ឋានមានអាំងឌុចស្យុង $B=0.20\,T$។ គេរុញរបារ $MN$ ឲ្យផ្លាស់ទីលើរបារអង្គធាតុចម្លងទាំងពីរដោយល្បឿន $100\,m/s$។ គណនាអាំងតង់ស៊ីតេចរន្តអាំងឌុីឆ្លងកាត់រេស៊ីស្តង់ បើរបារលោហៈ និងរបារអង្គធាតុចម្លងទាំងពីរ មានរេស៊ីស្តង់អាចចោលបាន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2017 (2017-08-21), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2017-4000-8000-000000000000', 'bacc1030-2017-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2017-4000-8000-000000000006', '$I=1.0\,A$', null, null, null, '[{"content":"កម្លាំងអគ្គិសនីចលករអាំងឌុី $e=B\\ell v=0.20\\times0.30\\times100=6.0\\,V$។"},{"content":"$I=\\dfrac eR=\\dfrac{6.0}{6.0}=1.0\\,A$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1030-2016-4000-8000-000000000000', 'kh-grade12-science-physics', 2016, 'BacII 2016: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -8633,12 +8783,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000001', 'ប្រព័ន្ធទែម៉ូឌីណាមិច គឺវត្ថុ ឬសំណុំវត្ថុ (ឧ. ឧស្ម័នក្នុងស៊ីឡាំង) ដែលគេញែកចេញពីមជ្ឈដ្ឋានខាងក្រៅដើម្បីសិក្សា ហើយអាចផ្លាស់ប្តូរថាមពល (កម្តៅ និងកម្មន្ត) ជាមួយមជ្ឈដ្ឋាននោះ', null, null, null, '[{"content":"អ្វីៗនៅក្រៅប្រព័ន្ធហៅថាមជ្ឈដ្ឋានខាងក្រៅ (បរិស្ថាន)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2016-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'នៅពេលចរន្តអគ្គិសនីឆ្លងកាត់បូប៊ីនមួយគេសង្កេតឃើញប៉ូលមួយរបស់បូប៊ីនមានខ្សែដែនតេចេញ ហើយប៉ូលមួយទៀតមានខ្សែដែនតេចូល។ តើប៉ូលណាជាប៉ូលជើង ហើយមួយណាជាប៉ូលត្បូងរបស់បូប៊ីន?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000002', 'ប៉ូលដែលខ្សែដែនចេញ ជាប៉ូលជើង (N); ប៉ូលដែលខ្សែដែនចូល ជាប៉ូលត្បូង (S)', null, null, null, '[{"content":"ក្រៅមេដែក ឬបូប៊ីន ខ្សែដែនម៉ាញេទិចចេញពីប៉ូលជើង ហើយចូលទៅប៉ូលត្បូង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2016-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'គណនាមាឌឧស្ម័នអុកស៊ីសែន $6.4\,g$ ដែលផ្ទុកក្នុងធុងនៅសម្ពាធ $10^5\,Pa$ និងសីតុណ្ហភាព $400\,K$ ដោយម៉ាសម៉ូលរបស់ឧស្ម័នអុកស៊ីសែន $M=32\,g/mol$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
@@ -8647,12 +8807,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000003', '$V\approx6.65\times10^{-3}\,m^3$', null, null, null, '[{"content":"$n=\\dfrac{6.4}{32}=0.2\\,mol$ (យក $R=8.31\\,J/mol.K$)។"},{"content":"$V=\\dfrac{nRT}{P}=\\dfrac{0.2\\times8.31\\times400}{10^5}=6.65\\times10^{-3}\\,m^3$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2016-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'គេផ្ទុកកុងដង់សាទ័រមួយដែលមានកាប៉ាស៊ីតេ $C=2.0\,\mu F$ ក្រោមតង់ស្យុង $V=5.0\,V$។ គណនាថាមពលអគ្គិសនីដែលផ្ទុកក្នុងកុងដង់សាទ័រ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2016 (2016-08-22), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: VII ends with an empty "(គេឲ្យ )" in the copy: the constant it gave is missing. Use μ₀ = 4π×10⁻⁷ T·m/A, as in other papers. The copy gives no points for each question, so none are shown.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000004', '$W=2.5\times10^{-5}\,J$', null, null, null, '[{"content":"$W=\\dfrac12CV^2=\\dfrac12\\times2.0\\times10^{-6}\\times5.0^2=2.5\\times10^{-5}\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2016-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'ចូរគណនាបម្រែបម្រួលថាមពលក្នុងរបស់ប្រព័ន្ធទែម៉ូឌីណាមិច៖
@@ -8664,6 +8834,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000005', 5, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000005', 'ក. $1500\,J$  ខ. $1600\,J$  គ. $-300\,J$', null, null, null, '[{"content":"តាមច្បាប់ទី១ទែម៉ូឌីណាមិច $Q=\\Delta U+W$ ⇒ $\\Delta U=Q-W$ ($Q>0$ ពេលស្រូបកម្តៅ, $W>0$ ពេលប្រព័ន្ធធ្វើកម្មន្ត, $W<0$ ពេលទទួលកម្មន្ត)។"},{"content":"ក. $\\Delta U=2000-500=1500\\,J$។"},{"content":"ខ. $\\Delta U=1200-(-400)=1600\\,J$។"},{"content":"គ. មាឌថេរ $W=0$ ⇒ $\\Delta U=-300\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2016-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'ម៉ាស៊ីនមួយមានទិន្នផលកម្តៅ $40\%$ គណនា៖
 ក. កម្មន្តដែលបានធ្វើ ប្រសិនបើវាស្រូបកម្តៅ $2000\,J$ ពីធុងក្តៅ
@@ -8673,6 +8848,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000006', 6, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000006', 'ក. $W=800\,J$  ខ. $Q_2=1200\,J$', null, null, null, '[{"content":"ក. $W=e\\,Q_1=0.40\\times2000=800\\,J$។"},{"content":"ខ. $Q_2=Q_1-W=2000-800=1200\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2016-4000-8000-000000000007', 'kh-grade12-science-physics-past-papers', null, 2016, 'open', 'សូលេណូអ៊ីតគ្មានស្នូលមួយមានប្រវែង $50\,cm$ ហើយមានអង្កត់ផ្ចិត $3.0\,cm$ ត្រូវបានគេរុំចំនួន $3000$ ស្ពៀ។ ប្រសិនបើសូលេណូអ៊ីតឆ្លងកាត់ដោយចរន្តអគ្គិសនី $5.0\,A$។ គណនា៖
 ក. ដែនម៉ាញេទិចឆ្លងកាត់សូលេណូអ៊ីត
@@ -8681,6 +8861,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2016-4000-8000-000000000000', 'bacc1030-2016-4000-8000-000000000007', 7, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2016-4000-8000-000000000007', 'ក. $B=12\pi\times10^{-3}\approx3.77\times10^{-2}\,T$  ខ. $\ell''\approx283\,m$', null, null, null, '[{"content":"ក. (យក $\\mu_0=4\\pi\\times10^{-7}\\,T.m/A$ ដែលបាត់ពីប្រធាន) $B=\\mu_0\\dfrac{NI}{\\ell}=4\\pi\\times10^{-7}\\times\\dfrac{3000\\times5.0}{0.50}=12\\pi\\times10^{-3}\\approx3.77\\times10^{-2}\\,T$។"},{"content":"ខ. $\\ell''=N\\pi D=3000\\times\\pi\\times0.03\\approx283\\,m$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1030-2015-4000-8000-000000000000', 'kh-grade12-science-physics', 2015, 'BacII 2015: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2015 (2015-08-24), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -8694,6 +8879,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000001', 1, 8)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000001', 'ទ្រឹស្តីស៊ីនេទិចនៃឧស្ម័ន៖ ម៉ូលេគុលធ្វើចលនាឥតឈប់ឈរ គ្មានសណ្តាប់ធ្នាប់ ទង្គិចខ្ទាត ហើយថាមពលស៊ីនេទិចមធ្យមអាស្រ័យនឹងសីតុណ្ហភាព', null, null, null, '[{"content":"ឧស្ម័នផ្សំឡើងពីម៉ូលេគុលច្រើនឥតគណនា ដែលធ្វើចលនាឥតឈប់ឈរ និងគ្មានសណ្តាប់ធ្នាប់។"},{"content":"ទំហំម៉ូលេគុលតូចណាស់បើធៀបនឹងចម្ងាយរវាងវា (ចាត់ទុកជាចំណុចរូបធាតុ) ហើយគ្មានកម្លាំងអន្តរកម្មក្រៅពីពេលទង្គិច។"},{"content":"ទង្គិចរវាងម៉ូលេគុល និងជាមួយជញ្ជាំងធុងជាទង្គិចខ្ទាត; សម្ពាធឧស្ម័នកើតពីទង្គិចទាំងនេះ។"},{"content":"ថាមពលស៊ីនេទិចមធ្យមនៃម៉ូលេគុលសមាមាត្រនឹងសីតុណ្ហភាពដាច់ខាត៖ $\\overline{E_c}=\\dfrac32kT$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2015-4000-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2015, 'open', 'ដូចម្តេចដែលហៅថារលកតម្រួត។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
@@ -8701,12 +8891,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000002', 2, 8)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000002', 'រលកត្រួត គឺពេលរលកពីរ ឬច្រើនឆ្លងកាត់ចំណុចតែមួយក្នុងមជ្ឈដ្ឋានព្រមគ្នា បម្លាស់ទីសរុបនៃចំណុចនោះស្មើនឹងផលបូក (វ៉ិចទ័រ) នៃបម្លាស់ទីដែលរលកនីមួយៗបង្កើត', null, null, null, '[{"content":"$y=y_1+y_2+\\dots$ (គោលការណ៍តម្រួតរលក)។ បន្ទាប់ពីជួបគ្នា រលកនីមួយៗបន្តដំណើររបស់វាដូចដើម។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2015-4000-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2015, 'open', 'ចូរគណនាមាឌឧស្ម័នអាសូត $2.8\,g$ ដែលផ្ទុកក្នុងធុងក្រោមសម្ពាធ $1.0\times10^5\,Pa$ និងសីតុណ្ហភាព $300\,K$។ ថេរសកលនៃឧស្ម័ន $R=8.31\,J/mol.K$ និងម៉ាសម៉ូលអាសូត $28\,g/mol$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000003', 3, 14)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000003', '$V\approx2.49\times10^{-3}\,m^3\ (\approx2.5\,L)$', null, null, null, '[{"content":"$n=\\dfrac{2.8}{28}=0.1\\,mol$។"},{"content":"$V=\\dfrac{nRT}{P}=\\dfrac{0.1\\times8.31\\times300}{1.0\\times10^5}=2.49\\times10^{-3}\\,m^3$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2015-4000-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2015, 'open', 'គេធ្វើបំលែងទែម៉ូឌីណាមិចដូចរូបខាងក្រោម។ ចូរគណនា៖
@@ -8719,6 +8919,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000004', 4, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000004', 'ក. $W_{AB}=1.5\times10^5\,J$  ខ. $W_{BC}=-1.0\times10^5\,J$  គ. $W_{CA}=0$  ឃ. $W=5\times10^4\,J$', null, null, null, '[{"content":"តាមរូប៖ $A(2.0\\,m^3;\\,2.0\\times10^5\\,Pa)$, $B(3.0\\,m^3;\\,1.0\\times10^5\\,Pa)$, $C(2.0\\,m^3;\\,1.0\\times10^5\\,Pa)$។"},{"content":"ក. $AB$ ជាបន្ទាត់ត្រង់៖ កម្មន្តស្មើផ្ទៃក្រោមខ្សែ $W_{AB}=\\dfrac{P_A+P_B}{2}(V_B-V_A)=\\dfrac{3.0\\times10^5}{2}\\times1.0=1.5\\times10^5\\,J$។"},{"content":"ខ. $BC$ សម្ពាធថេរ៖ $W_{BC}=P_B(V_C-V_B)=1.0\\times10^5\\times(2.0-3.0)=-1.0\\times10^5\\,J$។"},{"content":"គ. $CA$ មាឌថេរ ⇒ $W_{CA}=0$។"},{"content":"ឃ. $W=1.5\\times10^5-1.0\\times10^5+0=5\\times10^4\\,J$ (ស្មើផ្ទៃត្រីកោណ $ABC$)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2015-4000-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2015, 'open', 'ម៉ាស៊ីនម៉ាសូតនៃរថយន្តដែលមានទិន្នផលកម្តៅ $0.45$ ហើយវាស្រូបបរិមាណកម្តៅ $4.0\times10^6\,J$។ ចូរគណនា៖
 ក. កម្មន្តមេកានិចដែលបានពីពិស្តុង។
@@ -8729,6 +8934,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000005', 5, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000005', 'ក. $W=1.8\times10^6\,J$  ខ. $Q_2=2.2\times10^6\,J$  គ. $W_u=1.44\times10^6\,J$', null, null, null, '[{"content":"ក. $W=0.45\\times4.0\\times10^6=1.8\\times10^6\\,J$។"},{"content":"ខ. $Q_2=4.0\\times10^6-1.8\\times10^6=2.2\\times10^6\\,J$។"},{"content":"គ. $W_u=0.80\\times1.8\\times10^6=1.44\\times10^6\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2015-4000-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2015, 'open', 'ខ្សែចម្លងទង់ដែងមួយមានមុខកាត់ $0.2\,mm$ មានរេស៊ីស្ទីវីតេ $\rho=1.7\times10^{-8}\,\Omega.m$ ត្រូវបានគេរុំចំនួន $6000$ ស្ពៀ ជាសូលេណូអ៊ីតគ្មានស្នូលមួយដែលមានអង្កត់ផ្ចិត $3.0\,cm$ និងមានប្រវែង $60\,cm$។ សូលេណូអ៊ីតត្រូវបានឆ្លងកាត់ដោយចរន្តអគ្គិសនី $1.0\,A$។ គេឲ្យជំរាបម៉ាញេទិចនៃខ្យល់ ឬ សុញ្ញាកាស $\mu_o=4\pi\times10^{-7}\,T.m/A$។ ចូរគណនា៖
 ក. ដែនម៉ាញេទិចឆ្លងកាត់ស្នូលសូលេណូអ៊ីត។
@@ -8738,6 +8948,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2015-4000-8000-000000000000', 'bacc1030-2015-4000-8000-000000000006', 6, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2015-4000-8000-000000000006', 'ក. $B=4\pi\times10^{-3}\approx1.26\times10^{-2}\,T$  ខ. $\ell''\approx565\,m$  គ. $R\approx306\,\Omega$', null, null, null, '[{"content":"ក. $B=\\mu_0\\dfrac{NI}{\\ell}=4\\pi\\times10^{-7}\\times\\dfrac{6000\\times1.0}{0.60}=4\\pi\\times10^{-3}\\approx1.26\\times10^{-2}\\,T$។"},{"content":"ខ. ប្រវែងខ្សែ $\\ell''=N\\pi D=6000\\times\\pi\\times0.03\\approx565\\,m$។"},{"content":"គ. យកអង្កត់ផ្ចិតខ្សែ $d=0.2\\,mm$ (ដូចឯកសារ)៖ $S''=\\dfrac{\\pi d^2}{4}=\\pi\\times10^{-8}\\,m^2$ ⇒ $R=\\rho\\dfrac{\\ell''}{S''}=1.7\\times10^{-8}\\times\\dfrac{565.5}{\\pi\\times10^{-8}}\\approx306\\,\\Omega$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1030-2014-4200-8000-000000000000', 'kh-grade12-science-physics', 2014, 'BacII 2014, second sitting: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -8751,12 +8966,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000001', 'ច្បាប់ទី១ទែម៉ូឌីណាមិចសិក្សាពីការរក្សាថាមពលក្នុងបំលែងកម្តៅ៖ បរិមាណកម្តៅ $Q$ ដែលប្រព័ន្ធស្រូប ស្មើនឹងបម្រែបម្រួលថាមពលក្នុង $\Delta U$ បូកនឹងកម្មន្ត $W$ ដែលប្រព័ន្ធធ្វើ៖ $Q=\Delta U+W$', null, null, null, '[{"content":"វាជាទម្រង់មួយនៃច្បាប់រក្សាថាមពល សម្រាប់ទំនាក់ទំនងរវាងកម្តៅ កម្មន្ត និងថាមពលក្នុង។"},{"content":"ប្រព័ន្ធមិនអាចធ្វើកម្មន្តដោយគ្មានទទួលកម្តៅ ឬបាត់បង់ថាមពលក្នុងឡើយ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2014-4200-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'គណនាមាឌផុងដែលផ្ទុកឧស្ម័នអុកស៊ីសែន $9.6\,g$ នៅសម្ពាធ $10^5\,Pa$ និងសីតុណ្ហភាព $300\,K$។ ថេរ សកលនៃឧស្ម័ន $R=8.31\,J/mol.K$ និងម៉ាសម៉ូលនៃអុកស៊ីសែនគឺ $32\,g/mol$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000002', 2, 12)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000002', '$V\approx7.48\times10^{-3}\,m^3\ (\approx7.5\,L)$', null, null, null, '[{"content":"$n=\\dfrac mM=\\dfrac{9.6}{32}=0.3\\,mol$។"},{"content":"$PV=nRT$ ⇒ $V=\\dfrac{nRT}{P}=\\dfrac{0.3\\times8.31\\times300}{10^5}=7.48\\times10^{-3}\\,m^3$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2014-4200-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'គណនាបម្រែបម្រួលថាមពលក្នុងរបស់ប្រព័ន្ធទែម៉ូឌីណាមិចដូចលក្ខខណ្ឌខាងក្រោម៖
@@ -8768,6 +8993,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000003', 3, 12)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000003', 'ក. $\Delta U=1695\,J$  ខ. $\Delta U=1677\,J$  គ. $\Delta U=-5028\,J$', null, null, null, '[{"content":"តាមច្បាប់ទី១ទែម៉ូឌីណាមិច $Q=\\Delta U+W$ ⇒ $\\Delta U=Q-W$ ($Q>0$ ពេលស្រូបកម្តៅ, $W>0$ ពេលប្រព័ន្ធធ្វើកម្មន្ត, $W<0$ ពេលទទួលកម្មន្ត)។"},{"content":"ក. $Q=500\\times4.19=2095\\,J$, $W=400\\,J$ ⇒ $\\Delta U=2095-400=1695\\,J$។"},{"content":"ខ. $Q=300\\times4.19=1257\\,J$, $W=-420\\,J$ ⇒ $\\Delta U=1257+420=1677\\,J$។"},{"content":"គ. $Q=-1200\\times4.19=-5028\\,J$, មាឌថេរ $W=0$ ⇒ $\\Delta U=-5028\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2014-4200-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'ម៉ាស៊ីនសាំងមួយទទួលកម្តៅ $4.0\times10^6\,J$។ វាមានទិន្នផលកម្តៅ $0.40$។
 ក. គណនាកម្មន្តមេកានិចដែលផ្តល់ដោយពិស្តុង។
@@ -8778,6 +9008,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000004', 4, 13)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000004', 'ក. $W=1.6\times10^6\,J$  ខ. $Q_2=2.4\times10^6\,J$  គ. $W_u=1.36\times10^6\,J$', null, null, null, '[{"content":"ក. $W=e\\,Q_1=0.40\\times4.0\\times10^6=1.6\\times10^6\\,J$។"},{"content":"ខ. $Q_2=Q_1-W=4.0\\times10^6-1.6\\times10^6=2.4\\times10^6\\,J$។"},{"content":"គ. $W_u=0.85\\times1.6\\times10^6=1.36\\times10^6\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2014-4200-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'ខ្សែចម្លងត្រង់ពីរមានប្រវែងស្មើគ្នា $\ell_1=\ell_2=1\,m$ ដាក់ស្របគ្នាក្នុងខ្យល់ហើយស្ថិតនៅចម្ងាយពីគ្នា $a=1\,cm$ ហើយឆ្លងកាត់ដោយចរន្តមានទិសដៅដូចគ្នា និងមានអាំងតង់ស៊ីតេចរន្ត $I_1=I_2=1\,A$។ ជំរាបម៉ាញេទិចនៃខ្យល់ឬសុញ្ញាកាស $\mu_o=4\pi\times10^{-7}\,(T.m)/A$។
 ក. គណនាកម្លាំងដែលមានអំពើទៅវិញទៅមករវាងខ្សែចម្លងទាំងពីរ។
@@ -8787,6 +9022,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000005', 5, 13)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000005', 'ក. $F=2\times10^{-5}\,N$  ខ. ទាញគ្នាចូល', null, null, null, '[{"content":"ក. $F=\\dfrac{\\mu_0I_1I_2\\ell}{2\\pi a}=\\dfrac{4\\pi\\times10^{-7}\\times1\\times1\\times1}{2\\pi\\times10^{-2}}=2\\times10^{-5}\\,N$។"},{"content":"ខ. ចរន្តទិសដៅដូចគ្នា ខ្សែចម្លងទាញគ្នាចូល (ចរន្តផ្ទុយគ្នា ច្រានគ្នាចេញ)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2014-4200-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'គេធ្វើពិសោធន៍មួយដើម្បីវាស់អាំងតង់ស៊ីតេនៃដែនម៉ាញេទិច។ អេឡិចត្រុងត្រូវគេដាក់ឲ្យស្ទុះពីនៅស្ងៀមឆ្លងកាត់ផលសងប៉ូតង់ស្យែលអគ្គិសនី $350\,V$។ ប្រសិនដែនម៉ាញេទិចមានទិសកែងនឹងគន្លងរបស់អេឡិចត្រុងនោះអេឡិចត្រុងផ្លាស់ទីបានជាគន្លងរង្វង់ដែលមានកាំ $R=7.5\,cm$ ពីព្រោះដែនម៉ាញេទិចមានអំពើទៅលើវា។ គេឲ្យបន្ទុកអគ្គិសនីរបស់អេឡិចត្រុង $1.60\times10^{-19}\,C$ និងម៉ាសអេឡិចត្រុង $9.11\times10^{-31}\,kg$។ គណនា៖
 ក. អាំងតង់ស៊ីតេដែនម៉ាញេទិចឯកសណ្ឋាន។
@@ -8795,6 +9035,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2014-4200-8000-000000000000', 'bacc1030-2014-4200-8000-000000000006', 6, 15)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4200-8000-000000000006', 'ក. $B\approx8.4\times10^{-4}\,T$  ខ. $f\approx2.35\times10^7$ ជុំ/វិនាទី', null, null, null, '[{"content":"ល្បឿនអេឡិចត្រុង៖ $eU=\\dfrac12mv^2$ ⇒ $v=\\sqrt{\\dfrac{2eU}{m}}=\\sqrt{\\dfrac{2\\times1.6\\times10^{-19}\\times350}{9.11\\times10^{-31}}}\\approx1.11\\times10^7\\,m/s$។"},{"content":"ក. កម្លាំងឡូរិនជាកម្លាំងចូលផ្ចិត៖ $evB=\\dfrac{mv^2}{R}$ ⇒ $B=\\dfrac{mv}{eR}=\\dfrac{9.11\\times10^{-31}\\times1.11\\times10^7}{1.6\\times10^{-19}\\times0.075}\\approx8.4\\times10^{-4}\\,T$។"},{"content":"ខ. $\\omega=\\dfrac vR\\approx1.48\\times10^8\\,rad/s$ ⇒ $f=\\dfrac{\\omega}{2\\pi}\\approx2.35\\times10^7$ ជុំ/វិនាទី។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc1030-2014-4100-8000-000000000000', 'kh-grade12-science-physics', 2014, 'BacII 2014, first sitting: Physics (science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រ)', 90, 'Printed on the paper: រយៈពេល ៩០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -8808,12 +9053,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000001', 1, 5)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000001', 'ត្រង់ស្វូម៉ាទ័រប្រើសម្រាប់តម្លើង ឬបន្ថយតង់ស្យុងឆ្លាស់; វាមានបូប៊ីនពីរ (បឋម និងមធ្យម) រុំលើស្នូលដែកបិទជិត ហើយញែកពីគ្នាដោយអ៊ីសូឡង់', null, null, null, '[{"content":"ចរន្តឆ្លាស់ក្នុងរបុំបឋមបង្កើតភ្លុចម៉ាញេទិចប្រែប្រួលក្នុងស្នូលដែក ហើយភ្លុចនេះបង្កើតតង់ស្យុងអាំងឌុីក្នុងរបុំមធ្យម៖ $\\dfrac{U_2}{U_1}=\\dfrac{N_2}{N_1}$។"},{"content":"បើ $N_2>N_1$ ជាត្រង់ស្វូតម្លើងតង់ស្យុង; បើ $N_2<N_1$ ជាត្រង់ស្វូបន្ថយតង់ស្យុង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2014-4100-8000-000000000002', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'តើបាតុភូតអូតូអាំងឌុចស្យុងកើតមាននៅពេលណា? ចូរលើកឧទាហរណ៍មួយមកបង្ហាញពីបាតុភូតនេះ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000002', 2, 8)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000002', 'អូតូអាំងឌុចស្យុងកើតមាននៅពេលចរន្តដែលឆ្លងកាត់បូប៊ីនមួយប្រែប្រួល (ពេលបិទ ឬបើកកុងតាក់ ឬចរន្តប្រែប្រួលតម្លៃ)', null, null, null, '[{"content":"ចរន្តប្រែប្រួលធ្វើឲ្យភ្លុចម៉ាញេទិចផ្ទាល់ខ្លួនរបស់បូប៊ីនប្រែប្រួល ហើយបង្កើតកម្លាំងអគ្គិសនីចលករអាំងឌុី $e=-L\\dfrac{\\Delta i}{\\Delta t}$ ក្នុងបូប៊ីននោះផ្ទាល់ ដែលទប់នឹងការប្រែប្រួលនោះ។"},{"content":"ឧទាហរណ៍៖ ក្នុងសៀគ្វីមានបូប៊ីនស៊េរីនឹងអំពូល ពេលបិទកុងតាក់ អំពូលភ្លឺយឺតៗទើបភ្លឺពេញ; ពេលបើកកុងតាក់ មានផ្កាភ្លើងនៅកុងតាក់។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2014-4100-8000-000000000003', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'តើគេប្រើវិធានដៃស្តាំយ៉ាងដូចម្តេចដើម្បីកំណត់ទិសដៅដែនម៉ាញេទិច ករណីចរន្តត្រង់? ករណីចរន្តវង់?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
@@ -8822,12 +9077,22 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000003', 3, 8)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000003', 'ចរន្តត្រង់៖ ក្តាប់ខ្សែដោយដៃស្តាំ មេដៃតាមទិសចរន្ត ម្រាមទាំងបួនបង្ហាញទិសខ្សែដែន។ ចរន្តវង់៖ ម្រាមទាំងបួនកោងតាមទិសចរន្ត មេដៃបង្ហាញទិសដែនម៉ាញេទិចនៅផ្ចិតវង់', null, null, null, '[{"content":"ចរន្តត្រង់បង្កើតខ្សែដែនជារង្វង់ផ្ចិតរួមជុំវិញខ្សែ ហើយទិសដៅវាគឺទិសកោងនៃម្រាមដៃ។"},{"content":"ចរន្តវង់ (ឬបូប៊ីន)៖ មុខដែលមេដៃចង្អុលចេញជាប៉ូលជើង។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2014-4100-8000-000000000004', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'ត្រង់ស្វូម៉ាទ័រមានបូប៊ីនពីរមាន $10000$ ស្ពៀ ហើយមួយទៀតមាន $200$ ស្ពៀ។ តើគេត្រូវយករបុំណាមួយជារបុំបឋម បើគេចង់បានតង់ស្យុងកើន? គណនាតង់ស្យុងនៃគោលរបស់របុំមធ្យម បើគេដឹងថាតង់ស្យុងនៅគោលនៃរបុំបឋមស្មើនឹង $220\,V$។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original.', 'needs-review')
 on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000004', 4, 12)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000004', 'របុំបឋមជារបុំ $200$ ស្ពៀ; $U_2=11000\,V$', null, null, null, '[{"content":"ដើម្បីតម្លើងតង់ស្យុងត្រូវឲ្យ $\\dfrac{N_2}{N_1}>1$ ដូចនេះ $N_1=200$ ស្ពៀ (បឋម) និង $N_2=10000$ ស្ពៀ (មធ្យម)។"},{"content":"$U_2=U_1\\dfrac{N_2}{N_1}=220\\times\\dfrac{10000}{200}=11000\\,V$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2014-4100-8000-000000000005', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'គេឲ្យសៀគ្វីនៃចរន្តឆ្លាស់ ដែលមានពុលសាស្យុង $\omega$ (ដូចរូប)។ គេឲ្យតង់ស្យុងប្រសិទ្ធ $U_{AB}=160\,V$; $U_{BD}=56\,V$; $U_{AD}=120\,V$ និងអាំងតង់ស៊ីតេប្រសិទ្ធនៃចរន្ត $I=0.2\,A$។
@@ -8838,6 +9103,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000005', 5, 20)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000005', 'ក. $Z_{AB}=800\,\Omega$, $Z_{BD}=280\,\Omega$, $Z_{AD}=600\,\Omega$  ខ. $R=480\,\Omega$', null, null, null, '[{"content":"ក. $Z=\\dfrac UI$៖ $Z_{AB}=\\dfrac{160}{0.2}=800\\,\\Omega$, $Z_{BD}=\\dfrac{56}{0.2}=280\\,\\Omega$, $Z_{AD}=\\dfrac{120}{0.2}=600\\,\\Omega$។"},{"content":"ខ. $AB$ ជាបូប៊ីន ($R$, $L$): $Z_{AB}^2=R^2+(L\\omega)^2$; $BD$ ជាកុងដង់សាទ័រ: $Z_{BD}=\\dfrac1{C\\omega}$; $Z_{AD}^2=R^2+\\left(L\\omega-\\dfrac1{C\\omega}\\right)^2=Z_{AB}^2-2L\\omega Z_{BD}+Z_{BD}^2$។"},{"content":"$600^2=800^2-2\\cdot280\\,L\\omega+280^2$ ⇒ $L\\omega=\\dfrac{640000+78400-360000}{560}=640\\,\\Omega$។"},{"content":"$R=\\sqrt{Z_{AB}^2-(L\\omega)^2}=\\sqrt{800^2-640^2}=480\\,\\Omega$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc1030-2014-4100-8000-000000000006', 'kh-grade12-science-physics-past-papers', null, 2014, 'open', 'គេសង់បូប៊ីនមួយ មានអាំងឌុចតង់ $L=64\,mH$ ដោយប្រើខ្សែចម្លងដែលមានអង្កត់ផ្ចិត $d=0.8\,mm$ ស្រោបដោយអ៊ីសូឡង់ដែលមានកម្រាស់ $e=0.1\,mm$ ជាស្ពៀជាប់ៗគ្នាលើស៊ីឡាំងមួយដែលមានអង្កត់ផ្ចិត $D=2\,cm$។
 ក. តើគេត្រូវរុំបូប៊ីននេះចំនួនប៉ុន្មានស្ពៀ?
@@ -8847,6 +9117,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc1030-2014-4100-8000-000000000000', 'bacc1030-2014-4100-8000-000000000006', 6, 22)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc1030-2014-4100-8000-000000000006', 'ក. $N_1=1.6\times10^5$ ស្ពៀ  ខ. $N_2=1.8\times10^5$ ស្ពៀ', null, null, null, '[{"content":"ក. ខ្សែមួយស្ពៀយកប្រវែង $d+2e=1.0\\,mm$ ដូចនេះ $\\ell=N_1(d+2e)$; មុខកាត់ $S=\\dfrac{\\pi D^2}{4}=\\pi\\times10^{-4}\\,m^2$។"},{"content":"$L_1=\\mu_0\\dfrac{N_1^2S}{\\ell}=\\mu_0\\dfrac{N_1S}{d+2e}$ ⇒ $N_1=\\dfrac{L_1(d+2e)}{\\mu_0S}=\\dfrac{64\\times10^{-3}\\times10^{-3}}{4\\pi\\times10^{-7}\\times\\pi\\times10^{-4}}=\\dfrac{6.4\\times10^{-5}}{4\\times10^{-10}}=1.6\\times10^5$ ស្ពៀ (ប្រើ $\\pi^2=10$)។"},{"content":"ខ. ប្រធានមិនឲ្យអង្កត់ផ្ចិតខ្សែថ្មី; ដូចដំណោះស្រាយក្នុងឯកសារ យើងសន្មតថាប្រវែង $\\ell$ និងមុខកាត់ $S$ របស់បូប៊ីននៅដដែល ដូចនេះ $L\\propto N^2$។"},{"content":"$\\dfrac{N_2}{N_1}=\\sqrt{\\dfrac{L_2}{L_1}}=\\sqrt{\\dfrac{81}{64}}=\\dfrac98$ ⇒ $N_2=\\dfrac98\\times1.6\\times10^5=1.8\\times10^5$ ស្ពៀ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 commit;
 
 -- kh-grade12-social-earth-science.json
