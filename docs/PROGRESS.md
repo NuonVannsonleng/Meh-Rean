@@ -561,6 +561,16 @@ timing only in database functions, never in the browser.
   where the printed key does not fit the sentence as printed (2018 Q3B, 3
   → b) the key explains the difference. Labelled ai-generated and
   needs-review. Tests: `test:past-papers` 11/11.
+- **2026-10-21 — AI answer key, part 8: Khmer literature 2014–2022 (both
+  tracks).** 18 model essays in Khmer, one per paper (the tracks sit
+  different prompts), in the shape the copies' marking guides reward:
+  introduction (lead-in, prompt, question), explanation of the key words
+  and meaning, analysis, three literary examples, summary and conclusion.
+  The examples keep to the works those guides cite (Tum Teav, Reamker,
+  Kolab Pailin, Thmenh Chey, Vessantara, Sophat and others) and to
+  well-known facts about them; each essay reminds students to check names
+  and authors against their textbook. Labelled ai-generated and
+  needs-review. Tests: `test:past-papers` 11/11.
 
 ## Blockers and things that need a person
 
