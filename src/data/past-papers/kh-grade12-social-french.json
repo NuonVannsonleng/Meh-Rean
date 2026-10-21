@@ -15,6 +15,10 @@
     "chiep2022": {
       "label": "retyped by ជៀប គីមឈរ (github.com/HELMAB/bacii)",
       "url": "https://github.com/HELMAB/bacii"
+    },
+    "pen": {
+      "label": "compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii)",
+      "url": "https://github.com/HELMAB/bacii"
     }
   },
   "papers": [
@@ -30,19 +34,58 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Compréhension écrite.\nComplétez le texte avec les mots: copain, parents, maison, bizarre, bruits.\nMoi, j'ai peur de rester seul à la ………. ! Quand mes ……… sortent, je ne sais pas quoi faire. J'essaie d'inviter un …….. à la maison ou d'aller chez quelqu'un, mais ce n'est pas toujours possible. Quand je suis seul, je ne peux me concentrer sur rien, je commence à entendre des ………. J'ai honte, parce qu'à 15 ans, c'est un peu …….., non ? Mais je ne peux pas l'éviter."
+          "content": "I. Compréhension écrite.\nComplétez le texte avec les mots: copain, parents, maison, bizarre, bruits.\nMoi, j'ai peur de rester seul à la ………. ! Quand mes ……… sortent, je ne sais pas quoi faire. J'essaie d'inviter un …….. à la maison ou d'aller chez quelqu'un, mais ce n'est pas toujours possible. Quand je suis seul, je ne peux me concentrer sur rien, je commence à entendre des ………. J'ai honte, parce qu'à 15 ans, c'est un peu …….., non ? Mais je ne peux pas l'éviter.",
+          "ai": {
+            "answer": "maison · parents · copain · bruits · bizarre",
+            "steps": [
+              "maison · parents · copain · bruits · bizarre",
+              "« J'ai peur de rester seul à la maison ! Quand mes parents sortent… J'essaie d'inviter un copain… je commence à entendre des bruits… à 15 ans, c'est un peu bizarre, non ? »"
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Vocabulaire\nSoulignez les intrus.\nExample : argent · cuivre · or · fer · agent\n1. matinée · journée · musée · idée · rentrée\n2. dimanche · printemps · été · automne · hiver\n3. boulangerie · boucherie · pâtisserie · librairie · charcuterie\n4. rapidement · développement · lentement · calmement · doucement\n5. père · mère · frère · sœur · voisin\n6. Laos · Russie · Cambodge · Thaïlande · Vietnam\n7. poitrine · tête · bras · docteur · jambe"
+          "content": "II. Vocabulaire\nSoulignez les intrus.\nExample : argent · cuivre · or · fer · agent\n1. matinée · journée · musée · idée · rentrée\n2. dimanche · printemps · été · automne · hiver\n3. boulangerie · boucherie · pâtisserie · librairie · charcuterie\n4. rapidement · développement · lentement · calmement · doucement\n5. père · mère · frère · sœur · voisin\n6. Laos · Russie · Cambodge · Thaïlande · Vietnam\n7. poitrine · tête · bras · docteur · jambe",
+          "ai": {
+            "answer": "1. musée · 2. dimanche · 3. librairie · 4. développement · 5. voisin · 6. Russie · 7. docteur",
+            "steps": [
+              "1. musée : masculin ; les autres noms en -ée sont féminins",
+              "2. dimanche : un jour ; les autres sont des saisons",
+              "3. librairie : ne vend pas à manger",
+              "4. développement : un nom ; les autres sont des adverbes",
+              "5. voisin : pas un membre de la famille",
+              "6. Russie : pas en Asie du Sud-Est",
+              "7. docteur : une personne ; les autres sont des parties du corps"
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Grammaire\nA. Répondez par \"Si\", \"Oui\" ou \"Non\".\nExample: Vous n'être pas fatiqués?. - ………, nous sommes très fatiqués. → - Si, nous sommes très fatiqués.\n1. Tu es Francais, - ………., je suis Cambodgien.\n2. Tu ne mange pas de riz ? - …………, je mange du riz.\n3. Est-ce que tes parents sont à Phnom Penh. - ………, ils sont à Phnom Penh,\n\nB. Reliez les phrases A et B selon l'exemple\nA:\n1. Elle a mal à la gorge.\n2. Elle a mal à la main.\n3. Elle a mal au pied.\n4. Elle a mal aux yeux.\n5. Elle a mal à la fesse.\n6. Elle a mal à la tête.\nB:\na. Elle ne peut pas marcher.\nb. Elle ne peut pas s'assoir.\nc. Elle ne peut pas réfléchir.\nd. Elle ne peut pas manger.\ne. Elle ne peut pas écrite.\nf. Elle ne peut pas courir.\ng. Elle ne peut pas lire\nC: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …"
+          "content": "III. Grammaire\nA. Répondez par \"Si\", \"Oui\" ou \"Non\".\nExample: Vous n'être pas fatiqués?. - ………, nous sommes très fatiqués. → - Si, nous sommes très fatiqués.\n1. Tu es Francais, - ………., je suis Cambodgien.\n2. Tu ne mange pas de riz ? - …………, je mange du riz.\n3. Est-ce que tes parents sont à Phnom Penh. - ………, ils sont à Phnom Penh,\n\nB. Reliez les phrases A et B selon l'exemple\nA:\n1. Elle a mal à la gorge.\n2. Elle a mal à la main.\n3. Elle a mal au pied.\n4. Elle a mal aux yeux.\n5. Elle a mal à la fesse.\n6. Elle a mal à la tête.\nB:\na. Elle ne peut pas marcher.\nb. Elle ne peut pas s'assoir.\nc. Elle ne peut pas réfléchir.\nd. Elle ne peut pas manger.\ne. Elle ne peut pas écrite.\nf. Elle ne peut pas courir.\ng. Elle ne peut pas lire\nC: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …",
+          "ai": {
+            "answer": "A. 1. Non, je suis Cambodgien. · 2. Si, je mange du riz. · 3. Oui, ils sont à Phnom Penh. · B. 1 → d · 2 → e · 3 → a · 4 → g · 5 → b · 6 → c",
+            "steps": [
+              "A. 1. Non, je suis Cambodgien.",
+              "2. Si, je mange du riz.",
+              "3. Oui, ils sont à Phnom Penh.",
+              "B. 1 → d · 2 → e · 3 → a · 4 → g · 5 → b · 6 → c",
+              "B : 3 (mal au pied) peut aussi aller avec f (courir) ; a (marcher) est la réponse la plus naturelle."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "IV. Expression écrite. (10 points)\nAprès l'examen du baccalauréat, qu'est-ce que vous faites ? Ecrivez environ 70 mots."
+          "content": "IV. Expression écrite. (10 points)\nAprès l'examen du baccalauréat, qu'est-ce que vous faites ? Ecrivez environ 70 mots.",
+          "ai": {
+            "answer": "Texte modèle (IA) : « Après le baccalauréat » — repos, préparation des études, aide à la famille. Touchez « Show the working » pour le lire.",
+            "steps": [
+              "Plan : repos, préparation des études, aide à la famille.",
+              "Après l'examen du baccalauréat, je vais d'abord me reposer quelques jours avec ma famille à la campagne.",
+              "Ensuite, je vais m'informer sur les universités et les bourses, et je vais suivre des cours d'anglais et d'informatique pour préparer mes études. J'aiderai aussi mes parents dans leur petit commerce.",
+              "Enfin, quand les résultats seront publiés, j'espère m'inscrire à l'université pour devenir ingénieur. Je sais que ce sera difficile, mais je suis prêt à travailler dur pour réaliser mon rêve.",
+              "À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."
+            ]
+          }
         }
       ]
     },
@@ -58,19 +101,57 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Compréhension écrite.\nComplétez les phrases avec : l'impression, avis, semble, ne crois pas, demande, pensez.\n1. A mon (1) ….avis…, c'est une bonne idée.\n2. Je (2)………… que ce soit facile.\n3. Qu'est-ce que vous (3) ……….. de ce projet ?\n4. Je me (4) ………… si ce n'est pas inutile d'organiser une réunion.\n5. Il me (6) ………… que c'est intéressant."
+          "content": "I. Compréhension écrite.\nComplétez les phrases avec : l'impression, avis, semble, ne crois pas, demande, pensez.\n1. A mon (1) ….avis…, c'est une bonne idée.\n2. Je (2)………… que ce soit facile.\n3. Qu'est-ce que vous (3) ……….. de ce projet ?\n4. Je me (4) ………… si ce n'est pas inutile d'organiser une réunion.\n5. Il me (6) ………… que c'est intéressant.",
+          "ai": {
+            "answer": "(2) ne crois pas · (3) pensez · (4) demande · (5) l'impression · (6) semble",
+            "steps": [
+              "(2) ne crois pas · (3) pensez · (4) demande · (5) l'impression · (6) semble",
+              "La phrase avec le blanc (5) manque dans la copie (par exemple « J'ai (5) l'impression que… ») ; le corrigé de la copie donne (5) l'impression et (6) semble."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Vocabulaire\nSoulignez les intrus.\nExample : jambes · bras · _thermomètre_ · bouche · tête\n1. développement · pauvrement · courageusement · contentement · librement\n2. porc · mouton · durian · bœuf · buffle\n3. parler · écouter · aller · regarder · manger\n4. le nord · le fond · le sud · l'est · l'ouest\n5. Cambodge · Vietnam · Laos · France · Thaïlande\n6. docteur · professeur · ventilateur · ingénieur · présentateur\n7. bananier · infirmier · caféier · pommier · cerisier"
+          "content": "II. Vocabulaire\nSoulignez les intrus.\nExample : jambes · bras · _thermomètre_ · bouche · tête\n1. développement · pauvrement · courageusement · contentement · librement\n2. porc · mouton · durian · bœuf · buffle\n3. parler · écouter · aller · regarder · manger\n4. le nord · le fond · le sud · l'est · l'ouest\n5. Cambodge · Vietnam · Laos · France · Thaïlande\n6. docteur · professeur · ventilateur · ingénieur · présentateur\n7. bananier · infirmier · caféier · pommier · cerisier",
+          "ai": {
+            "answer": "1. développement ou contentement · 2. durian · 3. aller · 4. le fond · 5. France · 6. ventilateur · 7. infirmier",
+            "steps": [
+              "1. développement ou contentement : deux noms parmi des adverbes ; le corrigé accepte les deux",
+              "2. durian : un fruit ; les autres sont des animaux",
+              "3. aller : verbe irrégulier (3e groupe) ; les autres sont du 1er groupe",
+              "4. le fond : pas un point cardinal",
+              "5. France : pas en Asie",
+              "6. ventilateur : un appareil ; les autres sont des personnes",
+              "7. infirmier : une personne ; les autres sont des arbres"
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Grammaire\nA. Complétez les phrases avec : \"c'est pourquoi\", \"donc\", \"aussi\".\nExample: Ma sœur ne connaît pas encore … elle demande le chemin au policier. → Ma sœur ne connaît pas encore Paris, c'est pourquoi elle demande le chemin au policier.\n1. Il n'a pas le permis, ………. il ne peut pas conduire.\n2. Vous avez trop mangé, ………….. Vous êtes malade.\n3. Le pneu de sa moto est crevé, ……. faut-il le réparé.\n\nB. Reliez les phrases A et B selon l'exemple.\nA:\n1. Si nous ne partons pas maintenant,\n2. Je veux me promener. Il pleut\n3. Il a mal à la tête.\n4. Les touristes viendront au Cambodge pour\n5. Le Mont Everest est\n6. Le professeur expliquer pour que\nB:\na. visiter Angkor.\nb. une des plus hautes montages du monde.\nc. Il ne peut pas réfléchir.\nd. nous allons être en retard\ne. tant pis, je resterai à la maison.\nf. les élèves comprennent bien.\nC: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …"
+          "content": "III. Grammaire\nA. Complétez les phrases avec : \"c'est pourquoi\", \"donc\", \"aussi\".\nExample: Ma sœur ne connaît pas encore … elle demande le chemin au policier. → Ma sœur ne connaît pas encore Paris, c'est pourquoi elle demande le chemin au policier.\n1. Il n'a pas le permis, ………. il ne peut pas conduire.\n2. Vous avez trop mangé, ………….. Vous êtes malade.\n3. Le pneu de sa moto est crevé, ……. faut-il le réparé.\n\nB. Reliez les phrases A et B selon l'exemple.\nA:\n1. Si nous ne partons pas maintenant,\n2. Je veux me promener. Il pleut\n3. Il a mal à la tête.\n4. Les touristes viendront au Cambodge pour\n5. Le Mont Everest est\n6. Le professeur expliquer pour que\nB:\na. visiter Angkor.\nb. une des plus hautes montages du monde.\nc. Il ne peut pas réfléchir.\nd. nous allons être en retard\ne. tant pis, je resterai à la maison.\nf. les élèves comprennent bien.\nC: 1 → d · 2 → … · 3 → … · 4 → … · 5 → … · 6 → …",
+          "ai": {
+            "answer": "A. 1. Il n'a pas le permis, donc il ne peut pas conduire. · 2. Vous avez trop mangé, c'est pourquoi vous êtes malade. · 3. Le pneu de sa moto est crevé, aussi faut-il le réparer. · B. 1 → d · 2 → e · 3 → c · 4 → a · 5 → b · 6 → f",
+            "steps": [
+              "A. 1. Il n'a pas le permis, donc il ne peut pas conduire.",
+              "2. Vous avez trop mangé, c'est pourquoi vous êtes malade.",
+              "3. Le pneu de sa moto est crevé, aussi faut-il le réparer.",
+              "B. 1 → d · 2 → e · 3 → c · 4 → a · 5 → b · 6 → f"
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "IV. Expression écrite. (10 points)\nVous avez assisté à l'anniversaire (de naissance) d'un (e) ami(e). Racontez ce que vous avez fait, vu et entendu pendant la fête."
+          "content": "IV. Expression écrite. (10 points)\nVous avez assisté à l'anniversaire (de naissance) d'un (e) ami(e). Racontez ce que vous avez fait, vu et entendu pendant la fête.",
+          "ai": {
+            "answer": "Texte modèle (IA) : « L'anniversaire d'un ami » — arrivée, ce que j'ai vu, fait et entendu, fin de la fête. Touchez « Show the working » pour le lire.",
+            "steps": [
+              "Plan : arrivée, ce que j'ai vu, fait et entendu, fin de la fête.",
+              "Samedi dernier, j'ai assisté à l'anniversaire de mon ami Sokha, qui fêtait ses dix-huit ans. La fête avait lieu chez lui, dans un jardin décoré de ballons et de lumières.",
+              "Quand je suis arrivé, j'ai vu beaucoup d'amis de notre classe et sa famille. Il y avait un grand gâteau au chocolat et des plats délicieux. Nous avons chanté « Joyeux anniversaire », puis Sokha a soufflé les bougies et ouvert ses cadeaux. Je lui ai offert un livre.",
+              "Ensuite, nous avons écouté de la musique, dansé et ri ensemble. J'ai entendu son père faire un petit discours plein de conseils. Vers neuf heures, je suis rentré à la maison, très content de cette belle soirée.",
+              "À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."
+            ]
+          }
         }
       ]
     },
@@ -87,22 +168,63 @@
         {
           "points": 10,
           "chapter": "past-papers",
-          "content": "I. Compréhension écrite.\nReplacez les expressions suivantes dans le dialogue : choisir, le ticket, échange, elle ne l'aura pas, échanger, elle a déjà.\n1. Bonjour, monsieur. Voilà, j'ai acheté ce livre pour une amie, mais (1) _elle a déjà_.\nEst-ce que je pourrais l' (2) …………. pour un autre.\n2. Oui, bien sûr, monsieur. Vous avez (3) …………. de caisse ?\n3. Oui, le voilà.\n4. Très bien. Vous préférez un remboursement ou un (4) ………. ?\n5. Un échange. Je vais (5) …………. un autre livre. J'espère qu' (6) …………., celui-là."
+          "content": "I. Compréhension écrite.\nReplacez les expressions suivantes dans le dialogue : choisir, le ticket, échange, elle ne l'aura pas, échanger, elle a déjà.\n1. Bonjour, monsieur. Voilà, j'ai acheté ce livre pour une amie, mais (1) _elle a déjà_.\nEst-ce que je pourrais l' (2) …………. pour un autre.\n2. Oui, bien sûr, monsieur. Vous avez (3) …………. de caisse ?\n3. Oui, le voilà.\n4. Très bien. Vous préférez un remboursement ou un (4) ………. ?\n5. Un échange. Je vais (5) …………. un autre livre. J'espère qu' (6) …………., celui-là.",
+          "ai": {
+            "answer": "(2) échanger · (3) le ticket · (4) échange · (5) choisir · (6) elle ne l'aura pas",
+            "steps": [
+              "(2) échanger · (3) le ticket · (4) échange · (5) choisir · (6) elle ne l'aura pas",
+              "« Vous préférez un remboursement ou un échange ? — Un échange. Je vais choisir un autre livre. J'espère qu'elle ne l'aura pas, celui-là. »"
+            ]
+          }
         },
         {
           "points": 16,
           "chapter": "past-papers",
-          "content": "II. Vocabulaire\nSoulignez les intrus.\nExemple : règle · gomme · crayon · stylo · rayon\n1. chaleur · voyageur · promeneur · opérateur · animateur\n2. fièvre · diarrhée · lièvre · grippe · tuberculose\n3. Cambodge · Vietnam · Chine · Laos · France\n4. carré · cirque · triangle · cercle · rectangle\n5. collège · faculté · université · égalité · lycée\n6. amoureusement · facilement · pauvrement · appartement · librement\n7. Birmanie · Phnom Penh · Bangkok · Vientiane · Hanoi\n8. marcher · habiter · oranger · demander · jouer"
+          "content": "II. Vocabulaire\nSoulignez les intrus.\nExemple : règle · gomme · crayon · stylo · rayon\n1. chaleur · voyageur · promeneur · opérateur · animateur\n2. fièvre · diarrhée · lièvre · grippe · tuberculose\n3. Cambodge · Vietnam · Chine · Laos · France\n4. carré · cirque · triangle · cercle · rectangle\n5. collège · faculté · université · égalité · lycée\n6. amoureusement · facilement · pauvrement · appartement · librement\n7. Birmanie · Phnom Penh · Bangkok · Vientiane · Hanoi\n8. marcher · habiter · oranger · demander · jouer",
+          "ai": {
+            "answer": "1. chaleur · 2. lièvre · 3. France · 4. cirque · 5. égalité · 6. appartement · 7. Birmanie · 8. oranger",
+            "steps": [
+              "1. chaleur : pas une personne",
+              "2. lièvre : un animal ; les autres sont des maladies",
+              "3. France : pas en Asie",
+              "4. cirque : pas une figure géométrique",
+              "5. égalité : pas un établissement scolaire",
+              "6. appartement : un nom ; les autres sont des adverbes",
+              "7. Birmanie : un pays ; les autres sont des capitales",
+              "8. oranger : un nom ; les autres sont des verbes"
+            ]
+          }
         },
         {
           "points": 14,
           "chapter": "past-papers",
-          "content": "III. Grammaire.\nA. (06 points) Répondez aux questions en remplaçant les mots soulignés par « le, la, les, lui ».\nExemple : Tu vois mon _livre_ ? → Oui je le vois. → Non, je ne le vois pas.\n1- Il regarde _la télévision_ ?\n→ Oui, ……………………\n2- Vous préférez _les voitures de couleur rouge_ ?\n→ Non, …………………..\n3- Tu parles _à ton professeur_ ?\n→ Oui, ………………………\n\nB. (08 points) Reliez les phrases A et B selon l'exemple.\nA:\n1. Elle ne sait\n2. Il va se coucher\n3. Puisque l'eau manque,\n4. Comme le prix du riz augmente\n5. Cette élève travaille bien,\nB:\na. les gens ne sont pas contents.\nb. les touristes veulent le visiter.\nc. ni le français ni le chinois.\nd. donc elle réussira le bac.\ne. sans rien manger.\nf. elle ne réussira pas le baccalauréat:\nC: 1 → c · 2 → … · 3 → … · 4 → … · 5 → …"
+          "content": "III. Grammaire.\nA. (06 points) Répondez aux questions en remplaçant les mots soulignés par « le, la, les, lui ».\nExemple : Tu vois mon _livre_ ? → Oui je le vois. → Non, je ne le vois pas.\n1- Il regarde _la télévision_ ?\n→ Oui, ……………………\n2- Vous préférez _les voitures de couleur rouge_ ?\n→ Non, …………………..\n3- Tu parles _à ton professeur_ ?\n→ Oui, ………………………\n\nB. (08 points) Reliez les phrases A et B selon l'exemple.\nA:\n1. Elle ne sait\n2. Il va se coucher\n3. Puisque l'eau manque,\n4. Comme le prix du riz augmente\n5. Cette élève travaille bien,\nB:\na. les gens ne sont pas contents.\nb. les touristes veulent le visiter.\nc. ni le français ni le chinois.\nd. donc elle réussira le bac.\ne. sans rien manger.\nf. elle ne réussira pas le baccalauréat:\nC: 1 → c · 2 → … · 3 → … · 4 → … · 5 → …",
+          "ai": {
+            "answer": "A. 1. Oui, il la regarde. · 2. Non, je ne les préfère pas (Non, nous ne les préférons pas). · 3. Oui, je lui parle. · B. 1 → c · 2 → e · 3 → a · 4 → a · 5 → d",
+            "steps": [
+              "A. 1. Oui, il la regarde.",
+              "2. Non, je ne les préfère pas (Non, nous ne les préférons pas).",
+              "3. Oui, je lui parle.",
+              "B. 1 → c · 2 → e · 3 → a · 4 → a · 5 → d",
+              "B : telle qu'imprimée, la phrase 3 (Puisque l'eau manque) ne va qu'avec a ; le corrigé de la copie donne 3 → b et 4 → a, sans doute parce que le sujet original était différent.",
+              "Les phrases b et f ne servent pas pour les phrases imprimées."
+            ]
+          }
         },
         {
           "points": 10,
           "chapter": "past-papers",
-          "content": "IV. Expression écrite.\nPour réussir le baccalauréat, qu'est-ce-que vous avez appris au lycée ? Et à la maison, qu'est-ce-que vous avez fait ? (environ 100 mots)"
+          "content": "IV. Expression écrite.\nPour réussir le baccalauréat, qu'est-ce-que vous avez appris au lycée ? Et à la maison, qu'est-ce-que vous avez fait ? (environ 100 mots)",
+          "ai": {
+            "answer": "Texte modèle (IA) : « Pour réussir le baccalauréat » — au lycée, à la maison, conclusion. Touchez « Show the working » pour le lire.",
+            "steps": [
+              "Plan : au lycée, à la maison, conclusion.",
+              "Pour réussir le baccalauréat, j'ai beaucoup appris au lycée. J'ai écouté attentivement mes professeurs, j'ai pris des notes et j'ai posé des questions quand je ne comprenais pas. J'ai aussi fait les exercices et les examens blancs, surtout en mathématiques et en physique.",
+              "À la maison, j'ai révisé mes leçons tous les soirs selon un emploi du temps. J'ai refait les sujets des années précédentes et j'ai travaillé en groupe avec mes amis. J'ai aussi dormi assez et je me suis un peu reposé le week-end.",
+              "Grâce à ce travail régulier, je me sens prêt pour l'examen.",
+              "À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."
+            ]
+          }
         }
       ]
     },
@@ -118,19 +240,59 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Compréhension écrite.\nComplétez les mots « vraiment, mère, bus, accident, étudiante » dans le texte.\n\nAvez-vous votre permis de conduire ?\n- Yann : Chez, nous, c'est une tradition, on ne conduit pas, Mon père n'avait pas son permis de conduire, Ma (1) ……. si, mais elle n'avait pas de voiture …….. Moi je l'ai passé à 18 ans mais j'ai eu un (2) ……. quelques mois plus tard, alors je n'ai plus conduit. J'ai eu trop peur. Non, moi, maintenant, je prends le taxi, le (3) ……. Ou bien je loue une voiture aven un chauffeur pour partir en week-end.\n- Marie : Non, je n'ai pas encore le permis, Je suis (4) ……… et je n'ai pas beaucoup d'argent, Je passerai le permis quand je travaillerai dans deux ou trois ans ! De toute façon, je n'en ai pas (5) ……. besoin. J'ai un scooter et ça me convient très bien."
+          "content": "I. Compréhension écrite.\nComplétez les mots « vraiment, mère, bus, accident, étudiante » dans le texte.\n\nAvez-vous votre permis de conduire ?\n- Yann : Chez, nous, c'est une tradition, on ne conduit pas, Mon père n'avait pas son permis de conduire, Ma (1) ……. si, mais elle n'avait pas de voiture …….. Moi je l'ai passé à 18 ans mais j'ai eu un (2) ……. quelques mois plus tard, alors je n'ai plus conduit. J'ai eu trop peur. Non, moi, maintenant, je prends le taxi, le (3) ……. Ou bien je loue une voiture aven un chauffeur pour partir en week-end.\n- Marie : Non, je n'ai pas encore le permis, Je suis (4) ……… et je n'ai pas beaucoup d'argent, Je passerai le permis quand je travaillerai dans deux ou trois ans ! De toute façon, je n'en ai pas (5) ……. besoin. J'ai un scooter et ça me convient très bien.",
+          "ai": {
+            "answer": "(1) mère · (2) accident · (3) bus · (4) étudiante · (5) vraiment",
+            "steps": [
+              "(1) mère · (2) accident · (3) bus · (4) étudiante · (5) vraiment",
+              "« Je n'en ai pas vraiment besoin » : vraiment = réellement."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Vocabulaire\nSoulignez les intrus.\nExemple : père · frère · sœur · mer · mère\n1. Chemise · veste · chemin · chemiser · robe\n2. Rose · verre · noir · bleu · vert\n3. Boulanger · essayer · adorer · aimer · couter\n4. Bras · ventre · langue · genou · thermomètre\n5. Pharmacie · mairie · boucherie · boulangerie · librairie\n6. Amoureusement · vêtement · librement · pauvrement · contrairement\n7. Framboisier · olivier · collier · bananier · caféier\n8. Laos · Malaisie · Thaïlande · Vietnam · France"
+          "content": "II. Vocabulaire\nSoulignez les intrus.\nExemple : père · frère · sœur · mer · mère\n1. Chemise · veste · chemin · chemiser · robe\n2. Rose · verre · noir · bleu · vert\n3. Boulanger · essayer · adorer · aimer · couter\n4. Bras · ventre · langue · genou · thermomètre\n5. Pharmacie · mairie · boucherie · boulangerie · librairie\n6. Amoureusement · vêtement · librement · pauvrement · contrairement\n7. Framboisier · olivier · collier · bananier · caféier\n8. Laos · Malaisie · Thaïlande · Vietnam · France",
+          "ai": {
+            "answer": "1. chemin · 2. verre · 3. boulanger · 4. thermomètre · 5. mairie · 6. vêtement · 7. collier · 8. France",
+            "steps": [
+              "1. chemin : pas un vêtement",
+              "2. verre : pas une couleur",
+              "3. boulanger : un nom ; les autres sont des verbes",
+              "4. thermomètre : un instrument",
+              "5. mairie : pas un magasin",
+              "6. vêtement : un nom ; les autres sont des adverbes",
+              "7. collier : un bijou ; les autres sont des arbres",
+              "8. France : pas en Asie du Sud-Est"
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Grammaire.\nA. Répondez aux questions en utilisant « Si », « Oui », « Non ».\nExemple : Tu ne bois pas de café ? - ……, un verre par jour. → Si, un verre par jour.\n1. Vous n'allez pas au marché ? -……, je n'y vais pas.\n2. Tu apprends le français ? - ……, j'apprends le français.\n3. Ta sœur n'aime pas faire des courses ? - ……, quand elle reste seule à la maison et elle n'a rien pour manger.\n\nB. Reliez les phrases A et B selon l'exemple.\nA:\n1. Sa moto est on panne,\n2. On coupe beaucoup de forêts.\n3. Comme le Cambodge a des patrimoines mondiaux,\n4. Ma mère n'a pas de bonne mine\n5. Puisque l'examen s'approche,\nB:\na. C'est pourquoi il y a des inondations.\nb. les touristes veulent le visiter.\nc. parce qu'elle est très fatiguée.\nd. aussi faut-il le faire la réparer.\ne. je m'amuse.\nf. je révise mes leçons\nC: 1 → d · 2 → … · 3 → … · 4 → … · 5 → …"
+          "content": "III. Grammaire.\nA. Répondez aux questions en utilisant « Si », « Oui », « Non ».\nExemple : Tu ne bois pas de café ? - ……, un verre par jour. → Si, un verre par jour.\n1. Vous n'allez pas au marché ? -……, je n'y vais pas.\n2. Tu apprends le français ? - ……, j'apprends le français.\n3. Ta sœur n'aime pas faire des courses ? - ……, quand elle reste seule à la maison et elle n'a rien pour manger.\n\nB. Reliez les phrases A et B selon l'exemple.\nA:\n1. Sa moto est on panne,\n2. On coupe beaucoup de forêts.\n3. Comme le Cambodge a des patrimoines mondiaux,\n4. Ma mère n'a pas de bonne mine\n5. Puisque l'examen s'approche,\nB:\na. C'est pourquoi il y a des inondations.\nb. les touristes veulent le visiter.\nc. parce qu'elle est très fatiguée.\nd. aussi faut-il le faire la réparer.\ne. je m'amuse.\nf. je révise mes leçons\nC: 1 → d · 2 → … · 3 → … · 4 → … · 5 → …",
+          "ai": {
+            "answer": "A. 1. Non, je n'y vais pas. · 2. Oui, j'apprends le français. · 3. Si, quand elle reste seule à la maison… · B. 1 → d · 2 → a · 3 → b · 4 → c · 5 → f",
+            "steps": [
+              "A. 1. Non, je n'y vais pas.",
+              "2. Oui, j'apprends le français.",
+              "3. Si, quand elle reste seule à la maison…",
+              "B. 1 → d · 2 → a · 3 → b · 4 → c · 5 → f",
+              "B : la phrase e (je m'amuse) ne sert pas."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "IV. Expression écrite.\nDepuis combien de temps apprenez-vous le français ? Pourquoi apprenez-vous cette langue ? Rédigez le texte au minimum 80 mots."
+          "content": "IV. Expression écrite.\nDepuis combien de temps apprenez-vous le français ? Pourquoi apprenez-vous cette langue ? Rédigez le texte au minimum 80 mots.",
+          "ai": {
+            "answer": "Texte modèle (IA) : « Pourquoi j'apprends le français » — depuis quand, pourquoi, conclusion. Touchez « Show the working » pour le lire.",
+            "steps": [
+              "Plan : depuis quand, pourquoi, conclusion.",
+              "J'apprends le français depuis six ans, depuis la classe de septième au collège.",
+              "J'ai choisi cette langue pour plusieurs raisons. D'abord, le français est parlé dans beaucoup de pays et il est utile pour continuer mes études, peut-être avec une bourse en France. Ensuite, il peut m'aider à trouver un bon travail dans le tourisme ou les organisations internationales. Enfin, j'aime la culture française, ses chansons et ses films.",
+              "Le français n'est pas facile, mais je fais des progrès chaque année et je suis content de pouvoir le parler.",
+              "À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."
+            ]
+          }
         }
       ]
     },
@@ -146,19 +308,62 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Compréhension écrite\nComplétez les mots « copine, coquillage, parents, montage, mer » dans le texte\nPendant les vacances, avec mes ………., on allait toujours au bord de la …….. en Brergane. Là-bas, je retrouvais ma ……….Alice. Le matin, on ramassait des ……… et l'après-midi, quand l'eau était plus chaude, on se baignait, On était toujours ensemble. Maintenant, mes parents vont à la ……… mais moi, je vais chez Alice."
+          "content": "I. Compréhension écrite\nComplétez les mots « copine, coquillage, parents, montage, mer » dans le texte\nPendant les vacances, avec mes ………., on allait toujours au bord de la …….. en Brergane. Là-bas, je retrouvais ma ……….Alice. Le matin, on ramassait des ……… et l'après-midi, quand l'eau était plus chaude, on se baignait, On était toujours ensemble. Maintenant, mes parents vont à la ……… mais moi, je vais chez Alice.",
+          "ai": {
+            "answer": "parents · mer · copine · coquillages · montagne",
+            "steps": [
+              "parents · mer · copine · coquillages · montagne",
+              "« Pendant les vacances, avec mes parents, on allait toujours au bord de la mer en Bretagne. Là-bas, je retrouvais ma copine Alice. Le matin, on ramassait des coquillages… Maintenant, mes parents vont à la montagne, mais moi, je vais chez Alice. » (le texte imprime « montage » pour « montagne »)"
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Vocabulaire\nSoulignez les intrus :\nExemple : père · frère · sœur · mer · mère\n1. chemise · veste · chemin · chemisier · robe\n2. rose · verre · noir · bleu · vert\n3. boulanger · essayer · adorer · aimer · coûter\n4. bras · ventre · langue · genou · thermomètre\n5. pharmacie · mairie · boucherie · boulangerie · librairie\n6. tête · fièvre · main · jambe · bouche\n7. durian · orange · coco · mangue · poisson"
+          "content": "II. Vocabulaire\nSoulignez les intrus :\nExemple : père · frère · sœur · mer · mère\n1. chemise · veste · chemin · chemisier · robe\n2. rose · verre · noir · bleu · vert\n3. boulanger · essayer · adorer · aimer · coûter\n4. bras · ventre · langue · genou · thermomètre\n5. pharmacie · mairie · boucherie · boulangerie · librairie\n6. tête · fièvre · main · jambe · bouche\n7. durian · orange · coco · mangue · poisson",
+          "ai": {
+            "answer": "1. chemin · 2. verre · 3. boulanger · 4. thermomètre · 5. mairie · 6. fièvre · 7. poisson",
+            "steps": [
+              "1. chemin : pas un vêtement",
+              "2. verre : pas une couleur",
+              "3. boulanger : un nom ; les autres sont des verbes",
+              "4. thermomètre : un instrument ; les autres sont des parties du corps",
+              "5. mairie : pas un magasin",
+              "6. fièvre : une maladie ; les autres sont des parties du corps",
+              "7. poisson : pas un fruit"
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Grammaire\nA. Refaites des phrases en utilisant « sans » selon l'exemple.\nExemple : Il va au lycée. Il n'a pas d'argent. → Il va au lycée sans argent.\n1. Visal lit le texte. Il ne comprend rien.\n2. Écoutez ! Ne répétez pas !\n3. Mon frère passe le bac. Il n'a pas de documents.\n4. Madame Dany regarde les marchandises. Elle n'achète rien.\n\nB. Utilisez les double négations « …ne….ni….ni » ou « ….ni….ni….ne ».\nExemple : Cette élève ne lit pas de brouillons, elles en lit pas de corrigé. → Cette élève ne lit ni brouillons ni corrigé.\n1. Le professeur n'aime pas les retardataires, il n'aime pas les paresseux.\n2. Il ne sait pas expliquer, il ne sait pas discuter.\n3. Paul n'est pas timide. Marie n'est pas timide.\n4. Ma sœur ne bois pas de bière, elle ne boit pas de vin."
+          "content": "III. Grammaire\nA. Refaites des phrases en utilisant « sans » selon l'exemple.\nExemple : Il va au lycée. Il n'a pas d'argent. → Il va au lycée sans argent.\n1. Visal lit le texte. Il ne comprend rien.\n2. Écoutez ! Ne répétez pas !\n3. Mon frère passe le bac. Il n'a pas de documents.\n4. Madame Dany regarde les marchandises. Elle n'achète rien.\n\nB. Utilisez les double négations « …ne….ni….ni » ou « ….ni….ni….ne ».\nExemple : Cette élève ne lit pas de brouillons, elles en lit pas de corrigé. → Cette élève ne lit ni brouillons ni corrigé.\n1. Le professeur n'aime pas les retardataires, il n'aime pas les paresseux.\n2. Il ne sait pas expliquer, il ne sait pas discuter.\n3. Paul n'est pas timide. Marie n'est pas timide.\n4. Ma sœur ne bois pas de bière, elle ne boit pas de vin.",
+          "ai": {
+            "answer": "A. 1. Visal lit le texte sans rien comprendre. · 2. Écoutez sans répéter ! · 3. Mon frère passe le bac sans documents. · 4. Madame Dany regarde les marchandises sans rien acheter. · B. 1. Le professeur n'aime ni les retardataires ni les paresseux. · 2. Il ne sait ni expliquer ni discuter. · 3. Ni Paul ni Marie ne sont timides. · 4. Ma sœur ne boit ni bière ni vin.",
+            "steps": [
+              "A. 1. Visal lit le texte sans rien comprendre.",
+              "2. Écoutez sans répéter !",
+              "3. Mon frère passe le bac sans documents.",
+              "4. Madame Dany regarde les marchandises sans rien acheter.",
+              "B. 1. Le professeur n'aime ni les retardataires ni les paresseux.",
+              "2. Il ne sait ni expliquer ni discuter.",
+              "3. Ni Paul ni Marie ne sont timides.",
+              "4. Ma sœur ne boit ni bière ni vin.",
+              "« sans » + infinitif ou + nom sans article ; « ni… ni… » remplace « pas de » ; avec deux sujets, « Ni… ni… ne » + verbe au pluriel."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "IV. Expression écrite\nAprès avoir fini vos études, quel métier préférez-vous ? Pourquoi ? Donnez vos raisons en écrivant un texte de 80 mots."
+          "content": "IV. Expression écrite\nAprès avoir fini vos études, quel métier préférez-vous ? Pourquoi ? Donnez vos raisons en écrivant un texte de 80 mots.",
+          "ai": {
+            "answer": "Texte modèle (IA) : « Le métier que je préfère » — mon choix, mes raisons, conclusion. Touchez « Show the working » pour le lire.",
+            "steps": [
+              "Plan : mon choix, mes raisons, conclusion.",
+              "Après mes études, je voudrais devenir professeur de lycée.",
+              "J'aime ce métier parce que j'aime expliquer et aider les autres. Mes professeurs m'ont beaucoup appris et je veux faire la même chose pour les jeunes de mon village. De plus, un pays ne peut pas se développer sans éducation : un bon professeur forme les médecins, les ingénieurs et les citoyens de demain.",
+              "Ce métier demande de la patience, mais il donne aussi beaucoup de joie quand les élèves réussissent. Voilà pourquoi je choisis l'enseignement.",
+              "À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."
+            ]
+          }
         }
       ]
     },
@@ -174,19 +379,62 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Compréhension écrite\nRemplacez les mots suivant dans le dialogue.\nMal – grave – docteur – le – médicament – soir – jours – temps – trois – ventre – malade\n- Bonjour, (1) docteur, Ma fille est (2) ………\n- Alors, où as -tu (3) ………\n- J'ai mal au (4) ……….\n- Je vais regarder ça. Tu as mal depuis combien de (5) ……..\n- Depuis deux (6) ……\n- Ce n'est pas très (7) ……. Tu vas prendre ce (8) ……. Pendant une semaine.\n- Je (9) ……. Prends combien de fois par jour ?\n- Te le prends (10) ……. Fois par jour, le matin, à midi et le (11)"
+          "content": "I. Compréhension écrite\nRemplacez les mots suivant dans le dialogue.\nMal – grave – docteur – le – médicament – soir – jours – temps – trois – ventre – malade\n- Bonjour, (1) docteur, Ma fille est (2) ………\n- Alors, où as -tu (3) ………\n- J'ai mal au (4) ……….\n- Je vais regarder ça. Tu as mal depuis combien de (5) ……..\n- Depuis deux (6) ……\n- Ce n'est pas très (7) ……. Tu vas prendre ce (8) ……. Pendant une semaine.\n- Je (9) ……. Prends combien de fois par jour ?\n- Te le prends (10) ……. Fois par jour, le matin, à midi et le (11)",
+          "ai": {
+            "answer": "(2) malade · (3) mal · (4) ventre · (5) temps · (6) jours · (7) grave · (8) médicament · (9) le · (10) trois · (11) soir",
+            "steps": [
+              "(2) malade · (3) mal · (4) ventre · (5) temps · (6) jours · (7) grave · (8) médicament · (9) le · (10) trois · (11) soir",
+              "« Je le prends combien de fois par jour ? — Tu le prends trois fois par jour, le matin, à midi et le soir. »"
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Vocabulaire\nSoulignez les intrus :\nExemple : librement · pauvrement · courageusement · contentement · commencement\n1. difficilement · facilement · développement · lentement · rapidement\n2. bouche · gorge · ventre · langue · sirop\n3. ce · cet · cette · ses · ces\n4. Albanie · Asie · Algérie · Allemagne · Arménie\n5. le nord · le fond · le sud · l'est · l'ouest\n6. fraisier · policier · citronnier · pommier · palmier\n7. Cambodge · Laos · Vietnam · Bangkok · Malaisie"
+          "content": "II. Vocabulaire\nSoulignez les intrus :\nExemple : librement · pauvrement · courageusement · contentement · commencement\n1. difficilement · facilement · développement · lentement · rapidement\n2. bouche · gorge · ventre · langue · sirop\n3. ce · cet · cette · ses · ces\n4. Albanie · Asie · Algérie · Allemagne · Arménie\n5. le nord · le fond · le sud · l'est · l'ouest\n6. fraisier · policier · citronnier · pommier · palmier\n7. Cambodge · Laos · Vietnam · Bangkok · Malaisie",
+          "ai": {
+            "answer": "1. développement · 2. sirop · 3. ses · 4. Asie · 5. le fond · 6. policier · 7. Bangkok",
+            "steps": [
+              "1. développement : un nom ; les autres sont des adverbes en -ment",
+              "2. sirop : un médicament ; les autres sont des parties du corps",
+              "3. ses : un adjectif possessif ; les autres sont démonstratifs",
+              "4. Asie : un continent ; les autres sont des pays",
+              "5. le fond : pas un point cardinal",
+              "6. policier : une personne ; les autres sont des arbres",
+              "7. Bangkok : une ville ; les autres sont des pays"
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Grammaire\nA. Répondez aux questions en utilisant « Si », « Oui » ou « Non ».\n1. Tu n'as pas mal au dos ?\n………, j'ai mal à la poitrine.\n2. Vous ne manges pas de pain.\n………, je mange de riz.\n3. Tu bois de l'eau le matin ?\n………, un verre d'eau avant le petit déjeuner.\n4. Tu n'apprends pas le français ?\n………., deux heure par semaine.\n5. Vous allez chez le médecin ?\n…………, j'y vais\n\nB. Reliez les deux phrase en employant « comme or parce que ».\nExemple : Tévi a de mauvaises notes à ses devoirs. Elle fait ses devoirs en regardant la télé. → Tévi a de mauvaises notes à ses devoirs parce qu'elle fait ses devoirs en regardant la télé.\n1. Bopha est arrivée en retard. Elle a eu un accident.\n2. Vuth ne va pas se promener. Il est malade.\n3. Neary est fatiguée. Elle a beaucoup travaillé."
+          "content": "III. Grammaire\nA. Répondez aux questions en utilisant « Si », « Oui » ou « Non ».\n1. Tu n'as pas mal au dos ?\n………, j'ai mal à la poitrine.\n2. Vous ne manges pas de pain.\n………, je mange de riz.\n3. Tu bois de l'eau le matin ?\n………, un verre d'eau avant le petit déjeuner.\n4. Tu n'apprends pas le français ?\n………., deux heure par semaine.\n5. Vous allez chez le médecin ?\n…………, j'y vais\n\nB. Reliez les deux phrase en employant « comme or parce que ».\nExemple : Tévi a de mauvaises notes à ses devoirs. Elle fait ses devoirs en regardant la télé. → Tévi a de mauvaises notes à ses devoirs parce qu'elle fait ses devoirs en regardant la télé.\n1. Bopha est arrivée en retard. Elle a eu un accident.\n2. Vuth ne va pas se promener. Il est malade.\n3. Neary est fatiguée. Elle a beaucoup travaillé.",
+          "ai": {
+            "answer": "A. 1. Non, j'ai mal à la poitrine. · 2. Non, je mange du riz. · 3. Oui, un verre d'eau avant le petit déjeuner. · 4. Si, deux heures par semaine. · 5. Oui, j'y vais. · B. 1. Bopha est arrivée en retard parce qu'elle a eu un accident. · 2. Vuth ne va pas se promener parce qu'il est malade. · 3. Comme elle a beaucoup travaillé, Neary est fatiguée.",
+            "steps": [
+              "A. 1. Non, j'ai mal à la poitrine.",
+              "2. Non, je mange du riz.",
+              "3. Oui, un verre d'eau avant le petit déjeuner.",
+              "4. Si, deux heures par semaine.",
+              "5. Oui, j'y vais.",
+              "B. 1. Bopha est arrivée en retard parce qu'elle a eu un accident.",
+              "2. Vuth ne va pas se promener parce qu'il est malade.",
+              "3. Comme elle a beaucoup travaillé, Neary est fatiguée.",
+              "« Comme » se place en tête de phrase et donne la cause d'abord ; « parce que » vient après la conséquence."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "IV. Expression écrite\nEntre la ville et la campagne, où armeriez-vous habiter ? Pourquoi ? Racontez en 80 monts."
+          "content": "IV. Expression écrite\nEntre la ville et la campagne, où armeriez-vous habiter ? Pourquoi ? Racontez en 80 monts.",
+          "ai": {
+            "answer": "Texte modèle (IA) : « La ville ou la campagne ? » — mon choix, deux raisons, conclusion. Touchez « Show the working » pour le lire.",
+            "steps": [
+              "Plan : mon choix, deux raisons, conclusion.",
+              "Entre la ville et la campagne, je préférerais habiter à la campagne.",
+              "D'abord, la vie y est calme et saine : l'air est pur, il n'y a pas d'embouteillages et on mange des légumes et des fruits frais. Ensuite, les gens se connaissent et s'entraident, comme une grande famille.",
+              "Bien sûr, la ville offre plus d'écoles, d'hôpitaux et de travail. Mais aujourd'hui, avec le téléphone et internet, on peut rester en contact avec le monde. C'est pourquoi je choisis la campagne.",
+              "À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."
+            ]
+          }
         }
       ]
     },
@@ -203,15 +451,51 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Vocabulaire\nA. Utilisez les double négations « …ne…ni…ni » ou « …ni…ni…ne ».\nExemple : Cette élève ne lit pas de brouillon, elle ne lit pas de corrigé. → Cette élève ne lit ni brouillon ni corrigé.\n1. Le professeur n'aime pas les retardataires, il n'aime pas les paresseux.\n2. Il ne sait pas expliquer, il ne sait pas discuter.\n3. Paul n'est pas timide, Marie n'est pas timide.\n\nB. Soulignez les intrus :\nExemple : coûter · acheter · louer · aller · demander\n1. marcher · oranger · regarder · manger · préparer\n2. ordinateur · chercheur · ventilateur · réfrigérateur · générateur\n3. fièvre · tuberculose · grippe · stéthoscope · rougeole\n4. Brunei · Rangoon · Vientiane · Jakarta · Manille\n5. Suisse · France · Hollande · Belgique · Cambodge"
+          "content": "I. Vocabulaire\nA. Utilisez les double négations « …ne…ni…ni » ou « …ni…ni…ne ».\nExemple : Cette élève ne lit pas de brouillon, elle ne lit pas de corrigé. → Cette élève ne lit ni brouillon ni corrigé.\n1. Le professeur n'aime pas les retardataires, il n'aime pas les paresseux.\n2. Il ne sait pas expliquer, il ne sait pas discuter.\n3. Paul n'est pas timide, Marie n'est pas timide.\n\nB. Soulignez les intrus :\nExemple : coûter · acheter · louer · aller · demander\n1. marcher · oranger · regarder · manger · préparer\n2. ordinateur · chercheur · ventilateur · réfrigérateur · générateur\n3. fièvre · tuberculose · grippe · stéthoscope · rougeole\n4. Brunei · Rangoon · Vientiane · Jakarta · Manille\n5. Suisse · France · Hollande · Belgique · Cambodge",
+          "ai": {
+            "answer": "A. 1. Le professeur n'aime ni les retardataires ni les paresseux. · 2. Il ne sait ni expliquer ni discuter. · 3. Ni Paul ni Marie ne sont timides. · B. Intrus : 1. oranger · 2. chercheur · 3. stéthoscope · 4. Brunei · 5. Cambodge",
+            "steps": [
+              "A. 1. Le professeur n'aime ni les retardataires ni les paresseux.",
+              "2. Il ne sait ni expliquer ni discuter.",
+              "3. Ni Paul ni Marie ne sont timides.",
+              "B. Intrus : 1. oranger · 2. chercheur · 3. stéthoscope · 4. Brunei · 5. Cambodge",
+              "B : oranger est un nom (un arbre), les autres sont des verbes ; un chercheur est une personne, les autres des appareils ; le stéthoscope est un instrument, les autres des maladies ; Brunei est un pays, les autres des capitales ; le Cambodge est en Asie, les autres pays en Europe."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Grammaire\nA. Complétez les phrases par : « C'est pourquoi », « donc », « aussi ».\nExemple : Le pneu de son vélo est crevé, ……..faut-il le réparer. → Le pneu de son vélo est crevé aussi faut-il le réparer.\n1. Il trop travaillé ………..il est malade.\n2. La route n'est pas bonne, ………faut-il conduire prudemment.\n3. Elle est sérieuse, ………..elle réussira à l'examen.\n\nB. Réécrite ces phrases en remplaçant les mots soulignés par les pronoms « le, la, y, en ».\nExemple : Elle vent du thé → Elle en veut.\n1. Je ne regarde pas _la télévision_.\n2. Mon père voudrait _un café_\n3. Mon amie adore _le football_.\n4. Le cuisinier va _au supermarché_.\n5. Narith boit _du lait_."
+          "content": "II. Grammaire\nA. Complétez les phrases par : « C'est pourquoi », « donc », « aussi ».\nExemple : Le pneu de son vélo est crevé, ……..faut-il le réparer. → Le pneu de son vélo est crevé aussi faut-il le réparer.\n1. Il trop travaillé ………..il est malade.\n2. La route n'est pas bonne, ………faut-il conduire prudemment.\n3. Elle est sérieuse, ………..elle réussira à l'examen.\n\nB. Réécrite ces phrases en remplaçant les mots soulignés par les pronoms « le, la, y, en ».\nExemple : Elle vent du thé → Elle en veut.\n1. Je ne regarde pas _la télévision_.\n2. Mon père voudrait _un café_\n3. Mon amie adore _le football_.\n4. Le cuisinier va _au supermarché_.\n5. Narith boit _du lait_.",
+          "ai": {
+            "answer": "A. 1. Il a trop travaillé, c'est pourquoi il est malade. · 2. La route n'est pas bonne, aussi faut-il conduire prudemment. · 3. Elle est sérieuse, donc elle réussira à l'examen. · B. 1. Je ne la regarde pas. · 2. Mon père en voudrait un. · 3. Mon amie l'adore. · 4. Le cuisinier va y aller. · 5. Narith en boit.",
+            "steps": [
+              "A. 1. Il a trop travaillé, c'est pourquoi il est malade.",
+              "2. La route n'est pas bonne, aussi faut-il conduire prudemment.",
+              "3. Elle est sérieuse, donc elle réussira à l'examen.",
+              "B. 1. Je ne la regarde pas.",
+              "2. Mon père en voudrait un.",
+              "3. Mon amie l'adore.",
+              "4. Le cuisinier va y aller.",
+              "5. Narith en boit.",
+              "A : « aussi » en tête de proposition entraîne l'inversion du sujet (aussi faut-il).",
+              "B : « en » remplace un nom avec du, de la, des, un (en… un) ; « y » remplace un lieu (au supermarché) ; le, la remplacent un nom défini."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Expression écrite\nVous apprenez le français depuis le niveau collégien. D'après vous, quels sont les avantages de l'apprentissage de la langue française. Écrivez un texte de 100 à 120 mots."
+          "content": "III. Expression écrite\nVous apprenez le français depuis le niveau collégien. D'après vous, quels sont les avantages de l'apprentissage de la langue française. Écrivez un texte de 100 à 120 mots.",
+          "ai": {
+            "answer": "Texte modèle (IA) : « Les avantages d'apprendre le français » — introduction, études et travail, culture et voyages, conclusion. Touchez « Show the working » pour le lire.",
+            "steps": [
+              "Plan : introduction, études et travail, culture et voyages, conclusion.",
+              "J'apprends le français depuis le collège et je pense que cette langue m'apporte beaucoup d'avantages.",
+              "D'abord, le français est une langue internationale, parlée sur cinq continents. Il m'aide à continuer mes études : je peux demander une bourse pour étudier en France ou dans un autre pays francophone. Ensuite, il est utile pour trouver un bon travail au Cambodge, dans le tourisme, les ambassades ou les organisations internationales.",
+              "De plus, le français me fait découvrir une autre culture, sa littérature, sa musique et sa cuisine. Il me permet aussi de comprendre l'histoire de notre pays et de communiquer avec des amis étrangers.",
+              "Pour toutes ces raisons, je continuerai à apprendre le français avec plaisir.",
+              "À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."
+            ]
+          }
         }
       ]
     },
@@ -228,15 +512,50 @@
       "questions": [
         {
           "chapter": "past-papers",
-          "content": "I. Vocabulaire\nA. Reliez les phrases en utilisant « sans » selon le modèle.\nExemple : Il est venu, Il n'a pas d'argent. → Il est venu sans argent.\n1. Ma grand-mère peut lire des journaux. Elle n'a pas de lunettes.\n2. Elle écoute. Elle ne dit rien.\n3. C'est la nuit. Il n'y a pas d'étoiles.\n\nB. Soulignez les intrus :\nExemple : ventre · genou · bras · vent · pied\n1. infirmier · dentiste · pharmacien · docteur · médicament\n2. séjourner · se baisser · se laver · se reposer · se relever\n3. bon · mauvais · fatigue · fort · faible\n4. Singapour · Birmanie · Cambodge · Brunie · Canada\n5. France · Phnom Penh · Laos · Vietnam · Chine"
+          "content": "I. Vocabulaire\nA. Reliez les phrases en utilisant « sans » selon le modèle.\nExemple : Il est venu, Il n'a pas d'argent. → Il est venu sans argent.\n1. Ma grand-mère peut lire des journaux. Elle n'a pas de lunettes.\n2. Elle écoute. Elle ne dit rien.\n3. C'est la nuit. Il n'y a pas d'étoiles.\n\nB. Soulignez les intrus :\nExemple : ventre · genou · bras · vent · pied\n1. infirmier · dentiste · pharmacien · docteur · médicament\n2. séjourner · se baisser · se laver · se reposer · se relever\n3. bon · mauvais · fatigue · fort · faible\n4. Singapour · Birmanie · Cambodge · Brunie · Canada\n5. France · Phnom Penh · Laos · Vietnam · Chine",
+          "ai": {
+            "answer": "A. 1. Ma grand-mère peut lire des journaux sans lunettes. · 2. Elle écoute sans rien dire. · 3. C'est la nuit sans étoiles. · B. Intrus : 1. médicament · 2. séjourner · 3. fatigue · 4. Canada · 5. Phnom Penh",
+            "steps": [
+              "A. 1. Ma grand-mère peut lire des journaux sans lunettes.",
+              "2. Elle écoute sans rien dire.",
+              "3. C'est la nuit sans étoiles.",
+              "B. Intrus : 1. médicament · 2. séjourner · 3. fatigue · 4. Canada · 5. Phnom Penh",
+              "B : médicament n'est pas une personne ; séjourner n'est pas un verbe pronominal ; fatigue est un nom (les autres sont des adjectifs) ; le Canada n'est pas en Asie ; Phnom Penh est une ville (les autres sont des pays)."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "II. Grammaire\nA. Répondez aux questions en utilisant « Si », « Oui » ou « Non ».\n1. Tu ne manges pas de pain ?\n…………, je mange du riz.\n2. Vous ne buvez pas d'eau le matin ?\n…………, un verre d'eau avant le petit déjeuner.\n3. Vous apprenez le français ?\n…………, deux heures par semaine.\n\nB. Transformez les phrases selon le modèle.\nExemple : Montrez votre photo a Dara. → Montrez-la-lui\n1. Donnez ces médicaments à ta sœur.\n2. Rendez la monnaie à Neary\n3. Montre le chemin à cet enfant.\n4. Envoyez de lettres à vos parents.\n5. Laisse vos sacs dans la voiture."
+          "content": "II. Grammaire\nA. Répondez aux questions en utilisant « Si », « Oui » ou « Non ».\n1. Tu ne manges pas de pain ?\n…………, je mange du riz.\n2. Vous ne buvez pas d'eau le matin ?\n…………, un verre d'eau avant le petit déjeuner.\n3. Vous apprenez le français ?\n…………, deux heures par semaine.\n\nB. Transformez les phrases selon le modèle.\nExemple : Montrez votre photo a Dara. → Montrez-la-lui\n1. Donnez ces médicaments à ta sœur.\n2. Rendez la monnaie à Neary\n3. Montre le chemin à cet enfant.\n4. Envoyez de lettres à vos parents.\n5. Laisse vos sacs dans la voiture.",
+          "ai": {
+            "answer": "A. 1. Non, je mange du riz. · 2. Si, un verre d'eau avant le petit déjeuner. · 3. Oui, deux heures par semaine. · B. 1. Donnez-les-lui. · 2. Rendez-la-lui. · 3. Montre-le-lui. · 4. Envoyez-leur-en. · 5. Laisse-les-y.",
+            "steps": [
+              "A. 1. Non, je mange du riz.",
+              "2. Si, un verre d'eau avant le petit déjeuner.",
+              "3. Oui, deux heures par semaine.",
+              "B. 1. Donnez-les-lui.",
+              "2. Rendez-la-lui.",
+              "3. Montre-le-lui.",
+              "4. Envoyez-leur-en.",
+              "5. Laisse-les-y.",
+              "A : « Si » contredit une question négative ; « Non » confirme la négation ; « Oui » répond à une question positive.",
+              "B : à l'impératif affirmatif, le COD (le, la, les) vient avant le COI (lui, leur) ; « en » remplace « de + nom » et « y » un lieu ; les pronoms se placent après le verbe avec des traits d'union."
+            ]
+          }
         },
         {
           "chapter": "past-papers",
-          "content": "III. Expression écrite\nDécrivez une ville touristique du Cambodge ou d'autre pays que vous aimez bien. Écrive un texte 100 à 120 mots."
+          "content": "III. Expression écrite\nDécrivez une ville touristique du Cambodge ou d'autre pays que vous aimez bien. Écrive un texte 100 à 120 mots.",
+          "ai": {
+            "answer": "Texte modèle (IA) : « Une ville touristique que j'aime » — présentation, ce qu'on peut voir, pourquoi je l'aime. Touchez « Show the working » pour le lire.",
+            "steps": [
+              "Plan : présentation, ce qu'on peut voir, pourquoi je l'aime.",
+              "J'aime beaucoup Siem Reap, une ville touristique au nord-ouest du Cambodge. Elle est célèbre dans le monde entier grâce aux temples d'Angkor, construits par nos ancêtres il y a plusieurs siècles.",
+              "Chaque année, des millions de touristes viennent admirer Angkor Vat au lever du soleil, le Bayon et ses visages souriants, et Ta Prohm, où les arbres poussent sur les pierres. En ville, on peut se promener au vieux marché, goûter des plats khmers et regarder des danses Apsara le soir.",
+              "J'aime Siem Reap parce qu'elle montre la grandeur de notre histoire et la gentillesse des Cambodgiens. Chaque fois que j'y vais, je suis fier d'être khmer.",
+              "À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."
+            ]
+          }
         }
       ]
     }

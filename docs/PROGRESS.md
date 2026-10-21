@@ -552,6 +552,15 @@ timing only in database functions, never in the browser.
   gap (7), and the answer says which word is left for it. Labelled
   ai-generated and needs-review like the rest. Tests: `test:past-papers`
   11/11; checked on a 375px phone.
+- **2026-10-21 — AI answer key, part 7: French 2014–2021 (both
+  tracks).** One key of 30 answers for the shared French paper, in French:
+  gap-fills, odd-one-out words with the reason, grammar transformations
+  with the rule, and a model text for every writing task within the word
+  count asked. The copies' own marking keys (2018, 2019) were compared:
+  where they accept two answers (2019 odd-one-out 1) the key says so, and
+  where the printed key does not fit the sentence as printed (2018 Q3B, 3
+  → b) the key explains the difference. Labelled ai-generated and
+  needs-review. Tests: `test:past-papers` 11/11.
 
 ## Blockers and things that need a person
 

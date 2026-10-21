@@ -18,6 +18,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2021-4000-8000-000000000001', 'maison · parents · copain · bruits · bizarre', null, null, null, '[{"content":"maison · parents · copain · bruits · bizarre"},{"content":"« J''ai peur de rester seul à la maison ! Quand mes parents sortent… J''essaie d''inviter un copain… je commence à entendre des bruits… à 15 ans, c''est un peu bizarre, non ? »"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2021-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'II. Vocabulaire
 Soulignez les intrus.
@@ -33,6 +38,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2021-4000-8000-000000000002', '1. musée · 2. dimanche · 3. librairie · 4. développement · 5. voisin · 6. Russie · 7. docteur', null, null, null, '[{"content":"1. musée : masculin ; les autres noms en -ée sont féminins"},{"content":"2. dimanche : un jour ; les autres sont des saisons"},{"content":"3. librairie : ne vend pas à manger"},{"content":"4. développement : un nom ; les autres sont des adverbes"},{"content":"5. voisin : pas un membre de la famille"},{"content":"6. Russie : pas en Asie du Sud-Est"},{"content":"7. docteur : une personne ; les autres sont des parties du corps"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2021-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'III. Grammaire
@@ -64,6 +74,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2021-4000-8000-000000000003', 'A. 1. Non, je suis Cambodgien. · 2. Si, je mange du riz. · 3. Oui, ils sont à Phnom Penh. · B. 1 → d · 2 → e · 3 → a · 4 → g · 5 → b · 6 → c', null, null, null, '[{"content":"A. 1. Non, je suis Cambodgien."},{"content":"2. Si, je mange du riz."},{"content":"3. Oui, ils sont à Phnom Penh."},{"content":"B. 1 → d · 2 → e · 3 → a · 4 → g · 5 → b · 6 → c"},{"content":"B : 3 (mal au pied) peut aussi aller avec f (courir) ; a (marcher) est la réponse la plus naturelle."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2021-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2021, 'open', 'IV. Expression écrite. (10 points)
 Après l''examen du baccalauréat, qu''est-ce que vous faites ? Ecrivez environ 70 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2021 (2021-12-27), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Both tracks sat the same paper.', 'needs-review')
@@ -71,6 +86,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2021-4000-8000-000000000000', 'bacc2080-2021-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2021-4000-8000-000000000004', 'Texte modèle (IA) : « Après le baccalauréat » — repos, préparation des études, aide à la famille. Touchez « Show the working » pour le lire.', null, null, null, '[{"content":"Plan : repos, préparation des études, aide à la famille."},{"content":"Après l''examen du baccalauréat, je vais d''abord me reposer quelques jours avec ma famille à la campagne."},{"content":"Ensuite, je vais m''informer sur les universités et les bourses, et je vais suivre des cours d''anglais et d''informatique pour préparer mes études. J''aiderai aussi mes parents dans leur petit commerce."},{"content":"Enfin, quand les résultats seront publiés, j''espère m''inscrire à l''université pour devenir ingénieur. Je sais que ce sera difficile, mais je suis prêt à travailler dur pour réaliser mon rêve."},{"content":"À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2080-2019-4000-8000-000000000000', 'kh-grade12-social-french', 2019, 'BacII 2019: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៩ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
@@ -90,6 +110,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2019-4000-8000-000000000001', '(2) ne crois pas · (3) pensez · (4) demande · (5) l''impression · (6) semble', null, null, null, '[{"content":"(2) ne crois pas · (3) pensez · (4) demande · (5) l''impression · (6) semble"},{"content":"La phrase avec le blanc (5) manque dans la copie (par exemple « J''ai (5) l''impression que… ») ; le corrigé de la copie donne (5) l''impression et (6) semble."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2019-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'II. Vocabulaire
 Soulignez les intrus.
@@ -105,6 +130,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2019-4000-8000-000000000002', '1. développement ou contentement · 2. durian · 3. aller · 4. le fond · 5. France · 6. ventilateur · 7. infirmier', null, null, null, '[{"content":"1. développement ou contentement : deux noms parmi des adverbes ; le corrigé accepte les deux"},{"content":"2. durian : un fruit ; les autres sont des animaux"},{"content":"3. aller : verbe irrégulier (3e groupe) ; les autres sont du 1er groupe"},{"content":"4. le fond : pas un point cardinal"},{"content":"5. France : pas en Asie"},{"content":"6. ventilateur : un appareil ; les autres sont des personnes"},{"content":"7. infirmier : une personne ; les autres sont des arbres"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2019-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'III. Grammaire
@@ -135,6 +165,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2019-4000-8000-000000000003', 'A. 1. Il n''a pas le permis, donc il ne peut pas conduire. · 2. Vous avez trop mangé, c''est pourquoi vous êtes malade. · 3. Le pneu de sa moto est crevé, aussi faut-il le réparer. · B. 1 → d · 2 → e · 3 → c · 4 → a · 5 → b · 6 → f', null, null, null, '[{"content":"A. 1. Il n''a pas le permis, donc il ne peut pas conduire."},{"content":"2. Vous avez trop mangé, c''est pourquoi vous êtes malade."},{"content":"3. Le pneu de sa moto est crevé, aussi faut-il le réparer."},{"content":"B. 1 → d · 2 → e · 3 → c · 4 → a · 5 → b · 6 → f"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2019-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2019, 'open', 'IV. Expression écrite. (10 points)
 Vous avez assisté à l''anniversaire (de naissance) d''un (e) ami(e). Racontez ce que vous avez fait, vu et entendu pendant la fête.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2019 (2019-08-19), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives points only for part IV, so none are shown. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
@@ -142,6 +177,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2019-4000-8000-000000000000', 'bacc2080-2019-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2019-4000-8000-000000000004', 'Texte modèle (IA) : « L''anniversaire d''un ami » — arrivée, ce que j''ai vu, fait et entendu, fin de la fête. Touchez « Show the working » pour le lire.', null, null, null, '[{"content":"Plan : arrivée, ce que j''ai vu, fait et entendu, fin de la fête."},{"content":"Samedi dernier, j''ai assisté à l''anniversaire de mon ami Sokha, qui fêtait ses dix-huit ans. La fête avait lieu chez lui, dans un jardin décoré de ballons et de lumières."},{"content":"Quand je suis arrivé, j''ai vu beaucoup d''amis de notre classe et sa famille. Il y avait un grand gâteau au chocolat et des plats délicieux. Nous avons chanté « Joyeux anniversaire », puis Sokha a soufflé les bougies et ouvert ses cadeaux. Je lui ai offert un livre."},{"content":"Ensuite, nous avons écouté de la musique, dansé et ri ensemble. J''ai entendu son père faire un petit discours plein de conseils. Vers neuf heures, je suis rentré à la maison, très content de cette belle soirée."},{"content":"À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2080-2018-4000-8000-000000000000', 'kh-grade12-social-french', 2018, 'BacII 2018: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៨ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
@@ -162,6 +202,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000001', 1, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2018-4000-8000-000000000001', '(2) échanger · (3) le ticket · (4) échange · (5) choisir · (6) elle ne l''aura pas', null, null, null, '[{"content":"(2) échanger · (3) le ticket · (4) échange · (5) choisir · (6) elle ne l''aura pas"},{"content":"« Vous préférez un remboursement ou un échange ? — Un échange. Je vais choisir un autre livre. J''espère qu''elle ne l''aura pas, celui-là. »"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2018-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'II. Vocabulaire
 Soulignez les intrus.
@@ -178,6 +223,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000002', 2, 16)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2018-4000-8000-000000000002', '1. chaleur · 2. lièvre · 3. France · 4. cirque · 5. égalité · 6. appartement · 7. Birmanie · 8. oranger', null, null, null, '[{"content":"1. chaleur : pas une personne"},{"content":"2. lièvre : un animal ; les autres sont des maladies"},{"content":"3. France : pas en Asie"},{"content":"4. cirque : pas une figure géométrique"},{"content":"5. égalité : pas un établissement scolaire"},{"content":"6. appartement : un nom ; les autres sont des adverbes"},{"content":"7. Birmanie : un pays ; les autres sont des capitales"},{"content":"8. oranger : un nom ; les autres sont des verbes"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2018-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'III. Grammaire.
@@ -210,6 +260,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000003', 3, 14)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2018-4000-8000-000000000003', 'A. 1. Oui, il la regarde. · 2. Non, je ne les préfère pas (Non, nous ne les préférons pas). · 3. Oui, je lui parle. · B. 1 → c · 2 → e · 3 → a · 4 → a · 5 → d', null, null, null, '[{"content":"A. 1. Oui, il la regarde."},{"content":"2. Non, je ne les préfère pas (Non, nous ne les préférons pas)."},{"content":"3. Oui, je lui parle."},{"content":"B. 1 → c · 2 → e · 3 → a · 4 → a · 5 → d"},{"content":"B : telle qu''imprimée, la phrase 3 (Puisque l''eau manque) ne va qu''avec a ; le corrigé de la copie donne 3 → b et 4 → a, sans doute parce que le sujet original était différent."},{"content":"Les phrases b et f ne servent pas pour les phrases imprimées."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2018-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2018, 'open', 'IV. Expression écrite.
 Pour réussir le baccalauréat, qu''est-ce-que vous avez appris au lycée ? Et à la maison, qu''est-ce-que vous avez fait ? (environ 100 mots)', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2018 (2018-08-20), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
@@ -217,6 +272,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2018-4000-8000-000000000000', 'bacc2080-2018-4000-8000-000000000004', 4, 10)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2018-4000-8000-000000000004', 'Texte modèle (IA) : « Pour réussir le baccalauréat » — au lycée, à la maison, conclusion. Touchez « Show the working » pour le lire.', null, null, null, '[{"content":"Plan : au lycée, à la maison, conclusion."},{"content":"Pour réussir le baccalauréat, j''ai beaucoup appris au lycée. J''ai écouté attentivement mes professeurs, j''ai pris des notes et j''ai posé des questions quand je ne comprenais pas. J''ai aussi fait les exercices et les examens blancs, surtout en mathématiques et en physique."},{"content":"À la maison, j''ai révisé mes leçons tous les soirs selon un emploi du temps. J''ai refait les sujets des années précédentes et j''ai travaillé en groupe avec mes amis. J''ai aussi dormi assez et je me suis un peu reposé le week-end."},{"content":"Grâce à ce travail régulier, je me sens prêt pour l''examen."},{"content":"À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2080-2017-4000-8000-000000000000', 'kh-grade12-social-french', 2017, 'BacII 2017: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៧ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -235,6 +295,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2017-4000-8000-000000000001', '(1) mère · (2) accident · (3) bus · (4) étudiante · (5) vraiment', null, null, null, '[{"content":"(1) mère · (2) accident · (3) bus · (4) étudiante · (5) vraiment"},{"content":"« Je n''en ai pas vraiment besoin » : vraiment = réellement."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2017-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'II. Vocabulaire
 Soulignez les intrus.
@@ -251,6 +316,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2017-4000-8000-000000000002', '1. chemin · 2. verre · 3. boulanger · 4. thermomètre · 5. mairie · 6. vêtement · 7. collier · 8. France', null, null, null, '[{"content":"1. chemin : pas un vêtement"},{"content":"2. verre : pas une couleur"},{"content":"3. boulanger : un nom ; les autres sont des verbes"},{"content":"4. thermomètre : un instrument"},{"content":"5. mairie : pas un magasin"},{"content":"6. vêtement : un nom ; les autres sont des adverbes"},{"content":"7. collier : un bijou ; les autres sont des arbres"},{"content":"8. France : pas en Asie du Sud-Est"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2017-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'III. Grammaire.
@@ -280,6 +350,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2017-4000-8000-000000000003', 'A. 1. Non, je n''y vais pas. · 2. Oui, j''apprends le français. · 3. Si, quand elle reste seule à la maison… · B. 1 → d · 2 → a · 3 → b · 4 → c · 5 → f', null, null, null, '[{"content":"A. 1. Non, je n''y vais pas."},{"content":"2. Oui, j''apprends le français."},{"content":"3. Si, quand elle reste seule à la maison…"},{"content":"B. 1 → d · 2 → a · 3 → b · 4 → c · 5 → f"},{"content":"B : la phrase e (je m''amuse) ne sert pas."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2017-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2017, 'open', 'IV. Expression écrite.
 Depuis combien de temps apprenez-vous le français ? Pourquoi apprenez-vous cette langue ? Rédigez le texte au minimum 80 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2017 (2017-08-21), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -287,6 +362,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2017-4000-8000-000000000000', 'bacc2080-2017-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2017-4000-8000-000000000004', 'Texte modèle (IA) : « Pourquoi j''apprends le français » — depuis quand, pourquoi, conclusion. Touchez « Show the working » pour le lire.', null, null, null, '[{"content":"Plan : depuis quand, pourquoi, conclusion."},{"content":"J''apprends le français depuis six ans, depuis la classe de septième au collège."},{"content":"J''ai choisi cette langue pour plusieurs raisons. D''abord, le français est parlé dans beaucoup de pays et il est utile pour continuer mes études, peut-être avec une bourse en France. Ensuite, il peut m''aider à trouver un bon travail dans le tourisme ou les organisations internationales. Enfin, j''aime la culture française, ses chansons et ses films."},{"content":"Le français n''est pas facile, mais je fais des progrès chaque année et je suis content de pouvoir le parler."},{"content":"À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2080-2016-4000-8000-000000000000', 'kh-grade12-social-french', 2016, 'BacII 2016: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៦ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -301,6 +381,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2016-4000-8000-000000000001', 'parents · mer · copine · coquillages · montagne', null, null, null, '[{"content":"parents · mer · copine · coquillages · montagne"},{"content":"« Pendant les vacances, avec mes parents, on allait toujours au bord de la mer en Bretagne. Là-bas, je retrouvais ma copine Alice. Le matin, on ramassait des coquillages… Maintenant, mes parents vont à la montagne, mais moi, je vais chez Alice. » (le texte imprime « montage » pour « montagne »)"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2016-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'II. Vocabulaire
@@ -317,6 +402,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2016-4000-8000-000000000002', '1. chemin · 2. verre · 3. boulanger · 4. thermomètre · 5. mairie · 6. fièvre · 7. poisson', null, null, null, '[{"content":"1. chemin : pas un vêtement"},{"content":"2. verre : pas une couleur"},{"content":"3. boulanger : un nom ; les autres sont des verbes"},{"content":"4. thermomètre : un instrument ; les autres sont des parties du corps"},{"content":"5. mairie : pas un magasin"},{"content":"6. fièvre : une maladie ; les autres sont des parties du corps"},{"content":"7. poisson : pas un fruit"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2016-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'III. Grammaire
@@ -338,6 +428,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2016-4000-8000-000000000003', 'A. 1. Visal lit le texte sans rien comprendre. · 2. Écoutez sans répéter ! · 3. Mon frère passe le bac sans documents. · 4. Madame Dany regarde les marchandises sans rien acheter. · B. 1. Le professeur n''aime ni les retardataires ni les paresseux. · 2. Il ne sait ni expliquer ni discuter. · 3. Ni Paul ni Marie ne sont timides. · 4. Ma sœur ne boit ni bière ni vin.', null, null, null, '[{"content":"A. 1. Visal lit le texte sans rien comprendre."},{"content":"2. Écoutez sans répéter !"},{"content":"3. Mon frère passe le bac sans documents."},{"content":"4. Madame Dany regarde les marchandises sans rien acheter."},{"content":"B. 1. Le professeur n''aime ni les retardataires ni les paresseux."},{"content":"2. Il ne sait ni expliquer ni discuter."},{"content":"3. Ni Paul ni Marie ne sont timides."},{"content":"4. Ma sœur ne boit ni bière ni vin."},{"content":"« sans » + infinitif ou + nom sans article ; « ni… ni… » remplace « pas de » ; avec deux sujets, « Ni… ni… ne » + verbe au pluriel."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2016-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2016, 'open', 'IV. Expression écrite
 Après avoir fini vos études, quel métier préférez-vous ? Pourquoi ? Donnez vos raisons en écrivant un texte de 80 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2016 (2016-08-22), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -345,6 +440,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2016-4000-8000-000000000000', 'bacc2080-2016-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2016-4000-8000-000000000004', 'Texte modèle (IA) : « Le métier que je préfère » — mon choix, mes raisons, conclusion. Touchez « Show the working » pour le lire.', null, null, null, '[{"content":"Plan : mon choix, mes raisons, conclusion."},{"content":"Après mes études, je voudrais devenir professeur de lycée."},{"content":"J''aime ce métier parce que j''aime expliquer et aider les autres. Mes professeurs m''ont beaucoup appris et je veux faire la même chose pour les jeunes de mon village. De plus, un pays ne peut pas se développer sans éducation : un bon professeur forme les médecins, les ingénieurs et les citoyens de demain."},{"content":"Ce métier demande de la patience, mais il donne aussi beaucoup de joie quand les élèves réussissent. Voilà pourquoi je choisis l''enseignement."},{"content":"À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2080-2015-4000-8000-000000000000', 'kh-grade12-social-french', 2015, 'BacII 2015: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -368,6 +468,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2015-4000-8000-000000000001', '(2) malade · (3) mal · (4) ventre · (5) temps · (6) jours · (7) grave · (8) médicament · (9) le · (10) trois · (11) soir', null, null, null, '[{"content":"(2) malade · (3) mal · (4) ventre · (5) temps · (6) jours · (7) grave · (8) médicament · (9) le · (10) trois · (11) soir"},{"content":"« Je le prends combien de fois par jour ? — Tu le prends trois fois par jour, le matin, à midi et le soir. »"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2015-4000-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'II. Vocabulaire
 Soulignez les intrus :
@@ -383,6 +488,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2015-4000-8000-000000000002', '1. développement · 2. sirop · 3. ses · 4. Asie · 5. le fond · 6. policier · 7. Bangkok', null, null, null, '[{"content":"1. développement : un nom ; les autres sont des adverbes en -ment"},{"content":"2. sirop : un médicament ; les autres sont des parties du corps"},{"content":"3. ses : un adjectif possessif ; les autres sont démonstratifs"},{"content":"4. Asie : un continent ; les autres sont des pays"},{"content":"5. le fond : pas un point cardinal"},{"content":"6. policier : une personne ; les autres sont des arbres"},{"content":"7. Bangkok : une ville ; les autres sont des pays"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2015-4000-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'III. Grammaire
@@ -408,6 +518,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2015-4000-8000-000000000003', 'A. 1. Non, j''ai mal à la poitrine. · 2. Non, je mange du riz. · 3. Oui, un verre d''eau avant le petit déjeuner. · 4. Si, deux heures par semaine. · 5. Oui, j''y vais. · B. 1. Bopha est arrivée en retard parce qu''elle a eu un accident. · 2. Vuth ne va pas se promener parce qu''il est malade. · 3. Comme elle a beaucoup travaillé, Neary est fatiguée.', null, null, null, '[{"content":"A. 1. Non, j''ai mal à la poitrine."},{"content":"2. Non, je mange du riz."},{"content":"3. Oui, un verre d''eau avant le petit déjeuner."},{"content":"4. Si, deux heures par semaine."},{"content":"5. Oui, j''y vais."},{"content":"B. 1. Bopha est arrivée en retard parce qu''elle a eu un accident."},{"content":"2. Vuth ne va pas se promener parce qu''il est malade."},{"content":"3. Comme elle a beaucoup travaillé, Neary est fatiguée."},{"content":"« Comme » se place en tête de phrase et donne la cause d''abord ; « parce que » vient après la conséquence."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2015-4000-8000-000000000004', 'kh-grade12-social-french-past-papers', null, 2015, 'open', 'IV. Expression écrite
 Entre la ville et la campagne, où armeriez-vous habiter ? Pourquoi ? Racontez en 80 monts.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -415,6 +530,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2015-4000-8000-000000000000', 'bacc2080-2015-4000-8000-000000000004', 4, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2015-4000-8000-000000000004', 'Texte modèle (IA) : « La ville ou la campagne ? » — mon choix, deux raisons, conclusion. Touchez « Show the working » pour le lire.', null, null, null, '[{"content":"Plan : mon choix, deux raisons, conclusion."},{"content":"Entre la ville et la campagne, je préférerais habiter à la campagne."},{"content":"D''abord, la vie y est calme et saine : l''air est pur, il n''y a pas d''embouteillages et on mange des légumes et des fruits frais. Ensuite, les gens se connaissent et s''entraident, comme une grande famille."},{"content":"Bien sûr, la ville offre plus d''écoles, d''hôpitaux et de travail. Mais aujourd''hui, avec le téléphone et internet, on peut rester en contact avec le monde. C''est pourquoi je choisis la campagne."},{"content":"À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2080-2014-4200-8000-000000000000', 'kh-grade12-social-french', 2014, 'BacII 2014, second sitting: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
@@ -441,6 +561,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2014-4200-8000-000000000001', 'A. 1. Le professeur n''aime ni les retardataires ni les paresseux. · 2. Il ne sait ni expliquer ni discuter. · 3. Ni Paul ni Marie ne sont timides. · B. Intrus : 1. oranger · 2. chercheur · 3. stéthoscope · 4. Brunei · 5. Cambodge', null, null, null, '[{"content":"A. 1. Le professeur n''aime ni les retardataires ni les paresseux."},{"content":"2. Il ne sait ni expliquer ni discuter."},{"content":"3. Ni Paul ni Marie ne sont timides."},{"content":"B. Intrus : 1. oranger · 2. chercheur · 3. stéthoscope · 4. Brunei · 5. Cambodge"},{"content":"B : oranger est un nom (un arbre), les autres sont des verbes ; un chercheur est une personne, les autres des appareils ; le stéthoscope est un instrument, les autres des maladies ; Brunei est un pays, les autres des capitales ; le Cambodge est en Asie, les autres pays en Europe."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2014-4200-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'II. Grammaire
 A. Complétez les phrases par : « C''est pourquoi », « donc », « aussi ».
@@ -461,6 +586,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2014-4200-8000-000000000002', 'A. 1. Il a trop travaillé, c''est pourquoi il est malade. · 2. La route n''est pas bonne, aussi faut-il conduire prudemment. · 3. Elle est sérieuse, donc elle réussira à l''examen. · B. 1. Je ne la regarde pas. · 2. Mon père en voudrait un. · 3. Mon amie l''adore. · 4. Le cuisinier va y aller. · 5. Narith en boit.', null, null, null, '[{"content":"A. 1. Il a trop travaillé, c''est pourquoi il est malade."},{"content":"2. La route n''est pas bonne, aussi faut-il conduire prudemment."},{"content":"3. Elle est sérieuse, donc elle réussira à l''examen."},{"content":"B. 1. Je ne la regarde pas."},{"content":"2. Mon père en voudrait un."},{"content":"3. Mon amie l''adore."},{"content":"4. Le cuisinier va y aller."},{"content":"5. Narith en boit."},{"content":"A : « aussi » en tête de proposition entraîne l''inversion du sujet (aussi faut-il)."},{"content":"B : « en » remplace un nom avec du, de la, des, un (en… un) ; « y » remplace un lieu (au supermarché) ; le, la remplacent un nom défini."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2014-4200-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'III. Expression écrite
 Vous apprenez le français depuis le niveau collégien. D''après vous, quels sont les avantages de l''apprentissage de la langue française. Écrivez un texte de 100 à 120 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Underlined words are shown between _underscores_. Both tracks sat the same paper.', 'needs-review')
@@ -468,6 +598,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2014-4200-8000-000000000000', 'bacc2080-2014-4200-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2014-4200-8000-000000000003', 'Texte modèle (IA) : « Les avantages d''apprendre le français » — introduction, études et travail, culture et voyages, conclusion. Touchez « Show the working » pour le lire.', null, null, null, '[{"content":"Plan : introduction, études et travail, culture et voyages, conclusion."},{"content":"J''apprends le français depuis le collège et je pense que cette langue m''apporte beaucoup d''avantages."},{"content":"D''abord, le français est une langue internationale, parlée sur cinq continents. Il m''aide à continuer mes études : je peux demander une bourse pour étudier en France ou dans un autre pays francophone. Ensuite, il est utile pour trouver un bon travail au Cambodge, dans le tourisme, les ambassades ou les organisations internationales."},{"content":"De plus, le français me fait découvrir une autre culture, sa littérature, sa musique et sa cuisine. Il me permet aussi de comprendre l''histoire de notre pays et de communiquer avec des amis étrangers."},{"content":"Pour toutes ces raisons, je continuerai à apprendre le français avec plaisir."},{"content":"À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
 values ('bacc2080-2014-4100-8000-000000000000', 'kh-grade12-social-french', 2014, 'BacII 2014, first sitting: French (social science track)', 'វិញ្ញាសាភាសាបារាំង បាក់ឌុបឆ្នាំ២០១៤ លើកទី១ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -494,6 +629,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000001', 1, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2014-4100-8000-000000000001', 'A. 1. Ma grand-mère peut lire des journaux sans lunettes. · 2. Elle écoute sans rien dire. · 3. C''est la nuit sans étoiles. · B. Intrus : 1. médicament · 2. séjourner · 3. fatigue · 4. Canada · 5. Phnom Penh', null, null, null, '[{"content":"A. 1. Ma grand-mère peut lire des journaux sans lunettes."},{"content":"2. Elle écoute sans rien dire."},{"content":"3. C''est la nuit sans étoiles."},{"content":"B. Intrus : 1. médicament · 2. séjourner · 3. fatigue · 4. Canada · 5. Phnom Penh"},{"content":"B : médicament n''est pas une personne ; séjourner n''est pas un verbe pronominal ; fatigue est un nom (les autres sont des adjectifs) ; le Canada n''est pas en Asie ; Phnom Penh est une ville (les autres sont des pays)."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2014-4100-8000-000000000002', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'II. Grammaire
 A. Répondez aux questions en utilisant « Si », « Oui » ou « Non ».
@@ -516,6 +656,11 @@ insert into public.exam_paper_questions (paper_id, question_id, position, points
 values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000002', 2, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
 
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2014-4100-8000-000000000002', 'A. 1. Non, je mange du riz. · 2. Si, un verre d''eau avant le petit déjeuner. · 3. Oui, deux heures par semaine. · B. 1. Donnez-les-lui. · 2. Rendez-la-lui. · 3. Montre-le-lui. · 4. Envoyez-leur-en. · 5. Laisse-les-y.', null, null, null, '[{"content":"A. 1. Non, je mange du riz."},{"content":"2. Si, un verre d''eau avant le petit déjeuner."},{"content":"3. Oui, deux heures par semaine."},{"content":"B. 1. Donnez-les-lui."},{"content":"2. Rendez-la-lui."},{"content":"3. Montre-le-lui."},{"content":"4. Envoyez-leur-en."},{"content":"5. Laisse-les-y."},{"content":"A : « Si » contredit une question négative ; « Non » confirme la négation ; « Oui » répond à une question positive."},{"content":"B : à l''impératif affirmatif, le COD (le, la, les) vient avant le COI (lui, leur) ; « en » remplace « de + nom » et « y » un lieu ; les pronoms se placent après le verbe avec des traits d''union."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
 insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
 values ('bacc2080-2014-4100-8000-000000000003', 'kh-grade12-social-french-past-papers', null, 2014, 'open', 'III. Expression écrite
 Décrivez une ville touristique du Cambodge ou d''autre pays que vous aimez bien. Écrive un texte 100 à 120 mots.', '[]'::jsonb, '[]'::jsonb, null, 'fr', 'official-past-paper', 'BacII 2014, first sitting (2014-08-04), social science track french, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The copy gives no points for each part. Both tracks sat the same paper.', 'needs-review')
@@ -523,6 +668,11 @@ on conflict (id) do update set chapter_id = excluded.chapter_id, content = exclu
 insert into public.exam_paper_questions (paper_id, question_id, position, points)
 values ('bacc2080-2014-4100-8000-000000000000', 'bacc2080-2014-4100-8000-000000000003', 3, null)
 on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2080-2014-4100-8000-000000000003', 'Texte modèle (IA) : « Une ville touristique que j''aime » — présentation, ce qu''on peut voir, pourquoi je l''aime. Touchez « Show the working » pour le lire.', null, null, null, '[{"content":"Plan : présentation, ce qu''on peut voir, pourquoi je l''aime."},{"content":"J''aime beaucoup Siem Reap, une ville touristique au nord-ouest du Cambodge. Elle est célèbre dans le monde entier grâce aux temples d''Angkor, construits par nos ancêtres il y a plusieurs siècles."},{"content":"Chaque année, des millions de touristes viennent admirer Angkor Vat au lever du soleil, le Bayon et ses visages souriants, et Ta Prohm, où les arbres poussent sur les pierres. En ville, on peut se promener au vieux marché, goûter des plats khmers et regarder des danses Apsara le soir."},{"content":"J''aime Siem Reap parce qu''elle montre la grandeur de notre histoire et la gentillesse des Cambodgiens. Chaque fois que j''y vais, je suis fier d''être khmer."},{"content":"À vérifier : respect de la consigne et du nombre de mots, idées claires, temps des verbes, accords et orthographe."}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 commit;
 
 -- ===== supabase/seed/past-papers.sql (13/17) =====
