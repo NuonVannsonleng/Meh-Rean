@@ -3867,7 +3867,9 @@ insert into public.curriculum_subjects (id, track_id, subject_key, name_en, name
   ('kh-grade12-social-geography', 'kh-grade12-social', 'geography', 'Geography', 'ភូមិវិទ្យា', 5),
   ('kh-grade12-social-earth-science', 'kh-grade12-social', 'earth-science', 'Earth and environmental science', 'ផែនដី និងបរិស្ថានវិទ្យា', 6),
   ('kh-grade12-social-english', 'kh-grade12-social', 'english', 'English', 'ភាសាអង់គ្លេស', 7),
-  ('kh-grade12-social-french', 'kh-grade12-social', 'french', 'French', 'ភាសាបារាំង', 8)
+  ('kh-grade12-social-french', 'kh-grade12-social', 'french', 'French', 'ភាសាបារាំង', 8),
+  ('kh-grade12-social-physics', 'kh-grade12-social', 'physics', 'Physics', 'រូបវិទ្យា', 9),
+  ('kh-grade12-social-biology', 'kh-grade12-social', 'biology', 'Biology', 'ជីវវិទ្យា', 10)
 on conflict (id) do update set track_id = excluded.track_id, subject_key = excluded.subject_key, name_en = excluded.name_en, name_km = excluded.name_km, sort = excluded.sort;
 
 insert into public.curriculum_chapters (id, subject_id, number, name_en, name_km, verification, source, updated_at) values
@@ -3899,7 +3901,9 @@ insert into public.curriculum_chapters (id, subject_id, number, name_en, name_km
   ('kh-grade12-social-geography-past-papers', 'kh-grade12-social-geography', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-social-earth-science-past-papers', 'kh-grade12-social-earth-science', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
   ('kh-grade12-social-english-past-papers', 'kh-grade12-social-english', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
-  ('kh-grade12-social-french-past-papers', 'kh-grade12-social-french', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now())
+  ('kh-grade12-social-french-past-papers', 'kh-grade12-social-french', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-social-physics-past-papers', 'kh-grade12-social-physics', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now()),
+  ('kh-grade12-social-biology-past-papers', 'kh-grade12-social-biology', 1, 'BacII exam questions (not yet sorted into chapters)', 'សំណួរប្រឡងបាក់ឌុប (មិនទាន់តម្រៀបតាមជំពូក)', 'provisional', 'Provisional outline of topics commonly taught in Grade 12. Not yet checked against the MoEYS Grade 12 textbooks or the national exam programme.', now())
 on conflict (id) do update set subject_id = excluded.subject_id, number = excluded.number, name_en = excluded.name_en, name_km = excluded.name_km, verification = excluded.verification, source = excluded.source, updated_at = excluded.updated_at;
 
 insert into public.curriculum_topics (id, chapter_id, name_en, name_km, sort, verification) values
@@ -3962,7 +3966,9 @@ insert into public.curriculum_topics (id, chapter_id, name_en, name_km, sort, ve
   ('kh-grade12-social-geography-past-papers-exam-questions', 'kh-grade12-social-geography-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
   ('kh-grade12-social-earth-science-past-papers-exam-questions', 'kh-grade12-social-earth-science-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
   ('kh-grade12-social-english-past-papers-exam-questions', 'kh-grade12-social-english-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
-  ('kh-grade12-social-french-past-papers-exam-questions', 'kh-grade12-social-french-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional')
+  ('kh-grade12-social-french-past-papers-exam-questions', 'kh-grade12-social-french-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
+  ('kh-grade12-social-physics-past-papers-exam-questions', 'kh-grade12-social-physics-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional'),
+  ('kh-grade12-social-biology-past-papers-exam-questions', 'kh-grade12-social-biology-past-papers', 'Past exam questions', 'សំណួរប្រឡងឆ្នាំមុនៗ', 1, 'provisional')
 on conflict (id) do update set chapter_id = excluded.chapter_id, name_en = excluded.name_en, name_km = excluded.name_km, sort = excluded.sort, verification = excluded.verification;
 
 commit;
@@ -10254,6 +10260,92 @@ on conflict (question_id) do update set answer = excluded.answer, steps = exclud
   where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 commit;
 
+-- kh-grade12-social-biology.json
+begin;
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000000', 'kh-grade12-social-biology', 2015, 'BacII 2015: Biology (social science track)', 'វិញ្ញាសាជីវវិទ្យា បាក់ឌុបឆ្នាំ២០១៥ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2015 (2015-08-24), social science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper this year was biology (earth and environmental science replaced it from 2016). The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000001', 'kh-grade12-social-biology-past-papers', null, 2015, 'open', 'ចូរបំពេញល្បះខាងក្រោមឲ្យបានត្រឹមត្រូវ៖
+១. ស៊ីមណូស្ពែមជារុក្ខជាតិដែលមានគ្រាប់ទីមួយតែ.......ការពារពីខាងក្រៅទេ។
+២. សរីរាង្គបន្តពូជរបស់រុក្ខជាតិអង់ស្យូស្ពែមគឺ.........។
+៣. សោតវិញ្ញាណមានតួនាទី២យ៉ាងគឺ......និង......។
+៤. នៅលើស្រទាប់រេទីន ផ្នែកដែលរួសនឹងពន្លឺជាងគេគឺ........។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper this year was biology (earth and environmental science replaced it from 2016). The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2050-2015-4000-8000-000000000000', 'bacc2050-2015-4000-8000-000000000001', 1, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000001', '១. សំបក (គ្រាប់គ្មានផ្លែ ឬសំបកផ្លែការពារ)  ២. ផ្កា (ផ្នែកកេសរឈ្មោល និងកេសរញី)  ៣. ចាប់យករលកសូរ (ការស្តាប់) និងរក្សាលំនឹងក្បាល  ៤. ស្នាមលឿង (ផ្ចិតស្នាមលឿង)', null, null, null, '[{"content":"ស៊ីមណូស្ពែម (រុក្ខជាតិគ្រាប់អាក្រាត) គ្រាប់ស្ថិតលើស្លឹកស្ពែម មិនមានផ្លែរុំព័ទ្ធ។"},{"content":"សោតវិញ្ញាណ (ត្រចៀក) មិនត្រឹមតែស្តាប់ទេ ត្រចៀកក្នុងក៏គ្រប់គ្រងលំនឹងរាងកាយផង។"},{"content":"ស្នាមលឿងលើរេទីនមានកោសិកាកោនច្រើនបំផុត ដូចនេះមើលឃើញច្បាស់ជាងគេ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000002', 'kh-grade12-social-biology-past-papers', null, 2015, 'open', 'តើការបង្កកំណើតប្រព្រឹត្តទៅដូចម្តេច ពេលបំពង់លម្អងប៉ះនឹងថង់កំណរបស់អូវុល?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper this year was biology (earth and environmental science replaced it from 2016). The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2050-2015-4000-8000-000000000000', 'bacc2050-2015-4000-8000-000000000002', 2, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000002', 'ពេលបំពង់លម្អងប៉ះថង់កំណ ស្ពែម៉ាតូហ្ស៊ីតទាំងពីរចូលទៅ៖ មួយរួមនឹងអូវូស្វ៊ែ បង្កើតស៊ីហ្គោត (ទៅជាអំប្រ៊ីយ៉ុង) មួយទៀតរួមនឹងណ្វៃយ៉ូប៉ូលទាំងពីរ បង្កើតជាលិកាចិញ្ចឹម (អាល់ប៊ុយម៉ែន); នេះហៅថាការបង្កកំណើតទ្វេ', null, null, null, '[{"content":"ស៊ីហ្គោត ($2n$) លូតលាស់ទៅជាអំប្រ៊ីយ៉ុងនៃគ្រាប់។"},{"content":"អាល់ប៊ុយម៉ែន ($3n$) ផ្ទុកអាហារបម្រុងសម្រាប់អំប្រ៊ីយ៉ុង; អូវុលទៅជាគ្រាប់ ហើយអូវែទៅជាផ្លែ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000003', 'kh-grade12-social-biology-past-papers', null, 2015, 'open', 'តើគេចែកណឺរ៉ូនជាប៉ុន្មានប្រភេទ តាមពន្លយស៊ីតូប្លាយ? ចូររៀបរាប់។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper this year was biology (earth and environmental science replaced it from 2016). The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2050-2015-4000-8000-000000000000', 'bacc2050-2015-4000-8000-000000000003', 3, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000003', 'តាមចំនួនពន្លយស៊ីតូប្លាស ណឺរ៉ូនចែកជា ៣ ប្រភេទ៖ ណឺរ៉ូនឯកប៉ូល ណឺរ៉ូនទ្វេប៉ូល និងណឺរ៉ូនពហុប៉ូល', null, null, null, '[{"content":"ឯកប៉ូល៖ មានពន្លយតែមួយចេញពីតួកោសិកា។"},{"content":"ទ្វេប៉ូល៖ មានពន្លយពីរ ចេញពីតួកោសិកា (មួយជាដង់ឌ្រីត មួយជាអាក់សូន)។"},{"content":"ពហុប៉ូល៖ មានពន្លយច្រើន (ដង់ឌ្រីតជាច្រើន និងអាក់សូនតែមួយ) ដូចណឺរ៉ូនចលករ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000004', 'kh-grade12-social-biology-past-papers', null, 2015, 'open', 'តើស្បែកមានតួនាទីដូចម្តេច?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper this year was biology (earth and environmental science replaced it from 2016). The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2050-2015-4000-8000-000000000000', 'bacc2050-2015-4000-8000-000000000004', 4, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000004', 'ស្បែកមានតួនាទី៖ ការពាររាងកាយពីការប៉ះទង្គិច មេរោគ ការបាត់បង់ទឹក និងកាំរស្មីព្រះអាទិត្យ; ទទួលអារម្មណ៍ (ប៉ះ ក្តៅ ត្រជាក់ ឈឺ); បញ្ចេញកាកសំណល់តាមញើស; តម្រូវសីតុណ្ហភាពរាងកាយ; ស្រូបយកសារធាតុខ្លះ; និងសំយោគវីតាមីន D', null, null, null, '[{"content":"ការពារ៖ ស្រទាប់ក្រៅរារាំងមេរោគ និងការបាត់បង់ទឹកពីសារពាង្គកាយ។"},{"content":"ញើស៖ បញ្ចេញកាកសំណល់ ហើយការហួតញើសបន្ថយកម្តៅរាងកាយ; សរសៃឈាមក្រោមស្បែករីក ឬរួម តាមសីតុណ្ហភាព។"},{"content":"ស្បែករក្សាសំណើម ផលិតវីតាមីន D ពេលត្រូវពន្លឺ ហើយខ្លាញ់ក្រោមស្បែកការពារកម្តៅ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000005', 'kh-grade12-social-biology-past-papers', null, 2015, 'open', '១. គេថាលំពែងជាក្រពេញចម្រុះ។ តើពិតដែរឬទេ? ព្រោះអ្វី?
+២. តើជំងឺទឹកនោមផ្អែមកើតឡើងនៅពេលណា?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper this year was biology (earth and environmental science replaced it from 2016). The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2050-2015-4000-8000-000000000000', 'bacc2050-2015-4000-8000-000000000005', 5, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000005', '១. ពិត ព្រោះលំពែងជាក្រពេញអិចសូគ្រីន (បញ្ចេញទឹកលំពែងមានអង់ស៊ីម តាមបំពង់ទៅពោះវៀនតូច) ផង និងអង់ដូគ្រីន (កោះឡង់ហ្គឺហាន់ បញ្ចេញអាំងស៊ុយលីន និងគ្លុយកាហ្គុន ចូលឈាមផ្ទាល់) ផង  ២. ជំងឺទឹកនោមផ្អែម កើតឡើងពេលកោសិកាលំពែងផលិតអាំងស៊ុយលីនមិនគ្រប់គ្រាន់ (ឬរាងកាយប្រើវាមិនបាន) ធ្វើឲ្យជាតិស្ករក្នុងឈាមកើនខ្លាំង ហើយតម្រងនោមស្រូបវិញមិនអស់ ស្ករក៏ចេញមកក្នុងទឹកនោម', null, null, null, '[{"content":"ទឹកលំពែងរំលាយគ្លុយស៊ីត ប្រូតេអ៊ីន និងលីពីដ ក្នុងពោះវៀនតូច។"},{"content":"អាំងស៊ុយលីនបន្ថយស្ករក្នុងឈាម; កង្វះវា ធ្វើឲ្យស្ករក្នុងឈាមខ្ពស់ (ជំងឺទឹកនោមផ្អែម)។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000006', 'kh-grade12-social-biology-past-papers', null, 2015, 'open', '១. តើអ្នកវិទ្យាសាស្ត្រអាចបកស្រាយពីភស្តុតាងនៃការវិវត្តដោយផ្អែកលើចំណុចអ្វីខ្លះ?
+២. តើការសិក្សាពីផូស៊ីលមានសារប្រយោជន៍ដូចម្តេច?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2015 (2015-08-24), social science track biology, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: retyped by ជៀប គន្ធា (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper this year was biology (earth and environmental science replaced it from 2016). The copy gives no points for each question, so none are shown.', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2050-2015-4000-8000-000000000000', 'bacc2050-2015-4000-8000-000000000006', 6, null)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2050-2015-4000-8000-000000000006', '១. ភស្តុតាងនៃការវិវត្ត៖ ផូស៊ីល ការលូតលាស់អំប្រ៊ីយ៉ុង និងភាពដូចគ្នានៃរចនាសម្ព័ន្ធ (រូបផ្គុំ) សារពាង្គកាយ  ២. ការសិក្សាផូស៊ីលធ្វើឲ្យយើងស្គាល់ប្រវត្តិនៃការវិវត្តរបស់ភាវៈរស់ (ការកកើត ការរីកចម្រើន និងការផុតពូជ) និងប្រវត្តិផែនដី (លក្ខណៈអាកាសធាតុ និងបរិស្ថាននៃសម័យនីមួយៗ)', null, null, null, '[{"content":"ផូស៊ីលបង្ហាញភាវៈរស់ពីបុរាណ និងទម្រង់អន្តរកាល។"},{"content":"អំប្រ៊ីយ៉ុងនៃសត្វឆ្អឹងកងផ្សេងៗ ស្រដៀងគ្នានៅដំណាក់កាលដំបូង; សរីរាង្គដូចគ្នា (ឧ. ឆ្អឹងដៃមនុស្ស ស្លាបប្រចៀវ ព្រុយផ្សោត) បង្ហាញប្រភពដើមរួម។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+commit;
+
 -- kh-grade12-social-earth-science.json
 begin;
 insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
@@ -14902,6 +14994,92 @@ on conflict (paper_id, question_id) do update set position = excluded.position, 
 
 insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
 values ('bacc2100-2014-4100-8000-000000000006', 'ទំនួលខុសត្រូវមានពីរបែប៖ ទំនួលខុសត្រូវផ្នែកសីលធម៌ និងទំនួលខុសត្រូវផ្នែកសង្គម (ច្បាប់)។ ទំនួលខុសត្រូវផ្នែកសីលធម៌ គឺការហ៊ានទទួលស្គាល់អំពើរបស់ខ្លួនចំពោះមនសិការផ្ទាល់ ដោយស្មោះត្រង់ និងគ្មានការបង្ខិតបង្ខំ', null, null, null, '[{"content":"ទំនួលខុសត្រូវផ្នែកសីលធម៌មានពីរប្រភេទ៖ (ក) ប្រកបដោយវិចារណញ្ញាណ៖ អ្នកប្រព្រឹត្តដឹងមុនថាអ្វីគួរ អ្វីមិនគួរ អ្វីជាកុសល ឬអកុសល ហើយធ្វើដោយសេរី។ ឧ. កុមារម្នាក់ទទួលស្គាល់កំហុស ហើយសារភាពពីមូលហេតុ។"},{"content":"(ខ) ដោយខ្វះវិចារណញ្ញាណ៖ អំពើធ្វើក្រោមការបង្ខិតបង្ខំ ការគំរាម ឬពេលគ្មានសេរីភាព និងគ្មានលទ្ធភាពជ្រើសរើស ឬពេលស្មារតីមិនប្រក្រតី។ ឧ. កុមារម្នាក់ធ្វើខុសពេលរងឥទ្ធិពលថ្នាំញៀនដែលគេបង្ខំ។"},{"content":"ទំនួលខុសត្រូវផ្នែកសង្គម គឺការទទួលខុសត្រូវចំពោះច្បាប់ និងសង្គម ដែលអាចត្រូវផ្តន្ទាទោស ឬសងការខូចខាត។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+commit;
+
+-- kh-grade12-social-physics.json
+begin;
+insert into public.exam_papers (id, subject_id, year, title_en, title_km, duration_minutes, duration_source, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000000', 'kh-grade12-social-physics', 2014, 'BacII 2014, second sitting: Physics (social science track)', 'វិញ្ញាសារូបវិទ្យា បាក់ឌុបឆ្នាំ២០១៤ លើកទី២ (ថ្នាក់វិទ្យាសាស្ត្រសង្គម)', 60, 'Printed on the paper: រយៈពេល ៦០ នាទី', 'official', 'BacII 2014, second sitting (2014-10-13), social science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper at this sitting was physics (earth and environmental science replaced it from 2016).', 'needs-review')
+on conflict (id) do update set title_en = excluded.title_en, title_km = excluded.title_km, duration_minutes = excluded.duration_minutes,
+  duration_source = excluded.duration_source, source = excluded.source;
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000001', 'kh-grade12-social-physics-past-papers', null, 2014, 'open', 'ហេតុអ្វីបានជាគេធ្វើប្រអប់ត្រីវិស័យពីស្ពាន់ ឬ ជ័រប្លាស្ទិច? ហេតុអ្វីមិនធ្វើពីដែក?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper at this sitting was physics (earth and environmental science replaced it from 2016).', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2030-2014-4200-8000-000000000000', 'bacc2030-2014-4200-8000-000000000001', 1, 5)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000001', 'ប្រអប់ត្រីវិស័យធ្វើពីស្ពាន់ ឬជ័រប្លាស្ទិច ព្រោះវាជាធាតុមិនមែនម៉ាញេទិក (មិនទាក់ទាញ ឬប៉ះពាល់ដែនម៉ាញេទិច) ដូចនេះម្ជុលត្រីវិស័យចង្អុលទិសបានត្រឹមត្រូវ; មិនធ្វើពីដែក ព្រោះដែកជាធាតុម៉ាញេទិក វាទាញម្ជុល និងបង្វែរដែនម៉ាញេទិច', null, null, null, '[{"content":"ម្ជុលត្រីវិស័យជាមេដែកតូច ដែលតម្រង់តាមដែនម៉ាញេទិចផែនដី។"},{"content":"បើប្រអប់ធ្វើពីដែក ដែកនឹងប្រមូលខ្សែដែន ហើយទាញម្ជុល ធ្វើឲ្យត្រីវិស័យចង្អុលខុស។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000002', 'kh-grade12-social-physics-past-papers', null, 2014, 'open', 'ដូចម្តេចដែលហៅថាម៉ូទ័រចំហេះក្រៅ? ម៉ូទ័រចំហេះក្នុង? ចូរលើកឧទាហរណ៍ក្នុងករណីនីមួយៗ។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper at this sitting was physics (earth and environmental science replaced it from 2016).', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2030-2014-4200-8000-000000000000', 'bacc2030-2014-4200-8000-000000000002', 2, 7)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000002', 'ម៉ូទ័រចំហេះក្រៅ គឺម៉ូទ័រដែលចំហេះឥន្ធនៈកើតឡើងនៅខាងក្រៅកន្លែងដែលកម្តៅប្តូរទៅជាកម្មន្ត (ឧ. ម៉ាស៊ីនចំហាយទឹក ទួរប៊ីនចំហាយ); ម៉ូទ័រចំហេះក្នុង គឺម៉ូទ័រដែលចំហេះកើតឡើងក្នុងស៊ីឡាំង ហើយផ្តល់កម្តៅឲ្យស្ទង់ធ្វើកម្មន្តផ្ទាល់ (ឧ. ម៉ូទ័រសាំង ម៉ូទ័រម៉ាស៊ូត)', null, null, null, '[{"content":"ម៉ូទ័រចំហេះក្រៅ៖ ឥន្ធនៈឆេះក្នុងចង្ក្រាន ដើម្បីដាំទឹកឲ្យទៅជាចំហាយ ហើយចំហាយទៅរុញស្ទង់ ឬទួរប៊ីន។"},{"content":"ម៉ូទ័រចំហេះក្នុង៖ ល្បាយឥន្ធនៈ និងខ្យល់ ឆេះក្នុងស៊ីឡាំង ឧស្ម័នក្តៅរីករុញស្ទង់; ឧ. ម៉ូតូ រថយន្ត ម៉ាស៊ីនបូមទឹក។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000003', 'kh-grade12-social-physics-past-papers', null, 2014, 'open', 'ដូចម្តេចដែលហៅថា ចលនាស៊ីនុយសូអ៊ីត? តើអេឡុងកាស្យុងរបស់រលកពីរមានតម្លៃដូចម្តេច កាលណាចលនាលំយោលស៊ីនុយសូអ៊ីតពីរមានចលនាឈមផាស?', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper at this sitting was physics (earth and environmental science replaced it from 2016).', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2030-2014-4200-8000-000000000000', 'bacc2030-2014-4200-8000-000000000003', 3, 7)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000003', 'ចលនាស៊ីនុយសូអ៊ីត គឺចលនាលំយោលដែលអេឡុងកាស្យុងប្រែប្រួលតាមអនុគមន៍ស៊ីនុស (ឬកូស៊ីនុស) នៃពេល $x=X_m\sin(\omega t+\varphi)$។ កាលណាចលនាពីរមានចលនាឈមផាស អេឡុងកាស្យុងរបស់វាមានតម្លៃស្មើគ្នា (និងសញ្ញាដូចគ្នា) គ្រប់ពេល', null, null, null, '[{"content":"ឈមផាស (ផាសដូចគ្នា)៖ $\\varphi_1=\\varphi_2$ ដូចនេះ ពេលមួយឡើងដល់អតិបរមា មួយទៀតក៏ឡើងដល់អតិបរមា ហើយឆ្លងកាត់ទីតាំងលំនឹងព្រមគ្នា។"},{"content":"បើអំព្លីទុតស្មើគ្នា អេឡុងកាស្យុងស្មើគ្នារៀងរាល់ខណៈ។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000004', 'kh-grade12-social-physics-past-papers', null, 2014, 'open', 'បូប៊ីនសំប៉ែតមួយមានចំនួន $N=100$ ស្ពៀ មានកាំមធ្យម $R=0.1\,m$ ឆ្លងកាត់ដោយចរន្ត $I=10\,A$។ គណនាអាំងឌុចស្យុងម៉ាញេទិចត្រង់ផ្ចិត $O$ នៃបូប៊ីន។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper at this sitting was physics (earth and environmental science replaced it from 2016).', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2030-2014-4200-8000-000000000000', 'bacc2030-2014-4200-8000-000000000004', 4, 7)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000004', '$B=2\pi\times10^{-3}\,T\approx6.28\times10^{-3}\,T$', null, null, null, '[{"content":"អាំងឌុចស្យុងម៉ាញេទិចត្រង់ផ្ចិតបូប៊ីនសំប៉ែត៖ $B=\\mu_0\\dfrac{NI}{2R}$។"},{"content":"$B=4\\pi\\times10^{-7}\\times\\dfrac{100\\times10}{2\\times0.1}=2\\pi\\times10^{-3}\\approx6.28\\times10^{-3}\\,T$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000005', 'kh-grade12-social-physics-past-papers', null, 2014, 'open', 'ម៉ាស៊ីនកាកណូតមួយបានបំពេញកម្មន្ត $W=1500\,J$ ក្នុងស៊ិចនីមួយៗនៃដំណើរការ $t=0.25\,s$ នៅចន្លោះសីតុណ្ហភាព $T_h=850\,K$ និង $T_c=340\,K$។
+ក. គណនាទិន្នផលនៃម៉ាស៊ីន។
+ខ. គណនាតម្លៃមធ្យមនៃអានុភាពរបស់ម៉ាស៊ីន។
+គ. គណនាបរិមាណកម្តៅដែលផ្តល់ដោយធុងដែលមានសីតុណ្ហភាពខ្ពស់។
+ឃ. គណនាបរិមាណកម្តៅទទួលដោយធុងដែលមានសីតុណ្ហភាពទាប។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper at this sitting was physics (earth and environmental science replaced it from 2016).', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2030-2014-4200-8000-000000000000', 'bacc2030-2014-4200-8000-000000000005', 5, 12)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000005', 'ក. $e=60\%$  ខ. $P=6000\,W$  គ. $Q_h=2500\,J$  ឃ. $Q_c=1000\,J$', null, null, null, '[{"content":"ក. ទិន្នផលកាណូ៖ $e=1-\\dfrac{T_c}{T_h}=1-\\dfrac{340}{850}=0.6=60\\%$។"},{"content":"ខ. $P=\\dfrac Wt=\\dfrac{1500}{0.25}=6000\\,W$។"},{"content":"គ. $e=\\dfrac W{Q_h}$ ⇒ $Q_h=\\dfrac We=\\dfrac{1500}{0.6}=2500\\,J$។"},{"content":"ឃ. $Q_c=Q_h-W=2500-1500=1000\\,J$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
+on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
+  where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
+
+insert into public.questions (id, chapter_id, topic_id, year, type, content, choices, images, difficulty, language, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000006', 'kh-grade12-social-physics-past-papers', null, 2014, 'open', 'បូប៊ីនមួយមានប្រវែង $L=0.5\,m$ និងអង្កត់ផ្ចិត $D=4\,cm$ រុំដោយខ្សែចម្លងដែលមានអង្កត់ផ្ចិត $d=1\,mm$ ជាស្ពៀជាប់ៗគ្នា ហើយមានរេស៊ីស្ទីវីតេ $\rho=2.5\times10^{-7}\,\Omega m$។
+ក. ចូរគូសគំនូសតាងទិសដៅចរន្តអគ្គិសនីក្នុងស្ពៀ និងទិសដៅដែនម៉ាញេទិច $\vec B$។
+ខ. គណនារេស៊ីស្តង់នៃបូប៊ីន (មិនគិតកម្រាស់អ៊ីសូឡង់ដែលស្រោបខ្សែ)។', '[]'::jsonb, '[]'::jsonb, null, 'km', 'official-past-paper', 'BacII 2014, second sitting (2014-10-13), social science track physics, Ministry of Education, Youth and Sport. Typed by Meh Rean from one copy: compiled by ប៉ែន ពេជ្រវិចិត្រ, which says it copies the paper in full (github.com/HELMAB/bacii). Not yet checked against the Ministry''s original. Note: The social-science track''s science paper at this sitting was physics (earth and environmental science replaced it from 2016).', 'needs-review')
+on conflict (id) do update set chapter_id = excluded.chapter_id, content = excluded.content, images = excluded.images, language = excluded.language, source = excluded.source;
+insert into public.exam_paper_questions (paper_id, question_id, position, points)
+values ('bacc2030-2014-4200-8000-000000000000', 'bacc2030-2014-4200-8000-000000000006', 6, 12)
+on conflict (paper_id, question_id) do update set position = excluded.position, points = excluded.points;
+
+insert into public.question_solutions (question_id, answer, correct_choice, numeric_answer, numeric_tolerance, steps, origin, source, verification)
+values ('bacc2030-2014-4200-8000-000000000006', 'ក. ទិសដែនតាមវិធានដៃស្តាំ៖ ម្រាមដៃកោងតាមទិសចរន្តក្នុងស្ពៀ មេដៃចង្អុលទិស $\vec B$ តាមអ័ក្សបូប៊ីន  ខ. $R=20\,\Omega$', null, null, null, '[{"content":"ក. ក្នុងបូប៊ីន ខ្សែដែនស្របនឹងអ័ក្ស; ចុងដែលខ្សែដែនចេញ ជាប៉ូលជើង។"},{"content":"ខ. ចំនួនស្ពៀ $N=\\dfrac Ld$; ប្រវែងខ្សែ $\\ell''=N\\pi D=\\dfrac{\\pi DL}{d}$; មុខកាត់ខ្សែ $A''=\\dfrac{\\pi d^2}{4}$។"},{"content":"$R=\\rho\\dfrac{\\ell''}{A''}=\\rho\\dfrac{4DL}{d^3}=2.5\\times10^{-7}\\times\\dfrac{4\\times0.04\\times0.5}{\\left(10^{-3}\\right)^3}=20\\,\\Omega$។"}]'::jsonb, 'ai-generated', 'Answer key written by AI (Claude) for Meh Rean from the typed question; not checked by a teacher.', 'needs-review')
 on conflict (question_id) do update set answer = excluded.answer, steps = excluded.steps, source = excluded.source
   where public.question_solutions.origin = 'ai-generated' and public.question_solutions.verification <> 'verified';
 commit;

@@ -620,6 +620,20 @@ timing only in database functions, never in the browser.
   question has an AI answer key: 655 of 655, all ai-generated and
   needs-review. Tests: `test:past-papers` 11/11; every earth-science key
   checked on a 375px phone.
+- **2026-10-21 — The social track's science paper before 2016: physics
+  (2014) and biology (2015).** Two real papers in the source copies had
+  never been added: social-track physics (13 October 2014) and biology
+  (24 August 2015), each 60 minutes and 50 points, which earth and
+  environmental science replaced from 2016. They are added as two social
+  subjects (one past-papers chapter each, like the other added subjects),
+  typed as printed, with their page images, the copies' keys and AI answer
+  keys (physics numbers checked: 2π×10⁻³ T, 60 %, 6000 W, 2500 J, 1000 J,
+  20 Ω). The timing data records that the elective slot was these
+  subjects earlier (`earlierAs`), so the timer and the length check map
+  them to it. 18 subjects, 146 papers, 667 questions, all with an AI key.
+  Tests: `test:past-papers` 11/11, `test:curriculum` 11/11,
+  `test:exam-timer` 6/6; lint; build; setup parts 01–06 load locally;
+  both papers checked on a 375px phone in both versions.
 
 ## Blockers and things that need a person
 

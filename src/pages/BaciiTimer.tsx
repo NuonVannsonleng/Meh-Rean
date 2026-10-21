@@ -13,7 +13,7 @@ const copy = t.bacii.timer;
 const TIMER_KEY = "meh-rean:exam-timer";
 const HISTORY_KEY = "meh-rean:exam-timer-history";
 
-type Subject = { id: string; nameEn: string; nameKm: string; minutes: number; points: number; elective?: boolean };
+type Subject = { id: string; nameEn: string; nameKm: string; minutes: number; points: number; elective?: boolean; earlierAs?: string[] };
 type Track = { id: string; nameEn: string; nameKm: string; subjects: Subject[] };
 type HistoryItem = { subjectKey: string; usedMs: number; at: number; score?: number; points?: number; label?: string };
 const tracks = examTimings.tracks as Track[];
@@ -63,7 +63,9 @@ function paperPoints(paper: ExamPaperDetail): number | undefined {
   const [, trackId, subjectKey] = /^kh-grade12-(science|social)-(.+)$/.exec(paper.subjectId) ?? [];
   // English and French papers share the foreign-language paper's length and points.
   const timingId = subjectKey === "english" || subjectKey === "french" ? "foreign-language" : subjectKey;
-  return subjectOf(`${trackId}:${timingId}`).subject?.points;
+  // A paper of an earlier subject in the same slot (social physics, biology) takes that slot's points.
+  const track = tracks.find((item) => item.id === trackId);
+  return track?.subjects.find((item) => item.id === timingId || item.earlierAs?.includes(timingId))?.points;
 }
 
 /** A short beep, made in the browser (no sound files to download). */

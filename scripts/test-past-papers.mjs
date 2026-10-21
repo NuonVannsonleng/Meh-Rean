@@ -57,7 +57,7 @@ await check("each paper keeps its printed length, which matches the BacII paper 
   for (const { seed } of seeds) {
     const [, trackId, subjectKey] = /^kh-grade12-(science|social)-(.+)$/.exec(seed.subjectId);
     const subjectId = subjectKey === "english" || subjectKey === "french" ? "foreign-language" : subjectKey;
-    const timing = timings.tracks.find((track) => track.id === trackId).subjects.find((subject) => subject.id === subjectId);
+    const timing = timings.tracks.find((track) => track.id === trackId).subjects.find((subject) => subject.id === subjectId || subject.earlierAs?.includes(subjectId));
     for (const paper of seed.papers) {
       assert(paper.minutes === timing.minutes, `${seed.subjectId} ${paper.year}: ${paper.minutes} minutes, the timer says ${timing.minutes}`);
       assert(paper.points === timing.points, `${seed.subjectId} ${paper.year}: ${paper.points} points, the timer says ${timing.points}`);

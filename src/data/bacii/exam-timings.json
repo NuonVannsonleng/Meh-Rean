@@ -33,7 +33,7 @@
         { "id": "history", "nameEn": "History", "nameKm": "ប្រវត្តិវិទ្យា", "minutes": 90, "points": 75 },
         { "id": "geography", "nameEn": "Geography", "nameKm": "ភូមិវិទ្យា", "minutes": 90, "points": 75 },
         { "id": "morality-civics", "nameEn": "Morals and civics", "nameKm": "សីលធម៌-ពលរដ្ឋវិជ្ជា", "minutes": 90, "points": 75 },
-        { "id": "earth-science", "nameEn": "Earth and environmental science (elective)", "nameKm": "ផែនដី និងបរិស្ថានវិទ្យា (មុខវិជ្ជាជម្រើស)", "minutes": 60, "points": 50, "elective": true },
+        { "id": "earth-science", "nameEn": "Earth and environmental science (elective)", "nameKm": "ផែនដី និងបរិស្ថានវិទ្យា (មុខវិជ្ជាជម្រើស)", "minutes": 60, "points": 50, "elective": true, "earlierAs": ["physics", "biology"], "earlierNote": "Before 2016 this paper was physics (2014, second sitting) or biology (2015), with the same length and points, as the past papers print." },
         { "id": "foreign-language", "nameEn": "Foreign language (English or French)", "nameKm": "ភាសាបរទេស (អង់គ្លេស ឬបារាំង)", "minutes": 60, "points": 50 }
       ]
     }
