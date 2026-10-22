@@ -1714,7 +1714,6 @@ export const en = {
     next: {
       title: "Study next",
       titleKm: "រៀនអ្វីបន្ទាប់",
-      intro: "Picked for you from your own answers, reviews and the order topics build on each other.",
       note: "Suggestions from Meh Rean's rules applied to your own answers — not a teacher's advice. Open a topic for more.",
       signIn: "Sign in to get suggestions from your own answers.",
       empty: "Nothing to suggest right now. Practise a few questions and come back.",
@@ -1723,6 +1722,8 @@ export const en = {
       snoozedNote: (count: number) => (count === 1 ? "1 suggestion set aside on this device for 3 days." : `${count} suggestions set aside on this device for 3 days.`),
       showAll: "Show them again",
       openTopic: "About this topic",
+      chapter: (number: number, name: string) => `Chapter ${number} · ${name}`,
+      short: { review: "Review", practise: "Practise", video: "Watch", note: "Read" },
       actions: {
         review: (due: number) => (due === 1 ? "Review 1 mistake" : `Review ${due} mistakes`),
         practise: (questions: number) => (questions === 1 ? "Practise (1 question)" : `Practise (${questions} questions)`),

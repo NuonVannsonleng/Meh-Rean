@@ -634,6 +634,17 @@ timing only in database functions, never in the browser.
   Tests: `test:past-papers` 11/11, `test:curriculum` 11/11,
   `test:exam-timer` 6/6; lint; build; setup parts 01–06 load locally;
   both papers checked on a 375px phone in both versions.
+- **2026-10-22 — Study next, simpler** (owner report: confusing). The
+  card moved below the BacII tools, so they stay one tap away. It now
+  shows the top 3 suggestions as one compact list instead of a stack of
+  boxes. Each row has the topic name with its chapter ("Chapter 4 · …",
+  because a topic name such as "Properties" means little alone), one
+  reason (not repeated when the row above has the same one), one short
+  button (Practise, Review, Watch, Read) and a small × for "Not now". The
+  intro line is gone; "Practise these" still covers the whole list.
+  Tests: the Study next browser test 8/8 browser-only and online (tools
+  first, at most 3, only the top reason, review first when due, Not now,
+  English reasons, 320px); `test:recommend` 15/15; lint; build.
 
 ## Blockers and things that need a person
 

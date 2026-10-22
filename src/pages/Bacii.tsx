@@ -138,12 +138,6 @@ export default function Bacii() {
         </span>
       </Link>
 
-      {user ? (
-        <StudyNext userId={user.id} />
-      ) : (
-        <p className="text-ink-500 mb-4 text-sm">{t.learning.next.signIn}</p>
-      )}
-
       <nav aria-label={t.bacii.optionsLabel}>
         <ul className="grid grid-cols-2 gap-3 sm:gap-4">
           {OPTIONS.map(({ to, title, titleKm, description, Icon }) => (
@@ -168,6 +162,9 @@ export default function Bacii() {
           ))}
         </ul>
       </nav>
+
+      {/* Suggestions come after the tools, so the tools stay one tap away. */}
+      {user ? <StudyNext userId={user.id} /> : <p className="text-ink-500 mt-6 text-sm">{t.learning.next.signIn}</p>}
 
       {user?.isAdmin && (
         <Link

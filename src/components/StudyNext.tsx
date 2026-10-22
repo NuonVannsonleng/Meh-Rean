@@ -4,10 +4,11 @@ import { t } from "../i18n/en";
 import { reasonSignature, type RecommendationAction, type RecommendationWithAction } from "../lib/recommend";
 import { reasonText } from "../lib/recommendText";
 import { getRecommendations, RECOMMENDATION_RULES, type StudyNext as StudyNextData } from "../services/recommendations";
-import { BulbIcon, ExternalLinkIcon, FileTextIcon, VideoIcon } from "./Icons";
+import { BulbIcon, CloseIcon, ExternalLinkIcon } from "./Icons";
 import LoadingState from "./LoadingState";
 
 const copy = t.learning.next;
+const HUB_LIMIT = 3;
 type Snooze = { topicId: string; signature: string; until: string };
 
 // "Not now" is a convenience on this device only; nothing depends on it.
@@ -68,94 +69,83 @@ export default function StudyNext({ userId }: { userId: string }) {
   const language = data?.language ?? "km";
   // Hidden at once; the reload that follows fills the place.
   const visible = (data?.items ?? []).filter((item) => !snoozed.some((s) => s.topicId === item.topicId && s.signature === reasonSignature(item)));
+  // The top few keep the hub short; "Practise these" covers the whole list.
+  const shown = visible.slice(0, HUB_LIMIT);
   const nameOf = (id: string) => {
     const found = data?.topics.get(id);
     return found ? (language === "km" ? found.topic.nameKm : found.topic.nameEn) : id;
   };
 
   return (
-    <section className="card mb-4 p-4 sm:p-5" aria-labelledby="study-next">
-      <div className="mb-1 flex items-center gap-2">
+    <section className="card mt-6 p-4 sm:p-5" aria-labelledby="study-next">
+      <h2 id="study-next" className="font-display text-ink-900 mb-3 flex items-center gap-2 text-lg font-bold">
         <BulbIcon className="text-accent h-5 w-5 shrink-0" />
-        <h2 id="study-next" className="font-display text-ink-900 text-lg font-bold">
-          {copy.title} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${copy.titleKm}`}</span>
-        </h2>
-      </div>
-      <p className="text-ink-500 mb-3 text-xs">{copy.intro}</p>
+        {copy.title} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${copy.titleKm}`}</span>
+      </h2>
       {!data ? (
         <LoadingState count={2} variant="block" />
       ) : visible.length === 0 ? (
         <p className="text-ink-700 text-sm">{copy.empty}</p>
       ) : (
-        <ol className="space-y-3">
-          {visible.map((item) => {
+        <ol className="divide-line divide-y">
+          {shown.map((item, index) => {
             const found = data.topics.get(item.topicId);
             if (!found) return null;
             const { topic, chapter } = found;
             const practiceHref = `/bacii/practice?subject=${encodeURIComponent(chapter.subjectId)}&chapter=${encodeURIComponent(chapter.id)}&topic=${encodeURIComponent(topic.id)}`;
             const main = actionLink(item.action, practiceHref);
+            const label = copy.short[item.action.type];
+            // One reason is enough here (the topic page has the rest), and not the same one twice in a row.
+            const reason = item.reasons[0];
+            const previous = shown[index - 1]?.reasons[0];
+            const sameAsAbove = reason && previous && reasonText(reason, language, nameOf) === reasonText(previous, language, nameOf);
             return (
-              <li key={item.topicId} className="border-line rounded-lg border p-3" data-kind={item.kind}>
-                <div className="flex items-start gap-2">
-                  <div className="min-w-0 flex-1">
-                    <Link to={`/learning/topics/${encodeURIComponent(topic.id)}`} className="text-ink-900 block font-medium hover:underline" lang="km">
-                      {topic.nameKm}
-                    </Link>
-                    <p className="text-ink-500 text-xs">{`${chapter.number}. ${topic.nameEn}`}</p>
-                  </div>
-                  <button type="button" onClick={() => notNow(item)} aria-label={copy.notNowLabel(topic.nameEn)} className="btn-ghost h-8 shrink-0 px-2 text-xs">
-                    {copy.notNow}
-                  </button>
-                </div>
-                <ul className="text-ink-700 mt-1.5 space-y-0.5 text-sm" lang={language}>
-                  {item.reasons.map((reason, index) => (
-                    <li key={index}>{reasonText(reason, language, nameOf)}</li>
-                  ))}
-                </ul>
-                <div className="mt-2 flex flex-wrap items-center gap-2">
-                  {main.external ? (
-                    <a href={main.href} target="_blank" rel="noreferrer" className="btn-primary h-9 px-3 text-sm">
-                      {main.label}
-                      <ExternalLinkIcon className="ml-1 h-3.5 w-3.5" />
-                    </a>
-                  ) : (
-                    <Link to={main.href} className="btn-primary h-9 px-3 text-sm">
-                      {main.label}
-                    </Link>
-                  )}
-                  {item.also.map((extra) =>
-                    extra.type === "video" ? (
-                      <a key="video" href={`https://www.youtube.com/watch?v=${encodeURIComponent(extra.id)}`} target="_blank" rel="noreferrer" className="text-accent inline-flex items-center gap-1 text-sm font-medium hover:underline">
-                        <VideoIcon className="h-4 w-4" />
-                        {copy.actions.video}
-                      </a>
-                    ) : extra.type === "note" ? (
-                      <Link key="note" to={`/post/${encodeURIComponent(extra.id)}`} className="text-accent inline-flex items-center gap-1 text-sm font-medium hover:underline">
-                        <FileTextIcon className="h-4 w-4" />
-                        {copy.actions.note}
-                      </Link>
-                    ) : null,
+              <li key={item.topicId} className="flex items-center gap-3 py-2.5 first:pt-0 last:pb-0" data-kind={item.kind}>
+                <div className="min-w-0 flex-1">
+                  <Link to={`/learning/topics/${encodeURIComponent(topic.id)}`} className="text-ink-900 block truncate font-medium hover:underline" lang="km" title={topic.nameEn}>
+                    {topic.nameKm}
+                  </Link>
+                  {/* The topic alone ("Properties") needs its chapter to make sense. */}
+                  <p className="text-ink-500 truncate text-xs" lang="km">
+                    {copy.chapter(chapter.number, chapter.nameKm)}
+                  </p>
+                  {reason && !sameAsAbove && (
+                    <p className="text-ink-700 mt-0.5 text-xs" lang={language}>
+                      {reasonText(reason, language, nameOf)}
+                    </p>
                   )}
                 </div>
+                {main.external ? (
+                  <a href={main.href} target="_blank" rel="noreferrer" className="btn-primary h-9 shrink-0 px-3 text-sm" aria-label={main.label}>
+                    {label}
+                    <ExternalLinkIcon className="ml-1 h-3.5 w-3.5" />
+                  </a>
+                ) : (
+                  <Link to={main.href} className="btn-primary h-9 shrink-0 px-3 text-sm" aria-label={main.label}>
+                    {label}
+                  </Link>
+                )}
+                <button type="button" onClick={() => notNow(item)} aria-label={copy.notNowLabel(topic.nameEn)} title={copy.notNow} className="text-ink-500 hover:text-ink-900 hover:bg-surface-hover flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
+                  <CloseIcon className="h-4 w-4" />
+                </button>
               </li>
             );
           })}
         </ol>
       )}
-      {snoozed.length > 0 && (
-        <p className="text-ink-500 mt-3 text-xs">
-          {copy.snoozedNote(snoozed.length)}{" "}
-          <button type="button" onClick={showAll} className="text-accent font-semibold hover:underline">
-            {copy.showAll}
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+        {visible.length > 1 && (
+          <Link to="/learning/practice?mode=recommended" className="text-accent font-semibold hover:underline">
+            {t.learning.practice.fromStudyNext}
+          </Link>
+        )}
+        {snoozed.length > 0 && (
+          <button type="button" onClick={showAll} className="text-ink-500 hover:text-ink-900 text-xs">
+            {copy.snoozedNote(snoozed.length)} {copy.showAll}
           </button>
-        </p>
-      )}
-      {visible.length > 0 && (
-        <Link to="/learning/practice?mode=recommended" className="btn-secondary mt-3 h-9 px-3 text-sm">
-          {t.learning.practice.fromStudyNext}
-        </Link>
-      )}
-      <p className="text-ink-500 mt-3 text-xs">{copy.note}</p>
+        )}
+      </div>
+      <p className="text-ink-500 mt-2 text-xs">{copy.note}</p>
     </section>
   );
 }
