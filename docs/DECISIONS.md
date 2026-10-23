@@ -273,3 +273,15 @@ they are reviewed with the code, cannot be replaced by any user, need no
 upload step, and reach the live site with each deploy. The database accepts
 only `past-papers/<name>.(png|jpg|webp)` for these, and the app builds the
 same-origin address itself, so no outside URL can be stored.
+
+## 2026-10-23 — No email confirmation at sign-up
+
+The owner found the confirmation email annoying for new students, so
+**Confirm email** is switched off in the live Supabase project: sign-up
+returns a session and the student is signed in at once. The trade-off: an
+address is not proven to belong to the person, so a typo or someone else's
+address can be used, and password-reset emails only reach a real address.
+Usernames, row level security and admin checks do not depend on a confirmed
+email. The app supports both settings (`signUp` in `supabaseApi.ts` asks for
+confirmation only when no session comes back), so this can be reversed in
+the dashboard at any time.

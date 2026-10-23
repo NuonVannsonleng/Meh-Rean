@@ -115,6 +115,10 @@ good for real use, but slow while testing.
 - **Turn it off while testing:** **Authentication → Sign In / Providers →
   Email**, and switch off **Confirm email**.
 
+Meh Rean's live project has **Confirm email** off (the owner's choice,
+2026-10-23): a new account is signed in straight away. The app handles both
+settings, so switching it back on needs no code change.
+
 Supabase's built-in email sending is rate limited (a few messages per hour) and
 is only meant for testing. For a real launch, connect your own SMTP provider
 under **Authentication → Emails → SMTP Settings** (Resend, Brevo and Mailgun all
