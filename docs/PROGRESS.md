@@ -680,7 +680,7 @@ timing only in database functions, never in the browser.
   3D pictures looked like stickers; use real photos). The BacII banner and
   every tool card, the Home welcome card, its three points, the greeting
   card and Continue learning now use photos: an exam hall, an answer sheet,
-  an open book, an alarm clock, a class with hands up, a phone on a
+  an open book, an alarm clock, a gold trophy (live quiz), a phone on a
   notebook, a planner, a laptop. Google and Pinterest images belong to
   their owners, and Unsplash blocks automated download, so the photos come
   from CC0 libraries found through the Openverse API (rawpixel, StockSnap)
