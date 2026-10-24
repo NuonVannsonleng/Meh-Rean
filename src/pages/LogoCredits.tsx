@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import InstitutionLogo from "../components/InstitutionLogo";
 import { SearchIcon } from "../components/Icons";
+import photoCredits from "../data/photo-credits.json";
 import { t } from "../i18n/en";
 import { loadInstitutions, normalizeText } from "../lib/institutions";
 import { loadLogoCredits, type LogoCredit } from "../lib/logos";
@@ -69,15 +70,21 @@ export default function LogoCredits() {
         </li>
       </ul>
 
-      <h2 className="text-ink-900 mt-6 text-lg font-semibold">{t.credits.picturesHeading}</h2>
-      <p className="text-ink-700 mt-2 text-sm">
-        {t.credits.picturesBefore}
-        {/* MIT asks for the copyright notice; the full text ships beside the files. */}
-        <a href="https://github.com/microsoft/fluentui-emoji" target="_blank" rel="noopener noreferrer" className="link font-medium">
-          {t.credits.picturesLink}
-        </a>
-        {t.credits.picturesAfter}
-      </p>
+      <h2 className="text-ink-900 mt-6 text-lg font-semibold">{t.credits.photosHeading}</h2>
+      <p className="text-ink-700 mt-2 text-sm">{t.credits.photosIntro}</p>
+      <ul className="text-ink-700 mt-2 list-disc space-y-1 pl-5 text-sm">
+        {photoCredits.photos.map((photo) => (
+          <li key={photo.photo}>
+            <a href={photo.page} target="_blank" rel="noopener noreferrer" className="link font-medium">
+              {photo.title}
+            </a>
+            {photo.creator ? ` ${t.credits.by(photo.creator)}` : ""} · {photo.source} ·{" "}
+            <a href={photo.licenseUrl} target="_blank" rel="noopener noreferrer" className="link">
+              {photo.license}
+            </a>
+          </li>
+        ))}
+      </ul>
 
       <h2 className="text-ink-900 mt-8 text-lg font-semibold">{t.credits.logosHeading}</h2>
       <p className="text-ink-700 mt-2">{t.credits.intro}</p>

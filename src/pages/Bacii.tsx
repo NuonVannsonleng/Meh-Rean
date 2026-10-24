@@ -1,6 +1,7 @@
 import { useEffect, useState, type ComponentType } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeftIcon, BulbIcon, CalendarIcon, CameraIcon, FileTextIcon, PenIcon, StarIcon, TableIcon, VideoIcon } from "../components/Icons";
+import Photo from "../components/Photo";
 import StudyNext from "../components/StudyNext";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
@@ -13,7 +14,7 @@ interface BaciiOption {
   titleKm: string;
   description: string;
   Icon: ComponentType<{ className?: string }>;
-  /** A 3D picture from public/illustrations (Microsoft Fluent Emoji, MIT). */
+  /** A photo in public/photos. */
   image: string;
 }
 
@@ -107,8 +108,13 @@ export default function Bacii() {
   return (
     <div className="container-page max-w-4xl py-6 sm:py-10">
       {/* The banner: what this section is, with the learning links one tap away. */}
-      <header className="card relative mb-4 overflow-hidden p-5 sm:p-7">
-        <div className="relative z-10 max-w-[36rem] pr-20 sm:pr-48">
+      <header className="card relative mb-4 overflow-hidden">
+        {/* On a phone the photo sits on top; wider, it fills the right half and fades into the card. */}
+        <div className="relative h-36 sm:absolute sm:inset-y-0 sm:right-0 sm:h-auto sm:w-1/2">
+          <Photo name="banner" widths={[480, 960]} sizes="(min-width: 640px) 450px, 100vw" eager className="h-full w-full" />
+          <div className="from-surface absolute inset-0 hidden bg-linear-to-r to-transparent to-70% sm:block" />
+        </div>
+        <div className="relative z-10 p-5 sm:max-w-[58%] sm:p-7">
           <p className="text-accent text-xs font-semibold tracking-wide uppercase">{t.bacii.grade}</p>
           <h1 className="text-ink-900 mt-1 text-3xl sm:text-4xl">
             {t.bacii.title} <span className="text-ink-500 font-normal">· {t.bacii.titleKm}</span>
@@ -130,8 +136,6 @@ export default function Bacii() {
             )}
           </div>
         </div>
-        <img src="/illustrations/banner.webp" alt="" width={224} height={285} className="pointer-events-none absolute right-8 bottom-3 hidden h-44 w-auto sm:block" />
-        <img src="/illustrations/banner.webp" alt="" width={224} height={285} className="pointer-events-none absolute top-4 right-4 h-20 w-auto sm:hidden" />
       </header>
 
       <Link to="/bacii/today" className="card press group hover:border-brand-500 mb-6 flex items-center gap-3 p-3 transition-colors sm:gap-4 sm:p-4">
@@ -156,10 +160,11 @@ export default function Bacii() {
         <ul className="grid grid-cols-2 gap-3 sm:gap-4">
           {OPTIONS.map(({ to, title, titleKm, description, Icon, image }) => (
             <li key={to}>
-              <Link to={to} className="card press group hover:border-brand-500 relative flex h-full flex-col gap-2 overflow-hidden p-4 transition-colors sm:min-h-44 sm:flex-row sm:gap-4 sm:p-5">
-                {/* On a phone the picture leads the card; on wider screens it sits on the right. */}
-                <img src={`/illustrations/${image}.webp`} alt="" width={192} height={192} loading="lazy" decoding="async" className="h-16 w-16 shrink-0 object-contain sm:order-2 sm:h-24 sm:w-24" />
-                <span className="flex min-w-0 flex-1 flex-col gap-2 sm:order-1 sm:pb-8">
+              <Link to={to} className="card press group hover:border-brand-500 relative flex h-full flex-col overflow-hidden transition-colors">
+                <span className="block overflow-hidden">
+                  <Photo name={image} sizes="(min-width: 896px) 430px, 50vw" className="aspect-video w-full transition-transform sm:aspect-[2/1] duration-300 group-hover:scale-105" />
+                </span>
+                <span className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-5 sm:pr-14">
                   <span className="flex items-center gap-3">
                     <span className="bg-brand-50 text-accent hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:flex">
                       <Icon className="h-5 w-5" />

@@ -7,6 +7,7 @@ import { BookmarkIcon, ChatIcon, CloseIcon, PlusIcon, SearchIcon } from "../comp
 import LoadingState from "../components/LoadingState";
 import { LogoMark } from "../components/Logo";
 import NoteRow from "../components/NoteRow";
+import Photo from "../components/Photo";
 import TrendingSidebar from "../components/TrendingSidebar";
 import { useAuth } from "../context/AuthContext";
 import { useChat } from "../context/ChatContext";
@@ -50,7 +51,7 @@ function Welcome() {
   ];
 
   return (
-    <section className="card ruled-paper relative mb-6 overflow-hidden p-5 sm:p-6">
+    <section className="card ruled-paper relative mb-6 overflow-hidden p-5 sm:p-6 md:pr-64">
       {/* Written on the rules: the avatar spans two, each line of text sits on one. */}
       <div className="flex items-start gap-4 pr-10">
         <div className="flex h-16 shrink-0 items-center">
@@ -75,7 +76,7 @@ function Welcome() {
           </Link>
         ))}
       </div>
-      <img src="/illustrations/banner.webp" alt="" width={224} height={285} className="pointer-events-none absolute right-8 bottom-4 hidden h-40 w-auto md:block" />
+      <Photo name="learning" sizes="224px" eager className="absolute top-5 right-5 bottom-5 hidden w-56 rounded-xl md:block" />
     </section>
   );
 }
@@ -101,7 +102,7 @@ function ContinueLearning() {
   const strong = mastery.filter((item) => item.label === "strong" || item.label === "consistently-strong").length;
   return (
     <Link to="/learning" className="card press hover:border-brand-500 mb-6 flex items-center gap-4 p-4 transition-colors" data-testid="continue-learning">
-      <img src="/illustrations/learning.webp" alt="" width={128} height={128} className="h-12 w-12 shrink-0 object-contain" />
+      <Photo name="practice" sizes="48px" className="h-12 w-12 shrink-0 rounded-xl" />
       <span className="min-w-0 flex-1">
         <span className="font-display text-ink-900 block font-bold">
           {t.home.continueTitle} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${t.learning.home.titleKm}`}</span>
@@ -122,7 +123,7 @@ function Intro() {
   ];
   return (
     <section className="card ruled-paper relative mb-8 overflow-hidden px-5 py-8 sm:px-10 sm:py-12">
-      <img src="/illustrations/banner.webp" alt="" width={224} height={285} className="pointer-events-none absolute top-12 right-16 hidden h-64 w-auto lg:block" />
+      <Photo name="learning" sizes="384px" eager className="absolute top-12 right-10 hidden h-72 w-96 rounded-2xl shadow-sm lg:block" />
       <div className="max-w-2xl pr-8">
         <div className="flex h-16 items-center">
           <LogoMark animated className="h-14 w-14" />
@@ -140,10 +141,12 @@ function Intro() {
       </div>
       <ul className="mt-8 grid gap-3 sm:grid-cols-3">
         {points.map(({ image, title, body }) => (
-          <li key={title} className="bg-surface/80 border-line rounded-xl border p-4 backdrop-blur-sm">
-            <img src={`/illustrations/${image}.webp`} alt="" width={128} height={128} loading="lazy" decoding="async" className="mb-2 h-12 w-12 object-contain" />
-            <p className="text-ink-900 text-sm font-semibold">{title}</p>
-            <p className="text-ink-500 mt-0.5 text-sm">{body}</p>
+          <li key={title} className="bg-surface border-line overflow-hidden rounded-xl border">
+            <Photo name={image} sizes="(min-width: 640px) 360px, 100vw" className="aspect-video w-full" />
+            <div className="p-4">
+              <p className="text-ink-900 text-sm font-semibold">{title}</p>
+              <p className="text-ink-500 mt-0.5 text-sm">{body}</p>
+            </div>
           </li>
         ))}
       </ul>

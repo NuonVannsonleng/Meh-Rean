@@ -676,6 +676,22 @@ timing only in database functions, never in the browser.
   lazily below the fold. The SVG drawings (`BaciiArt.tsx`) are removed.
   Checked on desktop and a 375px phone, light and dark, signed in and out.
   Tests: Study next 8/8, past papers UI 10/10; lint; build.
+- **2026-10-24 — Real photos instead of 3D stickers** (owner request: the
+  3D pictures looked like stickers; use real photos). The BacII banner and
+  every tool card, the Home welcome card, its three points, the greeting
+  card and Continue learning now use photos: an exam hall, an answer sheet,
+  an open book, an alarm clock, a class with hands up, a phone on a
+  notebook, a planner, a laptop. Google and Pinterest images belong to
+  their owners, and Unsplash blocks automated download, so the photos come
+  from CC0 libraries found through the Openverse API (rawpixel, StockSnap)
+  and one CC BY-SA 4.0 photo from Wikimedia Commons; every photo is listed
+  with author, source and licence on the Credits page
+  (`src/data/photo-credits.json`). WebP at 360/640 px (banner 480/960) with
+  `srcset`, so a phone fetches about 90 KB for the BacII page. Cards show
+  the photo across the top; the banner photo fades into the card on wider
+  screens. Fluent Emoji pictures removed. Checked on desktop and a 375px
+  phone, light and dark, signed in and out. Tests: Study next 8/8, past
+  papers UI 10/10; lint; build.
 
 ## Blockers and things that need a person
 
