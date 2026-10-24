@@ -1142,6 +1142,8 @@ export const en = {
     daily: {
       title: "Today's question",
       titleKm: "សំណួរប្រចាំថ្ងៃ",
+      hubStart: "Start",
+      hubOpen: "Open",
       streakDays: (count: number) => (count === 1 ? "1 day in a row" : `${count} days in a row`),
       best: (count: number) => `Best: ${count === 1 ? "1 day" : `${count} days`}`,
       start: "Answer today's question to start a streak.",

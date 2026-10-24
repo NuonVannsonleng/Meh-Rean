@@ -96,14 +96,12 @@ function ProfileHeader({
 
   return (
     <section className="card overflow-hidden">
-      {/* The cover: the student's own banner, or the notebook look of the logo. */}
+      {/* The cover: the student's own banner, or a plain grey band. */}
       <div className="relative h-28 sm:h-40">
         {user.bannerUrl ? (
           <img src={user.bannerUrl} alt={t.profile.bannerAlt(user.displayName)} className="h-full w-full object-cover" />
         ) : (
-          <div aria-hidden="true" className="bg-brand-50 ruled-paper relative h-full w-full">
-            <span className="bg-logo-ribbon animate-ribbon absolute top-0 right-8 h-16 w-6 [clip-path:polygon(0_0,100%_0,100%_100%,50%_80%,0_100%)] sm:right-14 sm:h-24 sm:w-8" />
-          </div>
+          <div aria-hidden="true" className="bg-surface-hover h-full w-full" />
         )}
         {isOwn && (
           <>

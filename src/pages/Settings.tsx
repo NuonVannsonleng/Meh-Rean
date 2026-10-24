@@ -619,7 +619,7 @@ export default function Settings() {
       </header>
 
       <div className="grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10">
-        <nav aria-label={t.settings.sectionsLabel}>
+        <nav aria-label={t.settings.sectionsLabel} className="min-w-0">
           <ul className="-mx-4 flex gap-1 overflow-x-auto px-4 lg:sticky lg:top-20 lg:mx-0 lg:block lg:space-y-0.5 lg:px-0">
             {sections.map(({ id, label, Icon }) => (
               <li key={id}>

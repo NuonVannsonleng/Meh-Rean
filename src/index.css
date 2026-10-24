@@ -2,8 +2,11 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---- Design tokens (light) — drawn from the Meh Rean logo ----
-   green cover #5b7c42 · teal bookmark #428a9b · cream pages #faf3e4 · orange page rules */
+/* ---- Design tokens (light) ----
+   Neutral like other social apps: white surfaces, grey lines, near-black ink.
+   The logo's green is the one signature colour, kept for highlights only:
+   primary buttons, active items, links, icons and focus. No tinted
+   backgrounds: the "-50" shades below are neutral greys on purpose. */
 @theme {
   --font-sans:
     "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, -apple-system,
@@ -12,9 +15,10 @@
   --font-display: "Archivo", "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* Primary — book-cover green */
-  --color-brand-50: oklch(0.965 0.022 128);
-  --color-brand-100: oklch(0.93 0.04 128);
+  /* Signature green. brand-50 is a plain grey (selected and soft fills);
+     brand-100 is the faint green of the focus halo. */
+  --color-brand-50: #f2f2f3;
+  --color-brand-100: oklch(0.93 0.035 130);
   --color-brand-200: oklch(0.87 0.06 130);
   --color-brand-300: oklch(0.78 0.08 131);
   --color-brand-400: oklch(0.67 0.09 132);
@@ -23,15 +27,16 @@
   --color-brand-700: oklch(0.47 0.082 133);
   --color-brand-800: oklch(0.4 0.07 134);
 
-  /* Text/link accent on neutral or soft-green surfaces */
+  /* Text, link and icon accent on neutral surfaces */
   --color-accent: oklch(0.45 0.085 133);
 
-  /* Secondary — bookmark teal (saved state, highlights) */
-  --color-ribbon-50: oklch(0.96 0.02 215);
-  --color-ribbon-100: oklch(0.92 0.035 215);
-  --color-ribbon-500: oklch(0.586 0.075 215);
-  --color-ribbon-600: oklch(0.52 0.075 215);
-  --color-ribbon-fg: oklch(0.48 0.075 215);
+  /* Labels, badges and notices: neutral chips (once a teal second colour).
+     ribbon-500/600 mark the saved state in the signature green. */
+  --color-ribbon-50: #f2f2f3;
+  --color-ribbon-100: #e8e8ea;
+  --color-ribbon-500: oklch(0.59 0.092 132);
+  --color-ribbon-600: oklch(0.536 0.09 132);
+  --color-ribbon-fg: #3f3f46;
 
   /* Logo artwork */
   --color-logo-cover: #5b7c42;
@@ -41,16 +46,16 @@
   /* Orange page rules from the logo — decoration only */
   --color-rule: oklch(0.83 0.075 65);
 
-  /* Neutrals: white cards on warm notebook paper, with ink that leans
-     towards the logo's book green. surface-muted is the page itself. */
-  --color-ink-900: #22261f;
-  --color-ink-700: #434a3f;
-  --color-ink-500: #697063;
-  --color-ink-400: #959a8f;
+  /* Neutrals: white cards on an almost-white page, plain grey ink.
+     surface-muted is the page itself. */
+  --color-ink-900: #18181b;
+  --color-ink-700: #3f3f46;
+  --color-ink-500: #6b6b73;
+  --color-ink-400: #a1a1aa;
   --color-surface: #ffffff;
-  --color-surface-muted: #f7f5ef;
-  --color-surface-hover: #f0ede4;
-  --color-line: #e6e1d5;
+  --color-surface-muted: #fafafa;
+  --color-surface-hover: #f2f2f3;
+  --color-line: #e6e6e9;
 
   --color-danger-bg: oklch(0.965 0.025 30);
   --color-danger-fg: oklch(0.52 0.16 30);
@@ -75,11 +80,11 @@
   --duration-slow: 420ms;
 }
 
-/* ---- Dark tokens: evening study desk — deep green-charcoal, cream ink ---- */
+/* ---- Dark tokens: black page, dark grey cards, light grey ink; green highlights ---- */
 :root.dark {
   color-scheme: dark;
 
-  --color-brand-50: oklch(0.29 0.04 133);
+  --color-brand-50: #222225;
   --color-brand-100: oklch(0.34 0.05 133);
   --color-brand-200: oklch(0.41 0.065 133);
   --color-brand-300: oklch(0.52 0.08 133);
@@ -88,9 +93,11 @@
   --color-brand-800: oklch(0.44 0.08 133);
   --color-accent: oklch(0.8 0.1 130);
 
-  --color-ribbon-50: oklch(0.29 0.035 215);
-  --color-ribbon-100: oklch(0.34 0.045 215);
-  --color-ribbon-fg: oklch(0.78 0.075 212);
+  --color-ribbon-50: #222225;
+  --color-ribbon-100: #2c2c30;
+  --color-ribbon-500: oklch(0.64 0.1 132);
+  --color-ribbon-600: oklch(0.58 0.1 132);
+  --color-ribbon-fg: #d4d4d8;
   --color-verified: oklch(0.7 0.12 230);
 
   --color-rule: oklch(0.55 0.07 65);
@@ -99,15 +106,14 @@
   --color-logo-page: oklch(0.94 0.022 85);
   --color-logo-ribbon: oklch(0.68 0.08 212);
 
-  /* Evening study desk: deep green-charcoal, cream ink. */
-  --color-ink-900: #eef0ea;
-  --color-ink-700: #cfd4ca;
-  --color-ink-500: #9ba393;
-  --color-ink-400: #747b6d;
-  --color-surface: #1a2019;
-  --color-surface-muted: #121712;
-  --color-surface-hover: #242c23;
-  --color-line: #303a2e;
+  --color-ink-900: #f4f4f5;
+  --color-ink-700: #d4d4d8;
+  --color-ink-500: #a1a1aa;
+  --color-ink-400: #71717a;
+  --color-surface: #141416;
+  --color-surface-muted: #0a0a0b;
+  --color-surface-hover: #1f1f22;
+  --color-line: #2a2a2e;
 
   --color-danger-bg: oklch(0.3 0.06 30);
   --color-danger-fg: oklch(0.78 0.12 30);
@@ -242,7 +248,6 @@
   }
 }
 
-/* A white card sitting on the paper. */
 /* One row that scrolls sideways, fading at its right edge. */
 @utility chip-row {
   @apply -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0;
@@ -255,7 +260,7 @@
 }
 
 @utility card {
-  @apply border-line bg-surface rounded-xl border shadow-[0_1px_2px_rgb(34_38_31/0.04)];
+  @apply border-line bg-surface rounded-xl border shadow-[0_1px_2px_rgb(0_0_0/0.04)];
 }
 
 /* The tinted title strip at the top of a card. */
@@ -273,6 +278,11 @@
 
 @utility btn-secondary {
   @apply btn border-line bg-surface text-ink-900 hover:bg-surface-hover border;
+}
+
+/* Outline link pill, as for quick links under a page title. */
+@utility pill {
+  @apply press border-line text-ink-900 hover:border-brand-500 hover:text-accent inline-flex h-9 items-center rounded-full border px-4 text-sm font-semibold;
 }
 
 /* Small count pill, as next to a tab or a Star button. */
@@ -339,20 +349,10 @@
   animation: ribbon-drop 560ms var(--ease-spring) both;
 }
 
-/*
- * Lined notebook paper, echoing the page rules in the logo. The rules are
- * counted from the top of the content (not the card's edge), so text set with
- * on-rule below sits on them the way writing does in a notebook.
- */
+/* Spacing for the welcome cards: on-rule below sets text on a steady 2rem rhythm. */
 @utility ruled-paper {
+  /* The rules are gone in the neutral look; the gap still spaces on-rule text. */
   --rule-gap: 2rem;
-  background-image: linear-gradient(
-    to bottom,
-    transparent calc(100% - 1px),
-    color-mix(in oklch, var(--color-rule) 40%, transparent) calc(100% - 1px)
-  );
-  background-size: 100% var(--rule-gap);
-  background-origin: content-box;
 }
 
 /*

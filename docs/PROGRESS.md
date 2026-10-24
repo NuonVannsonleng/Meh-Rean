@@ -645,6 +645,18 @@ timing only in database functions, never in the browser.
   Tests: the Study next browser test 8/8 browser-only and online (tools
   first, at most 3, only the top reason, review first when due, Not now,
   English reasons, 320px); `test:recommend` 15/15; lint; build.
+- **2026-10-24 — Neutral look and a new BacII page** (owner request, with a
+  mockup). Colours: white pages and cards, grey lines and plain grey ink
+  (black and dark grey in dark mode); the logo green only highlights
+  (buttons, active items, links, icons, focus). Tinted backgrounds, the teal
+  second colour, the notebook rules, the bookmark decorations and the
+  coloured spines on note cards are gone; the browser bar and installed app
+  use white. BacII page: a banner with a small drawn illustration and the
+  learning links as pills, a Today's question bar with a Start button, and
+  tool cards with an icon, description and arrow. Also fixed: Settings
+  scrolled sideways on a phone. Checked on desktop and a 375px phone in
+  light and dark (Home, BacII, past papers, practice, profile, settings).
+  Tests: Playwright past papers 10/10 and Study next 8/8; lint; build.
 
 ## Blockers and things that need a person
 

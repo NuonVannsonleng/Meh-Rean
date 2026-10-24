@@ -45,16 +45,12 @@ function Welcome() {
 
   const actions = [
     { to: "/create", Icon: PlusIcon, label: t.nav.newNote, tone: "bg-brand-600 text-white" },
-    { to: "/messages", Icon: ChatIcon, label: unread ? t.home.messagesWaiting(unread) : t.nav.messages, tone: "bg-ribbon-50 text-ribbon-fg" },
-    { to: `/u/${user.username}?tab=saved`, Icon: BookmarkIcon, label: t.nav.saved, tone: "bg-[color-mix(in_oklch,var(--color-rule)_25%,transparent)] text-ink-900" },
+    { to: "/messages", Icon: ChatIcon, label: unread ? t.home.messagesWaiting(unread) : t.nav.messages, tone: "bg-surface-hover text-ink-700" },
+    { to: `/u/${user.username}?tab=saved`, Icon: BookmarkIcon, label: t.nav.saved, tone: "bg-surface-hover text-ink-700" },
   ];
 
   return (
     <section className="card ruled-paper relative mb-6 overflow-hidden p-5 sm:p-6">
-      <span
-        aria-hidden="true"
-        className="bg-logo-ribbon animate-ribbon absolute top-0 right-6 h-14 w-5 [clip-path:polygon(0_0,100%_0,100%_100%,50%_80%,0_100%)] sm:right-10 sm:h-16 sm:w-6"
-      />
       {/* Written on the rules: the avatar spans two, each line of text sits on one. */}
       <div className="flex items-start gap-4 pr-10">
         <div className="flex h-16 shrink-0 items-center">
@@ -127,10 +123,6 @@ function Intro() {
   ];
   return (
     <section className="card ruled-paper relative mb-8 overflow-hidden px-5 py-8 sm:px-10 sm:py-12">
-      <span
-        aria-hidden="true"
-        className="bg-logo-ribbon animate-ribbon absolute top-0 right-6 h-16 w-6 [clip-path:polygon(0_0,100%_0,100%_100%,50%_80%,0_100%)] sm:right-12 sm:h-24 sm:w-8"
-      />
       <div className="max-w-2xl pr-8">
         <div className="flex h-16 items-center">
           <LogoMark animated className="h-14 w-14" />

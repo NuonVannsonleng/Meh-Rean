@@ -285,3 +285,16 @@ Usernames, row level security and admin checks do not depend on a confirmed
 email. The app supports both settings (`signUp` in `supabaseApi.ts` asks for
 confirmation only when no session comes back), so this can be reversed in
 the dashboard at any time.
+
+## 2026-10-24 — Neutral look, green only as a highlight
+
+The owner asked for a plain look like other social apps (Instagram keeps its
+colour for highlights): white pages and cards, grey lines, near-black ink in
+light mode and black/dark grey in dark mode. The logo green stays as the one
+signature colour, for primary buttons, active items, links, icons and the
+focus ring; it is no longer used as a background. Done through the tokens in
+`src/index.css`: the "-50" shades are neutral greys, the teal second colour
+became neutral chips (saved state in green), the notebook rules and bookmark
+decorations were dropped, and note cards lost their coloured spine (a subject
+keeps only its dot). The owner chose to keep green over the purple of their
+mockup. The logo itself is unchanged.

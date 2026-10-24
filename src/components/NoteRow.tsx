@@ -11,14 +11,11 @@ import { AttachmentIcon } from "./PostAttachments";
 import HelpfulButton from "./HelpfulButton";
 import VerifiedBadge from "./VerifiedBadge";
 
-/** A subject's name on a soft wash of its own colour. */
+/** A subject's name on a neutral chip; only the dot carries the subject's colour. */
 export function SubjectMark({ subject }: { subject: PostView["subject"] }) {
   const color = subjectColor(subject);
   return (
-    <span
-      className="inline-flex h-6 items-center gap-1.5 rounded-full px-2.5 text-xs font-semibold"
-      style={{ backgroundColor: `color-mix(in oklch, ${color} 14%, transparent)`, color: `color-mix(in oklch, ${color} 45%, var(--color-ink-900))` }}
-    >
+    <span className="bg-surface-hover text-ink-700 inline-flex h-6 items-center gap-1.5 rounded-full px-2.5 text-xs font-semibold">
       <span className="h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
       {subjectLabel(subject)}
     </span>
@@ -67,7 +64,6 @@ export default function NoteRow({
   onChange?: (post: PostView) => void;
 }) {
   const [post, setPost] = useState(initial);
-  const color = subjectColor(post.subject);
   // The note's own school, or its author's for notes from before notes had one.
   const school = post.school ?? post.author.school;
   const image = post.attachments.find((item) => item.kind === "image");
@@ -75,9 +71,6 @@ export default function NoteRow({
   return (
     <li>
       <article className="card group relative flex overflow-hidden transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-md">
-        {/* The book spine. */}
-        <span aria-hidden="true" className="w-1.5 shrink-0" style={{ backgroundColor: color }} />
-
         <div className="min-w-0 flex-1 p-4 sm:p-5">
           <p className="text-ink-500 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
             <SubjectMark subject={post.subject} />
