@@ -657,6 +657,16 @@ timing only in database functions, never in the browser.
   scrolled sideways on a phone. Checked on desktop and a 375px phone in
   light and dark (Home, BacII, past papers, practice, profile, settings).
   Tests: Playwright past papers 10/10 and Study next 8/8; lint; build.
+- **2026-10-24 — Drawings on the BacII page** (owner request, from their
+  mockup). The banner and each tool card get a small drawing: books and a
+  mortar board, exam sheets and a pencil, an open book, an alarm clock, a
+  trophy, a phone framing an exercise, a notebook, a calendar and a video
+  screen. Drawn in SVG (`src/components/BaciiArt.tsx`) in theme greys with
+  the green as the one highlight, so they follow light and dark mode and
+  add almost nothing to the download. On a phone the drawing leads each
+  card; on wider screens it sits on the right with the arrow below.
+  Checked on desktop and a 375px phone in light and dark. Tests: Study next
+  8/8 (tools still first); lint; build.
 
 ## Blockers and things that need a person
 
