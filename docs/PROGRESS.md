@@ -667,6 +667,15 @@ timing only in database functions, never in the browser.
   card; on wider screens it sits on the right with the arrow below.
   Checked on desktop and a 375px phone in light and dark. Tests: Study next
   8/8 (tools still first); lint; build.
+- **2026-10-24 — 3D pictures instead of drawings** (owner request: real
+  picture files look better). The BacII banner and tool cards, the Home
+  welcome card, its three points and the Continue learning card now use
+  3D pictures from Microsoft Fluent Emoji (MIT; notice in
+  `public/illustrations/LICENSE.txt` and on the Credits page). Resized to
+  WebP in `public/illustrations/`: 13 files, about 58 KB in all, loaded
+  lazily below the fold. The SVG drawings (`BaciiArt.tsx`) are removed.
+  Checked on desktop and a 375px phone, light and dark, signed in and out.
+  Tests: Study next 8/8, past papers UI 10/10; lint; build.
 
 ## Blockers and things that need a person
 

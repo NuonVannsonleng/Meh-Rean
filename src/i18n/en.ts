@@ -2049,6 +2049,10 @@ export const en = {
     schoolsOsmBefore: "High schools in Cambodia, and school websites worldwide: ",
     schoolsOsmLink: "© OpenStreetMap contributors",
     schoolsOsmAfter: ", available under the Open Database License.",
+    picturesHeading: "Pictures",
+    picturesBefore: "The 3D pictures on the home and BacII pages are from ",
+    picturesLink: "Microsoft Fluent Emoji",
+    picturesAfter: ", © Microsoft Corporation, under the MIT License.",
     logosHeading: "Logos",
     intro:
       "Logos stored by Meh Rean come from Wikimedia Commons, which only hosts images that are freely licensed or too simple to be copyrighted. Each one is listed here with its source, licence and author. Where Commons has none, a school's logo is shown from its own website (resized by the wsrv.nl image service) or as its website's icon; Meh Rean does not keep a copy of those.",

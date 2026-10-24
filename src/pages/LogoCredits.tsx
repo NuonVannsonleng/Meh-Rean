@@ -69,6 +69,16 @@ export default function LogoCredits() {
         </li>
       </ul>
 
+      <h2 className="text-ink-900 mt-6 text-lg font-semibold">{t.credits.picturesHeading}</h2>
+      <p className="text-ink-700 mt-2 text-sm">
+        {t.credits.picturesBefore}
+        {/* MIT asks for the copyright notice; the full text ships beside the files. */}
+        <a href="https://github.com/microsoft/fluentui-emoji" target="_blank" rel="noopener noreferrer" className="link font-medium">
+          {t.credits.picturesLink}
+        </a>
+        {t.credits.picturesAfter}
+      </p>
+
       <h2 className="text-ink-900 mt-8 text-lg font-semibold">{t.credits.logosHeading}</h2>
       <p className="text-ink-700 mt-2">{t.credits.intro}</p>
       <p className="text-ink-500 mt-2 text-sm">{t.credits.trademark}</p>

@@ -1,7 +1,6 @@
 import { useEffect, useState, type ComponentType } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeftIcon, BulbIcon, CalendarIcon, CameraIcon, FileTextIcon, PenIcon, StarIcon, TableIcon, VideoIcon } from "../components/Icons";
-import { BooksArt, CalendarArt, CameraArt, ClockArt, NotebookArt, OpenBookArt, PapersArt, TrophyArt, VideoArt } from "../components/BaciiArt";
 import StudyNext from "../components/StudyNext";
 import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
@@ -14,7 +13,8 @@ interface BaciiOption {
   titleKm: string;
   description: string;
   Icon: ComponentType<{ className?: string }>;
-  Art: ComponentType<{ className?: string }>;
+  /** A 3D picture from public/illustrations (Microsoft Fluent Emoji, MIT). */
+  image: string;
 }
 
 /** Everything in the BacII section; a new tool is one more entry here. */
@@ -25,7 +25,7 @@ const OPTIONS: BaciiOption[] = [
     titleKm: t.bacii.papers.optionTitleKm,
     description: t.bacii.papers.optionDescription,
     Icon: FileTextIcon,
-    Art: PapersArt,
+    image: "papers",
   },
   {
     to: "/bacii/practice",
@@ -33,7 +33,7 @@ const OPTIONS: BaciiOption[] = [
     titleKm: t.bacii.practice.optionTitleKm,
     description: t.bacii.practice.optionDescription,
     Icon: BulbIcon,
-    Art: OpenBookArt,
+    image: "practice",
   },
   {
     to: "/bacii/timer",
@@ -41,7 +41,7 @@ const OPTIONS: BaciiOption[] = [
     titleKm: t.bacii.timer.optionTitleKm,
     description: t.bacii.timer.optionDescription,
     Icon: CalendarIcon,
-    Art: ClockArt,
+    image: "timer",
   },
   {
     to: "/live",
@@ -49,7 +49,7 @@ const OPTIONS: BaciiOption[] = [
     titleKm: t.bacii.live.optionTitleKm,
     description: t.bacii.live.optionDescription,
     Icon: StarIcon,
-    Art: TrophyArt,
+    image: "live",
   },
   {
     to: "/bacii/solve",
@@ -57,7 +57,7 @@ const OPTIONS: BaciiOption[] = [
     titleKm: t.bacii.solve.optionTitleKm,
     description: t.bacii.solve.optionDescription,
     Icon: CameraIcon,
-    Art: CameraArt,
+    image: "solve",
   },
   {
     to: "/bacii/mistakes",
@@ -65,7 +65,7 @@ const OPTIONS: BaciiOption[] = [
     titleKm: t.bacii.mistakes.optionTitleKm,
     description: t.bacii.mistakes.optionDescription,
     Icon: PenIcon,
-    Art: NotebookArt,
+    image: "mistakes",
   },
   {
     to: "/bacii/plan",
@@ -73,7 +73,7 @@ const OPTIONS: BaciiOption[] = [
     titleKm: t.bacii.plan.optionTitleKm,
     description: t.bacii.plan.optionDescription,
     Icon: TableIcon,
-    Art: CalendarArt,
+    image: "plan",
   },
   {
     to: "/bacii/videos",
@@ -81,7 +81,7 @@ const OPTIONS: BaciiOption[] = [
     titleKm: t.bacii.videos.optionTitleKm,
     description: t.bacii.videos.optionDescription,
     Icon: VideoIcon,
-    Art: VideoArt,
+    image: "videos",
   },
 ];
 
@@ -108,7 +108,7 @@ export default function Bacii() {
     <div className="container-page max-w-4xl py-6 sm:py-10">
       {/* The banner: what this section is, with the learning links one tap away. */}
       <header className="card relative mb-4 overflow-hidden p-5 sm:p-7">
-        <div className="relative z-10 max-w-[36rem] pr-20 sm:pr-56">
+        <div className="relative z-10 max-w-[36rem] pr-20 sm:pr-48">
           <p className="text-accent text-xs font-semibold tracking-wide uppercase">{t.bacii.grade}</p>
           <h1 className="text-ink-900 mt-1 text-3xl sm:text-4xl">
             {t.bacii.title} <span className="text-ink-500 font-normal">· {t.bacii.titleKm}</span>
@@ -130,8 +130,8 @@ export default function Bacii() {
             )}
           </div>
         </div>
-        <BooksArt className="pointer-events-none absolute right-2 bottom-2 hidden h-44 w-56 sm:block" />
-        <BooksArt className="pointer-events-none absolute top-3 right-2 h-16 w-20 sm:hidden" />
+        <img src="/illustrations/banner.webp" alt="" width={224} height={285} className="pointer-events-none absolute right-8 bottom-3 hidden h-44 w-auto sm:block" />
+        <img src="/illustrations/banner.webp" alt="" width={224} height={285} className="pointer-events-none absolute top-4 right-4 h-20 w-auto sm:hidden" />
       </header>
 
       <Link to="/bacii/today" className="card press group hover:border-brand-500 mb-6 flex items-center gap-3 p-3 transition-colors sm:gap-4 sm:p-4">
@@ -154,11 +154,11 @@ export default function Bacii() {
 
       <nav aria-label={t.bacii.optionsLabel}>
         <ul className="grid grid-cols-2 gap-3 sm:gap-4">
-          {OPTIONS.map(({ to, title, titleKm, description, Icon, Art }) => (
+          {OPTIONS.map(({ to, title, titleKm, description, Icon, image }) => (
             <li key={to}>
               <Link to={to} className="card press group hover:border-brand-500 relative flex h-full flex-col gap-2 overflow-hidden p-4 transition-colors sm:min-h-44 sm:flex-row sm:gap-4 sm:p-5">
-                {/* On a phone the drawing leads the card; on wider screens it sits on the right. */}
-                <Art className="h-16 w-20 shrink-0 sm:order-2 sm:h-24 sm:w-28" />
+                {/* On a phone the picture leads the card; on wider screens it sits on the right. */}
+                <img src={`/illustrations/${image}.webp`} alt="" width={192} height={192} loading="lazy" decoding="async" className="h-16 w-16 shrink-0 object-contain sm:order-2 sm:h-24 sm:w-24" />
                 <span className="flex min-w-0 flex-1 flex-col gap-2 sm:order-1 sm:pb-8">
                   <span className="flex items-center gap-3">
                     <span className="bg-brand-50 text-accent hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:flex">

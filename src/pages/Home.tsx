@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import Avatar from "../components/Avatar";
 import EmptyState from "../components/EmptyState";
 import ErrorState from "../components/ErrorState";
-import { BookmarkIcon, ChatIcon, CloseIcon, CommentIcon, FileTextIcon, GraduationIcon, PlusIcon, SearchIcon } from "../components/Icons";
+import { BookmarkIcon, ChatIcon, CloseIcon, PlusIcon, SearchIcon } from "../components/Icons";
 import LoadingState from "../components/LoadingState";
 import { LogoMark } from "../components/Logo";
 import NoteRow from "../components/NoteRow";
@@ -75,6 +75,7 @@ function Welcome() {
           </Link>
         ))}
       </div>
+      <img src="/illustrations/banner.webp" alt="" width={224} height={285} className="pointer-events-none absolute right-8 bottom-4 hidden h-40 w-auto md:block" />
     </section>
   );
 }
@@ -100,9 +101,7 @@ function ContinueLearning() {
   const strong = mastery.filter((item) => item.label === "strong" || item.label === "consistently-strong").length;
   return (
     <Link to="/learning" className="card press hover:border-brand-500 mb-6 flex items-center gap-4 p-4 transition-colors" data-testid="continue-learning">
-      <span className="bg-brand-50 text-accent flex h-11 w-11 shrink-0 items-center justify-center rounded-xl">
-        <GraduationIcon className="h-5.5 w-5.5" />
-      </span>
+      <img src="/illustrations/learning.webp" alt="" width={128} height={128} className="h-12 w-12 shrink-0 object-contain" />
       <span className="min-w-0 flex-1">
         <span className="font-display text-ink-900 block font-bold">
           {t.home.continueTitle} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${t.learning.home.titleKm}`}</span>
@@ -117,12 +116,13 @@ function ContinueLearning() {
 /** Signed out: what Meh Rean is, in one look. */
 function Intro() {
   const points = [
-    { Icon: FileTextIcon, title: t.home.pointShare, body: t.home.pointShareBody },
-    { Icon: CommentIcon, title: t.home.pointAsk, body: t.home.pointAskBody },
-    { Icon: GraduationIcon, title: t.home.pointSchool, body: t.home.pointSchoolBody },
+    { image: "share", title: t.home.pointShare, body: t.home.pointShareBody },
+    { image: "ask", title: t.home.pointAsk, body: t.home.pointAskBody },
+    { image: "school", title: t.home.pointSchool, body: t.home.pointSchoolBody },
   ];
   return (
     <section className="card ruled-paper relative mb-8 overflow-hidden px-5 py-8 sm:px-10 sm:py-12">
+      <img src="/illustrations/banner.webp" alt="" width={224} height={285} className="pointer-events-none absolute top-12 right-16 hidden h-64 w-auto lg:block" />
       <div className="max-w-2xl pr-8">
         <div className="flex h-16 items-center">
           <LogoMark animated className="h-14 w-14" />
@@ -139,11 +139,9 @@ function Intro() {
         </div>
       </div>
       <ul className="mt-8 grid gap-3 sm:grid-cols-3">
-        {points.map(({ Icon, title, body }) => (
+        {points.map(({ image, title, body }) => (
           <li key={title} className="bg-surface/80 border-line rounded-xl border p-4 backdrop-blur-sm">
-            <span className="bg-brand-50 text-accent mb-2 flex h-9 w-9 items-center justify-center rounded-lg">
-              <Icon className="h-4.5 w-4.5" />
-            </span>
+            <img src={`/illustrations/${image}.webp`} alt="" width={128} height={128} loading="lazy" decoding="async" className="mb-2 h-12 w-12 object-contain" />
             <p className="text-ink-900 text-sm font-semibold">{title}</p>
             <p className="text-ink-500 mt-0.5 text-sm">{body}</p>
           </li>
