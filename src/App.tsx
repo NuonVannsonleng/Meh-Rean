@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 // The home page ships in the main file; every other page is downloaded when
 // it is first opened, so a phone on mobile data starts with less.
 const Bacii = lazy(() => import("./pages/Bacii"));
+const Guide = lazy(() => import("./pages/Guide"));
 const BaciiVideos = lazy(() => import("./pages/BaciiVideos"));
 const BaciiPapers = lazy(() => import("./pages/BaciiPapers"));
 const BaciiPaper = lazy(() => import("./pages/BaciiPaper"));
@@ -119,6 +120,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/credits/logos" element={<LogoCredits />} />
+            <Route path="/guide" element={<Guide />} />
             <Route path="/bacii" element={<Bacii />} />
             <Route path="/bacii/videos" element={<BaciiVideos />} />
             <Route path="/bacii/papers" element={<BaciiPapers />} />
@@ -256,6 +258,10 @@ export default function App() {
         <div className="container-page text-ink-500 flex flex-col gap-1 py-6 text-sm sm:flex-row sm:justify-between">
           <p>
             {t.footer.note}{" "}
+            <Link to="/guide" className="hover:text-ink-700 underline underline-offset-2">
+              {t.guide.link}
+            </Link>{" "}
+            ·{" "}
             <Link to="/credits/logos" className="hover:text-ink-700 underline underline-offset-2">
               {t.credits.link}
             </Link>

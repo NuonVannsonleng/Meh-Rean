@@ -709,6 +709,19 @@ timing only in database functions, never in the browser.
   refuses automated visits, which the posts say). Links in note text are
   now clickable (`LinkedText`, shared with chat). Tested on local Supabase
   first (31 added, rerun adds 0), then run once on production.
+- **2026-10-25 — A guide for new students** (owner request: people don't
+  know what the app is). New page `/guide`: what Meh Rean is, six steps
+  (account and Settings, finding notes, Save/Helpful/rating, Discussion and
+  messages, sharing a note, following people and the Library), the BacII
+  tools with their Khmer names (the same list as the BacII page, now shared
+  in `src/lib/baciiTools.ts`), My learning, and good-to-know notes (AI
+  labels, "not yet checked" labels, dark mode, reporting mistakes). New
+  accounts land on the guide instead of Settings; visitors get a "How Meh
+  Rean works" link on Home; signed-in students see a "New to Meh Rean?"
+  card until they hide it (remembered in the browser); links in the footer
+  and account menu. Tests: guide UI 11/11 (guest link, six steps, sign-up
+  lands on the guide, card hides and stays hidden, no sideways scroll at
+  375px), Study next 8/8, past papers UI 10/10; lint; build.
 
 ## Blockers and things that need a person
 

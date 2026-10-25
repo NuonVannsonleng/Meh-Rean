@@ -1,90 +1,13 @@
-import { useEffect, useState, type ComponentType } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeftIcon, BulbIcon, CalendarIcon, CameraIcon, FileTextIcon, PenIcon, StarIcon, TableIcon, VideoIcon } from "../components/Icons";
+import { ArrowLeftIcon, BulbIcon, CalendarIcon, FileTextIcon, TableIcon, VideoIcon } from "../components/Icons";
 import Photo from "../components/Photo";
 import StudyNext from "../components/StudyNext";
 import { useAuth } from "../context/AuthContext";
+import { BACII_TOOLS } from "../lib/baciiTools";
 import { t } from "../i18n/en";
 import { getDailyStreak } from "../services/api";
 import type { DailyStreak } from "../types";
-
-interface BaciiOption {
-  to: string;
-  title: string;
-  titleKm: string;
-  description: string;
-  Icon: ComponentType<{ className?: string }>;
-  /** A photo in public/photos. */
-  image: string;
-}
-
-/** Everything in the BacII section; a new tool is one more entry here. */
-const OPTIONS: BaciiOption[] = [
-  {
-    to: "/bacii/papers",
-    title: t.bacii.papers.optionTitle,
-    titleKm: t.bacii.papers.optionTitleKm,
-    description: t.bacii.papers.optionDescription,
-    Icon: FileTextIcon,
-    image: "papers",
-  },
-  {
-    to: "/bacii/practice",
-    title: t.bacii.practice.optionTitle,
-    titleKm: t.bacii.practice.optionTitleKm,
-    description: t.bacii.practice.optionDescription,
-    Icon: BulbIcon,
-    image: "practice",
-  },
-  {
-    to: "/bacii/timer",
-    title: t.bacii.timer.optionTitle,
-    titleKm: t.bacii.timer.optionTitleKm,
-    description: t.bacii.timer.optionDescription,
-    Icon: CalendarIcon,
-    image: "timer",
-  },
-  {
-    to: "/live",
-    title: t.bacii.live.optionTitle,
-    titleKm: t.bacii.live.optionTitleKm,
-    description: t.bacii.live.optionDescription,
-    Icon: StarIcon,
-    image: "live",
-  },
-  {
-    to: "/bacii/solve",
-    title: t.bacii.solve.optionTitle,
-    titleKm: t.bacii.solve.optionTitleKm,
-    description: t.bacii.solve.optionDescription,
-    Icon: CameraIcon,
-    image: "solve",
-  },
-  {
-    to: "/bacii/mistakes",
-    title: t.bacii.mistakes.optionTitle,
-    titleKm: t.bacii.mistakes.optionTitleKm,
-    description: t.bacii.mistakes.optionDescription,
-    Icon: PenIcon,
-    image: "mistakes",
-  },
-  {
-    to: "/bacii/plan",
-    title: t.bacii.plan.optionTitle,
-    titleKm: t.bacii.plan.optionTitleKm,
-    description: t.bacii.plan.optionDescription,
-    Icon: TableIcon,
-    image: "plan",
-  },
-  {
-    to: "/bacii/videos",
-    title: t.bacii.videos.optionTitle,
-    titleKm: t.bacii.videos.optionTitleKm,
-    description: t.bacii.videos.optionDescription,
-    Icon: VideoIcon,
-    image: "videos",
-  },
-];
 
 /** The BacII section: tools for Grade 12 students preparing for the national exam. */
 export default function Bacii() {
@@ -158,7 +81,7 @@ export default function Bacii() {
 
       <nav aria-label={t.bacii.optionsLabel}>
         <ul className="grid grid-cols-2 gap-3 sm:gap-4">
-          {OPTIONS.map(({ to, title, titleKm, description, Icon, image }) => (
+          {BACII_TOOLS.map(({ to, title, titleKm, description, Icon, image }) => (
             <li key={to}>
               <Link to={to} className="card press group hover:border-brand-500 relative flex h-full flex-col overflow-hidden transition-colors">
                 <span className="block overflow-hidden">

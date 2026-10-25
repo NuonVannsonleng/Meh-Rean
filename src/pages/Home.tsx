@@ -114,6 +114,43 @@ function ContinueLearning() {
   );
 }
 
+const GUIDE_HIDDEN_KEY = "mehrean.guideCardHidden";
+
+/** Signed in: a way to the guide until the student hides it (remembered in this browser only). */
+function GuideCard() {
+  const [hidden, setHidden] = useState(() => {
+    try {
+      return localStorage.getItem(GUIDE_HIDDEN_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
+  if (hidden) return null;
+  const hide = () => {
+    setHidden(true);
+    try {
+      localStorage.setItem(GUIDE_HIDDEN_KEY, "1");
+    } catch {
+      // Storage can be blocked; the card simply comes back next visit.
+    }
+  };
+  return (
+    <div className="card mb-6 flex items-center gap-3 p-3 sm:gap-4 sm:p-4" data-testid="guide-card">
+      <Photo name="share" sizes="48px" className="h-12 w-12 shrink-0 rounded-xl" />
+      <Link to="/guide" className="min-w-0 flex-1">
+        <span className="font-display text-ink-900 block font-bold">{t.home.guideTitle}</span>
+        <span className="text-ink-500 block text-sm">{t.home.guideBody}</span>
+      </Link>
+      <Link to="/guide" className="btn-primary hidden h-9 shrink-0 px-4 text-sm sm:inline-flex">
+        {t.home.guideOpen}
+      </Link>
+      <button type="button" onClick={hide} aria-label={t.home.guideHide} className="text-ink-500 hover:bg-surface-hover hover:text-ink-900 flex h-9 w-9 shrink-0 items-center justify-center rounded-full">
+        <CloseIcon className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
 /** Signed out: what Meh Rean is, in one look. */
 function Intro() {
   const points = [
@@ -136,6 +173,9 @@ function Intro() {
           </Link>
           <Link to="/login" className="btn-secondary h-11 px-5">
             {t.nav.signIn}
+          </Link>
+          <Link to="/guide" className="text-accent inline-flex h-11 items-center px-2 font-semibold hover:underline">
+            {t.guide.title}
           </Link>
         </div>
       </div>
@@ -261,6 +301,7 @@ export default function Home() {
     <div className="container-page py-6 sm:py-8 xl:max-w-7xl">
       {/* Nothing until the session is known, so a signed-in student never sees the sign-up intro. */}
       {!hasFilters && status !== "loading" && (user ? <Welcome /> : <Intro />)}
+      {!hasFilters && user && <GuideCard />}
       {!hasFilters && user && <ContinueLearning />}
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_19rem]">

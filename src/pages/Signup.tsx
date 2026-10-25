@@ -83,7 +83,7 @@ export default function Signup() {
         fieldOfStudy: major,
       });
       notify(t.auth.welcome(created.displayName.split(" ")[0]));
-      navigate(next === "/" ? "/settings" : next, { replace: true });
+      navigate(next === "/" ? "/guide" : next, { replace: true });
     } catch (error) {
       const code = errorCode(error);
       if (code === "EMAIL_CONFIRMATION") setConfirmationSent(true);
