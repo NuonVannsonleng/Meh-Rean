@@ -14,6 +14,14 @@ const DATA_URL = `${import.meta.env.BASE_URL}data/institutions.json`;
 /** Most people find their school in the first few rows; the list is huge. */
 export const MAX_RESULTS = 40;
 
+/** The team's own "school", for the Library accounts; only admins may give it (see guard_reserved_school). */
+export const MEH_REAN_SCHOOL = { name: "Meh Rean", domain: "meh-rean.vercel.app" } as const;
+
+/** The same test as public.is_reserved_school() in the database. */
+export function isReservedSchool(school: string | null | undefined, domain: string | null | undefined): boolean {
+  return (domain ?? "").toLowerCase() === MEH_REAN_SCHOOL.domain || (school ?? "").toLowerCase().replace(/[^a-z]/g, "") === "mehrean";
+}
+
 export interface Institution {
   name: string;
   country: string;

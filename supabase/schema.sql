@@ -456,6 +456,56 @@ create trigger profiles_protect_flags
   before update on public.profiles
   for each row execute function public.protect_profile_flags();
 
+-- "Meh Rean" as a school marks the team's own accounts (the Library), so only
+-- an admin, or the SQL editor (auth.uid() is null), may give it.
+create or replace function public.is_reserved_school(school text, domain text)
+returns boolean
+language sql
+immutable
+set search_path = ''
+as $$
+  select lower(coalesce(domain, '')) = 'meh-rean.vercel.app'
+      or regexp_replace(lower(coalesce(school, '')), '[^a-z]', '', 'g') = 'mehrean';
+$$;
+
+create or replace function public.guard_reserved_school()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if not public.is_reserved_school(new.school, new.school_domain) then
+    return new;
+  end if;
+  -- A new profile comes from sign-up, where auth.uid() is also null: drop the
+  -- school rather than trust it, so nobody can join as the Meh Rean team.
+  if tg_table_name = 'profiles' and tg_op = 'INSERT' then
+    new.school := '';
+    new.school_domain := null;
+    return new;
+  end if;
+  -- Already set (by an admin): other edits to the row stay allowed.
+  if tg_op = 'UPDATE' and public.is_reserved_school(old.school, old.school_domain) then
+    return new;
+  end if;
+  if auth.uid() is not null and not public.is_admin(auth.uid()) then
+    raise exception 'only an admin can set Meh Rean as a school' using errcode = '42501';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists profiles_reserved_school on public.profiles;
+create trigger profiles_reserved_school
+  before insert or update on public.profiles
+  for each row execute function public.guard_reserved_school();
+
+drop trigger if exists posts_reserved_school on public.posts;
+create trigger posts_reserved_school
+  before insert or update on public.posts
+  for each row execute function public.guard_reserved_school();
+
 drop policy if exists "admins update any profile" on public.profiles;
 create policy "admins update any profile" on public.profiles for update
   using (public.is_admin(auth.uid()))

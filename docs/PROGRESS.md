@@ -722,6 +722,22 @@ timing only in database functions, never in the browser.
   and account menu. Tests: guide UI 11/11 (guest link, six steps, sign-up
   lands on the guide, card hides and stays hidden, no sideways scroll at
   375px), Study next 8/8, past papers UI 10/10; lint; build.
+- **2026-10-25 — "Meh Rean" school for the team's accounts, admins only**
+  (owner request). "Meh Rean" (domain `meh-rean.vercel.app`, the app's own
+  icon as its logo) is a school only an admin can give: the database
+  trigger `guard_reserved_school` on profiles and posts refuses it to
+  anyone else (the SQL editor, where `auth.uid()` is null, may set it), and
+  drops it from a sign-up, where `auth.uid()` is also null, so nobody can
+  join as the team. The school picker offers it only to admins, marked "The
+  Meh Rean team · admins only"; the browser-only store applies the same
+  rule. The five Library accounts now show Meh Rean as their school on the
+  live site. Tests: `npm run test:reserved-school` 7/7 (sign-up drops it,
+  students refused by name, domain or spacing, notes refused, other schools
+  still fine, admin can give it, the account can still edit its profile,
+  SQL editor can set it); picker UI 4/4 against local Supabase (a student
+  does not see it, an admin sees, picks and saves it); lint; build.
+  Production still needs the trigger run once in the SQL editor
+  (`supabase/schema.sql` or the regenerated setup part 1).
 
 ## Blockers and things that need a person
 

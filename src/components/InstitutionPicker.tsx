@@ -1,10 +1,12 @@
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
 import {
   guessSchoolCountry,
   loadInstitutions,
   loadSchoolCountries,
   loadSchools,
+  MEH_REAN_SCHOOL,
   normalizeText,
   rememberSchoolCountry,
   searchInstitutions,
@@ -196,6 +198,7 @@ function InstitutionDialog({ initialKind, onClose, onSelect }: DialogProps) {
     };
   }, [kind, country, schools?.code]);
 
+  const isAdmin = useAuth().user?.isAdmin ?? false;
   const highSchool = kind === "high-school";
   const data = highSchool ? (schools?.code === country?.code ? schools?.data : null) : universities;
   const failed = highSchool ? schoolsFailed : universitiesFailed;
@@ -242,8 +245,13 @@ function InstitutionDialog({ initialKind, onClose, onSelect }: DialogProps) {
         country: school.country,
         community: true,
       }));
-    return [...listed, ...added];
-  }, [matches, community, highSchool]);
+    // Admins can give the team's own school (the database refuses it to anyone else).
+    const reserved =
+      isAdmin && !highSchool && trimmed.length >= 2 && normalizeText(MEH_REAN_SCHOOL.name).includes(normalizeText(trimmed))
+        ? [{ key: "meh-rean", name: MEH_REAN_SCHOOL.name, detail: t.institution.reservedDetail, domain: MEH_REAN_SCHOOL.domain, country: "", community: false }]
+        : [];
+    return [...reserved, ...listed, ...added];
+  }, [matches, community, highSchool, isAdmin, trimmed]);
 
   useEffect(() => setActive(0), [trimmed, kind, country?.code]);
 
@@ -256,7 +264,7 @@ function InstitutionDialog({ initialKind, onClose, onSelect }: DialogProps) {
     dialogRef.current?.close();
   };
 
-  const pick = (choice: Choice) => choose({ name: choice.name, domain: choice.domain, country: choice.country, kind });
+  const pick = (choice: Choice) => choose({ name: choice.name, domain: choice.domain, country: choice.country || null, kind });
 
   const switchKind = (next: InstitutionKind) => {
     setKind(next);

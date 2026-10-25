@@ -33,6 +33,7 @@
     "test:learning-events": "node scripts/test-learning-events.mjs",
     "test:learning-profile": "node scripts/test-learning-profile.mjs",
     "test:learning-privacy": "node scripts/test-learning-privacy.mjs",
+    "test:reserved-school": "node scripts/test-reserved-school.mjs",
     "test:knowledge-graph": "node scripts/test-knowledge-graph.mjs",
     "test:mastery": "node scripts/test-mastery.mjs",
     "test:recommend": "node scripts/test-recommend.mjs",

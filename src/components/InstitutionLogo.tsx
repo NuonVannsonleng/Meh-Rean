@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { t } from "../i18n/en";
 import { loadLogoIndex, loadOfficialLogos, logoUrl, officialLogoUrl } from "../lib/logos";
+import { MEH_REAN_SCHOOL } from "../lib/institutions";
 
 interface InstitutionLogoProps {
   name: string;
@@ -39,6 +40,11 @@ export default function InstitutionLogo({ name, domain, className = "h-8 w-8" }:
   useEffect(() => {
     if (!key) {
       setSource({ kind: "initial" });
+      return;
+    }
+    // The team's own school uses the app's logo, with no outside request.
+    if (key === MEH_REAN_SCHOOL.domain) {
+      setSource({ kind: "official", src: "/favicon.svg" });
       return;
     }
     let active = true;

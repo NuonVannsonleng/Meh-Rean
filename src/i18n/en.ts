@@ -451,6 +451,7 @@ export const en = {
       `Type your high school's name${country ? ` in ${country}` : ""}, in English or the local language.`,
     addedByStudents: "Added by students on Meh Rean",
     studentCount: (count: number) => plural(count, "student", "students"),
+    reservedDetail: "The Meh Rean team · admins only",
     clear: "Clear search",
     close: "Close",
     loading: "Loading schools…",

@@ -1,5 +1,6 @@
 import { MAX_MESSAGE_LENGTH } from "../lib/chat";
 import { subjectLabel, subjectMembers } from "../lib/subjects";
+import { isReservedSchool } from "../lib/institutions";
 import { flattenCurriculum, type CurriculumSeed, type FlatCurriculum } from "../lib/curriculum";
 import { checkQuestionInput, isCorrect, MAX_QUESTION_IMAGE_BYTES, questionImageExtension } from "../lib/questions";
 import { afterRight, afterWrong } from "../lib/review";
@@ -262,8 +263,9 @@ export async function signUp(input: SignUpInput): Promise<User> {
     displayName: input.displayName.trim(),
     email,
     bio: "",
-    school: input.school.trim(),
-    schoolDomain: input.schoolDomain,
+    // Nobody joins as the Meh Rean team; an admin gives that school later.
+    school: isReservedSchool(input.school, input.schoolDomain) ? "" : input.school.trim(),
+    schoolDomain: isReservedSchool(input.school, input.schoolDomain) ? null : input.schoolDomain,
     schoolCountry: input.schoolCountry,
     grade: input.grade.trim() || null,
     // The institution's country doubles as the student's own until they say otherwise.
@@ -316,6 +318,7 @@ export async function updateProfile(input: UpdateProfileInput): Promise<User> {
   const email = input.email.trim().toLowerCase();
   const username = normalizeUsername(input.username);
   assertUnique(db, email, username, record.id);
+  assertSchoolAllowed(record, input.school, input.schoolDomain, record.school, record.schoolDomain);
 
   Object.assign(record, {
     displayName: input.displayName.trim(),
@@ -459,9 +462,15 @@ export async function getPost(id: string): Promise<PostView> {
   return toPostView(db, findPost(db, id), viewerId(db));
 }
 
+/** Mirrors guard_reserved_school(): only an admin may newly give the Meh Rean school. */
+function assertSchoolAllowed(viewer: UserRecord, school: string | null, domain: string | null, oldSchool: string | null, oldDomain: string | null): void {
+  if (isReservedSchool(school, domain) && !isReservedSchool(oldSchool, oldDomain) && !viewer.isAdmin) throw new ApiError("FORBIDDEN", 403);
+}
+
 export async function createPost(input: NewPostInput): Promise<PostView> {
   const db = await loadDb();
   const viewer = requireViewer(db);
+  assertSchoolAllowed(viewer, input.school, input.schoolDomain, null, null);
   if (input.files.length > MAX_FILES_PER_POST) throw new ApiError("TOO_MANY_FILES", 413);
   if (input.files.some((file) => file.size > MAX_FILE_BYTES)) throw new ApiError("FILE_TOO_LARGE", 413);
 
@@ -517,6 +526,7 @@ export async function updatePost(id: string, input: UpdatePostInput): Promise<Po
   const viewer = requireViewer(db);
   const post = findPost(db, id);
   if (post.authorId !== viewer.id) throw new ApiError("FORBIDDEN", 403);
+  assertSchoolAllowed(viewer, input.school, input.schoolDomain, post.school, post.schoolDomain);
 
   const keep = new Set(input.keepAttachmentIds);
   const kept = post.attachments.filter((attachment) => keep.has(attachment.id));

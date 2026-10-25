@@ -73,7 +73,7 @@ export function accounts(target, prefix) {
       if (!data.session) throw new Error("sign-up needs email confirmation; turn it off for the local project");
       if (admin) sql(`update public.profiles set is_admin = true where id = '${data.user.id}'`);
       made.push(client);
-      return { client, id: data.user.id };
+      return { client, id: data.user.id, password };
     },
     async cleanUp() {
       // The same call the app's Delete account uses.

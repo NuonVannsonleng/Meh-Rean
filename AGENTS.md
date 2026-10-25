@@ -86,6 +86,7 @@ npm run test:resource-topics # videos and notes linked to topics; local Supabase
 npm run test:learning-events # learning activity events; local Supabase
 npm run test:learning-profile # learning profile rules and privacy
 npm run test:learning-privacy # cross-student data isolation across all private tables
+npm run test:reserved-school # only admins can give the "Meh Rean" school; local Supabase
 npm run test:knowledge-graph # graph queries and per-topic results
 npm run build:links-seed # regenerate supabase/seed/concept-links.sql from src/data/curriculum-links/
 npx supabase start       # local Supabase (Docker)
