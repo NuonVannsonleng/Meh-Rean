@@ -738,6 +738,10 @@ timing only in database functions, never in the browser.
   does not see it, an admin sees, picks and saves it); lint; build.
   Production still needs the trigger run once in the SQL editor
   (`supabase/schema.sql` or the regenerated setup part 1).
+- **2026-10-25 — Logo back on the greeting card** (owner request). The
+  signed-in greeting on Home shows the Meh Rean logo (animated, wider
+  screens) instead of the desk photo. Checked on desktop, light and dark;
+  lint; build.
 
 ## Blockers and things that need a person
 

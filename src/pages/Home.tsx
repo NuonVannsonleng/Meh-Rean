@@ -51,7 +51,7 @@ function Welcome() {
   ];
 
   return (
-    <section className="card ruled-paper relative mb-6 overflow-hidden p-5 sm:p-6 md:pr-64">
+    <section className="card ruled-paper relative mb-6 overflow-hidden p-5 sm:p-6 md:pr-52">
       {/* Written on the rules: the avatar spans two, each line of text sits on one. */}
       <div className="flex items-start gap-4 pr-10">
         <div className="flex h-16 shrink-0 items-center">
@@ -76,7 +76,7 @@ function Welcome() {
           </Link>
         ))}
       </div>
-      <Photo name="learning" sizes="224px" eager className="absolute top-5 right-5 bottom-5 hidden w-56 rounded-xl md:block" />
+      <LogoMark animated className="absolute top-1/2 right-10 hidden h-32 w-32 -translate-y-1/2 md:block" />
     </section>
   );
 }
