@@ -322,7 +322,7 @@ export default function QuestionEditor() {
               >
                 {subjects.map((subject) => (
                   <option key={subject.id} value={subject.id}>
-                    {`${subject.nameKm} — ${subject.nameEn} (${subject.trackNameEn})`}
+                    {`${subject.nameEn} (${subject.trackNameEn})`}
                   </option>
                 ))}
               </select>
@@ -341,7 +341,7 @@ export default function QuestionEditor() {
                 <option value="">{copy.chooseChapter}</option>
                 {chapters.map((item) => (
                   <option key={item.id} value={item.id}>
-                    {t.admin.chapterLabel(item.number, item.nameKm, item.nameEn)}
+                    {t.admin.chapterLabel(item.number, item.nameEn)}
                   </option>
                 ))}
               </select>
@@ -351,7 +351,7 @@ export default function QuestionEditor() {
                 <option value="">{copy.noTopic}</option>
                 {chapter?.topics.map((topic) => (
                   <option key={topic.id} value={topic.id}>
-                    {`${topic.nameKm} — ${topic.nameEn}`}
+                    {topic.nameEn}
                   </option>
                 ))}
               </select>

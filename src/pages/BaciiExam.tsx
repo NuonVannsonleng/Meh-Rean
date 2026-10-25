@@ -242,7 +242,7 @@ export default function BaciiExam() {
         <div className="card space-y-4 p-5 sm:p-6">
           <div>
             <p className="text-accent text-xs font-semibold tracking-wide uppercase">{copy.introTitle}</p>
-            <h1 className="text-ink-900 mt-1 text-2xl">{paper.titleKm}</h1>
+            <h1 className="text-ink-900 mt-1 text-2xl">{paper.titleEn}</h1>
             <p className="text-ink-500 text-sm">
               {paper.titleEn} · {t.bacii.papers.questions(paper.questionCount)}
               {paper.totalPoints !== null && ` · ${t.bacii.papers.points(paper.totalPoints)}`}

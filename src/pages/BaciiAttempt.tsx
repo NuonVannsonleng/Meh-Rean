@@ -110,7 +110,7 @@ export default function BaciiAttempt() {
         <h1 id="result-title" className="text-ink-900 mt-1 text-2xl">
           {copy.resultTitle}
         </h1>
-        <p className="text-ink-500 text-sm">{`${paper.titleKm} · ${paper.titleEn}`}</p>
+        <p className="text-ink-500 text-sm">{paper.titleEn}</p>
         <div className="mt-4 flex flex-wrap items-end gap-x-6 gap-y-2">
           <div>
             <p className="font-display text-ink-900 text-4xl font-bold tabular-nums">{copy.score(score, max)}</p>

@@ -20,8 +20,12 @@ Architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
   export the same functions with the same types; `api.ts` type-checks that.
   A feature is not done until it works in both, or deliberately says it needs
   the online version.
-- User-facing copy lives in `src/i18n/en.ts`. Khmer appears next to English
-  where students look for it (subjects, BacII). Do not hard-code copy.
+- User-facing copy lives in `src/i18n/en.ts`. The interface is English only
+  for now (owner decision, 2026-10-25; other languages come later): show the
+  English name (`nameEn`, `titleEn`), never a Khmer label beside it. Keep the
+  Khmer strings (`*Km` keys, `nameKm` data) for the coming language switch,
+  and keep Khmer content as it is (past-paper questions, Khmer video searches).
+  Do not hard-code copy.
 - Curriculum, subjects, grade bands and exam rules are data, never constants
   inside components.
 - Comments are short and say why, not what.

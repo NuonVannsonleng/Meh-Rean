@@ -154,9 +154,6 @@ export default function BaciiSolve() {
       </Link>
       <header className="mb-5">
         <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm" lang="km">
-          {copy.titleKm}
-        </p>
         <p className="text-ink-700 mt-2 text-sm leading-relaxed">{copy.intro}</p>
       </header>
 
@@ -220,7 +217,7 @@ export default function BaciiSolve() {
           <select value={subject} onChange={(event) => setSubject(event.target.value as BaciiSubject | "")} className="input mt-1 h-10 sm:w-auto">
             <option value="">{copy.subjectAny}</option>
             {BACII_SUBJECTS.map((item) => (
-              <option key={item.id} value={item.id}>{`${subjectLabel(item.id)} · ${item.km}`}</option>
+              <option key={item.id} value={item.id}>{subjectLabel(item.id)}</option>
             ))}
           </select>
         </label>
@@ -307,7 +304,7 @@ export default function BaciiSolve() {
                 to={`/bacii/practice?subject=${encodeURIComponent(transcript.chapter.subjectId)}&chapter=${encodeURIComponent(transcript.chapter.id)}`}
                 className="btn-ghost"
               >
-                {copy.practiseChapter(transcript.chapter.number, transcript.chapter.nameKm)}
+                {copy.practiseChapter(transcript.chapter.number, transcript.chapter.nameEn)}
               </Link>
             )}
           </div>

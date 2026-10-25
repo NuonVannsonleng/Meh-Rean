@@ -90,7 +90,7 @@ export default function JourneyPage() {
         {t.learning.home.title}
       </Link>
       <h1 className="text-ink-900 text-2xl sm:text-3xl">
-        {copy.title} <span className="text-ink-500 text-base font-normal" lang="km">{`· ${copy.titleKm}`}</span>
+        {copy.title}
       </h1>
       <p className="text-ink-700 mt-1 mb-4 text-sm">{copy.intro}</p>
 
@@ -127,8 +127,8 @@ export default function JourneyPage() {
           <ul className="grid gap-2 sm:grid-cols-3">
             {nextTopics.map((topic) => (
               <li key={topic.topicId} className="border-line rounded-lg border p-3">
-                <Link to={`/learning/topics/${encodeURIComponent(topic.topicId)}`} className="text-ink-900 block font-medium hover:underline" lang="km">
-                  {info(topic.topicId)?.topic.nameKm ?? topic.topicId}
+                <Link to={`/learning/topics/${encodeURIComponent(topic.topicId)}`} className="text-ink-900 block font-medium hover:underline">
+                  {info(topic.topicId)?.topic.nameEn ?? topic.topicId}
                 </Link>
                 <p className="text-ink-500 text-xs">{info(topic.topicId) ? `${info(topic.topicId)!.chapter.number}. ${info(topic.topicId)!.topic.nameEn}` : ""}</p>
                 <Link to={practiceHref(topic.topicId)} className="text-accent mt-1 inline-block text-sm font-semibold hover:underline">
@@ -167,9 +167,6 @@ export default function JourneyPage() {
               <summary className="flex cursor-pointer list-none items-center gap-2 p-4">
                 <span className="min-w-0 flex-1">
                   <span className="text-ink-900 block font-semibold">{first ? `${first.number}. ${first.nameEn}` : chapter.chapterId}</span>
-                  <span className="text-ink-500 block text-xs" lang="km">
-                    {first?.nameKm}
-                  </span>
                 </span>
                 <span className="text-ink-500 text-xs whitespace-nowrap">{copy.chapterLine(chapter.practised, chapter.topics.length)}</span>
               </summary>
@@ -180,8 +177,8 @@ export default function JourneyPage() {
                     <li key={topic.topicId} className="py-2.5" data-state={topic.state}>
                       <div className="flex flex-wrap items-center gap-2">
                         <Link to={`/learning/topics/${encodeURIComponent(topic.topicId)}`} className="min-w-0 flex-1 basis-full hover:underline sm:basis-0">
-                          <span className="text-ink-900 block text-sm font-medium" lang="km">
-                            {found?.topic.nameKm ?? topic.topicId}
+                          <span className="text-ink-900 block text-sm font-medium">
+                            {found?.topic.nameEn ?? topic.topicId}
                           </span>
                           <span className="text-ink-500 block text-xs">{found?.topic.nameEn}</span>
                         </Link>

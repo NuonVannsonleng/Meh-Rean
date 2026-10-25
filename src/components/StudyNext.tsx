@@ -66,7 +66,7 @@ export default function StudyNext({ userId }: { userId: string }) {
   };
 
   if (failed) return null;
-  const language = data?.language ?? "km";
+  const language = data?.language ?? "en";
   // Hidden at once; the reload that follows fills the place.
   const visible = (data?.items ?? []).filter((item) => !snoozed.some((s) => s.topicId === item.topicId && s.signature === reasonSignature(item)));
   // The top few keep the hub short; "Practise these" covers the whole list.
@@ -80,7 +80,7 @@ export default function StudyNext({ userId }: { userId: string }) {
     <section className="card mt-6 p-4 sm:p-5" aria-labelledby="study-next">
       <h2 id="study-next" className="font-display text-ink-900 mb-3 flex items-center gap-2 text-lg font-bold">
         <BulbIcon className="text-accent h-5 w-5 shrink-0" />
-        {copy.title} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${copy.titleKm}`}</span>
+        {copy.title}
       </h2>
       {!data ? (
         <LoadingState count={2} variant="block" />
@@ -102,12 +102,12 @@ export default function StudyNext({ userId }: { userId: string }) {
             return (
               <li key={item.topicId} className="flex items-center gap-3 py-2.5 first:pt-0 last:pb-0" data-kind={item.kind}>
                 <div className="min-w-0 flex-1">
-                  <Link to={`/learning/topics/${encodeURIComponent(topic.id)}`} className="text-ink-900 block truncate font-medium hover:underline" lang="km" title={topic.nameEn}>
-                    {topic.nameKm}
+                  <Link to={`/learning/topics/${encodeURIComponent(topic.id)}`} className="text-ink-900 block truncate font-medium hover:underline">
+                    {topic.nameEn}
                   </Link>
                   {/* The topic alone ("Properties") needs its chapter to make sense. */}
-                  <p className="text-ink-500 truncate text-xs" lang="km">
-                    {copy.chapter(chapter.number, chapter.nameKm)}
+                  <p className="text-ink-500 truncate text-xs">
+                    {copy.chapter(chapter.number, chapter.nameEn)}
                   </p>
                   {reason && !sameAsAbove && (
                     <p className="text-ink-700 mt-0.5 text-xs" lang={language}>

@@ -21,11 +21,11 @@ import type { DailyStreak, ExamAttempt, Flashcard } from "../../types";
 const copy = t.learning.home;
 const DAY = 86_400_000;
 
-function Card({ id, title, titleKm, link, children }: { id: string; title: string; titleKm?: string; link?: { to: string; label: string }; children: ReactNode }) {
+function Card({ id, title, link, children }: { id: string; title: string; link?: { to: string; label: string }; children: ReactNode }) {
   return (
     <section className="card flex flex-col p-4" aria-labelledby={`home-${id}`}>
       <h2 id={`home-${id}`} className="text-ink-900 mb-2 text-sm font-bold">
-        {title} {titleKm && <span className="text-ink-500 font-normal" lang="km">{`· ${titleKm}`}</span>}
+        {title}
       </h2>
       <div className="flex-1">{children}</div>
       {link && (
@@ -109,13 +109,13 @@ export default function LearningHome() {
   return (
     <div className="container-page max-w-4xl py-6 sm:py-8">
       <h1 className="text-ink-900 text-2xl sm:text-3xl">
-        {copy.title} <span className="text-ink-500 text-base font-normal" lang="km">{`· ${copy.titleKm}`}</span>
+        {copy.title}
       </h1>
       <p className="text-ink-700 mt-1 mb-4 text-sm">{copy.intro}</p>
 
       <section className="card border-brand-500 mb-4 p-4 sm:p-5" aria-labelledby="home-focus">
         <h2 id="home-focus" className="font-display text-ink-900 text-lg font-bold">
-          {copy.focusTitle} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${copy.focusTitleKm}`}</span>
+          {copy.focusTitle}
         </h2>
         <p className="text-ink-900 mt-1 text-sm" data-testid="home-focus-text">
           {due > 0 ? copy.focusReview(due) : top ? (top.reasons[0].code === "start-here" ? copy.focusStart(nameOf(top.topicId)) : `${nameOf(top.topicId)} — ${reasonText(top.reasons[0], language, nameOf)}`) : copy.focusNone}
@@ -132,7 +132,7 @@ export default function LearningHome() {
       </section>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <Card id="next" title={copy.nextTitle} titleKm={t.learning.next.titleKm} link={{ to: "/bacii", label: copy.allSuggestions }}>
+        <Card id="next" title={copy.nextTitle} link={{ to: "/bacii", label: copy.allSuggestions }}>
           {items.length ? (
             <ol className="space-y-2">
               {items.slice(0, 3).map((item) => (

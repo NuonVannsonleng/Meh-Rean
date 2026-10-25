@@ -102,9 +102,6 @@ export default function ConceptMapPage() {
       </Link>
       <header className="mb-4">
         <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm" lang="km">
-          {copy.titleKm}
-        </p>
         <p className="text-ink-700 mt-2 text-sm">{copy.intro}</p>
       </header>
 
@@ -112,7 +109,7 @@ export default function ConceptMapPage() {
         {subjects.length > 1 && (
           <select value={subject?.id ?? ""} onChange={(event) => setSubjectId(event.target.value)} aria-label={copy.subject} className="input h-9 w-auto text-sm">
             {subjects.map((item) => (
-              <option key={item.id} value={item.id}>{`${item.nameKm} · ${item.nameEn}`}</option>
+              <option key={item.id} value={item.id}>{item.nameEn}</option>
             ))}
           </select>
         )}
@@ -203,8 +200,8 @@ export default function ConceptMapPage() {
                     className={`cursor-pointer outline-none ${dim ? "opacity-30" : ""}`}
                   >
                     <rect x={node.x} y={node.y} width={MAP_SIZES.nodeWidth} height={MAP_SIZES.nodeHeight} rx={10} className={style.box} strokeWidth={selected === node.topicId ? 2.5 : 1} />
-                    <text x={node.x + 10} y={node.y + 19} className={`${style.text} text-[12px] font-semibold`} lang="km">
-                      {shorten(info.topic.nameKm, 18)}
+                    <text x={node.x + 10} y={node.y + 19} className={`${style.text} text-[12px] font-semibold`}>
+                      {shorten(info.topic.nameEn, 22)}
                     </text>
                     <text x={node.x + 10} y={node.y + 36} className={`${style.text} text-[10px] opacity-80`}>
                       {shorten(`${info.chapter.number}. ${info.topic.nameEn}`, 26)}
@@ -218,7 +215,7 @@ export default function ConceptMapPage() {
           {selectedInfo && (
             <section className="card mt-3 p-4" aria-live="polite" aria-labelledby="map-selected">
               <h2 id="map-selected" className="text-ink-900 text-base font-bold">
-                {`${selectedInfo.chapter.number}. ${selectedInfo.topic.nameKm} · ${selectedInfo.topic.nameEn}`}
+                {`${selectedInfo.chapter.number}. ${selectedInfo.topic.nameEn}`}
               </h2>
               <p className="text-ink-700 mt-1 text-sm">
                 {directBefore.length ? copy.needs(directBefore.map((item) => topicIndex.get(item.topicId)?.topic.nameEn ?? item.topicId).join(", ")) : copy.startingPoint}
@@ -233,7 +230,7 @@ export default function ConceptMapPage() {
         <ol className="space-y-3" aria-label={copy.listLabel}>
           {subjectChapters.map((chapter) => (
             <li key={chapter.id} className="card p-4">
-              <h2 className="text-ink-900 mb-2 text-sm font-bold">{`${chapter.number}. ${chapter.nameKm} · ${chapter.nameEn}`}</h2>
+              <h2 className="text-ink-900 mb-2 text-sm font-bold">{`${chapter.number}. ${chapter.nameEn}`}</h2>
               <ul className="divide-line divide-y">
                 {chapter.topics.map((topic) => {
                   const before = prerequisitesOf(topic.id, subjectLinks, 1);
@@ -241,8 +238,8 @@ export default function ConceptMapPage() {
                     <li key={topic.id}>
                       <Link to={`/learning/topics/${encodeURIComponent(topic.id)}`} className="hover:bg-surface-hover -mx-2 flex items-center gap-3 rounded-md px-2 py-2">
                         <span className="min-w-0 flex-1">
-                          <span className="text-ink-900 block text-sm font-medium" lang="km">
-                            {topic.nameKm}
+                          <span className="text-ink-900 block text-sm font-medium">
+                            {topic.nameEn}
                           </span>
                           <span className="text-ink-500 block text-xs">
                             {topic.nameEn}

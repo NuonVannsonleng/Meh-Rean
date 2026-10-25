@@ -93,7 +93,7 @@ export default function LearningProfilePage() {
                 to={chapter ? `/bacii/practice?subject=${encodeURIComponent(chapter.subjectId)}&chapter=${encodeURIComponent(chapter.id)}` : "/bacii/practice"}
                 className="text-ink-900 min-w-0 truncate hover:underline"
               >
-                {chapter ? `${chapter.number}. ${chapter.nameKm}` : item.chapterId}
+                {chapter ? `${chapter.number}. ${chapter.nameEn}` : item.chapterId}
               </Link>
               <span className="text-ink-500 shrink-0 text-xs tabular-nums">{copy.rightOf(item.correct, item.answered)}</span>
             </li>
@@ -112,9 +112,6 @@ export default function LearningProfilePage() {
       </Link>
       <header className="mb-5">
         <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm" lang="km">
-          {copy.titleKm}
-        </p>
       </header>
 
       <form onSubmit={save} className="card mb-5 space-y-4 p-4 sm:p-5" aria-labelledby="profile-settings">
@@ -130,7 +127,7 @@ export default function LearningProfilePage() {
             <select value={profile.trackId ?? ""} onChange={(event) => update({ trackId: event.target.value || null })} className="input mt-1 h-10">
               <option value="">{copy.notSet}</option>
               {tracks.map((subject) => (
-                <option key={subject.trackId} value={subject.trackId}>{`${subject.trackNameKm} · ${subject.trackNameEn}`}</option>
+                <option key={subject.trackId} value={subject.trackId}>{subject.trackNameEn}</option>
               ))}
             </select>
           </label>
@@ -154,13 +151,6 @@ export default function LearningProfilePage() {
                   {grade}
                 </option>
               ))}
-            </select>
-          </label>
-          <label className="text-ink-700 block text-sm font-medium">
-            {copy.language}
-            <select value={profile.preferredLanguage} onChange={(event) => update({ preferredLanguage: event.target.value as "km" | "en" })} className="input mt-1 h-10">
-              <option value="km">ខ្មែរ · Khmer</option>
-              <option value="en">English</option>
             </select>
           </label>
           <label className="text-ink-700 block text-sm font-medium">
@@ -197,7 +187,7 @@ export default function LearningProfilePage() {
                     update({ subjectIds: event.target.checked ? [...profile.subjectIds, subject.id] : profile.subjectIds.filter((id) => id !== subject.id) })
                   }
                 />
-                {`${subject.nameKm} · ${subject.nameEn}`}
+                {subject.nameEn}
               </label>
             ))}
           </div>
@@ -242,8 +232,8 @@ export default function LearningProfilePage() {
                 <li key={item.topicId}>
                   <Link to={`/learning/topics/${encodeURIComponent(item.topicId)}`} className="flex items-center gap-3 py-2 hover:underline">
                     <span className="min-w-0 flex-1">
-                      <span className="text-ink-900 block truncate text-sm font-medium" lang="km">
-                        {found?.topic.nameKm ?? item.topicId}
+                      <span className="text-ink-900 block truncate text-sm font-medium">
+                        {found?.topic.nameEn ?? item.topicId}
                       </span>
                       <span className="text-ink-500 block truncate text-xs">{found ? `${found.chapter.number}. ${found.topic.nameEn}` : ""}</span>
                     </span>

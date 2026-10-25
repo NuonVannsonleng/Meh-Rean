@@ -51,7 +51,7 @@ function subjectOf(key: string): { subject: Subject | null; track: Track | null 
 }
 const subjectName = (key: string) => {
   const { subject } = subjectOf(key);
-  return subject ? `${subject.nameKm} · ${subject.nameEn}` : copy.custom;
+  return subject ? subject.nameEn : copy.custom;
 };
 
 // A real paper is timed as "paper:<id>"; its length and points come from the paper.
@@ -149,7 +149,7 @@ export default function BaciiTimer() {
   const left = timer ? remainingMs(timer, now) : 0;
   useEffect(() => {
     if (!timer) return;
-    document.title = isFinished(timer, now) ? `${copy.timeUp} · ${t.common.appName}` : `${formatClock(left)} · ${timedPaper ? timedPaper.titleKm : subjectName(timer.subjectKey)}`;
+    document.title = isFinished(timer, now) ? `${copy.timeUp} · ${t.common.appName}` : `${formatClock(left)} · ${timedPaper ? timedPaper.titleEn : subjectName(timer.subjectKey)}`;
     const warnings = warningsFor(timer.minutes, examTimings.warningsMinutes);
     if (lastRemaining.current !== null && timer.pausedAt === null) {
       const crossed = crossedWarnings(lastRemaining.current, left, warnings);
@@ -158,7 +158,7 @@ export default function BaciiTimer() {
         beep(audio.current, 3);
         navigator.vibrate?.([400, 200, 400, 200, 400]);
       } else if (crossed.length) {
-        setAlert(`${copy.warning(crossed.at(-1)!)} · ${copy.warningKm(crossed.at(-1)!)}`);
+        setAlert(copy.warning(crossed.at(-1)!));
         beep(audio.current);
         navigator.vibrate?.(300);
       }
@@ -190,7 +190,7 @@ export default function BaciiTimer() {
     recorded.current = true;
     // Already in the list from an earlier visit.
     if (readHistory().some((item) => item.subjectKey === timer.subjectKey && item.at >= timer.startedAt)) return;
-    const item: HistoryItem = { subjectKey: timer.subjectKey, usedMs: elapsedMs(timer, now), at: Date.now(), ...(timedPaper && { label: timedPaper.titleKm }) };
+    const item: HistoryItem = { subjectKey: timer.subjectKey, usedMs: elapsedMs(timer, now), at: Date.now(), ...(timedPaper && { label: timedPaper.titleEn }) };
     const list = [item, ...readHistory()].slice(0, 10);
     store.set(HISTORY_KEY, JSON.stringify(list));
     setHistory(list);
@@ -275,7 +275,7 @@ export default function BaciiTimer() {
   const endsAt = useMemo(() => (timer && timer.pausedAt === null ? new Date(now + left).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" }) : null), [timer, now, left]);
   const timedSubject = timer ? subjectOf(timer.subjectKey).subject : null;
   const timedPoints = timedPaper ? paperPoints(timedPaper) : timedSubject?.points;
-  const timedName = timer ? (timedPaper ? timedPaper.titleKm : paperIdOf(timer.subjectKey) ? copy.paper.loading : subjectName(timer.subjectKey)) : "";
+  const timedName = timer ? (timedPaper ? timedPaper.titleEn : paperIdOf(timer.subjectKey) ? copy.paper.loading : subjectName(timer.subjectKey)) : "";
   const leavePaper = () =>
     setParams(
       (current) => {
@@ -325,7 +325,7 @@ export default function BaciiTimer() {
       </Link>
       {/* While a paper runs, the paper and the clock get the space. */}
       <h1 className={timer && timedPaper ? "sr-only" : "text-ink-900 text-2xl sm:text-3xl"}>
-        {copy.title} <span className="text-ink-500 text-base font-normal" lang="km">{`· ${copy.titleKm}`}</span>
+        {copy.title}
       </h1>
 
       {replacing ? (
@@ -338,8 +338,8 @@ export default function BaciiTimer() {
             <p className="text-ink-700 mt-1 mb-4 text-sm">{copy.paper.intro}</p>
             <section className="card mb-5 p-4" aria-labelledby="timer-paper">
               <p className="text-ink-500 text-xs font-semibold tracking-wide uppercase">{copy.paper.label}</p>
-              <h2 id="timer-paper" className="text-ink-900 mt-1 text-lg font-bold" lang="km">
-                {timedPaper.titleKm}
+              <h2 id="timer-paper" className="text-ink-900 mt-1 text-lg font-bold">
+                {timedPaper.titleEn}
               </h2>
               <p className="text-ink-500 text-sm">{timedPaper.titleEn}</p>
               <p className="text-ink-900 mt-2 text-sm font-semibold">
@@ -403,7 +403,7 @@ export default function BaciiTimer() {
                       }}
                       className="sr-only"
                     />
-                    <span lang="km">{item.nameKm}</span> · {item.nameEn}
+                    {item.nameEn}
                   </label>
                 ))}
               </div>
@@ -416,10 +416,7 @@ export default function BaciiTimer() {
                   <label key={item.id} className={`press flex cursor-pointer items-center gap-3 rounded-lg border p-3 has-[:focus-visible]:outline-2 ${subjectId === item.id ? "border-brand-600 bg-brand-50" : "border-line hover:border-ink-400"}`}>
                     <input type="radio" name="subject" value={item.id} checked={subjectId === item.id} onChange={() => setSubjectId(item.id)} className="sr-only" />
                     <span className="min-w-0 flex-1">
-                      <span className="text-ink-900 block text-sm font-medium" lang="km">
-                        {item.nameKm}
-                      </span>
-                      <span className="text-ink-500 block text-xs">{item.nameEn}</span>
+                      <span className="text-ink-900 block text-sm font-medium">{item.nameEn}</span>
                     </span>
                     <span className="text-right">
                       <span className="font-display text-ink-900 block text-sm font-bold tabular-nums">{copy.minutes(item.minutes)}</span>
@@ -483,7 +480,7 @@ export default function BaciiTimer() {
           <section className="bg-surface/95 border-line sticky top-14 z-30 -mx-4 mt-3 border-b px-4 py-2 backdrop-blur-md sm:top-16 sm:mx-0 sm:rounded-b-lg sm:border-x" aria-labelledby="timer-subject">
             <div className="flex items-center gap-3">
               <div className="min-w-0 flex-1">
-                <h2 id="timer-subject" className="text-ink-900 truncate text-sm font-bold" lang="km">
+                <h2 id="timer-subject" className="text-ink-900 truncate text-sm font-bold">
                   {timedName}
                 </h2>
                 <p className="text-ink-500 truncate text-xs">
@@ -500,11 +497,6 @@ export default function BaciiTimer() {
             {alert && (
               <p role="alert" className={`mt-2 rounded-md px-3 py-1.5 text-sm font-bold ${left === 0 ? "bg-danger-bg text-danger-fg" : "bg-ribbon-50 text-ribbon-fg"}`}>
                 {alert}
-                {left === 0 && (
-                  <span className="ml-1 font-normal" lang="km">
-                    {copy.timeUpKm}
-                  </span>
-                )}
               </p>
             )}
             {left > 0 && (
@@ -566,7 +558,7 @@ export default function BaciiTimer() {
         </>
       ) : (
         <section className="card mt-4 p-5 text-center sm:p-8" aria-labelledby="timer-subject">
-          <h2 id="timer-subject" className="text-ink-900 text-lg font-bold" lang="km">
+          <h2 id="timer-subject" className="text-ink-900 text-lg font-bold">
             {timedName}
           </h2>
           <p className="text-ink-500 text-xs">{copy.modes[timer.mode].name}</p>
@@ -581,11 +573,6 @@ export default function BaciiTimer() {
           {alert && (
             <p role="alert" className={`mt-4 rounded-md px-3 py-2 text-base font-bold ${left === 0 ? "bg-danger-bg text-danger-fg" : "bg-ribbon-50 text-ribbon-fg"}`}>
               {alert}
-              {left === 0 && (
-                <span className="block text-sm font-normal" lang="km">
-                  {copy.timeUpKm}
-                </span>
-              )}
             </p>
           )}
 

@@ -34,7 +34,7 @@ function PaperQuestion({
           {copy.question(position)}
         </h2>
         {points !== null && <span className="text-ink-500">· {copy.questionPoints(points)}</span>}
-        {chapter && <span className="text-ink-500">· {chapter.nameKm}</span>}
+        {chapter && <span className="text-ink-500">· {chapter.nameEn}</span>}
       </div>
       <MathText text={question.content} className="text-ink-900 text-base" />
       {question.images.length > 0 && (
@@ -124,10 +124,10 @@ export default function BaciiPaper() {
           <span className="font-display text-ink-500 text-lg font-bold">{paper.year}</span>
           <PaperOriginBadge paper={paper} />
         </div>
-        <h1 className="text-ink-900 text-2xl sm:text-3xl">{paper.titleKm}</h1>
+        <h1 className="text-ink-900 text-2xl sm:text-3xl">{paper.titleEn}</h1>
         <p className="text-ink-500 mt-1 text-sm">{paper.titleEn}</p>
         <p className="text-ink-700 mt-2 text-sm">
-          {subject && `${subject.nameKm} — ${subject.nameEn} · ${subject.trackNameEn} · `}
+          {subject && `${subject.nameEn} · ${subject.trackNameEn} · `}
           {copy.questions(paper.questionCount)}
           {paper.totalPoints !== null && ` · ${copy.points(paper.totalPoints)}`}
           {" · "}

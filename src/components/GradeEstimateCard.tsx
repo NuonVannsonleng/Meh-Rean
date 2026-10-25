@@ -20,7 +20,7 @@ export default function GradeEstimateCard({ score, max, unmarked }: { score: num
     <section className="card mb-5 p-5 sm:p-6" aria-labelledby="grade-title">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <h2 id="grade-title" className="font-display text-ink-900 text-lg font-bold">
-          {copy.title} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${copy.titleKm}`}</span>
+          {copy.title}
         </h2>
         {!official && <span className="bg-ribbon-50 text-ribbon-fg rounded-full px-2 py-0.5 text-xs font-semibold">{copy.practiceLabel}</span>}
       </div>

@@ -66,9 +66,6 @@ export default function BaciiToday() {
       </Link>
       <header className="mb-4">
         <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm" lang="km">
-          {copy.titleKm}
-        </p>
       </header>
 
       {failed ? (
@@ -96,7 +93,7 @@ export default function BaciiToday() {
             <EmptyState icon={<CalendarIcon className="h-6 w-6" />} title={copy.none} body={copy.noneBody} />
           ) : (
             <>
-              <p className="text-ink-500 mb-2 text-xs">{daily.fromResults ? copy.fromWeakest(chapter?.nameKm ?? "") : copy.fromStart}</p>
+              <p className="text-ink-500 mb-2 text-xs">{daily.fromResults ? copy.fromWeakest(chapter?.nameEn ?? "") : copy.fromStart}</p>
               {daily.answeredAt && (
                 <p
                   role="status"

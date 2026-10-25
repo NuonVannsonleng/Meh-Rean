@@ -78,11 +78,11 @@ export default function Guide() {
 
       <section aria-labelledby="guide-bacii">
         <h2 id="guide-bacii" className="font-display text-ink-900 text-xl font-bold">
-          {copy.baciiTitle} <span className="text-ink-500 text-base font-normal" lang="km">· {t.bacii.titleKm}</span>
+          {copy.baciiTitle}
         </h2>
         <p className="text-ink-500 mt-1 mb-3">{copy.baciiIntro}</p>
         <ul className="grid gap-3 sm:grid-cols-2">
-          {BACII_TOOLS.map(({ to, title, titleKm, description, Icon }) => (
+          {BACII_TOOLS.map(({ to, title, description, Icon }) => (
             <li key={to}>
               <Link to={to} className="card press hover:border-brand-500 flex h-full gap-3 p-4 transition-colors">
                 <span className="bg-brand-50 text-accent flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
@@ -90,9 +90,6 @@ export default function Guide() {
                 </span>
                 <span className="min-w-0">
                   <span className="text-ink-900 block font-semibold">{title}</span>
-                  <span className="text-ink-500 block text-xs" lang="km">
-                    {titleKm}
-                  </span>
                   <span className="text-ink-500 mt-1 line-clamp-2 block text-sm">{description}</span>
                 </span>
               </Link>
@@ -106,7 +103,7 @@ export default function Guide() {
 
       <section className="card p-5 sm:p-6" aria-labelledby="guide-learning">
         <h2 id="guide-learning" className="font-display text-ink-900 text-xl font-bold">
-          {copy.learningTitle} <span className="text-ink-500 text-base font-normal" lang="km">· {t.learning.home.titleKm}</span>
+          {copy.learningTitle}
         </h2>
         <p className="text-ink-700 mt-2 leading-relaxed">{copy.learningBody}</p>
         <Link to="/learning" className="pill mt-3">

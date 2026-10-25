@@ -88,7 +88,7 @@ export default function AdminQuestions() {
           <option value="">{t.admin.allSubjects}</option>
           {subjects.map((subject) => (
             <option key={subject.id} value={subject.id}>
-              {`${subject.nameKm} — ${subject.nameEn} (${subject.trackNameEn})`}
+              {`${subject.nameEn} (${subject.trackNameEn})`}
             </option>
           ))}
         </select>
@@ -102,7 +102,7 @@ export default function AdminQuestions() {
             <option value="">{t.admin.allChapters}</option>
             {chapters.map((chapter) => (
               <option key={chapter.id} value={chapter.id}>
-                {t.admin.chapterLabel(chapter.number, chapter.nameKm, chapter.nameEn)}
+                {t.admin.chapterLabel(chapter.number, chapter.nameEn)}
               </option>
             ))}
           </select>
@@ -124,7 +124,7 @@ export default function AdminQuestions() {
               <li key={question.id} className="card p-4">
                 <div className="mb-2 flex flex-wrap items-center gap-2 text-xs">
                   <span className="text-ink-700 font-semibold">
-                    {chapter ? t.admin.chapterLabel(chapter.number, chapter.nameKm, chapter.nameEn) : question.chapterId}
+                    {chapter ? t.admin.chapterLabel(chapter.number, chapter.nameEn) : question.chapterId}
                   </span>
                   <span className="text-ink-500">· {t.questions.types[question.type]}</span>
                   <span className="text-ink-500">· {t.questions.origins[question.origin]}</span>

@@ -33,7 +33,7 @@ export default function AdminTopicVideos() {
   }, []);
 
   const topicName = useMemo(
-    () => new Map(chapters.flatMap((chapter) => chapter.topics.map((topic) => [topic.id, `${chapter.number}. ${topic.nameKm} · ${topic.nameEn}`] as const))),
+    () => new Map(chapters.flatMap((chapter) => chapter.topics.map((topic) => [topic.id, `${chapter.number}. ${topic.nameEn}`] as const))),
     [chapters],
   );
   const shown = topicId ? videos.filter((video) => video.topicId === topicId) : videos;

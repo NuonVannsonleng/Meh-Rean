@@ -96,7 +96,6 @@ export default function BaciiPractice() {
       </Link>
       <header className="mb-4">
         <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm">{copy.optionTitleKm}</p>
       </header>
 
       {subjects.length > 1 && (
@@ -108,13 +107,13 @@ export default function BaciiPractice() {
         >
           {subjects.map((item) => (
             <option key={item.id} value={item.id}>
-              {`${item.nameKm} — ${item.nameEn} (${item.trackNameEn})`}
+              {`${item.nameEn} (${item.trackNameEn})`}
             </option>
           ))}
         </select>
       )}
       {subject && subjects.length === 1 && (
-        <p className="text-ink-700 mb-3 text-sm font-medium">{`${subject.nameKm} — ${subject.nameEn} · ${subject.trackNameEn}`}</p>
+        <p className="text-ink-700 mb-3 text-sm font-medium">{`${subject.nameEn} · ${subject.trackNameEn}`}</p>
       )}
 
       <div role="group" aria-label={copy.chaptersLabel} className="chip-row mb-2">
@@ -129,7 +128,7 @@ export default function BaciiPractice() {
             onClick={() => set({ chapter: item.id, topic: "" })}
             className={chip(chapterId === item.id)}
           >
-            {copy.chapterChip(item.number, item.nameKm, counts.get(item.id) ?? 0)}
+            {copy.chapterChip(item.number, item.nameEn, counts.get(item.id) ?? 0)}
           </button>
         ))}
       </div>
@@ -140,7 +139,7 @@ export default function BaciiPractice() {
           </button>
           {chapter.topics.map((topic) => (
             <button key={topic.id} type="button" aria-pressed={topicId === topic.id} onClick={() => set({ topic: topic.id })} className={chip(topicId === topic.id)}>
-              {`${topic.nameKm} (${topicCounts.get(topic.id) ?? 0})`}
+              {`${topic.nameEn} (${topicCounts.get(topic.id) ?? 0})`}
             </button>
           ))}
         </div>

@@ -40,7 +40,7 @@ export default function Bacii() {
         <div className="relative z-10 p-5 sm:max-w-[58%] sm:p-7">
           <p className="text-accent text-xs font-semibold tracking-wide uppercase">{t.bacii.grade}</p>
           <h1 className="text-ink-900 mt-1 text-3xl sm:text-4xl">
-            {t.bacii.title} <span className="text-ink-500 font-normal">· {t.bacii.titleKm}</span>
+            {t.bacii.title}
           </h1>
           <p className="text-ink-500 mt-1.5 text-sm sm:text-base">{t.bacii.tagline}</p>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -67,7 +67,7 @@ export default function Bacii() {
         </span>
         <span className="min-w-0 flex-1">
           <span className="font-display text-ink-900 block font-bold sm:text-lg">
-            {daily.title} <span className="text-ink-500 hidden text-sm font-normal sm:inline" lang="km">{`· ${daily.titleKm}`}</span>
+            {daily.title}
           </span>
           <span className="text-ink-500 block truncate text-sm">
             {!user ? daily.hubSignIn : streak ? `${daily.streakDays(streak.current)} · ${streak.answeredToday ? daily.hubDone : daily.hubCta}` : daily.hubCta}
@@ -81,7 +81,7 @@ export default function Bacii() {
 
       <nav aria-label={t.bacii.optionsLabel}>
         <ul className="grid grid-cols-2 gap-3 sm:gap-4">
-          {BACII_TOOLS.map(({ to, title, titleKm, description, Icon, image }) => (
+          {BACII_TOOLS.map(({ to, title, description, Icon, image }) => (
             <li key={to}>
               <Link to={to} className="card press group hover:border-brand-500 relative flex h-full flex-col overflow-hidden transition-colors">
                 <span className="block overflow-hidden">
@@ -94,9 +94,6 @@ export default function Bacii() {
                     </span>
                     <span className="min-w-0">
                       <span className="font-display text-ink-900 block text-base leading-snug font-bold sm:text-lg">{title}</span>
-                      <span className="text-ink-500 block text-xs sm:text-sm" lang="km">
-                        {titleKm}
-                      </span>
                     </span>
                   </span>
                   {/* On a phone the title says enough; the longer line is for wider screens. */}

@@ -67,8 +67,8 @@ function Results({ answers, before, topics, mode, onAgain }: { answers: Answer[]
                 return (
                   <li key={id} className="flex flex-wrap items-center gap-2 py-2">
                     <Link to={`/learning/topics/${encodeURIComponent(id)}`} className="min-w-0 flex-1 hover:underline">
-                      <span className="text-ink-900 block truncate text-sm font-medium" lang="km">
-                        {found?.topic.nameKm ?? id}
+                      <span className="text-ink-900 block truncate text-sm font-medium">
+                        {found?.topic.nameEn ?? id}
                       </span>
                       <span className="text-ink-500 block truncate text-xs">{found ? `${found.chapter.number}. ${found.topic.nameEn}` : ""}</span>
                     </Link>
@@ -228,7 +228,7 @@ export default function AdaptivePractice() {
         {mode ? copy.chooseMode : t.learning.home.title}
       </Link>
       <h1 className="text-ink-900 text-2xl sm:text-3xl">
-        {mode ? copy.modes[mode].name : copy.title} <span className="text-ink-500 text-base font-normal" lang="km">{`· ${copy.titleKm}`}</span>
+        {mode ? copy.modes[mode].name : copy.title}
       </h1>
       <p className="text-ink-700 mt-1 mb-4 text-sm">{mode ? copy.modes[mode].hint : copy.intro}</p>
       {mode ? <Session key={`${mode}:${run}`} mode={mode} onAgain={() => setRun((value) => value + 1)} /> : <ModePicker />}

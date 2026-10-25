@@ -105,7 +105,7 @@ function ContinueLearning() {
       <Photo name="practice" sizes="48px" className="h-12 w-12 shrink-0 rounded-xl" />
       <span className="min-w-0 flex-1">
         <span className="font-display text-ink-900 block font-bold">
-          {t.home.continueTitle} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${t.learning.home.titleKm}`}</span>
+          {t.home.continueTitle}
         </span>
         <span className="text-ink-700 block text-sm">{t.home.continueLine(mastery.length, strong)}</span>
       </span>

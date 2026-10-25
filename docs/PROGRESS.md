@@ -760,6 +760,19 @@ timing only in database functions, never in the browser.
   no files). The NC licences hold only while Meh Rean stays free and
   non-commercial. Tested on local Supabase first (rerun adds nothing); on
   production all 38 files answer with the right type.
+- **2026-10-25 — English-only interface** (owner request; other languages
+  later). 114 changes across 30 files: Khmer labels beside English removed
+  (page subtitles, headings, BacII tool cards, timer warnings), and topics,
+  chapters, subjects, tracks and paper titles show their English names
+  (every one has one: 93 curriculum items, 150 papers). Study next, reasons
+  and the companion summary always use English; the "Explanations in"
+  choice is hidden (the stored preference stays). Khmer strings stay in the
+  code and data for the language switch; Khmer content (paper questions,
+  Khmer video searches) is unchanged. AGENTS.md rule and DECISIONS.md
+  updated. Tests: Study next 8/8 and past papers UI 10/10 (updated to the
+  English labels), guide 11/11, companion, recommend, exam-timer, readiness,
+  journey, adaptive, study-plan, daily-rules, grades and math all pass;
+  lint; build.
 
 ## Blockers and things that need a person
 

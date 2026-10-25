@@ -65,7 +65,7 @@ function Segmented<T extends string>({ label, value, options, onChange, name }: 
           className={`press cursor-pointer rounded-full px-3 py-1.5 text-sm font-medium has-[:focus-visible]:outline-2 ${value === option.value ? "bg-surface text-ink-900 shadow-sm" : "text-ink-500 hover:text-ink-900"}`}
         >
           <input type="radio" name={name} value={option.value} checked={value === option.value} onChange={() => onChange(option.value)} className="sr-only" />
-          {option.en} <span className="text-ink-500 text-xs" lang="km">{`· ${option.km}`}</span>
+          {option.en}
         </label>
       ))}
     </fieldset>
@@ -209,7 +209,7 @@ export default function PaperViews({
       {shown === "scan" && scans ? (
         <>
           <p className="text-ink-500 text-xs">{copy.scanNote}</p>
-          <ScanPages files={scans.paper} title={paper.titleKm} testId="paper-scans" />
+          <ScanPages files={scans.paper} title={paper.titleEn} testId="paper-scans" />
         </>
       ) : (
         <>
@@ -223,7 +223,7 @@ export default function PaperViews({
   const answersPart = (
     <section aria-labelledby="paper-answers" className={answersFirst ? "" : "border-line border-t pt-4"}>
       <h2 id="paper-answers" className="text-ink-900 mb-2 text-lg font-bold">
-        {copy.answersTitle} <span className="text-ink-500 text-sm font-normal" lang="km">{`· ${copy.answersTitleKm}`}</span>
+        {copy.answersTitle}
       </h2>
       {onToggleAnswers && (
         <button type="button" onClick={onToggleAnswers} className={answersOpen ? "btn-ghost mb-3 h-9 px-3 text-sm" : "btn-secondary h-9 px-3 text-sm"} aria-expanded={answersOpen}>
@@ -250,7 +250,7 @@ export default function PaperViews({
                 <p role="note" className="bg-ribbon-50 text-ribbon-fg rounded-md px-3 py-2 text-xs">
                   {copy.copyNote(scans.answersBy)}
                 </p>
-                <ScanPages files={scans.answers} title={`${paper.titleKm} · ${copy.answersTitleKm}`} testId="answer-scans" />
+                <ScanPages files={scans.answers} title={`${paper.titleEn} · ${copy.answersTitle}`} testId="answer-scans" />
               </>
             ) : (
               <p className="text-ink-500 text-sm">{copy.noCopy}</p>

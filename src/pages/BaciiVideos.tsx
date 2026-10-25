@@ -222,7 +222,7 @@ function Results({ result, onAnother, signedIn }: { result: VideoLookup; onAnoth
         </div>
         <p className="font-display text-ink-900 mt-2 text-lg font-bold">
           {exercise.topic}
-          {exercise.topicKm && <span className="text-ink-500 font-normal"> · {exercise.topicKm}</span>}
+          
         </p>
         <p className="text-ink-700 mt-1 text-sm leading-relaxed">{exercise.summary}</p>
         {exercise.chapter && (
@@ -230,7 +230,7 @@ function Results({ result, onAnother, signedIn }: { result: VideoLookup; onAnoth
             to={`/bacii/practice?subject=${encodeURIComponent(exercise.chapter.subjectId)}&chapter=${encodeURIComponent(exercise.chapter.id)}`}
             className="bg-brand-50 text-accent hover:bg-brand-100 mt-3 inline-flex max-w-full items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold"
           >
-            <span className="truncate">{copy.chapterLink(exercise.chapter.number, exercise.chapter.nameKm)}</span>
+            <span className="truncate">{copy.chapterLink(exercise.chapter.number, exercise.chapter.nameEn)}</span>
           </Link>
         )}
       </section>
@@ -487,7 +487,6 @@ export default function BaciiVideos() {
       </Link>
       <header className="mb-6">
         <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm">{t.bacii.videos.optionTitleKm}</p>
         <p className="text-ink-700 mt-2 text-sm leading-relaxed">{copy.subtitle}</p>
         {user && (
           <Link to="/bacii/my-videos" className="text-accent mt-2 inline-flex items-center gap-1.5 text-sm font-semibold hover:underline">

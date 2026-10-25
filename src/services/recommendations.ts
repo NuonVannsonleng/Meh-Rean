@@ -75,7 +75,8 @@ export async function loadStudyContext(snoozed: { topicId: string; signature: st
       snoozed,
       resources,
     },
-    language: profile.preferredLanguage,
+    // English-only interface for now (see DECISIONS.md); the preference is kept for later.
+    language: "en",
     sessionMinutes: profile.sessionMinutes,
     subjectIds: chosen.map((subject) => subject.id),
     topics,

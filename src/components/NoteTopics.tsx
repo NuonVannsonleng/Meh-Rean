@@ -68,7 +68,7 @@ export default function NoteTopics({ postId, title, canEdit }: { postId: string;
                   to={`/learning/topics/${encodeURIComponent(link.topicId)}`}
                   className="truncate hover:underline"
                 >
-                  {found ? `${found.chapter.number}. ${found.topic.nameKm}` : link.topicId}
+                  {found ? `${found.chapter.number}. ${found.topic.nameEn}` : link.topicId}
                 </Link>
                 {canEdit ? (
                   <button type="button" onClick={() => void remove(link)} aria-label={copy.remove(found?.topic.nameEn ?? link.topicId)} className="flex h-5 w-5 items-center justify-center rounded-full hover:bg-black/10">

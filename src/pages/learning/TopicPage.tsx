@@ -105,7 +105,7 @@ export default function TopicPage() {
       <li key={id}>
         <Link to={`/learning/topics/${encodeURIComponent(id)}`} className="border-line hover:border-ink-400 flex items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm">
           <span className="min-w-0 flex-1">
-            <span className="text-ink-900 block truncate font-medium">{found ? found.topic.nameKm : id}</span>
+            <span className="text-ink-900 block truncate font-medium">{found ? found.topic.nameEn : id}</span>
             <span className="text-ink-500 block truncate text-xs">{found ? `${found.chapter.number}. ${found.topic.nameEn}${extra ? ` · ${extra}` : ""}` : extra}</span>
           </span>
           <MasteryBadge label={labelOf(id)} />
@@ -122,10 +122,7 @@ export default function TopicPage() {
       </Link>
       <header className="mb-5">
         <p className="text-accent text-xs font-semibold tracking-wide uppercase">{copy.chapter(chapter.number, chapter.nameEn)}</p>
-        <h1 className="text-ink-900 mt-1 text-2xl sm:text-3xl" lang="km">
-          {topic.nameKm}
-        </h1>
-        <p className="text-ink-500 text-sm">{topic.nameEn}</p>
+        <h1 className="text-ink-900 mt-1 text-2xl sm:text-3xl">{topic.nameEn}</h1>
         {topic.verification !== "verified" && <p className="bg-ribbon-50 text-ribbon-fg mt-2 inline-block rounded-md px-2 py-1 text-xs">{copy.provisionalTopic}</p>}
       </header>
 
@@ -142,7 +139,7 @@ export default function TopicPage() {
               {missing.map((item) => (
                 <li key={item.topicId}>
                   <Link to={`/learning/topics/${encodeURIComponent(item.topicId)}`} className="hover:underline">
-                    {topicIndex.get(item.topicId) ? `${topicIndex.get(item.topicId)!.chapter.number}. ${topicIndex.get(item.topicId)!.topic.nameKm} · ${topicIndex.get(item.topicId)!.topic.nameEn}` : item.topicId}
+                    {topicIndex.get(item.topicId) ? `${topicIndex.get(item.topicId)!.chapter.number}. ${topicIndex.get(item.topicId)!.topic.nameEn}` : item.topicId}
                   </Link>{" "}
                   <span className="text-ink-500 text-xs">({t.learning.mastery.labels[item.status]})</span>
                 </li>

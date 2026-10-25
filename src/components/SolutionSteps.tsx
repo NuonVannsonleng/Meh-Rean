@@ -107,7 +107,7 @@ export default function SolutionSteps({
             {chapterKm && (
               <a href={youtubeSearchUrl(`${chapterKm} បាក់ឌុប`)} target="_blank" rel="noreferrer" className="btn-ghost h-9 px-3 text-sm">
                 <SearchIcon className="h-4 w-4" />
-                {copy.searchChapter(chapterKm)}
+                {copy.searchChapter}
                 <ExternalLinkIcon className="h-3.5 w-3.5" />
               </a>
             )}

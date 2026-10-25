@@ -76,9 +76,6 @@ export default function LiveHub() {
       </Link>
       <header className="mb-5">
         <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm" lang="km">
-          {copy.titleKm}
-        </p>
       </header>
 
       {isLocalMode && <p className="bg-ribbon-50 text-ribbon-fg mb-4 rounded-md px-4 py-3 text-sm">{copy.onlineOnly}</p>}

@@ -134,9 +134,6 @@ export default function BaciiMistakes() {
       </Link>
       <header className="mb-4">
         <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm" lang="km">
-          {copy.optionTitleKm}
-        </p>
       </header>
 
       <p className="text-ink-500 mb-3 text-xs">
@@ -164,7 +161,7 @@ export default function BaciiMistakes() {
           </button>
           {usedChapters.map((chapter) => (
             <button key={chapter.id} type="button" aria-pressed={chapterId === chapter.id} onClick={() => set({ chapter: chapter.id })} className={chip(chapterId === chapter.id)}>
-              {copy.chapterChip(chapter.number, chapter.nameKm, chapterCounts.get(chapter.id) ?? 0)}
+              {copy.chapterChip(chapter.number, chapter.nameEn, chapterCounts.get(chapter.id) ?? 0)}
             </button>
           ))}
         </div>

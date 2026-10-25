@@ -79,7 +79,7 @@ export default function ReadinessPage() {
         {t.learning.home.title}
       </Link>
       <h1 className="text-ink-900 text-2xl sm:text-3xl">
-        {copy.title} <span className="text-ink-500 text-base font-normal" lang="km">{`· ${copy.titleKm}`}</span>
+        {copy.title}
       </h1>
       <p className="text-ink-700 mt-1 mb-4 text-sm">{copy.intro}</p>
 

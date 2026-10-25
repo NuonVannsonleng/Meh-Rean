@@ -49,8 +49,8 @@ function PaperRow({ paper }: { paper: ExamPaper }) {
         <span className="min-w-0 flex-1">
           {/* The subject is chosen above, so a real paper's row only needs its sitting, length and points. */}
           {paper.origin === "demo" && (
-            <span className="text-ink-900 block truncate text-sm font-semibold" lang="km">
-              {paper.titleKm}
+            <span className="text-ink-900 block truncate text-sm font-semibold">
+              {paper.titleEn}
             </span>
           )}
           <span className={paper.origin === "demo" ? "text-ink-500 block text-xs" : "text-ink-700 block text-sm"}>
@@ -134,7 +134,7 @@ export default function BaciiPapers() {
       </Link>
       <header className="mb-3">
         <h1 className="text-ink-900 text-2xl sm:text-3xl">
-          {copy.title} <span className="text-ink-500 text-base font-normal" lang="km">{`· ${copy.optionTitleKm}`}</span>
+          {copy.title}
         </h1>
         <p className="text-ink-500 mt-1 text-xs">{copy.shortNotice}</p>
       </header>
@@ -150,7 +150,7 @@ export default function BaciiPapers() {
           <div role="group" aria-label={copy.track} className="mb-2 flex gap-2">
             {tracks.map((item) => (
               <Chip key={item.trackKey} active={item.trackKey === track} onClick={() => choose({ track: item.trackKey })}>
-                <span lang="km">{item.trackNameKm}</span>
+                {item.trackNameEn}
               </Chip>
             ))}
           </div>
@@ -158,7 +158,7 @@ export default function BaciiPapers() {
           <div role="group" aria-label={copy.subject} className="-mx-4 mb-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
             {trackSubjects.map((item) => (
               <Chip key={item.id} active={item.id === subject} onClick={() => choose({ subject: item.id })}>
-                <span lang="km">{item.nameKm}</span> <span className="opacity-75">· {item.nameEn}</span>
+                {item.nameEn}
               </Chip>
             ))}
           </div>

@@ -298,3 +298,17 @@ became neutral chips (saved state in green), the notebook rules and bookmark
 decorations were dropped, and note cards lost their coloured spine (a subject
 keeps only its dot). The owner chose to keep green over the purple of their
 mockup. The logo itself is unchanged.
+
+## 2026-10-25 — English-only interface until languages arrive
+
+The owner asked for the interface in English only, with other languages to
+come. Khmer labels shown beside English (page subtitles, "Title · ខ្មែរ"
+headings, the Khmer line on BacII tool cards, timer warnings) are removed,
+and places that showed a Khmer name (topics, chapters, subjects, tracks,
+paper titles) show the English one. Study next, recommendation reasons and
+the companion summary always use English; the learning profile's
+"Explanations in" choice is hidden, though the stored preference stays. The
+Khmer strings stay in `en.ts` and the curriculum data, ready for a proper
+language switch. Khmer content is unchanged: past-paper questions are the
+real exam text, and video searches still use Khmer chapter names because
+they find Khmer lessons.

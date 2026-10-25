@@ -87,9 +87,6 @@ export default function BaciiMyVideos() {
       </Link>
       <header className="mb-4">
         <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm" lang="km">
-          {copy.titleKm}
-        </p>
       </header>
 
       <div role="group" aria-label={copy.filter} className="chip-row mb-4">
@@ -147,7 +144,7 @@ export default function BaciiMyVideos() {
                         to={`/bacii/practice?subject=${encodeURIComponent(chapter.subjectId)}&chapter=${encodeURIComponent(chapter.id)}`}
                         className="text-accent font-semibold hover:underline"
                       >
-                        {copy.chapter(chapter.number, chapter.nameKm)}
+                        {copy.chapter(chapter.number, chapter.nameEn)}
                       </Link>
                       {result && result.answered > 0 && <span className="text-ink-500">{` · ${copy.results(result.correct, result.answered)}`}</span>}
                       {mistakes > 0 && (

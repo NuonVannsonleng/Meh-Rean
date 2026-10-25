@@ -68,7 +68,7 @@ export default function PracticeQuestion({
         <h2 id={`${formId}-title`} className="font-display text-ink-900 text-base font-bold">
           {t.bacii.papers.question(number)}
         </h2>
-        {chapter && <span className="text-ink-500">· {chapter.nameKm}</span>}
+        {chapter && <span className="text-ink-500">· {chapter.nameEn}</span>}
         {question.origin === "demo" && (
           <span className="bg-ribbon-50 text-ribbon-fg rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase">{copy.demo}</span>
         )}

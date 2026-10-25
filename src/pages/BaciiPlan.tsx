@@ -77,7 +77,7 @@ function SettingsForm({
           {copy.subject}
           <select value={settings.subjectId} onChange={(event) => update({ subjectId: event.target.value, weakChapterIds: [] })} className="input mt-1 h-10">
             {subjects.map((subject) => (
-              <option key={subject.id} value={subject.id}>{`${subject.nameKm} — ${subject.nameEn}`}</option>
+              <option key={subject.id} value={subject.id}>{subject.nameEn}</option>
             ))}
           </select>
         </label>
@@ -150,7 +150,7 @@ function SettingsForm({
                   className="mt-1"
                 />
                 <span className="min-w-0">
-                  <span className="text-ink-900 block">{`${chapter.number}. ${chapter.nameKm}`}</span>
+                  <span className="text-ink-900 block">{`${chapter.number}. ${chapter.nameEn}`}</span>
                   <span className="text-ink-500 block text-xs">
                     {chapter.nameEn}
                     {result && result.answered > 0 && ` · ${copy.chapterResult(result.correct, result.answered)}`}
@@ -208,7 +208,7 @@ function WeekCard({
   const done = week.items.filter((item) => item.done).length;
   const label = (item: PlanItem) => {
     const chapter = item.chapterId ? chapterOf.get(item.chapterId) : undefined;
-    return chapter ? `${copy.kinds[item.kind]}: ${chapter.number}. ${chapter.nameKm}` : copy.kinds[item.kind];
+    return chapter ? `${copy.kinds[item.kind]}: ${chapter.number}. ${chapter.nameEn}` : copy.kinds[item.kind];
   };
   const set = (id: string, changes: Partial<PlanItem>) => onChange(week.items.map((item) => (item.id === id ? { ...item, ...changes } : item)));
 
@@ -283,7 +283,7 @@ function WeekCard({
           <select value={adding} onChange={(event) => setAdding(event.target.value)} aria-label={copy.addLabel} className="input h-9 min-w-0 flex-1 text-sm">
             <option value="">{copy.addLabel}</option>
             {chapters.map((chapter) => (
-              <option key={chapter.id} value={`chapter:${chapter.id}`}>{`${copy.kinds.chapter}: ${chapter.number}. ${chapter.nameKm}`}</option>
+              <option key={chapter.id} value={`chapter:${chapter.id}`}>{`${copy.kinds.chapter}: ${chapter.number}. ${chapter.nameEn}`}</option>
             ))}
             <option value="mock-exam">{copy.kinds["mock-exam"]}</option>
             <option value="review">{copy.kinds.review}</option>
@@ -445,9 +445,6 @@ export default function BaciiPlan() {
       </Link>
       <header className="mb-4">
         <h1 className="text-ink-900 text-2xl sm:text-3xl">{copy.title}</h1>
-        <p className="text-ink-500 mt-1 text-sm" lang="km">
-          {copy.optionTitleKm}
-        </p>
         <p className="text-ink-700 mt-2 text-sm">{copy.intro}</p>
       </header>
 

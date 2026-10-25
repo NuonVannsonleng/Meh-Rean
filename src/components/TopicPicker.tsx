@@ -19,12 +19,12 @@ export default function TopicPicker({
     <select value={value} onChange={(event) => onChange(event.target.value)} aria-label={label} className="input h-9 min-w-0 flex-1 text-sm">
       <option value="">{t.learning.chooseTopic}</option>
       {chapters.map((chapter) => (
-        <optgroup key={chapter.id} label={`${chapter.number}. ${chapter.nameKm} · ${chapter.nameEn}`}>
+        <optgroup key={chapter.id} label={`${chapter.number}. ${chapter.nameEn}`}>
           {chapter.topics
             .filter((topic) => !exclude.includes(topic.id))
             .map((topic) => (
               <option key={topic.id} value={topic.id}>
-                {`${topic.nameKm} · ${topic.nameEn}`}
+                {topic.nameEn}
               </option>
             ))}
         </optgroup>
