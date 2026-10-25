@@ -742,6 +742,24 @@ timing only in database functions, never in the browser.
   signed-in greeting on Home shows the Meh Rean logo (animated, wider
   screens) instead of the desk photo. Checked on desktop, light and dark;
   lint; build.
+- **2026-10-25 — Library posts get their PDFs and a picture** (owner
+  request). 17 of the 31 Library notes now carry 21 PDFs from the courses
+  they describe, plus a picture of each first PDF's page 1 as the feed
+  preview: CS50x, CS50P, CS50W and CS50 AI slides; MIT 6.0001 problem set 1,
+  6.006 lecture 1 notes, the 6.042J textbook, 6.034 quiz 1, 18.01SC,
+  18.02SC and 18.03SC exam 1 with solutions, 18.06SC lecture 1 summary and
+  exam 1, 18.05 reading 1a, 8.01SC problem set 1, 5.111SC lecture 1 notes,
+  14.01 lecture 1 notes; Yale PHYS 200 problem set 1 solutions. Only files
+  under CC BY-NC-SA (CS50 4.0, MIT OCW 4.0, the MCS textbook and Open Yale
+  3.0) were uploaded, unchanged, each credited in the note with source,
+  authors and licence link. Every PDF was scanned for third-party notices
+  first: the 6.0001 lecture slides (pictures "All Rights Reserved") and all
+  7.016 files ("COPYRIGHT protected") were left out. Notes on the
+  Ministry, VVOB, Khan Academy, Harvard Justice, 6.S191, the Missing
+  Semester and Yale ECON 252 stay link-only (no licence to share copies, or
+  no files). The NC licences hold only while Meh Rean stays free and
+  non-commercial. Tested on local Supabase first (rerun adds nothing); on
+  production all 38 files answer with the right type.
 
 ## Blockers and things that need a person
 
