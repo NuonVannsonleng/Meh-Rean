@@ -7,6 +7,7 @@ import { formatDateTime, formatFileSize } from "../../lib/format";
 import { REACTION_TYPES, type Message, type PublicUser, type ReactionType } from "../../types";
 import Avatar from "../Avatar";
 import { DownloadIcon, PenIcon, TrashIcon } from "../Icons";
+import LinkedText from "../LinkedText";
 import { AttachmentIcon } from "../PostAttachments";
 import ReactionIcon from "../ReactionIcon";
 import { Sticker } from "./Stickers";
@@ -26,34 +27,8 @@ export function isPending(message: Bubble): message is PendingMessage {
 }
 
 const timeFormat = new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" });
-const URL_PATTERN = /(https?:\/\/[^\s<>"']+[^\s<>"'.,;:!?)\]])/g;
 /** How long a finger has to rest on a message to open its options. */
 const LONG_PRESS_MS = 450;
-
-/** Plain text with web links made clickable. Nothing else is interpreted. */
-function MessageText({ body }: { body: string }) {
-  const parts = body.split(URL_PATTERN);
-  return (
-    <>
-      {parts.map((part, index) =>
-        index % 2 === 1 ? (
-          <a
-            key={index}
-            href={part}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            className="underline underline-offset-2 break-all"
-            onClick={(event) => event.stopPropagation()}
-          >
-            {part}
-          </a>
-        ) : (
-          part
-        ),
-      )}
-    </>
-  );
-}
 
 function ChatImage({ message, alt, onOpen }: { message: Message; alt: string; onOpen: () => void }) {
   const attachment = message.attachment;
@@ -293,7 +268,7 @@ export default function MessageBubble({
         )}
         {message.body && (
           <p className="max-w-[min(17rem,64vw)] px-3.5 py-2 text-[15px] leading-snug whitespace-pre-wrap [overflow-wrap:anywhere] sm:max-w-72 sm:text-sm">
-            <MessageText body={message.body} />
+            <LinkedText text={message.body} />
           </p>
         )}
       </div>
@@ -310,7 +285,7 @@ export default function MessageBubble({
         <ChatFile message={message} mine={mine} />
         {message.body && (
           <p className="mt-2 max-w-[min(17rem,64vw)] text-[15px] leading-snug whitespace-pre-wrap [overflow-wrap:anywhere] sm:max-w-72 sm:text-sm">
-            <MessageText body={message.body} />
+            <LinkedText text={message.body} />
           </p>
         )}
       </div>
@@ -320,7 +295,7 @@ export default function MessageBubble({
       <div
         className={`max-w-[min(80vw,34rem)] rounded-2xl px-3.5 py-2 text-[15px] leading-snug whitespace-pre-wrap [overflow-wrap:anywhere] sm:max-w-[34rem] sm:text-sm ${bubbleTone} ${corners}`}
       >
-        <MessageText body={message.body} />
+        <LinkedText text={message.body} />
       </div>
     );
   }

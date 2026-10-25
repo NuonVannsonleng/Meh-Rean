@@ -692,6 +692,23 @@ timing only in database functions, never in the browser.
   screens. Fluent Emoji pictures removed. Checked on desktop and a 375px
   phone, light and dark, signed in and out. Tests: Study next 8/8, past
   papers UI 10/10; lint; build.
+- **2026-10-25 — Library accounts with real, referenced lectures** (owner
+  request). Five clearly labelled curator accounts ("Meh Rean Library ·
+  Computer Science / Mathematics / Science / Economics & Society / BacII
+  Cambodia", usernames `library_*`, bios say they are run by Meh Rean and
+  not affiliated with the sources) posted 31 notes on the live site. Each
+  describes one real free lecture series and links to its sources:
+  Harvard CS50 (x, Python, Web, AI) and Justice; MIT OpenCourseWare 6.0001,
+  6.006, 6.042J, 6.034, 18.01SC, 18.02SC, 18.06SC, 18.03SC, 18.05, 8.01SC,
+  5.111SC, 7.016, 14.01, plus MIT 6.S191 and the Missing Semester; Yale
+  PHYS 200 and ECON 252; Khan Academy; and for BacII, the Ministry's free
+  Grade 12 lessons (YouTube, Facebook, e-learning site, the MoEYS app with
+  1,000 Grade 12 videos) per subject, and VVOB's Khmer experiment videos.
+  Every fact was checked on the source page on 2026-10-25; claims we could
+  not check were left out (a paid app was not posted; the Ministry site
+  refuses automated visits, which the posts say). Links in note text are
+  now clickable (`LinkedText`, shared with chat). Tested on local Supabase
+  first (31 added, rerun adds 0), then run once on production.
 
 ## Blockers and things that need a person
 

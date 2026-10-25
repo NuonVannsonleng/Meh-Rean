@@ -25,6 +25,7 @@ import {
 } from "../components/Icons";
 import InstitutionLogo from "../components/InstitutionLogo";
 import LoadingState from "../components/LoadingState";
+import LinkedText from "../components/LinkedText";
 import NoteTopics from "../components/NoteTopics";
 import { AttachmentIcon, Lightbox } from "../components/PostAttachments";
 import { RatingInput } from "../components/RatingStars";
@@ -569,7 +570,9 @@ export default function PostDetail() {
                   <h2 id="readme-title" className="font-display text-ink-900 mb-2 text-lg font-bold">
                     {t.note.readme}
                   </h2>
-                  <p className="text-ink-700 leading-relaxed whitespace-pre-line">{post.body}</p>
+                  <p className="text-ink-700 leading-relaxed break-words whitespace-pre-line">
+                    <LinkedText text={post.body} linkClassName="link font-medium break-all" />
+                  </p>
                 </section>
               )}
 
