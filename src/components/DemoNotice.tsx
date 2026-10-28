@@ -3,13 +3,12 @@ import { t } from "../i18n/en";
 import { DEVELOPER_CONTACT } from "../lib/contact";
 import { BulbIcon, CloseIcon } from "./Icons";
 
-const HIDDEN_UNTIL_KEY = "mehrean.demoNoticeHiddenUntil";
-/** Hidden for a week, so a returning student still sees it now and then. */
-const HIDE_MS = 7 * 24 * 60 * 60 * 1000;
+/** Closing hides it for this visit only (session storage): every new visit shows it again. */
+const HIDDEN_KEY = "mehrean.demoNoticeHidden";
 
 function hiddenNow(): boolean {
   try {
-    return Number(localStorage.getItem(HIDDEN_UNTIL_KEY) ?? 0) > Date.now();
+    return sessionStorage.getItem(HIDDEN_KEY) === "1";
   } catch {
     return false;
   }
@@ -23,7 +22,7 @@ export default function DemoNotice() {
   const hide = () => {
     setHidden(true);
     try {
-      localStorage.setItem(HIDDEN_UNTIL_KEY, String(Date.now() + HIDE_MS));
+      sessionStorage.setItem(HIDDEN_KEY, "1");
     } catch {
       // Storage can be blocked; the reminder simply shows again next visit.
     }

@@ -785,6 +785,11 @@ timing only in database functions, never in the browser.
   sideways scroll; shows on other pages, hides, stays hidden after a
   reload, comes back after the week, footer contacts), guide 11/11, Study
   next 8/8; lint; build.
+- **2026-10-28 — The demo reminder comes back on every visit** (owner
+  request). Closing it now hides it only for the current visit (session
+  storage, so it stays closed across reloads in that tab); closing the tab
+  and coming back shows it again. Tests: demo reminder 17/17 (hidden after a
+  reload, shown again in a new tab); lint; build.
 
 ## Blockers and things that need a person
 
