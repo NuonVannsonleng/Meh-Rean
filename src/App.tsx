@@ -1,10 +1,12 @@
 import { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
+import DemoNotice from "./components/DemoNotice";
 import Navbar from "./components/Navbar";
 import RequireAdmin from "./components/RequireAdmin";
 import RequireAuth from "./components/RequireAuth";
 import LoadingState from "./components/LoadingState";
 import { t } from "./i18n/en";
+import { DEVELOPER_CONTACT } from "./lib/contact";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 
@@ -93,6 +95,8 @@ export default function App() {
       </a>
 
       <Navbar />
+      {/* Chat fills the screen; the reminder stays on every other page. */}
+      {!fullHeight && <DemoNotice />}
 
       <main
         id="main"
@@ -267,6 +271,16 @@ export default function App() {
             </Link>
           </p>
           <p>{t.footer.local}</p>
+        </div>
+        <div className="container-page text-ink-500 border-line border-t py-3 text-sm">
+          {t.demo.footer}{" "}
+          <a href={DEVELOPER_CONTACT.emailUrl} className="hover:text-ink-700 underline underline-offset-2">
+            {DEVELOPER_CONTACT.email}
+          </a>{" "}
+          ·{" "}
+          <a href={DEVELOPER_CONTACT.telegramUrl} target="_blank" rel="noopener noreferrer" className="hover:text-ink-700 underline underline-offset-2">
+            {`${t.demo.telegram} ${DEVELOPER_CONTACT.telegram}`}
+          </a>
         </div>
       </footer>
     </div>

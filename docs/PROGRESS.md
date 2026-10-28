@@ -773,6 +773,18 @@ timing only in database functions, never in the browser.
   English labels), guide 11/11, companion, recommend, exam-timer, readiness,
   journey, adaptive, study-plan, daily-rules, grades and math all pass;
   lint; build.
+- **2026-10-28 — Demo reminder with the developer's contacts** (owner
+  request). A friendly reminder under the top bar on every page (not in
+  chat, which fills the screen): Meh Rean is a demo built by one developer,
+  not a company team, so there may be bugs; problems and ideas go to Gmail
+  (vannsonlengonline567@gmail.com) or Telegram (@j_oftdy, t.me link), the
+  contacts the owner chose to show publicly (`src/lib/contact.ts`). It can
+  be closed for a week (remembered in the browser), the footer always shows
+  both contacts, and the guide's "Good to know" mentions it. Tests: demo
+  reminder 17/17 (desktop, 375px dark and 320px: shows, both links right, no
+  sideways scroll; shows on other pages, hides, stays hidden after a
+  reload, comes back after the week, footer contacts), guide 11/11, Study
+  next 8/8; lint; build.
 
 ## Blockers and things that need a person
 
