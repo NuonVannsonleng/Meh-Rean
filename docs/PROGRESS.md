@@ -790,6 +790,16 @@ timing only in database functions, never in the browser.
   storage, so it stays closed across reloads in that tab); closing the tab
   and coming back shows it again. Tests: demo reminder 17/17 (hidden after a
   reload, shown again in a new tab); lint; build.
+- **2026-10-28 — Home without the side column; new Explore page** (owner
+  request). The home page's right column is gone and the feed is centred
+  (same width as BacII). Trending tags, top schools and top contributors
+  moved to a new page, `/explore`, linked from the feed heading ("Explore
+  tags, schools and people") and the account menu; phones, which never saw
+  the column, can now reach them too. "Your notes" was dropped: the profile
+  already lists your notes. `TrendingSidebar` became `TrendingPanels`.
+  Checked on desktop and a 375px phone in light and dark (fixed a 13px
+  sideways scroll from long names). Tests: guide 11/11, demo reminder
+  17/17, Study next 8/8; lint; build.
 
 ## Blockers and things that need a person
 

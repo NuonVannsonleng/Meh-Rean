@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 // it is first opened, so a phone on mobile data starts with less.
 const Bacii = lazy(() => import("./pages/Bacii"));
 const Guide = lazy(() => import("./pages/Guide"));
+const Explore = lazy(() => import("./pages/Explore"));
 const BaciiVideos = lazy(() => import("./pages/BaciiVideos"));
 const BaciiPapers = lazy(() => import("./pages/BaciiPapers"));
 const BaciiPaper = lazy(() => import("./pages/BaciiPaper"));
@@ -125,6 +126,7 @@ export default function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/credits/logos" element={<LogoCredits />} />
             <Route path="/guide" element={<Guide />} />
+            <Route path="/explore" element={<Explore />} />
             <Route path="/bacii" element={<Bacii />} />
             <Route path="/bacii/videos" element={<BaciiVideos />} />
             <Route path="/bacii/papers" element={<BaciiPapers />} />

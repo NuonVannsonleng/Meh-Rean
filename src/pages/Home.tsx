@@ -8,7 +8,6 @@ import LoadingState from "../components/LoadingState";
 import { LogoMark } from "../components/Logo";
 import NoteRow from "../components/NoteRow";
 import Photo from "../components/Photo";
-import TrendingSidebar from "../components/TrendingSidebar";
 import { useAuth } from "../context/AuthContext";
 import { useChat } from "../context/ChatContext";
 import { t } from "../i18n/en";
@@ -298,13 +297,13 @@ export default function Home() {
   const heading = query ? t.feed.resultsFor(query) : school ? t.feed.schoolFilter(school) : t.home.latest;
 
   return (
-    <div className="container-page py-6 sm:py-8 xl:max-w-7xl">
+    <div className="container-page max-w-4xl py-6 sm:py-8">
       {/* Nothing until the session is known, so a signed-in student never sees the sign-up intro. */}
       {!hasFilters && status !== "loading" && (user ? <Welcome /> : <Intro />)}
       {!hasFilters && user && <GuideCard />}
       {!hasFilters && user && <ContinueLearning />}
 
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
+      <div>
         <section aria-labelledby="feed-title" className="min-w-0">
           <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
             <h2 id="feed-title" className="font-display text-ink-900 min-w-0 truncate text-lg font-bold">
@@ -315,6 +314,11 @@ export default function Home() {
                 </span>
               )}
             </h2>
+            {!hasFilters && (
+              <Link to="/explore" className="text-accent text-sm font-semibold hover:underline">
+                {t.explore.link}
+              </Link>
+            )}
             {hasFilters && (
               <button type="button" onClick={resetFilters} className="text-ink-500 hover:text-ink-900 inline-flex items-center gap-1 text-sm font-medium">
                 <CloseIcon className="h-3.5 w-3.5" />
@@ -377,11 +381,6 @@ export default function Home() {
           )}
         </section>
 
-        <aside className="hidden lg:block" aria-label={t.home.explore}>
-          <div className="sticky top-24">
-            <TrendingSidebar />
-          </div>
-        </aside>
       </div>
     </div>
   );

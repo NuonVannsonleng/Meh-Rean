@@ -1,17 +1,14 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { t } from "../i18n/en";
-import { subjectColor } from "../lib/subjects";
-import { getFeed, getTrending, type TrendingView } from "../services/api";
-import type { PostView } from "../types";
+import { getTrending, type TrendingView } from "../services/api";
 import Avatar from "./Avatar";
-import { GraduationIcon, PlusIcon } from "./Icons";
+import { GraduationIcon } from "./Icons";
 import VerifiedBadge from "./VerifiedBadge";
 
 function Panel({ title, action, children }: { title: string; action?: ReactNode; children: ReactNode }) {
   return (
-    <section className="card p-4">
+    <section className="card min-w-0 p-4">
       <div className="mb-3 flex items-center justify-between gap-2">
         <h2 className="font-display text-ink-900 text-base font-bold">{title}</h2>
         {action}
@@ -21,59 +18,8 @@ function Panel({ title, action, children }: { title: string; action?: ReactNode;
   );
 }
 
-/** The signed-in student's own shelf, one click from anywhere on the home page. */
-function YourNotes() {
-  const { user } = useAuth();
-  const [notes, setNotes] = useState<PostView[] | null>(null);
-
-  useEffect(() => {
-    if (!user) return;
-    getFeed({ authorUsername: user.username })
-      .then(setNotes)
-      .catch(() => setNotes([]));
-  }, [user]);
-
-  if (!user) return null;
-
-  return (
-    <Panel
-      title={t.home.yourNotes}
-      action={
-        <Link to="/create" className="btn-primary h-8 px-3 text-xs">
-          <PlusIcon className="h-3.5 w-3.5" />
-          {t.home.new}
-        </Link>
-      }
-    >
-      {notes === null ? (
-        <p className="text-ink-500 text-sm">{t.common.loading}</p>
-      ) : notes.length === 0 ? (
-        <p className="text-ink-500 text-sm">{t.home.noNotesYet}</p>
-      ) : (
-        <ul className="-mx-1.5 space-y-0.5">
-          {notes.slice(0, 5).map((note) => (
-            <li key={note.id}>
-              <Link to={`/post/${note.id}`} className="hover:bg-surface-hover flex items-center gap-2.5 rounded-lg px-1.5 py-1.5">
-                <span className="h-6 w-1 shrink-0 rounded-full" style={{ backgroundColor: subjectColor(note.subject) }} />
-                <span className="text-ink-900 min-w-0 truncate text-sm font-medium">{note.title}</span>
-              </Link>
-            </li>
-          ))}
-          {notes.length > 5 && (
-            <li>
-              <Link to={`/u/${user.username}?tab=notes`} className="text-accent block px-1.5 pt-1 text-xs font-semibold hover:underline">
-                {t.home.showAll(notes.length)}
-              </Link>
-            </li>
-          )}
-        </ul>
-      )}
-    </Panel>
-  );
-}
-
-/** The home page's right column: your notes, then topics, schools and people. */
-export default function TrendingSidebar() {
+/** Popular tags, schools and people, for the Explore page. */
+export default function TrendingPanels({ className = "space-y-4" }: { className?: string }) {
   const [data, setData] = useState<TrendingView | null>(null);
 
   useEffect(() => {
@@ -83,8 +29,7 @@ export default function TrendingSidebar() {
   }, []);
 
   return (
-    <div className="animate-fade space-y-4">
-      <YourNotes />
+    <div className={`animate-fade ${className}`}>
       {!data ? (
         <div className="bg-surface-hover animate-shimmer h-72 rounded-xl" aria-hidden="true" />
       ) : (

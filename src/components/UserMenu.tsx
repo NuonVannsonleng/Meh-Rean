@@ -6,7 +6,7 @@ import { useDismiss } from "../hooks/useDismiss";
 import { t } from "../i18n/en";
 import type { User } from "../types";
 import Avatar from "./Avatar";
-import { BookmarkIcon, BulbIcon, FileTextIcon, LogOutIcon, SettingsIcon, UserIcon } from "./Icons";
+import { BookmarkIcon, BulbIcon, FileTextIcon, LogOutIcon, SearchIcon, SettingsIcon, UserIcon } from "./Icons";
 import ThemeSwitcher from "./ThemeSwitcher";
 import VerifiedBadge from "./VerifiedBadge";
 
@@ -76,6 +76,10 @@ export default function UserMenu({ user }: { user: User }) {
             <Link to="/settings" onClick={close} className={itemClass}>
               <SettingsIcon className="h-4.5 w-4.5" />
               {t.nav.settings}
+            </Link>
+            <Link to="/explore" onClick={close} className={itemClass}>
+              <SearchIcon className="h-4.5 w-4.5" />
+              {t.explore.title}
             </Link>
             <Link to="/guide" onClick={close} className={itemClass}>
               <BulbIcon className="h-4.5 w-4.5" />
