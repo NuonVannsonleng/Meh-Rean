@@ -813,6 +813,12 @@ timing only in database functions, never in the browser.
   BacII pictures are Meh Rean's own. Checked on desktop and a 375px phone,
   light and dark. Tests: Study next 8/8, past papers UI 10/10, guide 11/11;
   lint; build.
+- **2026-10-28 — The owner's picture on the guide** (owner request). The
+  guide's header and the Home "New to Meh Rean?" card use the owner's
+  picture of a phone with the Meh Rean feature cards (WebP 640/1280 px).
+  The header is taller (16:9 on a phone, 2:1 wider) so the picture shows
+  almost whole. Credits now say the guide picture is Meh Rean's own.
+  Checked on desktop and a phone, light and dark. Tests: guide 11/11; build.
 
 ## Blockers and things that need a person
 

@@ -135,7 +135,7 @@ function GuideCard() {
   };
   return (
     <div className="card mb-6 flex items-center gap-3 p-3 sm:gap-4 sm:p-4" data-testid="guide-card">
-      <Photo name="share" sizes="48px" className="h-12 w-12 shrink-0 rounded-xl" />
+      <Photo name="guide" widths={[640, 1280]} sizes="48px" className="h-12 w-12 shrink-0 rounded-xl" />
       <Link to="/guide" className="min-w-0 flex-1">
         <span className="font-display text-ink-900 block font-bold">{t.home.guideTitle}</span>
         <span className="text-ink-500 block text-sm">{t.home.guideBody}</span>

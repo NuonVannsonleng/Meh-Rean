@@ -35,7 +35,7 @@ export default function Guide() {
   return (
     <div className="container-page max-w-3xl space-y-6 py-6 sm:py-10">
       <header className="card overflow-hidden">
-        <Photo name="share" sizes="(min-width: 768px) 720px, 100vw" eager className="aspect-[5/2] w-full sm:aspect-[3/1]" />
+        <Photo name="guide" widths={[640, 1280]} sizes="(min-width: 768px) 720px, 100vw" eager className="aspect-video w-full sm:aspect-[2/1]" />
         <div className="p-5 sm:p-7">
           <h1 className="text-ink-900 text-3xl sm:text-4xl">{copy.title}</h1>
           <p className="text-ink-500 mt-1.5 sm:text-lg">{copy.intro}</p>

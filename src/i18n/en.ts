@@ -2115,7 +2115,7 @@ export const en = {
     schoolsOsmLink: "© OpenStreetMap contributors",
     schoolsOsmAfter: ", available under the Open Database License.",
     photosHeading: "Photos",
-    photosIntro: "The pictures on the BacII page are Meh Rean's own. The photos on the home page and in the guide come from free photo libraries (public domain, CC0), resized and cropped by Meh Rean:",
+    photosIntro: "The pictures on the BacII page and at the top of the guide are Meh Rean's own. The other photos on the home page come from free photo libraries (public domain, CC0), resized and cropped by Meh Rean:",
     logosHeading: "Logos",
     intro:
       "Logos stored by Meh Rean come from Wikimedia Commons, which only hosts images that are freely licensed or too simple to be copyrighted. Each one is listed here with its source, licence and author. Where Commons has none, a school's logo is shown from its own website (resized by the wsrv.nl image service) or as its website's icon; Meh Rean does not keep a copy of those.",
