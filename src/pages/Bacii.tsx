@@ -32,12 +32,12 @@ export default function Bacii() {
     <div className="container-page max-w-4xl py-6 sm:py-10">
       {/* The banner: what this section is, with the learning links one tap away. */}
       <header className="card relative mb-4 overflow-hidden">
-        {/* On a phone the photo sits on top; wider, it fills the right half and fades into the card. */}
-        <div className="relative h-36 sm:absolute sm:inset-y-0 sm:right-0 sm:h-auto sm:w-1/2">
-          <Photo name="banner" widths={[480, 960]} sizes="(min-width: 640px) 450px, 100vw" eager className="h-full w-full" />
-          <div className="from-surface absolute inset-0 hidden bg-linear-to-r to-transparent to-70% sm:block" />
+        {/* The wide picture shows whole on a phone; wider, it fills the banner and fades behind the text. */}
+        <div className="relative aspect-[8/3] sm:absolute sm:inset-0 sm:aspect-auto">
+          <Photo name="banner" widths={[800, 1600]} sizes="(min-width: 896px) 832px, 100vw" eager className="h-full w-full object-right" />
+          <div className="from-surface via-surface/85 absolute inset-0 hidden bg-linear-to-r via-40% to-transparent to-65% sm:block" />
         </div>
-        <div className="relative z-10 p-5 sm:max-w-[58%] sm:p-7">
+        <div className="relative z-10 p-5 sm:max-w-[52%] sm:p-7">
           <p className="text-accent text-xs font-semibold tracking-wide uppercase">{t.bacii.grade}</p>
           <h1 className="text-ink-900 mt-1 text-3xl sm:text-4xl">
             {t.bacii.title}

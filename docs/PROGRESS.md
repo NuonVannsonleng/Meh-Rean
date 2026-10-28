@@ -800,6 +800,19 @@ timing only in database functions, never in the browser.
   Checked on desktop and a 375px phone in light and dark (fixed a 13px
   sideways scroll from long names). Tests: guide 11/11, demo reminder
   17/17, Study next 8/8; lint; build.
+- **2026-10-28 — The owner's own pictures on the BacII page** (owner
+  request). The banner and all eight tool cards now use pictures the owner
+  supplied, in the app's greens with its logo: a chalkboard "BacII" with
+  books (banner), an answer sheet (past papers), an open exercise book
+  (practice), a green alarm clock (timer), a trophy with A/B/C/D cards (live
+  quiz), a phone photographing an exercise (photo to solution), corrected
+  working (mistake notebook), a study-plan notebook and a laptop video
+  lesson. WebP at 360/640 px (the wide banner at 800/1600, shown whole on a
+  phone and fading behind the text on wider screens): about 105 KB for a
+  phone. The replaced stock photos left the Credits page, which now says the
+  BacII pictures are Meh Rean's own. Checked on desktop and a 375px phone,
+  light and dark. Tests: Study next 8/8, past papers UI 10/10, guide 11/11;
+  lint; build.
 
 ## Blockers and things that need a person
 

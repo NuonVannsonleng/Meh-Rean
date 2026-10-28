@@ -2,78 +2,6 @@
   "note": "Photos in public/photos, resized and cropped to WebP by Meh Rean.",
   "photos": [
     {
-      "photo": "banner",
-      "title": "Testing Times Ahead",
-      "creator": null,
-      "source": "rawpixel",
-      "page": "https://www.rawpixel.com/image/5975896/testing-times-ahead",
-      "license": "CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
-    },
-    {
-      "photo": "papers",
-      "title": "Pencil test paper",
-      "creator": null,
-      "source": "rawpixel",
-      "page": "https://www.rawpixel.com/image/3338154/free-photo-image-exam-cc0-creative-commons",
-      "license": "CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
-    },
-    {
-      "photo": "practice",
-      "title": "Books Reading",
-      "creator": "Aaron Burden",
-      "source": "StockSnap",
-      "page": "https://stocksnap.io/photo/books-reading-CN63QSUO8C",
-      "license": "CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
-    },
-    {
-      "photo": "live",
-      "title": "Golden trophy, sport world cup",
-      "creator": null,
-      "source": "rawpixel",
-      "page": "https://www.rawpixel.com/image/11189349/golden-trophy-sport-world-cup",
-      "license": "CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
-    },
-    {
-      "photo": "solve",
-      "title": "Smartphone Mobile",
-      "creator": "Raymond Sam",
-      "source": "StockSnap",
-      "page": "https://stocksnap.io/photo/smartphone-mobile-FFFK9P5EI6",
-      "license": "CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
-    },
-    {
-      "photo": "mistakes",
-      "title": "Notebook Paper",
-      "creator": "Angelina Litvin",
-      "source": "StockSnap",
-      "page": "https://stocksnap.io/photo/notebook-paper-JLXDNN5BNE",
-      "license": "CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
-    },
-    {
-      "photo": "plan",
-      "title": "open calendar short notes scribbled",
-      "creator": null,
-      "source": "rawpixel",
-      "page": "https://www.rawpixel.com/image/3299160/free-photo-image-calendar-time-plan",
-      "license": "CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
-    },
-    {
-      "photo": "videos",
-      "title": "Laptop Computer",
-      "creator": "Startup Stock Photos",
-      "source": "StockSnap",
-      "page": "https://stocksnap.io/photo/laptop-computer-4O4FZUVSIU",
-      "license": "CC0 1.0",
-      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
-    },
-    {
       "photo": "share",
       "title": "Notebook Notepad",
       "creator": "Łukasz Popardowski",
@@ -108,15 +36,6 @@
       "page": "https://stocksnap.io/photo/books-reading-DU0O1PCIMH",
       "license": "CC0 1.0",
       "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
-    },
-    {
-      "photo": "timer",
-      "title": "Classic alarm clock 20180513",
-      "creator": "Santeri Viinamäki",
-      "source": "Wikimedia Commons",
-      "page": "https://commons.wikimedia.org/wiki/File:Classic_alarm_clock_20180513.jpg",
-      "license": "CC BY-SA 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
     }
   ]
 }
