@@ -884,6 +884,11 @@ timing only in database functions, never in the browser.
   request). The reminder now says Meh Rean is published as a demo version so
   students can try it and help find bugs, built by one developer; the footer
   matches. Tests: demo reminder 17/17; build.
+- **2026-10-30 — Calculator looks like a real device** (owner request). A
+  shaded, bevelled body with a deep drop shadow, a solar strip, a recessed LCD
+  with faint scan lines and glare, 3D keys (raised top, edge below) that press
+  down when tapped, and a moulded arrow pad. Styles are the calc-* classes in
+  index.css. Tests: calculator 42/42, fit 12/12; build.
 
 ## Blockers and things that need a person
 

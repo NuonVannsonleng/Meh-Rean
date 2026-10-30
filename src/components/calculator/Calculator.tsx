@@ -272,10 +272,10 @@ const NUMBER_ROWS: KeySpec[][] = [
 ];
 
 const TONES: Record<NonNullable<KeySpec["tone"]>, string> = {
-  fn: "h-7 bg-[#24272c] text-white text-[12px] rounded-lg shadow-[inset_0_-2px_0_rgba(0,0,0,0.45)]",
-  top: "h-6 bg-[#24272c] text-white text-[9px] font-bold rounded-full shadow-[inset_0_-2px_0_rgba(0,0,0,0.45)]",
-  num: "h-8 bg-[#5a5f68] text-white text-lg rounded-lg shadow-[inset_0_-3px_0_rgba(0,0,0,0.35)]",
-  del: "h-8 bg-[#79c043] text-white text-sm font-bold rounded-lg shadow-[inset_0_-3px_0_rgba(0,0,0,0.25)]",
+  fn: "calc-key calc-key-fn h-7 text-white text-[12px] rounded-[9px]",
+  top: "calc-key calc-key-top h-6 text-white text-[9px] font-bold tracking-wide rounded-full",
+  num: "calc-key calc-key-num h-8 text-white text-lg rounded-[10px]",
+  del: "calc-key calc-key-green h-8 text-white text-sm font-bold rounded-[10px]",
 };
 
 function Key({ spec, onPress }: { spec: KeySpec; onPress: (id: string) => void }) {
@@ -290,7 +290,7 @@ function Key({ spec, onPress }: { spec: KeySpec; onPress: (id: string) => void }
         onClick={() => onPress(spec.id)}
         aria-label={[spec.name, spec.shift && typeof spec.shift === "string" ? `Shift: ${spec.shift}` : "", spec.alpha && typeof spec.alpha === "string" ? `Alpha: ${spec.alpha}` : ""].filter(Boolean).join(", ")}
         data-key={spec.id}
-        className={`press mt-0.5 flex items-center justify-center font-medium select-none active:translate-y-px ${TONES[spec.tone ?? "fn"]}`}
+        className={`mt-0.5 mb-[3px] flex items-center justify-center font-medium select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ad35c] ${TONES[spec.tone ?? "fn"]}`}
       >
         {spec.label}
       </button>
@@ -877,15 +877,17 @@ export default function Calculator({ onOff, closeLabel }: { onOff: () => void; c
   }
 
   return (
-    <div onKeyDown={onKeyDown} title={copy.keyboardHint} className="rounded-[22px] bg-[#1c1f24] p-2.5 text-white shadow-2xl ring-1 ring-black/40 select-none" data-testid="calculator">
+    <div onKeyDown={onKeyDown} title={copy.keyboardHint} className="calc-body rounded-[24px] p-2.5 pt-2 text-white ring-1 ring-black/50 select-none" data-testid="calculator">
       <div className="mb-1.5 flex items-center gap-2 px-1">
-        <span className="text-[10px] font-semibold tracking-[0.2em] text-white/70">MEH REAN</span>
-        <span className="flex-1 text-right text-[9px] text-white/50">{copy.model}</span>
+        <span className="text-[11px] font-extrabold tracking-[0.22em] text-white/85 [text-shadow:0_1px_0_rgba(0,0,0,0.6)]">MEH REAN</span>
+        <span className="calc-solar h-3.5 flex-1 rounded-[3px]" aria-hidden="true" />
         <button type="button" onClick={onOff} aria-label={closeLabel} data-testid="calculator-close" className="-my-1 flex h-7 w-7 items-center justify-center rounded-full text-white/70 hover:bg-white/10 hover:text-white">
           ✕
         </button>
       </div>
-      <div className="mb-2 rounded-lg border-[3px] border-[#2a2e34] bg-[#c9d6bf] px-2 py-1 font-mono text-[#1d2a1c] shadow-inner">
+      <p className="mb-1 px-1 text-right text-[8.5px] font-semibold tracking-wide text-white/45 italic">{copy.model}</p>
+      <div className="calc-bezel mb-2.5 rounded-xl p-[5px]">
+      <div className="calc-lcd rounded-md px-2 py-1 font-mono">
         <p className="flex h-3.5 gap-1.5 text-[9px] font-bold tracking-wide" aria-label={copy.status}>
           {indicators.map((item) => (
             <span key={item}>{item}</span>
@@ -893,13 +895,15 @@ export default function Calculator({ onOff, closeLabel }: { onOff: () => void; c
         </p>
         <div className="min-h-[3.75rem]">{body}</div>
       </div>
+      </div>
 
       {/* SHIFT ALPHA · the arrows · MODE ON, then the keys beside the arrows. */}
       <div className="grid grid-cols-[1fr_1fr_5.5rem_1fr_1fr] items-end gap-x-1.5 gap-y-0.5">
         {TOP_LEFT.slice(0, 2).map((spec) => (
           <Key key={spec.id} spec={spec} onPress={press} />
         ))}
-        <div className="row-span-2 grid h-[3.75rem] grid-cols-3 grid-rows-3 place-items-center self-center rounded-full bg-[#24272c] shadow-[inset_0_-3px_0_rgba(0,0,0,0.45)]">
+        <div className="calc-pad row-span-2 grid h-[3.75rem] grid-cols-3 grid-rows-3 place-items-center self-center rounded-full">
+          <span className="calc-pad-ring col-start-2 row-start-2 h-5 w-5 rounded-full" aria-hidden="true" />
           {[
             ["up", "▲", "col-start-2 row-start-1", copy.arrows.up],
             ["left", "◀", "col-start-1 row-start-2", copy.arrows.left],
