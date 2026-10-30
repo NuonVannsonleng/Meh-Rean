@@ -1,18 +1,32 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { t } from "../../i18n/en";
-import { CalculatorIcon, CloseIcon } from "../Icons";
+import { CalculatorIcon } from "../Icons";
 import Calculator from "./Calculator";
 
 const copy = t.calculator;
+/** Space kept free around the calculator: the top bar and a small margin. */
+const MARGIN = 72;
 
-/** The calculator button (bottom right, above the phone's tab bar) and its pop-up. */
+/** The calculator button (bottom right, above the phone's tab bar) and its pop-up, scaled down to fit short screens. */
 export default function CalculatorDock() {
   const [open, setOpen] = useState(false);
+  const [scale, setScale] = useState(1);
   const panelRef = useRef<HTMLDivElement>(null);
+  const deviceRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (open) panelRef.current?.focus();
+  }, [open]);
+
+  // Shrink the whole calculator when the window is too short for it.
+  useLayoutEffect(() => {
+    if (!open || !deviceRef.current) return;
+    const device = deviceRef.current;
+    const fit = () => setScale(Math.min(1, Math.max(0.6, (window.innerHeight - MARGIN) / device.offsetHeight)));
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
   }, [open]);
 
   const close = () => {
@@ -41,19 +55,14 @@ export default function CalculatorDock() {
           tabIndex={-1}
           role="dialog"
           aria-label={copy.title}
-          className="animate-pop fixed inset-x-0 bottom-0 z-50 max-h-[100dvh] overflow-y-auto px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] outline-none sm:inset-x-auto sm:right-6 sm:bottom-6 sm:w-[22rem] sm:p-0"
-          onKeyDown={(event) => {
-            if (event.key === "Escape" && event.shiftKey) close();
-          }}
+          className="animate-pop fixed inset-x-0 bottom-[calc(0.5rem+env(safe-area-inset-bottom))] z-50 flex justify-center px-2 outline-none sm:inset-x-auto sm:right-4 sm:bottom-4 sm:px-0"
         >
-          <div className="mx-auto max-w-[24rem]">
-            <div className="mb-1.5 flex items-center justify-between gap-2 px-1">
-              <p className="text-ink-500 bg-surface/90 hidden rounded-md px-2 py-1 text-[11px] sm:block">{copy.keyboardHint}</p>
-              <button type="button" onClick={close} aria-label={copy.close} className="bg-surface text-ink-700 hover:text-ink-900 border-line ml-auto flex h-9 w-9 items-center justify-center rounded-full border shadow-md">
-                <CloseIcon className="h-4 w-4" />
-              </button>
-            </div>
-            <Calculator onOff={close} />
+          <div
+            ref={deviceRef}
+            className="w-full max-w-[20rem] origin-bottom sm:w-[19rem] sm:origin-bottom-right"
+            style={scale < 1 ? { transform: `scale(${scale})` } : undefined}
+          >
+            <Calculator onOff={close} closeLabel={copy.close} />
           </div>
         </div>
       )}

@@ -875,6 +875,11 @@ timing only in database functions, never in the browser.
   log(a,b), STAT A+BX, TABLE, keyboard, SHIFT AC, no sideways scroll, not
   shown on the BacII hub); Study next 8/8, past papers UI 10/10, guide
   11/11, finder UI 17/17; lint; build.
+- **2026-10-30 — Calculator sized to fit** (owner request: too big on a
+  laptop). Smaller keys and screen, 19rem wide on computers, the close
+  button inside its top bar, and it scales down when the window is too short
+  (never below 60%). Fits whole at 1536×730, 1280×800, 1920×1000, 375×667,
+  320×568 and 414×896. Tests: calculator 42/42, fit 12/12; build.
 
 ## Blockers and things that need a person
 

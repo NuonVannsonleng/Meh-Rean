@@ -272,16 +272,16 @@ const NUMBER_ROWS: KeySpec[][] = [
 ];
 
 const TONES: Record<NonNullable<KeySpec["tone"]>, string> = {
-  fn: "h-8 bg-[#24272c] text-white text-[13px] rounded-[10px] shadow-[inset_0_-2px_0_rgba(0,0,0,0.45)]",
-  top: "h-7 bg-[#24272c] text-white text-[10px] font-bold rounded-full shadow-[inset_0_-2px_0_rgba(0,0,0,0.45)]",
-  num: "h-10 bg-[#5a5f68] text-white text-xl rounded-[10px] shadow-[inset_0_-3px_0_rgba(0,0,0,0.35)]",
-  del: "h-10 bg-[#79c043] text-white text-base font-bold rounded-[10px] shadow-[inset_0_-3px_0_rgba(0,0,0,0.25)]",
+  fn: "h-7 bg-[#24272c] text-white text-[12px] rounded-lg shadow-[inset_0_-2px_0_rgba(0,0,0,0.45)]",
+  top: "h-6 bg-[#24272c] text-white text-[9px] font-bold rounded-full shadow-[inset_0_-2px_0_rgba(0,0,0,0.45)]",
+  num: "h-8 bg-[#5a5f68] text-white text-lg rounded-lg shadow-[inset_0_-3px_0_rgba(0,0,0,0.35)]",
+  del: "h-8 bg-[#79c043] text-white text-sm font-bold rounded-lg shadow-[inset_0_-3px_0_rgba(0,0,0,0.25)]",
 };
 
 function Key({ spec, onPress }: { spec: KeySpec; onPress: (id: string) => void }) {
   return (
     <div className="flex min-w-0 flex-col items-stretch">
-      <span className="flex h-3.5 items-end justify-center gap-1.5 text-[9px] leading-none font-semibold whitespace-nowrap">
+      <span className="flex h-3 items-end justify-center gap-1 text-[8px] leading-none font-semibold whitespace-nowrap">
         {spec.shift && <span className="text-[#e7b54a]">{spec.shift}</span>}
         {spec.alpha && <span className="text-[#ec6a8c]">{spec.alpha}</span>}
       </span>
@@ -301,7 +301,7 @@ function Key({ spec, onPress }: { spec: KeySpec; onPress: (id: string) => void }
 // --------------------------------------------------------------- the device --
 
 /** A scientific calculator in the style of the fx-82ES PLUS: COMP, STAT and TABLE modes. */
-export default function Calculator({ onOff }: { onOff: () => void }) {
+export default function Calculator({ onOff, closeLabel }: { onOff: () => void; closeLabel: string }) {
   const [saved, setSaved] = useState<Saved>(load);
   const [input, setInput] = useState<Token[]>([]);
   const [cursor, setCursor] = useState(0);
@@ -859,11 +859,11 @@ export default function Calculator({ onOff }: { onOff: () => void }) {
   } else {
     body = (
       <>
-        <p className="min-h-7 text-[17px] leading-snug" data-testid="calc-input">
+        <p className="min-h-6 text-[15px] leading-snug" data-testid="calc-input">
           {saved.mode === "table" && "f(X)="}
           {tokensText(input, screen.kind === "input")}
         </p>
-        <p className="mt-1 min-h-9 text-right text-2xl leading-none font-medium" data-testid="calc-output" aria-live="polite">
+        <p className="mt-0.5 min-h-8 text-right text-[22px] leading-none font-medium" data-testid="calc-output" aria-live="polite">
           {screen.kind === "result" && <ResultText shown={screen.shown} setup={saved.display} angle={saved.angle} />}
           {screen.kind === "error" && <span className="text-lg">{screen.message}</span>}
           {screen.kind === "recall" && (
@@ -877,33 +877,36 @@ export default function Calculator({ onOff }: { onOff: () => void }) {
   }
 
   return (
-    <div onKeyDown={onKeyDown} className="rounded-[26px] bg-[#1c1f24] p-3 text-white shadow-2xl ring-1 ring-black/40 select-none" data-testid="calculator">
-      <div className="mb-2 flex items-center justify-between px-1">
-        <span className="text-[11px] font-semibold tracking-[0.2em] text-white/70">MEH REAN</span>
-        <span className="text-[10px] text-white/50">{copy.model}</span>
+    <div onKeyDown={onKeyDown} title={copy.keyboardHint} className="rounded-[22px] bg-[#1c1f24] p-2.5 text-white shadow-2xl ring-1 ring-black/40 select-none" data-testid="calculator">
+      <div className="mb-1.5 flex items-center gap-2 px-1">
+        <span className="text-[10px] font-semibold tracking-[0.2em] text-white/70">MEH REAN</span>
+        <span className="flex-1 text-right text-[9px] text-white/50">{copy.model}</span>
+        <button type="button" onClick={onOff} aria-label={closeLabel} data-testid="calculator-close" className="-my-1 flex h-7 w-7 items-center justify-center rounded-full text-white/70 hover:bg-white/10 hover:text-white">
+          ✕
+        </button>
       </div>
-      <div className="mb-3 rounded-lg border-4 border-[#2a2e34] bg-[#c9d6bf] px-2.5 py-1.5 font-mono text-[#1d2a1c] shadow-inner">
+      <div className="mb-2 rounded-lg border-[3px] border-[#2a2e34] bg-[#c9d6bf] px-2 py-1 font-mono text-[#1d2a1c] shadow-inner">
         <p className="flex h-3.5 gap-1.5 text-[9px] font-bold tracking-wide" aria-label={copy.status}>
           {indicators.map((item) => (
             <span key={item}>{item}</span>
           ))}
         </p>
-        <div className="min-h-[4.5rem]">{body}</div>
+        <div className="min-h-[3.75rem]">{body}</div>
       </div>
 
       {/* SHIFT ALPHA · the arrows · MODE ON, then the keys beside the arrows. */}
-      <div className="grid grid-cols-[1fr_1fr_6.5rem_1fr_1fr] items-end gap-x-1.5 gap-y-1">
+      <div className="grid grid-cols-[1fr_1fr_5.5rem_1fr_1fr] items-end gap-x-1.5 gap-y-0.5">
         {TOP_LEFT.slice(0, 2).map((spec) => (
           <Key key={spec.id} spec={spec} onPress={press} />
         ))}
-        <div className="row-span-2 grid h-[4.5rem] grid-cols-3 grid-rows-3 place-items-center self-center rounded-full bg-[#24272c] shadow-[inset_0_-3px_0_rgba(0,0,0,0.45)]">
+        <div className="row-span-2 grid h-[3.75rem] grid-cols-3 grid-rows-3 place-items-center self-center rounded-full bg-[#24272c] shadow-[inset_0_-3px_0_rgba(0,0,0,0.45)]">
           {[
             ["up", "▲", "col-start-2 row-start-1", copy.arrows.up],
             ["left", "◀", "col-start-1 row-start-2", copy.arrows.left],
             ["right", "▶", "col-start-3 row-start-2", copy.arrows.right],
             ["down", "▼", "col-start-2 row-start-3", copy.arrows.down],
           ].map(([id, label, place, name]) => (
-            <button key={id} type="button" aria-label={name} data-key={id} onClick={() => press(id)} className={`${place} h-6 w-7 text-[11px] text-white/80 hover:text-white`}>
+            <button key={id} type="button" aria-label={name} data-key={id} onClick={() => press(id)} className={`${place} h-5 w-6 text-[10px] text-white/80 hover:text-white`}>
               {label}
             </button>
           ))}
@@ -918,12 +921,12 @@ export default function Calculator({ onOff }: { onOff: () => void }) {
           <Key key={spec.id} spec={spec} onPress={press} />
         ))}
       </div>
-      <div className="mt-1 grid grid-cols-6 gap-x-1.5 gap-y-1">
+      <div className="mt-0.5 grid grid-cols-6 gap-x-1.5 gap-y-0.5">
         {FUNCTION_ROWS.flat().map((spec) => (
           <Key key={spec.id} spec={spec} onPress={press} />
         ))}
       </div>
-      <div className="mt-2 grid grid-cols-5 gap-x-2 gap-y-1.5">
+      <div className="mt-1.5 grid grid-cols-5 gap-x-2 gap-y-1">
         {NUMBER_ROWS.flat().map((spec) => (
           <Key key={spec.id} spec={spec} onPress={press} />
         ))}
