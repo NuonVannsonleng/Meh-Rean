@@ -250,6 +250,8 @@ export const en = {
     open: "Calculator",
     openLabel: "Open the scientific calculator",
     close: "Close the calculator",
+    soundOff: "Turn key sounds off",
+    soundOn: "Turn key sounds on",
     title: "Scientific calculator",
     model: "Scientific · natural display",
     status: "Calculator status",

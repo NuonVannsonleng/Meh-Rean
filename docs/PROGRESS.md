@@ -889,6 +889,12 @@ timing only in database functions, never in the browser.
   with faint scan lines and glare, 3D keys (raised top, edge below) that press
   down when tapped, and a moulded arrow pad. Styles are the calc-* classes in
   index.css. Tests: calculator 42/42, fit 12/12; build.
+- **2026-10-30 — Calculator key clicks** (owner request). Every key press
+  (screen or keyboard) plays a short click made with the Web Audio API (no
+  sound files): lower for number keys, fuller for =; Android phones also get a
+  tiny vibration. A speaker button in the top bar turns it off, remembered in
+  the browser. Tests: sound 6/6 (clicks counted per press, muted, remembered),
+  calculator 42/42, fit 12/12; build.
 
 ## Blockers and things that need a person
 

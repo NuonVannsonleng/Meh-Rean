@@ -1,5 +1,7 @@
 import { useEffect, useState, type KeyboardEvent, type ReactNode } from "react";
 import { t } from "../../i18n/en";
+import { playClick } from "../../lib/calculator/sound";
+import { MuteIcon, SoundIcon } from "../Icons";
 import {
   TOKENS as T,
   evaluate,
@@ -65,10 +67,12 @@ interface Saved {
   mode: Mode;
   statType: StatType;
   statRows: { x: number; y: number }[];
+  /** Key clicks on (the default) or off. */
+  sound: boolean;
 }
 
 const EMPTY_VARS: Record<Variable, number> = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, X: 0, Y: 0, M: 0 };
-const DEFAULTS: Saved = { vars: EMPTY_VARS, ans: 0, angle: "deg", display: { kind: "norm", n: 1 }, mode: "comp", statType: "1-var", statRows: [] };
+const DEFAULTS: Saved = { vars: EMPTY_VARS, ans: 0, angle: "deg", display: { kind: "norm", n: 1 }, mode: "comp", statType: "1-var", statRows: [], sound: true };
 
 function load(): Saved {
   try {
@@ -723,6 +727,11 @@ export default function Calculator({ onOff, closeLabel }: { onOff: () => void; c
     if (tokens) insert(tokens);
   };
 
+  const pressKey = (key: string) => {
+    if (saved.sound) playClick(key === "equals" ? "equals" : /^\d$/.test(key) || ["point", "exp", "ans", "times", "divide", "plus", "minus", "del", "ac"].includes(key) ? "num" : "fn");
+    press(key);
+  };
+
   // ------------------------------------------------------------ keyboard --
   const onKeyDown = (event: KeyboardEvent) => {
     const map: Record<string, string> = {
@@ -748,7 +757,7 @@ export default function Calculator({ onOff, closeLabel }: { onOff: () => void; c
     const key = /^\d$/.test(event.key) ? event.key : map[event.key];
     if (!key || event.ctrlKey || event.metaKey || event.altKey) return;
     event.preventDefault();
-    press(key);
+    pressKey(key);
   };
 
   // --------------------------------------------------------------- screen --
@@ -881,6 +890,16 @@ export default function Calculator({ onOff, closeLabel }: { onOff: () => void; c
       <div className="mb-1.5 flex items-center gap-2 px-1">
         <span className="text-[11px] font-extrabold tracking-[0.22em] text-white/85 [text-shadow:0_1px_0_rgba(0,0,0,0.6)]">MEH REAN</span>
         <span className="calc-solar h-3.5 flex-1 rounded-[3px]" aria-hidden="true" />
+        <button
+          type="button"
+          onClick={() => update({ sound: !saved.sound })}
+          aria-label={saved.sound ? copy.soundOff : copy.soundOn}
+          aria-pressed={saved.sound}
+          data-testid="calculator-sound"
+          className="-my-1 flex h-7 w-7 items-center justify-center rounded-full text-white/70 hover:bg-white/10 hover:text-white"
+        >
+          {saved.sound ? <SoundIcon className="h-4 w-4" /> : <MuteIcon className="h-4 w-4" />}
+        </button>
         <button type="button" onClick={onOff} aria-label={closeLabel} data-testid="calculator-close" className="-my-1 flex h-7 w-7 items-center justify-center rounded-full text-white/70 hover:bg-white/10 hover:text-white">
           ✕
         </button>
@@ -900,7 +919,7 @@ export default function Calculator({ onOff, closeLabel }: { onOff: () => void; c
       {/* SHIFT ALPHA · the arrows · MODE ON, then the keys beside the arrows. */}
       <div className="grid grid-cols-[1fr_1fr_5.5rem_1fr_1fr] items-end gap-x-1.5 gap-y-0.5">
         {TOP_LEFT.slice(0, 2).map((spec) => (
-          <Key key={spec.id} spec={spec} onPress={press} />
+          <Key key={spec.id} spec={spec} onPress={pressKey} />
         ))}
         <div className="calc-pad row-span-2 grid h-[3.75rem] grid-cols-3 grid-rows-3 place-items-center self-center rounded-full">
           <span className="calc-pad-ring col-start-2 row-start-2 h-5 w-5 rounded-full" aria-hidden="true" />
@@ -910,29 +929,29 @@ export default function Calculator({ onOff, closeLabel }: { onOff: () => void; c
             ["right", "▶", "col-start-3 row-start-2", copy.arrows.right],
             ["down", "▼", "col-start-2 row-start-3", copy.arrows.down],
           ].map(([id, label, place, name]) => (
-            <button key={id} type="button" aria-label={name} data-key={id} onClick={() => press(id)} className={`${place} h-5 w-6 text-[10px] text-white/80 hover:text-white`}>
+            <button key={id} type="button" aria-label={name} data-key={id} onClick={() => pressKey(id)} className={`${place} h-5 w-6 text-[10px] text-white/80 hover:text-white`}>
               {label}
             </button>
           ))}
         </div>
         {TOP_RIGHT.slice(0, 2).map((spec) => (
-          <Key key={spec.id} spec={spec} onPress={press} />
+          <Key key={spec.id} spec={spec} onPress={pressKey} />
         ))}
         {TOP_LEFT.slice(2).map((spec) => (
-          <Key key={spec.id} spec={spec} onPress={press} />
+          <Key key={spec.id} spec={spec} onPress={pressKey} />
         ))}
         {TOP_RIGHT.slice(2).map((spec) => (
-          <Key key={spec.id} spec={spec} onPress={press} />
+          <Key key={spec.id} spec={spec} onPress={pressKey} />
         ))}
       </div>
       <div className="mt-0.5 grid grid-cols-6 gap-x-1.5 gap-y-0.5">
         {FUNCTION_ROWS.flat().map((spec) => (
-          <Key key={spec.id} spec={spec} onPress={press} />
+          <Key key={spec.id} spec={spec} onPress={pressKey} />
         ))}
       </div>
       <div className="mt-1.5 grid grid-cols-5 gap-x-2 gap-y-1">
         {NUMBER_ROWS.flat().map((spec) => (
-          <Key key={spec.id} spec={spec} onPress={press} />
+          <Key key={spec.id} spec={spec} onPress={pressKey} />
         ))}
       </div>
     </div>
