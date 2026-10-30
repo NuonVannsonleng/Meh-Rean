@@ -850,6 +850,31 @@ timing only in database functions, never in the browser.
   Gemini and YouTube, local Supabase), finder UI 17/17, chapters 8/8,
   question match 8/8, Study next 8/8, past papers UI 10/10, guide 11/11;
   lint; build.
+- **2026-10-30 — Scientific calculator** (owner request, from a photo of an
+  fx-82ES PLUS). A "Calculator" button on pages showing mathematics,
+  physics, chemistry or biology questions (`src/data/bacii/calculator-subjects.json`;
+  registered by `PracticeQuestion` and the paper, exam, attempt, timer and
+  Photo to solution pages through `useCalculatorFor`) opens a pop-up
+  calculator laid out like that model, without its maker's name: SHIFT and
+  ALPHA functions, the arrow pad, MODE (COMP, STAT, TABLE) and SETUP
+  (Deg/Rad/Gra, Fix, Sci, Norm 1/2). COMP: the model's order of operations
+  (implied × like ×÷, (−) below powers, left-to-right powers), fractions
+  and mixed numbers, √ ∛ ˣ√ x² x³ x^ x⁻¹ x!, log, log(a,b), ln, 10^, e^,
+  trig and inverse trig, hyperbolic menu, DRG►, °'", %, Abs, nPr nCr,
+  Pol Rec, Rnd, Ran#, RanInt#, E notation, Ans, A–F X Y M with STO, RCL,
+  M+ and M−, FACT, ENG and ←, S⇔D and a b/c⇔d/c, CLR, history (▲▼),
+  cursor editing, Math and Syntax ERRORs. Input is linear; results show in
+  natural form (fractions, surds such as 4√3/3, multiples of π), worked to
+  15 digits and shown to 10. STAT: 1-VAR and all seven regressions with a
+  data editor and the Sum, Var, Reg (x̂, ŷ) and MinMax menus. TABLE: f(X)
+  with Start, End, Step, up to 30 rows. Memories and settings are kept in
+  the browser; the physical keyboard works too. Engine in
+  `src/lib/calculator/engine.ts`. Tests: `test:calculator` 23/23;
+  calculator in the browser 42/42 (desktop and 375px phone: the photo's
+  sum, S⇔D, errors, STO/ALPHA, Ans, history, Rad, x!, FACT, nCr,
+  log(a,b), STAT A+BX, TABLE, keyboard, SHIFT AC, no sideways scroll, not
+  shown on the BacII hub); Study next 8/8, past papers UI 10/10, guide
+  11/11, finder UI 17/17; lint; build.
 
 ## Blockers and things that need a person
 

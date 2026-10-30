@@ -13,6 +13,7 @@ import { getCurriculumChapters, getCurriculumSubjects, getExamPaper, getMyExamAt
 import type { CurriculumChapter, CurriculumSubject, ExamAttempt, ExamPaperDetail, ExamPaperQuestion } from "../types";
 import { PaperOriginBadge } from "./BaciiPapers";
 import { gradeFor } from "../components/GradeEstimateCard";
+import { useCalculatorFor } from "../context/CalculatorContext";
 
 const copy = t.bacii.papers;
 
@@ -67,6 +68,7 @@ export default function BaciiPaper() {
   const [paper, setPaper] = useState<ExamPaperDetail | null>(null);
   const [missing, setMissing] = useState(false);
   const [subject, setSubject] = useState<CurriculumSubject | null>(null);
+  useCalculatorFor(subject?.subjectKey);
   const [chapters, setChapters] = useState<CurriculumChapter[]>([]);
   const [showAnswers, setShowAnswers] = useState(false);
 

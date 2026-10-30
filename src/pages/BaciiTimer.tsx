@@ -7,6 +7,7 @@ import { t } from "../i18n/en";
 import { crossedWarnings, elapsedMs, formatClock, isFinished, isStale, pauseTimer, readTimer, remainingMs, resumeTimer, startTimer, warningsFor, type TimerState } from "../lib/examTimer";
 import { getExamPaper } from "../services/api";
 import type { ExamPaperDetail } from "../types";
+import { calculatorSubjectKey, useCalculatorFor } from "../context/CalculatorContext";
 
 const copy = t.bacii.timer;
 // The running timer and the last few papers, on this device only.
@@ -274,6 +275,7 @@ export default function BaciiTimer() {
   const progress = timer ? Math.min(100, (elapsedMs(timer, now) / (timer.minutes * 60_000)) * 100) : 0;
   const endsAt = useMemo(() => (timer && timer.pausedAt === null ? new Date(now + left).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" }) : null), [timer, now, left]);
   const timedSubject = timer ? subjectOf(timer.subjectKey).subject : null;
+  useCalculatorFor(timedPaper ? calculatorSubjectKey(timedPaper.subjectId) : (timedSubject?.id ?? null));
   const timedPoints = timedPaper ? paperPoints(timedPaper) : timedSubject?.points;
   const timedName = timer ? (timedPaper ? timedPaper.titleEn : paperIdOf(timer.subjectKey) ? copy.paper.loading : subjectName(timer.subjectKey)) : "";
   const leavePaper = () =>

@@ -9,6 +9,7 @@ import MathText from "./MathText";
 import QuestionImage from "./QuestionImage";
 import SolutionSteps from "./SolutionSteps";
 import VerificationBadge from "./VerificationBadge";
+import { useCalculatorFor } from "../context/CalculatorContext";
 
 const copy = t.bacii.practice;
 
@@ -35,6 +36,7 @@ export default function PracticeQuestion({
   /** After the server has marked a signed-in student's answer. */
   onChecked?: (correct: boolean, answer: string) => void;
 }) {
+  useCalculatorFor(subjectKey);
   const formId = useId();
   const { user } = useAuth();
   const [given, setGiven] = useState("");

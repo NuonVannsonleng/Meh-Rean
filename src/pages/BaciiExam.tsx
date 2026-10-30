@@ -7,6 +7,7 @@ import QuestionImage from "../components/QuestionImage";
 import { t } from "../i18n/en";
 import { getExamAttempt, getExamPaper, getMyExamAttempts, saveExamAnswer, startExam, submitExam } from "../services/api";
 import { ApiError, type ExamAttempt, type ExamPaperDetail, type ExamPaperQuestion } from "../types";
+import { calculatorSubjectKey, useCalculatorFor } from "../context/CalculatorContext";
 
 const copy = t.bacii.exam;
 const PRACTICE_MINUTES = [30, 45, 60, 90, 120, 150];
@@ -84,6 +85,7 @@ export default function BaciiExam() {
   const { id = "" } = useParams();
   const navigate = useNavigate();
   const [paper, setPaper] = useState<ExamPaperDetail | null>(null);
+  useCalculatorFor(calculatorSubjectKey(paper?.subjectId));
   const [missing, setMissing] = useState(false);
   const [running, setRunning] = useState<ExamAttempt | null>(null);
   const [minutes, setMinutes] = useState(60);

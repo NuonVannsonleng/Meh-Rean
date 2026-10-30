@@ -20,6 +20,7 @@ import { useQuestionBank } from "../hooks/useQuestionBank";
 import { matchQuestions } from "../lib/questionMatch";
 import { subjectLabel } from "../lib/subjects";
 import { isLocalMode } from "../services/api";
+import { useCalculatorFor } from "../context/CalculatorContext";
 
 const copy = t.bacii.solve;
 
@@ -73,6 +74,8 @@ export default function BaciiSolve() {
   const [image, setImage] = useState<PreparedImage | null>(null);
   const [text, setText] = useState(() => (params.get("text") ?? "").slice(0, 3000));
   const [subject, setSubject] = useState<BaciiSubject | "">("");
+  // Photos to solve are mostly calculations: offered unless another subject is chosen.
+  useCalculatorFor(subject || "mathematics");
   const [transcript, setTranscript] = useState<ExerciseTranscript | null>(null);
   const [reading, setReading] = useState<Busy>({ kind: "idle" });
   const [solving, setSolving] = useState<Busy>({ kind: "idle" });

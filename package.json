@@ -26,6 +26,7 @@
     "test:video-chapters": "node scripts/test-video-chapters.mjs",
     "test:video-search": "node scripts/test-video-search.mjs",
     "test:video-finder": "node scripts/test-video-finder.mjs",
+    "test:calculator": "node scripts/test-calculator.mjs",
     "test:question-match": "node scripts/test-question-match.mjs",
     "test:video-quizzes": "node scripts/test-video-quizzes.mjs",
     "test:video-progress": "node scripts/test-video-progress.mjs",

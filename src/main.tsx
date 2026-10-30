@@ -7,6 +7,7 @@ import { ChatProvider } from "./context/ChatContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { ToastProvider } from "./context/ToastContext";
 import "./index.css";
+import { CalculatorProvider } from "./context/CalculatorContext";
 
 const container = document.getElementById("root");
 
@@ -21,7 +22,9 @@ createRoot(container).render(
         <ToastProvider>
           <AuthProvider>
             <ChatProvider>
-              <App />
+              <CalculatorProvider>
+                <App />
+              </CalculatorProvider>
             </ChatProvider>
           </AuthProvider>
         </ToastProvider>

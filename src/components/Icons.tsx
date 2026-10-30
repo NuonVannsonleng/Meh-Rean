@@ -81,3 +81,4 @@ export const PaletteIcon = createIcon(<><path d="M12 3a9 9 0 0 0 0 18c1.1 0 1.5-
 export const CalendarIcon = createIcon(<><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></>);
 export const FilterIcon = createIcon(<><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12" /><circle cx="16" cy="6" r="2" /><circle cx="10" cy="12" r="2" /><circle cx="18" cy="18" r="2" /></>);
 export const ChevronDownIcon = createIcon(<path d="m6 9 6 6 6-6" />);
+export const CalculatorIcon = createIcon(<><rect x="5" y="2.5" width="14" height="19" rx="2.5" /><path d="M8.5 6.5h7" /><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h.01M15.5 18h.01" /></>);

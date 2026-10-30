@@ -10,6 +10,7 @@ import { t } from "../i18n/en";
 import { formatPercent } from "../lib/grades";
 import { getCurriculumChapters, getCurriculumSubjects, getExamAttempt, getExamPaper } from "../services/api";
 import type { CurriculumChapter, ExamAnswer, ExamAttemptDetail, ExamPaperDetail } from "../types";
+import { useCalculatorFor } from "../context/CalculatorContext";
 
 const copy = t.bacii.exam;
 
@@ -42,6 +43,7 @@ export default function BaciiAttempt() {
   const [paper, setPaper] = useState<ExamPaperDetail | null>(null);
   const [chapters, setChapters] = useState<CurriculumChapter[]>([]);
   const [subjectKey, setSubjectKey] = useState("");
+  useCalculatorFor(subjectKey);
   const [missing, setMissing] = useState(false);
 
   useEffect(() => {

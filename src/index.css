@@ -528,3 +528,19 @@
     transform: none !important;
   }
 }
+
+/* The calculator's blinking cursor. */
+.calc-cursor {
+  display: inline-block;
+  width: 1.5px;
+  height: 1.05em;
+  margin: 0 -0.75px;
+  vertical-align: text-bottom;
+  background: currentColor;
+  animation: calc-blink 1s steps(1) infinite;
+}
+@keyframes calc-blink {
+  50% {
+    opacity: 0;
+  }
+}
