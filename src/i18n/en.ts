@@ -2159,13 +2159,13 @@ export const en = {
   },
   demo: {
     title: "Friendly reminder:",
-    body: "Meh Rean is a demo, built by one developer, not a company team, so you may run into bugs. Thanks for your patience!",
-    contact: "Problem or idea? Contact me by",
+    body: "Meh Rean is published as a demo version so students can try it and help find bugs. It is built by one developer, not a company team, so some things may not work yet. Thanks for your patience!",
+    contact: "Found a bug or have an idea? Contact me by",
     email: "Gmail",
     or: "or",
     telegram: "Telegram",
     hide: "Hide this reminder",
-    footer: "A demo built by one developer. Problem or idea? Contact me:",
+    footer: "A demo version for testing, built by one developer. Found a bug or have an idea? Contact me:",
   },
   footer: {
     note: "Meh Rean — a study-sharing community for students everywhere.",

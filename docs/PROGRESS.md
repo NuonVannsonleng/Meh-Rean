@@ -880,6 +880,10 @@ timing only in database functions, never in the browser.
   button inside its top bar, and it scales down when the window is too short
   (never below 60%). Fits whole at 1536×730, 1280×800, 1920×1000, 375×667,
   320×568 and 414×896. Tests: calculator 42/42, fit 12/12; build.
+- **2026-10-30 — Reminder says it is a demo version for testing** (owner
+  request). The reminder now says Meh Rean is published as a demo version so
+  students can try it and help find bugs, built by one developer; the footer
+  matches. Tests: demo reminder 17/17; build.
 
 ## Blockers and things that need a person
 
