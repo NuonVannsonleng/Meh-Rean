@@ -81,24 +81,18 @@ export default function Bacii() {
 
       <nav aria-label={t.bacii.optionsLabel}>
         <ul className="grid grid-cols-2 gap-3 sm:gap-4">
-          {BACII_TOOLS.map(({ to, title, description, Icon, image }) => (
+          {BACII_TOOLS.map(({ to, title, description, Icon }) => (
             <li key={to}>
-              <Link to={to} className="card press group hover:border-brand-500 relative flex h-full flex-col overflow-hidden transition-colors">
-                <span className="block overflow-hidden">
-                  <Photo name={image} sizes="(min-width: 896px) 430px, 50vw" className="aspect-video w-full transition-transform sm:aspect-[2/1] duration-300 group-hover:scale-105" />
-                </span>
-                <span className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-5 sm:pr-14">
-                  <span className="flex items-center gap-3">
-                    <span className="bg-brand-50 text-accent hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:flex">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="font-display text-ink-900 block text-base leading-snug font-bold sm:text-lg">{title}</span>
-                    </span>
+              <Link to={to} className="card press group hover:border-brand-500 relative flex h-full flex-col gap-2 p-4 transition-colors sm:p-5 sm:pr-14">
+                {/* Icon above the title on a phone (two narrow columns), beside it on wider screens. */}
+                <span className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-3">
+                  <span className="bg-brand-50 text-accent flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
+                    <Icon className="h-5 w-5" />
                   </span>
-                  {/* On a phone the title says enough; the longer line is for wider screens. */}
-                  <span className="text-ink-500 hidden text-sm leading-relaxed sm:block">{description}</span>
+                  <span className="font-display text-ink-900 min-w-0 text-base leading-snug font-bold sm:text-lg">{title}</span>
                 </span>
+                {/* On a phone the title says enough; the longer line is for wider screens. */}
+                <span className="text-ink-500 hidden text-sm leading-relaxed sm:block">{description}</span>
                 {/* The arrow fills with the signature colour on hover. */}
                 <span className="bg-surface-hover text-ink-700 group-hover:bg-brand-600 absolute right-4 bottom-4 hidden h-8 w-8 items-center justify-center rounded-full transition-colors group-hover:text-white sm:flex">
                   <ArrowLeftIcon className="h-4 w-4 rotate-180" />

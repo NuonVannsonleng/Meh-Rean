@@ -819,6 +819,11 @@ timing only in database functions, never in the browser.
   The header is taller (16:9 on a phone, 2:1 wider) so the picture shows
   almost whole. Credits now say the guide picture is Meh Rean's own.
   Checked on desktop and a phone, light and dark. Tests: guide 11/11; build.
+- **2026-10-30 — BacII tool cards: icons instead of pictures** (owner
+  request). Each tool card shows its icon, title and (on wider screens) its
+  description; the eight card pictures were removed (the banner picture
+  stays). Checked on desktop and a phone, light and dark. Tests: Study next
+  8/8, guide 11/11; build.
 
 ## Blockers and things that need a person
 
