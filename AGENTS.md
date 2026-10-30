@@ -70,6 +70,8 @@ npm run test:study-plans # saved study plans; local Supabase
 npm run test:video-quota # YouTube quota log; local Supabase
 npm run test:video-channels # trusted channels; local Supabase
 npm run test:video-chapters # video description chapters parser
+npm run test:video-search # finder searches (Khmer first, key terms), scoring, no-AI fallback
+npm run test:video-finder # whole video lookup with stand-in Gemini and YouTube; local Supabase
 npm run test:question-match # exercise-to-question matching
 npm run test:video-quizzes # video quizzes; local Supabase
 npm run test:video-progress # watched-video marks; local Supabase

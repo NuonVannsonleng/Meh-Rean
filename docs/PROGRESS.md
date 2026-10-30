@@ -824,6 +824,32 @@ timing only in database functions, never in the browser.
   description; the eight card pictures were removed (the banner picture
   stays). Checked on desktop and a phone, light and dark. Tests: Study next
   8/8, guide 11/11; build.
+- **2026-10-30 — Video finder: every subject, Khmer first, key terms, other
+  help** (owner request: an essay question was searched by its own sentence).
+  The reader now reports the question type (calculation, essay, short
+  answer, multiple choice) and up to five key terms in Khmer and English
+  (the work, author, event, person, law or method a video title would
+  name). `planSearches` runs two Khmer searches built from those terms,
+  dropping any that copy the question's sentence (quoted names «…» as a
+  fallback), and an English one only for maths, sciences and English. Videos
+  admins linked to the topic (`resource_topics`) join the candidates and are
+  marked "Checked by Meh Rean". Ranking sees full descriptions, tags and
+  length (one videos.list call); `scoreVideo` rewards key terms in the title
+  and the same BacII year and exercise (Khmer digits too) and sinks Shorts;
+  it orders videos when the ranking model fails. Below the videos: the same
+  question in Meh Rean's bank with its checked solution (shared
+  `useQuestionBank` hook, also used by Photo to solution), Meh Rean notes
+  on the key terms, the topic page, and Google in Khmer and English. The
+  no-AI fallback searches quoted names or the text without instruction
+  words. A lookup with three searches is logged as two rows, so the search
+  log needs no schema change. Khmer subject labels removed from the picker
+  (English-only rule). Not "training" a model: the AI's instructions and the
+  search and ranking around it changed; real-AI quality is untested locally
+  (no Gemini or YouTube keys here) and should be checked on the live site.
+  Tests: `test:video-search` 12/12, `test:video-finder` 3/3 (stand-in
+  Gemini and YouTube, local Supabase), finder UI 17/17, chapters 8/8,
+  question match 8/8, Study next 8/8, past papers UI 10/10, guide 11/11;
+  lint; build.
 
 ## Blockers and things that need a person
 

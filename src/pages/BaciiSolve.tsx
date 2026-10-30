@@ -16,10 +16,10 @@ import {
   type ExerciseTranscript,
   type PreparedImage,
 } from "../lib/bacii";
+import { useQuestionBank } from "../hooks/useQuestionBank";
 import { matchQuestions } from "../lib/questionMatch";
 import { subjectLabel } from "../lib/subjects";
-import { getCurriculumChapters, getCurriculumSubjects, getQuestions, isLocalMode } from "../services/api";
-import type { CurriculumChapter, CurriculumSubject, Question } from "../types";
+import { isLocalMode } from "../services/api";
 
 const copy = t.bacii.solve;
 
@@ -77,22 +77,12 @@ export default function BaciiSolve() {
   const [reading, setReading] = useState<Busy>({ kind: "idle" });
   const [solving, setSolving] = useState<Busy>({ kind: "idle" });
   const [solution, setSolution] = useState<AISolution | null>(null);
-  const [bank, setBank] = useState<Question[] | null>(null);
-  const [chapters, setChapters] = useState<CurriculumChapter[]>([]);
-  const [subjects, setSubjects] = useState<CurriculumSubject[]>([]);
+  // The question bank and chapter names, for matching and labels.
+  const { bank, chapterOf, subjectKeyOf } = useQuestionBank();
   const [settled, setSettled] = useState(text);
 
   useEffect(() => {
     document.title = `${copy.title} · ${t.bacii.title} · ${t.common.appName}`;
-    // The question bank and chapter names, for matching and labels.
-    getQuestions().then(setBank).catch(() => setBank([]));
-    getCurriculumSubjects()
-      .then(async (list) => {
-        setSubjects(list);
-        const all = await Promise.all(list.map((item) => getCurriculumChapters(item.id).catch(() => [])));
-        setChapters(all.flat());
-      })
-      .catch(() => {});
   }, []);
 
   // Match once the student pauses typing.
@@ -103,8 +93,6 @@ export default function BaciiSolve() {
 
   const chapterId = transcript?.chapter?.id ?? null;
   const matches = useMemo(() => (bank ? matchQuestions(settled, bank, chapterId) : []), [bank, settled, chapterId]);
-  const chapterOf = useMemo(() => new Map(chapters.map((chapter) => [chapter.id, chapter])), [chapters]);
-  const subjectKeyOf = (subjectId: string) => subjects.find((item) => item.id === subjectId)?.subjectKey ?? "";
 
   const addFile = async (file: File | undefined) => {
     if (!file || !file.type.startsWith("image/")) return;

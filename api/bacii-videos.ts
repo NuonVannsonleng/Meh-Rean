@@ -1,10 +1,12 @@
 /**
  * POST /api/bacii-videos — "Stuck on an exercise?" for BacII (Grade 12) students.
  *
- * Takes an exercise as a photo and/or text, has an AI model read it (subject,
- * topic, which BacII paper it is from if it can tell), searches YouTube for
- * teaching videos in Khmer and English, then has the model rank them so a video
- * that works the very same exercise comes first.
+ * Takes an exercise in any BacII subject as a photo and/or text, has an AI
+ * model read it (subject, question type, topic, the key terms a video title
+ * would name, which BacII paper it is from if it can tell), searches YouTube in
+ * Khmer first (English too for maths, sciences and English), adds videos admins
+ * linked to the topic, then ranks them on full descriptions, tags and length
+ * so a video of the very same exercise comes first.
  *
  * Runs as a Vercel Function, so the keys stay on the server. Environment:
  *   GEMINI_API_KEY       Google Gemini, from aistudio.google.com (has a free tier)
@@ -63,11 +65,17 @@ const SUBJECTS = [
 
 type Match = "exact" | "same-topic" | "related";
 
+const QUESTION_TYPES = ["calculation", "essay", "short-answer", "multiple-choice", "other"] as const;
+
 interface ExerciseReading {
   is_exercise: boolean;
   subject: (typeof SUBJECTS)[number];
+  question_type: (typeof QUESTION_TYPES)[number];
   topic_en: string;
   topic_km: string;
+  /** What a teacher's video title would name: the work, author, event, person, law or method. */
+  key_terms_km: string[];
+  key_terms_en: string[];
   summary: string;
   exercise_text: string;
   bacii_year: number | null;
@@ -86,6 +94,10 @@ interface Candidate {
   description: string;
   thumbnail: string;
   publishedAt: string;
+  tags?: string[];
+  durationSeconds?: number | null;
+  /** Linked to the exercise's topic by Meh Rean's admins (public.resource_topics). */
+  checked?: boolean;
 }
 
 const MAX_IMAGE_BYTES = 3_500_000;
@@ -176,10 +188,12 @@ async function takeLookup(token: string, limit: number): Promise<"ok" | "limit" 
 
 /** Records YouTube searches for the quota count; a failure here never fails a lookup. */
 async function logSearches(token: string, searches: number): Promise<void> {
+  // A row holds one or two searches (schema.sql); a third goes in a second row.
+  const rows = searches > 2 ? [{ searches: 2 }, { searches: searches - 2 }] : [{ searches }];
   const response = await fetch(`${supabaseUrl()}/rest/v1/youtube_search_log`, {
     method: "POST",
     headers: { apikey: supabaseKey(), Authorization: `Bearer ${token}`, "Content-Type": "application/json", Prefer: "return=minimal" },
-    body: JSON.stringify({ searches }),
+    body: JSON.stringify(rows),
   });
   if (!response.ok) throw new Error(`search log failed: ${response.status}`);
 }
@@ -462,15 +476,18 @@ const askAI = <T>(
   state: AIState,
 ) => (env("ANTHROPIC_API_KEY") ? askClaude<T>(system, content, tool, deadline) : askGemini<T>(system, content, tool, deadline, state));
 
-const READ_SYSTEM = `You help Cambodian Grade 12 students revise for the BacII (បាក់ឌុប), the national upper-secondary exam.
-A student is stuck on an exercise and wants a YouTube video that teaches it. Read the exercise (it may be in Khmer, English or French, typed or photographed, possibly handwritten) and report it with the tool.
+const READ_SYSTEM = `You help Cambodian Grade 12 students revise for the BacII (បាក់ឌុប), the national upper-secondary exam, in every subject: mathematics, physics, chemistry, biology, earth science, Khmer literature, history, geography, morals and civics, and English.
+A student is stuck on an exercise and wants YouTube lessons that teach it, in Khmer first. Read the exercise (Khmer, English or French; typed or photographed; possibly handwritten) and report it with the tool.
 - subject: the BacII subject it belongs to.
+- question_type: "calculation" (work something out), "essay" (write an essay or a long explanation, as in Khmer literature, morals and civics or history), "short-answer", "multiple-choice", or "other".
 - topic_en / topic_km: the specific topic, as a teacher would name it (e.g. "Integration by parts" / "អាំងតេក្រាលដោយផ្នែក").
+- key_terms_km: up to 5 short Khmer terms that a teacher's video title about this exercise would contain: the literary work, its author or characters; the historical event, period, person or place; the law, method or concept. Write names as Cambodian textbooks write them. Never instruction words such as ចូរ, ពន្យល់, បកស្រាយ, តើ, ហេតុអ្វី.
+- key_terms_en: the same terms in English (romanised names for Khmer works and people).
 - summary: one or two plain English sentences on what the exercise asks.
 - exercise_text: a faithful transcription of the exercise, at most 600 characters, formulas in plain text.
 - bacii_year / exercise_number: only if the exercise clearly is from a BacII past paper (a header, a year, or a well-known exam exercise); otherwise null. Never guess.
-- search_queries: 2 YouTube searches, most specific first. The first in Khmer, worded the way Cambodian teachers title their videos (for example "កំណែវិញ្ញាសាបាក់ឌុប ២០២៣ គណិតវិទ្យា លំហាត់ទី២" for a past paper, or "របៀបដោះស្រាយ អាំងតេក្រាលដោយផ្នែក" for a topic). The second in English. Do not put the whole exercise in a query.
-- chapter_id / topic_id: if a list of Meh Rean chapters is given and the exercise clearly belongs to one, its id (and the topic's id, if one fits); otherwise null. When you set them, use that chapter's or topic's Khmer name in the Khmer search.
+- search_queries: 2 or 3 YouTube searches, most specific first; the first two in Khmer, worded the way Cambodian teachers title their videos. Build them from the key terms and the topic, never from the question's own sentence: an essay question such as «ចូរពន្យល់…» is not what a video is called. Good wording: "កំណែវិញ្ញាសាបាក់ឌុប ២០២៣ គណិតវិទ្យា លំហាត់ទី២" for a past paper; "របៀបដោះស្រាយ អាំងតេក្រាលដោយផ្នែក" for a method; "ពន្យល់ រឿង <work> អក្សរសាស្ត្រខ្មែរ ថ្នាក់ទី១២" or "តែងសេចក្តី <theme>" for literature; "ប្រវត្តិវិទ្យា ថ្នាក់ទី១២ <event or period>" for history. Add a third, English search only for mathematics, the sciences or English.
+- chapter_id / topic_id: if a list of Meh Rean chapters is given and the exercise clearly belongs to one, its id (and the topic's id, if one fits); otherwise null. When you set them, use that chapter's or topic's Khmer name in a Khmer search.
 If the input is not a school exercise at all, set is_exercise to false.`;
 
 const READ_TOOL = {
@@ -481,8 +498,11 @@ const READ_TOOL = {
     properties: {
       is_exercise: { type: "boolean" },
       subject: { type: "string", enum: [...SUBJECTS] },
+      question_type: { type: "string", enum: [...QUESTION_TYPES] },
       topic_en: { type: "string" },
       topic_km: { type: "string" },
+      key_terms_km: { type: "array", items: { type: "string" }, maxItems: 5 },
+      key_terms_en: { type: "array", items: { type: "string" }, maxItems: 5 },
       summary: { type: "string" },
       exercise_text: { type: "string" },
       bacii_year: { type: ["integer", "null"] },
@@ -491,17 +511,18 @@ const READ_TOOL = {
       chapter_id: { type: ["string", "null"] },
       topic_id: { type: ["string", "null"] },
     },
-    required: ["is_exercise", "subject", "topic_en", "topic_km", "summary", "exercise_text", "bacii_year", "exercise_number", "search_queries", "chapter_id", "topic_id"],
+    required: ["is_exercise", "subject", "question_type", "topic_en", "topic_km", "key_terms_km", "key_terms_en", "summary", "exercise_text", "bacii_year", "exercise_number", "search_queries", "chapter_id", "topic_id"],
   },
 };
 
-const RANK_SYSTEM = `You match YouTube videos to a BacII exercise a Cambodian Grade 12 student is stuck on.
-For each candidate video, judge from its title, channel and description:
-- "exact": it works through this very exercise (the same past-paper exercise, or the same question).
-- "same-topic": it teaches the method this exercise needs.
-- "related": same subject and nearby topic; might help.
-- "unrelated": does not help with this exercise.
-Give a short reason (under 15 words) a student would understand. Rank the most useful first.
+const RANK_SYSTEM = `You match YouTube videos to a BacII exercise a Cambodian Grade 12 student is stuck on. The student prefers lessons in Khmer.
+For each candidate, judge from its title, channel, description, tags, length and chapters:
+- "exact": it works through this very exercise: the same past-paper exercise (the year and number agree), the same calculation or question, or, for an essay, the same question or the same work, event or theme examined the same way.
+- "same-topic": it teaches what this exercise needs: the method, or the same literary work, historical event, person or concept.
+- "related": same subject and a nearby topic; might help.
+- "unrelated": does not help, including clips under two minutes that cannot teach it, and a different past-paper exercise when this one is from a known paper.
+A candidate marked "checked" was linked to this topic by Meh Rean's staff: it is at least "same-topic" unless it plainly does not fit.
+Give a short reason (under 15 words, in English) a student would understand. Rank the most useful first; among equally useful ones put Khmer before other languages.
 Some candidates list chapters the video's own creator wrote in its description (time in seconds and title). If one of those chapters is clearly where this exercise or method is worked through, give its seconds as start_seconds; otherwise null. Never give a time that is not listed.`;
 
 const RANK_TOOL = {
@@ -571,6 +592,130 @@ async function searchYouTube(query: string, language: string): Promise<Candidate
   });
 }
 
+// ------------------------------------------------- Searches and scoring --
+
+/** Subjects where English videos help too; elsewhere students need Khmer lessons. */
+const ENGLISH_HELPS = new Set(["mathematics", "physics", "chemistry", "biology", "earth-science", "english"]);
+
+/** Khmer subject names, for searches built without the model. */
+const SUBJECT_KM: Record<string, string> = {
+  mathematics: "គណិតវិទ្យា",
+  physics: "រូបវិទ្យា",
+  chemistry: "គីមីវិទ្យា",
+  biology: "ជីវវិទ្យា",
+  "earth-science": "ផែនដីវិទ្យា",
+  "khmer-literature": "អក្សរសាស្ត្រខ្មែរ",
+  history: "ប្រវត្តិវិទ្យា",
+  geography: "ភូមិវិទ្យា",
+  "morality-civics": "សីលធម៌-ពលរដ្ឋ",
+  english: "ភាសាអង់គ្លេស",
+};
+
+const KHMER_DIGITS = "០១២៣៤៥៦៧៨៩";
+
+/** Khmer digits as ASCII, so "២០២៣" in a title matches the year 2023. */
+export function asciiDigits(text: string): string {
+  return text.replace(/[០-៩]/g, (digit) => String(KHMER_DIGITS.indexOf(digit)));
+}
+
+/** For matching: lower case, ASCII digits, no spaces or punctuation (Khmer titles differ in spacing). */
+function squash(text: string): string {
+  return asciiDigits(text)
+    .toLowerCase()
+    .replace(/[\s\u200b-\u200d]+/g, "")
+    .replace(/[«»“”"'‘’.,:;!?()[\]{}|#*_–—-]/g, "");
+}
+
+/** Short quoted phrases («…», “…”, "…"): in essay questions, usually the work or the quotation. */
+export function quotedTerms(text: string): string[] {
+  const found = new Set<string>();
+  for (const match of text.matchAll(/[«“"]([^«»“”"\n]{2,40})[»”"]/g)) found.add(match[1].trim());
+  return [...found].slice(0, 3);
+}
+
+export interface SearchPlanInput {
+  subject: string;
+  search_queries?: string[];
+  key_terms_km?: string[];
+  key_terms_en?: string[];
+  topic_km?: string;
+  topic_en?: string;
+  exercise_text?: string;
+}
+
+/**
+ * The YouTube searches to run, Khmer first: the model's own, minus any that
+ * merely copy the question's sentence, topped up with searches built from the
+ * key terms. English only where English lessons help.
+ */
+export function planSearches(reading: SearchPlanInput, hint: { topicKm?: string; topicEn?: string } = {}): { query: string; language: "km" | "en" }[] {
+  const clean = (query: string) => query.replace(/\s+/g, " ").trim().slice(0, 100);
+  const exercise = squash(reading.exercise_text ?? "");
+  // A long query whose start appears in the exercise is the question itself, not a video title.
+  const copiesQuestion = (query: string) => {
+    const squashed = squash(query);
+    return squashed.length >= 25 && exercise.includes(squashed.slice(0, 25));
+  };
+  const own = (reading.search_queries ?? []).map((query) => clean(String(query))).filter((query) => query && !copiesQuestion(query));
+  const termsKm = (reading.key_terms_km ?? []).map(clean).filter(Boolean);
+  const terms = termsKm.length ? termsKm : quotedTerms(reading.exercise_text ?? "");
+  const topicKm = clean(hint.topicKm || reading.topic_km || "");
+  const subjectKm = SUBJECT_KM[reading.subject] ?? "";
+  const built = [
+    clean([terms.slice(0, 3).join(" ") || topicKm, subjectKm, "ថ្នាក់ទី១២"].filter(Boolean).join(" ")),
+    clean([topicKm, subjectKm, "បាក់ឌុប"].filter(Boolean).join(" ")),
+  ];
+  const plan: { query: string; language: "km" | "en" }[] = [];
+  const add = (query: string, language: "km" | "en") => {
+    if (query && plan.length < 3 && !plan.some((item) => squash(item.query) === squash(query))) plan.push({ query, language });
+  };
+  for (const query of own.filter((item) => KHMER.test(item))) if (plan.length < 2) add(query, "km");
+  for (const query of built) if (plan.length < 2 && KHMER.test(query)) add(query, "km");
+  if (ENGLISH_HELPS.has(reading.subject)) {
+    const english = own.find((item) => !KHMER.test(item)) ?? clean([(reading.key_terms_en ?? []).slice(0, 2).join(" ") || hint.topicEn || reading.topic_en || "", "lesson"].join(" "));
+    if (english.trim() !== "lesson") add(english, "en");
+  }
+  if (!plan.length) add(clean(reading.topic_en || hint.topicEn || "BacII grade 12 lesson"), "en");
+  return plan;
+}
+
+export interface ScoreInput {
+  key_terms_km?: string[];
+  key_terms_en?: string[];
+  topic_km?: string;
+  topic_en?: string;
+  bacii_year?: number | null;
+  exercise_number?: string | null;
+}
+
+/**
+ * A rough score from what the title, description and tags share with the
+ * exercise: used to choose which candidates the model sees, to break ties,
+ * and to order videos when the model is unavailable.
+ */
+export function scoreVideo(video: { title: string; description: string; tags?: string[]; durationSeconds?: number | null }, reading: ScoreInput): number {
+  const title = squash(video.title);
+  const body = squash(`${video.description} ${(video.tags ?? []).join(" ")}`);
+  let score = 0;
+  const terms = new Set([...(reading.key_terms_km ?? []), ...(reading.key_terms_en ?? []), reading.topic_km ?? "", reading.topic_en ?? ""].map(squash).filter((term) => term.length >= 2));
+  for (const term of terms) {
+    if (title.includes(term)) score += 3;
+    else if (body.includes(term)) score += 1;
+  }
+  if (reading.bacii_year) {
+    const year = String(reading.bacii_year);
+    if (title.includes(year)) {
+      score += 4;
+      const number = asciiDigits(reading.exercise_number ?? "").match(/\d+/)?.[0];
+      if (number && new RegExp(`(លំហាត់ទី|exercise|ex|q|question|ទី)${number}(?!\\d)`).test(title)) score += 3;
+    } else if (body.includes(year)) score += 1;
+  }
+  if (KHMER.test(video.title)) score += 1;
+  // Shorts rarely teach a whole exercise.
+  if (video.durationSeconds != null && video.durationSeconds < 90) score -= 4;
+  return score;
+}
+
 // --------------------------------------------------- Video chapters (4.4) --
 // Captions can only be downloaded by a video's owner, and scraping them is
 // against YouTube's terms. What is public and lawful: the chapter times a
@@ -607,32 +752,82 @@ export function parseVideoChapters(description: string): VideoChapter[] {
   return chapters.length >= 2 ? chapters.slice(0, 40) : [];
 }
 
-const chapterCacheById = new Map<string, { at: number; chapters: VideoChapter[] }>();
+interface VideoDetails {
+  title: string;
+  channel: string;
+  channelId: string;
+  description: string;
+  tags: string[];
+  durationSeconds: number | null;
+  chapters: VideoChapter[];
+}
 
-/** Chapters for these videos (full descriptions from videos.list), cached per video. */
-async function videoChapters(ids: string[]): Promise<Map<string, VideoChapter[]>> {
-  const found = new Map<string, VideoChapter[]>();
+const detailCacheById = new Map<string, { at: number; details: VideoDetails }>();
+
+/** ISO 8601 durations such as PT12M30S, in seconds. */
+function isoSeconds(value: string | undefined): number | null {
+  const match = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(value ?? "");
+  return match ? Number(match[1] ?? 0) * 3600 + Number(match[2] ?? 0) * 60 + Number(match[3] ?? 0) : null;
+}
+
+/**
+ * Full descriptions, tags, length and creator chapters for these videos, from
+ * one videos.list call (1 quota unit for up to 50), cached per video.
+ */
+async function videoDetails(ids: string[]): Promise<Map<string, VideoDetails>> {
+  const found = new Map<string, VideoDetails>();
   const missing: string[] = [];
   for (const id of ids) {
-    const hit = chapterCacheById.get(id);
-    if (hit && Date.now() - hit.at < 24 * 3_600_000) found.set(id, hit.chapters);
+    const hit = detailCacheById.get(id);
+    if (hit && Date.now() - hit.at < 24 * 3_600_000) found.set(id, hit.details);
     else missing.push(id);
   }
   if (missing.length) {
     const base = (env("YOUTUBE_API_BASE") || "https://www.googleapis.com/youtube/v3").replace(/\/$/, "");
-    const params = new URLSearchParams({ part: "snippet", id: missing.slice(0, 50).join(","), key: env("YOUTUBE_API_KEY") });
+    const params = new URLSearchParams({ part: "snippet,contentDetails", id: missing.slice(0, 50).join(","), key: env("YOUTUBE_API_KEY") });
     const response = await fetch(`${base}/videos?${params}`, { signal: AbortSignal.timeout(6000) });
     if (!response.ok) throw new Error(`YouTube videos ${response.status}`);
-    const body = (await response.json()) as { items?: { id?: string; snippet?: { description?: string } }[] };
+    const body = (await response.json()) as {
+      items?: { id?: string; snippet?: { title?: string; channelTitle?: string; channelId?: string; description?: string; tags?: string[] }; contentDetails?: { duration?: string } }[];
+    };
     for (const item of body.items ?? []) {
       if (!item.id) continue;
-      const chapters = parseVideoChapters(item.snippet?.description ?? "");
-      chapterCacheById.set(item.id, { at: Date.now(), chapters });
-      found.set(item.id, chapters);
+      const description = item.snippet?.description ?? "";
+      const details: VideoDetails = {
+        title: decode(item.snippet?.title ?? ""),
+        channel: decode(item.snippet?.channelTitle ?? ""),
+        channelId: item.snippet?.channelId ?? "",
+        description: decode(description).slice(0, 1200),
+        tags: (item.snippet?.tags ?? []).slice(0, 20).map((tag) => String(tag).slice(0, 60)),
+        durationSeconds: isoSeconds(item.contentDetails?.duration),
+        chapters: parseVideoChapters(description),
+      };
+      detailCacheById.set(item.id, { at: Date.now(), details });
+      found.set(item.id, details);
     }
-    while (chapterCacheById.size > 2000) chapterCacheById.delete(chapterCacheById.keys().next().value!);
+    while (detailCacheById.size > 2000) detailCacheById.delete(detailCacheById.keys().next().value!);
   }
   return found;
+}
+
+const checkedCache = new Map<string, { at: number; videos: { id: string; topicId: string }[] }>();
+
+/** Videos admins linked to these topics (public.resource_topics, public rows), kept ten minutes. */
+async function checkedVideos(topicIds: string[]): Promise<{ id: string; topicId: string }[]> {
+  const key = [...topicIds].sort().join(",");
+  const hit = checkedCache.get(key);
+  if (hit && Date.now() - hit.at < 600_000) return hit.videos;
+  const list = topicIds.map((id) => `"${id.replace(/"/g, "")}"`).join(",");
+  const response = await fetch(`${supabaseUrl()}/rest/v1/resource_topics?select=resource_id,topic_id&resource_type=eq.video&topic_id=in.(${encodeURIComponent(list)})&limit=20`, {
+    headers: { apikey: supabaseKey() },
+    signal: AbortSignal.timeout(4000),
+  });
+  if (!response.ok) throw new Error(`resource_topics ${response.status}`);
+  const rows = (await response.json()) as { resource_id: string; topic_id: string }[];
+  const videos = rows.filter((row) => /^[\w-]{11}$/.test(row.resource_id)).map((row) => ({ id: row.resource_id, topicId: row.topic_id }));
+  checkedCache.set(key, { at: Date.now(), videos });
+  while (checkedCache.size > 300) checkedCache.delete(checkedCache.keys().next().value!);
+  return videos;
 }
 
 /**
@@ -1130,13 +1325,18 @@ export async function POST(request: Request): Promise<Response> {
   // Only ids that exist, and a topic only inside its chapter.
   const chapter = chapters.find((item) => item.id === reading.chapter_id) ?? null;
   const topic = chapter?.topics.find((item) => item.id === reading.topic_id) ?? null;
-  const queries = (reading.search_queries ?? []).map((query) => String(query).trim()).filter(Boolean).slice(0, 2);
-  if (!queries.length) queries.push(topic?.nameKm || chapter?.nameKm || reading.topic_km || reading.topic_en);
+  const asList = (value: unknown) => (Array.isArray(value) ? value.map((item) => clip(item, 60).trim()).filter(Boolean).slice(0, 5) : []);
+  reading.key_terms_km = asList(reading.key_terms_km);
+  reading.key_terms_en = asList(reading.key_terms_en);
+  if (!(QUESTION_TYPES as readonly string[]).includes(reading.question_type)) reading.question_type = "other";
+  const plan = planSearches(reading, { topicKm: topic?.nameKm ?? chapter?.nameKm, topicEn: topic?.nameEn ?? chapter?.nameEn });
+  const queries = plan.map((item) => item.query);
 
-  // 2. Search YouTube: each search costs quota, so two at most, reused when cached.
+  // 2. Search YouTube (each search costs quota: three at most, reused when cached),
+  // and add videos admins linked to this topic, which cost nothing.
   let candidates: Candidate[] = [];
   try {
-    const results = await Promise.all(queries.map((query, index) => cachedSearch(query, index === 0 ? "km" : "en")));
+    const results = await Promise.all(plan.map((item) => cachedSearch(item.query, item.language)));
     const searches = results.filter((result) => !result.fromCache).length;
     if (searches) await logSearches(token, searches).catch((error) => console.error(error));
     const seen = new Set<string>();
@@ -1145,14 +1345,41 @@ export async function POST(request: Request): Promise<Response> {
     console.error(error);
     return fail(502, "UPSTREAM", "Could not search YouTube right now. Try again.", upstreamDetail(error));
   }
+  const topicIds = topic ? [topic.id] : chapter ? chapter.topics.map((item) => item.id) : [];
+  const checked = topicIds.length ? await checkedVideos(topicIds).catch((error) => (console.error(error), [])) : [];
+  const checkedIds = new Set(checked.map((item) => item.id));
+  const ids = [...new Set([...checkedIds, ...candidates.map((video) => video.id)])].slice(0, 50);
+  const details = ids.length ? await videoDetails(ids).catch((error) => (console.error(error), new Map<string, VideoDetails>())) : new Map<string, VideoDetails>();
+  for (const id of checkedIds) {
+    const info = details.get(id);
+    if (info && !candidates.some((video) => video.id === id)) {
+      candidates.unshift({ id, channelId: info.channelId, title: info.title, channel: info.channel, description: info.description, thumbnail: `https://i.ytimg.com/vi/${id}/mqdefault.jpg`, publishedAt: "" });
+    }
+  }
+  const scored = candidates.map((video) => {
+    const info = details.get(video.id);
+    const full: Candidate = {
+      ...video,
+      description: info?.description || video.description,
+      tags: info?.tags ?? [],
+      durationSeconds: info?.durationSeconds ?? null,
+      checked: checkedIds.has(video.id),
+    };
+    return { ...full, score: scoreVideo(full, reading) };
+  });
+  // The model sees the most promising sixteen.
+  const forModel = [...scored].sort((a, b) => Number(b.checked) - Number(a.checked) || b.score - a.score).slice(0, 16);
+  const chaptersOf = (id: string) => details.get(id)?.chapters ?? [];
 
-  // Chapter times from the videos' own descriptions, when they have them.
-  const chaptersOf = candidates.length ? await videoChapters(candidates.map((video) => video.id)).catch((error) => (console.error(error), new Map<string, VideoChapter[]>())) : new Map<string, VideoChapter[]>();
-
-  // 3. Rank them against the exercise; if that fails, keep YouTube's order.
-  let videos: (Candidate & { match: Match; reason: string; start: VideoChapter | null })[] = candidates.map((video) => ({ ...video, match: "related", reason: "", start: null }));
+  // 3. Rank them against the exercise; if that fails, order by the score.
+  type Ranked = (typeof scored)[number] & { match: Match; reason: string; start: VideoChapter | null; aiIndex: number };
+  // Without the model: no Shorts, and only videos that share something with the exercise (any, if none do).
+  const lessons = forModel.filter((video) => video.checked || video.durationSeconds == null || video.durationSeconds >= 90);
+  const sharing = lessons.filter((video) => video.checked || video.score > 0);
+  let videos: Ranked[] = (sharing.length ? sharing : lessons)
+    .map((video, index) => ({ ...video, match: video.checked ? "same-topic" : "related", reason: "", start: null, aiIndex: index }));
   // Ranking is a bonus: skipped when reading the exercise used up the time.
-  if (candidates.length && deadline - Date.now() > 10_000) {
+  if (forModel.length && deadline - Date.now() > 10_000) {
     try {
       const { ranked } = await askAI<{ ranked: { id: string; match: string; reason: string; start_seconds?: number | null }[] }>(
         RANK_SYSTEM,
@@ -1162,18 +1389,23 @@ export async function POST(request: Request): Promise<Response> {
             text: JSON.stringify({
               exercise: {
                 subject: reading.subject,
+                question_type: reading.question_type,
                 topic: `${reading.topic_en} / ${reading.topic_km}`,
+                key_terms: [...reading.key_terms_km, ...reading.key_terms_en],
                 curriculum: chapter ? { chapter: `${chapter.nameEn} / ${chapter.nameKm}`, topic: topic ? `${topic.nameEn} / ${topic.nameKm}` : null } : null,
                 summary: reading.summary,
                 text: reading.exercise_text,
                 bacii_paper: reading.bacii_year ? { year: reading.bacii_year, exercise: reading.exercise_number } : null,
               },
-              candidates: candidates.map(({ id, title, channel, description }) => ({
-                id,
-                title,
-                channel,
-                description,
-                ...(chaptersOf.get(id)?.length ? { chapters: chaptersOf.get(id)!.map(({ seconds, title: name }) => ({ seconds, title: name })) } : {}),
+              candidates: forModel.map((video) => ({
+                id: video.id,
+                title: video.title,
+                channel: video.channel,
+                description: video.description.slice(0, 600),
+                ...(video.tags?.length ? { tags: video.tags.slice(0, 10) } : {}),
+                ...(video.durationSeconds != null ? { minutes: Math.round(video.durationSeconds / 6) / 10 } : {}),
+                ...(video.checked ? { checked: true } : {}),
+                ...(chaptersOf(video.id).length ? { chapters: chaptersOf(video.id).map(({ seconds, title: name }) => ({ seconds, title: name })) } : {}),
               })),
             }),
           },
@@ -1182,55 +1414,69 @@ export async function POST(request: Request): Promise<Response> {
         deadline,
         ai,
       );
-      const byId = new Map(candidates.map((video) => [video.id, video]));
+      const byId = new Map(forModel.map((video) => [video.id, video]));
       const order: Match[] = ["exact", "same-topic", "related"];
-      videos = ranked
-        .filter((entry) => byId.has(entry.id) && order.includes(entry.match as Match))
-        .map((entry) => ({
-          ...byId.get(entry.id)!,
-          match: entry.match as Match,
+      const judged = new Map<string, Ranked>();
+      ranked.forEach((entry, index) => {
+        const video = byId.get(entry.id);
+        if (!video || judged.has(entry.id)) return;
+        // Admins' videos stay, at least as the same topic.
+        const match = order.includes(entry.match as Match) ? (entry.match as Match) : video.checked ? "same-topic" : null;
+        if (!match) return;
+        judged.set(entry.id, {
+          ...video,
+          match: video.checked && match === "related" ? "same-topic" : match,
           reason: String(entry.reason ?? "").slice(0, 160),
           // Only a time the creator listed; the model cannot invent one.
-          start: chaptersOf.get(entry.id)?.find((chapter) => chapter.seconds === entry.start_seconds) ?? null,
-        }))
-        .sort((a, b) => order.indexOf(a.match) - order.indexOf(b.match));
+          start: chaptersOf(entry.id).find((item) => item.seconds === entry.start_seconds) ?? null,
+          aiIndex: index,
+        });
+      });
+      for (const video of forModel) {
+        if (video.checked && !judged.has(video.id)) judged.set(video.id, { ...video, match: "same-topic", reason: "", start: null, aiIndex: ranked.length });
+      }
+      videos = [...judged.values()];
     } catch (error) {
       console.error(error);
     }
   }
 
-  // 4. Prefer Khmer and trusted channels within each match level (roadmap 4.3).
+  // 4. Same match level: admins' videos, trusted channels and Khmer first (roadmap 4.3), then the score.
   const trusted = await trustedChannels();
   const isTrusted = (channelId: string) =>
     trusted.some((channel) => channel.channelId === channelId && (!channel.subjectKeys.length || channel.subjectKeys.includes(reading.subject)));
   const tier: Match[] = ["exact", "same-topic", "related"];
-  const labelled = videos.map((video, index) => ({
+  const labelled = videos.map((video) => ({
     ...video,
     language: KHMER.test(`${video.title} ${video.description}`) ? ("km" as const) : ("other" as const),
     trusted: isTrusted(video.channelId),
-    index,
   }));
   labelled.sort(
     (a, b) =>
       tier.indexOf(a.match) - tier.indexOf(b.match) ||
+      Number(b.checked) - Number(a.checked) ||
       Number(b.trusted) - Number(a.trusted) ||
       Number(b.language === "km") - Number(a.language === "km") ||
-      a.index - b.index,
+      a.aiIndex - b.aiIndex ||
+      b.score - a.score,
   );
 
   return json(200, {
     exercise: {
       subject: reading.subject,
+      questionType: reading.question_type,
       topic: reading.topic_en,
       topicKm: reading.topic_km,
+      keyTerms: { km: reading.key_terms_km, en: reading.key_terms_en },
       summary: reading.summary,
+      text: clip(reading.exercise_text, 600),
       paper: reading.bacii_year ? { year: reading.bacii_year, exercise: reading.exercise_number } : null,
       chapter: chapter ? { id: chapter.id, subjectId: chapter.subjectId, number: chapter.number, nameEn: chapter.nameEn, nameKm: chapter.nameKm } : null,
       topicId: topic?.id ?? null,
     },
     queries,
     searchUrl: youtubeSearchUrl(queries[0]),
-    videos: labelled.slice(0, 10).map(({ index: _index, ...video }) => video),
+    videos: labelled.slice(0, 10).map(({ aiIndex: _aiIndex, score: _score, tags: _tags, ...video }) => video),
   });
 }
 

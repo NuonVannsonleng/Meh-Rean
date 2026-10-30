@@ -1,11 +1,15 @@
-import { useEffect, useId, useRef, useState, type ClipboardEvent, type DragEvent, type FormEvent } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type ClipboardEvent, type DragEvent, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { describedBy, FieldShell } from "../components/FormField";
 import { ArrowLeftIcon, CameraIcon, CheckIcon, CloseIcon, ExternalLinkIcon, SearchIcon, TrashIcon, VideoIcon } from "../components/Icons";
+import PracticeQuestion from "../components/PracticeQuestion";
 import VideoQuizPanel from "../components/VideoQuizPanel";
 import { useAuth } from "../context/AuthContext";
-import { getVideoProgress, getVideoQuizzes, setVideoProgress } from "../services/api";
-import type { VideoQuiz, VideoStatus } from "../types";
+import { useQuestionBank } from "../hooks/useQuestionBank";
+import { fallbackSearches } from "../lib/exerciseTerms";
+import { matchQuestions } from "../lib/questionMatch";
+import { getFeed, getVideoProgress, getVideoQuizzes, setVideoProgress } from "../services/api";
+import type { PostView, VideoQuiz, VideoStatus } from "../types";
 import { t } from "../i18n/en";
 import {
   BACII_SUBJECTS,
@@ -148,6 +152,7 @@ function Results({ result, onAnother, signedIn }: { result: VideoLookup; onAnoth
   const [playing, setPlaying] = useState<ExerciseVideo | null>(null);
   const [first, setFirst] = useState<"km" | "other">(readOrder);
   const { exercise, videos } = result;
+  const terms = [...new Set([...(exercise.keyTerms?.km ?? []), ...(exercise.keyTerms?.en ?? [])])].slice(0, 8);
   // Quizzes admins made for any of these videos (roadmap 4.6).
   const [quizzes, setQuizzes] = useState<Map<string, VideoQuiz>>(() => new Map());
   const ids = videos.map((video) => video.id).join(",");
@@ -222,9 +227,21 @@ function Results({ result, onAnother, signedIn }: { result: VideoLookup; onAnoth
         </div>
         <p className="font-display text-ink-900 mt-2 text-lg font-bold">
           {exercise.topic}
-          
+          {exercise.questionType && copy.questionTypes[exercise.questionType] && (
+            <span className="text-ink-500 ml-2 font-sans text-sm font-normal">· {copy.questionTypes[exercise.questionType]}</span>
+          )}
         </p>
         <p className="text-ink-700 mt-1 text-sm leading-relaxed">{exercise.summary}</p>
+        {terms.length > 0 && (
+          <p className="mt-2 flex flex-wrap items-center gap-1.5 text-xs" data-testid="key-terms">
+            <span className="text-ink-500">{copy.searchedFor}:</span>
+            {terms.map((term) => (
+              <span key={term} className="bg-surface-hover text-ink-700 rounded-full px-2 py-0.5 font-medium">
+                {term}
+              </span>
+            ))}
+          </p>
+        )}
         {exercise.chapter && (
           <Link
             to={`/bacii/practice?subject=${encodeURIComponent(exercise.chapter.subjectId)}&chapter=${encodeURIComponent(exercise.chapter.id)}`}
@@ -309,6 +326,15 @@ function Results({ result, onAnother, signedIn }: { result: VideoLookup; onAnoth
                       {quizzes.has(video.id) && (
                         <span className="bg-ribbon-50 text-ribbon-fg shrink-0 rounded-full px-1.5 py-px text-[10px] font-semibold">{copy.quiz.badge}</span>
                       )}
+                      {video.checked && (
+                        <span className="bg-brand-600 inline-flex shrink-0 items-center gap-0.5 rounded-full px-1.5 py-px text-[10px] font-semibold text-white">
+                          <CheckIcon className="h-3 w-3" />
+                          {copy.checked}
+                        </span>
+                      )}
+                      {video.durationSeconds != null && video.durationSeconds > 0 && (
+                        <span className="shrink-0">· {copy.minutes(Math.max(1, Math.round(video.durationSeconds / 60)))}</span>
+                      )}
                       {video.trusted && (
                         <span className="bg-brand-50 text-accent inline-flex shrink-0 items-center gap-0.5 rounded-full px-1.5 py-px text-[10px] font-semibold">
                           <CheckIcon className="h-3 w-3" />
@@ -330,6 +356,8 @@ function Results({ result, onAnother, signedIn }: { result: VideoLookup; onAnoth
         )}
       </section>
 
+      <MoreHelp result={result} terms={terms} />
+
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <a href={result.searchUrl} target="_blank" rel="noreferrer" className="btn-secondary">
           <SearchIcon className="h-4 w-4" />
@@ -344,13 +372,101 @@ function Results({ result, onAnother, signedIn }: { result: VideoLookup; onAnoth
   );
 }
 
+const google = (query: string) => `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+
+/**
+ * Below the videos: the same question in Meh Rean's bank (with its checked
+ * solution), notes on the key terms, the topic page, and web searches.
+ */
+function MoreHelp({ result, terms }: { result: VideoLookup; terms: string[] }) {
+  const { exercise, queries } = result;
+  const { bank, chapterOf, subjectKeyOf } = useQuestionBank();
+  const text = exercise.text ?? "";
+  const chapterId = exercise.chapter?.id ?? null;
+  const matches = useMemo(() => (bank && text ? matchQuestions(text, bank, chapterId, 2) : []), [bank, text, chapterId]);
+  const [notes, setNotes] = useState<PostView[]>([]);
+  const searchTerms = [...terms, exercise.topicKm, exercise.topic].filter(Boolean).slice(0, 4).join("|");
+  useEffect(() => {
+    let active = true;
+    // One term at a time, most specific first, until three notes are found.
+    void (async () => {
+      const found = new Map<string, PostView>();
+      for (const term of searchTerms.split("|").filter(Boolean)) {
+        if (found.size >= 3) break;
+        const list = await getFeed({ search: term }).catch(() => [] as PostView[]);
+        for (const post of list) if (found.size < 3) found.set(post.id, post);
+      }
+      if (active) setNotes([...found.values()]);
+    })();
+    return () => {
+      active = false;
+    };
+  }, [searchTerms]);
+
+  const khmerQuery = queries.find((query) => /[\u1780-\u17FF]/.test(query)) ?? queries[0] ?? exercise.topicKm;
+  const englishQuery = [exercise.keyTerms?.en.slice(0, 2).join(" ") || exercise.topic, "BacII grade 12"].join(" ");
+  return (
+    <section className="space-y-4" aria-labelledby="more-help-heading" data-testid="more-help">
+      <h2 id="more-help-heading" className="text-ink-900 text-base font-bold">
+        {copy.moreTitle}
+      </h2>
+      {matches.length > 0 && (
+        <div>
+          <h3 className="text-ink-500 mb-1.5 text-xs font-semibold tracking-wide uppercase">{copy.bankTitle}</h3>
+          <ol className="space-y-3">
+            {matches.map((match, index) => (
+              <PracticeQuestion
+                key={match.question.id}
+                question={match.question}
+                number={index + 1}
+                chapter={chapterOf.get(match.question.chapterId)}
+                subjectKey={subjectKeyOf(match.question.subjectId)}
+                note={<p className="text-accent mt-2 text-xs font-semibold">{copy.bankNote(Math.round(match.score * 100))}</p>}
+              />
+            ))}
+          </ol>
+        </div>
+      )}
+      {notes.length > 0 && (
+        <div>
+          <h3 className="text-ink-500 mb-1.5 text-xs font-semibold tracking-wide uppercase">{copy.notesTitle}</h3>
+          <ul className="card divide-line divide-y">
+            {notes.map((note) => (
+              <li key={note.id}>
+                <Link to={`/post/${note.id}`} className="hover:bg-surface-hover flex items-center gap-3 px-4 py-2.5 text-sm">
+                  <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: subjectColor(note.subject) }} />
+                  <span className="text-ink-900 min-w-0 flex-1 truncate font-medium">{note.title}</span>
+                  <span className="text-ink-500 shrink-0 text-xs">{note.author.displayName}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div className="flex flex-wrap gap-2">
+        {exercise.topicId && (
+          <Link to={`/learning/topics/${encodeURIComponent(exercise.topicId)}`} className="pill">
+            {copy.topicLink}
+          </Link>
+        )}
+        <a href={google(khmerQuery)} target="_blank" rel="noopener noreferrer" className="pill">
+          <SearchIcon className="mr-1.5 h-3.5 w-3.5" />
+          {copy.webKhmer}
+        </a>
+        <a href={google(englishQuery)} target="_blank" rel="noopener noreferrer" className="pill">
+          <SearchIcon className="mr-1.5 h-3.5 w-3.5" />
+          {copy.webEnglish}
+        </a>
+      </div>
+    </section>
+  );
+}
+
 /** Plain YouTube searches, for when the server cannot read the exercise. */
 function Fallback({ text, subject, notReady }: { text: string; subject: BaciiSubject | ""; notReady: boolean }) {
-  const words = text.replace(/\s+/g, " ").trim().slice(0, 80);
-  const km = BACII_SUBJECTS.find((item) => item.id === subject)?.km ?? "";
-  // With only a photo there are no words to search: fall back to the subject.
-  const khmer = [words, km, "បាក់ឌុប"].filter(Boolean).join(" ");
-  const english = [words, subject ? subjectLabel(subject) : "", words ? "lesson" : "BacII grade 12 lesson"].filter(Boolean).join(" ");
+  const subjectKm = BACII_SUBJECTS.find((item) => item.id === subject)?.km ?? "";
+  // Quoted names, or the text without its instruction words; with only a photo, the subject.
+  const { km: khmer, en: english, hasWords: words } = fallbackSearches(text, subjectKm, subject ? subjectLabel(subject) : "");
   return (
     <section className="card p-4 sm:p-5">
       <h2 className="text-ink-900 text-base font-bold">{copy.fallbackTitle}</h2>
@@ -570,7 +686,6 @@ export default function BaciiVideos() {
             {copy.subjectLabel}
             <span className="text-ink-400 ml-1 font-normal">({t.common.optional})</span>
           </legend>
-          {/* Two columns on phones, so each subject keeps its Khmer name on one line. */}
           <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {[{ id: "" as const, km: "" }, ...BACII_SUBJECTS].map((item) => {
               const active = subject === item.id;
@@ -591,7 +706,6 @@ export default function BaciiVideos() {
                   {item.id && <span className="h-2.5 w-2.5 rounded-full ring-2 ring-white/70" style={{ backgroundColor: subjectColor(item.id) }} />}
                   <span className="min-w-0 leading-tight">
                     <span className="block">{item.id ? subjectLabel(item.id) : copy.subjectAny}</span>
-                    {item.km && <span className={`block text-xs font-normal ${active ? "text-white/80" : "text-ink-500"}`}>{item.km}</span>}
                   </span>
                 </label>
               );

@@ -36,14 +36,23 @@ export interface ExerciseVideo {
   trusted?: boolean;
   /** Where the exercise is worked, from the creator's own chapter list. */
   start?: { seconds: number; title: string } | null;
+  /** Linked to this topic by Meh Rean's admins. */
+  checked?: boolean;
+  durationSeconds?: number | null;
 }
 
 export interface VideoLookup {
   exercise: {
     subject: string;
+    /** Absent in older saved lookups, like the fields after it. */
+    questionType?: "calculation" | "essay" | "short-answer" | "multiple-choice" | "other";
     topic: string;
     topicKm: string;
+    /** The names a video title would contain: the work, event, person, law or method. */
+    keyTerms?: { km: string[]; en: string[] };
     summary: string;
+    /** The exercise as the AI read it, for matching Meh Rean's questions. */
+    text?: string;
     /** Set when the exercise is recognised as a BacII past-paper exercise. */
     paper: { year: number; exercise: string | null } | null;
     /** Meh Rean's chapter for it, when it fits one (absent in older saved lookups). */
