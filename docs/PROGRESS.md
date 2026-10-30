@@ -895,6 +895,11 @@ timing only in database functions, never in the browser.
   tiny vibration. A speaker button in the top bar turns it off, remembered in
   the browser. Tests: sound 6/6 (clicks counted per press, muted, remembered),
   calculator 42/42, fit 12/12; build.
+- **2026-10-30 — Calculator keys sound like a clicky keyboard** (owner
+  request: no beep). Each press is two noise bursts, like a clicky mechanical
+  switch: a sharp high click, then a lower bottom-out 9 ms later (deeper for
+  =, AC and DEL), varied a little on every press; no tones. Tests: sound 7/7
+  (noise only, no tones), calculator 42/42; build.
 
 ## Blockers and things that need a person
 

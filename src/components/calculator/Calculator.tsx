@@ -728,7 +728,7 @@ export default function Calculator({ onOff, closeLabel }: { onOff: () => void; c
   };
 
   const pressKey = (key: string) => {
-    if (saved.sound) playClick(key === "equals" ? "equals" : /^\d$/.test(key) || ["point", "exp", "ans", "times", "divide", "plus", "minus", "del", "ac"].includes(key) ? "num" : "fn");
+    if (saved.sound) playClick(key === "equals" || key === "ac" || key === "del" ? "equals" : /^\d$/.test(key) || ["point", "exp", "ans", "times", "divide", "plus", "minus"].includes(key) ? "num" : "fn");
     press(key);
   };
 
